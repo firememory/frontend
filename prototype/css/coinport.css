@@ -21,6 +21,20 @@ footer {
 #price-summary dd {
     color: #c00;
 }
+.user-summary {
+    margin-top: 10px;
+}
+#user-finance-chart-history {
+    margin-top: 10px;
+    height: 260px;
+}
+#user-finance-chart-pie {
+    margin-top: 10px;
+    height: 260px;
+}
+#user-finance-table-div {
+    padding-top: 15px;
+}
 .sell {
     color: #c00;
 }
