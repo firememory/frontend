@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>coinport</title>
     <script src="lib/angular.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
     <script src="lib/ui-bootstrap-tpls-0.9.0.js"></script>
     <script src="lib/jquery-1.11.0.js"></script>
     <script src="lib/bootstrap/js/bootstrap.js"></script>
@@ -17,8 +18,8 @@
     <link href="css/coinport.css" rel="stylesheet">
 </head>
 
-<body>
-<div class="container">
+<body ng-app="coinport.trade">
+<div class="container" ng-controller="TradeCtrl">
 <div class="row clearfix">
     <div class="col-md-12 column">
         <!-- NAVBAR-->
@@ -71,17 +72,11 @@
         </div>
         <div class="panel-body">
             <table class="table table-condensed">
-                <tr>
-                    <td>比特币:</td><td>31.32</td>
+                <tr ng-repeat="coin in account.coins">
+                    <td>{{coin.name}}:</td><td>{{coin.balance}}</td>
                 </tr>
                 <tr>
-                    <td>莱特币:</td><td>100</td>
-                </tr>
-                <tr>
-                    <td>原型股:</td><td>39.5</td>
-                </tr>
-                <tr>
-                    <td>人民币:</td><td>12300</td>
+                    <td>人民币:</td><td>{{account.balance}}</td>
                 </tr>
             </table>
         </div>
@@ -119,7 +114,7 @@
 <div class="col-md-8 column">
     <div class="candle-chart"></div>
     <div class="col-md-6">
-        <form class="form-horizontal form-buy" role="form">
+        <form name="bidForm" class="form-horizontal form-buy" role="form">
             <div class="form-group">
                 <label class="col-sm-4 control-label">建议价格：</label>
                 <label class="col-sm-4 control-label lab">4910.00</label>
@@ -128,35 +123,32 @@
                 <label class="col-sm-4 control-label">买入价：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="4910.00"/>
-                    <span class="input-group-addon ">元</span>
+                    <input type="number" class="form-control" ng-model="bid.price" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">买入数量：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="0"/>
-                    <span class="input-group-addon">BTC</span>
+                    <input type="number" step="0.1" class="form-control" ng-model="bid.amount" required min="0" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">总价：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="0"/>
-                    <span class="input-group-addon">元</span>
+                    <input type="number" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-10">
-                    <button type="button" class="btn btn-success">CNY-BTC 买入</button>
+                    <button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="!bidForm.$valid">CNY-BTC 买入</button>
                 </div>
             </div>
         </form>
     </div>
     <div class="col-md-6">
-        <form class="form-horizontal form-sell" role="form">
+        <form name="askForm" class="form-horizontal form-sell" role="form">
             <div class="form-group">
                 <label class="col-sm-4 control-label">建议价格：</label>
                 <label class="col-sm-4 control-label lab">4910.00</label>
@@ -165,29 +157,26 @@
                 <label class="col-sm-4 control-label">卖出价：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="4910.00"/>
-                    <span class="input-group-addon ">元</span>
+                    <input type="number" class="form-control" ng-model="ask.price" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">卖出数量：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="0"/>
-                    <span class="input-group-addon">BTC</span>
+                    <input type="number" class="form-control" ng-model="ask.amount" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">总价：</label>
 
                 <div class="col-sm-4 input-group">
-                    <input type="text" class="form-control" value="0"/>
-                    <span class="input-group-addon">元</span>
+                    <input type="number" class="form-control" ng-model="ask.total"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-10">
-                    <button type="button" class="btn btn-danger">BTC-CNY 卖出</button>
+                    <button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="!askForm.$valid">BTC-CNY 卖出</button>
                 </div>
             </div>
         </form>
@@ -217,83 +206,24 @@
         </tr>
         </thead>
         <tbody>
-         <tr class="info">
+         <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="{{order.status | orderStatusClass}}">
             <td>
-                2014-1-1 11:21:01
+                {{order.date | date:"yyyy-MM-dd HH:mm:ss"}}
             </td>
-            <td class="buy">
-                买入
+            <td class="{{order.type}}">
+                {{order.type | orderTypeText}}
             </td>
-            <td class="buy">
-                4100
-            </td>
-            <td>
-                10
+            <td class="{{order.type}}">
+                {{order.price}}
             </td>
             <td>
-                <span class="">挂单中</span>
+                {{order.amount}}
             </td>
             <td>
-                <a href="#">撤销</a>
-            </td>
-        </tr>
-        <tr class="warning">
-            <td>
-                2014-1-1 11:21:01
-            </td>
-            <td class="sell">
-                卖出
-            </td>
-            <td class="sell">
-                4100
+                <span class="">{{order.status | orderStatusText}}</span>
             </td>
             <td>
-                10
-            </td>
-            <td>
-                <span class="">部分成交</span>
-            </td>
-            <td>
-                <a href="#">撤销</a>
-            </td>
-        </tr>
-        <tr class="success">
-            <td>
-                2014-1-1 11:21:01
-            </td>
-            <td class="buy">
-                买入
-            </td>
-            <td class="buy">
-                4100
-            </td>
-            <td>
-                10
-            </td>
-            <td>
-                交易成功
-            </td>
-            <td>
-
-            </td>
-        </tr>
-        <tr class="danger">
-            <td>
-                2014-1-1 11:21:01
-            </td>
-            <td class="buy">
-                卖出
-            </td>
-            <td class="buy">
-                4910.10
-            </td>
-            <td>
-               1.1
-            </td>
-            <td>
-                已撤销
-            </td>
-            <td>
+                <a href="#" ng-show="order.status >= 10" ng-click="cancelOrder(order.tid)">撤销</a>
             </td>
         </tr>
         </tbody>

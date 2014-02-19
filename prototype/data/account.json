@@ -1,0 +1,20 @@
+{
+    "balance": 12300,
+    "coins": [
+        {
+            "type": "btc",
+            "name": "比特币",
+            "balance": 12
+        },
+        {
+            "type": "ltc",
+            "name": "莱特币",
+            "balance": 55.8
+        },
+        {
+            "type": "pts",
+            "name": "原型股",
+            "balance": 130.77
+        }
+    ]
+}

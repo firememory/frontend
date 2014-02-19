@@ -38,10 +38,7 @@ for (var i = 0; i < 60; i++) {
 }
 
 $(function() {
-    $('[data-toggle=offcanvas]').click(function() {
-        $('.row-offcanvas').toggleClass('active');
-    });
-    $('.candle-chart').jqCandlestick({
+    chart = $('.candle-chart').jqCandlestick({
         data: data,
         theme: 'light',
         yAxis: [{
@@ -49,6 +46,22 @@ $(function() {
         }, {
             height: 3
         }],
+        info: {
+            color: '#000', // color for info
+            font: null, // font
+            spacing: 10, // distance between values
+            position: 'left', // 'left', 'right' or 'auto'
+            wrap: 'no' // 'auto', 'yes' or 'no'
+        },
+        cross: {
+            color: 'rgba(0, 0, 0, 0.9)', // color of cursor-cross
+            strokeWidth: 1.0, // width cursor-cross lines
+            text: {
+                background: '#cccccc', // background color for text
+                font: null, // font for text
+                color: '#000' // color for text
+            }
+        },
         series: [{
             type: 'candlestick',
             names: ['开盘','最高', '最低', '收盘'],
@@ -64,4 +77,5 @@ $(function() {
             color: 'rgba(0, 0, 255, 0.5)'
         }]
     });
+
 });
