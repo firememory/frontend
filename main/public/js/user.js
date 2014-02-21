@@ -2,16 +2,16 @@
 var marketApp = angular.module('coinport.user', ['ui.bootstrap', 'ngResource']);
 
 marketApp.controller('MarketCtrl', function ($scope, $http) {
-    $http.get('data/price.json')
+    $http.get('api/price')
         .success(function(data, status, headers, config) {
             $scope.price = data.ticker;
         });
-    $http.get('data/depth.json')
+    $http.get('api/depth')
         .success(function(data, status, headers, config) {
             $scope.depth = data;
             $scope.depth.asks.reverse();
         });
-    $http.get('data/trade.json')
+    $http.get('api/trade')
         .success(function(data, status, headers, config) {
             $scope.trades = data.reverse();
         });

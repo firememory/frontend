@@ -4,12 +4,12 @@ tradeApp.controller('TradeCtrl', function ($scope, $http) {
     $scope.bid = {price: 4419, amount: 0, total: 0};
     $scope.ask = {price: 4419, amount: 0, total: 0};
 
-    $http.get('data/account.json')
+    $http.get('api/account')
         .success(function(data, status, headers, config) {
             $scope.account = data;
         });
 
-    $http.get('data/order.json')
+    $http.get('api/order')
         .success(function(data, status, headers, config) {
             $scope.orders = data.orders;
         });
