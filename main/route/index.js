@@ -25,6 +25,10 @@ exports.price = function(req, res) {
     redirect(req, res, 'https://www.okcoin.com/api/ticker.do');
 };
 
+exports.history = function(req, res) {
+  redirect(req, res, 'https://www.okcoin.com/kline/period.do?step=900&mode=simple');
+};
+
 exports.depth = function(req, res) {
     // fetch depth data by OKCoin API
     redirect(req, res, 'https://www.okcoin.com/api/depth.do');

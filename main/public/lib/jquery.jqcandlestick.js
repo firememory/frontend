@@ -51,30 +51,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     var data = settings.data;
     var offset = settings.xAxis.dataOffset;
+    var dataLeftOffset = settings.xAxis.dataLeftOffset;
+    var dataRightOffset = settings.xAxis.dataRightOffset;
+
+    if(settings.xAxis.dataLeftOffset == null) {
+      dataLeftOffset = 0;
+    }
+
+    if(settings.xAxis.dataRightOffset == null) {
+      dataRightOffset = data.length - 1;
+    }
 
     data.sort(function(a, b) {
       return a[offset] - b[offset];
     });
-
-    // Find x-axis limits (if not defined in settings) 
-    if (settings.xAxis.min == null || settings.xAxis.max == null) {
-      var min = null;
-      var max = null;
-      data.forEach(function(row) {
-        if (min)
-          min = Math.min(min, row[offset]);
-        else
-          min = row[offset];
-        if (max)
-          max = Math.max(max, row[offset]);
-        else
-          max = row[offset];
-      });
-      if (settings.xAxis.min == null)
-        settings.xAxis.min = min;
-      if (settings.xAxis.max == null)
-        settings.xAxis.max = max;
-    }
 
     var plotAreas = [];
 
@@ -93,7 +83,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         max: null,
         minY: null,
         maxY: null,
-        series: [],
+        series: []
       };
       if (typeof axis.labels.format === 'function') {
         plot.formatLabel = axis.labels.format;
@@ -113,7 +103,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       plot.height = plot.height / totalHeight;
     });
 
-    // Find plot area limits
+    // Create series
     settings.series.forEach(function(series) {
       series = $.extend(true, {}, settings.seriesDefaults, series);
       var plotArea = plotAreas[series.yAxis];
@@ -122,48 +112,74 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       var type = $.fn.jqCandlestick.types[series.type];
       if (!type)
         throw 'Unknown plot type: ' + series.type;
-      series = $.extend(true, {}, type, series); 
-      var length = series.dataOffset + type.dataSize;
-      data.forEach(function(row) {
-        for (var i = series.dataOffset; i < length; i++) {
-          if (row[i] == null)
-            throw 'Missing data column: ' + i;
-          if (plotArea.min)
-            plotArea.min = Math.min(plotArea.min, row[i]);
-          else
-            plotArea.min = row[i];
-          if (plotArea.max)
-            plotArea.max = Math.max(plotArea.max, row[i]);
-          else
-            plotArea.max = row[i];
-        }
-      });
+      series = $.extend(true, {}, type, series);
       plotArea.series.push(series);
-    });
-
-    plotAreas.forEach(function(plot) {
-      // Round limits to nearest multiple of a power of ten
-      var power = Math.pow(10, Math.floor(Math.log(plot.max) / Math.log(10)));
-      plot.max = Math.ceil(plot.max / power) * power;
-      plot.min = Math.floor(plot.min / power) * power;
-
-      // Find appropriate precision for axis labels
-      if (typeof plot.yAxis.labels.format === 'object'
-          && (plot.yAxis.labels.format == null || plot.yAxis.labels.format.fixed == null)) {
-        var diff = plot.max - plot.min;
-        var log = Math.log(diff) / Math.log(10);
-        var decimals = -1 * Math.floor(log) + 2;
-        if (decimals > 0) {
-          plot.yAxis.labels.format = { fixed: decimals };
-        }
-        else {
-          plot.yAxis.labels.format = { fixed: 0 };
-        }
-      }
     });
 
     var minX = 0;
     var maxX = 0;
+
+    var updateLimits = function() {
+      // Find x-axis limits
+      var min = null;
+      var max = null;
+      for(var i = dataLeftOffset; i < dataRightOffset; i++) {
+        var row = data[i];
+        if (min)
+          min = Math.min(min, row[offset]);
+        else
+          min = row[offset];
+        if (max)
+          max = Math.max(max, row[offset]);
+        else
+          max = row[offset];
+      }
+      settings.xAxis.min = min;
+      settings.xAxis.max = max;
+
+      // Find plot area limits
+      plotAreas.forEach(function(plotArea) {
+        plotArea.series.forEach(function(series) {
+          var type = $.fn.jqCandlestick.types[series.type];
+          var length = series.dataOffset + type.dataSize;
+          plotArea.min = null;
+          plotArea.max = null;
+          for(var rowIndex = dataLeftOffset; rowIndex < dataRightOffset; rowIndex++)  {
+            var row = data[rowIndex];
+            for (var i = series.dataOffset; i < length; i++) {
+              if (row[i] == null)
+                throw 'Missing data column: ' + i;
+              if (plotArea.min)
+                plotArea.min = Math.min(plotArea.min, row[i]);
+              else
+                plotArea.min = row[i];
+              if (plotArea.max)
+                plotArea.max = Math.max(plotArea.max, row[i]);
+              else
+                plotArea.max = row[i];
+            }
+          }
+        });
+
+        // TODO(chunming): modify limits
+        plotArea.max = Math.ceil(plotArea.max * 1.01);
+        plotArea.min = Math.floor(plotArea.min * 0.99);
+
+        // Find appropriate precision for axis labels
+        if (typeof plotArea.yAxis.labels.format === 'object'
+          && (plotArea.yAxis.labels.format == null || plotArea.yAxis.labels.format.fixed == null)) {
+          var diff = plotArea.max - plotArea.min;
+          var log = Math.log(diff) / Math.log(10);
+          var decimals = -1 * Math.floor(log) + 2;
+          if (decimals > 0) {
+            plotArea.yAxis.labels.format = { fixed: decimals };
+          }
+          else {
+            plotArea.yAxis.labels.format = { fixed: 0 };
+          }
+        }
+      });
+    };
 
     var getYValue = function(y) {
       var value = null;
@@ -220,6 +236,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var redrawChart = function() {
       var ctx = chartCanvas.getContext('2d');
       var height = chartCanvas.height;
+      updateLimits();
+      // clear canvas
+      ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
       var availableHeight = height - (plotAreas.length + 1) * settings.plot.spacing
         - settings.padding.top - settings.info.height - settings.padding.bottom - settings.xAxis.height;
       var y = settings.padding.top + settings.info.height + settings.plot.spacing + 0.5;
@@ -301,7 +320,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         var validSteps = [
           60000, 2 * 60000, 5 * 60000, 10 * 60000, 15 * 60000, 30 * 60000,
           60 * 60000, 2 * 60 * 60000, 3 * 60 * 60000, 6 * 60 * 60000, 12 * 60 * 60000,
-          24 * 60 * 60000,
+          24 * 60 * 60000
         ];
         var step = 60000;
         for (var i = 0; i < validSteps.length; i++) {
@@ -346,7 +365,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Plot series
       plotAreas.forEach(function(plot) {
         plot.series.forEach(function(series) {
-          series.draw(ctx, settings, plot, series, data, getX, getY);
+          series.draw(ctx, settings, plot, series, data, getX, getY, chartCanvas.width / (dataRightOffset - dataLeftOffset));
         });
       });
     };
@@ -354,11 +373,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var mouseX = 0;
     var mouseY = 0;
     var mouseMoved = false;
-    
-    $window.mousemove(function(event) {
+    // handle mouse move event
+    $crossCanvas.mousemove(function(event) {
       mouseMoved = true;
       mouseX = event.pageX - $container.offset().left + 0.5;
       mouseY = event.pageY - $container.offset().top + 0.5;
+      redrawCross();
     });
 
     var previousWidth = 0;
@@ -507,8 +527,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       ctx.textBaseline = 'middle';
       ctx.fillText(text, textStart, mouseY);
     };
-    
-    setInterval(redrawCross, 1000 / 60);
+
+    this.redraw = function() {
+      redrawChart();
+    };
+
+    this.setData = function(newData) {
+      data = newData;
+      redrawChart();
+    };
+
+    this.zoom = function(delta) {
+      var left = dataLeftOffset + delta;
+      if (left >= 0 && dataRightOffset - left > settings.xAxis.minDataLength) {
+        dataLeftOffset = left;
+        redrawChart();
+      }
+    }
+
+    // handle mouse wheel event. it requires jquery.mousewheel plugin
+    $crossCanvas.bind('mousewheel', this, function(event, delta) {
+      event.data.zoom(delta * 10);
+      return false;
+    });
+
+    // draw chart
+    resize();
+
     return this;
   };
 
@@ -521,7 +566,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       top: 0,
       left: 10,
       bottom: 0,
-      right: 0,
+      right: 0
     },
     plot: {
       spacing: 5,
@@ -529,8 +574,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         top: 0,
         left: 15,
         bottom: 0,
-        right: 15,
-      },
+        right: 15
+      }
     },
     xAxis: {
       name: 'DATE',
@@ -538,6 +583,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       dataOffset: 0,
       min: null,
       max: null,
+      dataLeftOffset: 0,
+      dataRightOffset: null,
+      minDataLength: 10,
       minX: 0,
       maxX: 0,
       height: 20,
@@ -547,8 +595,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       labels: {
         font: null,
         color: '#999',
-        format: 'date',
-      },
+        format: 'date'
+      }
     },
     yAxis: [{
       height: 1
@@ -562,8 +610,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       labels: {
         font: null,
         color: '#999',
-        format: null, // possible values: a function(x) or an object {fixed: y) where y is number of decimals
-      },
+        format: null // possible values: a function(x) or an object {fixed: y) where y is number of decimals
+      }
     },
     seriesDefaults: {
       type: 'point',
@@ -571,7 +619,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       names: [],
       dataOffset: 1,
       yAxis: 0,
-      color: '#fff',
+      color: '#fff'
     },
     info: {
       color: '#999',
@@ -596,7 +644,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           minutes = '0' + minutes;
         return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
 
-      },
+      }
     },
     cross: {
       color: 'rgba(255, 255, 255, 0.5)',
@@ -605,16 +653,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         height: 20,
         background: '#000',
         font: null,
-        color: '#999',
-      },
+        color: '#999'
+      }
     },
     containerClass: 'jqcandlestick-container',
     chartCanvasAttrs: {
-      class: 'jqcandlestick-canvas',
+      class: 'jqcandlestick-canvas'
     },
     crossCanvasAttrs: {
-      class: 'jqcandlestick-canvas',
-    },
+      class: 'jqcandlestick-canvas'
+    }
   };
 
   $.fn.jqCandlestick.themes = {
@@ -622,56 +670,56 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       xAxis: {
         color: '#333',
         labels: {
-          color: '#222',
-        },
+          color: '#222'
+        }
       },
       yAxisDefaults: {
         color: '#eee',
         labels: {
-          color: '#222',
-        },
+          color: '#222'
+        }
       },
       seriesDefaults: {
-        color: '#000',
+        color: '#000'
       },
       cross: {
         color: 'rgba(0, 0, 0, 0.5)',
         text: {
           background: '#fff',
-          color: '#222',
+          color: '#222'
         }
       },
       info: {
-        color: '#222',
+        color: '#222'
       }
     },
     dark: {
       xAxis: {
         color: '#333',
         labels: {
-          color: '#999',
-        },
+          color: '#999'
+        }
       },
       yAxisDefaults: {
         color: '#222',
         labels: {
-          color: '#999',
-        },
+          color: '#999'
+        }
       },
       seriesDefaults: {
-        color: '#fff',
+        color: '#fff'
       },
       cross: {
         color: 'rgba(255, 255, 255, 0.5)',
         text: {
           background: '#000',
-          color: '#999',
+          color: '#999'
         }
       },
       info: {
-        color: '#999',
+        color: '#999'
       }
-    },
+    }
   };
 
   $.fn.jqCandlestick.types = {
@@ -695,7 +743,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             ctx.stroke();
           }
         });
-      },
+      }
     },
     line: {
       dataSize: 1,
@@ -717,14 +765,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           previousY = y;
         });
         ctx.stroke();
-      },
+      }
     },
     column: {
       dataSize: 1,
       width: 5,
       stroke: null,
       strokeWidth: 1.0,
-      draw: function(ctx, settings, plot, series, data, getX, getY) {
+      draw: function(ctx, settings, plot, series, data, getX, getY, columnWidth) {
+        var width = Math.floor(columnWidth * 0.7);
         ctx.fillStyle = series.color;
         if (series.stroke) {
           ctx.strokeStyle = series.stroke;
@@ -733,11 +782,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         data.forEach(function(row) {
           var x = getX(row[settings.xAxis.dataOffset]);
           var y = getY(plot, row[series.dataOffset]);
-          ctx.fillRect(Math.floor(x - series.width / 2) + 0.5, y, series.width, plot.maxY - y); 
+          ctx.fillRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
           if (series.stroke)
-            ctx.strokeRect(Math.floor(x - series.width / 2) + 0.5, y, series.width, plot.maxY - y); 
+            ctx.strokeRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
         });
-      },
+      }
     },
     candlestick: {
       dataSize: 4,
@@ -749,7 +798,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       upColor: null,
       upStroke: null,
       upStrokeWidth: 1.0,
-      draw: function(ctx, settings, plot, series, data, getX, getY) {
+      draw: function(ctx, settings, plot, series, data, getX, getY, columnWidth) {
         data.forEach(function(row) {
           var open = row[series.dataOffset];
           var high = row[series.dataOffset + 1];
@@ -760,7 +809,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           var yHigh = getY(plot, high);
           var yLow = getY(plot, low);
           var yClose = getY(plot, close);
-          var halfWidth = Math.floor(series.width / 2);
+          var width = Math.floor(columnWidth * 0.7);
+          var halfWidth = Math.floor(width / 2);
           ctx.beginPath();
           ctx.moveTo(x, yHigh);
           ctx.strokeStyle = series.color;
@@ -769,11 +819,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               ctx.fillStyle = series.downColor;
             else
               ctx.fillStyle = series.color;
-            ctx.fillRect(x - halfWidth, yOpen, series.width, yClose - yOpen); 
+            ctx.fillRect(x - halfWidth, yOpen, width, yClose - yOpen);
             if (series.downStroke) {
               ctx.strokeStyle = series.downStroke;
               ctx.lineWidth = series.downStrokeWidth;
-              ctx.strokeRect(x - halfWidth, yOpen, series.width, yClose - yOpen); 
+              ctx.strokeRect(x - halfWidth, yOpen, width, yClose - yOpen);
             }
             ctx.lineTo(x, yOpen);
             ctx.moveTo(x, yClose);
@@ -781,22 +831,22 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           else {
             if (series.upColor) {
               ctx.fillStyle = series.upColor;
-              ctx.fillRect(x - halfWidth, yClose, series.width, yOpen - yClose); 
+              ctx.fillRect(x - halfWidth, yClose, width, yOpen - yClose);
             }
             if (series.upStroke)
               ctx.strokeStyle = series.upStroke;
             else
               ctx.strokeStyle = series.color;
             ctx.lineWidth = series.upStrokeWidth;
-            ctx.strokeRect(x - halfWidth, yClose, series.width, yOpen - yClose); 
+            ctx.strokeRect(x - halfWidth, yClose, width, yOpen - yClose);
             ctx.lineTo(x, yClose);
             ctx.moveTo(x, yOpen);
           }
           ctx.lineTo(x, yLow);
           ctx.stroke();
         });
-      },
-    },
+      }
+    }
   };
 
 }(jQuery));

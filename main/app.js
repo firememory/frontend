@@ -15,6 +15,7 @@ app.configure(function(){
 
 // routes mapping
 app.get('/api/price', routes.price);
+app.get('/api/history', routes.history);
 app.get('/api/depth', routes.depth);
 app.get('/api/order', routes.order);
 app.get('/api/trade', routes.trade);
