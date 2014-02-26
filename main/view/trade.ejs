@@ -3,20 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>coinport</title>
-    <script src="lib/angular.js"></script>
-    <script src="lib/angular-resource.min.js"></script>
-    <script src="lib/ui-bootstrap-tpls-0.9.0.js"></script>
-    <script src="lib/jquery-1.11.0.js"></script>
-    <script type="text/javascript" src="lib/jquery.mousewheel.js"></script>
+    <% include imports%>
 
     <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
     <script src="js/trade.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css"/>
-    <link href="css/coinport.css" rel="stylesheet">
 </head>
 
 <body ng-app="coinport.trade">
@@ -24,43 +16,7 @@
 <div class="row clearfix">
     <div class="col-md-12 column">
         <!-- NAVBAR-->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <img src="image/logo-h.png" height="50">
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="index.html">首页</a></li>
-                        <li class="active"><a href="trade.html">交易中心</a></li>
-                        <li class="dropdown">
-                            <a href="market.html" class="dropdown-toggle" >实时行情 <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="market.html">BTC</a></li>
-                                <li class="divider"></li>
-                                <li><a href="market.html">LTC</a></li>
-                                <li><a href="market.html">XXC</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="user.html">用户中心</a></li>
-                        <li><a href="about.html">关于我们</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" class="">登录</a>
-                        </li>
-                        <li>
-                            <a href="register.html" class="">注册</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <% include navbar %>
     </div>
 </div>
 <div class="row clearfix">
@@ -257,16 +213,6 @@
 </div>
 </div>
 </div>
-<footer>
-    <ul class="list-inline">
-        <li><a href="#">关于我们</a> | </li>
-        <li><a href="#">常见问题</a> | </li>
-        <li><a href="#">费率说明</a> | </li>
-        <li><a href="#">服务条款</a> | </li>
-        <li><a href="#">联系我们</a> | </li>
-        <li><a href="#">API</a></li>
-    </ul>
-    <p>&copy; Coinport Inc. 2014. All rights reserved</p>
-</footer>
+<% include footer %>
 </body>
 </html>

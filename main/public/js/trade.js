@@ -1,4 +1,4 @@
-var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource']);
+var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'navbar']);
 
 tradeApp.controller('TradeCtrl', function ($scope, $http) {
     $scope.bid = {price: 4419, amount: 0, total: 0};

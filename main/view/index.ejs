@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>coinport</title>
+    <% include imports%>
+    <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css"/>
+    <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+
+<body ng-app="coinport.index">
+    <div class="container">
+    <!-- NAVBAR-->
+    <% include navbar %>
+    </div>
+    <carousel interval="5000">
+        <slide>
+            <img src="image/banner_bg.jpg" alt="First slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>最安全的交易平台</h1>
+                    <p>Coinport采用业界领先的<code>银行级安全系统</code>，对您的资产进行360度安全防护。</p>
+                </div>
+            </div>
+        </slide>
+        <slide>
+            <img src="image/banner_bg2.jpg" alt="Second slide">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+            </div>
+        </slide>
+        <slide>
+            <img src="image/banner_bg5.jpg" alt="Second slide">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+            </div>
+        </slide>
+    </carousel>
+    <div class="container" ng-controller="IndexCtrl">
+    <div class="row clearfix">
+    <div class="column col-md-12">
+        <div class="col-md-8">
+            <div class="candle-chart"></div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th><th>当前成交价</th><th>最新买入价</th><th>最新卖出价</th><th>24小时成交量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><img src="image/BTC_logo.png" height="15"> 比特币(BTC)</td>
+                    <td>￥5632.55 <img src="image/up.png"></td>
+                    <td class="buy">￥5587.18</td>
+                    <td class="sell">￥5632.55</td>
+                    <td>4521.74฿</td>
+                </tr>
+                <tr>
+                    <td><img src="image/LTC_logo.png" height="15"> 莱特币(LTC)</td>
+                    <td>￥130.07 <img src="image/up.png"></td>
+                    <td class="buy">￥130.02</td>
+                    <td class="sell">￥130.08</td>
+                    <td>1132584.95Ł</td>
+                </tr>
+                <tr>
+                    <td><img src="image/PTS_logo.png" height="15"> 原型股(PTS)</td>
+                    <td>￥79.5 <img src="image/down.png"></td>
+                    <td class="buy">￥79.33</td>
+                    <td class="sell">￥80</td>
+                    <td>511.31</td>
+                </tr>
+                <tr>
+                    <td><img src="image/XRP_logo.png" height="15"> 瑞波币(XRP)</td>
+                    <td>￥0.127 <img src="image/down.png"></td>
+                    <td class="buy">￥0.126</td>
+                    <td class="sell">￥0.128</td>
+                    <td>111226</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2 class="sub-header">新闻动态</h2>
+            <h3><a href="#">新华社：顽强生长的比特币</a></h3>
+            <p>新华网上海２月２日电（记者叶健）比特币中国数据显示，即使遭遇央行两次政策打压，比特币仍能顽强生长...</p>
+            <h3><a href="#">各国政府比特币态度一览</a></h3>
+            <p>去年十一月份，美国参议院第一次和比特币相遇，来自内华达州的安全和政府事务委员会主席Tom，对于比特币...</p>
+            <h3><a href="#">比特币现在能买到什么？</a></h3>
+            <p>若要获得主流地位，几乎没什么能超过美国职业体育项目的认可。从这个意义上说，前不久...</p>
+        </div>
+    </div>
+    </div>
+</div>
+<% include footer %>
+</body>
+</html>

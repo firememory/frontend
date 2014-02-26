@@ -1,27 +1,30 @@
 {
-    "private": true,
-    "author": "Chunming Liu<chunming@coinport.com>",
-    "name": "coinport",
-    "description": "Prototype of Front End.",
-    "version": "0.1.0",
-    "homepage": "http://coinport.cn/preview",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/coinport/frontend.git"
-    },
-    "main": "server.js",
-    "scripts": {
-        "test": "make test"
-    },
-    "dependencies": {
-        "express": "3.4.8"
-    },
-    "devDependencies": {
-        "should": "*",
-        "mocha": "*"
-    },
-    "optionalDependencies": {},
-    "engines": {
-        "node": ">= 0.6"
-    }
+  "private": true,
+  "author": "Chunming Liu<chunming@coinport.com>",
+  "name": "coinport",
+  "description": "Prototype of Front End.",
+  "version": "0.1.0",
+  "homepage": "http://coinport.cn",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coinport/frontend.git"
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "express": "3.4.8",
+    "ejs": ">= 0.0.1",
+    "connect-mongo": ">= 0.1.7",
+    "mongodb": ">= 0.9.9"
+  },
+  "devDependencies": {
+    "should": "*",
+    "mocha": "*"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">= 0.6"
+  }
 }

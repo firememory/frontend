@@ -1,7 +1,7 @@
 // Declare app level module which depends on filters, and services
-var marketApp = angular.module('coinport.user', ['ui.bootstrap', 'ngResource']);
+var userApp = angular.module('coinport.user', ['ui.bootstrap', 'ngResource', 'navbar']);
 
-marketApp.controller('MarketCtrl', function ($scope, $http) {
+userApp.controller('UserCtrl', function ($scope, $http) {
     $http.get('api/price')
         .success(function(data, status, headers, config) {
             $scope.price = data.ticker;
@@ -16,6 +16,18 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
             $scope.trades = data.reverse();
         });
 });
+
+userApp.directive('confirmPassword', [function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, ele, attrs, c) {
+      scope.$watch(attrs.ngModel, function(v) {
+        var valid = (v == scope.register.password);
+        c.$setValidity('confirmPassword', valid);
+      });
+    }
+  }
+}]);
 
 // mocked data
 var data = [];
@@ -52,28 +64,28 @@ $(document).ready(function () {
         ],
         series: [
             {
-                type: 'stackedColumn',
+                type: 'stackedArea',
                 title: '人民币(CNY)',
                 xValuesField: 'date',
                 yValuesField: 'value1',
                 axisY: 'y1'
             },
             {
-                type: 'stackedColumn',
+                type: 'stackedArea',
                 title: '比特币(BTC)',
                 xValuesField: 'date',
                 yValuesField: 'value2',
                 axisY: 'y1'
             },
             {
-                type: 'stackedColumn',
+                type: 'stackedArea',
                 title: '莱特币(LTC)',
                 xValuesField: 'date',
                 yValuesField: 'value3',
                 axisY: 'y1'
             },
             {
-                type: 'stackedColumn',
+                type: 'stackedArea',
                 title: '原型股(PTS)',
                 xValuesField: 'date',
                 yValuesField: 'value4',
