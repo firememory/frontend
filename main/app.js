@@ -15,6 +15,7 @@ app.configure(function(){
   app.use(express.session({
     secret: config.cookieSecret,
     store: new MongoStore({
+      port: config.mongoPort,
       db: config.mongoDb
     })
   }));
