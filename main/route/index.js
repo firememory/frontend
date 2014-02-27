@@ -127,7 +127,12 @@ module.exports = function (app) {
         return res.send(result);
       });
     });
-  }
+  };
+
+  var logout = function (req, res) {
+    req.session.user = null;
+    res.redirect('/');
+  };
 
   // routes mapping
   app.get('/', function(req, res) { res.render('index', {'pageIndex': 0, 'user': req.session.user})});
@@ -141,5 +146,6 @@ module.exports = function (app) {
   app.get('/api/trade', trade);
   app.get('/api/account', account);
   app.post('/login', login);
+  app.get('/logout', logout);
   app.post('/register', register);
 }

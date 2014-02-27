@@ -26,10 +26,13 @@
                     <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showLoginError">{{loginErrorMessage}}</div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-5 col-sm-3">
+                    <div class="col-sm-offset-3 col-sm-3">
                         <button class="btn btn-block btn-success" ng-click="doLogin()" ng-disabled="!loginForm.$valid"><i class="glyphicon glyphicon-ok"></i> 登录</button>
                     </div>
                     <div class="col-sm-3">
+                        <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消</button>
+                    </div>
+                    <div class="col-sm-2">
                         <button class="btn btn-link">忘记密码</button>
                     </div>
                 </div>
@@ -47,7 +50,7 @@
                 <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-3" for="inputEmail">注册邮箱</label>
                     <div class="col-sm-6">
-                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.email" required>
+                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.username" required>
                         <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
                     </div>
                 </div>

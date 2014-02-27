@@ -22,14 +22,14 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="trade">交易中心</a>
+                    <a href="/trade">交易中心</a>
                 </li>
                 <% if (pageIndex == 2) { %>
                 <li class="dropdown active">
                 <% } else { %>
                 <li class="dropdown">
                 <% } %>
-                    <a href="market">实时行情 <b class="caret"></b></a>
+                    <a href="/market">实时行情 <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="market">BTC</a></li>
                         <li class="divider"></li>
@@ -42,22 +42,33 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="user">用户中心</a>
+                    <a href="/user">用户中心</a>
                 </li>
                 <% if (pageIndex == 4) { %>
                 <li class="active">
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="about">关于我们</a>
+                    <a href="/about">关于我们</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" class="" ng-click="open(0)">登录</a>
+                <% if (user && user.name) { %>
+                    <span ng-init="username='<%=user.name%>';isLogin=true" ng-show="false"></span>
+                <% } else { %>
+                    <span ng-init="isLogin=false" ng-show="false"></span>
+                <% } %>
+                <li ng-show="isLogin">
+                    <a href="/user" style="color: #E9DC51;">欢迎您： <strong>{{username}}</strong></a>
                 </li>
-                <li>
-                    <a href="#" class="" ng-click="open(1)">注册</a>
+                <li  ng-show="isLogin">
+                    <a href="/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
+                </li>
+                <li  ng-show="!isLogin">
+                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
+                </li>
+                <li  ng-show="!isLogin">
+                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
                 </li>
             </ul>
         </div>
