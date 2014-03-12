@@ -1,0 +1,105 @@
+@(user: Option[String])
+<!DOCTYPE html>
+<html lang="en" ng-app="coinport.market">
+<head>
+    <meta charset="utf-8">
+    <title>coinport</title>
+    @imports()
+
+    <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
+    <script type="text/javascript" src="js/market.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css" />
+</head>
+
+<body ng-app="coinport.market">
+@navbar(user)
+<div class="container" ng-controller="MarketCtrl">
+    <div class="row clearfix">
+        <div class="col-md-10">
+            <div class="col-md-9">
+                <div class="candle-chart"></div>
+            </div>
+            <div class="col-md-3">
+                <dl id="price-summary" class="">
+                    <dt>当前价格：</dt><dd>{{price.last}}</dd>
+                    <dt>买一价：</dt><dd>{{price.buy}}</dd>
+                    <dt>卖一价：</dt><dd>{{price.sell}}</dd>
+                    <dt>成交量：</dt><dd>{{price.vol}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>买入</th><th>买入价</th><th>委托数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="bid in depth.bids">
+                        <td>买{{$index+1}}</td><td class="buy">{{bid[0]}}</td><td>{{bid[1]}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>卖出</th><th>卖出价</th><th>委托数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="ask in depth.asks">
+                        <td>卖{{$index+1}}</td><td class="sell">{{ask[0]}}</td><td>{{ask[1]}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>成交时间</th><th>成交价</th><th>成交量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="trade in trades">
+                        <td>{{trade.date | date:'HH:mm:ss'}}</td>
+                        <td class="{{trade.type}}">{{trade.price}}</td>
+                        <td>{{trade.amount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-2 column">
+            <ul class="nav nav-stacked nav-pills">
+                <li class="active">
+                    <a href="#"><img src="image/BTC_logo.png" height="20"> 比特币(BTC)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/LTC_logo.png" height="20"> 莱特币(LTC)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/XPM_logo.png" height="20"> 质数币(XPM)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/XRP_logo.png" height="20"> 瑞波币(XRP)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/PPC_logo.png" height="20"> 点点币(PPC)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/TAG_logo.png" height="20"> 悬赏币(TAG)</a>
+                </li>
+                <li>
+                    <a href="#"><img src="image/PTS_logo.png" height="20"> 原型股(PTS)</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@footer()
+</body>
+</html>

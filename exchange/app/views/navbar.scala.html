@@ -1,0 +1,61 @@
+@(user: Option[String])
+<div class="navbar navbar-black navbar-fixed-top" ng-controller="NaviCtrl">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="image/logo-h.png" height="45">
+            <span class="col-md-offset-10"></span>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-middle">
+                <li>
+                    <a href="/"><i class="fa fa-home"></i> 首页</a>
+                </li>
+                <li>
+                    <a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a>
+                </li>
+                <li>
+                    <a href="/market"><i class="fa fa-bar-chart-o"></i> 实时行情 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="market">BTC</a></li>
+                        <li class="divider"></li>
+                        <li><a href="market">LTC</a></li>
+                        <li><a href="market">XXC</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/user"><i class="fa fa-user"></i> 用户中心</a>
+                </li>
+                <li>
+                    <a href="/about">关于我们</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            @user match {
+                case Some(username: String) => {
+                <span ng-init="username='@username';isLogin=true" ng-show="false"></span>
+                }
+                case None => {
+                <span ng-init="isLogin=false" ng-show="false"></span>
+                }
+            }
+                <li ng-show="isLogin">
+                    <a href="/user" style="color: #E9DC51;">欢迎您： <strong>{{username}}</strong></a>
+                </li>
+                <li  ng-show="isLogin">
+                    <a href="/user/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
+                </li>
+                <li  ng-show="!isLogin">
+                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
+                </li>
+                <li  ng-show="!isLogin">
+                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

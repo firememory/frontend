@@ -1,0 +1,88 @@
+<div class="modal-body">
+    <tabset justified="false">
+        <tab>
+            <tab-heading>
+                <i class="glyphicon glyphicon-log-in"></i> 登录
+            </tab-heading>
+            <form class="form-horizontal" name="loginForm">
+                <div class="title control-group">
+                    <label class="control-label">用户登录</label>
+                </div>
+                <div class="form-group has-{{loginForm.username.$valid?'success':'error'}} has-feedback">
+                    <label class="control-label col-sm-3">注册邮箱</label>
+                    <div class="col-sm-6">
+                        <input type="email" name="username" class="form-control" placeholder="Email" ng-model="login.username" required>
+                        <span class="glyphicon glyphicon-{{loginForm.username.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="form-group has-{{loginForm.password.$valid?'success':'error'}} has-feedback">
+                    <label class="control-label col-sm-3">密码</label>
+                    <div class="col-sm-6">
+                        <input name="password" type="password" class="form-control" placeholder="请输入密码" ng-model="login.password" required>
+                        <span class="glyphicon glyphicon-{{loginForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    </div>
+                </div>
+                <div style="height: 80px;">
+                    <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showLoginError">{{loginErrorMessage}}</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-3">
+                        <button class="btn btn-block btn-success" ng-click="doLogin()" ng-disabled="!loginForm.$valid"><i class="glyphicon glyphicon-ok"></i> 登录</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-link">忘记密码</button>
+                    </div>
+                </div>
+            </form>
+        </tab>
+        </tab>
+        <tab active="isRegisterActive">
+            <tab-heading>
+                <i class="glyphicon glyphicon glyphicon-user"></i> 注册
+            </tab-heading>
+            <form class="form-horizontal" name="registerForm">
+                <div class="title control-group">
+                    <label class="control-label" for="inputEmail">注册信息</label>
+                </div>
+                <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
+                    <label class="control-label col-sm-3" for="inputEmail">注册邮箱</label>
+                    <div class="col-sm-6">
+                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.username" required>
+                        <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="form-group has-{{registerForm.password.$valid?'success':'error'}} has-feedback">
+                    <label class="control-label col-sm-3" for="inputPassword">登录密码</label>
+                    <div class="col-sm-6">
+                        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="请输入密码" ng-model="register.password" required>
+                        <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
+                    <label class="control-label col-sm-3" for="inputConfirmPassword">重复密码</label>
+                    <div class="col-sm-6">
+                        <input name="confirmPassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" ng-model="register.confirmPassword" confirm-password="register.confirmPassword" required="">
+                        <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    </div>
+                </div>
+                <div style="height: 80px;">
+                    <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showRegisterError">{{registerErrorMessage}}</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-3">
+                        <button class="btn btn-block btn-success" ng-click="doRegister()" ng-disabled="!registerForm.$valid"><i class="glyphicon glyphicon-ok"></i> 确定注册</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消注册</button>
+                    </div>
+                </div>
+            </form>
+        </tab>
+    </tabset>
+</div>
+<div class="modal-footer">
+
+</div>

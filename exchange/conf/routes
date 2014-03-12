@@ -1,0 +1,31 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /                           controllers.MainController.index()
+GET     /trade                       controllers.MainController.trade()
+GET     /market                       controllers.MainController.market()
+GET     /user                       controllers.MainController.user()
+
+GET    /user/logout              controllers.UserController.logout()
+POST    /user/login              controllers.UserController.login()
+POST    /user/register              controllers.UserController.register()
+
+POST    /trade/bid               controllers.MessageController.submitOrder()
+POST    /trade/ask               controllers.MessageController.submitOrder()
+
+# API routes
+GET     /api/depth                  controllers.MessageController.depth()
+GET     /api/price                  controllers.MessageController.price()
+#GET    /api/order                 controllers.MessageController.order()
+GET     /api/account                controllers.MessageController.account()
+POST    /account/deposit            controllers.MessageController.deposit()
+
+GET     /api/*file                controllers.Assets.at(path="/public/data", file)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
+
+# Default path to /public
+GET     /*file                  controllers.Assets.at(path="/public", file)

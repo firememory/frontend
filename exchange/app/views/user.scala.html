@@ -1,0 +1,134 @@
+@(user: Option[String])
+<!DOCTYPE html>
+<html lang="en" ng-app="coinport.user">
+<head>
+    <meta charset="utf-8">
+    <title>coinport</title>
+    @imports()
+
+    <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
+    <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
+
+    <script src="js/user.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="lib/jqchart/css/jquery.jqChart.css" />
+    <link rel="stylesheet" type="text/css" href="lib/jqchart/css/jquery.jqRangeSlider.css" />
+</head>
+
+<body ng-app="coinport.user">
+@navbar(user)
+<div class="container" id="main-container" ng-controller="UserCtrl">
+    <div id="sidebar" class="navbar-collapse collapse">
+    <ul class="nav nav-list">
+        <li>
+            <form target="#" method="GET" class="search-form">
+<span class="search-pan">
+<button type="submit">
+    <i class="fa fa-search"></i>
+</button>
+<input type="text" name="search" placeholder="Search ..." autocomplete="off" />
+</span>
+            </form>
+        </li>
+        <li class="active">
+            <a href="index.html">
+                <i class="fa fa-btc"></i>
+                <span>我的资产</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-money"></i>
+                <span>充值/提现</span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+            <ul class="submenu">
+                <li><a href="#">人民币充值</a></li>
+                <li><a href="#">人民币提现</a></li>
+                <li><a href="#">比特币充值</a></li>
+                <li><a href="#">比特币提现</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-desktop"></i>
+                <span>Menu</span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+            <ul class="submenu">
+                <li><a href="#">SubMenu</a></li>
+                <li><a href="#">SubMenu</a></li>
+                <li><a href="#">SubMenu</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-edit"></i>
+                <span>Menu</span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+            <ul class="submenu">
+                <li><a href="#">SubMenu</a></li>
+                <li><a href="#">SubMenu</a></li>
+                <li><a href="#">SubMenu</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-file"></i>
+                <span>Menu</span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+            <ul class="submenu">
+                <li><a href="more_blank.html">Blank Page</a></li>
+                <li><a href="more_full-width.html">Full Width Page</a></li>
+                <li><span>Errors</span>
+                    <ul>
+                        <li><a href="more_error-404.html">Error 404</a></li>
+                        <li><a href="more_error-500.html">Error 500</a></li>
+                    </ul>
+                </li>
+                <li><a href="more_set-skin.html">Skin</a></li>
+                <li><a href="more_set-sidebar-navbar-color.html">Sidebar &amp; Navbar</a></li>
+                <li><a href="more_sidebar-collapsed.html">Collapsed Sidebar</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div id="sidebar-collapse" class="visible-lg">
+        <i class="fa fa-angle-double-left"></i>
+    </div>
+</div>
+    <div id="main-content">
+        <div class="row">
+            <div class="col-md-8">
+                <div id="user-finance-chart-history"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="user-finance-chart-pie"></div>
+            </div>
+        </div>
+        <div id="user-finance-table-div" class="row">
+            <table id="user-finance-table" class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>总数量</th><th>价值估算（CNY）</th><th>价值估算（BTC）</th><th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="account in accounts">
+                    <td><img ng-src="image/{{account.currency}}_logo.png" height="15"> {{account.currency}}</td>
+                    <td>{{account.available}}</td>
+                    <td>{{account.locked}}</td>
+                    <td>{{account.available + account.locked}}</td>
+                    <td>￥-</td>
+                    <td>฿-</td>
+                    <td><a href="#">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@footer()
+</body>
+</html>

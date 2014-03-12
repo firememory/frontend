@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="candle-chart"></div>
+    </div>
+    <div class="col-md-3">
+        <div class="tile tile-big tile-magenta">
+            <ul class="list-unstyled">
+                <li ng-repeat="ask in depth.asks">
+                    <span>卖{{4-$index-depth.asks.length}}</span><span class="col-md-offset-1">{{ask[0]}}</span><span class="col-md-offset-1">฿{{ask[1]}}</span>
+                </li>
+            </ul>
+            <span></span>
+            <ul class="list-unstyled">
+                <li ng-repeat="bid in depth.bids">
+                    <span>买{{1+$index}}</span><span class="col-md-offset-1">{{bid[0]}}</span><span class="col-md-offset-1">฿{{bid[1]}}</span>
+                </li>
+            </ul>
+            <div class="img img-bottom">
+                <i class="fa fa-btc"></i>
+            </div>
+            <div class="content">
+                <p class="title">成交价</p>
+                <p class="big">3901</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile tile-orange">
+                    <div class="img">
+                        <i class="fa fa-btc"></i>
+                    </div>
+                    <div class="content">
+                        <p class="title">当前持仓</p>
+                        <p class="big">{{account.BTC}}</p>
+                    </div>
+                </div>
+                <div class="tile tile-light-blue">
+                    <div class="img">
+                        <i class="fa fa-cny"></i>
+                    </div>
+                    <div class="content">
+                        <p class="title">账户余额</p>
+                        <p class="big">{{account.RMB}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="fa fa-bar-chart-o"></i> 买入</h3>
+                <div class="box-tool">
+                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
+                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <form name="bidForm" class="form-horizontal form-buy" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">建议价格：</label>
+                        <label class="col-sm-4 control-label lab">4910.00</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">买入价：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" class="form-control" ng-model="bid.price" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">买入数量：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" step="0.1" class="form-control" ng-model="bid.amount" required min="0" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">总价：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="!bidForm.$valid">CNY-BTC 买入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="fa fa-bar-chart-o"></i> 卖出</h3>
+                <div class="box-tool">
+                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
+                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <form name="askForm" class="form-horizontal form-sell" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">建议价格：</label>
+                        <label class="col-sm-4 control-label lab">4910.00</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">卖出价：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" class="form-control" ng-model="ask.price" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">卖出数量：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" class="form-control" ng-model="ask.amount" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">总价：</label>
+
+                        <div class="col-sm-4 input-group">
+                            <input type="number" class="form-control" ng-model="ask.total"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="!askForm.$valid">BTC-CNY 卖出</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box">
+            <div class="box-title">
+                <h3><i class="fa fa-bar-chart-o"></i> 成交记录</h3>
+                <div class="box-tool">
+                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
+                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>委托时间</th>
+                        <th>类型</th>
+                        <th>委托价格</th>
+                        <th>委托数量</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
+                        <td>
+                            {{order.date | date:"yyyy-MM-dd HH:mm:ss"}}
+                        </td>
+                        <td class="{{order.type}}">
+                            {{order.type | orderTypeText}}
+                        </td>
+                        <td class="{{order.type}}">
+                            {{order.price}}
+                        </td>
+                        <td>
+                            {{order.amount}}
+                        </td>
+                        <td>
+                            <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
+                        </td>
+                        <td>
+                            <a href="#" ng-show="order.status >= 10" ng-click="cancelOrder(order.tid)">撤销</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
