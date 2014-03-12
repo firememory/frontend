@@ -1,20 +1,24 @@
 {
-    "balance": 12300,
-    "coins": [
+    "RMB": 12300,
+    "BTC": 12,
+    "accounts": [
         {
-            "type": "btc",
+            "type": "RMB",
+            "name": "人民币",
+            "available": 12000,
+            "locked": 0
+        },
+        {
+            "type": "BTC",
             "name": "比特币",
-            "balance": 12
+            "available": 12,
+            "locked": 0
         },
         {
-            "type": "ltc",
-            "name": "莱特币",
-            "balance": 55.8
-        },
-        {
-            "type": "pts",
+            "type": "PTS",
             "name": "原型股",
-            "balance": 130.77
+            "available": 100,
+            "locked": 0
         }
     ]
 }
