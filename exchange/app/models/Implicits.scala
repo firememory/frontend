@@ -1,11 +1,24 @@
 package models
 
-import play.api.libs.json.{JsString, Json, Writes}
+import play.api.libs.json._
 import com.coinport.coinex.data.{QueryMarketResult, Order, QueryAccountResult, CashAccount}
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 import com.coinport.coinex.data.Implicits._
+import play.api.libs.functional.syntax._
+import play.api.libs.json.JsString
 
 object Implicits {
+  implicit val resultWrites: Writes[ApiResult] = (
+      (JsPath \ "success").write[Boolean] and
+      (JsPath \ "code").write[Int] and
+      (JsPath \ "message").write[String]
+    )(unlift(ApiResult.unapply))
+
+  implicit val userReads: Reads[User] = (
+      (JsPath \ "username").read[String] and
+      (JsPath \ "password").read[String]
+    )(User.apply _)
+
   implicit val cashAccountWrites = new Writes[CashAccount] {
     def writes(cachAccount: CashAccount) = Json.obj(
       "currency" -> JsString(cachAccount.currency.toString),
@@ -13,7 +26,6 @@ object Implicits {
       "locked" -> cachAccount.locked
     )
   }
-
 
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
     def writes(obj: QueryAccountResult) = Json.obj(
