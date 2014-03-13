@@ -18,7 +18,7 @@ import com.coinport.coinex.data.Implicits._
 import models.Implicits._
 import models.Operation._
 import services.{MarketService, AccountService}
-import models.UserOrder
+import models.{ApiResult, UserOrder}
 
 object MessageController extends Controller {
   def price = Action {
@@ -33,8 +33,22 @@ object MessageController extends Controller {
     }
   }
 
-  def order = Action {
-    Ok("TODO")
+  def getUserOrders = Action.async { implicit request =>
+    session.get("uid") match {
+      case Some(uid) =>
+        AccountService.getOrders(uid.toLong) map {
+          case result: QueryUserLogResult =>
+            println("got " + result)
+            Ok(Json.toJson(result.userLog))
+          case x =>
+            println("response: " + x.toString)
+            Ok(Json.toJson(ApiResult(false, -1, x.toString)))
+        }
+      case None =>
+        Future{
+          Ok("unauthorised request")
+        }
+    }
   }
 
   def submitOrder() = Action.async(parse.json) { implicit request =>
@@ -49,7 +63,7 @@ object MessageController extends Controller {
         println(orderType + ": " + json)
 
         val operation = orderType match {case "bid" => Buy case "ask" => Sell}
-        val order = UserOrder(id.toLong, operation, Btc, Rmb, Some(price), Some(amount), Some(total))
+        val order = UserOrder(id.toLong, operation, Btc, Rmb, Some(price), Some(amount), Some(total), OrderStatus.Pending, System.currentTimeMillis)
 
         AccountService.submitOrder(order) map {
           case x =>

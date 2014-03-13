@@ -17,7 +17,7 @@ POST    /trade/ask               controllers.MessageController.submitOrder()
 # API routes
 GET     /api/depth                  controllers.MessageController.depth()
 GET     /api/price                  controllers.MessageController.price()
-#GET    /api/order                 controllers.MessageController.order()
+GET    /api/order                 controllers.MessageController.getUserOrders()
 GET     /api/account                controllers.MessageController.account()
 POST    /account/deposit            controllers.MessageController.deposit()
 

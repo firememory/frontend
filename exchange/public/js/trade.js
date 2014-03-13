@@ -22,6 +22,7 @@ function routeConfig($routeProvider) {
 tradeApp.config(routeConfig);
 
 function BidAskCtrl($scope, $http) {
+    $scope.orders = [];
     $scope.bid = {type: 'bid', price: 4419, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 4419, amount: 0, total: 0};
     $scope.account = {RMB: 'loading', BTC: 'loading'}
@@ -41,7 +42,9 @@ function BidAskCtrl($scope, $http) {
 
         $http.get('api/order')
         .success(function(data, status, headers, config) {
-            $scope.orders = data.orders;
+            if (data.orders) {
+                    $scope.orders = data.orders;
+                }
         });
     };
 
@@ -181,16 +184,16 @@ function BidAskCtrl($scope, $http) {
 
     // polling
     $scope.$on('timer-tick', function (event, args) {
-        console.log('polling', args);
-        $scope.refresh();
+        //console.log('polling', args);
+        //$scope.refresh();
     });
 
-    $scope.$watch('bid.amount', updateBidTotal);
-    $scope.$watch('bid.price', updateBidTotal);
-    $scope.$watch('bid.total', updateBidAmount);
-    $scope.$watch('ask.amount', updateAskTotal);
-    $scope.$watch('ask.price', updateAskTotal);
-    $scope.$watch('ask.total', updateAskAmount);
+//    $scope.$watch('bid.amount', updateBidTotal);
+//    $scope.$watch('bid.price', updateBidTotal);
+//    $scope.$watch('bid.total', updateBidAmount);
+//    $scope.$watch('ask.amount', updateAskTotal);
+//    $scope.$watch('ask.price', updateAskTotal);
+//    $scope.$watch('ask.total', updateAskAmount);
 }
 
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
@@ -242,8 +245,8 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
 
     // polling
     $scope.$on('timer-tick', function (event, args) {
-        console.log('polling', args);
-        $scope.refresh();
+        //console.log('polling', args);
+        //$scope.refresh();
     });
 
 }]);
@@ -261,11 +264,11 @@ tradeApp.filter('orderTypeText', function() {
 
 tradeApp.filter('orderStatusClass', function() {
     var filter = function(input) {
-        if(input == 0)
+        if(input == 2)
             return 'success';
-        if(input == 11)
+        if(input == 0)
             return 'info';
-        if(input == 12)
+        if(input == 1)
             return 'warning';
         if(input == 3)
             return 'danger';
@@ -274,30 +277,13 @@ tradeApp.filter('orderStatusClass', function() {
     return filter;
 });
 
-tradeApp.filter('orderStatusIconClass', function() {
-    var filter = function(input) {
-        if(input == 0)
-            return 'fa-check-square-o';
-        if(input == 10)
-            return 'fa-spinner fa-spin';
-        if(input == 11)
-            return 'fa-clock-o';
-        if(input == 12)
-            return 'fa-ellipsis-h';
-        if(input == 3)
-            return 'fa-times-circle';
-        return '';
-    }
-    return filter;
-});
-
 tradeApp.filter('orderStatusText', function() {
     var filter = function(input) {
-        if(input == 0)
+        if(input == 2)
             return '交易成功';
-        if(input == 11)
+        if(input == 0)
             return '挂单中';
-        if(input == 12)
+        if(input == 1)
             return '部分成交';
         if(input == 3)
             return '已撤销';

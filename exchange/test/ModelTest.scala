@@ -96,4 +96,16 @@ class ModelTest extends Specification {
       // TODO: cover corner cases
     }
   }
+
+  "price by" in {
+    val uid = 123L
+    var order: UserOrder = null
+
+    order = UserOrder(uid, Sell, Btc, Rmb, Some(5000D), Some(2L), None)
+    order.priceBy(Rmb) must equalTo(order)
+
+    order = UserOrder(uid, Sell, Rmb, Btc, Some(1D / 5000D), Some(10000L), None)
+    order.priceBy(Rmb) must equalTo(UserOrder(uid, Buy, Btc, Rmb, Some(5000D), Some(2L), Some(10000L)))
+
+  }
 }

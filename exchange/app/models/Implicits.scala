@@ -36,14 +36,22 @@ object Implicits {
             // regard total as quantity
             val quantity = order.total.getOrElse((order.amount.get * order.price.get)).toLong
             val limit = order.amount
-            DoSubmitOrder(order.marketSide, Order(order.uid, 0L, quantity , price, limit))
+            DoSubmitOrder(order.marketSide, Order(order.uid, order.id, quantity , price, limit))
           case Sell =>
             val price = order.price
             // TODO: handle None total or price
             val quantity = order.amount.getOrElse((order.total.get / order.price.get).toLong)
             val limit = order.total match {case Some(total) => Some(total.toLong) case None => None}
-            DoSubmitOrder(order.marketSide, Order(order.uid, 0L, quantity, price, limit))
+            DoSubmitOrder(order.marketSide, Order(order.uid, order.id, quantity, price, limit))
         }
+  }
+
+  implicit def BackendOrderInfo2UserOrder(orderInfo: OrderInfo): UserOrder = {
+    // all are sell-orders
+    val side = orderInfo.side
+    val order = orderInfo.order
+    val tid = order.id
+    UserOrder(order.userId, Sell, side._1, side._2, order.price, Some(order.quantity), order.takeLimit.map(_.toDouble), orderInfo.status, tid)
   }
 
   implicit val resultWrites: Writes[ApiResult] = (
@@ -71,6 +79,27 @@ object Implicits {
       "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0)).available,
       "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0)).available,
       "accounts" -> obj.userAccount.cashAccounts.map(_._2)
+    )
+  }
+
+  implicit val userOrderWrites = new Writes[UserOrder] {
+    def writes(obj: UserOrder) = Json.obj(
+      "tid" -> obj.id,
+      "type" -> obj.operation.toString.toLowerCase,
+      "status" -> obj.status.getValue,
+      "price" -> obj.price,
+      "amount" -> obj.amount
+    )
+  }
+
+  implicit val userLogWrites = new Writes[UserLog] {
+    def writes(obj: UserLog) = Json.obj(
+      "orders" -> obj.orderInfos.map{
+        orderInfo =>
+          val userOrder: UserOrder = orderInfo
+          userOrder.priceBy(Rmb)
+      },
+      "orderInfos" -> obj.orderInfos.map(_.toString)
     )
   }
 
