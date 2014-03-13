@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2014 Coinport Inc.
+ * Author: Chunming Liu (chunming@coinport.com)
+ */
+
 package controllers
 
 import play.api.mvc._
@@ -10,9 +15,10 @@ import scala.concurrent.Future
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
-import com.typesafe.config.ConfigFactory
 import models.Implicits._
+import models.Operation._
 import services.{MarketService, AccountService}
+import models.UserOrder
 
 object MessageController extends Controller {
   def price = Action {
@@ -38,20 +44,17 @@ object MessageController extends Controller {
         val orderType = (json \ "type").as[String]
         val price = (json \ "price").as[Double]
         val amount = (json \ "amount").as[Long]
+        val total = (json \ "total").as[Double]
+
         println(orderType + ": " + json)
 
-        if (orderType equals "bid") {
-          AccountService.submitOrder(Rmb ~> Btc, id.toLong, (price * amount).toLong, 1 / price) map {
-            case x =>
-              println(x)
-              Ok(x.toString)
-          }
-        } else {
-          AccountService.submitOrder(Btc ~> Rmb, id.toLong, amount, price) map {
-            case x =>
-              println(x)
-              Ok(x.toString)
-          }
+        val operation = orderType match {case "bid" => Buy case "ask" => Sell}
+        val order = UserOrder(id.toLong, operation, Btc, Rmb, Some(price), Some(amount), Some(total))
+
+        AccountService.submitOrder(order) map {
+          case x =>
+            println(x)
+            Ok(x.toString)
         }
       case None =>
         Future{

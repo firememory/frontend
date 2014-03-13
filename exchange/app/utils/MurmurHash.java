@@ -1,3 +1,8 @@
+/**
+ * third-party lib from:
+ * https://github.com/tnm/murmurhash-java
+ */
+
 package utils;
 
 public final class MurmurHash {

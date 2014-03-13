@@ -1,24 +1,27 @@
+/**
+ * Copyright (C) 2014 Coinport Inc.
+ * Author: Chunming Liu (chunming@coinport.com)
+ */
+
 package services
 
 import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
-import akka.persistence.Persistent
-import com.coinport.coinex.data.Currency._
-import scala.Some
+import models.UserOrder
+import models.Implicits._
 
 object AccountService extends AkkaService{
   def getAccount(uid: Long): Future[Any] = {
-    Router.routers.accountView ? QueryAccount(uid)
+    Router.backend ? QueryAccount(uid)
   }
 
   def deposit(uid: Long, currency: Currency, amount: Long) = {
-    Router.routers.accountProcessor ? Persistent(DoDepositCash(uid.toLong, currency, amount))
+    Router.backend ? DoDepositCash(uid.toLong, currency, amount)
   }
 
-  def submitOrder(marketSide: MarketSide, uid: Long, amount: Long, price: Double) = {
-    // TODO(cm): give 0L as default id
-    val tid = System.currentTimeMillis
-    Router.routers.accountProcessor ? Persistent(DoSubmitOrder(marketSide, Order(uid, tid, amount, Some(price))))
+  def submitOrder(userOrder: UserOrder) = {
+    val command: DoSubmitOrder = userOrder
+    Router.backend ? command
   }
 }
