@@ -11,7 +11,6 @@ import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.JsString
-import scala.Some
 
 object Implicits {
   implicit def string2Currency(currencyString: String): Currency = {
@@ -22,36 +21,6 @@ object Implicits {
       case "USD" => Currency.Usd
       case _ => null
     }
-  }
-
-  import Operation._
-  implicit def UserOrder2BackendOrderCommand(order: UserOrder): DoSubmitOrder = {
-        order.operation match {
-          case Buy =>
-           // convert price
-            val price = order.price match {
-              case Some(value) => Some(1 / value)
-              case None => None
-            }
-            // regard total as quantity
-            val quantity = order.total.getOrElse((order.amount.get * order.price.get)).toLong
-            val limit = order.amount
-            DoSubmitOrder(order.marketSide, Order(order.uid, order.id, quantity , price, limit))
-          case Sell =>
-            val price = order.price
-            // TODO: handle None total or price
-            val quantity = order.amount.getOrElse((order.total.get / order.price.get).toLong)
-            val limit = order.total match {case Some(total) => Some(total.toLong) case None => None}
-            DoSubmitOrder(order.marketSide, Order(order.uid, order.id, quantity, price, limit))
-        }
-  }
-
-  implicit def BackendOrderInfo2UserOrder(orderInfo: OrderInfo): UserOrder = {
-    // all are sell-orders
-    val side = orderInfo.side
-    val order = orderInfo.order
-    val tid = order.id
-    UserOrder(order.userId, Sell, side._1, side._2, order.price, Some(order.quantity), order.takeLimit.map(_.toDouble), orderInfo.status, tid)
   }
 
   implicit val resultWrites: Writes[ApiResult] = (
@@ -85,6 +54,7 @@ object Implicits {
   implicit val userOrderWrites = new Writes[UserOrder] {
     def writes(obj: UserOrder) = Json.obj(
       "tid" -> obj.id,
+      "date" -> obj.submitTime,
       "type" -> obj.operation.toString.toLowerCase,
       "status" -> obj.status.getValue,
       "price" -> obj.price,
@@ -96,7 +66,7 @@ object Implicits {
     def writes(obj: UserLog) = Json.obj(
       "orders" -> obj.orderInfos.map{
         orderInfo =>
-          val userOrder: UserOrder = orderInfo
+          val userOrder = UserOrder.fromOrderInfo(orderInfo)
           userOrder.priceBy(Rmb)
       },
       "orderInfos" -> obj.orderInfos.map(_.toString)

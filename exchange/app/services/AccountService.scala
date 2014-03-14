@@ -21,7 +21,7 @@ object AccountService extends AkkaService{
   }
 
   def submitOrder(userOrder: UserOrder) = {
-    val command: DoSubmitOrder = userOrder
+    val command = userOrder.toDoSubmitOrder
     println("post " + command)
     Router.backend ? command
   }

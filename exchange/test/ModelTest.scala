@@ -43,53 +43,53 @@ class ModelTest extends Specification {
       // buy orders
 
       // buy 2 BTC at 4000 RMB/BTC, spending 8000 RMB
-      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), Some(2), Some(8000))
+      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), Some(2), Some(8000)).toDoSubmitOrder
       command = DoSubmitOrder(Rmb ~> Btc, Order(uid, 0L, 8000, Some(1 / 4000D), Some(2)))
       order must equalTo(command)
 
       // buy 2 BTC at 4000 RMB/BTC, same to above
-      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), Some(2), None)
+      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), Some(2), None).toDoSubmitOrder
       command = DoSubmitOrder(Rmb ~> Btc, Order(uid, 0L, 4000 * 2, Some(1 / 4000D), Some(2)))
       order must equalTo(command)
 
       // market order: buy some BTC at any price, spending 8000 RMB
-      order = UserOrder(uid, Buy, Btc, Rmb, None, None, Some(8000))
+      order = UserOrder(uid, Buy, Btc, Rmb, None, None, Some(8000)).toDoSubmitOrder
       command = DoSubmitOrder(Rmb ~> Btc, Order(uid, 0L, 8000, None, None))
       order must equalTo(command)
 
       // limited market order: buy some BTC at 4000 RMB/BTC, spending 8000 RMB
-      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), None, Some(8000))
+      order = UserOrder(uid, Buy, Btc, Rmb, Some(4000), None, Some(8000)).toDoSubmitOrder
       command = DoSubmitOrder(Rmb ~> Btc, Order(uid, 0L, 8000, Some(1 / 4000D), None))
       order must equalTo(command)
       // limited market order: buy 2 BTC, at any price, spending 8000 RMB
-      order = UserOrder(uid, Buy, Btc, Rmb, None, Some(2), Some(8000))
+      order = UserOrder(uid, Buy, Btc, Rmb, None, Some(2), Some(8000)).toDoSubmitOrder
       command = DoSubmitOrder(Rmb ~> Btc, Order(uid, 0L, 8000, None, Some(2)))
       order must equalTo(command)
 
       // sell orders
 
       // sell 2 BTC at 5000 RMB/BTC, for 10000 RMB
-      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), Some(2), Some(10000))
+      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), Some(2), Some(10000)).toDoSubmitOrder
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 2, Some(5000), Some(10000)))
       order must equalTo(command)
 
       // sell 2 BTC at 5000 RMB/BTC
-      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), Some(2), None)
+      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), Some(2), None).toDoSubmitOrder
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 2, Some(5000), None))
       order must equalTo(command)
 
       // market order: sell 2 BTC at any price
-      order = UserOrder(uid, Sell, Btc, Rmb, None, Some(2), None)
+      order = UserOrder(uid, Sell, Btc, Rmb, None, Some(2), None).toDoSubmitOrder
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 2, None, None))
       order must equalTo(command)
 
       // limit market order: sell 2 BTC at any price, for 10000 RMB
-      order = UserOrder(uid, Sell, Btc, Rmb, None, Some(2), Some(10000))
+      order = UserOrder(uid, Sell, Btc, Rmb, None, Some(2), Some(10000)).toDoSubmitOrder
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 2, None, Some(10000)))
       order must equalTo(command)
 
       // sell some BTC at 5000 RMB/BTC, for 10000 RMB
-      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), None, Some(10000))
+      order = UserOrder(uid, Sell, Btc, Rmb, Some(5000), None, Some(10000)).toDoSubmitOrder
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 10000 / 5000, Some(5000), Some(10000)))
       order must equalTo(command)
 
