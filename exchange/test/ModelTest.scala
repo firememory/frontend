@@ -3,7 +3,7 @@
  * Author: Chunming Liu (chunming@coinport.com)
  */
 
-import com.coinport.coinex.data.{Order, DoSubmitOrder, Currency}
+import com.coinport.coinex.data.{OrderInfo, Order, DoSubmitOrder, Currency}
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
 import org.specs2.mutable._
@@ -93,6 +93,10 @@ class ModelTest extends Specification {
       command = DoSubmitOrder(Btc ~> Rmb, Order(uid, 0L, 10000 / 5000, Some(5000), Some(10000)))
       order must equalTo(command)
 
+      // convert back
+      var userOrder = UserOrder(uid, Sell, Btc, Usd, Some(1234), Some(12), None)
+      userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Btc ~> Usd, userOrder.toDoSubmitOrder.order, userOrder.status, 0, 0)))
+
       // TODO: cover corner cases
     }
   }
@@ -107,5 +111,26 @@ class ModelTest extends Specification {
     order = UserOrder(uid, Sell, Rmb, Btc, Some(1D / 5000D), Some(10000L), None)
     order.priceBy(Rmb) must equalTo(UserOrder(uid, Buy, Btc, Rmb, Some(5000D), Some(2L), Some(10000L)))
 
+  }
+
+  import models.CurrencyUnit._
+  import models.CurrencyValue._
+
+  "currency unit conversions" in {
+    val a = 1 unit BTC
+    val b = 1000 unit MBTC
+
+    a must equalTo(b)
+
+    a / b must equalTo(PriceValue(1.0))
+
+    12.345 unit BTC must equalTo(12345 unit MBTC)
+    23.45 unit CNY must equalTo (2345 unit CNY2)
+    0 unit BTC must equalTo(0 unit MBTC)
+
+    1 unit BTC to MBTC must equalTo(1000 unit MBTC)
+    val sub = 1 unit BTC
+    val money = 4000 unit CNY
+    money / sub must equalTo(PriceValue(4000, (CNY, BTC)))
   }
 }
