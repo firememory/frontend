@@ -134,17 +134,17 @@ function BidAskCtrl($scope, $http) {
 
     $scope.addBidOrder = function() {
         console.log('add bid', $scope.bid);
-        if($scope.bid.amount <= 0)
+        if($scope.bid.amount < 0)
             return;
         $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
         $scope.bid.total = Math.min($scope.bid.total, $scope.account.RMB);
         $scope.orders.push({
             "date": new Date().getTime(),
-            "tid": new Date().getTime(),
+            "tid": 0,
             "price": $scope.bid.price,
             "amount": $scope.bid.amount,
             "type": "buy",
-            "status": 10
+            "status": -1
         });
 
         $http.post('trade/bid', $scope.bid)
@@ -155,15 +155,15 @@ function BidAskCtrl($scope, $http) {
 
     $scope.addAskOrder = function() {
         console.log('add ask', $scope.ask);
-        if($scope.ask.amount <= 0)
+        if($scope.ask.amount < 0)
             return;
         $scope.orders.push({
             "date": new Date().getTime(),
-            "tid": new Date().getTime(),
+            "tid": 0,
             "price": $scope.ask.price,
             "amount": $scope.ask.amount,
             "type": "sell",
-            "status": 10
+            "status": -1
         });
 
         $http.post('trade/bid', $scope.ask)
@@ -287,7 +287,7 @@ tradeApp.filter('orderStatusText', function() {
             return '部分成交';
         if(input == 3)
             return '已撤销';
-        if(input == 10)
+        if(input == -1)
             return '等待处理';
         return '';
     }

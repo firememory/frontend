@@ -56,14 +56,18 @@ object MessageController extends Controller {
     session.get("uid") match {
       case Some(id) =>
         val orderType = (json \ "type").as[String]
-        val price = (json \ "price").as[Double]
-        val amount = (json \ "amount").as[Long]
-        val total = (json \ "total").as[Double]
+        val priceField = (json \ "price").as[Double]
+        val amountField = (json \ "amount").as[Double]
+        val totalField = (json \ "total").as[Double]
+
+        val price = if (priceField <= 0) None else Some(priceField)
+        val amount = if (amountField <= 0) None else Some(amountField)
+        val total = if (totalField <= 0) None else Some(totalField)
 
         println(orderType + ": " + json)
 
         val operation = orderType match {case "bid" => Buy case "ask" => Sell}
-        val order = UserOrder(id.toLong, operation, Btc, Rmb, Some(price), Some(amount), Some(total), OrderStatus.Pending, System.currentTimeMillis)
+        val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, OrderStatus.Pending, System.currentTimeMillis)
 
         AccountService.submitOrder(order) map {
           case x =>
@@ -104,8 +108,8 @@ object MessageController extends Controller {
         Ok("unauthorised request")
       }
     } else {
-      val amount = (json \ "amount").as[Long]
-      val currency = (json \ "type").as[String] match {case "RMB" => Rmb case "BTC" => Btc}
+      val amount = (json \ "amount").as[Double]
+      val currency: Currency = (json \ "type").as[String]
       AccountService.deposit(uid.toLong, currency, amount) map {
       case x =>
         println(x)

@@ -3,6 +3,9 @@ package models
 import com.coinport.coinex.data._
 import com.coinport.coinex.data.Implicits._
 import scala.Some
+import models.CurrencyUnit._
+import models.CurrencyValue._
+import models.PriceValue._
 
 object Operation extends Enumeration {
   type Operation = Value
@@ -56,7 +59,7 @@ case class UserOrder (
     if (currencyUnit equals currency) {
       this
     } else {
-      val price1 = price.map(1D / _)
+      val price1 = price.map(_.inverse.value)
       val amount1 = if (price.isDefined) amount.map(v => (v * price.get)) else None
       val total1 = amount
       UserOrder(uid, reverse(operation), currency, subject, price1, amount1, total1, status, id, submitTime, inAmount, remaining)

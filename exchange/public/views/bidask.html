@@ -70,7 +70,7 @@
                         <label class="col-sm-4 control-label">买入价：</label>
 
                         <div class="col-sm-4 input-group">
-                            <input type="number" class="form-control" ng-model="bid.price" required/>
+                            <input type="number" class="form-control" ng-model="bid.price"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,7 +89,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-10">
-                            <button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="!bidForm.$valid">CNY-BTC 买入</button>
+                            <!--<button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="!bidForm.$valid">CNY-BTC 买入</button>-->
+                            <button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="false">CNY-BTC 买入</button>
                         </div>
                     </div>
                 </form>
@@ -134,14 +135,15 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-10">
-                            <button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="!askForm.$valid">BTC-CNY 卖出</button>
+                            <!--<button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="!askForm.$valid">BTC-CNY 卖出</button>-->
+                            <button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="false">BTC-CNY 卖出</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="box">
             <div class="box-title">
                 <h3><i class="fa fa-bar-chart-o"></i> 成交记录</h3>
@@ -155,9 +157,13 @@
                     <thead>
                     <tr>
                         <th>委托时间</th>
+                        <th>id</th>
                         <th>类型</th>
                         <th>委托价格</th>
                         <th>委托数量</th>
+                        <th>总价</th>
+                        <th>已成交</th>
+                        <th>剩余</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -166,6 +172,9 @@
                     <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
                         <td>
                             {{order.date | date:"yyyy-MM-dd HH:mm:ss"}}
+                        </td>
+                        <td>
+                            {{order.tid}}
                         </td>
                         <td class="{{order.type}}">
                             {{order.type | orderTypeText}}
@@ -177,10 +186,19 @@
                             {{order.amount}}
                         </td>
                         <td>
+                            {{order.total}}
+                        </td>
+                        <td>
+                            {{order.in_amount}}
+                        </td>
+                        <td>
+                            {{order.remaining}}
+                        </td>
+                        <td>
                             <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
                         </td>
                         <td>
-                            <a href="#" ng-show="order.status >= 10" ng-click="cancelOrder(order.tid)">撤销</a>
+                            <a href="#" ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤销</a>
                         </td>
                     </tr>
                     </tbody>

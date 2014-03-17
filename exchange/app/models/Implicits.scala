@@ -45,8 +45,8 @@ object Implicits {
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
     def writes(obj: QueryAccountResult) = Json.obj(
       "uid" -> obj.userAccount.userId,
-      "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0)).available,
-      "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0)).available,
+      "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0)).available / 100,
+      "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0)).available / 1000,
       "accounts" -> obj.userAccount.cashAccounts.map(_._2)
     )
   }
@@ -58,7 +58,10 @@ object Implicits {
       "type" -> obj.operation.toString.toLowerCase,
       "status" -> obj.status.getValue,
       "price" -> obj.price,
-      "amount" -> obj.amount
+      "amount" -> obj.amount,
+      "in_amount" -> obj.inAmount,
+      "remaining" -> obj.remaining,
+      "total" -> obj.total
     )
   }
 
