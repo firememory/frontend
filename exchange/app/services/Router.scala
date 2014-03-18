@@ -13,7 +13,7 @@ import akka.cluster.Cluster
 import com.coinport.coinex.data.Implicits._
 
 object Router extends AkkaService{
-  val config = ConfigFactory.load("akka.conf")
+  val config = ConfigFactory.load("dev.conf")
   implicit val system = ActorSystem("coinex", config)
   implicit val cluster = Cluster(system)
   val markets = Seq(Btc ~> Rmb)

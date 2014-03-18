@@ -162,8 +162,10 @@
                         <th>委托价格</th>
                         <th>委托数量</th>
                         <th>总价</th>
-                        <th>已成交</th>
+                        <th>成交</th>
                         <th>剩余</th>
+                        <th>成交amount</th>
+                        <th>剩余amount</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -189,10 +191,16 @@
                             {{order.total}}
                         </td>
                         <td>
-                            {{order.in_amount}}
+                            {{order.finished}}
                         </td>
                         <td>
                             {{order.remaining}}
+                        </td>
+                        <td>
+                            {{order.finishedAmount}}
+                        </td>
+                        <td>
+                            {{order.remainingAmount}}
                         </td>
                         <td>
                             <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>

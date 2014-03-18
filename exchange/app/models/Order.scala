@@ -26,10 +26,41 @@ case class UserOrder (
                        total: Option[Double],
                        status: OrderStatus = OrderStatus.Pending,
                        id: Long = 0L,
-                       submitTime: Long = 0L,
-                       inAmount: Long = 0L,
-                       remaining: Long = 0L
+                       submitTime: Long = 0L
                        ) {
+  private var _finishedQuantity: Double = 0
+  private var _remainingQuantity: Double = amount.getOrElse(0)
+  private var _finishedAmount: Double = 0
+  private var _remainingAmount: Double = total.getOrElse(0)
+
+  def finishedQuantity(): Double = _finishedQuantity
+
+  def finishedQuantity(value: Double) = {
+    _finishedQuantity = value
+    this
+  }
+
+  def remainingQuantity(): Double = _remainingQuantity
+
+  def remainingQuantity(value: Double) = {
+    _remainingQuantity = value
+    this
+  }
+
+  def finishedAmount(): Double = _finishedAmount
+
+  def finishedAmount(value: Double) = {
+    _finishedAmount = value
+    this
+  }
+
+  def remainingAmount(): Double = _remainingAmount
+
+  def remainingAmount(value: Double) = {
+    _remainingAmount = value
+    this
+  }
+
   //  buy: money   out, subject in
   // sell: subject out, money   in
   val marketSide = operation match {case Buy => currency ~> subject case Sell => subject ~> currency}
@@ -71,7 +102,6 @@ case class UserOrder (
   }
 }
 
-  // TODO: not finish
 object UserOrder {
   def fromOrderInfo(orderInfo: OrderInfo): UserOrder = {
     // all are sell-orders
@@ -91,14 +121,31 @@ object UserOrder {
             val priceUnit: (CurrencyUnit, CurrencyUnit) = (unit2, unit1)
             (p unit priceUnit).userValue
         }
-        val amount: Option[Double] = Some((order.quantity unit side._1).userValue)
-        val total: Option[Double] = order.takeLimit.map(t => (t unit side._2).userValue)
+        val amount: Option[Double] = Some((order.quantity unit unit1).userValue)
+        val total: Option[Double] = order.takeLimit.map(t => (t unit unit2).userValue)
+
+
+        // finished quantity = out
+        val finishedQuantity: Double = (orderInfo.outAmount unit unit1).userValue
+        // remaining quantity = quantity - out
+        val remainingQuantity: Double = ((order.quantity - orderInfo.outAmount) unit unit1).userValue
+        // finished amount = in
+        val finishedAmount: Double = (orderInfo.inAmount unit unit2).userValue
+        // remaining amount = take - in
+        val remainingAmount: Double = order.takeLimit match {
+          case Some(t) => ((t - orderInfo.inAmount) unit unit2).userValue
+          case None => 0
+        }
+
         val status = orderInfo.status
         val tid = order.id
         val timestamp = order.timestamp.getOrElse(0L)
 
-        // TODO: in / out / remaining
-        UserOrder(order.userId, Sell, unit1, unit2, price, amount, total, status, tid, timestamp, orderInfo.inAmount, orderInfo.outAmount)
+        UserOrder(order.userId, Sell, unit1, unit2, price, amount, total, status, tid, timestamp)
+          .finishedQuantity(finishedQuantity)
+          .remainingQuantity(remainingQuantity)
+          .finishedAmount(finishedAmount)
+          .remainingAmount(remainingAmount)
 
       case Btc => // buy
         val price: Option[Double] = order.price.map {
@@ -110,12 +157,27 @@ object UserOrder {
         val amount: Option[Double] = order.takeLimit.map(t => (t unit unit2).userValue)
         val total: Option[Double] = Some((order.quantity unit unit1).userValue)
 
+        // finished quantity = in
+        val finishedQuantity: Double = (orderInfo.inAmount unit unit2).userValue
+        // remaining quantity = take - in
+        val remainingQuantity: Double = order.takeLimit match {
+          case Some(t) => ((t - orderInfo.inAmount) unit unit2).userValue
+          case None => 0
+        }
+        // finished amount = out
+        val finishedAmount: Double = (orderInfo.outAmount unit unit1).userValue
+        // remaining amount = quantity - out
+        val remainingAmount: Double = ((order.quantity - orderInfo.outAmount) unit unit1).userValue
+
         val status = orderInfo.status
         val tid = order.id
         val timestamp = order.timestamp.getOrElse(0L)
 
-        // TODO: in / out / remaining
-        UserOrder(order.userId, Buy, unit2, unit1, price, amount, total, status, tid, timestamp, orderInfo.inAmount, orderInfo.outAmount)
+        UserOrder(order.userId, Buy, unit2, unit1, price, amount, total, status, tid, timestamp)
+          .finishedQuantity(finishedQuantity)
+          .remainingQuantity(remainingQuantity)
+          .finishedAmount(finishedAmount)
+          .remainingAmount(remainingAmount)
     }
   }
 }

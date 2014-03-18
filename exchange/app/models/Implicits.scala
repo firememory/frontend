@@ -67,8 +67,10 @@ object Implicits {
       "status" -> obj.status.getValue,
       "price" -> obj.price,
       "amount" -> obj.amount,
-      "in_amount" -> obj.inAmount,
-      "remaining" -> obj.remaining,
+      "finished" -> obj.finishedQuantity,
+      "remaining" -> obj.remainingQuantity,
+      "finishedAmount" -> obj.finishedAmount,
+      "remainingAmount" -> obj.remainingAmount,
       "total" -> obj.total
     )
   }
