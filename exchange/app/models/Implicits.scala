@@ -11,6 +11,9 @@ import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.JsString
+import models.CurrencyValue._
+import models.CurrencyUnit._
+import models.PriceValue._
 
 object Implicits {
   implicit def string2Currency(currencyString: String): Currency = {
@@ -35,18 +38,23 @@ object Implicits {
     )(User.apply _)
 
   implicit val cashAccountWrites = new Writes[CashAccount] {
-    def writes(cachAccount: CashAccount) = Json.obj(
-      "currency" -> JsString(cachAccount.currency.toString),
-      "available" -> cachAccount.available,
-      "locked" -> cachAccount.locked
-    )
+    def writes(cachAccount: CashAccount) = {
+      val currency = cachAccount.currency
+      val currencyUnit: CurrencyUnit = currency
+      val available = (cachAccount.available unit currencyUnit).userValue
+      val locked = (cachAccount.locked unit currencyUnit).userValue
+      Json.obj(
+      "currency" -> JsString(currency.toString),
+      "available" -> available,
+      "locked" -> locked
+    )}
   }
 
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
     def writes(obj: QueryAccountResult) = Json.obj(
       "uid" -> obj.userAccount.userId,
-      "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0, 0)).available / 100,
-      "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0, 0)).available / 1000,
+      "RMB" -> (obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0, 0)).available unit CNY2).userValue,
+      "BTC" -> (obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0, 0)).available unit MBTC).userValue,
       "accounts" -> obj.userAccount.cashAccounts.map(_._2)
     )
   }
@@ -86,8 +94,8 @@ object Implicits {
 
   implicit val marketDepthItemWrites = new Writes[MarketDepthItem] {
     def writes(obj: MarketDepthItem) = Json.obj(
-      "price" -> obj.price,
-      "amount" -> obj.quantity
+      "price" -> (obj.price unit (CNY2, MBTC)).userValue,
+      "amount" -> (obj.quantity unit MBTC).userValue
     )
   }
 
