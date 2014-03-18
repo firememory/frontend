@@ -9,7 +9,8 @@ import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
 import models.UserOrder
-import models.Implicits._
+import models.CurrencyUnit._
+import models.CurrencyValue._
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 
 object AccountService extends AkkaService{
@@ -18,11 +19,13 @@ object AccountService extends AkkaService{
   }
 
   def deposit(uid: Long, currency: Currency, amount: Double) = {
-    val amount1 = currency match {
+    val amount1: Long = currency match {
       case Rmb =>
-        (amount * 100).toLong
+        amount unit CNY to CNY2
       case Btc =>
-        (amount * 1000).toLong
+        amount unit BTC to MBTC
+      case _ =>
+        0L
     }
     Router.backend ? DoDepositCash(uid.toLong, currency, amount1)
   }
