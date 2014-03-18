@@ -42,9 +42,7 @@ function BidAskCtrl($scope, $http) {
 
         $http.get('api/order')
         .success(function(data, status, headers, config) {
-            if (data.orders) {
-                    $scope.orders = data.orders;
-                }
+            $scope.orders = data
         });
     };
 

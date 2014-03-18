@@ -7,13 +7,13 @@
         <div class="tile tile-big tile-magenta">
             <ul class="list-unstyled">
                 <li ng-repeat="ask in depth.asks">
-                    <span>卖{{4-$index-depth.asks.length}}</span><span class="col-md-offset-1">{{ask[0]}}</span><span class="col-md-offset-1">฿{{ask[1]}}</span>
+                    <span>卖{{4-$index-depth.asks.length}}</span><span class="col-md-offset-1">{{ask.price}}</span><span class="col-md-offset-1">฿{{ask.amount}}</span>
                 </li>
             </ul>
             <span></span>
             <ul class="list-unstyled">
                 <li ng-repeat="bid in depth.bids">
-                    <span>买{{1+$index}}</span><span class="col-md-offset-1">{{bid[0]}}</span><span class="col-md-offset-1">฿{{bid[1]}}</span>
+                    <span>买{{1+$index}}</span><span class="col-md-offset-1">{{bid.price}}</span><span class="col-md-offset-1">฿{{bid.amount}}</span>
                 </li>
             </ul>
             <div class="img img-bottom">
