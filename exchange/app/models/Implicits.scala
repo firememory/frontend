@@ -107,4 +107,18 @@ object Implicits {
       "bids" -> obj.marketDepth.bids
     )
   }
+
+  implicit val marketCandleDataResultsWrites = new Writes[QueryMarketCandleDataResult] {
+    def writes(obj: QueryMarketCandleDataResult) = Json.arr(
+      obj.candleData._2.map( candleDataItem => Json.arr(
+        candleDataItem._1,
+        candleDataItem._3,
+        candleDataItem._6,
+        candleDataItem._5,
+        candleDataItem._4,
+        candleDataItem._2
+        )
+      )
+    )
+  }
 }

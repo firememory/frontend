@@ -128,4 +128,12 @@ object MessageController extends Controller {
       }
     }
   }
+
+  def history = Action.async { implicit request =>
+    MarketService.getHistory(Btc ~> Rmb) map {
+      case result: QueryMarketCandleDataResult  =>
+        println("result: " + result)
+        Ok(Json.toJson(result))
+    }
+  }
 }
