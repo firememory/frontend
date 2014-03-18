@@ -45,8 +45,8 @@ object Implicits {
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
     def writes(obj: QueryAccountResult) = Json.obj(
       "uid" -> obj.userAccount.userId,
-      "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0)).available / 100,
-      "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0)).available / 1000,
+      "RMB" -> obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0, 0)).available / 100,
+      "BTC" -> obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0, 0)).available / 1000,
       "accounts" -> obj.userAccount.cashAccounts.map(_._2)
     )
   }
@@ -65,16 +65,16 @@ object Implicits {
     )
   }
 
-  implicit val userLogWrites = new Writes[UserLog] {
-    def writes(obj: UserLog) = Json.obj(
-      "orders" -> obj.orderInfos.map{
-        orderInfo =>
-          val userOrder = UserOrder.fromOrderInfo(orderInfo)
-          userOrder.priceBy(Rmb)
-      },
-      "orderInfos" -> obj.orderInfos.map(_.toString)
-    )
-  }
+//  implicit val userLogWrites = new Writes[UserLog] {
+//    def writes(obj: UserLog) = Json.obj(
+//      "orders" -> obj.map{
+//        orderInfo =>
+//          val userOrder = UserOrder.fromOrderInfo(orderInfo)
+//          userOrder.priceBy(Rmb)
+//      },
+//      "orderInfos" -> obj.orderInfos.map(_.toString)
+//    )
+//  }
 
   implicit val orderWrites = new Writes[Order] {
     def writes(obj: Order) = Json.arr(
@@ -84,10 +84,17 @@ object Implicits {
     )
   }
 
+  implicit val marketDepthItemWrites = new Writes[MarketDepthItem] {
+    def writes(obj: MarketDepthItem) = Json.obj(
+      "price" -> obj.price,
+      "amount" -> obj.quantity
+    )
+  }
+
   implicit val queryMarketResultWrites = new Writes[QueryMarketResult] {
     def writes(obj: QueryMarketResult) = Json.obj(
-      "asks" -> obj.orders1,
-      "bids" -> obj.orders2.map(_.inversePrice)
+      "asks" -> obj.marketDepth.asks,
+      "bids" -> obj.marketDepth.bids
     )
   }
 }

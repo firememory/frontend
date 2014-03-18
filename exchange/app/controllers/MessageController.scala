@@ -37,9 +37,9 @@ object MessageController extends Controller {
     session.get("uid") match {
       case Some(uid) =>
         AccountService.getOrders(uid.toLong) map {
-          case result: QueryUserLogResult =>
+          case result: QueryUserOrdersResult =>
             println("got " + result)
-            Ok(Json.toJson(result.userLog))
+            Ok(Json.toJson(result.orders.map(o => UserOrder.fromOrderInfo(o))))
           case x =>
             println("response: " + x.toString)
             Ok(Json.toJson(ApiResult(false, -1, x.toString)))

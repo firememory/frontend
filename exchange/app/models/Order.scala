@@ -75,6 +75,7 @@ object UserOrder {
     val tid = order.id
     val timestamp = order.timestamp.getOrElse(0L)
 
-    UserOrder(order.userId, Sell, side._1, side._2, order.price, Some(order.quantity), order.takeLimit.map(_.toDouble), orderInfo.status, tid, timestamp, orderInfo.inAmount, orderInfo.remainingQuantity)
+    // TODO: in / out / remaining
+    UserOrder(order.userId, Sell, side._1, side._2, order.price, Some(order.quantity), order.takeLimit.map(_.toDouble), orderInfo.status, tid, timestamp, orderInfo.inAmount, orderInfo.outAmount)
   }
 }

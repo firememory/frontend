@@ -4,6 +4,8 @@ logLevel := Level.Warn
 // The Typesafe repository
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
+resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
+
 resolvers += "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/repositories/snapshots/"
 
 // Use the Play sbt plugin for Play projects

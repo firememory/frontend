@@ -35,6 +35,6 @@ object AccountService extends AkkaService{
 
   def getOrders(uid: Long) = {
     println("query orders of user " + uid)
-    Router.backend ? QueryUserLog(uid)
+    Router.backend ? QueryUserOrders(uid)
   }
 }
