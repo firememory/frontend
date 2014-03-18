@@ -19,6 +19,7 @@ GET     /api/depth                  controllers.MessageController.depth()
 GET     /api/price                  controllers.MessageController.price()
 GET    /api/order                 controllers.MessageController.getUserOrders()
 GET     /api/account                controllers.MessageController.account()
+GET     /api/history                controllers.MessageController.history()
 POST    /account/deposit            controllers.MessageController.deposit()
 
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
