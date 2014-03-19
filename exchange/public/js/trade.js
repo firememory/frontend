@@ -34,7 +34,10 @@ function BidAskCtrl($scope, $http) {
     $scope.orders = [];
     $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
-    $scope.account = {RMB: 'loading', BTC: 'loading'}
+    $scope.account = {RMB: 0, BTC: 0}
+    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
+    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
+    $scope.info = {fundingLocked: 0, fundingRemaining: 0, quantityLocked: 0, quantityRemaining: 0, income: 0}
 
     $scope.refresh = function() {
         $http.get('api/account')
@@ -116,9 +119,11 @@ function BidAskCtrl($scope, $http) {
         var total = $scope.bid.price * $scope.bid.amount;
         if(total > $scope.account.RMB) {
             total = $scope.account.RMB;
-            updateBidAmount();
+//            updateBidAmount();
         }
-        $scope.bid.total = total;
+        $scope.bid.total = total
+        $scope.info.fundingLocked = total;
+        $scope.info.fundingRemaining = $scope.account.RMB - total;
         console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
@@ -132,6 +137,11 @@ function BidAskCtrl($scope, $http) {
         if(!$scope.account || !$scope.account.RMB || !$scope.ask.price || !$scope.ask.amount)
             return;
         var total = $scope.ask.price * $scope.ask.amount;
+
+        $scope.ask.total = total
+        $scope.info.income = total
+        $scope.info.quantityLocked = $scope.ask.amount;
+        $scope.info.quantityRemaining = $scope.account.BTC - $scope.info.quantityLocked;
     };
 
     var updateAskAmount = function() {
@@ -181,6 +191,10 @@ function BidAskCtrl($scope, $http) {
         });
     };
 
+    $scope.toggleLimitPrice = function() {
+
+    }
+
     $scope.cancelOrder = function(tid) {
         console.log('cancel order', tid);
         for(var i = 0; i < $scope.orders.length; i++) {
@@ -197,11 +211,11 @@ function BidAskCtrl($scope, $http) {
         //$scope.refresh();
     });
 
-//    $scope.$watch('bid.amount', updateBidTotal);
-//    $scope.$watch('bid.price', updateBidTotal);
+    $scope.$watch('bid.amount', updateBidTotal);
+    $scope.$watch('bid.price', updateBidTotal);
 //    $scope.$watch('bid.total', updateBidAmount);
-//    $scope.$watch('ask.amount', updateAskTotal);
-//    $scope.$watch('ask.price', updateAskTotal);
+    $scope.$watch('ask.amount', updateAskTotal);
+    $scope.$watch('ask.price', updateAskTotal);
 //    $scope.$watch('ask.total', updateAskAmount);
 }
 

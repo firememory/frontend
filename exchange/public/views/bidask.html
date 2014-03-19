@@ -7,7 +7,7 @@
         <div class="tile tile-big tile-magenta">
             <ul class="list-unstyled">
                 <li ng-repeat="ask in depth.asks">
-                    <span>卖{{4-$index-depth.asks.length}}</span><span class="col-md-offset-1">{{ask.price}}</span><span class="col-md-offset-1">฿{{ask.amount}}</span>
+                    <span>卖{{depth.asks.length-$index}}</span><span class="col-md-offset-1">{{ask.price}}</span><span class="col-md-offset-1">฿{{ask.amount}}</span>
                 </li>
             </ul>
             <span></span>
@@ -60,27 +60,53 @@
                 <form name="bidForm" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">买入价：</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" ng-model="bid.price"/>
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!bidOptions.limitPrice" class="form-control" ng-model="bid.price"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="bidOptions.limitPrice" ng-click="toggleLimitPrice"/>
+                            <label class="">指定价格</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">买入数量：</label>
-                        <div class="col-sm-6">
-                            <input type="number" step="1" class="form-control" ng-model="bid.amount" min="0" />
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!bidOptions.limitAmount" step="1" class="form-control" ng-model="bid.amount" min="0" />
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="bidOptions.limitAmount"/>
+                            <label class="">指定数量</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">总价：</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
+                        <label class="col-sm-4 control-label">总金额：</label>
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
+                            <label class="">指定金额</label>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-success btn-block" ng-click="addBidOrder()" ng-disabled="false">CNY-BTC 买入</button>
                 </form>
+
             </div>
             <div class="panel-footer">
-                <button type="button" class="btn btn-success btn-block" ng-click="addBidOrder()" ng-disabled="false">CNY-BTC 买入</button>
-            </div>
+                以
+                <span class="badge badge-info">{{bidOptions.limitPrice ? '不高于'+bid.price+'元/个' : '任意价格'}}</span>
+                购买
+                <span class="badge badge-info">{{bidOptions.limitAmount ? bid.amount : '尽可能多'}}</span>
+                BTC,最多花费
+                <span class="badge badge-info">{{bidOptions.limitTotal ? bid.total : info.fundingLocked}}</span>元
+                <br>
+                冻结金额
+                <span class="badge badge-info">{{info.fundingLocked}}</span>
+                可用余额
+                <span class="badge badge-info">{{info.fundingRemaining}}</span>
+                总资金
+                <span class="badge badge-info">{{account.RMB}}</span>
+           </div>
         </div>
     </div>
     <div class="col-md-3">
@@ -92,26 +118,51 @@
                 <form name="askForm" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">卖出价：</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" ng-model="ask.price" />
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="askOptions.limitPrice" />
+                            <label class="">指定价格</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">卖出数量：</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" ng-model="ask.amount" />
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" />
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="askOptions.limitAmount"/>
+                            <label class="">指定数量</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">总价：</label>
-                        <div class="col-sm-6">
-                            <input type="number" class="form-control" ng-model="ask.total"/>
+                        <label class="col-sm-4 control-label">总金额：</label>
+                        <div class="col-sm-4">
+                            <input type="number" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
+                            <label class="">指定金额</label>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-danger btn-block" ng-click="addAskOrder()" ng-disabled="false">BTC-CNY 卖出</button>
                 </form>
             </div>
             <div class="panel-footer">
-                <button type="button" class="btn btn-danger btn-block" ng-click="addAskOrder()" ng-disabled="false">BTC-CNY 卖出</button>
+                以
+                <span class="badge badge-info">{{askOptions.limitPrice ? '不低于'+ask.price+'元/个' : '任意价格'}}</span>
+                卖出
+                <span class="badge badge-info">{{askOptions.limitAmount ? ask.amount : '尽可能多'}}</span>
+                BTC,预计收入
+                <span class="badge badge-info">{{askOptions.limitTotal ? ask.total : info.income}}</span>元
+                <br>
+                冻结数量
+                <span class="badge badge-info">{{info.quantityLocked}}</span>
+                可用数量
+                <span class="badge badge-info">{{info.quantityRemaining}}</span>
+                总数量
+                <span class="badge badge-info">{{account.BTC}}</span>
             </div>
         </div>
     </div>
