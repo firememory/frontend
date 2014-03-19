@@ -52,94 +52,66 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        <div class="box">
-            <div class="box-title">
-                <h3><i class="fa fa-bar-chart-o"></i> 买入</h3>
-                <div class="box-tool">
-                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
-                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
-                </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="text-left"><i class="fa fa-bar-chart-o"></i> 买入</h3>
             </div>
-            <div class="box-content">
-                <form name="bidForm" class="form-horizontal form-buy" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">建议价格：</label>
-                        <label class="col-sm-4 control-label lab">4910.00</label>
-                    </div>
+            <div class="panel-body">
+                <form name="bidForm" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">买入价：</label>
-
-                        <div class="col-sm-4 input-group">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" ng-model="bid.price"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">买入数量：</label>
-
-                        <div class="col-sm-4 input-group">
-                            <input type="number" step="1" class="form-control" ng-model="bid.amount" required min="0" />
+                        <div class="col-sm-6">
+                            <input type="number" step="1" class="form-control" ng-model="bid.amount" min="0" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">总价：</label>
-
-                        <div class="col-sm-4 input-group">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-10">
-                            <!--<button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="!bidForm.$valid">CNY-BTC 买入</button>-->
-                            <button type="button" class="btn btn-success" ng-click="addBidOrder()" ng-disabled="false">CNY-BTC 买入</button>
-                        </div>
-                    </div>
                 </form>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-success btn-block" ng-click="addBidOrder()" ng-disabled="false">CNY-BTC 买入</button>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="box">
-            <div class="box-title">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
                 <h3><i class="fa fa-bar-chart-o"></i> 卖出</h3>
-                <div class="box-tool">
-                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
-                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
-                </div>
             </div>
-            <div class="box-content">
-                <form name="askForm" class="form-horizontal form-sell" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">建议价格：</label>
-                        <label class="col-sm-4 control-label lab">4910.00</label>
-                    </div>
+            <div class="panel-body">
+                <form name="askForm" class="form-horizontal" role="form">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">卖出价：</label>
-
-                        <div class="col-sm-4 input-group">
-                            <input type="number" class="form-control" ng-model="ask.price" required/>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" ng-model="ask.price" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">卖出数量：</label>
-
-                        <div class="col-sm-4 input-group">
-                            <input type="number" class="form-control" ng-model="ask.amount" required/>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" ng-model="ask.amount" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">总价：</label>
-
-                        <div class="col-sm-4 input-group">
+                        <div class="col-sm-6">
                             <input type="number" class="form-control" ng-model="ask.total"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-10">
-                            <!--<button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="!askForm.$valid">BTC-CNY 卖出</button>-->
-                            <button type="button" class="btn btn-danger" ng-click="addAskOrder()" ng-disabled="false">BTC-CNY 卖出</button>
-                        </div>
-                    </div>
                 </form>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-danger btn-block" ng-click="addAskOrder()" ng-disabled="false">BTC-CNY 卖出</button>
             </div>
         </div>
     </div>
@@ -162,10 +134,10 @@
                         <th>委托价格</th>
                         <th>委托数量</th>
                         <th>总价</th>
-                        <th>成交</th>
-                        <th>剩余</th>
-                        <th>成交amount</th>
-                        <th>剩余amount</th>
+                        <th>成交数量</th>
+                        <th>剩余数量</th>
+                        <th>成交金额</th>
+                        <th>剩余金额</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>

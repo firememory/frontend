@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-8">
+        <div id="user-finance-chart-history"></div>
+    </div>
+    <div class="col-md-4">
+        <div id="user-finance-chart-pie"></div>
+    </div>
+</div>
+<div id="user-finance-table-div" class="row">
+    <table id="user-finance-table" class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>总数量</th><th>价值估算（CNY）</th><th>价值估算（BTC）</th><th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="account in accounts">
+            <td><img ng-src="image/{{account.currency.toUpperCase()}}_logo.png" height="15"> {{account.currency}}</td>
+            <td>{{account.available}}</td>
+            <td>{{account.locked}}</td>
+            <td>{{account.available + account.locked}}</td>
+            <td>￥-</td>
+            <td>฿-</td>
+            <td><a href="#">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
