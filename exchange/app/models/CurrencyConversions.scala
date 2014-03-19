@@ -102,7 +102,7 @@ case class CurrencyValue(value: Double) {
   }
 
   def to (newUnit: CurrencyUnit): CurrencyValue = {
-    println("convert from " + currencyUnit + " to " + newUnit)
+//    println("convert from " + currencyUnit + " to " + newUnit)
     if (currencyUnit == newUnit) { this }
     else {
       factors.get((currencyUnit, newUnit)) match {
@@ -159,7 +159,7 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
   }
 
   def to (newUnit: (CurrencyUnit, CurrencyUnit)): PriceValue = {
-    println("converting price: " + this + " to " + newUnit)
+//    println("converting price: " + this + " to " + newUnit)
     if (newUnit.swap == unit)
       inverse
     else {
@@ -167,7 +167,7 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
         case Some(factor1) =>
           factors.get(unit._2, newUnit._2) match {
             case Some(factor2) =>
-              println("factors: " + factor1 + ", " + factor2 + "\nto " + PriceValue(value * factor1 / factor2, newUnit))
+//              println("factors: " + factor1 + ", " + factor2 + "\nto " + PriceValue(value * factor1 / factor2, newUnit))
               PriceValue(value * factor1 / factor2, newUnit)
             case None => this
           }
@@ -190,7 +190,6 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
     if (obj.isInstanceOf[PriceValue]) {
       val other = obj.asInstanceOf[PriceValue]
       val result = this.value == other.value && this.unit == other.unit
-      println(this + " compare with " + obj + " = " + result)
       result
     } else {
       false

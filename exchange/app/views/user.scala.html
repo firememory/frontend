@@ -116,7 +116,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="account in accounts">
-                    <td><img ng-src="image/{{account.currency}}_logo.png" height="15"> {{account.currency}}</td>
+                    <td><img ng-src="image/{{account.currency.toUpperCase()}}_logo.png" height="15"> {{account.currency}}</td>
                     <td>{{account.available}}</td>
                     <td>{{account.locked}}</td>
                     <td>{{account.available + account.locked}}</td>

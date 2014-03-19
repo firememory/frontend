@@ -21,8 +21,19 @@ import services.{MarketService, AccountService}
 import models.{ApiResult, UserOrder}
 
 object MessageController extends Controller {
-  def price = Action {
-    Ok("TODO")
+  import akka.util.Timeout
+  import scala.concurrent.duration._
+  import akka.pattern.ask
+  implicit val timeout = Timeout(2 seconds)
+  def price = Action.async {
+    val market = Btc ~> Rmb
+    val view = services.Router.routers.candleDataView
+//    view ! DebugDump
+    view ? QueryMarketCandleData(market) map {
+      case a =>
+        println("@@@@@@@@@ " + a)
+        Ok(a.toString)
+    }
   }
 
   def depth = Action.async {
