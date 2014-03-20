@@ -138,7 +138,6 @@ function BidAskCtrl($scope, $http) {
             return;
         var total = $scope.ask.price * $scope.ask.amount;
 
-        $scope.ask.total = total
         $scope.info.income = total
         $scope.info.quantityLocked = $scope.ask.amount;
         $scope.info.quantityRemaining = $scope.account.BTC - $scope.info.quantityLocked;
