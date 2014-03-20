@@ -34,13 +34,18 @@ function BidAskCtrl($scope, $http) {
     $scope.orders = [];
     $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
-    $scope.account = {RMB: 'loading', BTC: 'loading'}
+    $scope.account = {RMB: 0, BTC: 0}
+    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
+    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
+    $scope.info = {fundingLocked: 0, fundingRemaining: 0, quantityLocked: 0, quantityRemaining: 0, income: 0}
 
     $scope.refresh = function() {
         $http.get('api/account')
             .success(function(data, status, headers, config) {
                 console.log('got', data);
                 $scope.account = data;
+                updateAskTotal();
+                updateBidTotal();
         });
 
         $http.get('api/depth')
@@ -111,14 +116,16 @@ function BidAskCtrl($scope, $http) {
           });
 
     var updateBidTotal = function() {
-        if(!$scope.account || !$scope.account.RMB || !$scope.bid.price || !$scope.bid.amount)
+        if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = $scope.bid.price * $scope.bid.amount;
         if(total > $scope.account.RMB) {
             total = $scope.account.RMB;
-            updateBidAmount();
+//            updateBidAmount();
         }
-        $scope.bid.total = total;
+        $scope.bid.total = total
+        $scope.info.fundingLocked = total;
+        $scope.info.fundingRemaining = $scope.account.RMB - total;
         console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
@@ -128,10 +135,14 @@ function BidAskCtrl($scope, $http) {
     };
 
     var updateAskTotal = function() {
-        console.log('update ask total', $scope.ask.price, $scope.ask.amount);
-        if(!$scope.account || !$scope.account.RMB || !$scope.ask.price || !$scope.ask.amount)
+        console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
+        if(!$scope.account || $scope.account.RMB == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
         var total = $scope.ask.price * $scope.ask.amount;
+
+        $scope.info.income = total
+        $scope.info.quantityLocked = $scope.ask.amount;
+        $scope.info.quantityRemaining = $scope.account.BTC - $scope.info.quantityLocked;
     };
 
     var updateAskAmount = function() {
@@ -181,6 +192,18 @@ function BidAskCtrl($scope, $http) {
         });
     };
 
+    $scope.clickFunding = function(amount) {
+        $scope.bid.total = amount;
+        $scope.bidOptions.limitTotal = true;
+        $scope.info.fundingLocked = amount;
+        $scope.info.fundingRemaining = $scope.account.RMB - amount;
+    }
+
+    $scope.clickQuantity = function(quantity) {
+        $scope.ask.amount = quantity;
+        $scope.askOptions.limitAmount = true;
+    }
+
     $scope.cancelOrder = function(tid) {
         console.log('cancel order', tid);
         for(var i = 0; i < $scope.orders.length; i++) {
@@ -197,11 +220,11 @@ function BidAskCtrl($scope, $http) {
         //$scope.refresh();
     });
 
-//    $scope.$watch('bid.amount', updateBidTotal);
-//    $scope.$watch('bid.price', updateBidTotal);
+    $scope.$watch('bid.amount', updateBidTotal);
+    $scope.$watch('bid.price', updateBidTotal);
 //    $scope.$watch('bid.total', updateBidAmount);
-//    $scope.$watch('ask.amount', updateAskTotal);
-//    $scope.$watch('ask.price', updateAskTotal);
+    $scope.$watch('ask.amount', updateAskTotal);
+    $scope.$watch('ask.price', updateAskTotal);
 //    $scope.$watch('ask.total', updateAskAmount);
 }
 
@@ -396,6 +419,20 @@ tradeApp.filter('orderStatusText', function() {
         if(input == -1)
             return '等待处理';
         return '';
+    }
+    return filter;
+});
+
+tradeApp.filter('currency', function() {
+    var filter = function(input) {
+        return input ? input.toFixed(2) : '-';
+    }
+    return filter;
+});
+
+tradeApp.filter('quantity', function() {
+    var filter = function(input) {
+        return input ? input.toFixed(3) : '-';
     }
     return filter;
 });
