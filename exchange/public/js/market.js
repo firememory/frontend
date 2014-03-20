@@ -13,8 +13,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                 $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
             });
 
-            var chart = $('.candle-chart').jqCandlestick({
-            data: $scope.history,
+            var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',
               yAxis: [{
                 height: 8

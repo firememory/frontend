@@ -69,8 +69,7 @@ function BidAskCtrl($scope, $http) {
               $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
             });
 
-            var chart = $('.candle-chart').jqCandlestick({
-              data: $scope.history,
+            var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',
               yAxis: [{
                 height: 8
@@ -154,7 +153,6 @@ function BidAskCtrl($scope, $http) {
         console.log('add bid', $scope.bid);
         if($scope.bid.amount < 0)
             return;
-        $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
         $scope.bid.total = Math.min($scope.bid.total, $scope.account.RMB);
         $scope.orders.push({
             "date": new Date().getTime(),
@@ -167,6 +165,7 @@ function BidAskCtrl($scope, $http) {
 
         $http.post('trade/bid', $scope.bid)
           .success(function(data, status, headers, config) {
+            $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
             console.log('bid order sent, response:', data);
             $scope.refresh();
         });

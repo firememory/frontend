@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 (function($) {
   var $window = $(window);
 
-  $.fn.jqCandlestick = function(options) {
+  $.fn.jqCandlestick = function(data, options) {
     if (options.theme) {
       if (!$.fn.jqCandlestick.themes[options.theme])
         throw 'Undefined theme: ' + options.theme;
@@ -49,22 +49,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       throw 'canvas unsupported';
     }
 
-    var data = settings.data;
+    var data = data;
+
     var offset = settings.xAxis.dataOffset;
     var dataLeftOffset = settings.xAxis.dataLeftOffset;
     var dataRightOffset = settings.xAxis.dataRightOffset;
-
-    if(settings.xAxis.dataLeftOffset == null) {
-      dataLeftOffset = 0;
-    }
-
-    if(settings.xAxis.dataRightOffset == null) {
-      dataRightOffset = data.length - 1;
-    }
-
-    data.sort(function(a, b) {
-      return a[offset] - b[offset];
-    });
 
     var plotAreas = [];
 
@@ -120,10 +109,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     var maxX = 0;
 
     var updateLimits = function() {
+      // update params
+      if(settings.xAxis.dataLeftOffset == null) {
+        dataLeftOffset = 0;
+      }
+      if(dataRightOffset == null) {
+        dataRightOffset = data.length - 1;
+      }
+      // sort
+      data.sort(function(a, b) {
+        return a[offset] - b[offset];
+      });
       // Find x-axis limits
       var min = null;
       var max = null;
-      for(var i = dataLeftOffset; i < dataRightOffset; i++) {
+      for(var i = dataLeftOffset; i <= dataRightOffset; i++) {
         var row = data[i];
         if (min)
           min = Math.min(min, row[offset]);
@@ -144,7 +144,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           var length = series.dataOffset + type.dataSize;
           plotArea.min = null;
           plotArea.max = null;
-          for(var rowIndex = dataLeftOffset; rowIndex < dataRightOffset; rowIndex++)  {
+          for(var rowIndex = dataLeftOffset; rowIndex <= dataRightOffset; rowIndex++)  {
             var row = data[rowIndex];
             for (var i = series.dataOffset; i < length; i++) {
               if (row[i] == null)
@@ -161,7 +161,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           }
         });
 
-        // TODO(chunming): modify limits
+        // Round limits to nearest multiple of a power of ten
+        // var power = Math.pow(10, Math.floor(Math.log(plotArea.max) / Math.log(10)));
+        // plotArea.max = Math.ceil(plotArea.max / power) * power;
+        // plotArea.min = Math.floor(plotArea.min / power) * power;
+
+		  // TODO(chunming): modify limits
         plotArea.max = Math.ceil(plotArea.max * 1.01);
         plotArea.min = Math.floor(plotArea.min * 0.99);
 
@@ -204,7 +209,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       return settings.xAxis.min + (x - settings.xAxis.minX) / (settings.xAxis.maxX - settings.xAxis.minX) * (settings.xAxis.max - settings.xAxis.min);
     };
 
-    var getPlotValues = function(x) {
+    // get data index from x coordinate
+    var getDataIndex = function(x) {
       if (x >= minX && x <= maxX) {
         var value = getXValue(x);
         var smallestIndex = null;
@@ -219,8 +225,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             break;
           }
         }
-        if (smallestIndex != null)
-          return data[smallestIndex];
+      }
+      return smallestIndex;
+    }
+
+    // get data row from x coordinate
+    var getPlotValues = function(x) {
+      var index = getDataIndex(x);
+      if (index != null) {
+        return data[index];
       }
       return null;
     };
@@ -365,21 +378,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Plot series
       plotAreas.forEach(function(plot) {
         plot.series.forEach(function(series) {
-          series.draw(ctx, settings, plot, series, data, getX, getY, chartCanvas.width / (dataRightOffset - dataLeftOffset));
+          series.draw(ctx, settings, plot, series, data, getX, getY, chartCanvas.width / (dataRightOffset - dataLeftOffset + 1));
         });
       });
     };
 
     var mouseX = 0;
     var mouseY = 0;
-    var mouseMoved = false;
-    // handle mouse move event
-    $crossCanvas.mousemove(function(event) {
-      mouseMoved = true;
-      mouseX = event.pageX - $container.offset().left + 0.5;
-      mouseY = event.pageY - $container.offset().top + 0.5;
-      redrawCross();
-    });
+    var mouseDown = false;
+    var previousDataIndex = 0;
 
     var previousWidth = 0;
     var previousHeight = 0;
@@ -399,9 +406,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     var redrawCross = function() {
       resize();
-      if (!mouseMoved)
-        return;
-      mouseMoved = false;
       var ctx = crossCanvas.getContext('2d');
       ctx.strokeStyle = settings.cross.color
       ctx.lineWidth = settings.cross.strokeWidth;
@@ -431,7 +435,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         ctx.font = settings.info.font ? settings.info.font : settings.font;
         if (settings.info.position == 'right')
           ctx.textAlign = 'right';
-        else 
+        else
           ctx.textAlign = 'left';
         if (settings.info.position == 'auto')
           ctx.textBaseline = 'top';
@@ -528,6 +532,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       ctx.fillText(text, textStart, mouseY);
     };
 
+    var move = function(delta) {
+      if (!delta)
+        return;
+      var left = dataLeftOffset + delta;
+      var right = dataRightOffset + delta;
+      if (left < 0 || right >= data.length)
+        return;
+      dataLeftOffset = left;
+      dataRightOffset = right;
+      redrawChart();
+    }
+
     this.redraw = function() {
       redrawChart();
     };
@@ -539,16 +555,53 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     this.zoom = function(delta) {
       var left = dataLeftOffset + delta;
-      if (left >= 0 && dataRightOffset - left > settings.xAxis.minDataLength) {
+      if (left >= 0 && dataRightOffset - left + 1 > settings.xAxis.minDataLength) {
         dataLeftOffset = left;
         redrawChart();
       }
     }
 
+    this.move = move;
+
+    // handle mouse move event
+    $crossCanvas.mousemove(function(event) {
+      mouseX = event.pageX - $container.offset().left + 0.5;
+      mouseY = event.pageY - $container.offset().top + 0.5;
+
+      // drag
+      if (mouseDown) {
+        var index = getDataIndex(mouseX);
+        if (!index || index >= data.length) {
+          mouseDown = false;
+        } else {
+          var delta = previousDataIndex - index;
+          if (delta != 0) {
+            move(delta);
+          }
+        }
+      }
+
+      redrawCross();
+    });
+
     // handle mouse wheel event. it requires jquery.mousewheel plugin
     $crossCanvas.bind('mousewheel', this, function(event, delta) {
       event.data.zoom(delta * 10);
       return false;
+    });
+
+    // handle mouse drag event
+    $crossCanvas.mousedown(function(event) {
+      mouseDown = true;
+      previousDataIndex = getDataIndex(mouseX);
+    });
+
+    $crossCanvas.mouseup(function(event) {
+      mouseDown = false;
+    });
+
+    $crossCanvas.mouseout(function(event) {
+      mouseDown = false;
     });
 
     // draw chart
@@ -559,7 +612,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   $.fn.jqCandlestick.defaults = {
     series: [],
-    data: [],
     theme: 'light',
     font: '8pt sans-serif',
     padding: {
