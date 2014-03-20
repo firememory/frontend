@@ -6,14 +6,18 @@
     <div class="col-md-3">
         <div class="tile tile-big tile-magenta">
             <ul class="list-unstyled">
-                <li ng-repeat="ask in depth.asks">
-                    <span>卖{{depth.asks.length-$index}}</span><span class="col-md-offset-1">{{ask.price.toFixed(2)}}</span><span class="col-md-offset-1">฿{{ask.amount.toFixed(3)}}</span>
+                <li ng-repeat="item in depth.asks">
+                    <span>卖{{depth.asks.length-$index}}</span>
+                    <span class="col-md-offset-1 depth-item" ng-click="ask.price=item.price">{{item.price.toFixed(2)}}</span>
+                    <span class="col-md-offset-1">฿{{item.amount.toFixed(3)}}</span>
                 </li>
             </ul>
-            <span></span>
+            <span>-</span>
             <ul class="list-unstyled">
-                <li ng-repeat="bid in depth.bids">
-                    <span>买{{1+$index}}</span><span class="col-md-offset-1">{{bid.price.toFixed(2)}}</span><span class="col-md-offset-1">฿{{bid.amount.toFixed(3)}}</span>
+                <li ng-repeat="item in depth.bids">
+                    <span>买{{1+$index}}</span>
+                    <span class="col-md-offset-1 depth-item" ng-click="bid.price=item.price">{{item.price.toFixed(2)}}</span>
+                    <span class="col-md-offset-1">฿{{item.amount.toFixed(3)}}</span>
                 </li>
             </ul>
             <div class="img img-bottom">
