@@ -119,9 +119,9 @@
                 冻结金额
                 <span class="badge badge-info">{{info.fundingLocked}}</span>
                 可用余额
-                <span class="badge badge-info">{{info.fundingRemaining}}</span>
+                <span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>
                 总资金
-                <span class="badge badge-info">{{account.RMB}}</span>
+                <span class="badge badge-info link" ng-click="clickFunding(account.RMB)">{{account.RMB}}</span>
            </div>
         </div>
     </div>
@@ -188,9 +188,9 @@
                 冻结数量
                 <span class="badge badge-info">{{info.quantityLocked}}</span>
                 可用数量
-                <span class="badge badge-info">{{info.quantityRemaining}}</span>
+                <span class="badge badge-info link" ng-click="clickQuantity(info.quantityRemaining)">{{info.quantityRemaining}}</span>
                 总数量
-                <span class="badge badge-info">{{account.BTC}}</span>
+                <span class="badge badge-info link" ng-click="clickQuantity(account.BTC)">{{account.BTC}}</span>
             </div>
         </div>
     </div>

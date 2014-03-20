@@ -44,6 +44,8 @@ function BidAskCtrl($scope, $http) {
             .success(function(data, status, headers, config) {
                 console.log('got', data);
                 $scope.account = data;
+                updateAskTotal();
+                updateBidTotal();
         });
 
         $http.get('api/depth')
@@ -114,7 +116,7 @@ function BidAskCtrl($scope, $http) {
           });
 
     var updateBidTotal = function() {
-        if(!$scope.account || !$scope.account.RMB || !$scope.bid.price || !$scope.bid.amount)
+        if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = $scope.bid.price * $scope.bid.amount;
         if(total > $scope.account.RMB) {
@@ -133,8 +135,8 @@ function BidAskCtrl($scope, $http) {
     };
 
     var updateAskTotal = function() {
-        console.log('update ask total', $scope.ask.price, $scope.ask.amount);
-        if(!$scope.account || !$scope.account.RMB || !$scope.ask.price || !$scope.ask.amount)
+        console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
+        if(!$scope.account || $scope.account.RMB == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
         var total = $scope.ask.price * $scope.ask.amount;
 
@@ -190,8 +192,16 @@ function BidAskCtrl($scope, $http) {
         });
     };
 
-    $scope.toggleLimitPrice = function() {
+    $scope.clickFunding = function(amount) {
+        $scope.bid.total = amount;
+        $scope.bidOptions.limitTotal = true;
+        $scope.info.fundingLocked = amount;
+        $scope.info.fundingRemaining = $scope.account.RMB - amount;
+    }
 
+    $scope.clickQuantity = function(quantity) {
+        $scope.ask.amount = quantity;
+        $scope.askOptions.limitAmount = true;
     }
 
     $scope.cancelOrder = function(tid) {

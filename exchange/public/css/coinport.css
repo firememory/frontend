@@ -47,6 +47,10 @@ footer li a{
     height: 300px;
 }
 
+.link {
+    cursor: pointer;
+}
+
 .candle-chart {
     height: 250px;
 }
