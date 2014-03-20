@@ -153,7 +153,6 @@ function BidAskCtrl($scope, $http) {
         console.log('add bid', $scope.bid);
         if($scope.bid.amount < 0)
             return;
-        $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
         $scope.bid.total = Math.min($scope.bid.total, $scope.account.RMB);
         $scope.orders.push({
             "date": new Date().getTime(),
@@ -166,6 +165,7 @@ function BidAskCtrl($scope, $http) {
 
         $http.post('trade/bid', $scope.bid)
           .success(function(data, status, headers, config) {
+            $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
             console.log('bid order sent, response:', data);
             $scope.refresh();
         });
