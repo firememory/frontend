@@ -412,3 +412,17 @@ tradeApp.filter('orderStatusText', function() {
     }
     return filter;
 });
+
+tradeApp.filter('currency', function() {
+    var filter = function(input) {
+        return input ? input.toFixed(2) : '-';
+    }
+    return filter;
+});
+
+tradeApp.filter('quantity', function() {
+    var filter = function(input) {
+        return input ? input.toFixed(3) : '-';
+    }
+    return filter;
+});

@@ -90,3 +90,6 @@ footer li a{
 .depth-item {
     cursor: pointer;
 }
+.table-user-order {
+    font-size: 12px;
+}

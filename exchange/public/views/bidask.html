@@ -204,19 +204,19 @@
                 </div>
             </div>
             <div class="box-content">
-                <table class="table">
+                <table class="table table-condensed table-striped table-user-order">
                     <thead>
                     <tr>
-                        <th>委托时间</th>
                         <th>id</th>
+                        <th>委托时间</th>
                         <th>类型</th>
-                        <th>委托价格</th>
-                        <th>委托数量</th>
-                        <th>总价</th>
-                        <th>成交数量</th>
-                        <th>剩余数量</th>
-                        <th>成交金额</th>
-                        <th>剩余金额</th>
+                        <th>委托价</th>
+                        <th>委托量</th>
+                        <th>成交量</th>
+                        <th>剩余量</th>
+                        <th>总金额</th>
+                        <th>成交额</th>
+                        <th>剩余额</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -224,34 +224,34 @@
                     <tbody>
                     <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
                         <td>
-                            {{order.date | date:"yyyy-MM-dd HH:mm:ss"}}
+                            {{order.tid}}
                         </td>
                         <td>
-                            {{order.tid}}
+                            {{order.date | date:"MM-dd HH:mm:ss"}}
                         </td>
                         <td class="{{order.type}}">
                             {{order.type | orderTypeText}}
                         </td>
                         <td class="{{order.type}}">
-                            {{order.price}}
+                            {{order.price | currency}}
                         </td>
                         <td>
-                            {{order.amount}}
+                            {{order.amount | quantity}}
                         </td>
                         <td>
-                            {{order.total}}
+                            {{order.finished | quantity}}
                         </td>
                         <td>
-                            {{order.finished}}
+                            {{order.remaining | quantity}}
                         </td>
                         <td>
-                            {{order.remaining}}
+                            {{order.total | currency}}
                         </td>
                         <td>
-                            {{order.finishedAmount}}
+                            {{order.finishedAmount | currency}}
                         </td>
                         <td>
-                            {{order.remainingAmount}}
+                            {{order.remainingAmount | currency}}
                         </td>
                         <td>
                             <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
