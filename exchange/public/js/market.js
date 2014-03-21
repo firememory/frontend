@@ -46,9 +46,6 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
     $http.get('api/depth')
         .success(function(data, status, headers, config) {
             $scope.depth = data;
-        });
-    $http.get('api/trade')
-        .success(function(data, status, headers, config) {
-            $scope.trades = data.reverse();
+            $scope.depth.asks.reverse();
         });
 });

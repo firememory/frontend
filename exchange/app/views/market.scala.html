@@ -98,79 +98,40 @@
         <div class="orderbook" style="height: 143px;">
             <div id="asks" style="margin-top: -52px;">
                 <div class="table">
-                    <div class="row" style="display: block;"><span class="price">595.49<g>000</g></span>
-                        <span class="amount">10<g>.951</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>595.</h>14<g>000
-                    </g></span> <span class="amount">0<g>.69</g><g>00</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>595.</h>13<g>000
-                    </g></span> <span class="amount">2<g>.48</g><g>00</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>595.</h>12<g>000
-                    </g></span> <span class="amount">0<g>.05</g><g>00</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>595.</h>1<g>0000
-                    </g></span> <span class="amount">0<g>.05</g><g>00</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>595.</h>0<g>0000
-                    </g></span> <span class="amount">0<g>.3672</g></span></div>
-                    <div class="row"><span class="price">594.98<g>000</g></span> <span class="amount">1<g>
-                        .05
-                    </g><g>00</g></span></div>
-                    <div class="row"><span class="price"><h>594.</h>88<g>000</g></span> <span
-                            class="amount">0<g>.06</g><g>00</g></span></div>
-                    <div class="row"><span class="price"><h>594.</h>75<g>000</g></span> <span
-                            class="amount">0<g>.1081</g></span></div>
-                    <div class="row"><span class="price"><h>594.</h>74<g>000</g></span> <span
-                            class="amount">0<g>.142</g><g>0</g></span></div>
-                    <div class="row"><span class="price"><h>594.</h>73<g>000</g></span> <span
-                            class="amount">0<g>.146</g><g>0</g></span></div>
+                    <!--<div class="row" style="display: block;">-->
+                        <!--<span class="price">595.49<g>000</g></span>-->
+                        <!--<span class="amount">10<g>.951</g></span>-->
+                    <!--</div>-->
+
+                    <div class="row" ng-repeat="item in depth.asks">
+                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="amount">{{item.amount.toFixed(4)}}</span>
+                    </div>
                 </div>
             </div>
             <div id="gasks" style="margin-top: -52px;">
                 <div class="table">
-                    <div class="row"><span class="price">615</span> <span class="amount">1352</span></div>
-                    <div class="row"><span class="price">610</span> <span class="amount">1346</span></div>
-                    <div class="row"><span class="price">605</span> <span class="amount">922</span></div>
-                    <div class="row"><span class="price">600</span> <span class="amount">529</span></div>
-                    <div class="row" style="display: block;"><span class="price">595</span> <span
-                            class="amount">2</span></div>
+                    <div class="row" ng-repeat="item in depth.asks">
+                        <span class="price">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="price" class="green">594.73</div>
+        <div id="price" class="green">3594.73</div>
         <div class="orderbook" style="height: 143px;">
             <div id="bids">
                 <div class="table">
-                    <div class="row" style="display: block;"><span class="price">594.69<g>000</g></span>
-                        <span class="amount">0<g>.2717</g></span></div>
-                    <div class="row" style="display: block;"><span class="price">593.3<g>0000</g></span>
-                        <span class="amount">0<g>.14</g><g>00</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>593.</h>29<g>000
-                    </g></span> <span class="amount">0<g>.135</g><g>0</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>593.</h>14<g>000
-                    </g></span> <span class="amount">0<g>.138</g><g>0</g></span></div>
-                    <div class="row"><span class="price"><h>593.</h>13<g>000</g></span> <span
-                            class="amount">0<g>.21</g><g>00</g></span></div>
-                    <div class="row"><span class="price">592.78<g>000</g></span> <span class="amount">0<g>
-                        .143
-                    </g><g>0</g></span></div>
-                    <div class="row"><span class="price"><h>592.</h>77<g>000</g></span> <span
-                            class="amount">27<g>.7</g><g>00</g></span></div>
-                    <div class="row"><span class="price"><h>592.</h>52<g>000</g></span> <span
-                            class="amount">0<g>.142</g><g>0</g></span></div>
-                    <div class="row"><span class="price"><h>592.</h>51<g>000</g></span> <span
-                            class="amount">13<g>.194</g></span></div>
-                    <div class="row"><span class="price"><h>592.</h>49<g>000</g></span> <span
-                            class="amount">13<g>.34</g><g>0</g></span></div>
-                    <div class="row" style="display: block;"><span class="price"><h>592.</h>48<g>000
-                    </g></span> <span class="amount">0<g>.0244</g></span></div>
-                    <div class="row"><span class="price"><h>592.</h>0<g>0000</g></span> <span
-                            class="amount">19<g>.64</g><g>0</g></span></div>
+                    <div class="row" ng-repeat="item in depth.bids">
+                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="amount">{{item.amount.toFixed(4)}}</span></div>
                 </div>
             </div>
             <div id="gbids">
                 <div class="table">
-                    <div class="row"><span class="price">590</span> <span class="amount">345</span></div>
-                    <div class="row"><span class="price">585</span> <span class="amount">645</span></div>
-                    <div class="row"><span class="price">580</span> <span class="amount">1193</span></div>
-                    <div class="row"><span class="price">575</span> <span class="amount">1824</span></div>
+                    <div class="row" ng-repeat="item in depth.bids">
+                        <span class="price">{{item.price.toFixed(0)}}</span>
+                        <span class="amount">{{item.amount.toFixed(0)}}</span>
+                    </div>
                 </div>
             </div>
         </div>
