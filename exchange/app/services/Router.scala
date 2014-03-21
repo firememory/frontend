@@ -11,9 +11,11 @@ import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.{Coinex, LocalRouters}
 import akka.cluster.Cluster
 import com.coinport.coinex.data.Implicits._
+import play.libs.Akka
+import actors.HelloActor
 
 object Router extends AkkaService{
-  val config = ConfigFactory.load("akka.conf")
+  val config = ConfigFactory.load("dev.conf")
   implicit val system = ActorSystem("coinex", config)
   implicit val cluster = Cluster(system)
   val markets = Seq(Btc ~> Rmb)
