@@ -104,12 +104,16 @@ function BidAskCtrl($scope, $http) {
                 downStroke: '#b9231f',
                 downColor: 'rgba(255, 0, 0, 0.3)'
               }, {
-                type: 'column',
+                type: 'volume',
                 name: '成交量',
                 dataOffset: 5,
                 yAxis: 1,
                 stroke: '#8b4787',
-                color: '#8b4787'
+                color: '#8b4787',
+                upStroke: '#009dc6',
+                upColor: 'rgba(0, 150, 255, 0.3)',
+                downStroke: '#b9231f',
+                downColor: 'rgba(255, 0, 0, 0.3)'
               }]
             });
           });

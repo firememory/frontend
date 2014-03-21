@@ -47,12 +47,16 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                 downStroke: '#C00',
                 downColor: 'rgba(255, 0, 0, 0.7)'
               }, {
-                type: 'column',
+                type: 'volume',
                 name: '成交量',
                 dataOffset: 5,
                 yAxis: 1,
                 stroke: '#00C',
-                color: 'rgba(0, 0, 255, 0.7)'
+                color: 'rgba(0, 0, 255, 0.7)',
+                upStroke: '#009dc6',
+                upColor: 'rgba(0, 150, 255, 0.3)',
+                downStroke: '#b9231f',
+                downColor: 'rgba(255, 0, 0, 0.3)'
               }]
             });
         });
