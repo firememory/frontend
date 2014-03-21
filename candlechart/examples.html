@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jqCandlestick examples</title>
+    
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/jquery.jqcandlestick.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css" />
+    
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+      
+      .jqcandlestick-container {
+        width: 640px;
+        height: 480px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <script type="text/javascript">
+      // Generate data
+      
+      var data = [];
+      
+      var time = new Date('Dec 1, 2013 12:00').valueOf();
+      
+      var h = Math.floor(Math.random() * 100);
+      var l = h - Math.floor(Math.random() * 20);
+      var o = h - Math.floor(Math.random() * (h - l));
+      var c = h - Math.floor(Math.random() * (h - l));
+
+      var v = Math.floor(Math.random() * 1000);
+
+      for (var i = 0; i < 60; i++) {
+        data.push([time, o, h, l, c, v]);
+        o = c;
+        h = o + Math.floor(Math.random() * 10);
+        l = o - Math.floor(Math.random() * 10);
+        c = h - Math.floor(Math.random() * (h - l));
+        v += Math.floor(Math.random() * 100 - 50);
+        time += 30 * 60000; // Add 30 minutes
+      }
+    </script>
+
+    <h1>Points</h1>
+
+    <div id="example-1"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-1').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            name: 'VALUE'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Line</h1>
+
+    <div id="example-2"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-2').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            type: 'line',
+            name: 'VALUE'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Columns</h1>
+
+    <div id="example-3"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-3').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            type: 'column',
+            name: 'VALUE'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Lines and points</h1>
+
+    <div id="example-4"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-4').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            type: 'line',
+            name: 'VALUE'
+          }, {
+            type: 'point'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Colors</h1>
+
+    <div id="example-5"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-5').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            type: 'line',
+            name: 'VALUE',
+            color: '#C00',
+            strokeWidth: 3
+          }, {
+            type: 'point',
+            color: '#FFF',
+            stroke: '#C00',
+            radius: 5,
+            strokeWidth: 3
+          }]
+        });
+      });
+    </script>
+
+    <h1>Candlestick</h1>
+
+    <div id="example-6"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-6').jqCandlestick(data, {
+          theme: 'light',
+          series: [{
+            type: 'candlestick',
+            name: 'OHLC',
+            color: '#00C'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Multiple y-axes</h1>
+
+    <div id="example-7"></div>
+
+    <script type="text/javascript">
+      $(function() {
+        $('#example-7').jqCandlestick(data, {
+          data: data,
+          theme: 'light',
+          yAxis: [{
+            height: 7
+          }, {
+            height: 3
+          }],
+          series: [{
+            type: 'candlestick',
+            name: 'OHLC',
+            color: '#00C'
+          }, {
+            type: 'column',
+            name: 'VOLUME',
+            dataOffset: 5,
+            yAxis: 1,
+            color: '#0C0'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Candlestick with colors</h1>
+
+    <div id="example-8"></div>
+    
+    <script type="text/javascript">
+      $(function() {
+        $('#example-8').jqCandlestick(data, {
+          theme: 'light',
+          yAxis: [{
+            height: 7
+          }, {
+            height: 3
+          }],
+          series: [{
+            type: 'candlestick',
+            name: 'OHLC',
+            upStroke: '#0C0',
+            downStroke: '#C00',
+            downColor: 'rgba(255, 0, 0, 0.4)'
+          }, {
+            type: 'volume',
+            name: 'VOLUME',
+            yAxis: 1,
+            dataOffset: 5,
+            stroke: '#00C',
+            color: 'rgba(0, 0, 255, 0.5)',
+            upStroke: '#0C0',
+            downStroke: '#C00',
+            upColor: 'rgba(0, 255, 0, 0.4)',
+            downColor: 'rgba(255, 0, 0, 0.4)'
+          }]
+        });
+      });
+    </script>
+
+    <h1>Candlestick with dynamic data</h1>
+
+    <input type="button" id="btn-update" value="update">
+    <input type="button" id="btn-add" value="add">
+    <input type="button" id="btn-move-left" value="<<">
+    <input type="button" id="btn-move-right" value=">>">
+    <div id="example-9"></div>
+    <script type="text/javascript">
+        addData = function(data) {
+            var last = data[data.length - 1];
+            var o = last[1] + Math.floor(Math.random() * 200 - 100);
+            var h = o + Math.floor(Math.random() * 200);
+            var l = o - Math.floor(Math.random() * 200);
+            var c = h - Math.floor(Math.random() * (h - l));
+            var v = Math.max(0, last[5] + Math.floor(Math.random() * 100 - 50));
+            var time = last[0] + 60 * 60000;
+            if (Math.random() > 0.8)
+                o = c;
+            data.push([time, o, h, l, c, v]);
+        };
+
+        $(function() {
+            chart = $('#example-9').jqCandlestick(data, {
+                theme: 'light',
+                yAxis: [{
+                    height: 7
+                }, {
+                    height: 3
+                }],
+                xAxis: {
+                    dataLeftOffset: 0,
+                    minDataLength: 30
+                },
+                series: [{
+                    type: 'candlestick',
+                    name: 'OHLC',
+                    upStroke: '#0C0',
+                    downStroke: '#C00',
+                    downColor: 'rgba(255, 0, 0, 0.4)'
+                }, {
+                    type: 'volume',
+                    name: 'VOLUME',
+                    dataOffset: 5,
+                    yAxis: 1,
+                    upStroke: '#0C0',
+                    downStroke: '#C00',
+                    upColor: 'rgba(0, 255, 0, 0.4)',
+                    downColor: 'rgba(255, 0, 0, 0.4)'
+                }]
+            });
+
+            $('#btn-update').click(
+                    function() {
+                        data.shift();
+                        addData(data);
+                        chart.redraw();
+                    }
+            );
+
+            $('#btn-add').click(
+                    function() {
+                        addData(data);
+                        chart.redraw();
+                    }
+            );
+
+            $('#btn-move-left').click(
+                    function() {
+                        chart.move(-1);
+                    }
+            );
+
+            $('#btn-move-right').click(
+                    function() {
+                        chart.move(1);
+                    }
+            );
+        });
+    </script>
+  </body>
+</html>
