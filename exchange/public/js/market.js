@@ -1,5 +1,4 @@
-// Declare app level module which depends on filters, and services
-var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'ngResource', 'navbar']);
+var marketApp = angular.module('coinport.market', []);
 
 marketApp.controller('MarketCtrl', function ($scope, $http) {
     $http.get('api/price')
