@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jqCandlestick examples</title>
+    
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="js/jquery.jqcandlestick.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css" />
+
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+
+      .jqcandlestick-container {
+        width: 800px;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Candlestick plus</h1>
+    <input type="button" id="btn-update" value="update">
+    <input type="button" id="btn-add" value="add">
+    <input type="button" id="btn-move-left" value="<<">
+    <input type="button" id="btn-move-right" value=">>">
+    <div id="example"></div>
+    
+    <script type="text/javascript">
+        // Generate data
+        addData = function(data) {
+            var last = data[data.length - 1];
+            var o = last[1] + Math.floor(Math.random() * 200 - 100);
+            var h = o + Math.floor(Math.random() * 200);
+            var l = o - Math.floor(Math.random() * 200);
+            var c = h - Math.floor(Math.random() * (h - l));
+            var v = Math.max(0, last[5] + Math.floor(Math.random() * 100 - 50));
+            var time = last[0] + 60 * 60000;
+            if (Math.random() > 0.8)
+                o = c;
+            data.push([time, o, h, l, c, v]);
+        };
+        generateData = function() {
+            var data = [];
+            var time = new Date('Dec 1, 2013 12:00').valueOf();
+
+            var h = 4000 + Math.floor(Math.random() * 100);
+            var l = h - Math.floor(Math.random() * 20);
+            var o = h - Math.floor(Math.random() * (h - l));
+            var c = h - Math.floor(Math.random() * (h - l));
+
+            var v = Math.floor(Math.random() * 1000);
+
+            data.push([time, o, h, l, c, v]);
+
+            for (var i = 0; i < 60; i++) {
+                addData(data);
+            }
+            return data;
+        }
+        data = generateData();
+      $(function() {
+        chart = $('#example').jqCandlestick(data, {
+          theme: 'light',
+          yAxis: [{
+            height: 7
+          }, {
+            height: 3
+          }],
+          xAxis: {
+            dataLeftOffset: 30,
+            minDataLength: 30
+          },
+          series: [{
+            type: 'candlestick',
+            name: 'OHLC',
+            upStroke: '#0C0',
+            downStroke: '#C00',
+            downColor: 'rgba(255, 0, 0, 0.4)'
+          }, {
+            type: 'volume',
+            name: 'VOLUME',
+            dataOffset: 5,
+            yAxis: 1,
+            upStroke: '#0C0',
+            downStroke: '#C00',
+            upColor: 'rgba(0, 255, 0, 0.4)',
+            downColor: 'rgba(255, 0, 0, 0.4)'
+          }]
+        });
+
+          $('#btn-update').click(
+              function() {
+                  data.shift();
+                  addData(data);
+                  chart.redraw();
+              }
+          );
+
+          $('#btn-add').click(
+              function() {
+                  addData(data);
+                  chart.redraw();
+              }
+          );
+
+          $('#btn-move-left').click(
+              function() {
+                  chart.move(-1);
+              }
+          );
+
+          $('#btn-move-right').click(
+              function() {
+                  chart.move(1);
+              }
+          );
+      });
+    </script>
+  </body>
+</html>
