@@ -19,21 +19,21 @@ import models.Implicits._
 import models.Operation._
 import services.{MarketService, AccountService}
 import models.{ApiResult, UserOrder}
+import com.coinport.coinex.data.ChartTimeDimension._
 
 object MessageController extends Controller {
   import akka.util.Timeout
   import scala.concurrent.duration._
   import akka.pattern.ask
+
+  val minute = 60 * 1000
+  val hour = 60 * 60 * 1000
+  val day = 24 * 60 * 60 * 1000
+  val week = 7 * 24 * 60 * 60 * 1000
+
   implicit val timeout = Timeout(2 seconds)
-  def price = Action.async {
-    val market = Btc ~> Rmb
-    val view = services.Router.routers.candleDataView
-//    view ! DebugDump
-    view ? QueryMarketCandleData(market) map {
-      case a =>
-        println("@@@@@@@@@ " + a)
-        Ok(a.toString)
-    }
+  def price = Action {
+    Ok("TODO")
   }
 
   def depth = Action.async {
@@ -129,11 +129,53 @@ object MessageController extends Controller {
     }
   }
 
-  def history = Action.async { implicit request =>
-    MarketService.getHistory(Btc ~> Rmb) map {
-      case result: QueryMarketCandleDataResult  =>
-        println("result: " + result)
-        Ok(Json.toJson(result))
-    }
+  def history = Action.async {
+
+    //    val from = (json \ "from").as[Long]
+    //    val to = (json \ "to").as[Long]
+    //    val timeDimension = ChartTimeDimension.get((json \ "time").as[Int]).getOrElse(OneMinute)
+      val from = System.currentTimeMillis() - 60 * 60 * 1000
+      val to = System.currentTimeMillis()
+      val timeDimension = OneMinute
+
+      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to, ReturnChartType()) map {
+        case result: ChartData =>
+          val candles = result.candleData match {
+            case Some(candleData) =>
+              val map = candleData.map(i => i.timestamp -> i).toMap
+              map.foreach(println)
+              val timeSkiper = getTimeSkip(timeDimension)
+              var open = 0.0
+              (from / timeSkiper to to / timeSkiper).map{key: Long =>
+                  map.get(key) match {
+                    case Some(item) =>
+                      open = item.close
+                      CandleDataItem(key, item.volumn, item.open, item.close, item.low, item.high)
+                    case None =>
+                      CandleDataItem(key, 0, open, open, open, open)
+                  }
+              }.toSeq
+
+            case None => Nil
+          }
+
+          Ok(Json.toJson(candles))
+      }
+  }
+
+  private def getTimeSkip(dimension: ChartTimeDimension) = dimension match {
+    case OneMinute => minute
+    case ThreeMinutes => 3 * minute
+    case FiveMinutes => 5 * minute
+    case FifteenMinutes => 15 * minute
+    case ThirtyMinutes => 30 * minute
+    case OneHour => hour
+    case TwoHours => 2 * hour
+    case FourHours => 4 * hour
+    case SixHours => 6 * hour
+    case TwelveHours => 12 * hour
+    case OneDay => day
+    case ThreeDays => 3 * day
+    case OneWeek => week
   }
 }

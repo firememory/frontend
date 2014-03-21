@@ -44,10 +44,11 @@ object Implicits {
       val available = (cachAccount.available unit currencyUnit).userValue
       val locked = (cachAccount.locked unit currencyUnit).userValue
       Json.obj(
-      "currency" -> JsString(currency.toString),
-      "available" -> available,
-      "locked" -> locked
-    )}
+        "currency" -> JsString(currency.toString),
+        "available" -> available,
+        "locked" -> locked
+      )
+    }
   }
 
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
@@ -75,16 +76,16 @@ object Implicits {
     )
   }
 
-//  implicit val userLogWrites = new Writes[UserLog] {
-//    def writes(obj: UserLog) = Json.obj(
-//      "orders" -> obj.map{
-//        orderInfo =>
-//          val userOrder = UserOrder.fromOrderInfo(orderInfo)
-//          userOrder.priceBy(Rmb)
-//      },
-//      "orderInfos" -> obj.orderInfos.map(_.toString)
-//    )
-//  }
+  //  implicit val userLogWrites = new Writes[UserLog] {
+  //    def writes(obj: UserLog) = Json.obj(
+  //      "orders" -> obj.map{
+  //        orderInfo =>
+  //          val userOrder = UserOrder.fromOrderInfo(orderInfo)
+  //          userOrder.priceBy(Rmb)
+  //      },
+  //      "orderInfos" -> obj.orderInfos.map(_.toString)
+  //    )
+  //  }
 
   implicit val orderWrites = new Writes[Order] {
     def writes(obj: Order) = Json.arr(
@@ -96,7 +97,7 @@ object Implicits {
 
   implicit val marketDepthItemWrites = new Writes[MarketDepthItem] {
     def writes(obj: MarketDepthItem) = Json.obj(
-      "price" -> (obj.price unit (CNY2, MBTC)).userValue,
+      "price" -> (obj.price unit(CNY2, MBTC)).userValue,
       "amount" -> (obj.quantity unit MBTC).userValue
     )
   }
@@ -108,17 +109,18 @@ object Implicits {
     )
   }
 
-  implicit val marketCandleDataResultsWrites = new Writes[QueryMarketCandleDataResult] {
-    def writes(obj: QueryMarketCandleDataResult) = Json.arr(
-      obj.candleData._2.map( candleDataItem => Json.arr(
-        candleDataItem._1,
-        candleDataItem._3,
-        candleDataItem._6,
-        candleDataItem._5,
-        candleDataItem._4,
-        candleDataItem._2
-        )
+  implicit val marketCandleDataResultsWrites = new Writes[Seq[CandleDataItem]] {
+    def writes(candles: Seq[CandleDataItem]) = {
+      Json.arr(
+          candles.map{ candleDataItem =>
+            Json.arr( candleDataItem.timestamp,
+              (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
+              (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
+              (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
+              (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
+              (candleDataItem.volumn unit MBTC).userValue )
+          }
       )
-    )
+    }
   }
 }

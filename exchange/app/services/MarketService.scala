@@ -16,7 +16,7 @@ object MarketService extends AkkaService{
     Router.backend ? QueryMarket(marketSide, depth)
   }
 
-  def getHistory(marketSide: MarketSide): Future[Any] = {
-    Router.backend ? QueryMarketCandleData(marketSide)
+  def getHistory(marketSide: MarketSide, timeDimension: ChartTimeDimension, from: Long, to: Long, rtype: ReturnChartType): Future[Any] = {
+   Router.backend ? QueryChartData(marketSide, timeDimension, from, to, rtype)
   }
 }

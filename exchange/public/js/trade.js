@@ -64,10 +64,10 @@ function BidAskCtrl($scope, $http) {
 
         $http.get('api/history')
           .success(function(data, status, headers, config) {
-            $scope.history = [];
-            data.forEach(function(row) {
-              $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
-            });
+            $scope.history = data[0];
+//            data.forEach(function(row) {
+//              $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
+//            });
 
             var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',
