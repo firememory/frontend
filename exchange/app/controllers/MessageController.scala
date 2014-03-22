@@ -134,33 +134,26 @@ object MessageController extends Controller {
     //    val from = (json \ "from").as[Long]
     //    val to = (json \ "to").as[Long]
     //    val timeDimension = ChartTimeDimension.get((json \ "time").as[Int]).getOrElse(OneMinute)
-      val from = System.currentTimeMillis() - 60 * 60 * 1000
-      val to = System.currentTimeMillis()
-      val timeDimension = OneMinute
+    val from = System.currentTimeMillis() - 60 * 60 * 1000
+    val to = System.currentTimeMillis()
+    val timeDimension = OneMinute
 
-      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to, ReturnChartType()) map {
-        case result: ChartData =>
-          val candles = result.candleData match {
-            case Some(candleData) =>
-              val map = candleData.map(i => i.timestamp -> i).toMap
-              map.foreach(println)
-              val timeSkiper = getTimeSkip(timeDimension)
-              var open = 0.0
-              (from / timeSkiper to to / timeSkiper).map{key: Long =>
-                  map.get(key) match {
-                    case Some(item) =>
-                      open = item.close
-                      CandleDataItem(key, item.volumn, item.open, item.close, item.low, item.high)
-                    case None =>
-                      CandleDataItem(key, 0, open, open, open, open)
-                  }
-              }.toSeq
-
-            case None => Nil
+    MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
+      case candles: CandleData =>
+        val map = candles.items.map(i => i.timestamp -> i).toMap
+        val timeSkiper = getTimeSkip(timeDimension)
+        var open = 0.0
+        val list = (from / timeSkiper to to / timeSkiper).map{key: Long =>
+          map.get(key) match {
+            case Some(item) =>
+              open = item.close
+              CandleDataItem(key, item.volumn, item.open, item.close, item.low, item.high)
+            case None =>
+              CandleDataItem(key, 0, open, open, open, open)
           }
-
-          Ok(Json.toJson(candles))
-      }
+        }.toSeq
+        Ok(Json.toJson(list))
+    }
   }
 
   private def getTimeSkip(dimension: ChartTimeDimension) = dimension match {
