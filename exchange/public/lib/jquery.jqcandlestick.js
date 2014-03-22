@@ -104,11 +104,11 @@
       var max = null;
       for(var i = dataLeftOffset; i <= dataRightOffset; i++) {
         var row = data[i];
-        if (min)
+        if (min != null)
           min = Math.min(min, row[offset]);
         else
           min = row[offset];
-        if (max)
+        if (max != null)
           max = Math.max(max, row[offset]);
         else
           max = row[offset];
@@ -128,11 +128,11 @@
             for (var i = series.dataOffset; i < length; i++) {
               if (row[i] == null)
                 throw 'Missing data column: ' + i;
-              if (plotArea.min)
+              if (plotArea.min != null)
                 plotArea.min = Math.min(plotArea.min, row[i]);
               else
                 plotArea.min = row[i];
-              if (plotArea.max)
+              if (plotArea.max != null)
                 plotArea.max = Math.max(plotArea.max, row[i]);
               else
                 plotArea.max = row[i];
@@ -217,6 +217,7 @@
       return null;
     };
 
+    // get coordinate by data
     var getX = function(value) {
       return Math.floor(settings.xAxis.minX + (value - settings.xAxis.min) / (settings.xAxis.max - settings.xAxis.min) * (settings.xAxis.maxX - settings.xAxis.minX)) + 0.5;
     };
@@ -276,6 +277,7 @@
         var value = Math.floor(plot.max / step) * step;
         for (var y = getY(plot, value); y < plot.maxY; value -= step, y = getY(plot, value)) {
           ctx.fillText(plot.formatLabel(value), minX - 10, y);
+          // draw gird line
           ctx.beginPath();
           ctx.moveTo(minX, Math.floor(y) + 0.5);
           ctx.lineTo(maxX, Math.floor(y) + 0.5);
@@ -597,7 +599,7 @@
       top: 0,
       left: 10,
       bottom: 0,
-      right: 0
+      right: 10
     },
     plot: {
       spacing: 5,
@@ -842,6 +844,10 @@
           var open = row[series.openDataOffset];
           var close = row[series.closeDataOffset];
 
+          // do not draw bars out of bound
+          if (y >= plot.maxY)
+            return;
+
           var hasBody = false;
           var hasBorder = false;
           // single color style
@@ -863,7 +869,6 @@
               ctx.lineWidth = series.downStrokeWidth;
               hasBorder = true;
             }
-//            console.log('up', open, close, series.upColor, row);
           } else { // price down
             if (series.downColor) {
               ctx.fillStyle = series.downColor;
@@ -874,14 +879,18 @@
               ctx.lineWidth = series.downStrokeWidth;
               hasBorder = true;
             }
-//            console.log('down', open, close, series.downColor, row);
           }
-          // draw column body
+
+          var originAlpha = ctx.globalAlpha;
+          if (x < settings.xAxis.minX || x > settings.xAxis.maxX + width / 2)
+            ctx.globalAlpha = 0.05
+          // draw body
           if (hasBody)
-            ctx.fillRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
+            ctx.fillRect(Math.floor(x - width / 2) + 0.5, y, width, Math.min(plot.maxY, plot.maxY - y));
           // draw border
           if (hasBorder)
-            ctx.strokeRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
+            ctx.strokeRect(Math.floor(x - width / 2) + 0.5, y, width, Math.min(plot.maxY, plot.maxY - y));
+          ctx.globalAlpha = originAlpha;
         });
       }
     },
@@ -909,6 +918,11 @@
           var yClose = getY(plot, close);
           var width = Math.floor(columnWidth * 0.7);
           var halfWidth = Math.floor(width / 2);
+
+          var originAlpha = ctx.globalAlpha;
+          if (x < settings.xAxis.minX || x > settings.xAxis.maxX + halfWidth)
+            ctx.globalAlpha = 0.05
+
           ctx.beginPath();
           ctx.strokeStyle = series.color;
           if (close == open) {
@@ -951,6 +965,7 @@
             ctx.lineTo(x, yLow);
           }
           ctx.stroke();
+          ctx.globalAlpha = originAlpha;
         });
       }
     }
