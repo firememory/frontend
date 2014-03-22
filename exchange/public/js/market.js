@@ -7,10 +7,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         });
     $http.get('api/history')
         .success(function(data, status, headers, config) {
-            $scope.history = [];
-            data.forEach(function(row) {
-                $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
-            });
+            $scope.history = data[0];
 
             var chart = $('#wrapper').jqCandlestick( $scope.history, {
                 theme: 'dark',
@@ -20,7 +17,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                     height: 2
                 }],
                 xAxis: {
-                    dataLeftOffset: data.length - 90,
+                    dataLeftOffset: 0,
                     minDataLength: 90
                 },
                 series: [{
