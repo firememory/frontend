@@ -1,27 +1,6 @@
 /*
-jqCandlestick v0.1.0
-
-Copyright (C) 2014 Niels Sonnich Poulsen
-http://apakoh.dk
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  Candlestick Chart plugin
+  Copyright (C) 2014 Coinport Inc. <http://www.coinport.com>
 */
 (function($) {
   var $window = $(window);
@@ -834,8 +813,74 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         data.forEach(function(row) {
           var x = getX(row[settings.xAxis.dataOffset]);
           var y = getY(plot, row[series.dataOffset]);
+
           ctx.fillRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
           if (series.stroke)
+            ctx.strokeRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
+        });
+      }
+    },
+    volume: {
+      dataSize: 1,
+      width: 5,
+      openDataOffset: 1,
+      closeDataOffset: 4,
+      downColor: null,
+      downStroke: null,
+      downStrokeWidth: 1.0,
+      upColor: null,
+      upStroke: null,
+      upStrokeWidth: 1.0,
+      draw: function(ctx, settings, plot, series, data, getX, getY, columnWidth) {
+        var width = Math.floor(columnWidth * 0.7);
+
+        data.forEach(function(row) {
+          // use the same data offset with candle stick
+          // [open, high, low, close, volume]: column 4 is the value, use column 0,3 to get colors
+          var x = getX(row[settings.xAxis.dataOffset]);
+          var y = getY(plot, row[series.dataOffset]);
+          var open = row[series.openDataOffset];
+          var close = row[series.closeDataOffset];
+
+          var hasBody = false;
+          var hasBorder = false;
+          // single color style
+          ctx.fillStyle = series.color;
+          if (series.stroke) {
+            ctx.strokeStyle = series.stroke;
+            ctx.lineWidth = series.strokeWidth;
+            hasBorder = true;
+          }
+
+          // double color style
+          if (close > open) { // price up
+            if (series.upColor) {
+              ctx.fillStyle = series.upColor;
+              hasBody = true;
+            }
+            if (series.upStroke) {
+              ctx.strokeStyle = series.upStroke;
+              ctx.lineWidth = series.downStrokeWidth;
+              hasBorder = true;
+            }
+//            console.log('up', open, close, series.upColor, row);
+          } else { // price down
+            if (series.downColor) {
+              ctx.fillStyle = series.downColor;
+              hasBody = true;
+            }
+            if (series.downStroke) {
+              ctx.strokeStyle = series.downStroke;
+              ctx.lineWidth = series.downStrokeWidth;
+              hasBorder = true;
+            }
+//            console.log('down', open, close, series.downColor, row);
+          }
+          // draw column body
+          if (hasBody)
+            ctx.fillRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
+          // draw border
+          if (hasBorder)
             ctx.strokeRect(Math.floor(x - width / 2) + 0.5, y, width, plot.maxY - y);
         });
       }
@@ -852,6 +897,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       upStrokeWidth: 1.0,
       draw: function(ctx, settings, plot, series, data, getX, getY, columnWidth) {
         data.forEach(function(row) {
+          // [open, high, low, close, volume]
           var open = row[series.dataOffset];
           var high = row[series.dataOffset + 1];
           var low = row[series.dataOffset + 2];
@@ -864,23 +910,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           var width = Math.floor(columnWidth * 0.7);
           var halfWidth = Math.floor(width / 2);
           ctx.beginPath();
-          ctx.moveTo(x, yHigh);
           ctx.strokeStyle = series.color;
-          if (yClose > yOpen) {
+          if (close == open) {
+            ctx.strokeStyle = series.color;
+            // draw horizontal line
+            ctx.moveTo(x - halfWidth, yOpen);
+            ctx.lineTo(x + halfWidth, yOpen);
+          } else if (close < open) {
             if (series.downColor)
               ctx.fillStyle = series.downColor;
             else
               ctx.fillStyle = series.color;
+            // draw stick
             ctx.fillRect(x - halfWidth, yOpen, width, yClose - yOpen);
             if (series.downStroke) {
               ctx.strokeStyle = series.downStroke;
               ctx.lineWidth = series.downStrokeWidth;
               ctx.strokeRect(x - halfWidth, yOpen, width, yClose - yOpen);
             }
+            // draw shadow line
+            ctx.moveTo(x, yHigh);
             ctx.lineTo(x, yOpen);
             ctx.moveTo(x, yClose);
-          }
-          else {
+            ctx.lineTo(x, yLow);
+          } else {
             if (series.upColor) {
               ctx.fillStyle = series.upColor;
               ctx.fillRect(x - halfWidth, yClose, width, yOpen - yClose);
@@ -890,11 +943,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             else
               ctx.strokeStyle = series.color;
             ctx.lineWidth = series.upStrokeWidth;
+            // draw shadow line
+            ctx.moveTo(x, yHigh);
             ctx.strokeRect(x - halfWidth, yClose, width, yOpen - yClose);
             ctx.lineTo(x, yClose);
             ctx.moveTo(x, yOpen);
+            ctx.lineTo(x, yLow);
           }
-          ctx.lineTo(x, yLow);
           ctx.stroke();
         });
       }

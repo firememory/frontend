@@ -1,105 +1,1541 @@
 @(user: Option[String])
+</html>
 <!DOCTYPE html>
-<html lang="en" ng-app="coinport.market">
+<html class="dark" ng-app="coinport.market">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>coinport</title>
-    @imports()
+    <meta name="description" content="Live Bitcoin charts">
+    <meta name="keywords" content="Bitcoin Live Market Charts">
+    <title>4594 Coinport Live Market</title>
 
-    <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.min.js"></script>
+    <script src="lib/angular/angular-resource.min.js"></script>
+    <script src="lib/angular/angular-timer.min.js"></script>
+
+    <script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/jquery.mousewheel.js"></script>
+    <script src="lib/jquery.jqcandlestick.js"></script>
+
     <script type="text/javascript" src="js/market.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css" />
-</head>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
 
-<body ng-app="coinport.market">
-@navbar(user)
-<div class="container" ng-controller="MarketCtrl">
-    <div class="row clearfix">
-        <div class="col-md-10">
-            <div class="col-md-9">
-                <div class="candle-chart"></div>
-            </div>
-            <div class="col-md-3">
-                <dl id="price-summary" class="">
-                    <dt>当前价格：</dt><dd>{{price.last}}</dd>
-                    <dt>买一价：</dt><dd>{{price.buy}}</dd>
-                    <dt>卖一价：</dt><dd>{{price.sell}}</dd>
-                    <dt>成交量：</dt><dd>{{price.vol}}</dd>
-                </dl>
-            </div>
-            <div class="col-md-4">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>买入</th><th>买入价</th><th>委托数量</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="bid in depth.bids">
-                        <td>买{{$index+1}}</td><td class="buy">{{bid[0]}}</td><td>{{bid[1]}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>卖出</th><th>卖出价</th><th>委托数量</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="ask in depth.asks">
-                        <td>卖{{$index+1}}</td><td class="sell">{{ask[0]}}</td><td>{{ask[1]}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>成交时间</th><th>成交价</th><th>成交量</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="trade in trades">
-                        <td>{{trade.date | date:'HH:mm:ss'}}</td>
-                        <td class="{{trade.type}}">{{trade.price}}</td>
-                        <td>{{trade.amount}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+    <link href="css/market.css" rel="stylesheet" type="text/css">
+
+
+<body screen_capture_injected="true" ng-controller="MarketCtrl">
+<div id="header_outer">
+    <div id="header">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    <div id="warning"></div>
+                    <ul class="nav">
+                        <li class="logo"><a href="/"><b>Coinport</b></a>
+                        </li>
+                        <li>
+                            <a href="/"><b>首页</b></a>
+                        </li>
+                        <li>
+                            <a href="/trade"><b>交易中心</b></a>
+                        </li>
+                        <li>
+                            <a href="#" class="active"><b>实时行情</b></a>
+                        </li>
+                        <li>
+                            <a href="/about"><b>关于我们</b></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="col-md-2 column">
-            <ul class="nav nav-stacked nav-pills">
-                <li class="active">
-                    <a href="#"><img src="image/BTC_logo.png" height="20"> 比特币(BTC)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/LTC_logo.png" height="20"> 莱特币(LTC)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/XPM_logo.png" height="20"> 质数币(XPM)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/XRP_logo.png" height="20"> 瑞波币(XRP)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/PPC_logo.png" height="20"> 点点币(PPC)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/TAG_logo.png" height="20"> 悬赏币(TAG)</a>
-                </li>
-                <li>
-                    <a href="#"><img src="image/PTS_logo.png" height="20"> 原型股(PTS)</a>
-                </li>
-            </ul>
+
+        <div id="qr"><img></div>
+
+        <div id="control">
+            <div class="inner">
+                <ul id="periods" class="horiz">
+                    <li style="line-height:26px">时间间隔:</li>
+                    <li class="period"><a>1周</a></li>
+                    <li class="subsep"></li>
+                    <li class="period"><a>3日</a></li>
+                    <li class="period"><a>1日</a></li>
+                    <li class="subsep"></li>
+                    <li class="period"><a>12小时</a></li>
+                    <li class="period"><a>6小时</a></li>
+                    <li class="period"><a>4小时</a></li>
+                    <li class="period"><a>2小时</a></li>
+                    <li class="period"><a>1小时</a></li>
+                    <li class="subsep"></li>
+                    <li class="period"><a>30分钟</a></li>
+                    <li class="period selected"><a>15分钟</a></li>
+                    <li class="period"><a>5分钟</a></li>
+                    <li class="period"><a>3分钟</a></li>
+                    <li class="period"><a>1分钟</a></li>
+                    <li class="subsep"></li>
+
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-@footer()
+
+
+<div id="notify" class="notify">
+    <div class="inner"></div>
+</div>
+<div id="main" style="height: 407px; display: block;">
+<div id="sidebar_outer">
+<div id="sidebar">
+<div id="before_trades">
+    <div id="market"><a href="#" target="bwMarket"
+                        title="Coinport BTC/CNY">Coinport BTC/CNY</a></div>
+    <div id="orderbook">
+        <div class="orderbook" style="height: 143px;">
+            <div id="asks" style="margin-top: -52px;">
+                <div class="table">
+                    <!--<div class="row" style="display: block;">-->
+                        <!--<span class="price">595.49<g>000</g></span>-->
+                        <!--<span class="amount">10<g>.951</g></span>-->
+                    <!--</div>-->
+
+                    <div class="row" ng-repeat="item in depth.asks">
+                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="amount">{{item.amount.toFixed(4)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div id="gasks" style="margin-top: -52px;">
+                <div class="table">
+                    <div class="row" ng-repeat="item in depth.asks">
+                        <span class="price">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="price" class="green">3594.73</div>
+        <div class="orderbook" style="height: 143px;">
+            <div id="bids">
+                <div class="table">
+                    <div class="row" ng-repeat="item in depth.bids">
+                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="amount">{{item.amount.toFixed(4)}}</span></div>
+                </div>
+            </div>
+            <div id="gbids">
+                <div class="table">
+                    <div class="row" ng-repeat="item in depth.bids">
+                        <span class="price">{{item.price.toFixed(0)}}</span>
+                        <span class="amount">{{item.amount.toFixed(0)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="trades" style="height: 50px;">
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.27177</g>
+    </div>
+    <div class="t">21:35:18</div>
+    <div class="p green">594.73</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">1
+        <g>.6013</g>
+    </div>
+    <div class="t">21:35:15</div>
+    <div class="p green">594.6</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.135</g>
+    </div>
+    <div class="t">21:35:04</div>
+    <div class="p green">594.59</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.09399</g>
+    </div>
+    <div class="t">21:34:13</div>
+    <div class="p red">593.5</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1</g>
+    </div>
+    <div class="t">21:32:27</div>
+    <div class="p green">594.6</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">6
+        <g>.718</g>
+    </div>
+    <div class="t">21:32:07</div>
+    <div class="p red">592.51</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.147</g>
+    </div>
+    <div class="t">21:33:46</div>
+    <div class="p red">592.52</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.135</g>
+    </div>
+    <div class="t">21:31:55</div>
+    <div class="p red">593.13</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:31:53</div>
+    <div class="p green">594.6</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1</g>
+    </div>
+    <div class="t">21:31:45</div>
+    <div class="p red">592.52</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1</g>
+    </div>
+    <div class="t">21:31:37</div>
+    <div class="p red">593.12</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">10
+        <g>.4459</g>
+    </div>
+    <div class="t">21:30:38</div>
+    <div class="p red">592.51</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:29:55</div>
+    <div class="p green">594.68</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.16978</g>
+    </div>
+    <div class="t">21:29:47</div>
+    <div class="p green">594.68</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.07</g>
+    </div>
+    <div class="t">21:29:36</div>
+    <div class="p red">592.52</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02</g>
+    </div>
+    <div class="t">21:29:08</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.04</g>
+    </div>
+    <div class="t">21:28:55</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.20521</g>
+    </div>
+    <div class="t">21:28:41</div>
+    <div class="p green">594.75</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">1
+        <g>.65785</g>
+    </div>
+    <div class="t">21:28:39</div>
+    <div class="p green">594.74</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.143</g>
+    </div>
+    <div class="t">21:30:07</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:28:27</div>
+    <div class="p red">592.55</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.23914</g>
+    </div>
+    <div class="t">21:25:18</div>
+    <div class="p green">594.7</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:25:12</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02483</g>
+    </div>
+    <div class="t">21:25:07</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.11916</g>
+    </div>
+    <div class="t">21:23:56</div>
+    <div class="p green">594.69</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.58579</g>
+    </div>
+    <div class="t">21:21:53</div>
+    <div class="p green">594.75</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.10087</g>
+    </div>
+    <div class="t">21:21:48</div>
+    <div class="p green">594.75</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">2
+        <g>.5</g>
+    </div>
+    <div class="t">21:21:40</div>
+    <div class="p red">592.51</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00334</g>
+    </div>
+    <div class="t">21:18:09</div>
+    <div class="p green">594.98</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00334</g>
+    </div>
+    <div class="t">21:18:01</div>
+    <div class="p green">594.99</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00334</g>
+    </div>
+    <div class="t">21:17:56</div>
+    <div class="p green">594.99</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:17:30</div>
+    <div class="p green">595</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00420</g>
+    </div>
+    <div class="t">21:15:10</div>
+    <div class="p green">595.07</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">3
+        <g></g>
+    </div>
+    <div class="t">21:14:43</div>
+    <div class="p red">592.98</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:14:30</div>
+    <div class="p red">592.98</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:14:07</div>
+    <div class="p red">592.99</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02</g>
+    </div>
+    <div class="t">21:11:41</div>
+    <div class="p green">595.13</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00227</g>
+    </div>
+    <div class="t">21:11:03</div>
+    <div class="p green">595.14</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.11998</g>
+    </div>
+    <div class="t">21:10:38</div>
+    <div class="p green">595.14</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:09:54</div>
+    <div class="p green">595.15</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.48</g>
+    </div>
+    <div class="t">21:09:43</div>
+    <div class="p red">592.98</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:09:40</div>
+    <div class="p green">595.15</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.40904</g>
+    </div>
+    <div class="t">21:09:28</div>
+    <div class="p red">592.98</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:09:09</div>
+    <div class="p green">595.15</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.22823</g>
+    </div>
+    <div class="t">21:08:46</div>
+    <div class="p green">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">5
+        <g></g>
+    </div>
+    <div class="t">21:08:02</div>
+    <div class="p red">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">4
+        <g>.37116</g>
+    </div>
+    <div class="t">21:07:49</div>
+    <div class="p red">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02504</g>
+    </div>
+    <div class="t">21:07:48</div>
+    <div class="p green">596.07</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">4
+        <g>.62883</g>
+    </div>
+    <div class="t">21:08:54</div>
+    <div class="p green">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.384</g>
+    </div>
+    <div class="t">21:07:13</div>
+    <div class="p red">593.01</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">1
+        <g>.752</g>
+    </div>
+    <div class="t">21:08:53</div>
+    <div class="p green">593.31</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0505</g>
+    </div>
+    <div class="t">21:07:07</div>
+    <div class="p green">596.08</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.01</g>
+    </div>
+    <div class="t">21:06:50</div>
+    <div class="p green">595.46</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.07568</g>
+    </div>
+    <div class="t">21:06:37</div>
+    <div class="p green">595.46</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00226</g>
+    </div>
+    <div class="t">21:05:15</div>
+    <div class="p green">595.47</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02</g>
+    </div>
+    <div class="t">21:04:44</div>
+    <div class="p green">595.47</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.20048</g>
+    </div>
+    <div class="t">21:04:20</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.92472</g>
+    </div>
+    <div class="t">21:04:05</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.05</g>
+    </div>
+    <div class="t">21:04:00</div>
+    <div class="p green">596.14</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">1
+        <g>.05</g>
+    </div>
+    <div class="t">21:03:50</div>
+    <div class="p green">596.12</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">7
+        <g>.04923</g>
+    </div>
+    <div class="t">21:03:34</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:03:26</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:03:08</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:03:02</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.2</g>
+    </div>
+    <div class="t">21:02:45</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1</g>
+    </div>
+    <div class="t">21:02:38</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.57416</g>
+    </div>
+    <div class="t">21:02:36</div>
+    <div class="p green">596.16</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.84227</g>
+    </div>
+    <div class="t">21:02:32</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1</g>
+    </div>
+    <div class="t">21:02:33</div>
+    <div class="p green">596.1</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.66</g>
+    </div>
+    <div class="t">21:04:12</div>
+    <div class="p green">595.97</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.54772</g>
+    </div>
+    <div class="t">21:03:43</div>
+    <div class="p green">595</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.45227</g>
+    </div>
+    <div class="t">21:03:42</div>
+    <div class="p red">594</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.1313</g>
+    </div>
+    <div class="t">21:01:51</div>
+    <div class="p green">594</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.76</g>
+    </div>
+    <div class="t">21:01:06</div>
+    <div class="p red">593.37</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.41642</g>
+    </div>
+    <div class="t">21:00:52</div>
+    <div class="p green">594</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:00:50</div>
+    <div class="p green">595.61</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.02</g>
+    </div>
+    <div class="t">20:58:50</div>
+    <div class="p green">595.37</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:58:38</div>
+    <div class="p green">595.37</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">21:00:04</div>
+    <div class="p green">595.37</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:58:10</div>
+    <div class="p red">593.23</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.101</g>
+    </div>
+    <div class="t">20:56:41</div>
+    <div class="p green">595.36</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.09998</g>
+    </div>
+    <div class="t">20:57:28</div>
+    <div class="p green">596.21</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:55:47</div>
+    <div class="p green">596.21</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.00313</g>
+    </div>
+    <div class="t">20:55:35</div>
+    <div class="p green">593.26</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">20
+        <g>.65</g>
+    </div>
+    <div class="t">20:57:07</div>
+    <div class="p red">592</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">14
+        <g>.49</g>
+    </div>
+    <div class="t">20:55:26</div>
+    <div class="p green">593.26</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.51</g>
+    </div>
+    <div class="t">20:56:54</div>
+    <div class="p green">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">0
+        <g>.29</g>
+    </div>
+    <div class="t">20:55:04</div>
+    <div class="p red">593</div>
+</div>
+<div class="row" style="display: block;">
+    <div class="v">1
+        <g>.16706</g>
+    </div>
+    <div class="t">20:53:58</div>
+    <div class="p green">596.24</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.05033</g>
+    </div>
+    <div class="t">20:53:59</div>
+    <div class="p red">595.95</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.67427</g>
+    </div>
+    <div class="t">20:53:43</div>
+    <div class="p red">595.96</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g></g>
+    </div>
+    <div class="t">20:53:32</div>
+    <div class="p red">595.96</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.76003</g>
+    </div>
+    <div class="t">20:53:27</div>
+    <div class="p red">595.96</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.92573</g>
+    </div>
+    <div class="t">20:53:12</div>
+    <div class="p red">595.96</div>
+</div>
+<div class="row">
+    <div class="v">15
+        <g>.0659</g>
+    </div>
+    <div class="t">20:52:59</div>
+    <div class="p green">596</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.045</g>
+    </div>
+    <div class="t">20:52:22</div>
+    <div class="p red">595.97</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.06565</g>
+    </div>
+    <div class="t">20:52:05</div>
+    <div class="p red">595.97</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.97428</g>
+    </div>
+    <div class="t">20:50:44</div>
+    <div class="p green">595.99</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.183</g>
+    </div>
+    <div class="t">20:50:38</div>
+    <div class="p green">595.99</div>
+</div>
+<div class="row">
+    <div class="v">2
+        <g>.83159</g>
+    </div>
+    <div class="t">20:49:40</div>
+    <div class="p green">592</div>
+</div>
+<div class="row">
+    <div class="v">4
+        <g>.95</g>
+    </div>
+    <div class="t">20:49:16</div>
+    <div class="p red">592</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:48:49</div>
+    <div class="p red">592.73</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.21575</g>
+    </div>
+    <div class="t">20:48:39</div>
+    <div class="p red">596.09</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00322</g>
+    </div>
+    <div class="t">20:48:29</div>
+    <div class="p green">596.03</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.15177</g>
+    </div>
+    <div class="t">20:48:24</div>
+    <div class="p green">596.03</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.01</g>
+    </div>
+    <div class="t">20:48:00</div>
+    <div class="p green">596.02</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.145</g>
+    </div>
+    <div class="t">20:47:55</div>
+    <div class="p green">596.02</div>
+</div>
+<div class="row">
+    <div class="v">7
+        <g>.44249</g>
+    </div>
+    <div class="t">20:46:54</div>
+    <div class="p red">592.03</div>
+</div>
+<div class="row">
+    <div class="v">4
+        <g>.61957</g>
+    </div>
+    <div class="t">20:46:45</div>
+    <div class="p green">596</div>
+</div>
+<div class="row">
+    <div class="v">3
+        <g>.51772</g>
+    </div>
+    <div class="t">20:46:43</div>
+    <div class="p green">596</div>
+</div>
+<div class="row">
+    <div class="v">24
+        <g>.2407</g>
+    </div>
+    <div class="t">20:46:33</div>
+    <div class="p green">595.7</div>
+</div>
+<div class="row">
+    <div class="v">8
+        <g>.55851</g>
+    </div>
+    <div class="t">20:46:22</div>
+    <div class="p green">595.68</div>
+</div>
+<div class="row">
+    <div class="v">3
+        <g>.32</g>
+    </div>
+    <div class="t">20:46:08</div>
+    <div class="p green">595</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.38</g>
+    </div>
+    <div class="t">20:46:06</div>
+    <div class="p green">595</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.3</g>
+    </div>
+    <div class="t">20:46:03</div>
+    <div class="p green">594.98</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.16241</g>
+    </div>
+    <div class="t">20:45:56</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.5</g>
+    </div>
+    <div class="t">20:45:40</div>
+    <div class="p red">592.7</div>
+</div>
+<div class="row">
+    <div class="v">4
+        <g>.56933</g>
+    </div>
+    <div class="t">20:44:54</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0502</g>
+    </div>
+    <div class="t">20:44:43</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.62</g>
+    </div>
+    <div class="t">20:43:22</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">13
+        <g></g>
+    </div>
+    <div class="t">20:43:05</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.6</g>
+    </div>
+    <div class="t">20:42:50</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.385</g>
+    </div>
+    <div class="t">20:42:38</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00600</g>
+    </div>
+    <div class="t">20:42:28</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0819</g>
+    </div>
+    <div class="t">20:42:18</div>
+    <div class="p red">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.8</g>
+    </div>
+    <div class="t">20:42:10</div>
+    <div class="p red">594.85</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.67</g>
+    </div>
+    <div class="t">20:41:06</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0819</g>
+    </div>
+    <div class="t">20:41:01</div>
+    <div class="p red">594.8</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.642</g>
+    </div>
+    <div class="t">20:40:33</div>
+    <div class="p red">594.8</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.75593</g>
+    </div>
+    <div class="t">20:39:50</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.10762</g>
+    </div>
+    <div class="t">20:39:07</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.77019</g>
+    </div>
+    <div class="t">20:38:44</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0819</g>
+    </div>
+    <div class="t">20:37:19</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:36:46</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:35:46</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.05855</g>
+    </div>
+    <div class="t">20:35:36</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:35:26</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:35:17</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g></g>
+    </div>
+    <div class="t">20:35:13</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.13056</g>
+    </div>
+    <div class="t">20:34:28</div>
+    <div class="p red">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00221</g>
+    </div>
+    <div class="t">20:33:46</div>
+    <div class="p red">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00221</g>
+    </div>
+    <div class="t">20:33:41</div>
+    <div class="p red">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:33:29</div>
+    <div class="p green">594.86</div>
+</div>
+<div class="row">
+    <div class="v">2
+        <g>.46321</g>
+    </div>
+    <div class="t">20:33:04</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.25</g>
+    </div>
+    <div class="t">20:32:32</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:32:21</div>
+    <div class="p green">594.85</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.6</g>
+    </div>
+    <div class="t">20:32:06</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:31:00</div>
+    <div class="p green">594.86</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:30:35</div>
+    <div class="p red">594.22</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.27536</g>
+    </div>
+    <div class="t">20:30:00</div>
+    <div class="p green">594.22</div>
+</div>
+<div class="row">
+    <div class="v">2
+        <g>.208</g>
+    </div>
+    <div class="t">20:28:40</div>
+    <div class="p green">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:28:37</div>
+    <div class="p green">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.63</g>
+    </div>
+    <div class="t">20:28:30</div>
+    <div class="p red">591.79</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.64</g>
+    </div>
+    <div class="t">20:28:16</div>
+    <div class="p green">594</div>
+</div>
+<div class="row">
+    <div class="v">3
+        <g></g>
+    </div>
+    <div class="t">20:28:04</div>
+    <div class="p green">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:27:59</div>
+    <div class="p green">593.99</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g></g>
+    </div>
+    <div class="t">20:27:51</div>
+    <div class="p red">591.79</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:27:11</div>
+    <div class="p green">593.99</div>
+</div>
+<div class="row">
+    <div class="v">2
+        <g>.5329</g>
+    </div>
+    <div class="t">20:27:02</div>
+    <div class="p red">591.79</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:26:57</div>
+    <div class="p red">591.8</div>
+</div>
+<div class="row">
+    <div class="v">2
+        <g>.0634</g>
+    </div>
+    <div class="t">20:26:51</div>
+    <div class="p red">591.8</div>
+</div>
+<div class="row">
+    <div class="v">3
+        <g>.07244</g>
+    </div>
+    <div class="t">20:26:19</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.10050</g>
+    </div>
+    <div class="t">20:26:08</div>
+    <div class="p red">594</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:24:14</div>
+    <div class="p green">594.57</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.07</g>
+    </div>
+    <div class="t">20:24:10</div>
+    <div class="p red">591.8</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.066</g>
+    </div>
+    <div class="t">20:23:07</div>
+    <div class="p red">594.59</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.08365</g>
+    </div>
+    <div class="t">20:22:59</div>
+    <div class="p red">594.67</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.11041</g>
+    </div>
+    <div class="t">20:22:40</div>
+    <div class="p green">594.76</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.09289</g>
+    </div>
+    <div class="t">20:22:20</div>
+    <div class="p green">594.76</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:22:10</div>
+    <div class="p green">594.76</div>
+</div>
+<div class="row">
+    <div class="v">20
+        <g>.0017</g>
+    </div>
+    <div class="t">20:22:02</div>
+    <div class="p red">590.77</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.44</g>
+    </div>
+    <div class="t">20:20:22</div>
+    <div class="p red">592.3</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.46360</g>
+    </div>
+    <div class="t">20:19:18</div>
+    <div class="p green">594.84</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00885</g>
+    </div>
+    <div class="t">20:19:04</div>
+    <div class="p green">594.83</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0807</g>
+    </div>
+    <div class="t">20:18:53</div>
+    <div class="p green">593.12</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0823</g>
+    </div>
+    <div class="t">20:18:02</div>
+    <div class="p green">593.12</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0823</g>
+    </div>
+    <div class="t">20:17:47</div>
+    <div class="p green">593.12</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:17:12</div>
+    <div class="p green">593.12</div>
+</div>
+<div class="row">
+    <div class="v">14
+        <g>.6698</g>
+    </div>
+    <div class="t">20:17:07</div>
+    <div class="p red">590.1</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:16:26</div>
+    <div class="p green">594.86</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.53580</g>
+    </div>
+    <div class="t">20:16:04</div>
+    <div class="p red">590.11</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0017</g>
+    </div>
+    <div class="t">20:15:51</div>
+    <div class="p green">594.97</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.16812</g>
+    </div>
+    <div class="t">20:15:18</div>
+    <div class="p green">594.97</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0824</g>
+    </div>
+    <div class="t">20:15:14</div>
+    <div class="p green">594.97</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.6704</g>
+    </div>
+    <div class="t">20:15:06</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0824</g>
+    </div>
+    <div class="t">20:14:59</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0824</g>
+    </div>
+    <div class="t">20:14:44</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g></g>
+    </div>
+    <div class="t">20:14:39</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0824</g>
+    </div>
+    <div class="t">20:14:30</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.0824</g>
+    </div>
+    <div class="t">20:14:14</div>
+    <div class="p red">592.5</div>
+</div>
+<div class="row">
+    <div class="v">0
+        <g>.00169</g>
+    </div>
+    <div class="t">20:13:01</div>
+    <div class="p green">592.51</div>
+</div>
+<div class="row">
+    <div class="v">1
+        <g>.26115</g>
+    </div>
+    <div class="t">20:12:55</div>
+    <div class="p red">590.1</div>
+</div>
+<div class="row">
+    <div class="v">5
+        <g>.97853</g>
+    </div>
+    <div class="t">20:12:27</div>
+    <div class="p green">590.1</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wrapper" class="candle-chart">
+</div>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var header, height, main, _ref;
+
+        main = document.getElementById('main');
+
+        header = document.getElementById('header_outer');
+
+        height = (_ref = window.innerHeight) != null ? _ref : document.documentElement.clientHeight;
+
+        main.style.height = height - header.clientHeight - 33 + 'px';
+
+        main.style.display = 'block';
+
+    }).call(this);
+</script>
+
+<div id="footer_outer">
+    <div id="footer">
+        <ul class="horiz donate">
+            <li>
+                Updated
+                <span id="change">21</span>
+                seconds ago
+	<span id="realtime_error" style="display:none">in
+	<abbr title="Realtime(WebSocket) connection failed. Orderbook update every 1 minute, Trades update every 10 seconds.">Slow
+        Mode</abbr></span>
+            </li>
+            <li class="sep"></li>
+            <li class="period"><a href="#" target="_blank">Help</a></li>
+            <li id="now">Thu, 20 Mar 21:37:28</li>
+            <li class="sep"></li>
+            <li class="period"><input type="button" id="btn-update" value="update"></li>
+            <li class="period"><input type="button" id="btn-add" value="add"></li>
+            <li class="period"><input type="button" id="btn-move-left" value="<<"></li>
+            <li class="period"><input type="button" id="btn-move-right" value=">>"></li>
+        </ul>
+    </div>
+</div>
+
 </body>
 </html>
