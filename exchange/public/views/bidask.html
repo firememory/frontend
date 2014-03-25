@@ -16,8 +16,8 @@
         <div class="row">
         <div ng-repeat="item in depth.bids" class="depth-item">
             <span class="title buy">买{{1+$index}}</span>
-            <span class="price" ng-click="bid.price=item.price">{{item.price.toFixed(2)}}</span>
-            <span class="amount">{{item.amount.toFixed(3)}}</span>
+            <span class="price" ng-click="bid.price=item.price">{{item.price | currency}}</span>
+            <span class="amount">{{item.amount | quantity}}</span>
         </div>
         </div>
     </div>
@@ -182,6 +182,13 @@
         </div>
     </div>
     <div class="col-md-4 transaction-box">
+        <div class="row">
+            <div ng-repeat="item in transactions" class="depth-item">
+                <span class="title">{{item[0] | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="price">{{item[1] | currency}}</span>
+                <span class="amount">{{item[2] | quantity}}</span>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

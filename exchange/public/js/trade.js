@@ -32,6 +32,7 @@ tradeApp.config(routeConfig);
 
 function BidAskCtrl($scope, $http) {
     $scope.orders = [];
+    $scope.transactions = [];
     $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
     $scope.account = {RMB: 0, BTC: 0}
@@ -58,16 +59,19 @@ function BidAskCtrl($scope, $http) {
         .success(function(data, status, headers, config) {
             $scope.orders = data
         });
+
+        $http.get('api/transaction')
+        .success(function(data, status, headers, config) {
+            console.log('transactions', data);
+            $scope.transactions = data
+        });
     };
 
     $scope.refresh();
 
-        $http.get('data/history')
+        $http.get('api/history')
           .success(function(data, status, headers, config) {
-            $scope.history = [];//data[0];
-            data.forEach(function(row) {
-              $scope.history.push([row[0]*1000, row[1], row[3], row[4], row[2], row[5]]);
-            });
+            $scope.history = data
 
             var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',

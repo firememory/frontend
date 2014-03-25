@@ -7,7 +7,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         });
     $http.get('api/history', {params: {span: 1}})
         .success(function(data, status, headers, config) {
-            $scope.history = data[0];
+            $scope.history = data;
 
             var chart = $('#wrapper').jqCandlestick( $scope.history, {
                 theme: 'dark',
@@ -40,9 +40,15 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                 }]
             });
         });
+
     $http.get('api/depth', {params: {depth: 10}})
         .success(function(data, status, headers, config) {
             $scope.depth = data;
             $scope.depth.asks.reverse();
+        });
+
+    $http.get('api/transaction')
+        .success(function(data, status, headers, config) {
+            $scope.transactions = data
         });
 });
