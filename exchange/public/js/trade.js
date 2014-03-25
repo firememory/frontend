@@ -295,11 +295,58 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
 }]);
 
 tradeApp.controller('UserCtrl', function ($scope, $http) {
+    $scope.prices = {BTC: 1, RMB: 1};
+    $scope.assets = [];
     $http.get('api/account')
         .success(function(data, status, headers, config) {
-            console.log('got', data);
+            console.log('accounts', data);
             $scope.accounts = data.accounts;
+            $scope.updatePrice();
         });
+
+    $scope.updatePrice = function() {
+    // TODO: use ticker API instead
+    $http.get('api/transaction', {params: {skip: 0, limit: 1}})
+        .success(function(data, status, headers, config) {
+            console.log('transactions', data);
+            $scope.prices['BTC'] = data[0][1];
+            if ($scope.accounts) {
+                console.log('calculate assets', $scope.accounts, $scope.prices);
+                $scope.accounts.forEach(function(asset) {
+                    var amount = asset.available + asset.locked;
+                    var currency = asset.currency.toUpperCase();
+                    var price = $scope.prices[currency];
+                    console.log('asset', currency, amount, price);
+                    $scope.assets.push([currency, price * amount]);
+                });
+                $('#user-finance-chart-pie').jqChart({
+                    title: { text: '资产构成' },
+                    legend: {},
+                    shadows: {
+                        enabled: true
+                    },
+                    series: [
+                        {
+                            type: 'pie',
+                            fillStyles: ['#418CF0', '#FCB441', '#E0400A', '#056492', '#BFBFBF', '#1A3B69', '#FFE382'],
+                            data: $scope.assets,
+                            labels: {
+                                stringFormat: '%.1f%%',
+                                valueType: 'percentage',
+                                font: '15px sans-serif',
+                                fillStyle: 'white'
+                            },
+                            explodedRadius: 10,
+                            explodedSlices: [0],
+                            strokeStyle : '#cccccc',
+                            lineWidth : 1
+                        }
+                    ]
+                });
+            }
+        });
+    };
+
     // mocked data
     var data = [];
 
@@ -360,32 +407,6 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
                 xValuesField: 'date',
                 yValuesField: 'value4',
                 axisY: 'y1'
-            }
-        ]
-    });
-
-    $('#user-finance-chart-pie').jqChart({
-        title: { text: '资产构成' },
-        legend: {},
-        shadows: {
-            enabled: true
-        },
-        series: [
-            {
-                type: 'pie',
-                fillStyles: ['#418CF0', '#FCB441', '#E0400A', '#056492', '#BFBFBF', '#1A3B69', '#FFE382'],
-                data: [['人民币(CNY)', 15498.21], ['比特币(BTC)', 58745.04], ['莱特币(LTC)', 3031.12],
-                    ['原型股(PTS)', 6064.73]],
-                labels: {
-                    stringFormat: '%.1f%%',
-                    valueType: 'percentage',
-                    font: '15px sans-serif',
-                    fillStyle: 'white'
-                },
-                explodedRadius: 10,
-                explodedSlices: [0],
-                strokeStyle : '#cccccc',
-                lineWidth : 1
             }
         ]
     });

@@ -10,18 +10,18 @@
     <table id="user-finance-table" class="table table-condensed table-striped">
         <thead>
         <tr>
-            <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>总数量</th><th>价值估算（CNY）</th><th>价值估算（BTC）</th><th></th>
+            <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>总数量</th><th>价格</th><th>价值(估算)</th><th>操作</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="account in accounts">
-            <td><img ng-src="image/{{account.currency.toUpperCase()}}_logo.png" height="15"> {{account.currency}}</td>
+            <td><i class="fa fa-{{account.currency.toLowerCase()}}"></i> {{account.currency.toUpperCase()}}</td>
             <td>{{account.available}}</td>
             <td>{{account.locked}}</td>
             <td>{{account.available + account.locked}}</td>
-            <td>￥-</td>
-            <td>฿-</td>
-            <td><a href="#">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+            <td>￥{{prices[account.currency.toUpperCase()]}}</td>
+            <td>￥{{(account.available + account.locked) * prices[account.currency.toUpperCase()]}}</td>
+            <td><a href="#/deposit/{{account.currency.toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
         </tr>
         </tbody>
     </table>
