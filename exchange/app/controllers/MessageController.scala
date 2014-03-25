@@ -152,9 +152,9 @@ object MessageController extends Controller {
           map.get(key) match {
             case Some(item) =>
               open = item.close
-              CandleDataItem(key, item.volumn, item.open, item.close, item.low, item.high)
+              CandleDataItem(key * timeSkip, item.volumn, item.open, item.close, item.low, item.high)
             case None =>
-              CandleDataItem(key, 0, open, open, open, open)
+              CandleDataItem(key * timeSkip, 0, open, open, open, open)
           }
         }.toSeq
         Ok(Json.toJson(list))
