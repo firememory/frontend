@@ -13,7 +13,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
             .success(function(data, status, headers, config) {
                 $scope.history = data;
                 if ($scope.candleChart == null) {
-                    $scope.candleChart = $('#wrapper').jqCandlestick( $scope.history, {
+                    $scope.candleChart = $('#wrapper').jqCandlestick($scope.history, {
                         theme: 'dark',
                         yAxis: [{
                             height: 8

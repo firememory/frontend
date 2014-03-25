@@ -95,6 +95,17 @@ object MessageController extends Controller {
     }
   }
 
+  def cancelOrder(id: String) = Action.async { implicit request =>
+    session.get("uid") match {
+      case Some(uid) =>
+       AccountService.cancelOrder(id.toLong).map(result => Ok(Json.toJson(result)))
+      case None =>
+        Future{
+          Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
+        }
+    }
+  }
+
   def account = Action.async { implicit request =>
     println("query account")
     session.get("uid") match {

@@ -58,7 +58,7 @@ function BidAskCtrl($scope, $http) {
                 $scope.orders = data;
         });
 
-        $http.get('api/transaction', {params: {limit: 20, skip: 0}})
+        $http.get('api/transaction', {params: {limit: 18, skip: 0}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
             $scope.transactions = data;
@@ -68,10 +68,11 @@ function BidAskCtrl($scope, $http) {
     };
 
     $scope.refresh();
-        $http.get('api/history')
+
+        $http.get('api/history', {params: {period: 5}})
           .success(function(data, status, headers, config) {
             $scope.history = data
-
+            console.log(data);
             var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',
               yAxis: [{
@@ -96,7 +97,8 @@ function BidAskCtrl($scope, $http) {
                 }
               },
               xAxis: {
-                dataLeftOffset: Math.max(0, $scope.history.length - 31),
+                dataLeftOffset: Math.max(0, $scope.history.length - 60),
+                minDataLength: 30,
                 dataRightOffset: $scope.history.length - 1
               },
               series: [{
@@ -215,14 +217,13 @@ function BidAskCtrl($scope, $http) {
         $scope.askOptions.limitAmount = true;
     }
 
-    $scope.cancelOrder = function(tid) {
-        console.log('cancel order', tid);
-        for(var i = 0; i < $scope.orders.length; i++) {
-            if($scope.orders[i].tid == tid) {
-                $scope.orders.splice(i, 1);
-                break;
-            }
-        }
+    $scope.cancelOrder = function(id) {
+        console.log('cancel order', id);
+        $http.get('trade/order/cancel/' + id)
+            .success(function(data, status, headers, config) {
+                console.log(data);
+                $scope.refresh();
+            });
     };
 
     // polling

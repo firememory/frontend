@@ -13,6 +13,7 @@ POST    /user/register              controllers.UserController.register()
 
 POST    /trade/bid               controllers.MessageController.submitOrder()
 POST    /trade/ask               controllers.MessageController.submitOrder()
+GET    /trade/order/cancel/*id   controllers.MessageController.cancelOrder(id)
 
 # API routes
 GET     /api/depth                  controllers.MessageController.depth()

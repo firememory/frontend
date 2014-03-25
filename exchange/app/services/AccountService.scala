@@ -8,10 +8,12 @@ package services
 import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
-import models.UserOrder
+import models.{ApiResult, UserOrder}
 import models.CurrencyUnit._
 import models.CurrencyValue._
+import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
+import com.coinport.coinex.data.Implicits._
 
 object AccountService extends AkkaService{
   def getAccount(uid: Long): Future[Any] = {
@@ -34,6 +36,14 @@ object AccountService extends AkkaService{
     val command = userOrder.toDoSubmitOrder
     println("post " + command)
     Router.backend ? command
+  }
+
+  def cancelOrder(id: Long) = {
+    println("cancel order: " + id)
+    Router.backend ? DoCancelOrder(Btc ~> Rmb, id) map {
+      case result: OrderCancelled => ApiResult(true, 0, result.toString)
+      case x => ApiResult(false, -1, x.toString)
+    }
   }
 
   def getOrders(uid: Long) = {

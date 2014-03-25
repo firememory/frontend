@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button full_width button_buy" ng-click="addBidOrder()" >买入 CNY-BTC</button>
+                        <button class="button full_width button_buy" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> 买入 CNY-BTC</button>
                     </div>
                 </form>
             </div>
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button button_sell full_width" ng-click="addAskOrder()">卖出 BTC-CNY</button>
+                        <button class="button button_sell full_width" ng-click="addAskOrder()"><i class="fa fa-money"></i> 卖出 BTC-CNY</button>
                     </div>
                 </form>
             </div>
@@ -183,10 +183,10 @@
     </div>
     <div class="col-md-4 transaction-box">
         <div class="row">
-            <div ng-repeat="item in transactions" class="depth-item">
-                <span class="title">{{item[0] | date:"yyyy-MM-dd HH:mm:ss"}}</span>
-                <span class="price">{{item[1] | currency}}</span>
-                <span class="amount">{{item[2] | quantity}}</span>
+            <div ng-repeat="item in transactions" class="transaction-item">
+                <span class="title"><i class="fa fa-clock-o"></i> {{item[0] | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="price"><i class="fa fa-cny"></i> {{item[1] | currency}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item[2] | quantity}}</span>
             </div>
         </div>
     </div>
