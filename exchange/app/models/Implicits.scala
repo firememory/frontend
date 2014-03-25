@@ -102,12 +102,14 @@ object Implicits {
 
   implicit val candleDataItemWrites = new Writes[CandleDataItem] {
     def writes(candleDataItem: CandleDataItem) = {
-      Json.arr( candleDataItem.timestamp,
+      Json.arr(
+        candleDataItem.timestamp,
         (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
         (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
         (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
         (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
-        (candleDataItem.volumn unit MBTC).userValue )
+        (candleDataItem.volumn unit MBTC).userValue
+      )
     }
   }
 

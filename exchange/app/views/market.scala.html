@@ -60,22 +60,22 @@
             <div class="inner">
                 <ul id="periods" class="horiz">
                     <li style="line-height:26px">时间间隔:</li>
-                    <li class="period"><a>1周</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 13">1周</a></li>
                     <li class="subsep"></li>
-                    <li class="period"><a>3日</a></li>
-                    <li class="period"><a>1日</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 12">3日</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 11">1日</a></li>
                     <li class="subsep"></li>
-                    <li class="period"><a>12小时</a></li>
-                    <li class="period"><a>6小时</a></li>
-                    <li class="period"><a>4小时</a></li>
-                    <li class="period"><a>2小时</a></li>
-                    <li class="period"><a>1小时</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 10">12小时</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 9">6小时</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 8">4小时</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 7">2小时</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 6">1小时</a></li>
                     <li class="subsep"></li>
-                    <li class="period"><a>30分钟</a></li>
-                    <li class="period selected"><a>15分钟</a></li>
-                    <li class="period"><a>5分钟</a></li>
-                    <li class="period"><a>3分钟</a></li>
-                    <li class="period"><a>1分钟</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 5">30分钟</a></li>
+                    <li class="period selected"><a ng-click="candleParam.period = 4">15分钟</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 3">5分钟</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 2">3分钟</a></li>
+                    <li class="period"><a ng-click="candleParam.period = 1">1分钟</a></li>
                     <li class="subsep"></li>
 
                 </ul>
@@ -188,7 +188,7 @@
             </li>
             <li class="sep"></li>
             <li class="period"><a href="#" target="_blank">Help</a></li>
-            <li id="now">Thu, 20 Mar 21:37:28</li>
+            <li id="now"><timer ng-show="true" interval="2000"/></li>
             <li class="sep"></li>
             <li class="period"><input type="button" id="btn-update" value="update"></li>
             <li class="period"><input type="button" id="btn-add" value="add"></li>

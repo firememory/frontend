@@ -134,18 +134,21 @@ object MessageController extends Controller {
 
   def history = Action.async {implicit request =>
     val query = request.queryString
+    val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
     val fromParam = getParam(query, "from", "")
     val toParam = getParam(query, "to", "")
-    val from = if (fromParam.isEmpty) System.currentTimeMillis() - 60 * 60 * 1000 else fromParam.toLong
-    val to = if (toParam.isEmpty) System.currentTimeMillis() else toParam.toLong
-    val timeDimension = ChartTimeDimension(getParam(query, "span", "1").toInt)
+    val defaultTo = System.currentTimeMillis()
+    // return 90 items by default
+    val defaultFrom = defaultTo - getTimeSkip(timeDimension) * 180
+    val from = if (fromParam.isEmpty) defaultFrom else fromParam.toLong
+    val to = if (toParam.isEmpty) defaultTo else toParam.toLong
 
     MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
       case candles: CandleData =>
         val map = candles.items.map(i => i.timestamp -> i).toMap
-        val timeSkiper = getTimeSkip(timeDimension)
+        val timeSkip = getTimeSkip(timeDimension)
         var open = 0.0
-        val list = (from / timeSkiper to to / timeSkiper).map{key: Long =>
+        val list = (from / timeSkip to to / timeSkip).map{key: Long =>
           map.get(key) match {
             case Some(item) =>
               open = item.close
