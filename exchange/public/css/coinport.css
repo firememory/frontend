@@ -1,16 +1,18 @@
-/* Move down content because we have a fixed navbar that is 50px tall */
 body {
     padding-bottom: 0px;
     font-size: 13px;
-    line-height: 162%;
+    //line-height: 162%;
     color: #333333;
     font-family: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
     -webkit-text-size-adjust:none;
-    background:none repeat scroll 0 0 #ffffff;
+    background: #F7F6F2;
+    font-weight: normal;
+    min-width: 960px;
 }
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
+
 footer {
     padding: 20px 0;
     background: none repeat scroll 0 0 #EEEDED;
@@ -51,9 +53,6 @@ footer li a{
     cursor: pointer;
 }
 
-.candle-chart {
-    height: 250px;
-}
 #price-summary {
     padding-top: 50px;
     padding-right: 15px;
@@ -76,24 +75,125 @@ footer li a{
 #user-finance-table-div {
     padding-top: 15px;
 }
+
+/*------------------------------------------------------------------------- trade */
+.candle-chart-wrap {
+    margin-bottom: 10px;
+}
+.jqcandlestick-container {
+    background-color: #FFFFFF;
+    position: relative;
+    cursor: none;
+    border: 1px solid #e6e6e6;
+    height: 220px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.jqcandlestick-canvas {
+  position: absolute;
+  display: block;
+  height: 100%;
+}
 .sell {
-    color: #c00;
+    color: #CC9999;
 }
 .buy {
-    color: #00c000;
+    color: #99CC99;
 }
 .form-sell {
     margin: 2px;
     border: 1px solid #c0c0c0;
 }
-
 .form-buy {
     margin: 2px;
     border: 1px solid #c0c0c0;
 }
+
+.label {
+    float: left;
+    width: 100%;
+    color: #808080;
+    margin-bottom: 7px;
+    margin-top: 10px;
+}
+
+.depth-box {
+    height: 220px;
+    padding-left: 15px;
+    padding-top: 5px;
+    color: #808080;
+    border: 1px solid #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 .depth-item {
     cursor: pointer;
-}
-.table-user-order {
     font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+.depth-item .title {
+    padding-left: 10px;
+}
+.depth-item .price {
+    padding-left: 20px;
+}
+.depth-item .amount {
+    padding-left: 20px;
+}
+.depth-price {
+    padding-left: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.transaction-box {
+    height: 380px;
+    padding-left: 15px;
+    padding-top: 5px;
+
+    border: 1px solid #e6e6e6;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.user-order-box {
+    font-size: 12px;
+    margin-top: 15px;
+    padding-left: 15px;
+    background-color: #FFFFFF;
+    width: 100%;
+}
+.user-order-box .title {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #336699;
+}
+.user-order-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px dashed #e6e6e6;
+}
+.user-order-item .head {
+    font-size: 10px;
+    color: #bbb;
+}
+.user-order-item .body {
+    font-size: 12px;
+    color: #808080;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.user-order-item .body .data {
+    font-size: 12px;
+    font-weight: bold;
+    color: #999;
+}
+.user-order-item .foot {
+
+    font-size: 12px;
+    color: #bbb;
 }

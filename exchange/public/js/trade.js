@@ -62,12 +62,12 @@ function BidAskCtrl($scope, $http) {
 
     $scope.refresh();
 
-        $http.get('api/history')
+        $http.get('data/history')
           .success(function(data, status, headers, config) {
-            $scope.history = data[0];
-//            data.forEach(function(row) {
-//              $scope.history.push([row[0]*1000, row[3], row[5], row[6], row[4], row[7]]);
-//            });
+            $scope.history = [];//data[0];
+            data.forEach(function(row) {
+              $scope.history.push([row[0]*1000, row[1], row[3], row[4], row[2], row[5]]);
+            });
 
             var chart = $('.candle-chart').jqCandlestick($scope.history, {
               theme: 'light',
@@ -99,10 +99,10 @@ function BidAskCtrl($scope, $http) {
               series: [{
                 type: 'candlestick',
                 names: ['开盘','最高', '最低', '收盘'],
-                upStroke: '#009dc6',
-                upColor: 'rgba(0, 150, 255, 0.3)',
-                downStroke: '#b9231f',
-                downColor: 'rgba(255, 0, 0, 0.3)'
+                upStroke: '#006633',
+                upColor: '#ffffff',
+                downStroke: '#CC3333',
+                downColor: '#ffffff'
               }, {
                 type: 'volume',
                 name: '成交量',
@@ -110,13 +110,18 @@ function BidAskCtrl($scope, $http) {
                 yAxis: 1,
                 stroke: '#8b4787',
                 color: '#8b4787',
-                upStroke: '#009dc6',
-                upColor: 'rgba(0, 150, 255, 0.3)',
-                downStroke: '#b9231f',
-                downColor: 'rgba(255, 0, 0, 0.3)'
+                upStroke: '#006633',
+                upColor: '#99CC99',
+                downStroke: '#CC3333',
+                downColor: '#CC9999'
               }]
             });
           });
+
+    $('#myTab a').click(function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    })
 
     var updateBidTotal = function() {
         if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
@@ -219,8 +224,8 @@ function BidAskCtrl($scope, $http) {
 
     // polling
     $scope.$on('timer-tick', function (event, args) {
-        //console.log('polling', args);
-        //$scope.refresh();
+        console.log('polling', args);
+        $scope.refresh();
     });
 
     $scope.$watch('bid.amount', updateBidTotal);
@@ -419,23 +424,27 @@ tradeApp.filter('orderStatusText', function() {
             return '部分成交';
         if(input == 3)
             return '已撤销';
+        if(input == 4)
+            return '未成交';
+        if(input == 5)
+            return '部分成交';
         if(input == -1)
             return '等待处理';
-        return '';
+        return '未知状态:'+input;
     }
     return filter;
 });
 
 tradeApp.filter('currency', function() {
     var filter = function(input) {
-        return input ? input.toFixed(2) : '-';
+        return input ? input.toFixed(2) : '0';
     }
     return filter;
 });
 
 tradeApp.filter('quantity', function() {
     var filter = function(input) {
-        return input ? input.toFixed(3) : '-';
+        return input ? input.toFixed(3) : '0';
     }
     return filter;
 });
