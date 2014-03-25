@@ -14,6 +14,9 @@ import play.api.libs.json.JsString
 import models.CurrencyValue._
 import models.CurrencyUnit._
 import models.PriceValue._
+import models.ApiResult
+import models.User
+import play.api.libs.json.JsString
 
 object Implicits {
   implicit def string2Currency(currencyString: String): Currency = {
@@ -97,24 +100,26 @@ object Implicits {
     )
   }
 
+  implicit val candleDataItemWrites = new Writes[CandleDataItem] {
+    def writes(candleDataItem: CandleDataItem) = {
+      Json.arr( candleDataItem.timestamp,
+        (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
+        (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
+        (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
+        (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
+        (candleDataItem.volumn unit MBTC).userValue )
+    }
+  }
+
   implicit val marketCandleDataResultsWrites = new Writes[Seq[CandleDataItem]] {
     def writes(candles: Seq[CandleDataItem]) = {
-      Json.arr(
-        candles.map( candleDataItem =>
-          Json.arr( candleDataItem.timestamp,
-            (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
-            (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
-            (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
-            (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
-            (candleDataItem.volumn unit MBTC).userValue )
-        )
-      )
+       Json.toJson(candles)
     }
   }
 
   implicit val TransactionDataResultsWrites = new Writes[Seq[TransactionItem]] {
     def writes(items: Seq[TransactionItem]) = {
-      Json.arr(
+      Json.toJson(
         items.map(item =>
           Json.arr(
             item.timestamp,
