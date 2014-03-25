@@ -45,8 +45,6 @@ function BidAskCtrl($scope, $http) {
             .success(function(data, status, headers, config) {
                 console.log('got', data);
                 $scope.account = data;
-                updateAskTotal();
-                updateBidTotal();
         });
 
         $http.get('api/depth')
