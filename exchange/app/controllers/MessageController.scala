@@ -132,7 +132,7 @@ object MessageController extends Controller {
     }
   }
 
-  def history = Action.async {implicit request =>
+  def history = Action.async { implicit request =>
     val query = request.queryString
     val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
     val fromParam = getParam(query, "from", "")
@@ -161,11 +161,12 @@ object MessageController extends Controller {
     }
   }
 
-  def transaction = Action.async {
-    val from = 0
-    val num = 100
+  def transaction = Action.async { implicit request =>
+    val query = request.queryString
+    val limit = getParam(query, "limit", "20").toInt
+    val skip = getParam(query, "skip", "0").toInt
 
-    MarketService.getAllTransactions(Btc ~> Rmb, from, num) map {
+    MarketService.getAllTransactions(Btc ~> Rmb, skip, limit) map {
       case transactionData: TransactionData =>
         Ok(Json.toJson(transactionData.items))
     }

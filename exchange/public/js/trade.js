@@ -58,7 +58,7 @@ function BidAskCtrl($scope, $http) {
             $scope.orders = data
         });
 
-        $http.get('api/transaction')
+        $http.get('api/transaction', {params: {limit: 20, skip: 0}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
             $scope.transactions = data
