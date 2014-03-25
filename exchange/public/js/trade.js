@@ -48,25 +48,26 @@ function BidAskCtrl($scope, $http) {
         });
 
         $http.get('api/depth')
-          .success(function(data, status, headers, config) {
-            $scope.depth = data;
-            $scope.depth.asks.reverse();
+            .success(function(data, status, headers, config) {
+                $scope.depth = data;
+                $scope.depth.asks.reverse();
         });
 
         $http.get('api/order')
-        .success(function(data, status, headers, config) {
-            $scope.orders = data
+            .success(function(data, status, headers, config) {
+                $scope.orders = data;
         });
 
         $http.get('api/transaction', {params: {limit: 20, skip: 0}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
-            $scope.transactions = data
+            $scope.transactions = data;
+            if (data.length > 0)
+                $scope.lastPrice = data[0][1];
         });
     };
 
     $scope.refresh();
-
         $http.get('api/history')
           .success(function(data, status, headers, config) {
             $scope.history = data

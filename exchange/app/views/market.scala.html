@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Live Bitcoin charts">
     <meta name="keywords" content="Bitcoin Live Market Charts">
-    <title>4594 Coinport Live Market</title>
+    <title>{{lastPrice.toFixed(2)}} Coinport Live Market</title>
 
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-route.min.js"></script>
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <div id="price" class="green">3594.73</div>
+        <div id="price" class="green">{{lastPrice.toFixed(2)}}</div>
         <div class="orderbook" style="height: 143px;">
             <div id="bids">
                 <div class="table">
