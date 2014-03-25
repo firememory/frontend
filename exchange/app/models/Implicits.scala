@@ -100,14 +100,29 @@ object Implicits {
   implicit val marketCandleDataResultsWrites = new Writes[Seq[CandleDataItem]] {
     def writes(candles: Seq[CandleDataItem]) = {
       Json.arr(
-          candles.map{ candleDataItem =>
-            Json.arr( candleDataItem.timestamp,
-              (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
-              (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
-              (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
-              (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
-              (candleDataItem.volumn unit MBTC).userValue )
-          }
+        candles.map( candleDataItem =>
+          Json.arr( candleDataItem.timestamp,
+            (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
+            (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
+            (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
+            (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
+            (candleDataItem.volumn unit MBTC).userValue )
+        )
+      )
+    }
+  }
+
+  implicit val TransactionDataResultsWrites = new Writes[Seq[TransactionItem]] {
+    def writes(items: Seq[TransactionItem]) = {
+      Json.arr(
+        items.map(item =>
+          Json.arr(
+            item.timestamp,
+            (item.price unit (CNY2, MBTC) to (CNY, BTC)).value,
+            (item.volumn unit MBTC).userValue,
+            (item.amount unit CNY2).userValue
+          )
+        )
       )
     }
   }

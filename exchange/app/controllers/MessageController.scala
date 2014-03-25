@@ -156,6 +156,16 @@ object MessageController extends Controller {
     }
   }
 
+  def transaction = Action.async {
+    val from = 0
+    val num = 100
+
+    MarketService.getAllTransactions(Btc ~> Rmb, from, num) map {
+      case transactionData: TransactionData =>
+        Ok(Json.toJson(transactionData.items))
+    }
+  }
+
   private def getTimeSkip(dimension: ChartTimeDimension) = dimension match {
     case OneMinute => minute
     case ThreeMinutes => 3 * minute
