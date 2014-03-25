@@ -5,7 +5,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         .success(function(data, status, headers, config) {
             $scope.price = data.ticker;
         });
-    $http.get('api/history')
+    $http.get('api/history', {params: {span: 1}})
         .success(function(data, status, headers, config) {
             $scope.history = data[0];
 
@@ -40,7 +40,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                 }]
             });
         });
-    $http.get('api/depth')
+    $http.get('api/depth', {params: {depth: 10}})
         .success(function(data, status, headers, config) {
             $scope.depth = data;
             $scope.depth.asks.reverse();

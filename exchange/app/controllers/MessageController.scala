@@ -36,8 +36,11 @@ object MessageController extends Controller {
     Ok("TODO")
   }
 
-  def depth = Action.async {
-    MarketService.getDepth(Btc ~> Rmb, 5) map {
+  def depth = Action.async { implicit request =>
+    val query = request.queryString
+    val depth = getParam(query, "depth", "5").toInt
+
+    MarketService.getDepth(Btc ~> Rmb, depth) map {
       case result: QueryMarketResult =>
         println("result: " + result)
         Ok(Json.toJson(result))
@@ -129,14 +132,13 @@ object MessageController extends Controller {
     }
   }
 
-  def history = Action.async {
-
-    //    val from = (json \ "from").as[Long]
-    //    val to = (json \ "to").as[Long]
-    //    val timeDimension = ChartTimeDimension.get((json \ "time").as[Int]).getOrElse(OneMinute)
-    val from = System.currentTimeMillis() - 60 * 60 * 1000
-    val to = System.currentTimeMillis()
-    val timeDimension = OneMinute
+  def history = Action.async {implicit request =>
+    val query = request.queryString
+    val fromParam = getParam(query, "from", "")
+    val toParam = getParam(query, "to", "")
+    val from = if (fromParam.isEmpty) System.currentTimeMillis() - 60 * 60 * 1000 else fromParam.toLong
+    val to = if (toParam.isEmpty) System.currentTimeMillis() else toParam.toLong
+    val timeDimension = ChartTimeDimension(getParam(query, "span", "1").toInt)
 
     MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
       case candles: CandleData =>
@@ -180,5 +182,14 @@ object MessageController extends Controller {
     case OneDay => day
     case ThreeDays => 3 * day
     case OneWeek => week
+  }
+
+  private def getParam(queryString: Map[String, Seq[String]], param: String, default: String): String = {
+    queryString.get(param) match {
+      case Some(seq) =>
+        if (seq.isEmpty) default else seq(0)
+      case None =>
+        default
+    }
   }
 }
