@@ -195,10 +195,7 @@ object MessageController extends Controller {
           case transactionData: TransactionData =>
             Ok(Json.toJson(transactionData.items))
         }
-      case None =>
-        Future {
-          Ok("unauthorised request")
-        }
+      case None => Future { Ok("unauthorised request") }
     }
   }
 
