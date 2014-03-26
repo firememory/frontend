@@ -20,7 +20,7 @@ angular.module('navbar', [])
                   $scope.$parent.isLogin = true;
                   $modalInstance.close();
                 } else {
-                  $scope.$parent.loginErrorMessage = data.message;
+                  $scope.$parent.loginErrorMessage = data.messages;
                   $scope.$parent.showLoginError = true;
                 }
               });
@@ -35,7 +35,8 @@ angular.module('navbar', [])
                   $scope.$parent.isLogin = true;
                   $modalInstance.close();
                 } else {
-                  $scope.$parent.registerErrorMessage = data.message;
+                  $scope.$parent.registerErrorMessage = data.messages;
+                  console.log(data);
                   $scope.$parent.showRegisterError = true;
                 }
               });

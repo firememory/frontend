@@ -7,62 +7,63 @@ package controllers
 
 import play.api.mvc._
 import play.api.libs.json._
-import play.api.libs.functional.syntax._
 import services.UserService
 import models.{ApiResult, User}
 import models.Implicits._
+import scala.concurrent.Future
+import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object UserController extends Controller {
-
-
-  def login = Action(parse.json) {
-    request => {
+  def login = Action.async(parse.json) { implicit request =>
       val json = request.body
       println("login with: " + json)
       json.validate[User] match {
-        case s: JsSuccess[User] => {
-          val login: User = s.get
-          val user = UserService.getUser(login.username)
-          if (user == null)
-            Ok(Json.toJson(ApiResult(false, 1, "user not found")))
-          else if (user.password.equals(login.password))
-            Ok(Json.toJson(ApiResult(true))).withSession(
-              "username" -> user.username,
-              "uid" -> user.uid.toString
-            )
-          else
-            Ok(Json.toJson(ApiResult(false, 2, "incorrect password")))
-        }
-        case e: JsError => {
-          println(e)
-          Ok(Json.toJson(ApiResult(false, -1, "error: " + e)))
-        }
+        case s: JsSuccess[User] =>
+          val user: User = s.get
+          UserService.login(user) map {
+            result =>
+              if (result.success) {
+                val returnUser = result.data.get.asInstanceOf[LoginSucceeded]
+                Ok(Json.toJson(result)).withSession(
+                  "username" -> returnUser.email,
+                  "uid" -> returnUser.id.toString
+                )
+              } else {
+                Ok(Json.toJson(result))
+              }
+          }
+        case e: JsError =>
+          Future {
+            Ok(Json.toJson(ApiResult(false, -1, "error: " + e)))
+          }
       }
-    }
   }
 
-  def register = Action(parse.json) {
-    request => {
+  def register = Action.async(parse.json) { implicit request =>
       val json = request.body
       println("try register: " + json)
       json.validate[User] match {
         case s: JsSuccess[User] => {
           val user: User = s.get
-          if (UserService.getUser(user.username) != null) {
-            Ok(Json.toJson(ApiResult(false, 1,  "user exists")))
-        } else {
-            UserService.addUser(user)
-            Ok(Json.toJson(ApiResult(true))).withSession(
-              "username" -> user.username,
-              "uid" -> user.uid.toString
-            )
+          UserService.register(user) map {
+            result =>
+              if (result.success) {
+                val profile = result.data.get.asInstanceOf[UserProfile]
+                Ok(Json.toJson(result)).withSession(
+                  "username" -> profile.email,
+                  "uid" -> profile.id.toString
+                )
+              } else {
+                Ok(Json.toJson(result))
+              }
           }
         }
         case e: JsError => {
-          println(e)
-          Ok(Json.toJson(ApiResult(false, -1, "error: " + e)))
+          Future {
+            Ok(Json.toJson(ApiResult(false, -1, "error: " + e)))
+          }
         }
-      }
     }
   }
 

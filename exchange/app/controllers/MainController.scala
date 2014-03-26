@@ -28,4 +28,9 @@ object MainController extends Controller {
       Ok(views.html.user.render(session.get("username")))
   }
 
+  def register = Action {
+    implicit request =>
+      Ok(views.html.register.render())
+  }
+
 }

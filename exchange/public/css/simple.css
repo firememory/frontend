@@ -2899,7 +2899,7 @@ div.ticket_attachment a {
 		right: 0;
 		left: auto;
 }
-/* Modal Window */
+/* Modal Window
 .modal-open .dropdown-menu {
 		z-index: 2050;
 }
@@ -3044,7 +3044,7 @@ div.ticket_attachment a {
 .modal-footer .btn-block + .btn-block {
   margin-left: 0;
 }
-
+*/
 /*-------------------------------------------------------------------------- Sound trigger */
 .main_container header {
   border-bottom: 0;

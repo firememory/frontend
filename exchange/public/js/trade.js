@@ -60,7 +60,7 @@ function BidAskCtrl($scope, $http) {
 
         $http.get('api/transaction', {params: {limit: 18, skip: 0}})
         .success(function(data, status, headers, config) {
-            console.log('transactions', data);
+//            console.log('transactions', data);
             $scope.transactions = data;
             if (data.length > 0)
                 $scope.lastPrice = data[0][1];
@@ -228,7 +228,7 @@ function BidAskCtrl($scope, $http) {
 
     // polling
     $scope.$on('timer-tick', function (event, args) {
-        console.log('polling', args);
+//        console.log('polling', args);
         $scope.refresh();
     });
 

@@ -14,9 +14,9 @@ import play.api.libs.json.JsString
 import models.CurrencyValue._
 import models.CurrencyUnit._
 import models.PriceValue._
-import models.ApiResult
-import models.User
+import models.{ApiResult, User}
 import play.api.libs.json.JsString
+import models.ApiResult
 
 object Implicits {
   implicit def string2Currency(currencyString: String): Currency = {
@@ -29,11 +29,15 @@ object Implicits {
     }
   }
 
-  implicit val resultWrites: Writes[ApiResult] = (
-    (JsPath \ "success").write[Boolean] and
-      (JsPath \ "code").write[Int] and
-      (JsPath \ "message").write[String]
-    )(unlift(ApiResult.unapply))
+  implicit val resultWrites = new Writes[ApiResult] {
+    def writes(result: ApiResult) = {
+      Json.obj(
+        "success" -> result.success,
+        "code" -> result.code,
+        "messages" -> result.message
+      )
+    }
+  }
 
   implicit val userReads: Reads[User] = (
     (JsPath \ "username").read[String] and

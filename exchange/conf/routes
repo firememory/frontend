@@ -6,10 +6,11 @@ GET     /                           controllers.MainController.index()
 GET     /trade                       controllers.MainController.trade()
 GET     /market                       controllers.MainController.market()
 GET     /user                       controllers.MainController.user()
+GET     /register                   controllers.MainController.register()
 
 GET    /user/logout              controllers.UserController.logout()
 POST    /user/login              controllers.UserController.login()
-POST    /user/register              controllers.UserController.register()
+POST    /user/register           controllers.UserController.register()
 
 POST    /trade/bid               controllers.MessageController.submitOrder()
 POST    /trade/ask               controllers.MessageController.submitOrder()

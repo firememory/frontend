@@ -38,9 +38,9 @@ object AccountService extends AkkaService{
     Router.backend ? command
   }
 
-  def cancelOrder(id: Long) = {
+  def cancelOrder(id: Long, uid: Long) = {
     println("cancel order: " + id)
-    Router.backend ? DoCancelOrder(Btc ~> Rmb, id) map {
+    Router.backend ? DoCancelOrder(Btc ~> Rmb, id, uid) map {
       case result: OrderCancelled => ApiResult(true, 0, result.toString)
       case x => ApiResult(false, -1, x.toString)
     }
