@@ -184,15 +184,21 @@ object MessageController extends Controller {
   }
 
   def userTransaction = Action.async{ implicit request =>
-    val query = request.queryString
-    val userId = getParam(query, "uid", "-1").toInt
-    val orderId = getParam(query, "oid", "-1").toInt
-    val limit = getParam(query, "limit", "20").toInt
-    val skip = getParam(query, "skip", "0").toInt
+    session.get("uid") match {
+      case Some(userId) =>
+        val query = request.queryString
+        val orderId = getParam(query, "oid", "-1").toInt
+        val limit = getParam(query, "limit", "20").toInt
+        val skip = getParam(query, "skip", "0").toInt
 
-    MarketService.getUserTransactions(Btc ~> Rmb, userId, orderId, skip, limit) map {
-      case transactionData: TransactionData =>
-        Ok(Json.toJson(transactionData.items))
+        MarketService.getUserTransactions(Btc ~> Rmb, userId.toLong, orderId, skip, limit) map {
+          case transactionData: TransactionData =>
+            Ok(Json.toJson(transactionData.items))
+        }
+      case None =>
+        Future {
+          Ok("unauthorised request")
+        }
     }
   }
 
