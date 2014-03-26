@@ -23,4 +23,8 @@ object MarketService extends AkkaService{
   def getAllTransactions(marketSide: MarketSide, from: Long, num: Int): Future[Any] = {
     Router.backend ? QueryTransactionData(marketSide, from, num)
   }
+
+  def getUserTransactions(marketSide: MarketSide, userId: Long, orderId: Long, from: Long, num: Int): Future[Any] = {
+    Router.backend ? QueryUserTransaction(marketSide, userId, orderId, from, num)
+  }
 }

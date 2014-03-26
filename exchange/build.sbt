@@ -17,7 +17,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"           %% "akka-contrib"                     % akkaVersion,
 //    "com.typesafe.akka"           %% "akka-persistence-experimental"    % akkaVersion,
     "com.typesafe.akka"           %% "akka-testkit"                     % akkaVersion,
-    "com.coinport" %% "coinex-client" % "1.0.1-SNAPSHOT",
+    "com.coinport" %% "coinex-client" % "1.0.2-SNAPSHOT",
 //    "com.twitter"                 %% "scrooge-core"                     % "3.12.3",
 //    "com.twitter"                 %% "scrooge-serializer"               % "3.12.3",
 //    "org.apache.thrift"           %  "libthrift"                        % "0.8.0",

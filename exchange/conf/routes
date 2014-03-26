@@ -19,10 +19,11 @@ GET    /trade/order/cancel/*id   controllers.MessageController.cancelOrder(id)
 # API routes
 GET     /api/depth                  controllers.MessageController.depth()
 GET     /api/price                  controllers.MessageController.price()
-GET    /api/order                 controllers.MessageController.getUserOrders()
+GET     /api/order                  controllers.MessageController.getUserOrders()
 GET     /api/account                controllers.MessageController.account()
 GET     /api/history                controllers.MessageController.history()
 GET     /api/transaction            controllers.MessageController.transaction()
+GET     /api/userTransaction        controllers.MessageController.userTransaction()
 POST    /account/deposit            controllers.MessageController.deposit()
 
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
