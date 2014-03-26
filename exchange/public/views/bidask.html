@@ -6,8 +6,8 @@
         <div class="row">
             <div ng-repeat="item in depth.asks" class="depth-item">
                 <span class="title sell">卖{{depth.asks.length-$index}}</span>
-                <span class="price" ng-click="ask.price=item.price">{{item.price.toFixed(2)}}</span>
-                <span class="amount">{{item.amount.toFixed(3)}}</span>
+                <span class="price" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</span>
             </div>
         </div>
         <div class="row">
@@ -16,8 +16,8 @@
         <div class="row">
         <div ng-repeat="item in depth.bids" class="depth-item">
             <span class="title buy">买{{1+$index}}</span>
-            <span class="price" ng-click="bid.price=item.price">{{item.price | currency}}</span>
-            <span class="amount">{{item.amount | quantity}}</span>
+            <span class="price" ng-click="bid.price=item.price"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
+            <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
         </div>
         </div>
     </div>
@@ -246,7 +246,8 @@
                 <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
             </td>
             <td>
-                <a href="#" ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤销</a>
+                <button ng-click="openTransaction(order)">详细</button>
+                <button ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤单</button>
             </td>
         </tr>
         </tbody>

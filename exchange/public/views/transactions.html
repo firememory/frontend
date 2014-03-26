@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4>订单信息</h4>
+    {{order.date | date:"MM-dd HH:mm:ss"}}
+    {{order.type | orderTypeText}}
+    {{order.price | currency}}
+    {{order.amount | quantity}}
+    {{order.total | currency}}
+    <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
+</div>
+<div class="modal-body">
+    <h4>该订单成交记录</h4>
+        <div class="row">
+            <div ng-repeat="item in transactions" class="transaction-item">
+                <span class="title"><i class="fa fa-clock-o"></i> {{item[0] | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="price"><i class="fa fa-cny"></i> {{item[1] | currency}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item[2] | quantity}}</span>
+            </div>
+        </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 关闭</button>
+</div>

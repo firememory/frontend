@@ -30,7 +30,7 @@ function routeConfig($routeProvider) {
 
 tradeApp.config(routeConfig);
 
-function BidAskCtrl($scope, $http) {
+function BidAskCtrl($scope, $http, $modal) {
     $scope.orders = [];
     $scope.transactions = [];
     $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
@@ -43,7 +43,7 @@ function BidAskCtrl($scope, $http) {
     $scope.refresh = function() {
         $http.get('api/account')
             .success(function(data, status, headers, config) {
-                console.log('got', data);
+//                console.log('got', data);
                 $scope.account = data;
         });
 
@@ -68,7 +68,6 @@ function BidAskCtrl($scope, $http) {
     };
 
     $scope.refresh();
-
         $http.get('api/history', {params: {period: 5}})
           .success(function(data, status, headers, config) {
             $scope.history = data
@@ -122,11 +121,6 @@ function BidAskCtrl($scope, $http) {
               }]
             });
           });
-
-    $('#myTab a').click(function (e) {
-      e.preventDefault()
-      $(this).tab('show')
-    })
 
     var updateBidTotal = function() {
         if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
@@ -238,6 +232,23 @@ function BidAskCtrl($scope, $http) {
     $scope.$watch('ask.amount', updateAskTotal);
     $scope.$watch('ask.price', updateAskTotal);
 //    $scope.$watch('ask.total', updateAskAmount);
+    $scope.openTransaction = function (order) {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/transactions.html',
+        controller: function ($scope, $http, $modalInstance) {
+          $scope.order = order;
+          $http.get('api/transaction', {params: {limit: 10, oid: order.tid}})
+            .success(function(data, status, headers, config) {
+              $scope.transactions = data;
+          });
+
+          $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+          };
+        },
+        scope: $scope
+      });
+    };
 }
 
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
@@ -292,7 +303,6 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
         //console.log('polling', args);
         //$scope.refresh();
     });
-
 }]);
 
 tradeApp.controller('UserCtrl', function ($scope, $http) {
