@@ -131,7 +131,10 @@ object Implicits {
             item.timestamp,
             (item.price unit (CNY2, MBTC) to (CNY, BTC)).value,
             (item.volumn unit MBTC).userValue,
-            (item.amount unit CNY2).userValue
+            (item.amount unit CNY2).userValue,
+            item.maker,
+            item.taker,
+            item.sameSide
           )
         )
       )

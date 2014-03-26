@@ -237,7 +237,7 @@ function BidAskCtrl($scope, $http, $modal) {
         templateUrl: 'views/transactions.html',
         controller: function ($scope, $http, $modalInstance) {
           $scope.order = order;
-          $http.get('api/transaction', {params: {limit: 10, oid: order.tid}})
+          $http.get('api/userTransaction', {params: {limit: 10, oid: order.tid}})
             .success(function(data, status, headers, config) {
               $scope.transactions = data;
           });
