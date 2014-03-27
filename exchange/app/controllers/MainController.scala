@@ -15,7 +15,7 @@ object MainController extends Controller {
 
   def trade = Action {
     implicit request =>
-      Ok(views.html.trade.render(session.get("username")))
+      Ok(views.html.trade.render(session.get("username"), session.get("uid")))
   }
 
   def market = Action {

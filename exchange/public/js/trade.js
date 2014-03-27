@@ -18,6 +18,10 @@ function routeConfig($routeProvider) {
             controller: 'UserCtrl',
             templateUrl: 'views/account.html'
     }).
+    when('/transaction', {
+            controller: 'UserTxCtrl',
+            templateUrl: 'views/transactions.html'
+    }).
 
     when('/test', {
             controller: 'DepositBtcCtrl',
@@ -234,7 +238,7 @@ function BidAskCtrl($scope, $http, $modal) {
 //    $scope.$watch('ask.total', updateAskAmount);
     $scope.openTransaction = function (order) {
       var modalInstance = $modal.open({
-        templateUrl: 'views/transactions.html',
+        templateUrl: 'views/order-tx.html',
         controller: function ($scope, $http, $modalInstance) {
           $scope.order = order;
           $http.get('api/userTransaction', {params: {limit: 10, oid: order.tid}})
@@ -422,6 +426,13 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
         ]
     });
 });
+
+tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
+    $http.get('api/userTransaction', {params: {}})
+          .success(function(data, status, headers, config) {
+                $scope.transactions = data;
+          });
+}]);
 
 tradeApp.filter('orderTypeText', function() {
     return function(input) {

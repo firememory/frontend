@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <h4>订单信息:</h4>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-4">
+        <i class="fa fa-clock-o"></i> {{order.date | date:"yyyy-MM-dd HH:mm:ss.sss"}}
+        </div>
+        <div class="col-md-6">
+        <span class="{{order.type}}">{{order.type | orderTypeText}}</span>
+        </div>
+        <div class="col-md-2">
+            <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            挂单价格 <span class="badge"><i class="fa fa-cny"></i> {{order.price | currency}}</span>
+        </div>
+        <div class="col-md-4">
+            挂单数量 <span class="badge"><i class="fa fa-btc"></i> {{order.amount | quantity}}</span>
+        </div>
+        <div class="col-md-4">
+            挂单金额 <span class="badge"><i class="fa fa-cny"></i> {{order.total | currency}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            平均价格 <span class="badge"><i class="fa fa-cny"></i> {{order.finishedAmount / order.finished | currency}}</span>
+        </div>
+        <div class="col-md-4">
+            成交数量 <span class="badge"><i class="fa fa-btc"></i> {{order.finished | quantity}}</span>
+        </div>
+        <div class="col-md-4">
+            成交金额 <span class="badge"><i class="fa fa-cny"></i> {{order.finishedAmount | currency}}</span>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <h4>该订单成交记录:</h4>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div ng-repeat="item in transactions" class="transaction-item">
+            <div class="row">
+                <div class="col-md-12">
+                <span class="title"><i class="fa fa-clock-o"></i> {{item.time | date:"yyyy-MM-dd HH:mm:ss.sss"}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : item.taker}}</span>
+                </div>
+                <div class="col-md-2">
+                    <span class="{{item.sell | txTypeClass}}">
+                        {{item.sell | txTypeText}}
+                        <i class="fa fa-btc"></i>
+                        <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i>
+                    </span>
+                </div>
+                <div class="col-md-4">
+                    <span class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : item.maker}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <span class="price">价格 <i class="fa fa-cny"></i> {{item.price | currency}}</span>
+                </div>
+                <div class="col-md-3">
+                    <span class="amount">数量 <i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
+                </div>
+                <div class="col-md-3">
+                    <span class="amount">总金额 <i class="fa fa-cny"></i> {{item.total | currency}}</span>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 关闭</button>
+</div>

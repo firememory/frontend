@@ -1126,7 +1126,7 @@ table.simple {
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
-	margin-right: 8px;
+	margin-right: 0px;
 	vertical-align: top;
 }
 

@@ -104,7 +104,7 @@
                     <!--</div>-->
 
                     <div class="row" ng-repeat="item in depth.asks">
-                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="price red">{{item.price.toFixed(4)}}</span>
                         <span class="amount">{{item.amount.toFixed(4)}}</span>
                     </div>
                 </div>
@@ -112,24 +112,24 @@
             <div id="gasks" style="margin-top: -52px;">
                 <div class="table">
                     <div class="row" ng-repeat="item in depth.asks">
-                        <span class="price">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
+                        <span class="price red">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="price" class="green">{{lastPrice.toFixed(2)}}</div>
+        <div id="price" class="{{lastTransaction.sell | txTypeClass}}">{{lastTransaction.price.toFixed(2)}}</div>
         <div class="orderbook" style="height: 143px;">
             <div id="bids">
                 <div class="table">
                     <div class="row" ng-repeat="item in depth.bids">
-                        <span class="price">{{item.price.toFixed(4)}}</span>
+                        <span class="price green">{{item.price.toFixed(4)}}</span>
                         <span class="amount">{{item.amount.toFixed(4)}}</span></div>
                 </div>
             </div>
             <div id="gbids">
                 <div class="table">
                     <div class="row" ng-repeat="item in depth.bids">
-                        <span class="price">{{item.price.toFixed(0)}}</span>
+                        <span class="price green">{{item.price.toFixed(0)}}</span>
                         <span class="amount">{{item.amount.toFixed(0)}}</span>
                     </div>
                 </div>
@@ -140,9 +140,9 @@
 
 <div id="trades" style="height: 100%;">
     <div class="row" ng-repeat="item in transactions" style="display: block;">
-        <div class="v">{{item[2].toFixed(4)}}</div>
-        <div class="t">{{item[0] | date:"HH:mm:ss"}}</div>
-        <div class="p green">{{item[1].toFixed(2)}}</div>
+        <div class="v">{{item.amount.toFixed(3)}}</div>
+        <div class="t">{{item.time | date:"dd HH:mm:ss"}}</div>
+        <div class="p {{item.sell | txTypeClass}}">{{item.price.toFixed(2)}}</div>
     </div>
     <!--<div class="row" style="display: block;">-->
         <!--<div class="v">0-->

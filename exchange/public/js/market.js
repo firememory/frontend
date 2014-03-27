@@ -57,8 +57,9 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         $http.get('api/transaction', {params: {limit: 40, skip: 0}})
             .success(function(data, status, headers, config) {
                 $scope.transactions = data;
-                if (data.length > 0)
-                    $scope.lastPrice = data[0][1];
+                if (data.length > 0) {
+                    $scope.lastTransaction = data[0];
+                }
             });
     };
 
@@ -68,4 +69,10 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         console.log('polling', args);
         $scope.refresh();
     });
+});
+
+marketApp.filter('txTypeClass', function() {
+    return function(input) {
+        return input ? 'red' : 'green';
+    }
 });
