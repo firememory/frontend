@@ -121,7 +121,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 
 #sidebar {
 	height: 100%;
-	width: 220px;
+	width: 420px;
 	border-left: 1px solid #333;
 	padding-left: 6px;
 }
@@ -1122,11 +1122,11 @@ table.simple {
 	line-height: 13px;
 }
 
-#trades .t, #trades .p, #trades .v {
+#trades .t, #trades .p, #trades .v, #trades .u {
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
-	margin-right: 0px;
+	margin-right: 2px;
 	vertical-align: top;
 }
 

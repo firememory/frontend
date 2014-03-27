@@ -47,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <span class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : item.taker}}</span>
+                    <span class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker | UID)}}</span>
                 </div>
                 <div class="col-md-2">
                     <span class="{{item.sell | txTypeClass}}">
@@ -57,7 +57,7 @@
                     </span>
                 </div>
                 <div class="col-md-4">
-                    <span class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : item.maker}}</span>
+                    <span class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker | UID)}}</span>
                 </div>
             </div>
             <div class="row">

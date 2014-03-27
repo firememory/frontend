@@ -19,9 +19,9 @@
                     <td><i class="fa fa-cny"></i> {{item.price | currency}}</td>
                     <td><i class="fa fa-btc"></i> {{item.amount | quantity}}</td>
                     <td><i class="fa fa-cny"></i> {{item.total | currency}}</td>
-                    <td>{{uid==item.taker ? '我' : '用户'+item.taker}}</td>
+                    <td>{{uid==item.taker ? '我' : (item.taker|UID)}}</td>
                     <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                    <td>{{uid==item.maker ? '我' : '用户'+item.maker}}</td>
+                    <td>{{uid==item.maker ? '我' : (item.maker|UID)}}</td>
                 </tr>
             </tbody>
         </table>

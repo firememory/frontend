@@ -140,9 +140,12 @@
 
 <div id="trades" style="height: 100%;">
     <div class="row" ng-repeat="item in transactions" style="display: block;">
+        <div class="t">{{item.time | date:"MM-dd HH:mm:ss"}}</div>
+        <div class="p {{item.sell | txTypeClass}}"><i class="fa fa-cny"></i>{{item.price.toFixed(2)}}</div>
+        <div class="u {{item.sell | txTypeClass}}"><i class="fa fa-user"></i>{{item.taker|UID}}</div>
+        <div class="u"><i class="fa {{item.sell | txTypeIcon}}"></i></div>
+        <div class="u {{!item.sell | txTypeClass}}"><i class="fa fa-user"></i>{{item.maker|UID}}</div>
         <div class="v">{{item.amount.toFixed(3)}}</div>
-        <div class="t">{{item.time | date:"dd HH:mm:ss"}}</div>
-        <div class="p {{item.sell | txTypeClass}}">{{item.price.toFixed(2)}}</div>
     </div>
     <!--<div class="row" style="display: block;">-->
         <!--<div class="v">0-->

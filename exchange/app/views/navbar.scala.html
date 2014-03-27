@@ -40,7 +40,7 @@
                 }
             }
                 <li ng-show="isLogin">
-                    <a><strong>{{username}}</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> {{uid}}</span></a>
+                    <a><strong>{{username}}</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> {{uid | UID}}</span></a>
                 </li>
                 <li  ng-show="isLogin">
                     <a href="/user/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>

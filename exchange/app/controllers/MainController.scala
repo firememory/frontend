@@ -10,7 +10,7 @@ import play.api.mvc.{Action, Controller}
 object MainController extends Controller {
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(session.get("username")))
+      Ok(views.html.index.render(session.get("username"), session.get("uid")))
   }
 
   def trade = Action {

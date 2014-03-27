@@ -76,3 +76,17 @@ marketApp.filter('txTypeClass', function() {
         return input ? 'red' : 'green';
     }
 });
+
+marketApp.filter('txTypeIcon', function() {
+    return function(input) {
+        return input ?  'fa-angle-double-right' : 'fa-angle-double-left';
+    }
+});
+
+marketApp.filter('UID', function() {
+    return function(input) {
+        var uid = parseInt(input).toString(35).toUpperCase().replace('-','Z');
+        var shortUid = uid.substring(0,2) + '***' + uid.substring(uid.length-3,uid.length);
+        return shortUid;
+    }
+  });

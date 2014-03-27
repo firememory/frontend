@@ -1,4 +1,4 @@
-@(user: Option[String])
+@(user: Option[String], uid: Option[String])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +11,14 @@
 </head>
 
 <body ng-app="coinport.index">
+@uid match {
+case Some(id: String) => {
+<span ng-init="uid='@id'" ng-show="false"></span>
+}
+case None => {
+<span ng-init="uid='0'" ng-show="false"></span>
+}
+}
 @navbar(user)
 <div class="container" id="main-container" ng-controller="IndexCtrl">
     <div class="clearfix">

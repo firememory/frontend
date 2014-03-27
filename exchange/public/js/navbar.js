@@ -1,5 +1,5 @@
-angular.module('navbar', [])
-  .controller('NaviCtrl', function ($scope, $modal, $log) {
+var app = angular.module('navbar', []);
+app.controller('NaviCtrl', function ($scope, $modal, $log) {
     $scope.openLoginWindow = function (activeTab) {
       $scope.activeTab = activeTab;
       var modalInstance = $modal.open({
@@ -55,4 +55,10 @@ angular.module('navbar', [])
         $log.info('Modal dismissed at: ' + new Date());
       });
     };
+  });
+
+app.filter('UID', function() {
+    return function(input) {
+        return parseInt(input).toString(35).toUpperCase().replace('-','Z');
+    }
   });

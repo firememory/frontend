@@ -511,3 +511,9 @@ tradeApp.filter('quantity', function() {
     }
     return filter;
 });
+
+tradeApp.filter('UID', function() {
+    return function(input) {
+        return parseInt(input).toString(35).toUpperCase().replace('-','Z');
+    }
+  });
