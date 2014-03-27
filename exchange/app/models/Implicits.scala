@@ -127,14 +127,14 @@ object Implicits {
     def writes(items: Seq[TransactionItem]) = {
       Json.toJson(
         items.map(item =>
-          Json.arr(
-            item.timestamp,
-            (item.price unit (CNY2, MBTC) to (CNY, BTC)).value,
-            (item.volumn unit MBTC).userValue,
-            (item.amount unit CNY2).userValue,
-            item.maker,
-            item.taker,
-            item.sameSide
+          Json.obj(
+            "time" -> item.timestamp,
+            "price" -> (item.price unit (CNY2, MBTC) to (CNY, BTC)).value,
+            "amount" -> (item.volumn unit MBTC).userValue,
+            "total" -> (item.amount unit CNY2).userValue,
+            "maker" -> item.maker,
+            "taker" -> item.taker,
+            "sell" -> item.sameSide
           )
         )
       )

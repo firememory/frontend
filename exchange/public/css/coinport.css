@@ -163,12 +163,22 @@ footer li a{
     font-size: 12px;
     margin: 0;
     padding: 1px;
-    border-top: 1px dashed #e6e6e6;
+    border-bottom: 1px dashed #e6e6e6;
 }
 .transaction-item .title {
     padding-left: 10px;
     font-size: 10px;
     color: #999;
+}
+.transaction-item .sell {
+    padding-left: 10px;
+    font-size: 10px;
+    color: #CC9999;
+}
+.transaction-item .buy {
+    padding-left: 10px;
+    font-size: 10px;
+    color: #99CC99;
 }
 .transaction-item .price {
     padding-left: 20px;

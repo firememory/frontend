@@ -183,10 +183,11 @@
     </div>
     <div class="col-md-4 transaction-box">
         <div class="row">
-            <div ng-repeat="item in transactions" class="transaction-item">
-                <span class="title"><i class="fa fa-clock-o"></i> {{item[0] | date:"yyyy-MM-dd HH:mm:ss"}}</span>
-                <span class="price"><i class="fa fa-cny"></i> {{item[1] | currency}}</span>
-                <span class="amount"><i class="fa fa-btc"></i> {{item[2] | quantity}}</span>
+            <div ng-repeat="item in transactions" class="transaction-item" popover="{{item.taker}} {{item.maker}}">
+                <span class="title"><i class="fa fa-clock-o"></i> {{item.time | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+                <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
+                <span class="price"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
             </div>
         </div>
     </div>

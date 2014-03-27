@@ -63,7 +63,7 @@ function BidAskCtrl($scope, $http, $modal) {
 //            console.log('transactions', data);
             $scope.transactions = data;
             if (data.length > 0)
-                $scope.lastPrice = data[0][1];
+                $scope.lastPrice = data[0].price;
         });
     };
 
@@ -320,7 +320,7 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
     $http.get('api/transaction', {params: {skip: 0, limit: 1}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
-            $scope.prices['BTC'] = data[0][1];
+            $scope.prices['BTC'] = data[0].price;
             if ($scope.accounts) {
                 console.log('calculate assets', $scope.accounts, $scope.prices);
                 $scope.accounts.forEach(function(asset) {
@@ -424,14 +424,31 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
 });
 
 tradeApp.filter('orderTypeText', function() {
-    var filter = function(input) {
+    return function(input) {
         if(input == 'buy')
             return '买入';
         if(input == 'sell')
             return '卖出';
         return '未知';
     }
-    return filter;
+});
+
+tradeApp.filter('txTypeClass', function() {
+    return function(input) {
+        return input ? 'sell' : 'buy';
+    }
+});
+
+tradeApp.filter('txTypeText', function() {
+    return function(input) {
+        return input ?  '卖出' : '买入';
+    }
+});
+
+tradeApp.filter('txTypeIcon', function() {
+    return function(input) {
+        return input ?  'fa-angle-double-right' : 'fa-angle-double-left';
+    }
 });
 
 tradeApp.filter('orderStatusClass', function() {
@@ -452,15 +469,15 @@ tradeApp.filter('orderStatusClass', function() {
 tradeApp.filter('orderStatusText', function() {
     var filter = function(input) {
         if(input == 2)
-            return '交易成功';
+            return '全部成交';
         if(input == 0)
-            return '挂单中';
+            return '正在挂单';
         if(input == 1)
             return '部分成交';
         if(input == 3)
-            return '已撤销';
+            return '已经撤销';
         if(input == 4)
-            return '未成交';
+            return '未能成交';
         if(input == 5)
             return '部分成交';
         if(input == -1)
