@@ -230,3 +230,98 @@ footer li a{
     font-size: 12px;
     color: #bbb;
 }
+
+/*--------------------- .deposit */
+.deposit-rmb {
+    padding: 20px 20px 20px 20px;
+    margin-left: 15px;
+    height: 37px;
+}
+
+.bankLink {
+    display: inline-block;
+    width: 125px;
+    height: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+}
+
+.deposit-rmb .netbank li {
+    float: left;
+    padding: 10px 0px 10px 0px;
+    margin-left: 15px;
+    height: 37px;
+    /* 当下级元素: hover时要设置height,否则下一行元素会换行; */
+    width: 165px;
+}
+
+.deposit-rmb  .bankLink1{
+    background:url("../image/bank.png") repeat scroll 0 3px transparent;
+}
+
+.deposit-rmb  .bankLink2{
+    background:url("../image/bank.png") repeat scroll 0 -107px transparent;
+}
+
+.deposit-rmb  .bankLink3{
+    background:url("../image/bank.png") repeat scroll 0 -143px transparent;
+}
+
+.deposit-rmb  .bankLink4{
+    background:url("../image/bank.png") repeat scroll 0 -213px transparent;
+}
+
+.deposit-rmb  .bankLink5{
+    background:url("../image/bank.png") repeat scroll 0 -287px transparent;
+}
+
+.deposit-rmb  .bankLink6{
+    background:url("../image/bank.png") repeat scroll 0 -321px transparent;
+}
+
+.deposit-rmb  .bankLink7{
+    background:url("../image/bank.png") repeat scroll 0 -358px transparent;
+}
+
+.deposit-rmb  .bankLink8{
+    background:url("../image/bank.png") repeat scroll 0 -394px transparent;
+}
+
+.deposit-rmb  .bankLink9{
+    background:url("../image/bank.png") repeat scroll 0 -466px transparent;
+}
+
+.deposit-rmb   .bankLink10{
+    background:url("../image/bank.png") repeat scroll 0 -539px  transparent;
+}
+
+.deposit-rmb  .bankLink11{
+    background:url("../image/bank.png") repeat scroll 0 -608px transparent;
+}
+.deposit-rmb  .bankLink12{
+    background:url("../image/bank.png") repeat scroll 0  -754px transparent;
+}
+.deposit-rmb  .bankLink13{
+    background:url("../image/bank.png") repeat scroll 0 -646px transparent;
+}
+.deposit-rmb  .bankLink14{
+    background:url("../image/bank.png") repeat scroll 0 -502px transparent;
+}
+.deposit-rmb  .bankLink15{
+    background:url("../image/bank.png") repeat scroll 0 -251px transparent;
+}
+.deposit-rmb  .bankLink16{
+    background:url("../image/bank.png") repeat scroll 0 -34px transparent;
+}
+.deposit-rmb  .bankLink17{
+    background:url("../image/bank.png") repeat scroll 0 -867px transparent;
+}
+.deposit-rmb  .bankLink18{
+    background:url("../image/bank.png") repeat scroll 0 -575px transparent;
+}
+.deposit-rmb  .bankLink19{
+    background:url("../image/bank.png") repeat scroll 0 -720px transparent;
+}
+.deposit-rmb  .bankLink20{
+    background:url("../image/bank.png") repeat scroll 0 -902px transparent;
+}
