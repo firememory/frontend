@@ -1,0 +1,63 @@
+    <h4>我的委托:</h4>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <table class="table table-condensed table-striped table-user-order">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>委托时间</th>
+                <th>类型</th>
+                <th>委托价</th>
+                <th>委托量</th>
+                <th>成交量</th>
+                <th>剩余量</th>
+                <th>总金额</th>
+                <th>成交额</th>
+                <th>剩余额</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
+                <td>
+                    {{order.tid}}
+                </td>
+                <td>
+                    {{order.date | date:"MM-dd HH:mm:ss"}}
+                </td>
+                <td class="{{order.type}}">
+                    {{order.type | orderTypeText}}
+                </td>
+                <td class="{{order.type}}">
+                    {{order.price | currency}}
+                </td>
+                <td>
+                    {{order.amount | quantity}}
+                </td>
+                <td>
+                    {{order.finished | quantity}}
+                </td>
+                <td>
+                    {{order.remaining | quantity}}
+                </td>
+                <td>
+                    {{order.total | currency}}
+                </td>
+                <td>
+                    {{order.finishedAmount | currency}}
+                </td>
+                <td>
+                    {{order.remainingAmount | currency}}
+                </td>
+                <td>
+                    <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
+                </td>
+                <td>
+                    <button ng-click="showDetail(order)">详细</button>
+                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤单</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>

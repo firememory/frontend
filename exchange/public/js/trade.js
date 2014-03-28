@@ -18,11 +18,18 @@ function routeConfig($routeProvider) {
             controller: 'UserCtrl',
             templateUrl: 'views/account.html'
     }).
-    when('/transaction', {
-            controller: 'UserTxCtrl',
-            templateUrl: 'views/transactions.html'
+    when('/order', {
+            controller: 'OrderDetailCtrl',
+            templateUrl: 'views/order.html'
     }).
-
+    when('/orders', {
+            controller: 'UserOrderCtrl',
+            templateUrl: 'views/orders.html'
+    }).
+    when('/transaction', {
+        controller: 'UserTxCtrl',
+        templateUrl: 'views/transactions.html'
+    }).
     when('/test', {
             controller: 'DepositBtcCtrl',
             templateUrl: 'views/test.html'
@@ -432,6 +439,36 @@ tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
           .success(function(data, status, headers, config) {
                 $scope.transactions = data;
           });
+}]);
+
+tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
+    $http.get('api/order')
+        .success(function(data, status, headers, config) {
+            $scope.orders = data;
+        });
+
+    $scope.showDetail = function(order) {
+        $scope.$parent.order = order;
+        $location.path('/order');
+    };
+
+    $scope.cancelOrder = function(id) {
+        $http.get('trade/order/cancel/' + id)
+            .success(function(data, status, headers, config) {
+                $scope.refresh();
+            });
+    };
+}]);
+
+tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
+    // TODO: call order detail API
+    var order = $scope.order;
+    var params = {params: {oid: order.tid}};
+    console.log(params);
+    $http.get('api/userTransaction', params)
+        .success(function(data, status, headers, config) {
+            $scope.transactions = data;
+        });
 }]);
 
 tradeApp.filter('orderTypeText', function() {
