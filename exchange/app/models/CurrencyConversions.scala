@@ -36,36 +36,6 @@ object CurrencyUnit extends Enumeration {
 }
 
 import CurrencyUnit._
-import com.coinport.coinex.data.Currency
-import com.coinport.coinex.data.Currency.Btc
-import com.coinport.coinex.data.Currency.Rmb
-
-object CurrencyValue {
-  implicit def long2CurrencyUnit(value: Long) = new CurrencyValue(value)
-  implicit def double2CurrencyUnit(value: Double) = new CurrencyValue(value)
-  implicit def currencyUnit2Long(value: CurrencyValue) = value.toLong
-  implicit def currencyUnit2Double(value: CurrencyValue) = value.toDouble
-
-  implicit def double2PriceUnit(value: Double): PriceValue = new PriceValue(value)
-  implicit def priceUnit2Double(value: PriceValue) = value
-
-  implicit def currency2CurrencyUnit(value: Currency): CurrencyUnit = {
-    value match {
-      case Btc => MBTC
-      case Rmb => CNY2
-      case _ => NO_UNIT
-    }
-  }
-
-  implicit def currencyUnit2Currency(value: CurrencyUnit): Currency = {
-    value match {
-      case BTC => Btc
-      case MBTC => Btc
-      case CNY => Rmb
-      case CNY2 => Rmb
-    }
-  }
-}
 
 case class CurrencyValue(value: Double) {
   private var currencyUnit: CurrencyUnit = _

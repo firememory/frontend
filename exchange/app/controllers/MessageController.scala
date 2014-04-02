@@ -14,14 +14,17 @@ import scala.concurrent.Future
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
-import models.Implicits._
+import models._
 import models.OperationEnum._
 import services.{MarketService, AccountService}
-import models.{ApiResult, UserOrder}
 import com.coinport.coinex.data.ChartTimeDimension._
 import play.api.libs.json.Json
+import com.github.tototoshi.play2.json4s.native.Json4s
+import org.json4s.{NoTypeHints, Extraction}
+import org.json4s.native.Serialization
+import org.json4s.ext.EnumNameSerializer
 
-object MessageController extends Controller {
+object MessageController extends Controller with Json4s {
 
   import akka.util.Timeout
   import scala.concurrent.duration._
@@ -32,6 +35,8 @@ object MessageController extends Controller {
   val week = 7 * 24 * 60 * 60 * 1000
 
   implicit val timeout = Timeout(2 seconds)
+  implicit val formats = Serialization.formats(NoTypeHints) +
+    new EnumNameSerializer(OperationEnum)
 
   def price = Action {
     Ok("TODO")
@@ -44,7 +49,7 @@ object MessageController extends Controller {
 
       MarketService.getDepth(Btc ~> Rmb, depth) map {
         case result: QueryMarketDepthResult =>
-          Ok(Json.toJson(result))
+          Ok(Extraction.decompose(result.marketDepth))
       }
   }
 
@@ -54,7 +59,7 @@ object MessageController extends Controller {
         case Some(uid) =>
           AccountService.getOrders(uid.toLong) map {
             case result: ApiResult =>
-              Ok(Json.toJson(result)) //.data.get.asInstanceOf[Seq[UserOrder]]))
+              Ok(result.toJson()) //.data.get.asInstanceOf[Seq[UserOrder]]))
           }
         case None =>
           Future {
@@ -82,10 +87,10 @@ object MessageController extends Controller {
           }
           val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
-          AccountService.submitOrder(order).map(result => Ok(Json.toJson(result)))
+          AccountService.submitOrder(order).map(result => Ok(result.toJson()))
         case None =>
           Future {
-            Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
+            Ok(ApiResult(false, -1, "unauthorised request").toJson())
           }
       }
   }
@@ -94,10 +99,10 @@ object MessageController extends Controller {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
-          AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(Json.toJson(result)))
+          AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(result.toJson()))
         case None =>
           Future {
-            Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
+            Ok(ApiResult(false, -1, "unauthorised request").toJson())
           }
       }
   }

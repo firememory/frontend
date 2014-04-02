@@ -3,18 +3,42 @@
  * Author: Chunming Liu (chunming@coinport.com)
  */
 
-package models
-
-import play.api.libs.json._
+import com.coinport.coinex.data.Currency.{Btc, Rmb}
 import com.coinport.coinex.data._
-import com.coinport.coinex.data.Currency._
-import play.api.libs.functional.syntax._
-import models.CurrencyValue._
 import models.CurrencyUnit._
-import play.api.libs.json.JsString
 import org.json4s.ext.EnumNameSerializer
+import org.json4s.JsonAST.JField
+import org.json4s.native.Serialization
+import org.json4s._
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
-object Implicits {
+package object models {
+  implicit def long2CurrencyUnit(value: Long) = new CurrencyValue(value)
+  implicit def double2CurrencyUnit(value: Double) = new CurrencyValue(value)
+  implicit def currencyUnit2Long(value: CurrencyValue) = value.toLong
+  implicit def currencyUnit2Double(value: CurrencyValue) = value.toDouble
+
+  implicit def double2PriceUnit(value: Double): PriceValue = new PriceValue(value)
+  implicit def priceUnit2Double(value: PriceValue) = value
+
+  implicit def currency2CurrencyUnit(value: Currency): CurrencyUnit = {
+    value match {
+      case Btc => MBTC
+      case Rmb => CNY2
+      case _ => NO_UNIT
+    }
+  }
+
+  implicit def currencyUnit2Currency(value: CurrencyUnit): Currency = {
+    value match {
+      case BTC => Btc
+      case MBTC => Btc
+      case CNY => Rmb
+      case CNY2 => Rmb
+    }
+  }
+
   implicit def string2Currency(currencyString: String): Currency = {
     currencyString.toUpperCase match {
       case "RMB" => Currency.Rmb
@@ -37,10 +61,11 @@ object Implicits {
       val available = (cachAccount.available unit currencyUnit).userValue
       val locked = (cachAccount.locked unit currencyUnit).userValue
       Json.obj(
-      "currency" -> JsString(currency.toString),
-      "available" -> available,
-      "locked" -> locked
-    )}
+        "currency" -> JsString(currency.toString),
+        "available" -> available,
+        "locked" -> locked
+      )
+    }
   }
 
   implicit val queryAccountResultWrites = new Writes[QueryAccountResult] {
@@ -62,7 +87,7 @@ object Implicits {
 
   implicit val marketDepthItemWrites = new Writes[MarketDepthItem] {
     def writes(obj: MarketDepthItem) = Json.obj(
-      "price" -> (obj.price unit (CNY2, MBTC)).userValue,
+      "price" -> (obj.price unit(CNY2, MBTC)).userValue,
       "amount" -> (obj.quantity unit MBTC).userValue
     )
   }
@@ -78,10 +103,10 @@ object Implicits {
     def writes(candleDataItem: CandleDataItem) = {
       Json.arr(
         candleDataItem.timestamp,
-        (candleDataItem.open unit (CNY2, MBTC) to (CNY, BTC)).value,
-        (candleDataItem.high unit (CNY2, MBTC) to (CNY, BTC)).value,
-        (candleDataItem.low unit (CNY2, MBTC) to (CNY, BTC)).value,
-        (candleDataItem.close unit (CNY2, MBTC) to (CNY, BTC)).value,
+        (candleDataItem.open unit(CNY2, MBTC) to(CNY, BTC)).value,
+        (candleDataItem.high unit(CNY2, MBTC) to(CNY, BTC)).value,
+        (candleDataItem.low unit(CNY2, MBTC) to(CNY, BTC)).value,
+        (candleDataItem.close unit(CNY2, MBTC) to(CNY, BTC)).value,
         (candleDataItem.volumn unit MBTC).userValue
       )
     }
@@ -89,7 +114,7 @@ object Implicits {
 
   implicit val marketCandleDataResultsWrites = new Writes[Seq[CandleDataItem]] {
     def writes(candles: Seq[CandleDataItem]) = {
-       Json.toJson(candles)
+      Json.toJson(candles)
     }
   }
 
@@ -99,7 +124,7 @@ object Implicits {
         items.map(item =>
           Json.obj(
             "time" -> item.timestamp,
-            "price" -> (item.price unit (CNY2, MBTC) to (CNY, BTC)).value,
+            "price" -> (item.price unit(CNY2, MBTC) to(CNY, BTC)).value,
             "amount" -> (item.volumn unit MBTC).userValue,
             "total" -> (item.amount unit CNY2).userValue,
             "maker" -> item.maker,
@@ -111,19 +136,21 @@ object Implicits {
     }
   }
 
-  import org.json4s._
-  import org.json4s.JsonDSL._
-  import org.json4s.native.Serialization
-  import org.json4s.native.Serialization.write
+  class JsonSupportWrapper(obj: Any) {
+    implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum)
 
-  implicit val simpleApiResultWrites = new Writes[ApiResult] {
-    implicit val formats = Serialization.formats(NoTypeHints) +
-      new EnumNameSerializer(OperationEnum)
-
-    def writes(result: ApiResult) = {
-      Json.parse(write(result))
+    def toJson(): JValue = {
+      val json = Extraction.decompose(obj)
+      json filterField {
+        case JField(name, value) =>
+          !name.startsWith("_") // filter fields starting with underscore
+        case _ => false
+      }
+      json
     }
   }
+
+  implicit def toJsonSupportWrapper(obj: Any): JsonSupportWrapper = new JsonSupportWrapper(obj)
 
   implicit def fromOrderSubmitted(obj: OrderSubmitted): SubmitOrderResult = {
     val orderInfo = obj.originOrderInfo

@@ -1,10 +1,14 @@
+/**
+ * Copyright (C) 2014 Coinport Inc.
+ * Author: Chunming Liu (chunming@coinport.com)
+ */
+
 package models
 
 import com.coinport.coinex.data._
 import com.coinport.coinex.data.Implicits._
 import scala.Some
 import models.CurrencyUnit._
-import models.CurrencyValue._
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 
 object OperationEnum extends Enumeration {
