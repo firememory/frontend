@@ -59,7 +59,7 @@ object MessageController extends Controller with Json4s {
         case Some(uid) =>
           AccountService.getOrders(uid.toLong) map {
             case result: ApiResult =>
-              Ok(result.toJson()) //.data.get.asInstanceOf[Seq[UserOrder]]))
+              Ok(result.toJson)
           }
         case None =>
           Future {
@@ -87,10 +87,10 @@ object MessageController extends Controller with Json4s {
           }
           val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
-          AccountService.submitOrder(order).map(result => Ok(result.toJson()))
+          AccountService.submitOrder(order).map(result => Ok(result.toJson))
         case None =>
           Future {
-            Ok(ApiResult(false, -1, "unauthorised request").toJson())
+            Ok(ApiResult(false, -1, "unauthorised request").toJson)
           }
       }
   }
@@ -102,7 +102,7 @@ object MessageController extends Controller with Json4s {
           AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(result.toJson()))
         case None =>
           Future {
-            Ok(ApiResult(false, -1, "unauthorised request").toJson())
+            Ok(ApiResult(false, -1, "unauthorised request").toJson)
           }
       }
   }
@@ -114,9 +114,9 @@ object MessageController extends Controller with Json4s {
         case Some(id) =>
           println("send query with uid: " + id)
           AccountService.getAccount(id.toLong) map {
-            case result: QueryAccountResult =>
+            case result =>
               println("got response: " + result)
-              Ok(Json.toJson(result))
+              Ok(result.toJson)
           }
         case None =>
           Future {

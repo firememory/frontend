@@ -37,18 +37,13 @@ object CurrencyUnit extends Enumeration {
 
 import CurrencyUnit._
 
-case class CurrencyValue(value: Double) {
-  private var currencyUnit: CurrencyUnit = _
-
+case class CurrencyValue(value: Double, unit: CurrencyUnit = NO_UNIT) {
   def unit(unit: CurrencyUnit): CurrencyValue = {
-    this.currencyUnit = unit
-    this
+    copy(unit = unit)
   }
 
-  def unit: CurrencyUnit = currencyUnit
-
   def / (operand: CurrencyValue): PriceValue = {
-    val units = (currencyUnit, operand.currencyUnit)
+    val units = (unit, operand.unit)
     if (units._1 == units._2) { PriceValue(value / operand.value) }
     else {
       factors.get(units) match {
@@ -62,10 +57,10 @@ case class CurrencyValue(value: Double) {
 
   def * (operand: PriceValue): CurrencyValue = {
     if (operand.unit == (NO_UNIT, NO_UNIT)) {
-      CurrencyValue(value * operand.value).unit(unit)
+      CurrencyValue(value * operand.value, unit)
     } else {
       factors.get(this.unit, operand.unit._2) match {
-        case Some(factor) => CurrencyValue(value * operand.value * factor).unit(operand.unit._1)
+        case Some(factor) => CurrencyValue(value * operand.value * factor, operand.unit._1)
         case None => this // can't multiply
       }
     }
@@ -73,34 +68,34 @@ case class CurrencyValue(value: Double) {
 
   def to (newUnit: CurrencyUnit): CurrencyValue = {
 //    println("convert from " + currencyUnit + " to " + newUnit)
-    if (currencyUnit == newUnit) { this }
+    if (unit == newUnit) { this }
     else {
-      factors.get((currencyUnit, newUnit)) match {
-        case Some(factor) => CurrencyValue(value * factor).unit(newUnit)
+      factors.get((unit, newUnit)) match {
+        case Some(factor) => CurrencyValue(value * factor, newUnit)
         case None => this // can't convert between different currencies
       }
     }
   }
 
   def userValue: Double = {
-    to(userUnit(currencyUnit)).value
+    to(userUnit(unit)).value
   }
 
   def innerValue: Double = {
-    to(innerUnit(currencyUnit)).value.toLong
+    to(innerUnit(unit)).value.toLong
   }
 
   def toLong = value.toLong
   def toDouble = value
 
   override def toString: String = {
-    "[" + value + " " + currencyUnit + "]"
+    "[" + value + " " + unit + "]"
   }
 
   override def equals(obj: scala.Any): Boolean = {
     if (obj.isInstanceOf[CurrencyValue]) {
       val other = obj.asInstanceOf[CurrencyValue]
-      val me = this to other.currencyUnit
+      val me = this to other.unit
       me.value == other.value && me.unit == other.unit
     } else {
       false
@@ -122,14 +117,13 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
       operand
     } else {
       factors.get(operand.unit, this.unit._2) match {
-        case Some(factor) => CurrencyValue(value * operand.value * factor).unit(this.unit._1)
+        case Some(factor) => CurrencyValue(value * operand.value * factor, this.unit._1)
         case None => operand // can't multiply
       }
     }
   }
 
   def to (newUnit: (CurrencyUnit, CurrencyUnit)): PriceValue = {
-//    println("converting price: " + this + " to " + newUnit)
     if (newUnit.swap == unit)
       inverse
     else {
@@ -137,7 +131,6 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
         case Some(factor1) =>
           factors.get(unit._2, newUnit._2) match {
             case Some(factor2) =>
-//              println("factors: " + factor1 + ", " + factor2 + "\nto " + PriceValue(value * factor1 / factor2, newUnit))
               PriceValue(value * factor1 / factor2, newUnit)
             case None => this
           }

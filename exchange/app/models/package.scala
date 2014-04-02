@@ -22,6 +22,7 @@ package object models {
   implicit def double2PriceUnit(value: Double): PriceValue = new PriceValue(value)
   implicit def priceUnit2Double(value: PriceValue) = value
 
+  // internal unit of backend
   implicit def currency2CurrencyUnit(value: Currency): CurrencyUnit = {
     value match {
       case Btc => MBTC
@@ -48,6 +49,35 @@ package object models {
       case _ => null
     }
   }
+
+  implicit def currency2String(currency: Currency): String = {
+    currency match {
+      case Currency.Rmb => "RMB"
+      case Currency.Btc => "BTC"
+      case Currency.Usd => "USD"
+      case _ => currency.name.toUpperCase
+    }
+  }
+
+  // (1000, btc) -> 1000 unit MBTC
+  implicit def tuple2CurrencyValue(t: (Long, Currency)): CurrencyValue = {
+    t._1 unit t._2
+  }
+
+  // user account conversions
+
+  implicit def fromUserAccount(backendObj: com.coinport.coinex.data.UserAccount): UserAccount = {
+    val uid = backendObj.userId
+    val map: Map[String, Double] = backendObj.cashAccounts.map {
+      case (k, v) =>
+        val currency: String = k
+        currency -> (v.available, v.currency).userValue
+    }.toMap
+
+    UserAccount(uid, accounts = map)
+  }
+
+  // Json compose / decompose
 
   implicit val userReads: Reads[User] = (
     (JsPath \ "username").read[String] and

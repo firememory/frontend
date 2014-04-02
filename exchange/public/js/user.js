@@ -5,7 +5,7 @@ userApp.controller('UserCtrl', function ($scope, $http) {
     $http.get('api/account')
         .success(function(data, status, headers, config) {
             console.log('got', data);
-            $scope.accounts = data.accounts;
+            $scope.accounts = data.data.accounts;
         });
 });
 

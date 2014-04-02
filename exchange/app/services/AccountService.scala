@@ -10,17 +10,20 @@ import akka.pattern.ask
 import scala.concurrent.Future
 import models._
 import models.CurrencyUnit._
-import models.CurrencyValue._
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 import com.coinport.coinex.data.Implicits._
 
 object AccountService extends AkkaService {
-  def getAccount(uid: Long): Future[Any] = {
-    Router.backend ? QueryAccount(uid)
+  def getAccount(uid: Long): Future[ApiResult] = {
+    Router.backend ? QueryAccount(uid) map {
+      case result: QueryAccountResult =>
+        val userAccount: models.UserAccount = result.userAccount
+        ApiResult(true, 0, "", Some(userAccount))
+    }
   }
 
-  def deposit(uid: Long, currency: Currency, amount: Double) = {
+  def deposit(uid: Long, currency: Currency, amount: Double): Future[ApiResult] = {
     val amount1: Long = currency match {
       case Rmb =>
         amount unit CNY to CNY2
@@ -29,10 +32,13 @@ object AccountService extends AkkaService {
       case _ =>
         0L
     }
-    Router.backend ? DoRequestCashDeposit(uid.toLong, currency, amount1)
+    Router.backend ? DoRequestCashDeposit(uid.toLong, currency, amount1) map {
+      // TODO: map different results
+      case result => ApiResult()
+    }
   }
 
-  def submitOrder(userOrder: UserOrder) = {
+  def submitOrder(userOrder: UserOrder): Future[ApiResult] = {
     val command = userOrder.toDoSubmitOrder
     Router.backend ? command map {
       case result: OrderSubmitted =>
@@ -44,7 +50,7 @@ object AccountService extends AkkaService {
     }
   }
 
-  def cancelOrder(id: Long, uid: Long) = {
+  def cancelOrder(id: Long, uid: Long): Future[ApiResult] = {
     println("cancel order: " + id)
     Router.backend ? DoCancelOrder(Btc ~> Rmb, id, uid) map {
       case result: OrderCancelled => ApiResult(true, 0, "订单已撤销", Some(result.order))
@@ -52,7 +58,7 @@ object AccountService extends AkkaService {
     }
   }
 
-  def getOrders(uid: Long) = {
+  def getOrders(uid: Long): Future[ApiResult] = {
     Router.backend ? QueryUserOrders(uid) map {
       case result: QueryUserOrdersResult =>
         val data = result.orders.map {

@@ -64,8 +64,7 @@ function BidAskCtrl($scope, $http, $modal) {
     $scope.refresh = function() {
         $http.get('api/account')
             .success(function(data, status, headers, config) {
-//                console.log('got', data);
-                $scope.account = data;
+                $scope.account = data.data.accounts;
         });
 
         $http.get('api/depth')
@@ -286,7 +285,7 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
     $scope.refresh = function() {
         $http.get('api/account')
               .success(function(data, status, headers, config) {
-                $scope.balance = data['RMB'];
+                $scope.balance = data.data.accounts['RMB'];
               });
     }
 
@@ -313,7 +312,7 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
     $scope.refresh = function() {
         $http.get('api/account')
               .success(function(data, status, headers, config) {
-                $scope.balance = data['BTC'];
+                $scope.balance = data.data.accounts['BTC'];
               });
     }
 
@@ -342,7 +341,7 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
     $http.get('api/account')
         .success(function(data, status, headers, config) {
             console.log('accounts', data);
-            $scope.accounts = data.accounts;
+            $scope.accounts = data.data.accounts;
             $scope.updatePrice();
         });
 
