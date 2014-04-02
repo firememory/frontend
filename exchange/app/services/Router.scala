@@ -15,7 +15,15 @@ import play.libs.Akka
 import actors.HelloActor
 
 object Router extends AkkaService{
-  val config = ConfigFactory.load("dev.conf")
+  val defaultAkkaConfig = "akka.conf"
+  val akkaConfigProp = System.getProperty("akka.config")
+  val akkaConfigResource = if (akkaConfigProp != null) akkaConfigProp else defaultAkkaConfig
+
+  println("=" * 20 + "  Akka config  " + "=" * 20)
+  println("  conf/" + akkaConfigResource)
+  println("=" * 55)
+
+  val config = ConfigFactory.load(akkaConfigResource)
   implicit val system = ActorSystem("coinex", config)
   implicit val cluster = Cluster(system)
   val markets = Seq(Btc ~> Rmb)
