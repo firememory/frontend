@@ -463,7 +463,7 @@ tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
 tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
     $http.get('api/order')
         .success(function(data, status, headers, config) {
-            $scope.orders = data;
+            $scope.orders = data.data;
         });
 
     $scope.showDetail = function(order) {

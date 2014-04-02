@@ -21,13 +21,13 @@
             <tbody>
             <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
                 <td>
-                    {{order.tid}}
+                    {{order.id}}
                 </td>
                 <td>
-                    {{order.date | date:"MM-dd HH:mm:ss"}}
+                    {{order.submitTime | date:"MM-dd HH:mm:ss"}}
                 </td>
                 <td class="{{order.type}}">
-                    {{order.type | orderTypeText}}
+                    {{order.operation | orderTypeText}}
                 </td>
                 <td class="{{order.type}}">
                     {{order.price | currency}}
@@ -36,10 +36,10 @@
                     {{order.amount | quantity}}
                 </td>
                 <td>
-                    {{order.finished | quantity}}
+                    {{order.finishedQuantity | quantity}}
                 </td>
                 <td>
-                    {{order.remaining | quantity}}
+                    {{order.remainingQuantity | quantity}}
                 </td>
                 <td>
                     {{order.total | currency}}
