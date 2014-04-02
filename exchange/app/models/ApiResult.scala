@@ -5,4 +5,6 @@
 
 package models
 
-case class ApiResult(success: Boolean, code: Int = 0, message: String = "", data: Option[Any] = None)
+case class ApiResult(success: Boolean = false, code: Int = 0, message: String = "", data: Option[Any] = None)
+
+case class SubmitOrderResult(order: UserOrder)

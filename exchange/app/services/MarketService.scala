@@ -11,13 +11,13 @@ import scala.concurrent.Future
 import com.coinport.coinex.data.Currency.{Rmb, Btc}
 import com.coinport.coinex.data.Implicits._
 
-object MarketService extends AkkaService{
+object MarketService extends AkkaService {
   def getDepth(marketSide: MarketSide, depth: Int): Future[Any] = {
-    Router.backend ? QueryMarket(marketSide, depth)
+    Router.backend ? QueryMarketDepth(marketSide, depth)
   }
 
   def getHistory(marketSide: MarketSide, timeDimension: ChartTimeDimension, from: Long, to: Long): Future[Any] = {
-   Router.backend ? QueryCandleData(marketSide, timeDimension, from, to)
+    Router.backend ? QueryCandleData(marketSide, timeDimension, from, to)
   }
 
   def getAllTransactions(marketSide: MarketSide, from: Long, num: Int): Future[Any] = {
@@ -25,6 +25,6 @@ object MarketService extends AkkaService{
   }
 
   def getUserTransactions(marketSide: MarketSide, userId: Long, orderId: Long, from: Long, num: Int): Future[Any] = {
-    Router.backend ? QueryUserTransaction(marketSide, userId, orderId, from, num)
+    Router.backend ? QueryUserTransaction(marketSide, userId, Some(orderId), from, num)
   }
 }

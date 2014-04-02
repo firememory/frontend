@@ -8,15 +8,11 @@ package models
 import play.api.libs.json._
 import com.coinport.coinex.data._
 import com.coinport.coinex.data.Currency._
-import com.coinport.coinex.data.Implicits._
 import play.api.libs.functional.syntax._
-import play.api.libs.json.JsString
 import models.CurrencyValue._
 import models.CurrencyUnit._
-import models.PriceValue._
-import models.{ApiResult, User}
 import play.api.libs.json.JsString
-import models.ApiResult
+import org.json4s.ext.EnumNameSerializer
 
 object Implicits {
   implicit def string2Currency(currencyString: String): Currency = {
@@ -26,16 +22,6 @@ object Implicits {
       case "BTC" => Currency.Btc
       case "USD" => Currency.Usd
       case _ => null
-    }
-  }
-
-  implicit val resultWrites = new Writes[ApiResult] {
-    def writes(result: ApiResult) = {
-      Json.obj(
-        "success" -> result.success,
-        "code" -> result.code,
-        "messages" -> result.message
-      )
     }
   }
 
@@ -62,23 +48,7 @@ object Implicits {
       "uid" -> obj.userAccount.userId,
       "RMB" -> (obj.userAccount.cashAccounts.getOrElse(Rmb, CashAccount(Rmb, 0, 0, 0)).available unit CNY2).userValue,
       "BTC" -> (obj.userAccount.cashAccounts.getOrElse(Btc, CashAccount(Btc, 0, 0, 0)).available unit MBTC).userValue,
-      "accounts" -> obj.userAccount.cashAccounts.map(_._2)
-    )
-  }
-
-  implicit val userOrderWrites = new Writes[UserOrder] {
-    def writes(obj: UserOrder) = Json.obj(
-      "tid" -> obj.id,
-      "date" -> obj.submitTime,
-      "type" -> obj.operation.toString.toLowerCase,
-      "status" -> obj.status.getValue,
-      "price" -> obj.price,
-      "amount" -> obj.amount,
-      "finished" -> obj.finishedQuantity,
-      "remaining" -> obj.remainingQuantity,
-      "finishedAmount" -> obj.finishedAmount,
-      "remainingAmount" -> obj.remainingAmount,
-      "total" -> obj.total
+      "accounts" -> obj.userAccount.cashAccounts.map(_._2).toSeq
     )
   }
 
@@ -97,8 +67,8 @@ object Implicits {
     )
   }
 
-  implicit val queryMarketResultWrites = new Writes[QueryMarketResult] {
-    def writes(obj: QueryMarketResult) = Json.obj(
+  implicit val queryMarketResultWrites = new Writes[QueryMarketDepthResult] {
+    def writes(obj: QueryMarketDepthResult) = Json.obj(
       "asks" -> obj.marketDepth.asks,
       "bids" -> obj.marketDepth.bids
     )
@@ -139,5 +109,25 @@ object Implicits {
         )
       )
     }
+  }
+
+  import org.json4s._
+  import org.json4s.JsonDSL._
+  import org.json4s.native.Serialization
+  import org.json4s.native.Serialization.write
+
+  implicit val simpleApiResultWrites = new Writes[ApiResult] {
+    implicit val formats = Serialization.formats(NoTypeHints) +
+      new EnumNameSerializer(OperationEnum)
+
+    def writes(result: ApiResult) = {
+      Json.parse(write(result))
+    }
+  }
+
+  implicit def fromOrderSubmitted(obj: OrderSubmitted): SubmitOrderResult = {
+    val orderInfo = obj.originOrderInfo
+    val order = UserOrder.fromOrderInfo(orderInfo)
+    SubmitOrderResult(order)
   }
 }

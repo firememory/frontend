@@ -9,22 +9,22 @@ import play.api.mvc._
 
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import play.api.libs.json.Json
 import com.coinport.coinex.data._
 import scala.concurrent.Future
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
 import models.Implicits._
-import models.Operation._
+import models.OperationEnum._
 import services.{MarketService, AccountService}
 import models.{ApiResult, UserOrder}
 import com.coinport.coinex.data.ChartTimeDimension._
+import play.api.libs.json.Json
 
 object MessageController extends Controller {
+
   import akka.util.Timeout
   import scala.concurrent.duration._
-  import akka.pattern.ask
 
   val minute = 60 * 1000
   val hour = 60 * 60 * 1000
@@ -32,171 +32,175 @@ object MessageController extends Controller {
   val week = 7 * 24 * 60 * 60 * 1000
 
   implicit val timeout = Timeout(2 seconds)
+
   def price = Action {
     Ok("TODO")
   }
 
-  def depth = Action.async { implicit request =>
-    val query = request.queryString
-    val depth = getParam(query, "depth", "5").toInt
+  def depth = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val depth = getParam(query, "depth", "5").toInt
 
-    MarketService.getDepth(Btc ~> Rmb, depth) map {
-      case result: QueryMarketResult =>
-        println("result: " + result)
-        Ok(Json.toJson(result))
-    }
+      MarketService.getDepth(Btc ~> Rmb, depth) map {
+        case result: QueryMarketDepthResult =>
+          Ok(Json.toJson(result))
+      }
   }
 
-  def getUserOrders = Action.async { implicit request =>
-    session.get("uid") match {
-      case Some(uid) =>
-        AccountService.getOrders(uid.toLong) map {
-          case result: QueryUserOrdersResult =>
-            println("got " + result)
-            Ok(Json.toJson(result.orders.map(o => UserOrder.fromOrderInfo(o))))
-          case x =>
-            println("response: " + x.toString)
-            Ok(Json.toJson(ApiResult(false, -1, x.toString)))
-        }
-      case None =>
-        Future{
-          Ok("unauthorised request")
-        }
-    }
+  def getUserOrders = Action.async {
+    implicit request =>
+      session.get("uid") match {
+        case Some(uid) =>
+          AccountService.getOrders(uid.toLong) map {
+            case result: ApiResult =>
+              Ok(Json.toJson(result)) //.data.get.asInstanceOf[Seq[UserOrder]]))
+          }
+        case None =>
+          Future {
+            Ok("unauthorised request")
+          }
+      }
   }
 
-  def submitOrder() = Action.async(parse.json) { implicit request =>
-    val json = request.body
-    session.get("uid") match {
-      case Some(id) =>
-        val orderType = (json \ "type").as[String]
-        val priceField = (json \ "price").as[Double]
-        val amountField = (json \ "amount").as[Double]
-        val totalField = (json \ "total").as[Double]
+  def submitOrder() = Action.async(parse.json) {
+    implicit request =>
+      val json = request.body
+      session.get("uid") match {
+        case Some(id) =>
+          val orderType = (json \ "type").as[String]
+          val priceField = (json \ "price").as[Double]
+          val amountField = (json \ "amount").as[Double]
+          val totalField = (json \ "total").as[Double]
 
-        val price = if (priceField <= 0) None else Some(priceField)
-        val amount = if (amountField <= 0) None else Some(amountField)
-        val total = if (totalField <= 0) None else Some(totalField)
+          val price = if (priceField <= 0) None else Some(priceField)
+          val amount = if (amountField <= 0) None else Some(amountField)
+          val total = if (totalField <= 0) None else Some(totalField)
+          val operation = orderType match {
+            case "bid" => Buy
+            case "ask" => Sell
+          }
+          val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
-        println(orderType + ": " + json)
-
-        val operation = orderType match {case "bid" => Buy case "ask" => Sell}
-        val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, OrderStatus.Pending, System.currentTimeMillis)
-
-        AccountService.submitOrder(order) map {
-          case x =>
-            println(x)
-            Ok(x.toString)
-        }
-      case None =>
-        Future{
-          Ok("unauthorised request")
-        }
-    }
+          AccountService.submitOrder(order).map(result => Ok(Json.toJson(result)))
+        case None =>
+          Future {
+            Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
+          }
+      }
   }
 
-  def cancelOrder(id: String) = Action.async { implicit request =>
-    session.get("uid") match {
-      case Some(uid) =>
-       AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(Json.toJson(result)))
-      case None =>
-        Future{
-          Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
-        }
-    }
+  def cancelOrder(id: String) = Action.async {
+    implicit request =>
+      session.get("uid") match {
+        case Some(uid) =>
+          AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(Json.toJson(result)))
+        case None =>
+          Future {
+            Ok(Json.toJson(ApiResult(false, -1, "unauthorised request")))
+          }
+      }
   }
 
-  def account = Action.async { implicit request =>
-    println("query account")
-    session.get("uid") match {
-      case Some(id) =>
+  def account = Action.async {
+    implicit request =>
+      println("query account")
+      session.get("uid") match {
+        case Some(id) =>
           println("send query with uid: " + id)
           AccountService.getAccount(id.toLong) map {
-          case result: QueryAccountResult =>
-            println("got response: " + result)
-            Ok(Json.toJson(result))
-        }
-      case None =>
-      Future {
-        Ok("unauthorised request")
-      }
-    }
-  }
-
-  def deposit = Action.async(parse.json) { implicit request =>
-    val json = request.body
-    val username = session.get("username").getOrElse(null)
-    val uid = session.get("uid").getOrElse(null)
-    println("deposit by user: " + username + ", uid: " + uid + ", deposit data: " + json)
-    if (username == null || uid == null) {
-      Future {
-        Ok("unauthorised request")
-      }
-    } else {
-      val amount = (json \ "amount").as[Double]
-      val currency: Currency = (json \ "type").as[String]
-      AccountService.deposit(uid.toLong, currency, amount) map {
-      case x =>
-        println(x)
-        Ok("backend reply: " + x.toString)
-      }
-    }
-  }
-
-  def history = Action.async { implicit request =>
-    val query = request.queryString
-    val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
-    val fromParam = getParam(query, "from", "")
-    val toParam = getParam(query, "to", "")
-    val defaultTo = System.currentTimeMillis()
-    // return 90 items by default
-    val defaultFrom = defaultTo - getTimeSkip(timeDimension) * 180
-    val from = if (fromParam.isEmpty) defaultFrom else fromParam.toLong
-    val to = if (toParam.isEmpty) defaultTo else toParam.toLong
-
-    MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
-      case candles: CandleData =>
-        val map = candles.items.map(i => i.timestamp -> i).toMap
-        val timeSkip = getTimeSkip(timeDimension)
-        var open = 0.0
-        val list = (from / timeSkip to to / timeSkip).map{key: Long =>
-          map.get(key) match {
-            case Some(item) =>
-              open = item.close
-              CandleDataItem(key * timeSkip, item.volumn, item.open, item.close, item.low, item.high)
-            case None =>
-              CandleDataItem(key * timeSkip, 0, open, open, open, open)
+            case result: QueryAccountResult =>
+              println("got response: " + result)
+              Ok(Json.toJson(result))
           }
-        }.toSeq
-        Ok(Json.toJson(list))
-    }
+        case None =>
+          Future {
+            Ok("unauthorised request")
+          }
+      }
   }
 
-  def transaction = Action.async { implicit request =>
-    val query = request.queryString
-    val limit = getParam(query, "limit", "20").toInt
-    val skip = getParam(query, "skip", "0").toInt
-
-    MarketService.getAllTransactions(Btc ~> Rmb, skip, limit) map {
-      case transactionData: TransactionData =>
-        Ok(Json.toJson(transactionData.items))
-    }
-  }
-
-  def userTransaction = Action.async{ implicit request =>
-    session.get("uid") match {
-      case Some(userId) =>
-        val query = request.queryString
-        val orderId = getParam(query, "oid", "-1").toInt
-        val limit = getParam(query, "limit", "20").toInt
-        val skip = getParam(query, "skip", "0").toInt
-
-        MarketService.getUserTransactions(Btc ~> Rmb, userId.toLong, orderId, skip, limit) map {
-          case transactionData: TransactionData =>
-            Ok(Json.toJson(transactionData.items))
+  def deposit = Action.async(parse.json) {
+    implicit request =>
+      val json = request.body
+      val username = session.get("username").getOrElse(null)
+      val uid = session.get("uid").getOrElse(null)
+      println("deposit by user: " + username + ", uid: " + uid + ", deposit data: " + json)
+      if (username == null || uid == null) {
+        Future {
+          Ok("unauthorised request")
         }
-      case None => Future { Ok("unauthorised request") }
-    }
+      } else {
+        val amount = (json \ "amount").as[Double]
+        val currency: Currency = (json \ "type").as[String]
+        AccountService.deposit(uid.toLong, currency, amount) map {
+          case x =>
+            println(x)
+            Ok("backend reply: " + x.toString)
+        }
+      }
+  }
+
+  def history = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
+      val fromParam = getParam(query, "from", "")
+      val toParam = getParam(query, "to", "")
+      val defaultTo = System.currentTimeMillis()
+      // return 90 items by default
+      val defaultFrom = defaultTo - getTimeSkip(timeDimension) * 180
+      val from = if (fromParam.isEmpty) defaultFrom else fromParam.toLong
+      val to = if (toParam.isEmpty) defaultTo else toParam.toLong
+
+      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
+        case candles: CandleData =>
+          val map = candles.items.map(i => i.timestamp -> i).toMap
+          val timeSkip = getTimeSkip(timeDimension)
+          var open = 0.0
+          val list = (from / timeSkip to to / timeSkip).map {
+            key: Long =>
+              map.get(key) match {
+                case Some(item) =>
+                  open = item.close
+                  CandleDataItem(key * timeSkip, item.volumn, item.open, item.close, item.low, item.high)
+                case None =>
+                  CandleDataItem(key * timeSkip, 0, open, open, open, open)
+              }
+          }.toSeq
+          Ok(Json.toJson(list))
+      }
+  }
+
+  def transaction = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val limit = getParam(query, "limit", "20").toInt
+      val skip = getParam(query, "skip", "0").toInt
+
+      MarketService.getAllTransactions(Btc ~> Rmb, skip, limit) map {
+        case transactionData: TransactionData =>
+          Ok(Json.toJson(transactionData.items))
+      }
+  }
+
+  def userTransaction = Action.async {
+    implicit request =>
+      session.get("uid") match {
+        case Some(userId) =>
+          val query = request.queryString
+          val orderId = getParam(query, "oid", "-1").toInt
+          val limit = getParam(query, "limit", "20").toInt
+          val skip = getParam(query, "skip", "0").toInt
+
+          MarketService.getUserTransactions(Btc ~> Rmb, userId.toLong, orderId, skip, limit) map {
+            case transactionData: TransactionData =>
+              Ok(Json.toJson(transactionData.items))
+          }
+        case None => Future {
+          Ok("unauthorised request")
+        }
+      }
   }
 
   private def getTimeSkip(dimension: ChartTimeDimension) = dimension match {

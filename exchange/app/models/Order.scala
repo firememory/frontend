@@ -7,63 +7,41 @@ import models.CurrencyUnit._
 import models.CurrencyValue._
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 
-object Operation extends Enumeration {
+object OperationEnum extends Enumeration {
   type Operation = Value
   val Buy, Sell = Value
 
-  implicit def reverse(operation: Operation) = operation match {case Buy => Sell case Sell => Buy}
+  implicit def reverse(operation: Operation) = operation match {
+    case Buy => Sell
+    case Sell => Buy
+  }
 }
 
-import models.Operation._
+import models.OperationEnum._
+
 // Order from the view of users
-case class UserOrder (
-                       uid: Long,
-                       operation: Operation,
-                       subject: Currency,
-                       currency: Currency,
-                       price: Option[Double],
-                       amount: Option[Double],
-                       total: Option[Double],
-                       status: OrderStatus = OrderStatus.Pending,
-                       id: Long = 0L,
-                       submitTime: Long = 0L
-                       ) {
-  private var _finishedQuantity: Double = 0
-  private var _remainingQuantity: Double = amount.getOrElse(0)
-  private var _finishedAmount: Double = 0
-  private var _remainingAmount: Double = total.getOrElse(0)
-
-  def finishedQuantity(): Double = _finishedQuantity
-
-  def finishedQuantity(value: Double) = {
-    _finishedQuantity = value
-    this
-  }
-
-  def remainingQuantity(): Double = _remainingQuantity
-
-  def remainingQuantity(value: Double) = {
-    _remainingQuantity = value
-    this
-  }
-
-  def finishedAmount(): Double = _finishedAmount
-
-  def finishedAmount(value: Double) = {
-    _finishedAmount = value
-    this
-  }
-
-  def remainingAmount(): Double = _remainingAmount
-
-  def remainingAmount(value: Double) = {
-    _remainingAmount = value
-    this
-  }
-
+case class UserOrder(
+                      uid: Long,
+                      operation: Operation,
+                      subject: Currency,
+                      currency: Currency,
+                      price: Option[Double],
+                      amount: Option[Double],
+                      total: Option[Double],
+                      status: Int = 0,
+                      id: Long = 0L,
+                      submitTime: Long = 0L,
+                      finishedQuantity: Double = 0.0,
+                      remainingQuantity: Double = 0.0,
+                      finishedAmount: Double = 0.0,
+                      remainingAmount: Double = 0.0
+                      ) {
   //  buy: money   out, subject in
   // sell: subject out, money   in
-  val marketSide = operation match {case Buy => currency ~> subject case Sell => subject ~> currency}
+  val marketSide = operation match {
+    case Buy => currency ~> subject
+    case Sell => subject ~> currency
+  }
 
   def toDoSubmitOrder(): DoSubmitOrder = {
     operation match {
@@ -71,27 +49,27 @@ case class UserOrder (
         // convert price
         val newPrice = price match {
           case Some(value: Double) =>
-            Some(((value unit (CNY, BTC)) to (CNY2, MBTC)).inverse.value)
+            Some(((value unit(CNY, BTC)) to(CNY2, MBTC)).inverse.value)
           case None => None
         }
         // regard total as quantity
         val quantity: Long = total match {
           case Some(t) => (t unit CNY to CNY2).toLong
           case None =>
-            (((amount.get unit BTC) * (price.get unit (CNY, BTC))) to CNY2).toLong
+            (((amount.get unit BTC) * (price.get unit(CNY, BTC))) to CNY2).toLong
         }
         val limit = amount.map(a => (a unit BTC to MBTC).toLong)
-        DoSubmitOrder(marketSide, Order(uid, id, quantity , newPrice, limit))
+        DoSubmitOrder(marketSide, Order(uid, id, quantity, newPrice, limit))
       case Sell =>
         // TODO: handle None total or price
-        val newPrice: Option[Double] = price.map(p => (p unit (CNY, BTC) to (CNY2, MBTC)).value)
+        val newPrice: Option[Double] = price.map(p => (p unit(CNY, BTC) to(CNY2, MBTC)).value)
         val quantity: Long = amount match {
           case Some(a) => (a unit BTC to MBTC).toLong
           case None =>
-          if (total.isDefined && price.isDefined) {
-            val totalValue = (price.get unit (CNY, BTC)).inverse * (total.get unit CNY)
-            (totalValue to MBTC).toLong
-          } else 0
+            if (total.isDefined && price.isDefined) {
+              val totalValue = (price.get unit(CNY, BTC)).inverse * (total.get unit CNY)
+              (totalValue to MBTC).toLong
+            } else 0
         }
         val limit = total match {
           case Some(total) => Some((total unit CNY to CNY2).toLong)
@@ -141,11 +119,11 @@ object UserOrder {
         val tid = order.id
         val timestamp = order.timestamp.getOrElse(0L)
 
-        UserOrder(order.userId, Sell, unit1, unit2, price, amount, total, status, tid, timestamp)
-          .finishedQuantity(finishedQuantity)
-          .remainingQuantity(remainingQuantity)
-          .finishedAmount(finishedAmount)
-          .remainingAmount(remainingAmount)
+        UserOrder(order.userId, Sell, unit1, unit2, price, amount, total, status.value, tid, timestamp)
+          .copy(finishedQuantity = finishedQuantity,
+            remainingQuantity = remainingQuantity,
+            finishedAmount = finishedAmount,
+            remainingAmount = remainingAmount)
 
       case Btc => // buy
         val price: Option[Double] = order.price.map {
@@ -173,11 +151,11 @@ object UserOrder {
         val tid = order.id
         val timestamp = order.timestamp.getOrElse(0L)
 
-        UserOrder(order.userId, Buy, unit2, unit1, price, amount, total, status, tid, timestamp)
-          .finishedQuantity(finishedQuantity)
-          .remainingQuantity(remainingQuantity)
-          .finishedAmount(finishedAmount)
-          .remainingAmount(remainingAmount)
+        UserOrder(order.userId, Buy, unit2, unit1, price, amount, total, status.value, tid, timestamp)
+          .copy(finishedQuantity = finishedQuantity,
+            remainingQuantity = remainingQuantity,
+            finishedAmount = finishedAmount,
+            remainingAmount = remainingAmount)
     }
   }
 }

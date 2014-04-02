@@ -8,14 +8,14 @@ package services
 import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
-import models.{ApiResult, UserOrder}
+import models._
 import models.CurrencyUnit._
 import models.CurrencyValue._
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 import com.coinport.coinex.data.Implicits._
 
-object AccountService extends AkkaService{
+object AccountService extends AkkaService {
   def getAccount(uid: Long): Future[Any] = {
     Router.backend ? QueryAccount(uid)
   }
@@ -29,25 +29,38 @@ object AccountService extends AkkaService{
       case _ =>
         0L
     }
-    Router.backend ? DoDepositCash(uid.toLong, currency, amount1)
+    Router.backend ? DoRequestCashDeposit(uid.toLong, currency, amount1)
   }
 
   def submitOrder(userOrder: UserOrder) = {
     val command = userOrder.toDoSubmitOrder
-    println("post " + command)
-    Router.backend ? command
+    Router.backend ? command map {
+      case result: OrderSubmitted =>
+        ApiResult(true, 0, "订单提交成功", Some(UserOrder.fromOrderInfo(result.originOrderInfo)))
+      case failed: SubmitOrderFailed =>
+        ApiResult(true, 1, failed.error.toString)
+      case x =>
+        ApiResult(false, -1, x.toString)
+    }
   }
 
   def cancelOrder(id: Long, uid: Long) = {
     println("cancel order: " + id)
     Router.backend ? DoCancelOrder(Btc ~> Rmb, id, uid) map {
-      case result: OrderCancelled => ApiResult(true, 0, result.toString)
+      case result: OrderCancelled => ApiResult(true, 0, "订单已撤销", Some(result.order))
       case x => ApiResult(false, -1, x.toString)
     }
   }
 
   def getOrders(uid: Long) = {
-    println("query orders of user " + uid)
-    Router.backend ? QueryUserOrders(uid)
+    Router.backend ? QueryUserOrders(uid) map {
+      case result: QueryUserOrdersResult =>
+        val data = result.orders.map {
+          o =>
+            UserOrder.fromOrderInfo(o)
+        }.toSeq
+        ApiResult(true, 0, "", Some(data))
+      case x => ApiResult(false, -1, x.toString)
+    }
   }
 }

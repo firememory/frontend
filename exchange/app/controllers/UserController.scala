@@ -15,7 +15,8 @@ import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object UserController extends Controller {
-  def login = Action.async(parse.json) { implicit request =>
+  def login = Action.async(parse.json) {
+    implicit request =>
       val json = request.body
       println("login with: " + json)
       json.validate[User] match {
@@ -24,7 +25,7 @@ object UserController extends Controller {
           UserService.login(user) map {
             result =>
               if (result.success) {
-                val returnUser = result.data.get.asInstanceOf[LoginSucceeded]
+                val returnUser = result.data.asInstanceOf[LoginSucceeded]
                 Ok(Json.toJson(result)).withSession(
                   "username" -> returnUser.email,
                   "uid" -> returnUser.id.toString
@@ -40,7 +41,8 @@ object UserController extends Controller {
       }
   }
 
-  def register = Action.async(parse.json) { implicit request =>
+  def register = Action.async(parse.json) {
+    implicit request =>
       val json = request.body
       println("try register: " + json)
       json.validate[User] match {
@@ -64,7 +66,7 @@ object UserController extends Controller {
             Ok(Json.toJson(ApiResult(false, -1, "error: " + e)))
           }
         }
-    }
+      }
   }
 
   def logout = Action {

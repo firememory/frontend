@@ -23,10 +23,10 @@ object UserService extends AkkaService {
         val returnProfile = succeeded.userProfile
         ApiResult(true, 0, returnProfile.id.toString, Some(returnProfile))
       case failed: RegisterUserFailed =>
-        failed.reason match {
-          case RegisterationFailureReason.EmailAlreadyRegistered =>
+        failed.error match {
+          case ErrorCode.EmailAlreadyRegistered =>
             ApiResult(false, 1, "用户 " + email + " 已存在")
-          case RegisterationFailureReason.MissingInformation =>
+          case ErrorCode.MissingInformation =>
             ApiResult(false, 2, "缺少必填字段")
           case _ =>
             ApiResult(false, -1, failed.toString)
@@ -47,10 +47,10 @@ object UserService extends AkkaService {
       case succeeded: LoginSucceeded =>
         ApiResult(true, 0, "登录成功", Some(succeeded))
       case failed: LoginFailed =>
-        failed.reason match {
-          case LoginFailureReason.PasswordNotMatch =>
+        failed.error match {
+          case ErrorCode.PasswordNotMatch =>
             ApiResult(false, 1, "密码错误")
-          case LoginFailureReason.UserNotExist =>
+          case ErrorCode.UserNotExist =>
             ApiResult(false, 2, "用户 " + email + " 不存在")
           case _ =>
             ApiResult(false, -1, failed.toString)

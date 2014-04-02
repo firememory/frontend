@@ -3,14 +3,16 @@
  * Author: Chunming Liu (chunming@coinport.com)
  */
 
-import com.coinport.coinex.data.{OrderInfo, Order, DoSubmitOrder, Currency}
+import com.coinport.coinex.data._
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
+import models.PriceValue
+import models.SubmitOrderResult
 import org.specs2.mutable._
 import models._
 import models.Implicits._
-import models.Operation._
-import play.api.libs.json.Json
+import models.OperationEnum._
+import scala.Some
 
 class ModelTest extends Specification {
   "models.Implicits" should {
@@ -28,11 +30,6 @@ class ModelTest extends Specification {
       currency1 must equalTo(currency4)
       currency5 must equalTo(Currency.Usd)
       currency6 must beNull
-    }
-
-    "ApiResult to JSON" in {
-      val result = ApiResult(true, 0, "some message")
-      Json.toJson(result).toString must equalTo("""{"success":true,"code":0,"message":"some message"}""")
     }
 
     "order converting" in {
@@ -104,27 +101,15 @@ class ModelTest extends Specification {
       order must equalTo(command)
 
       // convert back
-      var userOrder = UserOrder(uid, Sell, Btc, Rmb, Some(1234), Some(12), None)
+      var userOrder = UserOrder(uid, Sell, Btc, Rmb, Some(1234), Some(12), None, remainingQuantity = 12)
       userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Btc ~> Rmb, userOrder.toDoSubmitOrder.order, 0, 0, userOrder.status)))
 
-      userOrder = UserOrder(uid, Buy, Btc, Rmb, Some(1234), Some(12), Some(1234 * 12))
+      userOrder = UserOrder(uid, Buy, Btc, Rmb, Some(1234), Some(12), Some(1234 * 12), remainingQuantity = 12, remainingAmount = 1234 * 12)
       userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Rmb ~> Btc, userOrder.toDoSubmitOrder.order, 0, 0, userOrder.status)))
 
       // TODO: cover corner cases
     }
   }
-
-//  "price by" in {
-//    val uid = 123L
-//    var order: UserOrder = null
-//
-//    order = UserOrder(uid, Sell, Btc, Rmb, Some(5000D), Some(2L), None)
-//    order.priceBy(Rmb) must equalTo(order)
-//
-//    order = UserOrder(uid, Sell, Rmb, Btc, Some(1D / 5000D), Some(10000L), None)
-//    order.priceBy(Rmb) must equalTo(UserOrder(uid, Buy, Btc, Rmb, Some(5000D), Some(2L), Some(10000L)))
-//
-//  }
 
   import models.CurrencyUnit._
   import models.CurrencyValue._
@@ -138,7 +123,7 @@ class ModelTest extends Specification {
     a / b must equalTo(PriceValue(1.0))
 
     12.345 unit BTC must equalTo(12345 unit MBTC)
-    23.45 unit CNY must equalTo (2345 unit CNY2)
+    23.45 unit CNY must equalTo(2345 unit CNY2)
     0 unit BTC must equalTo(0 unit MBTC)
 
     1 unit BTC to MBTC must equalTo(1000 unit MBTC)
@@ -147,19 +132,29 @@ class ModelTest extends Specification {
     money / sub must equalTo(PriceValue(4000, (CNY, BTC)))
 
     // price conversions
-    PriceValue(4000, (CNY, BTC)) to (CNY, MBTC) must equalTo(PriceValue(4, (CNY, MBTC)))
-    PriceValue(4000, (CNY, BTC)) to (CNY2, MBTC) must equalTo(PriceValue(400, (CNY2, MBTC)))
-    PriceValue(4000, (CNY, BTC)) to (BTC, CNY) must equalTo(PriceValue(1.0 / 4000, (BTC, CNY)))
+    PriceValue(4000, (CNY, BTC)) to(CNY, MBTC) must equalTo(PriceValue(4, (CNY, MBTC)))
+    PriceValue(4000, (CNY, BTC)) to(CNY2, MBTC) must equalTo(PriceValue(400, (CNY2, MBTC)))
+    PriceValue(4000, (CNY, BTC)) to(BTC, CNY) must equalTo(PriceValue(1.0 / 4000, (BTC, CNY)))
 
     // multiply
     val amount = 2 unit BTC
-    var price: PriceValue = 4000.0 unit (CNY, BTC)
+    var price: PriceValue = 4000.0 unit(CNY, BTC)
 
     amount * price must equalTo(8000.0 unit CNY)
     price * amount must equalTo(8000.0 unit CNY)
 
-    price = 4.0 unit (CNY, MBTC)
+    price = 4.0 unit(CNY, MBTC)
     amount * price must equalTo(8000.0 unit CNY)
     price * amount must equalTo(8000.0 unit CNY)
+  }
+
+  "submit order result" in {
+    val order = Order(123L, 0L, 800000, None, Some(2000))
+    val orderInfo = OrderInfo(Btc ~> Rmb, order, 0, 0, OrderStatus.Pending)
+    val backendResult = OrderSubmitted(orderInfo)
+    val result: SubmitOrderResult = backendResult
+
+    val userOrder = UserOrder.fromOrderInfo(orderInfo)
+    result must equalTo(SubmitOrderResult(userOrder))
   }
 }

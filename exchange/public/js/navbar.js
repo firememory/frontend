@@ -20,7 +20,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
                   $scope.$parent.isLogin = true;
                   $modalInstance.close();
                 } else {
-                  $scope.$parent.loginErrorMessage = data.messages;
+                  $scope.$parent.loginErrorMessage = data.message;
                   $scope.$parent.showLoginError = true;
                 }
               });
@@ -35,7 +35,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
                   $scope.$parent.isLogin = true;
                   $modalInstance.close();
                 } else {
-                  $scope.$parent.registerErrorMessage = data.messages;
+                  $scope.$parent.registerErrorMessage = data.message;
                   console.log(data);
                   $scope.$parent.showRegisterError = true;
                 }

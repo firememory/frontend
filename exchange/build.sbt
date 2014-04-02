@@ -17,7 +17,12 @@ libraryDependencies ++= {
     "com.typesafe.akka"           %% "akka-contrib"                     % akkaVersion,
 //    "com.typesafe.akka"           %% "akka-persistence-experimental"    % akkaVersion,
     "com.typesafe.akka"           %% "akka-testkit"                     % akkaVersion,
-    "com.coinport" %% "coinex-client" % "1.0.4-SNAPSHOT",
+//    "io.spray" %%  "spray-json" % "1.2.5",
+    "org.json4s" %% "json4s-native" % "3.2.8",
+    "org.json4s" %% "json4s-ext" % "3.2.8",
+    "com.github.tototoshi" %% "play-json4s-native" % "0.2.0",
+    "com.github.tototoshi" %% "play-json4s-test-native" % "0.2.0" % "test",
+    "com.coinport" %% "coinex-client" % "1.0.5-SNAPSHOT"
 //    "com.twitter"                 %% "scrooge-core"                     % "3.12.3",
 //    "com.twitter"                 %% "scrooge-serializer"               % "3.12.3",
 //    "org.apache.thrift"           %  "libthrift"                        % "0.8.0",
@@ -33,7 +38,7 @@ libraryDependencies ++= {
 //    "org.apache.commons"          %  "commons-lang3"                    % "3.1",
 //    "org.webjars" %% "webjars-play" % "2.2.0",
 //    "org.webjars" % "bootstrap" % "2.3.1",
-    "com.google.code.gson" % "gson" % "2.1"
+//    "com.google.code.gson" % "gson" % "2.1"
   )
 }
 

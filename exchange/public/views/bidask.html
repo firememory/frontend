@@ -96,7 +96,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button full_width button_buy" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> 买入 CNY-BTC</button>
+                        <button class="button full_width button_buy" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
                     </div>
                 </form>
             </div>
@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button button_sell full_width" ng-click="addAskOrder()"><i class="fa fa-money"></i> 卖出 BTC-CNY</button>
+                        <button class="button button_sell full_width" ng-click="addAskOrder()"><i class="fa fa-money"></i> {{info.askButtonLabel}}</button>
                     </div>
                 </form>
             </div>
@@ -212,15 +212,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
+        <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="">
             <td>
-                {{order.tid}}
+                {{order.id}}
             </td>
             <td>
-                {{order.date | date:"MM-dd HH:mm:ss"}}
+                {{order.submitTime | date:"MM-dd HH:mm:ss"}}
             </td>
             <td class="{{order.type}}">
-                {{order.type | orderTypeText}}
+                {{order.operation | orderTypeText}}
             </td>
             <td class="{{order.type}}">
                 {{order.price | currency}}
@@ -229,10 +229,10 @@
                 {{order.amount | quantity}}
             </td>
             <td>
-                {{order.finished | quantity}}
+                {{order.finishedQuantity | quantity}}
             </td>
             <td>
-                {{order.remaining | quantity}}
+                {{order.remainingQuantity | quantity}}
             </td>
             <td>
                 {{order.total | currency}}
@@ -248,7 +248,7 @@
             </td>
             <td>
                 <button ng-click="openTransaction(order)">详细</button>
-                <button ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤单</button>
+                <button ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">撤单</button>
             </td>
         </tr>
         </tbody>

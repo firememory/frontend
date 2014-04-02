@@ -49,7 +49,17 @@ function BidAskCtrl($scope, $http, $modal) {
     $scope.account = {RMB: 0, BTC: 0}
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
-    $scope.info = {fundingLocked: 0, fundingRemaining: 0, quantityLocked: 0, quantityRemaining: 0, income: 0}
+    $scope.config = {
+        bidButtonLabel: '买入 CNY-BTC',
+        askButtonLabel: '卖出 BTC-CNY'};
+    $scope.info = {
+        fundingLocked: 0,
+        fundingRemaining: 0,
+        quantityLocked: 0,
+        quantityRemaining: 0,
+        income: 0,
+        bidButtonLabel: $scope.config.bidButtonLabel,
+        askButtonLabel: $scope.config.askButtonLabel};
 
     $scope.refresh = function() {
         $http.get('api/account')
@@ -64,11 +74,6 @@ function BidAskCtrl($scope, $http, $modal) {
                 $scope.depth.asks.reverse();
         });
 
-        $http.get('api/order')
-            .success(function(data, status, headers, config) {
-                $scope.orders = data;
-        });
-
         $http.get('api/transaction', {params: {limit: 18, skip: 0}})
         .success(function(data, status, headers, config) {
 //            console.log('transactions', data);
@@ -78,60 +83,68 @@ function BidAskCtrl($scope, $http, $modal) {
         });
     };
 
+    $scope.updateOrders = function() {
+        $http.get('api/order')
+            .success(function(data, status, headers, config) {
+                $scope.orders = data.data;
+        });
+    };
+
     $scope.refresh();
-        $http.get('api/history', {params: {period: 5}})
-          .success(function(data, status, headers, config) {
-            $scope.history = data
-            console.log(data);
-            var chart = $('.candle-chart').jqCandlestick($scope.history, {
-              theme: 'light',
-              yAxis: [{
-                height: 8
-              }, {
-                height: 2
-              }],
-              info: {
-                color: '#000', // color for info
-                font: null, // font
-                spacing: 10, // distance between values
-                position: 'left', // 'left', 'right' or 'auto'
-                wrap: 'no' // 'auto', 'yes' or 'no'
-              },
-              cross: {
-                color: 'rgba(0, 0, 0, 0.6)', // color of cursor-cross
-                strokeWidth: 1.0, // width cursor-cross lines
-                text: {
-                  //background: '#cccccc', // background color for text
-                  font: null, // font for text
-                  color: '#000' // color for text
-                }
-              },
-              xAxis: {
-                dataLeftOffset: Math.max(0, $scope.history.length - 60),
-                minDataLength: 30,
-                dataRightOffset: $scope.history.length - 1
-              },
-              series: [{
-                type: 'candlestick',
-                names: ['开盘','最高', '最低', '收盘'],
-                upStroke: '#006633',
-                upColor: '#ffffff',
-                downStroke: '#CC3333',
-                downColor: '#ffffff'
-              }, {
-                type: 'volume',
-                name: '成交量',
-                dataOffset: 5,
-                yAxis: 1,
-                stroke: '#8b4787',
-                color: '#8b4787',
-                upStroke: '#006633',
-                upColor: '#99CC99',
-                downStroke: '#CC3333',
-                downColor: '#CC9999'
-              }]
-            });
-          });
+    $scope.updateOrders();
+
+    $http.get('api/history', {params: {period: 5}})
+      .success(function(data, status, headers, config) {
+        $scope.history = data
+        var chart = $('.candle-chart').jqCandlestick($scope.history, {
+          theme: 'light',
+          yAxis: [{
+            height: 8
+          }, {
+            height: 2
+          }],
+          info: {
+            color: '#000', // color for info
+            font: null, // font
+            spacing: 10, // distance between values
+            position: 'left', // 'left', 'right' or 'auto'
+            wrap: 'no' // 'auto', 'yes' or 'no'
+          },
+          cross: {
+            color: 'rgba(0, 0, 0, 0.6)', // color of cursor-cross
+            strokeWidth: 1.0, // width cursor-cross lines
+            text: {
+              //background: '#cccccc', // background color for text
+              font: null, // font for text
+              color: '#000' // color for text
+            }
+          },
+          xAxis: {
+            dataLeftOffset: Math.max(0, $scope.history.length - 60),
+            minDataLength: 30,
+            dataRightOffset: $scope.history.length - 1
+          },
+          series: [{
+            type: 'candlestick',
+            names: ['开盘','最高', '最低', '收盘'],
+            upStroke: '#006633',
+            upColor: '#ffffff',
+            downStroke: '#CC3333',
+            downColor: '#ffffff'
+          }, {
+            type: 'volume',
+            name: '成交量',
+            dataOffset: 5,
+            yAxis: 1,
+            stroke: '#8b4787',
+            color: '#8b4787',
+            upStroke: '#006633',
+            upColor: '#99CC99',
+            downStroke: '#CC3333',
+            downColor: '#CC9999'
+          }]
+        });
+      });
 
     var updateBidTotal = function() {
         if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
@@ -168,25 +181,33 @@ function BidAskCtrl($scope, $http, $modal) {
         $scope.ask.amount = $scope.ask.total / $scope.ask.price;
     };
 
+    var cancelOrder = function(id) {
+        for(var i = 0; i < $scope.orders.length; i++) {
+            var order = $scope.orders[i];
+            if (order.id == id) {
+                order.status = 3; // set status to 3-Cancelled
+                break;
+            }
+        }
+    }
+
     $scope.addBidOrder = function() {
         console.log('add bid', $scope.bid);
         if($scope.bid.amount < 0)
             return;
+        $scope.info.bidButtonLabel = '提交订单中...';
+
         $scope.bid.total = Math.min($scope.bid.total, $scope.account.RMB);
-        $scope.orders.push({
-            "date": new Date().getTime(),
-            "tid": 0,
-            "price": $scope.bid.price,
-            "amount": $scope.bid.amount,
-            "type": "buy",
-            "status": -1
-        });
 
         $http.post('trade/bid', $scope.bid)
           .success(function(data, status, headers, config) {
             $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
             console.log('bid order sent, response:', data);
-            $scope.refresh();
+            $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
+            if (data.success) {
+                var order = data.data;
+                $scope.orders.push(order);
+            }
         });
     };
 
@@ -194,19 +215,16 @@ function BidAskCtrl($scope, $http, $modal) {
         console.log('add ask', $scope.ask);
         if($scope.ask.amount < 0)
             return;
-        $scope.orders.push({
-            "date": new Date().getTime(),
-            "tid": 0,
-            "price": $scope.ask.price,
-            "amount": $scope.ask.amount,
-            "type": "sell",
-            "status": -1
-        });
+        $scope.info.askButtonLabel = '提交订单中...';
 
         $http.post('trade/bid', $scope.ask)
           .success(function(data, status, headers, config) {
             console.log('bid order sent, response:', data);
-            $scope.refresh();
+            $scope.info.askButtonLabel = $scope.config.askButtonLabel;
+            if (data.success) {
+                var order = data.data;
+                $scope.orders.push(order);
+            }
         });
     };
 
@@ -226,8 +244,10 @@ function BidAskCtrl($scope, $http, $modal) {
         console.log('cancel order', id);
         $http.get('trade/order/cancel/' + id)
             .success(function(data, status, headers, config) {
-                console.log(data);
-                $scope.refresh();
+                if (data.success) {
+                    var order = data.data;
+                    cancelOrder(order.id);
+                }
             });
     };
 
@@ -248,7 +268,7 @@ function BidAskCtrl($scope, $http, $modal) {
         templateUrl: 'views/order-tx.html',
         controller: function ($scope, $http, $modalInstance) {
           $scope.order = order;
-          $http.get('api/userTransaction', {params: {limit: 10, oid: order.tid}})
+          $http.get('api/userTransaction', {params: {limit: 10, oid: order.id}})
             .success(function(data, status, headers, config) {
               $scope.transactions = data;
           });
@@ -463,7 +483,7 @@ tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($
 tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
     // TODO: call order detail API
     var order = $scope.order;
-    var params = {params: {oid: order.tid}};
+    var params = {params: {oid: order.id}};
     console.log(params);
     $http.get('api/userTransaction', params)
         .success(function(data, status, headers, config) {
@@ -473,6 +493,7 @@ tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $htt
 
 tradeApp.filter('orderTypeText', function() {
     return function(input) {
+        var input = input.toLowerCase();
         if(input == 'buy')
             return '买入';
         if(input == 'sell')
