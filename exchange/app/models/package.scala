@@ -136,9 +136,9 @@ package object models {
     }
   }
 
-  class JsonSupportWrapper(obj: Any) {
-    implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum)
+  implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum)
 
+  class JsonSupportWrapper(obj: Any) {
     def toJson(): JValue = {
       val json = Extraction.decompose(obj)
       json filterField {

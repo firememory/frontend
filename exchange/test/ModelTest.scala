@@ -6,11 +6,8 @@
 import com.coinport.coinex.data._
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
-import models.PriceValue
-import models.SubmitOrderResult
 import org.specs2.mutable._
 import models._
-import models.Implicits._
 import models.OperationEnum._
 import scala.Some
 
@@ -102,10 +99,10 @@ class ModelTest extends Specification {
 
       // convert back
       var userOrder = UserOrder(uid, Sell, Btc, Rmb, Some(1234), Some(12), None, remainingQuantity = 12)
-      userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Btc ~> Rmb, userOrder.toDoSubmitOrder.order, 0, 0, userOrder.status)))
+      userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Btc ~> Rmb, userOrder.toDoSubmitOrder.order, 0, 0, OrderStatus.Pending)))
 
       userOrder = UserOrder(uid, Buy, Btc, Rmb, Some(1234), Some(12), Some(1234 * 12), remainingQuantity = 12, remainingAmount = 1234 * 12)
-      userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Rmb ~> Btc, userOrder.toDoSubmitOrder.order, 0, 0, userOrder.status)))
+      userOrder must equalTo(UserOrder.fromOrderInfo(OrderInfo(Rmb ~> Btc, userOrder.toDoSubmitOrder.order, 0, 0, OrderStatus.Pending)))
 
       // TODO: cover corner cases
     }
