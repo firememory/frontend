@@ -61,30 +61,29 @@
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
                           </span>
                         </div>
-
-                        <div ng-show="bidOptions.advanced">
-                            <div ng-show="!bidOptions.limitPrice">
-                                以<span class="badge badge-info">任意价格</span>
-                            </div>
-                            <div ng-show="bidOptions.limitPrice">
-                                以最高<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price}}</span>价格
-                            </div>
-                            <div ng-show="!bidOptions.limitAmount">
-                                 购买<span class="badge badge-info">尽可能多</span>
-                            </div>
-                            <div ng-show="bidOptions.limitAmount">
-                                 购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
-                            </div>
-                            <div ng-show="bidOptions.limitTotal">
-                                希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total}}</span>
-                            </div>
-                            <div ng-show="!bidOptions.limitTotal">
-                                最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked}}</span>
-                            </div>
+                    </div>
+                    <div ng-show="bidOptions.advanced">
+                        <div ng-show="!bidOptions.limitPrice">
+                            以<span class="badge badge-info">任意价格</span>
                         </div>
-                        <div class="input-group">
-                            <span class="">{{info.bidMessage}}</span>
+                        <div ng-show="bidOptions.limitPrice">
+                            以最高<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price}}</span>价格
                         </div>
+                        <div ng-show="!bidOptions.limitAmount">
+                             购买<span class="badge badge-info">尽可能多</span>
+                        </div>
+                        <div ng-show="bidOptions.limitAmount">
+                             购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
+                        </div>
+                        <div ng-show="bidOptions.limitTotal">
+                            希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total}}</span>
+                        </div>
+                        <div ng-show="!bidOptions.limitTotal">
+                            最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked}}</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="">{{info.bidMessage}}</span>
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
