@@ -103,11 +103,15 @@ footer li a{
 }
 .form-sell {
     margin: 2px;
-    border: 1px solid #c0c0c0;
 }
 .form-buy {
     margin: 2px;
-    border: 1px solid #c0c0c0;
+}
+.form-sell .input-group {
+    margin-top: 10px;
+}
+.form-buy .input-group {
+    margin-top: 10px;
 }
 
 .label {

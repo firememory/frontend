@@ -24,7 +24,7 @@ object AccountService extends AkkaService {
   }
 
   def deposit(uid: Long, currency: Currency, amount: Double): Future[ApiResult] = {
-    val amount1: Long = currency match {
+    val internalAmount: Long = currency match {
       case Rmb =>
         amount unit CNY to CNY2
       case Btc =>
@@ -32,9 +32,15 @@ object AccountService extends AkkaService {
       case _ =>
         0L
     }
-    Router.backend ? DoRequestCashDeposit(uid.toLong, currency, amount1) map {
-      // TODO: map different results
-      case result => ApiResult()
+    val deposit = Deposit(0L, uid.toLong, currency, internalAmount, TransferStatus.Pending)
+    Router.backend ? DoRequestCashDeposit(deposit) map {
+      case result: RequestCashDepositSucceeded =>
+        // TODO: confirm by admin dashboard
+        Router.backend ! AdminConfirmCashDepositSuccess(result.deposit)
+
+        ApiResult(true, 0, "充值申请已提交", Some(result))
+      case failed: RequestCashDepositFailed =>
+        ApiResult(false, 1, "充值失败", Some(failed))
     }
   }
 
@@ -44,7 +50,11 @@ object AccountService extends AkkaService {
       case result: OrderSubmitted =>
         ApiResult(true, 0, "订单提交成功", Some(UserOrder.fromOrderInfo(result.originOrderInfo)))
       case failed: SubmitOrderFailed =>
-        ApiResult(true, 1, failed.error.toString)
+        val message = failed.error match {
+          case ErrorCode.InsufficientFund => "余额不足"
+          case error => "未知错误-" + error
+        }
+        ApiResult(false, failed.error.getValue, message)
       case x =>
         ApiResult(false, -1, x.toString)
     }

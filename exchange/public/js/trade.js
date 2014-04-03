@@ -47,8 +47,8 @@ function BidAskCtrl($scope, $http, $modal) {
     $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
     $scope.account = {RMB: 0, BTC: 0}
-    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
-    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false};
+    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
+    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.config = {
         bidButtonLabel: '买入 CNY-BTC',
         askButtonLabel: '卖出 BTC-CNY'};
@@ -58,6 +58,8 @@ function BidAskCtrl($scope, $http, $modal) {
         quantityLocked: 0,
         quantityRemaining: 0,
         income: 0,
+        bidMessage: '',
+        askMessage: '',
         bidButtonLabel: $scope.config.bidButtonLabel,
         askButtonLabel: $scope.config.askButtonLabel};
 
@@ -206,7 +208,10 @@ function BidAskCtrl($scope, $http, $modal) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
+            } else {
+                // handle errors
             }
+            $scope.info.bidMessage = data.message;
         });
     };
 
@@ -223,7 +228,10 @@ function BidAskCtrl($scope, $http, $modal) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
+            } else {
+                // handle errors
             }
+            $scope.info.askMessage = data.message;
         });
     };
 
