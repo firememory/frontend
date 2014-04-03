@@ -24,7 +24,7 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <div class="limit_buy_sell_box">
+        <div class="buy_sell_box">
             <div class="box_title">买入BTC</div>
             <div class="box_subtitle">
                 <!--冻结金额-->
@@ -37,7 +37,7 @@
                 <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">进入高级模式</a>
             </div>
             <div class="box clearfix">
-                <form name="bidForm" class="form-buy">
+                <form name="bidForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
                             <span class="input-group-addon">价格 <i class="fa fa-cny"></i></span>
@@ -62,28 +62,30 @@
                           </span>
                         </div>
                     </div>
-                    <div ng-show="bidOptions.advanced">
-                        <div ng-show="!bidOptions.limitPrice">
-                            以<span class="badge badge-info">任意价格</span>
-                        </div>
-                        <div ng-show="bidOptions.limitPrice">
-                            以最高<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price}}</span>价格
-                        </div>
-                        <div ng-show="!bidOptions.limitAmount">
-                             购买<span class="badge badge-info">尽可能多</span>
-                        </div>
-                        <div ng-show="bidOptions.limitAmount">
-                             购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
-                        </div>
-                        <div ng-show="bidOptions.limitTotal">
-                            希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total}}</span>
-                        </div>
-                        <div ng-show="!bidOptions.limitTotal">
-                            最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked}}</span>
-                        </div>
+                    <div class="row_100 clearfix detail-info-box" ng-show="bidOptions.advanced">
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-show="!bidOptions.limitPrice">
+                                以<span class="badge badge-info">任意价格</span>
+                            </li>
+                            <li class="list-group-item" ng-show="bidOptions.limitPrice">
+                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price}}</span>
+                            </li>
+                            <li class="list-group-item" ng-show="!bidOptions.limitAmount">
+                                 购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
+                            </li>
+                            <li class="list-group-item" ng-show="bidOptions.limitAmount">
+                                 购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
+                            </li>
+                            <li class="list-group-item" ng-show="bidOptions.limitTotal">
+                                希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total}}</span>
+                            </li>
+                            <li class="list-group-item" ng-show="!bidOptions.limitTotal">
+                                最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked}}</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="input-group">
-                        <span class="">{{info.bidMessage}}</span>
+                    <div class="row_100 clearfix">
+                        <span class="bg-info">{{info.bidMessage}}</span>
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
@@ -94,7 +96,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="limit_buy_sell_box ">
+        <div class="buy_sell_box ">
             <div class="box_title">卖出BTC</div>
             <div class="box_subtitle">
                 <!--冻结数量-->
@@ -107,7 +109,7 @@
                 <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">进入高级模式</a>
             </div>
             <div class="box clearfix">
-                <form name="askForm" class="form-sell">
+                <form name="askForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
                             <span class="input-group-addon">价格 <i class="fa fa-cny"></i></span>
@@ -131,27 +133,29 @@
                           </span>
                         </div>
                     </div>
-                    <div ng-show="askOptions.advanced">
-                        <div ng-show="!askOptions.limitPrice">
-                            以<span class="badge badge-info">任意价格</span>
-                        </div>
-                        <div ng-show="askOptions.limitPrice">
-                            以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price}}</span>价格
-                        </div>
-                        <div ng-show="!askOptions.limitAmount">
-                             卖出<span class="badge badge-info">尽可能多</span>
-                        </div>
-                        <div ng-show="askOptions.limitAmount">
-                             卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
-                        </div>
-                        <div ng-show="askOptions.limitTotal">
-                            最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total}}</span>
-                        </div>
-                        <div ng-show="!askOptions.limitTotal">
-                            预计收入<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.income}}</span>
-                        </div>
+                    <div class="row_100 clearfix detail-info-box" ng-show="askOptions.advanced">
+                        <ul class="list-group">
+                            <li class="list-group-item"  ng-show="!askOptions.limitPrice">
+                                以<span class="badge badge-info">任意价格</span>
+                            </li>
+                            <li class="list-group-item"  ng-show="askOptions.limitPrice">
+                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price}}</span>价格
+                            </li>
+                            <li class="list-group-item"  ng-show="!askOptions.limitAmount">
+                                 卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
+                            </li>
+                            <li class="list-group-item"  ng-show="askOptions.limitAmount">
+                                 卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
+                            </li>
+                            <li class="list-group-item"  ng-show="askOptions.limitTotal">
+                                最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total}}</span>
+                            </li>
+                            <li class="list-group-item"  ng-show="!askOptions.limitTotal">
+                                预计收入<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.income}}</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="input-group">
+                    <div class="row_100 clearfix bg-info">
                         <span class="">{{info.askMessage}}</span>
                     </div>
 

@@ -86,9 +86,9 @@ footer li a{
     cursor: none;
     border: 1px solid #e6e6e6;
     height: 220px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 .jqcandlestick-canvas {
   position: absolute;
@@ -101,17 +101,70 @@ footer li a{
 .buy {
     color: #99CC99;
 }
-.form-sell {
+.buy_sell_box {
+		border: 1px solid #e6e6e6;
+		background: #fff;
+		
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+}
+.buy_sell_box .wrap_input {
+		position: relative;
+}
+.buy_sell_box .all {
+		position: absolute;
+		right: 0;
+}
+.buy_sell_box.right {
+		margin-left: 2%;
+}
+.buy_sell_box > .box_title {
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.4em;
+		padding-top: 15px;
+		padding-bottom: 0px;
+		color: #009dc6;
+		font-weight: bold;
+}
+.buy_sell_box > .box_subtitle {
+		border-bottom: 1px dashed #e6e6e6;
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.1em;
+		padding-top: 10px;
+		padding-bottom: 15px;
+		color: #808080;
+}
+.buy_sell_box > .box {
+		padding: 30px;
+		padding-top: 0px;
+}
+.form-buy-sell {
     margin: 2px;
 }
-.form-buy {
-    margin: 2px;
-}
-.form-sell .input-group {
+.form-buy-sell .input-group {
     margin-top: 10px;
 }
-.form-buy .input-group {
+.form-buy-sell .detail-info-box {
+    font-size: 10px;
     margin-top: 10px;
+}
+
+.form-buy-sell .detail-info-box .list-group {
+    padding: 0;
+    margin: 0px;
+}
+.form-buy-sell .detail-info-box .list-group .list-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 10px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
 }
 
 .label {
@@ -127,10 +180,11 @@ footer li a{
     padding-left: 15px;
     padding-top: 5px;
     color: #808080;
-    border: 1px solid #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 .depth-item {
     cursor: pointer;
@@ -157,10 +211,11 @@ footer li a{
     padding-left: 15px;
     padding-top: 5px;
 
+    background: #fff;
     border: 1px solid #e6e6e6;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 .transaction-item {
     cursor: pointer;
