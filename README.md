@@ -1,33 +1,19 @@
 #frontend
-frontend of coinport.com
+Frontend of coinport.com
 
-### /main
-frontend project of exchange website using Node.js
+### /exchange
+Frontend project of exchange using Playframework
+
+### /nodex
+Frontend project of exchange using Node.js. 
+Postponed.
 
 ### /prototype
-prototype of exchange website
+Prototype of exchange website.
+
+### /candlechart
+Candle stick chart jQuery plugin. 
 
 ## preview address:
 http://coinport.cn
 
-## build
-### install Node.js
-follow instructions in [http://nodejs.org](http://nodejs.org).
-
-### set proxy of npm
-```
-npm config set registry=http://registry.npmjs.org
-```
-
-### install Express
-```
-sudo npm install express@3.4.8 -g
-```
-
-## run
-```
-cd main
-sudo npm install
-node app
-```
-chenxi branch
