@@ -11,7 +11,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
             });
         $http.get('api/history', {params: $scope.candleParam})
             .success(function(data, status, headers, config) {
-                $scope.history = data;
+                $scope.history = data.data;
                 if ($scope.candleChart == null) {
                     $scope.candleChart = $('#wrapper').jqCandlestick($scope.history, {
                         theme: 'dark',

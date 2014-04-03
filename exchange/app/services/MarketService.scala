@@ -9,7 +9,7 @@ import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import models.ApiResult
+import models._
 
 object MarketService extends AkkaService {
   def getDepth(marketSide: MarketSide, depth: Int): Future[ApiResult] = {
@@ -21,8 +21,25 @@ object MarketService extends AkkaService {
     }
   }
 
-  def getHistory(marketSide: MarketSide, timeDimension: ChartTimeDimension, from: Long, to: Long): Future[Any] = {
-    Router.backend ? QueryCandleData(marketSide, timeDimension, from, to)
+  def getHistory(marketSide: MarketSide, timeDimension: ChartTimeDimension, from: Long, to: Long): Future[ApiResult] = {
+    Router.backend ? QueryCandleData(marketSide, timeDimension, from, to) map {
+      case candles: CandleData =>
+        val map = candles.items.map(i => i.timestamp -> i).toMap
+        val timeSkip: Long = timeDimension
+        var open = 0.0
+        val data = (from / timeSkip to to / timeSkip).map {
+          key: Long =>
+            map.get(key) match {
+              case Some(item) =>
+                open = item.close
+                CandleDataItem(key * timeSkip, item.volumn, item.open, item.close, item.low, item.high)
+              case None =>
+                CandleDataItem(key * timeSkip, 0, open, open, open, open)
+            }
+        }.toSeq
+        ApiResult(true, 0, "", Some(data))
+      case x => ApiResult(false)
+    }
   }
 
   def getAllTransactions(marketSide: MarketSide, from: Long, num: Int): Future[Any] = {

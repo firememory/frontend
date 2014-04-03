@@ -96,7 +96,7 @@ function BidAskCtrl($scope, $http, $modal) {
 
     $http.get('api/history', {params: {period: 5}})
       .success(function(data, status, headers, config) {
-        $scope.history = data
+        $scope.history = data.data
         var chart = $('.candle-chart').jqCandlestick($scope.history, {
           theme: 'light',
           yAxis: [{

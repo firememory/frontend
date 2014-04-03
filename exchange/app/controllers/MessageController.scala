@@ -151,27 +151,11 @@ object MessageController extends Controller with Json4s {
       val toParam = getParam(query, "to", "")
       val defaultTo = System.currentTimeMillis()
       // return 90 items by default
-      val defaultFrom = defaultTo - getTimeSkip(timeDimension) * 180
+      val defaultFrom = defaultTo - timeDimension * 180
       val from = if (fromParam.isEmpty) defaultFrom else fromParam.toLong
       val to = if (toParam.isEmpty) defaultTo else toParam.toLong
 
-      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to) map {
-        case candles: CandleData =>
-          val map = candles.items.map(i => i.timestamp -> i).toMap
-          val timeSkip = getTimeSkip(timeDimension)
-          var open = 0.0
-          val list = (from / timeSkip to to / timeSkip).map {
-            key: Long =>
-              map.get(key) match {
-                case Some(item) =>
-                  open = item.close
-                  CandleDataItem(key * timeSkip, item.volumn, item.open, item.close, item.low, item.high)
-                case None =>
-                  CandleDataItem(key * timeSkip, 0, open, open, open, open)
-              }
-          }.toSeq
-          Ok(Json.toJson(list))
-      }
+      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to).map(result => Ok(result.toJson))
   }
 
   def transaction = Action.async {
@@ -205,21 +189,7 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  private def getTimeSkip(dimension: ChartTimeDimension) = dimension match {
-    case OneMinute => minute
-    case ThreeMinutes => 3 * minute
-    case FiveMinutes => 5 * minute
-    case FifteenMinutes => 15 * minute
-    case ThirtyMinutes => 30 * minute
-    case OneHour => hour
-    case TwoHours => 2 * hour
-    case FourHours => 4 * hour
-    case SixHours => 6 * hour
-    case TwelveHours => 12 * hour
-    case OneDay => day
-    case ThreeDays => 3 * day
-    case OneWeek => week
-  }
+
 
   private def getParam(queryString: Map[String, Seq[String]], param: String, default: String): String = {
     queryString.get(param) match {

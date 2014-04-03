@@ -3,6 +3,7 @@
  * Author: Chunming Liu (chunming@coinport.com)
  */
 
+import com.coinport.coinex.data.ChartTimeDimension._
 import com.coinport.coinex.data.Currency.{Btc, Rmb}
 import com.coinport.coinex.data._
 import models.CurrencyUnit._
@@ -12,6 +13,8 @@ import org.json4s.native.Serialization
 import org.json4s._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import play.api.libs.json.JsString
+import scala.concurrent.duration._
 
 package object models {
   implicit def long2CurrencyUnit(value: Long) = new CurrencyValue(value)
@@ -101,8 +104,27 @@ package object models {
     MarketDepth(bids = bids, asks = asks)
   }
 
-  // Json compose / decompose
+  // candle data conversions
+  implicit def timeDimension2MilliSeconds(dimension: ChartTimeDimension): Long = {
+    val duration = dimension match {
+      case OneMinute => 1 minute
+      case ThreeMinutes => 3  minutes
+      case FiveMinutes => 5  minutes
+      case FifteenMinutes => 15  minutes
+      case ThirtyMinutes => 30  minutes
+      case OneHour => 1 hour
+      case TwoHours => 2  hours
+      case FourHours => 4  hours
+      case SixHours => 6  hours
+      case TwelveHours => 12  hours
+      case OneDay => 1 day
+      case ThreeDays => 3 days
+      case OneWeek => 7 days
+    }
+    duration.toMillis
+  }
 
+  // Json compose / decompose
   implicit val userReads: Reads[User] = (
     (JsPath \ "username").read[String] and
       (JsPath \ "password").read[String]
@@ -139,25 +161,6 @@ package object models {
     )
   }
 
-  implicit val candleDataItemWrites = new Writes[CandleDataItem] {
-    def writes(candleDataItem: CandleDataItem) = {
-      Json.arr(
-        candleDataItem.timestamp,
-        (candleDataItem.open unit(CNY2, MBTC) to(CNY, BTC)).value,
-        (candleDataItem.high unit(CNY2, MBTC) to(CNY, BTC)).value,
-        (candleDataItem.low unit(CNY2, MBTC) to(CNY, BTC)).value,
-        (candleDataItem.close unit(CNY2, MBTC) to(CNY, BTC)).value,
-        (candleDataItem.volumn unit MBTC).userValue
-      )
-    }
-  }
-
-  implicit val marketCandleDataResultsWrites = new Writes[Seq[CandleDataItem]] {
-    def writes(candles: Seq[CandleDataItem]) = {
-      Json.toJson(candles)
-    }
-  }
-
   implicit val TransactionDataResultsWrites = new Writes[Seq[TransactionItem]] {
     def writes(items: Seq[TransactionItem]) = {
       Json.toJson(
@@ -176,7 +179,22 @@ package object models {
     }
   }
 
-  implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum)
+  class CandleDataItemSerializer extends CustomSerializer[CandleDataItem](format => (
+    { null }, // deserializer not implemented
+    {
+      case candleDataItem: CandleDataItem =>
+        JArray(List(
+          JDecimal(candleDataItem.timestamp),
+          JDouble((candleDataItem.open unit(CNY2, MBTC) to(CNY, BTC)).value),
+          JDouble((candleDataItem.high unit(CNY2, MBTC) to(CNY, BTC)).value),
+          JDouble((candleDataItem.low unit(CNY2, MBTC) to(CNY, BTC)).value),
+          JDouble((candleDataItem.close unit(CNY2, MBTC) to(CNY, BTC)).value),
+          JDouble((candleDataItem.volumn unit MBTC).userValue)
+        ))
+    }
+    ))
+
+  implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum) + new CandleDataItemSerializer()
 
   class JsonSupportWrapper(obj: Any) {
     def toJson(): JValue = {
