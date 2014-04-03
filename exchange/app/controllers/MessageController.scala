@@ -47,10 +47,7 @@ object MessageController extends Controller with Json4s {
       val query = request.queryString
       val depth = getParam(query, "depth", "5").toInt
 
-      MarketService.getDepth(Btc ~> Rmb, depth) map {
-        case result: QueryMarketDepthResult =>
-          Ok(Extraction.decompose(result.marketDepth))
-      }
+      MarketService.getDepth(Btc ~> Rmb, depth).map(result => Ok(result.toJson))
   }
 
   def getUserOrders = Action.async {

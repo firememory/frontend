@@ -31,6 +31,12 @@ package object models {
     }
   }
 
+  implicit def tuple2CurrencyUnit(value: (Currency, Currency)): (CurrencyUnit, CurrencyUnit) = {
+    val unit1: CurrencyUnit = value._1
+    val unit2: CurrencyUnit = value._2
+    (unit1, unit2)
+  }
+
   implicit def currencyUnit2Currency(value: CurrencyUnit): Currency = {
     value match {
       case BTC => Btc
@@ -59,13 +65,18 @@ package object models {
     }
   }
 
-  // (1000, btc) -> 1000 unit MBTC
+  // currency conversions between backend and frontend
+  // example: (1000, btc) -> 1000 unit MBTC
   implicit def tuple2CurrencyValue(t: (Long, Currency)): CurrencyValue = {
     t._1 unit t._2
   }
 
-  // user account conversions
+  implicit def tuple2PriceValue(t: (Double, Currency, Currency)): PriceValue = {
+    val price: PriceValue = t._1
+    price unit (t._2, t._3)
+  }
 
+  // user account conversions
   implicit def fromUserAccount(backendObj: com.coinport.coinex.data.UserAccount): UserAccount = {
     val uid = backendObj.userId
     val map: Map[String, Double] = backendObj.cashAccounts.map {
@@ -75,6 +86,19 @@ package object models {
     }.toMap
 
     UserAccount(uid, accounts = map)
+  }
+
+  // market depth conversions
+  implicit def fromMarketDepth(backendObj: com.coinport.coinex.data.MarketDepth): MarketDepth = {
+    val subject = backendObj.side._1
+    val currency = backendObj.side._2
+    val mapper = {
+      item: com.coinport.coinex.data.MarketDepthItem =>
+        MarketDepthItem((item.price, currency, subject).userValue, (item.quantity, subject).userValue)
+    }
+    val bids = backendObj.bids.map(mapper)
+    val asks = backendObj.asks.map(mapper)
+    MarketDepth(bids = bids, asks = asks)
   }
 
   // Json compose / decompose
@@ -112,20 +136,6 @@ package object models {
       obj.price,
       obj.quantity,
       obj.userId
-    )
-  }
-
-  implicit val marketDepthItemWrites = new Writes[MarketDepthItem] {
-    def writes(obj: MarketDepthItem) = Json.obj(
-      "price" -> (obj.price unit(CNY2, MBTC)).userValue,
-      "amount" -> (obj.quantity unit MBTC).userValue
-    )
-  }
-
-  implicit val queryMarketResultWrites = new Writes[QueryMarketDepthResult] {
-    def writes(obj: QueryMarketDepthResult) = Json.obj(
-      "asks" -> obj.marketDepth.asks,
-      "bids" -> obj.marketDepth.bids
     )
   }
 

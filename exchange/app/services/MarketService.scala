@@ -8,12 +8,17 @@ package services
 import com.coinport.coinex.data._
 import akka.pattern.ask
 import scala.concurrent.Future
-import com.coinport.coinex.data.Currency.{Rmb, Btc}
-import com.coinport.coinex.data.Implicits._
+import scala.concurrent.ExecutionContext.Implicits.global
+import models.ApiResult
 
 object MarketService extends AkkaService {
-  def getDepth(marketSide: MarketSide, depth: Int): Future[Any] = {
-    Router.backend ? QueryMarketDepth(marketSide, depth)
+  def getDepth(marketSide: MarketSide, depth: Int): Future[ApiResult] = {
+    Router.backend ? QueryMarketDepth(marketSide, depth) map {
+      case result: QueryMarketDepthResult =>
+        val depth: models.MarketDepth = result.marketDepth
+        ApiResult(true, 0, "", Some(depth))
+      case x => ApiResult(false)
+    }
   }
 
   def getHistory(marketSide: MarketSide, timeDimension: ChartTimeDimension, from: Long, to: Long): Future[Any] = {

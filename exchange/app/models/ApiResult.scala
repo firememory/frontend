@@ -10,3 +10,7 @@ case class ApiResult(success: Boolean = true, code: Int = 0, message: String = "
 case class SubmitOrderResult(order: UserOrder)
 
 case class UserAccount(uid: Long, accounts: Map[String, Double] = Map())
+
+case class MarketDepthItem(price: Double, amount: Double)
+
+case class MarketDepth(bids: Seq[MarketDepthItem], asks: Seq[MarketDepthItem])

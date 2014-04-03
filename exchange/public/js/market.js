@@ -50,7 +50,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
 
         $http.get('api/depth', {params: {depth: 10}})
             .success(function(data, status, headers, config) {
-                $scope.depth = data;
+                $scope.depth = data.data;
                 $scope.depth.asks.reverse();
             });
 

@@ -71,7 +71,7 @@ function BidAskCtrl($scope, $http, $modal) {
 
         $http.get('api/depth')
             .success(function(data, status, headers, config) {
-                $scope.depth = data;
+                $scope.depth = data.data;
                 $scope.depth.asks.reverse();
         });
 

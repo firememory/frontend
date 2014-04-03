@@ -108,7 +108,6 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
   def inverse = PriceValue(1.0 / value, (unit._2, unit._1))
 
   def unit(unit: (CurrencyUnit, CurrencyUnit)): PriceValue = {
-    // TODO: avoid to create new object
     PriceValue(value, unit)
   }
 
@@ -146,7 +145,7 @@ case class PriceValue(value: Double, unit: (CurrencyUnit, CurrencyUnit) = (NO_UN
 
   def innerValue: Double = {
     val newUnit: (CurrencyUnit, CurrencyUnit) = (innerUnit(unit._1), innerUnit(unit._2))
-    to(newUnit).value.toDouble
+    to(newUnit).value
   }
 
   override def equals(obj: scala.Any): Boolean = {
