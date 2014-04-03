@@ -33,8 +33,9 @@
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
                 总资金
                 <span class="badge badge-info link" ng-click="clickFunding(account.RMB)">{{account.RMB}}</span>
-                <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">回到普通模式</a>
-                <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">进入高级模式</a>
+                <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">普通模式</a>
+                <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">高级模式</a>
+                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
             </div>
             <div class="box clearfix">
                 <form name="bidForm" class="form-buy-sell">
@@ -44,6 +45,7 @@
                             <input type="number" class="form-control" ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitPrice" ng-click="bid.price=0"/>
+                            <span data-toggle="tooltip" data-placement="top" title="是否限制买入价格">限价</span>
                           </span>
                         </div>
                         <div class="input-group">
@@ -51,6 +53,7 @@
                             <input class="form-control" name="amount" type="number" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount" min="0">
                             <span class="input-group-addon" ng-show="bidOptions.advanced">
                                 <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
+                                <span  data-toggle="tooltip" data-placement="top" title="是否限制买入数量">限量</span>
                             </span>
                         </div>
 
@@ -59,6 +62,7 @@
                             <input type="number" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
+                            <span  data-toggle="tooltip" data-placement="top" title="是否根据花费人民币总金额下单">限额</span>
                           </span>
                         </div>
                     </div>
@@ -105,8 +109,9 @@
                 <!--<span class="badge badge-info link" ng-click="clickQuantity(info.quantityRemaining)">{{info.quantityRemaining}}</span>-->
                 总数量
                 <span class="badge badge-info link" ng-click="clickQuantity(account.BTC)">{{account.BTC}}</span>
-                <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">回到普通模式</a>
-                <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">进入高级模式</a>
+                <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">普通模式</a>
+                <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">高级模式</a>
+                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
             </div>
             <div class="box clearfix">
                 <form name="askForm" class="form-buy-sell">
@@ -116,6 +121,7 @@
                             <input type="number" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
+                            <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出价格">限价</span>
                           </span>
                         </div>
                         <div class="input-group">
@@ -123,6 +129,7 @@
                             <input type="number" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
+                            <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出数量">限量</span>
                           </span>
                         </div>
                         <div class="input-group">
@@ -130,6 +137,7 @@
                             <input type="number" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
+                            <span  data-toggle="tooltip" data-placement="top" title="是否根据卖得人民币金额下单">限额</span>
                           </span>
                         </div>
                     </div>
@@ -168,7 +176,7 @@
     </div>
     <div class="col-md-4 transaction-box">
         <div class="row">
-            <div ng-repeat="item in transactions" class="transaction-item" popover="{{item.taker|UID}}-{{item.maker|UID}}">
+            <div ng-repeat="item in transactions" class="transaction-item">
                 <span class="title"><i class="fa fa-clock-o"></i> {{item.time | date:"MM-dd HH:mm:ss"}}</span>
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
                 <span class="price"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
@@ -179,7 +187,7 @@
 </div>
 <div class="row">
     <div class="user-order-box">
-    <table class="table table-condensed table-striped table-user-order">
+    <table class="table table-condensed ">
         <thead>
         <tr>
             <th>id</th>

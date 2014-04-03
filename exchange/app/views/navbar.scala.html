@@ -1,15 +1,7 @@
 @(user: Option[String])
-<div class="navbar navbar-inverse " ng-controller="NaviCtrl">
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <span class="col-md-offset-10"></span>
-        </div>
-        <div class="collapse navbar-collapse">
+        <div class="">
             <ul class="nav navbar-nav navbar-middle">
                 <li>
                     <a href="/"><i class="fa fa-home"></i> 首页</a>
@@ -18,16 +10,10 @@
                     <a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a>
                 </li>
                 <li>
-                    <a href="/market"><i class="fa fa-bar-chart-o"></i> 实时行情 <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="market">BTC</a></li>
-                        <li class="divider"></li>
-                        <li><a href="market">LTC</a></li>
-                        <li><a href="market">XXC</a></li>
-                    </ul>
+                    <a href="/market"><i class="fa fa-bar-chart-o"></i> 实时行情</a>
                 </li>
                 <li>
-                    <a href="/about">关于我们</a>
+                    <a href="/open"><i class="fa fa-folder-open"></i> 开放数据</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
