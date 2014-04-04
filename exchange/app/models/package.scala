@@ -147,7 +147,7 @@ package object models {
     val price = (metrics.price, side).userValue
     val high = metrics.high.map(v => (v, side).userValue)
     val low = metrics.low.map(v => (v, side).userValue)
-    val volume = (metrics.volume.getOrElse(0L), subject).userValue
+    val volume = (metrics.volume, subject).userValue
     val gain = metrics.gain
     val trend = Some(metrics.direction.toString.toLowerCase)
 
@@ -159,6 +159,32 @@ package object models {
       low = low,
       gain = gain,
       trend = trend
+    )
+  }
+
+  // transaction conversions
+  implicit def fromTransactionItem(item: TransactionItem): Transaction = {
+    val side = item.side
+    val subject = side._1
+    val currency = side._2
+    val id = item.tid
+    val timestamp = item.timestamp
+    val price = (item.price, side).userValue
+    val volume = (item.volume, subject).userValue
+    val total = (item.amount, currency).userValue
+    val isSell = side._2 equals Rmb
+    val taker = item.taker
+    val maker = item.maker
+
+    Transaction(
+      id = id,
+    timestamp = timestamp,
+    price = price,
+    amount = volume,
+    total = total,
+    taker = taker,
+    maker = maker,
+    sell = isSell
     )
   }
 
@@ -197,24 +223,6 @@ package object models {
       obj.quantity,
       obj.userId
     )
-  }
-
-  implicit val TransactionDataResultsWrites = new Writes[Seq[TransactionItem]] {
-    def writes(items: Seq[TransactionItem]) = {
-      Json.toJson(
-        items.map(item =>
-          Json.obj(
-            "time" -> item.timestamp,
-            "price" -> (item.price unit(CNY2, MBTC) to(CNY, BTC)).value,
-            "amount" -> (item.volume unit MBTC).userValue,
-            "total" -> (item.amount unit CNY2).userValue,
-            "maker" -> item.maker,
-            "taker" -> item.taker,
-            "sell" -> item.sameSide
-          )
-        )
-      )
-    }
   }
 
   class CandleDataItemSerializer extends CustomSerializer[CandleDataItem](

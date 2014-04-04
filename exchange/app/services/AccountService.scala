@@ -48,6 +48,7 @@ object AccountService extends AkkaService {
     val command = userOrder.toDoSubmitOrder
     Router.backend ? command map {
       case result: OrderSubmitted =>
+        println("order submit -> ", result)
         ApiResult(true, 0, "订单提交成功", Some(UserOrder.fromOrderInfo(result.originOrderInfo)))
       case failed: SubmitOrderFailed =>
         val message = failed.error match {
@@ -70,11 +71,11 @@ object AccountService extends AkkaService {
 
   def getOrders(marketSide: MarketSide, uid: Option[Long], id: Option[Long], status: Option[OrderStatus], skip: Int, limit: Int): Future[ApiResult] = {
     val cursor = Cursor(skip, limit)
-    Router.backend ? QueryOrder(marketSide, uid, id, status.map(_.getValue), None, cursor, false) map {
+    // struct QueryOrder {1: optional i64 uid, 2: optional i64 oid, 3:optional i32 status, 4:optional MarketSide side, 5: Cursor cursor, 6: bool getCount}
+    Router.backend ? QueryOrder(uid, id, status.map(_.getValue), Some(marketSide), cursor, false) map {
       case result: QueryOrderResult =>
-        val data = result.orderItems.map {
-          o => o
-//            UserOrder.fromOrderInfo(o)
+        val data = result.orderinfos.map {
+          o => UserOrder.fromOrderInfo(o)
         }.toSeq
         ApiResult(data = Some(data))
       case x => ApiResult(false, -1, x.toString)
