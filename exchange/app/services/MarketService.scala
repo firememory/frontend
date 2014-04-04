@@ -48,6 +48,7 @@ object MarketService extends AkkaService {
     // struct QueryTransaction {1: optional i64 tid, 2: optional i64 uid, 3: optional i64 oid, 4:optional MarketSide side, 5: Cursor cursor, 6: bool getCount}
     Router.backend ? QueryTransaction(tid, uid, orderId, Some(marketSide), cursor, false) map {
       case result: QueryTransactionResult =>
+        println("transaction -> " + result)
         val items = result.transactionItems.map {
           item =>
             val tx: models.Transaction = item

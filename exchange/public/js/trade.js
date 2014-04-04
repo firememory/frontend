@@ -277,7 +277,7 @@ function BidAskCtrl($scope, $http, $modal) {
           $scope.order = order;
           $http.get('api/userTransaction', {params: {limit: 10, oid: order.id}})
             .success(function(data, status, headers, config) {
-              $scope.transactions = data;
+              $scope.transactions = data.data;
           });
 
           $scope.cancel = function() {
@@ -348,26 +348,24 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
     $scope.assets = [];
     $http.get('api/account')
         .success(function(data, status, headers, config) {
-            console.log('accounts', data);
+            console.log('accounts', data.data.accounts);
             $scope.accounts = data.data.accounts;
             $scope.updatePrice();
         });
 
     $scope.updatePrice = function() {
     // TODO: use ticker API instead
-    $http.get('api/transaction', {params: {skip: 0, limit: 1}})
+    $http.get('api/ticker')
         .success(function(data, status, headers, config) {
-            console.log('transactions', data);
-            $scope.prices['BTC'] = data[0].price;
+            $scope.prices['BTC'] = data.data[0].price;
             if ($scope.accounts) {
                 console.log('calculate assets', $scope.accounts, $scope.prices);
-                $scope.accounts.forEach(function(asset) {
-                    var amount = asset.available + asset.locked;
-                    var currency = asset.currency.toUpperCase();
+                for(var currency in $scope.accounts) {
+                    var amount = $scope.accounts[currency];
                     var price = $scope.prices[currency];
                     console.log('asset', currency, amount, price);
                     $scope.assets.push([currency, price * amount]);
-                });
+                };
                 $('#user-finance-chart-pie').jqChart({
                     title: { text: '资产构成' },
                     legend: {},
@@ -412,7 +410,7 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
 
     // jQuery code
     $('#user-finance-chart-history').jqChart({
-        title: { text: '资产净值(CNY)' },
+        title: { text: '资产净值(未完成)' },
         dataSource: data,
         axes: [
             {
@@ -494,7 +492,7 @@ tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $htt
     console.log(params);
     $http.get('api/userTransaction', params)
         .success(function(data, status, headers, config) {
-            $scope.transactions = data;
+            $scope.transactions = data.data;
         });
 }]);
 

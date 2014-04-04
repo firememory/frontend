@@ -1,4 +1,5 @@
 <div class="row">
+    <h4><strong>重要提示：网站内测阶段，充值余额仅供测试之用</strong></h4>
     <label>当前余额：{{balance}}</label>
     <h4>请将比特币汇入您在本平台的地址:</h4>
     <div class="alert alert-success"><strong>1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R</strong></div>
@@ -6,7 +7,7 @@
 <div class="row">
     <form class="form-horizontal" name="depositForm">
         <div class="form-group">
-            <label class="control-label col-sm-3">充值数量</label>
+            <label class="control-label col-sm-3">虚拟充值数量</label>
             <div class="col-sm-6">
                 <input type="number" name="amount" class="form-control" placeholder="数量" ng-model="depositData.amount"  required>
             </div>
@@ -18,7 +19,7 @@
         </div>
     </form>
 </div>
-<div class="row">
+<div ng-show="false" class="row">
     <table class="table">
         <tbody><tr>
             <th width="410">充值地址</th>

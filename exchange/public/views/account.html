@@ -14,14 +14,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="account in accounts">
-            <td><i class="fa fa-{{account.currency.toLowerCase()}}"></i> {{account.currency.toUpperCase()}}</td>
-            <td>{{account.available}}</td>
-            <td>{{account.locked}}</td>
-            <td>{{account.available + account.locked}}</td>
-            <td>￥{{prices[account.currency.toUpperCase()]}}</td>
-            <td>￥{{(account.available + account.locked) * prices[account.currency.toUpperCase()]}}</td>
-            <td><a href="#/deposit/{{account.currency.toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+        <tr ng-repeat="asset in assets">
+            <td><i class="fa fa-{{asset[0].toLowerCase()}}"></i> {{asset[0]}}</td>
+            <td>{{accounts[asset[0]]}}</td>
+            <td></td>
+            <td></td>
+            <td><i class="fa fa-cny"></i> {{prices[asset[0]] | currency}}</td>
+            <td><i class="fa fa-cny"></i> {{asset[1] | currency}}</td>
+            <td><a href="#/deposit/{{asset[0].toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
         </tr>
         </tbody>
     </table>
