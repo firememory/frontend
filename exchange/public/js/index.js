@@ -1,11 +1,19 @@
-var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'navbar']);
+var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'navbar', 'timer']);
 
-app.controller('IndexCtrl', function ($scope, $http) {
-  $http.get('api/ticker')
-    .success(function(data, status, headers, config) {
-      $scope.tickers = data.data;
-    });
+app.controller('IndexCtrl', function ($scope, $http, $modal) {
+  var refresh = function() {
+      $http.get('api/ticker')
+        .success(function(data, status, headers, config) {
+          $scope.tickers = data.data;
+        });
 
+      $http.get('api/depth', {params: {depth: 10}})
+          .success(function(data, status, headers, config) {
+              $scope.depth = data.data;
+      });
+  };
+
+  refresh();
   $http.get('api/history', {params: {period: 5}})
     .success(function(data, status, headers, config) {
       $scope.history = data.data;
@@ -41,20 +49,76 @@ app.controller('IndexCtrl', function ($scope, $http) {
           type: 'candlestick',
           names: ['开盘','最高', '最低', '收盘'],
           upStroke: '#0C0',
+          upColor: 'rgba(0, 255, 0, 0.4)',
           downStroke: '#C00',
-          downColor: 'rgba(255, 0, 0, 0.7)'
+          downColor: 'rgba(255, 0, 0, 0.5)'
         }, {
           type: 'volume',
           name: '成交量',
           dataOffset: 5,
           yAxis: 1,
           stroke: '#00C',
-          color: 'rgba(0, 0, 255, 0.7)',
-          upStroke: '#009dc6',
-          upColor: 'rgba(0, 150, 255, 0.3)',
-          downStroke: '#b9231f',
-          downColor: 'rgba(255, 0, 0, 0.3)'
+          upStroke: '#0C0',
+          upColor: 'rgba(0, 255, 0, 0.4)',
+          downStroke: '#C00',
+          downColor: 'rgba(255, 0, 0, 0.5)'
         }]
       });
     });
+
+    // polling
+    $scope.$on('timer-tick', function (event, args) {
+        console.log('polling');
+        refresh();
+    });
+
+    $scope.openLoginWindow = function (activeTab) {
+          $scope.activeTab = activeTab;
+          var modalInstance = $modal.open({
+            templateUrl: 'register.html',
+            controller: function ($scope, $http, $modalInstance) {
+              $scope.login = {};
+              $scope.register = {};
+
+              $scope.activeTab = $scope.$parent.activeTab;
+
+              $scope.isRegisterActive = ($scope.activeTab == 1);
+
+              $scope.doLogin = function () {
+                $http.post('user/login', $scope.login)
+                  .success(function(data, status, headers, config) {
+                    if (data.success) {
+                      $scope.$parent.username = $scope.login.username;
+                      $scope.$parent.isLogin = true;
+                      $modalInstance.close();
+                    } else {
+                      $scope.$parent.loginErrorMessage = data.message;
+                      $scope.$parent.showLoginError = true;
+                    }
+                  });
+              };
+
+              $scope.doRegister = function () {
+                $http.post('user/register', $scope.register)
+                  .success(function(data, status, headers, config) {
+                    console.log(data);
+                    if (data.success) {
+                      $scope.$parent.username = $scope.register.username;
+                      $scope.$parent.isLogin = true;
+                      $modalInstance.close();
+                    } else {
+                      $scope.$parent.registerErrorMessage = data.message;
+                      console.log(data);
+                      $scope.$parent.showRegisterError = true;
+                    }
+                  });
+              };
+
+              $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+              };
+            },
+            scope: $scope
+          });
+        };
 });
