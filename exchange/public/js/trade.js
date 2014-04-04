@@ -78,7 +78,7 @@ function BidAskCtrl($scope, $http, $modal) {
         $http.get('api/transaction', {params: {limit: 18, skip: 0}})
         .success(function(data, status, headers, config) {
 //            console.log('transactions', data);
-            $scope.transactions = data;
+            $scope.transactions = data.data;
             if (data.length > 0)
                 $scope.lastPrice = data[0].price;
         });
@@ -462,7 +462,7 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
 tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('api/userTransaction', {params: {}})
           .success(function(data, status, headers, config) {
-                $scope.transactions = data;
+                $scope.transactions = data.data;
           });
 }]);
 
