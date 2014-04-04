@@ -18,11 +18,15 @@ import scala.concurrent.duration._
 
 package object models {
   implicit def long2CurrencyUnit(value: Long) = new CurrencyValue(value)
+
   implicit def double2CurrencyUnit(value: Double) = new CurrencyValue(value)
+
   implicit def currencyUnit2Long(value: CurrencyValue) = value.toLong
+
   implicit def currencyUnit2Double(value: CurrencyValue) = value.toDouble
 
   implicit def double2PriceUnit(value: Double): PriceValue = new PriceValue(value)
+
   implicit def priceUnit2Double(value: PriceValue) = value
 
   // internal unit of backend
@@ -54,6 +58,8 @@ package object models {
       case "RMB" => Currency.Rmb
       case "CNY" => Currency.Rmb
       case "BTC" => Currency.Btc
+      case "LTC" => Currency.Ltc
+      case "PTS" => Currency.Pts
       case "USD" => Currency.Usd
       case _ => null
     }
@@ -64,19 +70,28 @@ package object models {
       case Currency.Rmb => "RMB"
       case Currency.Btc => "BTC"
       case Currency.Usd => "USD"
+      case Currency.Ltc => "LTC"
+      case Currency.Pts => "PTS"
       case _ => currency.name.toUpperCase
     }
   }
 
   // currency conversions between backend and frontend
-  // example: (1000, btc) -> 1000 unit MBTC
+  // example: (1000, Btc) -> 1000 unit MBTC
   implicit def tuple2CurrencyValue(t: (Long, Currency)): CurrencyValue = {
     t._1 unit t._2
   }
 
-  implicit def tuple2PriceValue(t: (Double, Currency, Currency)): PriceValue = {
+  // example: (300, Rmb, Btc) -> 300 unit (CNY2, MBTC)
+  implicit def tuple3toPriceValue(t: (Double, Currency, Currency)): PriceValue = {
     val price: PriceValue = t._1
-    price unit (t._2, t._3)
+    price unit(t._2, t._3)
+  }
+
+  // example: (300, Btc ~> Rmb) -> 300 unit (CNY2, MBTC)
+  implicit def tuple2toPriceValue(t: (Double, MarketSide)): PriceValue = {
+    val price: PriceValue = t._1
+    price unit(t._2._2, t._2._1)
   }
 
   // user account conversions
@@ -108,20 +123,43 @@ package object models {
   implicit def timeDimension2MilliSeconds(dimension: ChartTimeDimension): Long = {
     val duration = dimension match {
       case OneMinute => 1 minute
-      case ThreeMinutes => 3  minutes
-      case FiveMinutes => 5  minutes
-      case FifteenMinutes => 15  minutes
-      case ThirtyMinutes => 30  minutes
+      case ThreeMinutes => 3 minutes
+      case FiveMinutes => 5 minutes
+      case FifteenMinutes => 15 minutes
+      case ThirtyMinutes => 30 minutes
       case OneHour => 1 hour
-      case TwoHours => 2  hours
-      case FourHours => 4  hours
-      case SixHours => 6  hours
-      case TwelveHours => 12  hours
+      case TwoHours => 2 hours
+      case FourHours => 4 hours
+      case SixHours => 6 hours
+      case TwelveHours => 12 hours
       case OneDay => 1 day
       case ThreeDays => 3 days
       case OneWeek => 7 days
     }
     duration.toMillis
+  }
+
+  // ticker conversions
+  implicit def metrics2Ticker(metrics: MetricsByMarket): Ticker = {
+    val side = metrics.side
+    val currency: String = side._1
+    val subject = side._1
+    val price = (metrics.price, side).userValue
+    val high = metrics.high.map(v => (v, side).userValue)
+    val low = metrics.low.map(v => (v, side).userValue)
+    val volume = (metrics.volume.getOrElse(0L), subject).userValue
+    val gain = metrics.gain
+    val trend = Some(metrics.direction.toString.toLowerCase)
+
+    Ticker(
+      currency = currency,
+      price = price,
+      volume = volume,
+      high = high,
+      low = low,
+      gain = gain,
+      trend = trend
+    )
   }
 
   // Json compose / decompose
@@ -168,7 +206,7 @@ package object models {
           Json.obj(
             "time" -> item.timestamp,
             "price" -> (item.price unit(CNY2, MBTC) to(CNY, BTC)).value,
-            "amount" -> (item.volumn unit MBTC).userValue,
+            "amount" -> (item.volume unit MBTC).userValue,
             "total" -> (item.amount unit CNY2).userValue,
             "maker" -> item.maker,
             "taker" -> item.taker,
@@ -179,9 +217,10 @@ package object models {
     }
   }
 
-  class CandleDataItemSerializer extends CustomSerializer[CandleDataItem](format => (
-    { null }, // deserializer not implemented
-    {
+  class CandleDataItemSerializer extends CustomSerializer[CandleDataItem](
+    format => ( {
+      null // deserializer not implemented
+    }, {
       case candleDataItem: CandleDataItem =>
         JArray(List(
           JDecimal(candleDataItem.timestamp),
@@ -191,8 +230,8 @@ package object models {
           JDouble((candleDataItem.close unit(CNY2, MBTC) to(CNY, BTC)).value),
           JDouble((candleDataItem.volumn unit MBTC).userValue)
         ))
-    }
-    ))
+    })
+  )
 
   implicit val formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(OperationEnum) + new CandleDataItemSerializer()
 

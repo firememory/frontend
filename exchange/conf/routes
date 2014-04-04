@@ -15,16 +15,16 @@ POST    /user/register           controllers.UserController.register()
 POST    /trade/bid               controllers.MessageController.submitOrder()
 POST    /trade/ask               controllers.MessageController.submitOrder()
 GET    /trade/order/cancel/*id   controllers.MessageController.cancelOrder(id)
+POST    /account/deposit            controllers.MessageController.deposit()
 
 # API routes
 GET     /api/depth                  controllers.MessageController.depth()
-GET     /api/price                  controllers.MessageController.price()
+GET     /api/ticker                 controllers.MessageController.tickers()
 GET     /api/order                  controllers.MessageController.getUserOrders()
 GET     /api/account                controllers.MessageController.account()
 GET     /api/history                controllers.MessageController.history()
 GET     /api/transaction            controllers.MessageController.transaction()
 GET     /api/userTransaction        controllers.MessageController.userTransaction()
-POST    /account/deposit            controllers.MessageController.deposit()
 
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
 

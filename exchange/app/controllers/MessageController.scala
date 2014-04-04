@@ -29,18 +29,7 @@ object MessageController extends Controller with Json4s {
   import akka.util.Timeout
   import scala.concurrent.duration._
 
-  val minute = 60 * 1000
-  val hour = 60 * 60 * 1000
-  val day = 24 * 60 * 60 * 1000
-  val week = 7 * 24 * 60 * 60 * 1000
-
   implicit val timeout = Timeout(2 seconds)
-  implicit val formats = Serialization.formats(NoTypeHints) +
-    new EnumNameSerializer(OperationEnum)
-
-  def price = Action {
-    Ok("TODO")
-  }
 
   def depth = Action.async {
     implicit request =>
@@ -54,7 +43,7 @@ object MessageController extends Controller with Json4s {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
-          AccountService.getOrders(uid.toLong) map {
+          AccountService.getOrders(Btc ~> Rmb, Some(uid.toLong), None, None, 0, 30) map {
             case result: ApiResult =>
               Ok(result.toJson)
           }
@@ -164,10 +153,7 @@ object MessageController extends Controller with Json4s {
       val limit = getParam(query, "limit", "20").toInt
       val skip = getParam(query, "skip", "0").toInt
 
-      MarketService.getAllTransactions(Btc ~> Rmb, skip, limit) map {
-        case transactionData: TransactionData =>
-          Ok(Json.toJson(transactionData.items))
-      }
+      MarketService.getGlobalTransactions(Btc ~> Rmb, skip, limit).map(result => Ok(result.toJson))
   }
 
   def userTransaction = Action.async {
@@ -175,21 +161,24 @@ object MessageController extends Controller with Json4s {
       session.get("uid") match {
         case Some(userId) =>
           val query = request.queryString
-          val orderId = getParam(query, "oid", "-1").toInt
+//          val orderId = getParam(query, "oid").map(_.toInt)
           val limit = getParam(query, "limit", "20").toInt
           val skip = getParam(query, "skip", "0").toInt
 
-          MarketService.getUserTransactions(Btc ~> Rmb, userId.toLong, orderId, skip, limit) map {
-            case transactionData: TransactionData =>
-              Ok(Json.toJson(transactionData.items))
-          }
+          MarketService.getTransactionsByUser(Btc ~> Rmb, userId.toLong, skip, limit).map(result => Ok(result.toJson))
         case None => Future {
           Ok("unauthorised request")
         }
       }
   }
 
+  def tickers = Action.async { implicit request =>
+    MarketService.getTickers().map(result => Ok(result.toJson))
+  }
 
+  private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
+    queryString.get(param).map(_(0))
+  }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String, default: String): String = {
     queryString.get(param) match {

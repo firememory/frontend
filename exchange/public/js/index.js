@@ -1,14 +1,16 @@
 var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'navbar']);
 
 app.controller('IndexCtrl', function ($scope, $http) {
-  $http.get('api/price')
+  $http.get('api/ticker')
     .success(function(data, status, headers, config) {
-      $scope.price = data.ticker;
+      $scope.tickers = data.data;
     });
-  $http.get('api/history')
+
+  $http.get('api/history', {params: {period: 5}})
     .success(function(data, status, headers, config) {
       $scope.history = data.data;
-      var chart = $('.candle-chart').jqCandlestick($scope.history, {
+      var chart = $('.candle-chart').jqCandlestick(
+      $scope.history, {
         theme: 'light',
         yAxis: [{
           height: 8
