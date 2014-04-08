@@ -43,7 +43,7 @@ object MessageController extends Controller with Json4s {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
-          AccountService.getOrders(Btc ~> Rmb, Some(uid.toLong), None, None, 0, 30) map {
+          AccountService.getOrders(Some(uid.toLong), None, None, 0, 30) map {
             case result: ApiResult =>
               Ok(result.toJson)
           }

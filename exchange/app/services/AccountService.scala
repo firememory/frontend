@@ -69,10 +69,10 @@ object AccountService extends AkkaService {
     }
   }
 
-  def getOrders(marketSide: MarketSide, uid: Option[Long], id: Option[Long], status: Option[OrderStatus], skip: Int, limit: Int): Future[ApiResult] = {
+  def getOrders(uid: Option[Long], id: Option[Long], status: Option[OrderStatus], skip: Int, limit: Int): Future[ApiResult] = {
     val cursor = Cursor(skip, limit)
     // struct QueryOrder {1: optional i64 uid, 2: optional i64 oid, 3:optional i32 status, 4:optional MarketSide side, 5: Cursor cursor, 6: bool getCount}
-    Router.backend ? QueryOrder(uid, id, status.map(_.getValue), Some(marketSide), cursor, false) map {
+    Router.backend ? QueryOrder(uid, id, status.map(_.getValue), None, cursor, false) map {
       case result: QueryOrderResult =>
         val data = result.orderinfos.map {
           o => UserOrder.fromOrderInfo(o)
