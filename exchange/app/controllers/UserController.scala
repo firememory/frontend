@@ -10,9 +10,9 @@ import play.api.libs.json._
 import services.UserService
 import models._
 import scala.concurrent.Future
-import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.github.tototoshi.play2.json4s.native.Json4s
+import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
 
 object UserController extends Controller with Json4s {
   def login = Action.async(parse.json) {
@@ -25,11 +25,15 @@ object UserController extends Controller with Json4s {
           UserService.login(user) map {
             result =>
               if (result.success) {
-                val returnUser = result.data.asInstanceOf[LoginSucceeded]
-                Ok(result.toJson).withSession(
-                  "username" -> returnUser.email,
-                  "uid" -> returnUser.id.toString
-                )
+                result.data.get match {
+                  case succeeded: LoginSucceeded =>
+                    Ok(result.toJson).withSession(
+                      "username" -> succeeded.email,
+                      "uid" -> succeeded.id.toString
+                    )
+                  case _ =>
+                    Ok(result.toJson)
+                }
               } else {
                 Ok(result.toJson)
               }
