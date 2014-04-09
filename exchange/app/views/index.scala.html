@@ -83,7 +83,7 @@ case None => {
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.bids">
-                    <td class="buy">卖{{$index + 1}}</td>
+                    <td class="buy">买{{$index + 1}}</td>
                     <td class="buy" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
                     <td class=""><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
                 </tr>
