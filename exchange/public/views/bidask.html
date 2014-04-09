@@ -6,8 +6,8 @@
         <div class="row">
             <div ng-repeat="item in depth.asks" class="depth-item">
                 <span class="title sell">卖{{depth.asks.length-$index}}</span>
-                <span class="price" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</span>
-                <span class="amount"><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</span>
+                <span class="price" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
             </div>
         </div>
         <div class="row">
@@ -32,7 +32,7 @@
                 <!--可用余额-->
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
                 总资金
-                <span class="badge badge-info link" ng-click="clickFunding(account.RMB)">{{account.RMB}}</span>
+                <span class="badge badge-info link" ng-click="clickFunding(account.RMB)">{{account.RMB | currency}}</span>
                 <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">普通模式</a>
                 <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">高级模式</a>
                 <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
@@ -72,7 +72,7 @@
                                 以<span class="badge badge-info">任意价格</span>
                             </li>
                             <li class="list-group-item" ng-show="bidOptions.limitPrice">
-                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price}}</span>
+                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price | currency}}</span>
                             </li>
                             <li class="list-group-item" ng-show="!bidOptions.limitAmount">
                                  购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
@@ -81,10 +81,10 @@
                                  购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
                             </li>
                             <li class="list-group-item" ng-show="bidOptions.limitTotal">
-                                希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total}}</span>
+                                希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total | currency}}</span>
                             </li>
                             <li class="list-group-item" ng-show="!bidOptions.limitTotal">
-                                最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked}}</span>
+                                最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked | currency}}</span>
                             </li>
                         </ul>
                     </div>
@@ -147,7 +147,7 @@
                                 以<span class="badge badge-info">任意价格</span>
                             </li>
                             <li class="list-group-item"  ng-show="askOptions.limitPrice">
-                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price}}</span>价格
+                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price | currency}}</span>价格
                             </li>
                             <li class="list-group-item"  ng-show="!askOptions.limitAmount">
                                  卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
@@ -156,10 +156,10 @@
                                  卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
                             </li>
                             <li class="list-group-item"  ng-show="askOptions.limitTotal">
-                                最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total}}</span>
+                                最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total | currency}}</span>
                             </li>
                             <li class="list-group-item"  ng-show="!askOptions.limitTotal">
-                                预计收入<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.income}}</span>
+                                预计收入<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.income | currency}}</span>
                             </li>
                         </ul>
                     </div>
