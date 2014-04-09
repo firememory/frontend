@@ -89,4 +89,4 @@ marketApp.filter('UID', function() {
         var shortUid = uid.substring(0,2) + '***' + uid.substring(uid.length-3,uid.length);
         return shortUid;
     }
-  });
+});

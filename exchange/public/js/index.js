@@ -1,4 +1,4 @@
-var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'navbar', 'timer']);
+var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'coinport.app', 'navbar', 'timer']);
 
 app.controller('IndexCtrl', function ($scope, $http, $modal) {
   var refresh = function() {
