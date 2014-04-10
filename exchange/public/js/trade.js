@@ -248,6 +248,38 @@ function BidAskCtrl($scope, $http, $modal) {
         $scope.askOptions.limitAmount = true;
     }
 
+    $scope.clickDepthBids = function(index) {
+        var data = $scope.depth.bids
+        if (index < 0 || index >= data.length) return;
+
+        var amount = 0;
+        for(var i = 0; i <= index; i++) {
+            amount += data[i].amount;
+        }
+        var price = data[index].price;
+
+        var target = $scope.ask
+
+        target.price = price;
+        target.amount = amount;
+    }
+
+    $scope.clickDepthAsks = function(index) {
+            var data = $scope.depth.asks
+            if (index < 0 || index >= data.length) return;
+
+            var amount = 0;
+            for(var i = data.length - 1; i >= index; i--) {
+                amount += data[i].amount;
+            }
+            var price = data[index].price;
+
+            var target = $scope.bid
+
+            target.price = price;
+            target.amount = amount;
+    }
+
     $scope.cancelOrder = function(id) {
         console.log('cancel order', id);
         $http.get('trade/order/cancel/' + id)
