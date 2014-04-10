@@ -1,6 +1,6 @@
 name := """coinport-frontend"""
 
-version := "1.0-SNAPSHOT"
+version := "1.0.0-SNAPSHOT"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots"),
@@ -22,7 +22,7 @@ libraryDependencies ++= {
     "org.json4s" %% "json4s-ext" % "3.2.8",
     "com.github.tototoshi" %% "play-json4s-native" % "0.2.0",
     "com.github.tototoshi" %% "play-json4s-test-native" % "0.2.0" % "test",
-    "com.coinport" %% "coinex-client" % "1.0.5-SNAPSHOT"
+    "com.coinport" %% "coinex-client" % "1.0.6-SNAPSHOT"
 //    "com.twitter"                 %% "scrooge-core"                     % "3.12.3",
 //    "com.twitter"                 %% "scrooge-serializer"               % "3.12.3",
 //    "org.apache.thrift"           %  "libthrift"                        % "0.8.0",
