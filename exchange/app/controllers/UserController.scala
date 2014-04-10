@@ -7,14 +7,20 @@ package controllers
 
 import play.api.mvc._
 import play.api.libs.json._
-import services.UserService
-import models._
+import play.api.libs.functional.syntax._
+import com.coinport.coinex.api.model._
+import com.coinport.coinex.api.service._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
 
 object UserController extends Controller with Json4s {
+  implicit val userReads: Reads[User] = (
+    (JsPath \ "username").read[String] and
+      (JsPath \ "password").read[String]
+    )(User.apply _)
+
   def login = Action.async(parse.json) {
     implicit request =>
       val json = request.body

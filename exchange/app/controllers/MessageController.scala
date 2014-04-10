@@ -14,15 +14,9 @@ import scala.concurrent.Future
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
-import models._
-import models.OperationEnum._
-import services.{MarketService, AccountService}
-import com.coinport.coinex.data.ChartTimeDimension._
-import play.api.libs.json.Json
+import com.coinport.coinex.api.model._
+import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
-import org.json4s.{NoTypeHints, Extraction}
-import org.json4s.native.Serialization
-import org.json4s.ext.EnumNameSerializer
 
 object MessageController extends Controller with Json4s {
 
@@ -68,8 +62,8 @@ object MessageController extends Controller with Json4s {
           val amount = if (amountField <= 0) None else Some(amountField)
           val total = if (totalField <= 0) None else Some(totalField)
           val operation = orderType match {
-            case "bid" => Buy
-            case "ask" => Sell
+            case "bid" => Operations.Buy
+            case "ask" => Operations.Sell
           }
           val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
