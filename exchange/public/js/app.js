@@ -11,6 +11,12 @@ coinportApp.filter('orderTypeText', function() {
     }
 });
 
+coinportApp.filter('orderTypeClass', function() {
+    return function(input) {
+        return input.toLowerCase();
+    }
+});
+
 coinportApp.filter('txTypeClass', function() {
     return function(input) {
         return input ? 'sell' : 'buy';

@@ -26,10 +26,10 @@
                 <td>
                     {{order.submitTime | date:"MM-dd HH:mm:ss"}}
                 </td>
-                <td class="{{order.type}}">
+                <td class="{{order.operation | orderTypeClass}}">
                     {{order.operation | orderTypeText}}
                 </td>
-                <td class="{{order.type}}">
+                <td class="{{order.operation | orderTypeClass}}">
                     {{order.price | currency}}
                 </td>
                 <td>

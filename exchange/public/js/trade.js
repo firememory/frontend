@@ -522,7 +522,6 @@ tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $htt
     // TODO: call order detail API
     var order = $scope.order;
     var params = {params: {oid: order.id}};
-    console.log(params);
     $http.get('api/userTransaction', params)
         .success(function(data, status, headers, config) {
             $scope.transactions = data.data;
