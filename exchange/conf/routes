@@ -7,6 +7,7 @@ GET     /trade                       controllers.MainController.trade()
 GET     /market                       controllers.MainController.market()
 GET     /user                       controllers.MainController.user()
 GET     /register                   controllers.MainController.register()
+GET     /login                      controllers.MainController.login()
 
 GET    /user/logout              controllers.UserController.logout()
 POST    /user/login              controllers.UserController.login()

@@ -5,7 +5,7 @@
 
 package controllers
 
-import play.api.mvc.{Action, Controller}
+import play.api.mvc._
 
 object MainController extends Controller {
   def index = Action {
@@ -15,7 +15,11 @@ object MainController extends Controller {
 
   def trade = Action {
     implicit request =>
-      Ok(views.html.trade.render(session.get("username"), session.get("uid")))
+      session.get("uid").map { uid =>
+        Ok(views.html.trade.render(session.get("username"), Some(uid)))
+      } getOrElse {
+        Redirect(routes.MainController.login())
+      }
   }
 
   def market = Action {
@@ -26,6 +30,10 @@ object MainController extends Controller {
   def user = Action {
     implicit request =>
       Ok(views.html.user.render(session.get("username")))
+  }
+
+  def login = Action {
+    Ok(views.html.login.render())
   }
 
   def register = Action {

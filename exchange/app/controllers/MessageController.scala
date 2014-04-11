@@ -41,14 +41,11 @@ object MessageController extends Controller with Json4s {
             case result: ApiResult =>
               Ok(result.toJson)
           }
-        case None =>
-          Future {
-            Ok("unauthorised request")
-          }
+        case None => Future(Unauthorized)
       }
   }
 
-  def submitOrder() = Action.async(parse.json) {
+  def submitOrder() = Authenticated.async(parse.json) {
     implicit request =>
       val json = request.body
       session.get("uid") match {
@@ -75,7 +72,7 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def cancelOrder(id: String) = Action.async {
+  def cancelOrder(id: String) = Authenticated.async {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
@@ -105,7 +102,7 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def deposit = Action.async(parse.json) {
+  def deposit = Authenticated.async(parse.json) {
     implicit request =>
       val json = request.body
       val username = session.get("username").getOrElse(null)

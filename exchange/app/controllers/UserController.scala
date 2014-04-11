@@ -24,7 +24,6 @@ object UserController extends Controller with Json4s {
   def login = Action.async(parse.json) {
     implicit request =>
       val json = request.body
-      println("login with: " + json)
       json.validate[User] match {
         case s: JsSuccess[User] =>
           val user: User = s.get
@@ -82,6 +81,7 @@ object UserController extends Controller with Json4s {
   def logout = Action {
     implicit request =>
       Redirect(routes.MainController.index()).withSession(
-        session - "username")
+        session - "username" - "uid"
+      )
   }
 }
