@@ -19,7 +19,7 @@ POST    /account/deposit            controllers.MessageController.deposit()
 
 # API routes
 GET     /api/depth                  controllers.MessageController.depth()
-GET     /api/ticker                 controllers.MessageController.tickers()
+GET     /api/*market/ticker         controllers.MessageController.ticker(market)
 GET     /api/order                  controllers.MessageController.getUserOrders()
 GET     /api/account                controllers.MessageController.account()
 GET     /api/history                controllers.MessageController.history()

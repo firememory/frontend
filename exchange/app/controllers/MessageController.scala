@@ -166,8 +166,9 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def tickers = Action.async { implicit request =>
-    MarketService.getTickers().map(result => Ok(result.toJson))
+  def ticker(market: String) = Action.async { implicit request =>
+    val side: MarketSide = market
+    MarketService.getTickers(Set(side)).map(result => Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

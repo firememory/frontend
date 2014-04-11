@@ -46,12 +46,12 @@ case None => {
                 </thead>
                 <tbody>
                 <tr ng-repeat="ticker in tickers">
-                    <td>{{ticker.currency}} <img ng-src="image/{{ticker.currency}}_logo.png" height="15"></td>
-                    <td><i class="fa fa-cny"></i> {{ticker.price | currency}} <img ng-show="{{ticker.trend != 'keep'}}" ng-src="image/{{ticker.trend}}.png"></td>
+                    <td>{{ticker.currency}} <img src="image/BTC_logo.png" height="15"></td>
+                    <td><i class="fa fa-cny"></i> {{ticker.price.value | currency}} <img ng-show="{{ticker.trend != 'keep'}}" ng-src="image/{{ticker.trend}}.png"></td>
                     <td>{{ticker.gain ? (ticker.gain * 100).toFixed(2) : 0}}%</td>
-                    <td class=""><i class="fa fa-cny"></i> {{ticker.high | currency}}</td>
-                    <td class=""><i class="fa fa-cny"></i> {{ticker.low | currency}}</td>
-                    <td><i class="fa fa-btc"></i> {{ticker.volume}}</td>
+                    <td class=""><i class="fa fa-cny"></i> {{ticker.high.value | currency}}</td>
+                    <td class=""><i class="fa fa-cny"></i> {{ticker.low.value | currency}}</td>
+                    <td><i class="fa fa-btc"></i> {{ticker.volume.value}}</td>
                 </tr>
                 </tbody>
             </table>
