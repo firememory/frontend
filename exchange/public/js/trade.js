@@ -393,22 +393,16 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
     }
 
     $scope.refresh();
-    $scope.depositData = {type: 'RMB'};
+    $scope.depositData = {currency: 'RMB'};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
-        $http.post('account/deposit', $scope.depositData)
+        $http.post('account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
             console.log(data);
             $scope.refresh();
           });
     };
-
-    // polling
-    $scope.$on('timer-tick', function (event, args) {
-        console.log('polling', args);
-        $scope.refresh();
-    });
 }]);
 
 tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http) {
@@ -420,22 +414,16 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
     }
 
     $scope.refresh();
-    $scope.depositData = {type: 'BTC'};
+    $scope.depositData = {currency: 'BTC'};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
-        $http.post('account/deposit', $scope.depositData)
+        $http.post('account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
             console.log(data);
             $scope.refresh();
           });
     };
-
-    // polling
-    $scope.$on('timer-tick', function (event, args) {
-        //console.log('polling', args);
-        //$scope.refresh();
-    });
 }]);
 
 tradeApp.controller('UserCtrl', function ($scope, $http) {

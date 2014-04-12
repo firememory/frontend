@@ -6,9 +6,7 @@
 package controllers
 
 import play.api.mvc._
-
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
 import com.coinport.coinex.data._
 import scala.concurrent.Future
 import scala.Some
@@ -92,17 +90,17 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def deposit = Authenticated.async(parse.json) {
+  def deposit = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-      val json = request.body
+      val data = request.body
       val username = session.get("username").getOrElse(null)
       val uid = session.get("uid").getOrElse(null)
       println("deposit by user: " + username + ", uid: " + uid + ", deposit data: " + json)
       if (username == null || uid == null) {
         Future(Unauthorized)
       } else {
-        val amount = (json \ "amount").as[Double]
-        val currency: Currency = (json \ "type").as[String]
+        val amount = getParam(data, "amount", "0.0").toDouble
+        val currency: Currency = getParam(data, "currency", "")
         AccountService.deposit(uid.toLong, currency, amount) map {
           case x =>
             println(x)
