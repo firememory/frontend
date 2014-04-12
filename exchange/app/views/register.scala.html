@@ -37,16 +37,9 @@
                 <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
             </div>
         </div>
-        <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputEmail">注册邮箱</label>
-            <div class="col-sm-6">
-                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.username" required>
-                <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
-            </div>
-        </div>
 
         <div style="height: 80px;">
-            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showRegisterError">{{registerErrorMessage}}</div>
+            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showError">{{errorMessage}}</div>
         </div>
 
         <div class="form-group">
