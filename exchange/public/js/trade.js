@@ -38,13 +38,18 @@ function routeConfig($routeProvider) {
         redirectTo: '/'
     });
 }
+function httpConfig($httpProvider) {
+    console.log($httpProvider)
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+}
 
 tradeApp.config(routeConfig);
+tradeApp.config(httpConfig);
 
 function BidAskCtrl($scope, $http, $modal) {
     $scope.orders = [];
     $scope.transactions = [];
-    $scope.bid = {type: 'bid', price: 4000, amount: 0, total: 0};
+    $scope.bid = {price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
     $scope.account = {RMB: 0, BTC: 0}
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
@@ -211,14 +216,25 @@ function BidAskCtrl($scope, $http, $modal) {
     }
 
     $scope.addBidOrder = function() {
-        console.log('add bid', $scope.bid);
-        if($scope.bid.amount < 0)
+        if($scope.bid.amount < 0) {
+            $scope.info.bidMessage = '数量不能小于0';
             return;
+        }
+        if ($scope.bid.total > $scope.account.RMB) {
+            $scope.info.bidMessage = '余额不足';
+            return;
+        }
+
         $scope.info.bidButtonLabel = '提交订单中...';
+        var payload = {type: 'bid'};
+        if ($scope.bidOptions.limitPrice)
+            payload.price = $scope.bid.price;
+        if ($scope.bidOptions.limitAmount)
+            payload.amount = $scope.bid.amount;
+        if ($scope.bidOptions.limitTotal)
+            payload.total = $scope.bid.total;
 
-        $scope.bid.total = Math.min($scope.bid.total, $scope.account.RMB);
-
-        $http.post('trade/bid', $scope.bid)
+        $http.post('trade/bid', $.param(payload))
           .success(function(data, status, headers, config) {
             console.log('bid order sent, response:', data);
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
@@ -234,12 +250,24 @@ function BidAskCtrl($scope, $http, $modal) {
     };
 
     $scope.addAskOrder = function() {
-        console.log('add ask', $scope.ask);
-        if($scope.ask.amount < 0)
+        if($scope.ask.amount < 0) {
+            $scope.info.askMessage = '数量不能小于0';
             return;
+        }
+        if ($scope.ask.amount > $scope.account.BTC) {
+            $scope.info.askMessage = '余额不足';
+            return;
+        }
         $scope.info.askButtonLabel = '提交订单中...';
+        var payload = {type: 'ask'};
+        if ($scope.askOptions.limitPrice)
+            payload.price = $scope.ask.price;
+        if ($scope.askOptions.limitAmount)
+            payload.amount = $scope.ask.amount;
+        if ($scope.askOptions.limitTotal)
+            payload.total = $scope.ask.total;
 
-        $http.post('trade/bid', $scope.ask)
+        $http.post('trade/bid', $.param(payload))
           .success(function(data, status, headers, config) {
             console.log('bid order sent, response:', data);
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;

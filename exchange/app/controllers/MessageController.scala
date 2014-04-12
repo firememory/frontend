@@ -45,19 +45,17 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def submitOrder() = Authenticated.async(parse.json) {
+  def submitOrder() = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-      val json = request.body
+      val data = request.body
       session.get("uid") match {
         case Some(id) =>
-          val orderType = (json \ "type").as[String]
-          val priceField = (json \ "price").as[Double]
-          val amountField = (json \ "amount").as[Double]
-          val totalField = (json \ "total").as[Double]
+          println("-"*20 + data)
+          val orderType = getParam(data, "type", "")
+          val price = getParam(data, "price").map(_.toDouble)
+          val amount = getParam(data, "amount").map(_.toDouble)
+          val total = getParam(data, "total").map(_.toDouble)
 
-          val price = if (priceField <= 0) None else Some(priceField)
-          val amount = if (amountField <= 0) None else Some(amountField)
-          val total = if (totalField <= 0) None else Some(totalField)
           val operation = orderType match {
             case "bid" => Operations.Buy
             case "ask" => Operations.Sell
@@ -65,10 +63,8 @@ object MessageController extends Controller with Json4s {
           val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
           AccountService.submitOrder(order).map(result => Ok(result.toJson))
-        case None =>
-          Future {
-            Ok(ApiResult(false, -1, "unauthorised request").toJson)
-          }
+
+        case None => Future(Unauthorized)
       }
   }
 
@@ -77,10 +73,7 @@ object MessageController extends Controller with Json4s {
       session.get("uid") match {
         case Some(uid) =>
           AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(result.toJson()))
-        case None =>
-          Future {
-            Ok(ApiResult(false, -1, "unauthorised request").toJson)
-          }
+        case None => Future(Unauthorized)
       }
   }
 
@@ -95,10 +88,7 @@ object MessageController extends Controller with Json4s {
               println("got response: " + result)
               Ok(result.toJson)
           }
-        case None =>
-          Future {
-            Ok("unauthorised request")
-          }
+        case None => Future(Unauthorized)
       }
   }
 
@@ -109,9 +99,7 @@ object MessageController extends Controller with Json4s {
       val uid = session.get("uid").getOrElse(null)
       println("deposit by user: " + username + ", uid: " + uid + ", deposit data: " + json)
       if (username == null || uid == null) {
-        Future {
-          Ok("unauthorised request")
-        }
+        Future(Unauthorized)
       } else {
         val amount = (json \ "amount").as[Double]
         val currency: Currency = (json \ "type").as[String]
@@ -152,20 +140,19 @@ object MessageController extends Controller with Json4s {
       session.get("uid") match {
         case Some(userId) =>
           val query = request.queryString
-//          val orderId = getParam(query, "oid").map(_.toInt)
+          //          val orderId = getParam(query, "oid").map(_.toInt)
           val limit = getParam(query, "limit", "20").toInt
           val skip = getParam(query, "skip", "0").toInt
 
           MarketService.getTransactionsByUser(Btc ~> Rmb, userId.toLong, skip, limit).map(result => Ok(result.toJson))
-        case None => Future {
-          Ok("unauthorised request")
-        }
+        case None => Future(Unauthorized)
       }
   }
 
-  def ticker(market: String) = Action.async { implicit request =>
-    val side: MarketSide = market
-    MarketService.getTickers(Set(side)).map(result => Ok(result.toJson))
+  def ticker(market: String) = Action.async {
+    implicit request =>
+      val side: MarketSide = market
+      MarketService.getTickers(Set(side)).map(result => Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
