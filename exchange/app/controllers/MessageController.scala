@@ -115,13 +115,14 @@ object MessageController extends Controller with Json4s {
     implicit request =>
       val query = request.queryString
       val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
-      val fromParam = getParam(query, "from", "")
-      val toParam = getParam(query, "to", "")
       val defaultTo = System.currentTimeMillis()
       // return 90 items by default
       val defaultFrom = defaultTo - timeDimension * 180
-      val from = if (fromParam.isEmpty) defaultFrom else fromParam.toLong
-      val to = if (toParam.isEmpty) defaultTo else toParam.toLong
+      val fromParam = getParam(query, "from", defaultFrom.toString)
+      val toParam = getParam(query, "to", defaultTo.toString)
+
+      val from = fromParam.toLong
+      val to = toParam.toLong
 
       MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to).map(result => Ok(result.toJson))
   }
