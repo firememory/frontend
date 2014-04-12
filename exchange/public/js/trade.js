@@ -63,19 +63,15 @@ function BidAskCtrl($scope, $http, $modal) {
         bidButtonLabel: $scope.config.bidButtonLabel,
         askButtonLabel: $scope.config.askButtonLabel};
 
-    $scope.refresh = function() {
-        $http.get('api/account')
+    $scope.updateOrders = function() {
+        $http.get('api/order')
             .success(function(data, status, headers, config) {
-                $scope.account = data.data.accounts;
+                $scope.orders = data.data;
         });
+    };
 
-        $http.get('api/depth')
-            .success(function(data, status, headers, config) {
-                $scope.depth = data.data;
-                $scope.depth.asks.reverse();
-        });
-
-        $http.get('api/transaction', {params: {limit: 18, skip: 0}})
+    $scope.updateTransactions = function() {
+        $http.get('api/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
             $scope.transactions = data.data;
@@ -85,15 +81,36 @@ function BidAskCtrl($scope, $http, $modal) {
         });
     };
 
-    $scope.updateOrders = function() {
-        $http.get('api/order')
+    $scope.updateDepth = function() {
+        $http.get('api/depth')
             .success(function(data, status, headers, config) {
-                $scope.orders = data.data;
+                $scope.depth = data.data;
+                $scope.depth.asks.reverse();
         });
     };
 
-    $scope.refresh();
+    $scope.updateBestPrice = function() {
+        $http.get('api/depth')
+            .success(function(data, status, headers, config) {
+                $scope.ask.price = data.data.bids[0].price;
+                $scope.bid.price = data.data.asks[0].price;
+        });
+    };
+
+    $scope.refresh = function() {
+        $scope.updateDepth();
+        $scope.updateTransactions();
+    };
+
     $scope.updateOrders();
+    $scope.updateDepth();
+    $scope.updateTransactions();
+    $scope.updateBestPrice();
+
+    $http.get('api/account')
+        .success(function(data, status, headers, config) {
+            $scope.account = data.data.accounts;
+    });
 
     $http.get('api/history', {params: {period: 5}})
       .success(function(data, status, headers, config) {
@@ -203,11 +220,11 @@ function BidAskCtrl($scope, $http, $modal) {
 
         $http.post('trade/bid', $scope.bid)
           .success(function(data, status, headers, config) {
-            $scope.account.RMB = ($scope.account.RMB - $scope.bid.total).toFixed(2);
             console.log('bid order sent, response:', data);
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
+                $scope.account.RMB -= order.total;
                 $scope.orders.push(order);
             } else {
                 // handle errors
