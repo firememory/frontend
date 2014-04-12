@@ -3,7 +3,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
     $scope.openLoginWindow = function (activeTab) {
       $scope.activeTab = activeTab;
       var modalInstance = $modal.open({
-        templateUrl: 'register.html',
+        templateUrl: 'views/register.html',
         controller: function ($scope, $http, $modalInstance) {
           $scope.login = {};
           $scope.register = {};
@@ -16,7 +16,9 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
             $http.post('user/login', $scope.login)
               .success(function(data, status, headers, config) {
                 if (data.success) {
-                  $scope.$parent.username = $scope.login.username;
+                  var result = data.data;
+                  $scope.$parent.username = result.email;
+                  $scope.$parent.uid = result.id;
                   $scope.$parent.isLogin = true;
                   $modalInstance.close();
                 } else {
@@ -31,12 +33,10 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
               .success(function(data, status, headers, config) {
                 console.log(data);
                 if (data.success) {
-                  $scope.$parent.username = $scope.register.username;
-                  $scope.$parent.isLogin = true;
-                  $modalInstance.close();
+                  $scope.$parent.registerErrorMessage = '注册成功';
+                  $scope.$parent.showRegisterError = true;
                 } else {
                   $scope.$parent.registerErrorMessage = data.message;
-                  console.log(data);
                   $scope.$parent.showRegisterError = true;
                 }
               });
