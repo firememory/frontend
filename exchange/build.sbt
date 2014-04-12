@@ -3,8 +3,8 @@ name := """coinport-frontend"""
 version := "1.0.0-SNAPSHOT"
 
 resolvers ++= Seq(
-  Resolver.sonatypeRepo("snapshots"),
-  "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/"
+  "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
+  Resolver.sonatypeRepo("snapshots")
 )
 
 libraryDependencies ++= {

@@ -48,7 +48,6 @@ object MessageController extends Controller with Json4s {
       val data = request.body
       session.get("uid") match {
         case Some(id) =>
-          println("-"*20 + data)
           val orderType = getParam(data, "type", "")
           val price = getParam(data, "price").map(_.toDouble)
           val amount = getParam(data, "amount").map(_.toDouble)
@@ -77,13 +76,10 @@ object MessageController extends Controller with Json4s {
 
   def account = Action.async {
     implicit request =>
-      println("query account")
       session.get("uid") match {
         case Some(id) =>
-          println("send query with uid: " + id)
           AccountService.getAccount(id.toLong) map {
             case result =>
-              println("got response: " + result)
               Ok(result.toJson)
           }
         case None => Future(Unauthorized)
@@ -95,7 +91,6 @@ object MessageController extends Controller with Json4s {
       val data = request.body
       val username = session.get("username").getOrElse(null)
       val uid = session.get("uid").getOrElse(null)
-      println("deposit by user: " + username + ", uid: " + uid + ", deposit data: " + json)
       if (username == null || uid == null) {
         Future(Unauthorized)
       } else {
@@ -103,7 +98,6 @@ object MessageController extends Controller with Json4s {
         val currency: Currency = getParam(data, "currency", "")
         AccountService.deposit(uid.toLong, currency, amount) map {
           case x =>
-            println(x)
             Ok("backend reply: " + x.toString)
         }
       }
