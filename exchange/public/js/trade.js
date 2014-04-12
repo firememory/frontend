@@ -224,6 +224,14 @@ function BidAskCtrl($scope, $http, $modal) {
             $scope.info.bidMessage = '余额不足';
             return;
         }
+        if ($scope.bidOptions.limitAmount && $scope.bid.amount <= 0) {
+            $scope.info.bidMessage = '请输入数量';
+            return;
+        }
+        if ($scope.bidOptions.limitPrice && $scope.bid.price <= 0) {
+            $scope.info.bidMessage = '请输入价格';
+            return;
+        }
 
         $scope.info.bidButtonLabel = '提交订单中...';
         var payload = {type: 'bid'};
@@ -258,6 +266,15 @@ function BidAskCtrl($scope, $http, $modal) {
             $scope.info.askMessage = '余额不足';
             return;
         }
+        if ($scope.askOptions.limitAmount && $scope.ask.amount <= 0) {
+            $scope.info.askMessage = '请输入数量';
+            return;
+        }
+        if ($scope.askOptions.limitPrice && $scope.ask.price <= 0) {
+            $scope.info.askMessage = '请输入价格';
+            return;
+        }
+
         $scope.info.askButtonLabel = '提交订单中...';
         var payload = {type: 'ask'};
         if ($scope.askOptions.limitPrice)
