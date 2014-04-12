@@ -41,14 +41,14 @@ case None => {
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th></th><th>最新成交价</th><th>涨跌</th><th>最高价</th><th>最低价</th><th>24小时成交量</th>
+                    <th></th><th>最新成交价</th><th>24小时涨跌幅</th><th>最高价</th><th>最低价</th><th>24小时成交量</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="ticker in tickers">
                     <td>{{ticker.currency}} <img src="image/BTC_logo.png" height="15"></td>
                     <td><i class="fa fa-cny"></i> {{ticker.price.value | currency}} <img ng-show="{{ticker.trend != 'keep'}}" ng-src="image/{{ticker.trend}}.png"></td>
-                    <td>{{ticker.gain ? (ticker.gain * 100).toFixed(2) : 0}}%</td>
+                    <td>{{ticker.gain ? (ticker.gain * 100).toFixed(2) : 0}}% <img ng-show="{{ticker.gain != 0}}" ng-src="image/{{ticker.gain>0?'up':'down'}}.png"></td>
                     <td class=""><i class="fa fa-cny"></i> {{ticker.high.value | currency}}</td>
                     <td class=""><i class="fa fa-cny"></i> {{ticker.low.value | currency}}</td>
                     <td><i class="fa fa-btc"></i> {{ticker.volume.value}}</td>
