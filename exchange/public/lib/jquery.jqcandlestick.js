@@ -416,7 +416,7 @@
         ctx.font = settings.info.font ? settings.info.font : settings.font;
         if (settings.info.position == 'right')
           ctx.textAlign = 'right';
-        else
+        else 
           ctx.textAlign = 'left';
         if (settings.info.position == 'auto')
           ctx.textBaseline = 'top';
@@ -926,10 +926,15 @@
           ctx.beginPath();
           ctx.strokeStyle = series.color;
           if (close == open) {
-            ctx.strokeStyle = series.color;
+            ctx.strokeStyle = series.downStroke;
             // draw horizontal line
             ctx.moveTo(x - halfWidth, yOpen);
             ctx.lineTo(x + halfWidth, yOpen);
+            // draw shadow line
+            ctx.moveTo(x, yHigh);
+            ctx.lineTo(x, yOpen);
+            ctx.moveTo(x, yClose);
+            ctx.lineTo(x, yLow);
           } else if (close < open) {
             if (series.downColor)
               ctx.fillStyle = series.downColor;
