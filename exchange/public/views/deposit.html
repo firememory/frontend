@@ -155,30 +155,28 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>委托时间</th>
-                <th>类型</th>
-                <th>剩余额</th>
+                <th>提交时间</th>
+                <th>更新时间</th>
+                <th>金额</th>
                 <th>状态</th>
-                <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr  ng-repeat="item in items | orderBy: ['-date', '-id']" class="">
+            <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
                 <td>
                     {{item.id}}
                 </td>
                 <td>
-                    {{item.time | date:"MM-dd HH:mm:ss"}}
+                    {{item.created | date:"MM-dd HH:mm:ss"}}
                 </td>
                 <td>
-                    {{item.total | currency}}
+                    {{item.updated | date:"MM-dd HH:mm:ss"}}
                 </td>
                 <td>
-                    <span class="badge">{{item.status | orderStatusText}}</span>
+                    {{item.deposit.display}}
                 </td>
                 <td>
-                    <button ng-click="openTransaction(order)">详细</button>
-                    <button ng-show="" ng-click="">撤消</button>
+                    <span class="badge">{{item.status | depositStatusText}}</span>
                 </td>
             </tr>
             </tbody>

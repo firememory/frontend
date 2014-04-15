@@ -93,8 +93,16 @@ object MessageController extends Controller with Json4s {
         val amount = getParam(data, "amount", "0.0").toDouble
         val currency: Currency = getParam(data, "currency", "")
         AccountService.deposit(uid.toLong, currency, amount) map {
-          case x => Ok(ApiResult(data = Some(x)).toJson)
+          case result => Ok(result.toJson)
         }
+      }
+  }
+
+  def depositHistory(currency: String, uid: String) = Action.async {
+    implicit request =>
+      DWService.getDeposits(Some(uid.toLong), Some(currency), None, None, Cursor(0, 100)) map {
+        case result =>
+          Ok(result.toJson)
       }
   }
 

@@ -19,35 +19,35 @@
         </div>
     </form>
 </div>
-<div ng-show="false" class="row">
-    <table class="table">
-        <tbody><tr>
-            <th width="410">充值地址</th>
-            <th width="110">充值金额</th>
-            <th width="150">最后更新</th>
-            <th width="100">充值状态</th>
-        </tr>
-
+<div class="row">
+    <table class="table table-condensed ">
+        <thead>
         <tr>
-            <td>1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R&nbsp;<a target="_blank" href="https://blockchain.info/zh-cn/address/1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R">查看状态(BlockChain)</a></td>
-            <td>฿3</td>
-            <td>2014-03-28 15:36:19</td>
-            <td><span title="btc/ltc充值将在1个网络确认后到账，请稍作等待 。">充值成功</span></td>
+            <th>id</th>
+            <th>提交时间</th>
+            <th>更新时间</th>
+            <th>金额</th>
+            <th>状态</th>
         </tr>
-
-        <tr>
-            <td>1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R&nbsp;<a target="_blank" href="https://blockchain.info/zh-cn/address/1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R">查看状态(BlockChain)</a></td>
-            <td>฿2.0001</td>
-            <td>2014-03-27 11:19:05</td>
-            <td><span title="btc/ltc充值将在1个网络确认后到账，请稍作等待 。">充值成功</span></td>
+        </thead>
+        <tbody>
+        <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
+            <td>
+                {{item.id}}
+            </td>
+            <td>
+                {{item.created | date:"MM-dd HH:mm:ss"}}
+            </td>
+            <td>
+                {{item.updated | date:"MM-dd HH:mm:ss"}}
+            </td>
+            <td>
+                {{item.deposit.display}}
+            </td>
+            <td>
+                <span class="badge">{{item.status | depositStatusText}}</span>
+            </td>
         </tr>
-
-        <tr>
-            <td>1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R&nbsp;<a target="_blank" href="https://blockchain.info/zh-cn/address/1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R">查看状态(BlockChain)</a></td>
-            <td>฿1</td>
-            <td>2014-03-26 16:04:54</td>
-            <td><span title="btc/ltc充值将在1个网络确认后到账，请稍作等待 。">充值成功</span></td>
-        </tr>
-
-        </tbody></table>
+        </tbody>
+    </table>
 </div>

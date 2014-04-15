@@ -71,6 +71,19 @@ coinportApp.filter('orderStatusText', function() {
     return filter;
 });
 
+coinportApp.filter('depositStatusText', function() {
+    var filter = function(input) {
+        if(input == 0)
+            return '等待处理';
+        if(input == 1)
+            return '充值成功';
+        if(input == 2)
+            return '充值失败';
+        return '未知状态:'+input;
+    }
+    return filter;
+});
+
 coinportApp.filter('currency', function() {
     var filter = function(input) {
         return input ? input.toFixed(2) : '0';

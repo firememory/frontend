@@ -385,43 +385,48 @@ function BidAskCtrl($scope, $http, $modal) {
 }
 
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.refresh = function() {
-        $http.get('api/account/' + $scope.uid)
-              .success(function(data, status, headers, config) {
-                $scope.balance = data.data.accounts['RMB'];
-              });
-    }
+    $http.get('/api/account/' + $scope.uid)
+      .success(function(data, status, headers, config) {
+        $scope.balance = data.data.accounts['RMB'];
+    });
 
-    $scope.refresh();
+    $http.get('/api/RMB/deposit/' + $scope.uid)
+      .success(function(data, status, headers, config) {
+        $scope.deposits = data.data;
+    });
+
     $scope.depositData = {currency: 'RMB'};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
-        $http.post('account/deposit', $.param($scope.depositData))
+        $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
-            console.log(data);
-            $scope.refresh();
+            var deposit = data.data.deposit;
+            alert('充值成功，本次充值' + deposit.amount/100 + '元');
+
           });
     };
 }]);
 
 tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.refresh = function() {
-        $http.get('api/account/' + $scope.uid)
-              .success(function(data, status, headers, config) {
-                $scope.balance = data.data.accounts['BTC'];
-              });
-    }
+    $http.get('/api/account/' + $scope.uid)
+          .success(function(data, status, headers, config) {
+            $scope.balance = data.data.accounts['BTC'];
+    });
 
-    $scope.refresh();
+    $http.get('/api/BTC/deposit/' + $scope.uid)
+      .success(function(data, status, headers, config) {
+        $scope.deposits = data.data;
+    });
+
     $scope.depositData = {currency: 'BTC'};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
-        $http.post('account/deposit', $.param($scope.depositData))
+        $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
-            console.log(data);
-            $scope.refresh();
+            var deposit = data.data.deposit;
+            alert('充值成功，本次充值' + deposit.amount/1000 + 'BTC');
           });
     };
 }]);
