@@ -370,7 +370,7 @@ function BidAskCtrl($scope, $http, $modal) {
         templateUrl: 'views/order-tx.html',
         controller: function ($scope, $http, $modalInstance) {
           $scope.order = order;
-          $http.get('api/userTransaction', {params: {limit: 10, oid: order.id}})
+          $http.get('/api/order/' + order.id + '/transaction', {params: {limit: 10}})
             .success(function(data, status, headers, config) {
               $scope.transactions = data.data;
           });
@@ -574,10 +574,8 @@ tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($
 }]);
 
 tradeApp.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
-    // TODO: call order detail API
     var order = $scope.order;
-    var params = {params: {oid: order.id}};
-    $http.get('api/userTransaction', params)
+    $http.get('/api/order/' + order.id + '/transaction')
         .success(function(data, status, headers, config) {
             $scope.transactions = data.data;
         });

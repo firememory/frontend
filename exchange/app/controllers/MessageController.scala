@@ -131,6 +131,15 @@ object MessageController extends Controller with Json4s {
       MarketService.getGlobalTransactions(Btc ~> Rmb, skip, limit).map(result => Ok(result.toJson))
   }
 
+  def orderTransaction(oid: String) = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val limit = getParam(query, "limit", "20").toInt
+      val skip = getParam(query, "skip", "0").toInt
+
+      MarketService.getTransactionsByOrder(Btc ~> Rmb, oid.toLong, skip, limit).map(result => Ok(result.toJson))
+  }
+
   def userTransaction = Action.async {
     implicit request =>
       session.get("uid") match {

@@ -27,6 +27,7 @@ GET     /api/account/*uid           controllers.MessageController.account(uid)
 GET     /api/history                controllers.MessageController.history()
 GET     /api/transaction            controllers.MessageController.transaction()
 GET     /api/userTransaction        controllers.MessageController.userTransaction()
+GET     /api/order/*oid/transaction   controllers.MessageController.orderTransaction(oid)
 GET     /api/*currency/deposit/*uid   controllers.MessageController.depositHistory(currency, uid)
 
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
