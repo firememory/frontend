@@ -13,7 +13,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
           $scope.isRegisterActive = ($scope.activeTab == 1);
 
           $scope.doLogin = function () {
-            $http.post('user/login', $scope.login)
+            $http.post('account/login', $scope.login)
               .success(function(data, status, headers, config) {
                 if (data.success) {
                   var result = data.data;
@@ -29,7 +29,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
           };
 
           $scope.doRegister = function () {
-            $http.post('user/register', $scope.register)
+            $http.post('account/register', $scope.register)
               .success(function(data, status, headers, config) {
                 console.log(data);
                 if (data.success) {

@@ -10,9 +10,9 @@ GET     /register                   controllers.MainController.register()
 GET     /login                      controllers.MainController.login()
 GET     /open                       controllers.MainController.open()
 
-GET    /user/logout              controllers.UserController.logout()
-POST    /user/login              controllers.UserController.login()
-POST    /user/register           controllers.UserController.register()
+GET    /account/logout              controllers.UserController.logout()
+POST    /account/login              controllers.UserController.login()
+POST    /account/register           controllers.UserController.register()
 
 POST    /trade/bid               controllers.MessageController.submitOrder()
 POST    /trade/ask               controllers.MessageController.submitOrder()
@@ -23,15 +23,12 @@ POST    /account/deposit            controllers.MessageController.deposit()
 GET     /api/depth                  controllers.MessageController.depth()
 GET     /api/*market/ticker         controllers.MessageController.ticker(market)
 GET     /api/order                  controllers.MessageController.getUserOrders()
-GET     /api/account                controllers.MessageController.account()
+GET     /api/account/*uid           controllers.MessageController.account(uid)
 GET     /api/history                controllers.MessageController.history()
 GET     /api/transaction            controllers.MessageController.transaction()
 GET     /api/userTransaction        controllers.MessageController.userTransaction()
 
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file             controllers.Assets.at(path="/public", file)
 
 # Default path to /public
 GET     /*file                  controllers.Assets.at(path="/public", file)

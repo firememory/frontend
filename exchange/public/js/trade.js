@@ -112,7 +112,7 @@ function BidAskCtrl($scope, $http, $modal) {
     $scope.updateTransactions();
     $scope.updateBestPrice();
 
-    $http.get('api/account')
+    $http.get('api/account/' + $scope.uid)
         .success(function(data, status, headers, config) {
             $scope.account = data.data.accounts;
     });
@@ -386,7 +386,7 @@ function BidAskCtrl($scope, $http, $modal) {
 
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.refresh = function() {
-        $http.get('api/account')
+        $http.get('api/account/' + $scope.uid)
               .success(function(data, status, headers, config) {
                 $scope.balance = data.data.accounts['RMB'];
               });
@@ -407,7 +407,7 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
 
 tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.refresh = function() {
-        $http.get('api/account')
+        $http.get('api/account/' + $scope.uid)
               .success(function(data, status, headers, config) {
                 $scope.balance = data.data.accounts['BTC'];
               });
@@ -429,7 +429,7 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
 tradeApp.controller('UserCtrl', function ($scope, $http) {
     $scope.prices = {BTC: 1, RMB: 1};
     $scope.assets = [];
-    $http.get('api/account')
+    $http.get('api/account/' + $scope.uid)
         .success(function(data, status, headers, config) {
             console.log('accounts', data.data.accounts);
             $scope.accounts = data.data.accounts;

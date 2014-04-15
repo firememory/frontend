@@ -8,7 +8,7 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar']).contr
   };
 
   $scope.doLogin = function () {
-    $http.post('user/login', $scope.login)
+    $http.post('account/login', $scope.login)
       .success(function(data, status, headers, config) {
         if (data.success) {
             showMessage(data.message);

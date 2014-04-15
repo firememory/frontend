@@ -74,15 +74,11 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def account = Action.async {
+  def account(uid: String) = Action.async {
     implicit request =>
-      session.get("uid") match {
-        case Some(id) =>
-          AccountService.getAccount(id.toLong) map {
-            case result =>
-              Ok(result.toJson)
-          }
-        case None => Future(Unauthorized)
+      AccountService.getAccount(uid.toLong) map {
+        case result =>
+          Ok(result.toJson)
       }
   }
 

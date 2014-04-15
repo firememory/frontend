@@ -11,7 +11,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $window) {
 
     $scope.doRegister = function () {
         console.log('register', $scope.register);
-        $http.post('user/register', $scope.register)
+        $http.post('account/register', $scope.register)
           .success(function(data, status, headers, config) {
             if (data.success) {
                 $window.location.href = '/login';
