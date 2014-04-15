@@ -8,6 +8,7 @@ GET     /market                       controllers.MainController.market()
 GET     /user                       controllers.MainController.user()
 GET     /register                   controllers.MainController.register()
 GET     /login                      controllers.MainController.login()
+GET     /open                       controllers.MainController.open()
 
 GET    /user/logout              controllers.UserController.logout()
 POST    /user/login              controllers.UserController.login()
@@ -30,7 +31,7 @@ GET     /api/userTransaction        controllers.MessageController.userTransactio
 GET     /api/*file                controllers.Assets.at(path="/public/data", file)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file             controllers.Assets.at(path="/public", file)
 
 # Default path to /public
 GET     /*file                  controllers.Assets.at(path="/public", file)

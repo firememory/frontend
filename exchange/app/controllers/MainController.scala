@@ -41,4 +41,8 @@ object MainController extends Controller {
       Ok(views.html.register.render())
   }
 
+  def open = Action {
+    implicit request =>
+      Ok(views.html.open.render(session.get("username"), session.get("uid")))
+  }
 }

@@ -97,8 +97,7 @@ object MessageController extends Controller with Json4s {
         val amount = getParam(data, "amount", "0.0").toDouble
         val currency: Currency = getParam(data, "currency", "")
         AccountService.deposit(uid.toLong, currency, amount) map {
-          case x =>
-            Ok("backend reply: " + x.toString)
+          case x => Ok(ApiResult(data = Some(x)).toJson)
         }
       }
   }
