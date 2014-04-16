@@ -5,12 +5,62 @@
     <meta charset="utf-8">
     <title>coinport</title>
     @imports()
+    <script type="text/javascript" src="js/open.js"></script>
 </head>
 
-<body>
-@navbar(user)
-<div class="container" id="main-container" style="height: 800px;">
-<iframe style="width:100%; height: 100%; border: none;" src="http://211.142.29.138/export"></iframe>
+<body ng-app="coinport.open">
+@navbar(user, uid)
+<div class="container" id="main-container" style="height: 800px;" ng-controller="OpenCtrl">
+    <div class="col-md-6">
+        <div class="row">
+            <h4>用户充值提现数据</h4>
+        </div>
+        <div class="row">
+            <table class="table table-condensed" style="width: 90%;">
+                <thead>
+                <tr>
+                    <th>文件名</th>
+                    <th>更新时间</th>
+                    <th>大小</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in dw">
+                    <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
+                    <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{file.size}} Bytes</td>
+                    <td><a href="/data/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <h4>用户订单数据</h4>
+        </div>
+        <div class="row">
+            <table class="table table-condensed" style="width: 90%;">
+                <thead>
+                <tr>
+                    <th>文件名</th>
+                    <th>更新时间</th>
+                    <th>大小</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in mu">
+                    <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
+                    <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{file.size}} Bytes</td>
+                    <td><a href="/data/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @footer()
 </body>

@@ -1,4 +1,4 @@
-@(user: Option[String])
+@(email: Option[String] = None, uid: Option[String] = None)
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
     <div class="container">
         <div class="">
@@ -17,12 +17,20 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-            @user match {
+            @email match {
                 case Some(username: String) => {
                 <span ng-init="username='@username';isLogin=true" ng-show="false"></span>
                 }
                 case None => {
                 <span ng-init="isLogin=false" ng-show="false"></span>
+                }
+            }
+            @uid match {
+                case Some(id: String) => {
+                <span ng-init="uid='@id'" ng-show="false"></span>
+                }
+                case None => {
+                <span ng-init="uid='0'" ng-show="false"></span>
                 }
             }
                 <li ng-show="isLogin">

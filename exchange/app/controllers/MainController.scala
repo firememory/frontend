@@ -6,6 +6,8 @@
 package controllers
 
 import play.api.mvc._
+import play.api.libs.iteratee.Enumerator
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object MainController extends Controller {
   def index = Action {
@@ -15,8 +17,9 @@ object MainController extends Controller {
 
   def trade = Action {
     implicit request =>
-      session.get("uid").map { uid =>
-        Ok(views.html.trade.render(session.get("username"), Some(uid)))
+      session.get("uid").map {
+        uid =>
+          Ok(views.html.trade.render(session.get("username"), Some(uid)))
       } getOrElse {
         Redirect(routes.MainController.login())
       }
@@ -44,5 +47,15 @@ object MainController extends Controller {
   def open = Action {
     implicit request =>
       Ok(views.html.open.render(session.get("username"), session.get("uid")))
+  }
+
+  def data(fileName: String) = Action {
+    val path = "/data/export/" + fileName
+    val file = new java.io.File(path)
+    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(file)
+    SimpleResult(
+      header = ResponseHeader(200),
+      body = fileContent
+    ).withHeaders("Content-Disposition" -> "attachment")
   }
 }
