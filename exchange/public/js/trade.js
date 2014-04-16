@@ -8,11 +8,19 @@ function routeConfig($routeProvider) {
     }).
     when('/deposit/rmb', {
         controller: 'DepositRmbCtrl',
-        templateUrl: 'views/deposit.html'
+        templateUrl: 'views/deposit-CNY.html'
     }).
     when('/deposit/btc', {
         controller: 'DepositBtcCtrl',
-        templateUrl: 'views/deposit-btc.html'
+        templateUrl: 'views/deposit-BTC.html'
+    }).
+    when('/withdrawal/rmb', {
+        controller: 'WithdrawalRmbCtrl',
+        templateUrl: 'views/withdrawal-CNY.html'
+    }).
+    when('/withdrawal/btc', {
+        controller: 'WithdrawalBtcCtrl',
+        templateUrl: 'views/withdrawal-BTC.html'
     }).
     when('/account', {
             controller: 'UserCtrl',
@@ -403,8 +411,31 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
           .success(function(data, status, headers, config) {
             var deposit = data.data.deposit;
             alert('充值成功，本次充值' + deposit.amount/100 + '元');
-
           });
+    };
+}]);
+
+tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $http) {
+    $http.get('/api/account/' + $scope.uid)
+        .success(function(data, status, headers, config) {
+            $scope.balance = data.data.accounts['RMB'];
+        });
+
+    $http.get('/api/RMB/withdrawal/' + $scope.uid)
+        .success(function(data, status, headers, config) {
+            console.log(data)
+            $scope.withdrawals = data.data;
+        });
+
+    $scope.withdrawalData = {currency: 'RMB'};
+    $scope.withdrawal = function() {
+        var amount = $scope.amount;
+        console.log('withdrawal ' , $scope.withdrawalData);
+        $http.post('/account/withdrawal', $.param($scope.withdrawalData))
+            .success(function(data, status, headers, config) {
+                var withdrawal = data.data.withdrawal;
+                alert('提现成功，本次提现' + deposit.amount/100 + '元');
+            });
     };
 }]);
 
@@ -428,6 +459,30 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
             var deposit = data.data.deposit;
             alert('充值成功，本次充值' + deposit.amount/1000 + 'BTC');
           });
+    };
+}]);
+
+tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $http) {
+    $http.get('/api/account/' + $scope.uid)
+        .success(function(data, status, headers, config) {
+            console.log(data.data.accounts['BTC'])
+            $scope.balance = data.data.accounts['BTC'];
+        });
+
+    $http.get('/api/BTC/withdrawal/' + $scope.uid)
+        .success(function(data, status, headers, config) {
+            $scope.withdrawals = data.data;
+        });
+
+    $scope.withdrawalData = {currency: 'BTC'};
+    $scope.withdrawal = function() {
+        var amount = $scope.withdrawalData.amount;
+        console.log('withdrawal ' + $scope.withdrawalData.amount);
+        $http.post('/account/withdrawal', $.param($scope.withdrawalData))
+            .success(function(data, status, headers, config) {
+                var withdrawal = data.data.withdrawal;
+                alert('提现成功，本次提现' + withdrawal.amount/1000 + 'BTC');
+            });
     };
 }]);
 

@@ -1,0 +1,51 @@
+<div class="row">
+    <h4><strong>重要提示：网站内测阶段，提现仅供测试之用</strong></h4>
+    <label>当前余额：{{balance}}</label>
+</div>
+<div class="row">
+    <form class="form-horizontal" name="withdrawalForm">
+        <div class="form-group">
+            <label class="control-label col-sm-3">虚拟提现数量</label>
+            <div class="col-sm-6">
+                <input type="number" name="amount" class="form-control" placeholder="数量" ng-model="withdrawalData.amount"  required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-3">
+                <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> 提现</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <table class="table table-condensed ">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>提交时间</th>
+            <th>更新时间</th>
+            <th>金额</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
+            <td>
+                {{item.id}}
+            </td>
+            <td>
+                {{item.created | date:"MM-dd HH:mm:ss"}}
+            </td>
+            <td>
+                {{item.updated | date:"MM-dd HH:mm:ss"}}
+            </td>
+            <td>
+                {{item.withdrawal.display}}
+            </td>
+            <td>
+                <span class="badge">{{item.status  | withdrawalStatusText}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

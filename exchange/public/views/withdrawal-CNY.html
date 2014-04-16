@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="row">
+        <h4><strong>重要提示：网站内测阶段，充值余额仅供测试之用</strong></h4>
+        <label class="control-label">当前余额：{{balance}}</label>
+        <timer ng-hide="true" interval="3000"/>
+    </div>
+    <div ng-show="false" class="row withdrawal-rmb">
+        <ul class="netbank clear" id="banks">
+            <li>
+                <label for="Bank10" class="bankBlock" id="label_Bank10">
+                    <input type="radio" value="4" name="bankID" id="Bank10">
+                    <span title="中国工商银行" class="bankLink bankLink10"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank3" class="bankBlock" id="label_Bank3">
+                    <input type="radio" value="3" name="bankID" id="Bank3">
+                    <span title="中国建设银行" class="bankLink bankLink3"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank1" class="bankBlock " id="label_Bank1">
+                    <input type="radio" value="1" name="bankID" id="Bank1">
+                    <span title="中国农业银行" class="bankLink bankLink1"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank2" class="bankBlock" id="label_Bank2">
+                    <input type="radio" value="2" name="bankID" id="Bank2">
+                    <span title="中国银行" class="bankLink bankLink2"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank11" class="bankBlock" id="label_Bank11">
+                    <input type="radio" value="5" name="bankID" id="Bank11">
+                    <span title="中国邮政储蓄银行" class="bankLink bankLink11"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank6" class="bankBlock" id="label_Bank6">
+                    <input type="radio" value="6" name="bankID" id="Bank6">
+                    <span title="招商银行" class="bankLink bankLink6"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank8" class="bankBlock" id="label_Bank8">
+                    <input type="radio" value="7" name="bankID" id="Bank8">
+                    <span title="交通银行" class="bankLink bankLink8"></span>
+                </label>
+            </li>
+            <li>
+                <label for="Bank7" class="bankBlock" id="label_Bank7">
+                    <input type="radio" value="8" name="bankID" id="Bank7">
+                    <span title="中国民生银行" class="bankLink bankLink7"></span>
+                </label>
+            </li>
+            <li id="li_Bank5" style="display:none;">
+                <label for="Bank5" class="bankBlock" id="label_Bank5">
+                    <input type="radio" value="9" name="bankID" id="Bank5">
+                    <span title="中信银行" class="bankLink bankLink5"></span>
+                </label>
+            </li>
+            <li id="li_Bank4" style="display:none;">
+                <label for="Bank4" class="bankBlock" id="label_Bank4">
+                    <input type="radio" value="10" name="bankID" id="Bank4">
+                    <span title="中国光大银行" class="bankLink bankLink4"></span>
+                </label>
+            </li>
+            <li id="li_Bank9" style="display:none;">
+                <label for="Bank9" class="bankBlock" id="label_Bank9">
+                    <input type="radio" value="11" name="bankID" id="Bank9">
+                    <span title="广发银行" class="bankLink bankLink9"></span>
+                </label>
+            </li>
+            <li id="li_Bank12" style="display:none;">
+                <label for="Bank12" class="bankBlock" id="label_Bank12">
+                    <input type="radio" value="12" name="bankID" id="Bank12">
+                    <span title="平安银行" class="bankLink bankLink12"></span>
+                </label>
+            </li>
+            <li id="li_Bank13" style="display:none;">
+                <label for="Bank13" class="bankBlock" id="label_Bank13">
+                    <input type="radio" value="13" name="bankID" id="Bank13">
+                    <span title="深圳发展银行" class="bankLink bankLink13"></span>
+                </label>
+            </li>
+            <li id="li_Bank14" style="display:none;">
+                <label for="Bank14" class="bankBlock" id="label_Bank14">
+                    <input type="radio" value="14" name="bankID" id="Bank14">
+                    <span title="上海浦东发展银行" class="bankLink bankLink14"></span>
+                </label>
+            </li>
+            <li id="li_Bank15" style="display:none;">
+                <label for="Bank15" class="bankBlock" id="label_Bank15">
+                    <input type="radio" value="15" name="bankID" id="Bank15">
+                    <span title="兴业银行" class="bankLink bankLink15"></span>
+                </label>
+            </li>
+            <li id="li_Bank16" style="display:none;">
+                <label for="Bank16" class="bankBlock" id="label_Bank16">
+                    <input type="radio" value="16" name="bankID" id="Bank16">
+                    <span title="北京银行" class="bankLink bankLink16"></span>
+                </label>
+            </li>
+            <li id="li_Bank17" style="display:none;">
+                <label for="Bank17" class="bankBlock" id="label_Bank17">
+                    <input type="radio" value="17" name="bankID" id="Bank17">
+                    <span title="南京银行" class="bankLink bankLink17"></span>
+                </label>
+            </li>
+            <li id="li_Bank18" style="display:none;">
+                <label for="Bank18" class="bankBlock" id="label_Bank18">
+                    <input type="radio" value="18" name="bankID" id="Bank18">
+                    <span title="宁波银行" class="bankLink bankLink18"></span>
+                </label>
+            </li>
+            <li id="li_Bank19" style="display:none;">
+                <label for="Bank19" class="bankBlock" id="label_Bank19">
+                    <input type="radio" value="19" name="bankID" id="Bank19">
+                    <span title="上海农商" class="bankLink bankLink19"></span>
+                </label>
+            </li>
+            <li id="li_Bank20" style="display:none;">
+                <label for="Bank20" class="bankBlock" id="label_Bank20">
+                    <input type="radio" value="20" name="bankID" id="Bank20">
+                    <span title="东亚银行" class="bankLink bankLink20"></span>
+                </label>
+            </li>
+            <li class="more" id="moreBanks">
+                <label for="moreBank" class="bankBlock" id="">
+                    <a href="#">
+                        更多银行
+                    </a>
+                </label>
+            </li>
+        </ul>
+    </div>
+    <div class="row clearfix">
+        <form class="form-horizontal" name="withdrawalForm">
+            <div class="form-group">
+                <label class="control-label col-sm-3">虚拟充值金额</label>
+                <div class="col-sm-6">
+                    <input type="number" name="amount" class="form-control" placeholder="金额" ng-model="withdrawalData.amount"  required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-3">
+                    <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> 提现</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row clearfix">
+        <table class="table table-condensed ">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>提交时间</th>
+                <th>更新时间</th>
+                <th>金额</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
+                <td>
+                    {{item.id}}
+                </td>
+                <td>
+                    {{item.created | date:"MM-dd HH:mm:ss"}}
+                </td>
+                <td>
+                    {{item.updated | date:"MM-dd HH:mm:ss"}}
+                </td>
+                <td>
+                    {{item.withdrawal.display}}
+                </td>
+                <td>
+                    <span class="badge">{{item.status | withdrawalStatusText}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

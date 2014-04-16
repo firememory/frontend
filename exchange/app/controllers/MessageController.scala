@@ -109,6 +109,30 @@ object MessageController extends Controller with Json4s {
       }
   }
 
+  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      val data = request.body
+      val username = session.get("username").getOrElse(null)
+      val uid = session.get("uid").getOrElse(null)
+      if (username == null || uid == null) {
+        Future(Unauthorized)
+      } else {
+        val amount = getParam(data, "amount", "0.0").toDouble
+        val currency: Currency = getParam(data, "currency", "")
+        AccountService.withdrawal(uid.toLong, currency, amount) map {
+          case result => Ok(result.toJson)
+        }
+      }
+  }
+
+  def withdrawalHistory(currency: String, uid: String) = Action.async {
+    implicit request =>
+      DWService.getWithdrawal(Some(uid.toLong), Some(currency), None, None, Cursor(0, 100)) map {
+        case result =>
+          Ok(result.toJson)
+      }
+  }
+
   def history = Action.async {
     implicit request =>
       val query = request.queryString
