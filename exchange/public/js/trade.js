@@ -603,14 +603,14 @@ tradeApp.controller('UserCtrl', function ($scope, $http) {
 });
 
 tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
-    $http.get('api/userTransaction', {params: {}})
+    $http.get('/api/user/' + $scope.uid + '/transaction/BTCRMB', {params: {}})
           .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
           });
 }]);
 
 tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
-    $http.get('api/order')
+    $http.get('/api/order')
         .success(function(data, status, headers, config) {
             $scope.orders = data.data;
         });
@@ -621,7 +621,7 @@ tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($
     };
 
     $scope.cancelOrder = function(id) {
-        $http.get('trade/order/cancel/' + id)
+        $http.get('/trade/order/cancel/' + id)
             .success(function(data, status, headers, config) {
                 $scope.refresh();
             });

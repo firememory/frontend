@@ -60,7 +60,7 @@ object MessageController extends Controller with Json4s {
             case "bid" => Operations.Buy
             case "ask" => Operations.Sell
           }
-          val order = UserOrder(id.toLong, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
+          val order = UserOrder(id, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
 
           AccountService.submitOrder(order).map(result => Ok(result.toJson))
 
@@ -149,7 +149,7 @@ object MessageController extends Controller with Json4s {
       MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to).map(result => Ok(result.toJson))
   }
 
-  def transaction = Action.async {
+  def transactions = Action.async {
     implicit request =>
       val query = request.queryString
       val limit = getParam(query, "limit", "20").toInt
@@ -158,27 +158,27 @@ object MessageController extends Controller with Json4s {
       MarketService.getGlobalTransactions(Btc ~> Rmb, skip, limit).map(result => Ok(result.toJson))
   }
 
-  def orderTransaction(oid: String) = Action.async {
+  def transaction(side: String, tid: String) = Action.async {
+    implicit request =>
+      MarketService.getTransactions(side, Some(tid.toLong), None, None, 0, 1).map(result => Ok(result.toJson))
+  }
+
+  def orderTransaction(side: String, oid: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val limit = getParam(query, "limit", "20").toInt
       val skip = getParam(query, "skip", "0").toInt
 
-      MarketService.getTransactionsByOrder(Btc ~> Rmb, oid.toLong, skip, limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByOrder(side, oid.toLong, skip, limit).map(result => Ok(result.toJson))
   }
 
-  def userTransaction = Action.async {
+  def userTransaction(side: String, uid: String) = Action.async {
     implicit request =>
-      session.get("uid") match {
-        case Some(userId) =>
           val query = request.queryString
-          //          val orderId = getParam(query, "oid").map(_.toInt)
           val limit = getParam(query, "limit", "20").toInt
           val skip = getParam(query, "skip", "0").toInt
 
-          MarketService.getTransactionsByUser(Btc ~> Rmb, userId.toLong, skip, limit).map(result => Ok(result.toJson))
-        case None => Future(Unauthorized)
-      }
+          MarketService.getTransactionsByUser(side, uid.toLong, skip, limit).map(result => Ok(result.toJson))
   }
 
   def ticker(market: String) = Action.async {

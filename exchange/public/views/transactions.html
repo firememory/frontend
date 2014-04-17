@@ -4,6 +4,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th>TID</th>
                 <th>成交时间</th>
                 <th>成交价</th>
                 <th>成交量</th>
@@ -15,13 +16,14 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in transactions">
+                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-list-alt"></i> {{item.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td><i class="fa fa-cny"></i> {{item.price | currency}}</td>
                     <td><i class="fa fa-btc"></i> {{item.amount | quantity}}</td>
                     <td><i class="fa fa-cny"></i> {{item.total | currency}}</td>
-                    <td>{{uid==item.taker ? '我' : (item.taker|UID)}}</td>
+                    <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
                     <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                    <td>{{uid==item.maker ? '我' : (item.maker|UID)}}</td>
+                    <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
                 </tr>
             </tbody>
         </table>
