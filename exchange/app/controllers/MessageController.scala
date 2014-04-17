@@ -193,6 +193,7 @@ object MessageController extends Controller with Json4s {
       val dir = new File("/data/export/")
       val files = dir.listFiles
         .filter(_.getName contains "_" + dataType + "_")
+        .sortWith((a, b) => a.getName > b.getName)
         .map(file => FileItem(file.getName, file.length, file.lastModified))
 
       val result = ApiResult(data = Some(files))
