@@ -22,9 +22,9 @@ function routeConfig($routeProvider) {
         controller: 'WithdrawalBtcCtrl',
         templateUrl: 'views/withdrawal-BTC.html'
     }).
-    when('/account', {
-            controller: 'UserCtrl',
-            templateUrl: 'views/account.html'
+    when('/asset', {
+            controller: 'AssetCtrl',
+            templateUrl: 'views/asset.html'
     }).
     when('/order', {
             controller: 'OrderDetailCtrl',
@@ -423,7 +423,7 @@ tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $h
 
     $http.get('/api/RMB/withdrawal/' + $scope.uid)
         .success(function(data, status, headers, config) {
-            console.log(data)
+            console.log("lalalala",data.data)
             $scope.withdrawals = data.data;
         });
 
@@ -434,7 +434,7 @@ tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $h
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function(data, status, headers, config) {
                 var withdrawal = data.data.withdrawal;
-                alert('提现成功，本次提现' + deposit.amount/100 + '元');
+                alert('提现成功，本次提现' + withdrawal.amount/100 + '元');
             });
     };
 }]);
@@ -486,7 +486,7 @@ tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $h
     };
 }]);
 
-tradeApp.controller('UserCtrl', function ($scope, $http) {
+tradeApp.controller('AssetCtrl', function ($scope, $http) {
     $scope.prices = {BTC: 1, RMB: 1};
     $scope.assets = [];
     $http.get('api/account/' + $scope.uid)

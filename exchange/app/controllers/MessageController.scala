@@ -103,7 +103,7 @@ object MessageController extends Controller with Json4s {
 
   def depositHistory(currency: String, uid: String) = Action.async {
     implicit request =>
-      DWService.getDeposits(Some(uid.toLong), Some(currency), None, None, Cursor(0, 100)) map {
+      DWService.getDWItems(Some(uid.toLong), Some(currency), None, None, Some(true), Cursor(0, 100)) map {
         case result =>
           Ok(result.toJson)
       }
@@ -127,7 +127,7 @@ object MessageController extends Controller with Json4s {
 
   def withdrawalHistory(currency: String, uid: String) = Action.async {
     implicit request =>
-      DWService.getWithdrawal(Some(uid.toLong), Some(currency), None, None, Cursor(0, 100)) map {
+      DWService.getDWItems(Some(uid.toLong), Some(currency), None, None, Some(false), Cursor(0, 100)) map {
         case result =>
           Ok(result.toJson)
       }
