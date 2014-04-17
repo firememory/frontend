@@ -2,6 +2,7 @@
 var coinportApp = angular.module('coinport.app', []);
 coinportApp.filter('orderTypeText', function() {
     return function(input) {
+        if(! input) return '';
         var input = input.toLowerCase();
         if(input == 'buy')
             return '买入';

@@ -35,6 +35,11 @@ object MainController extends Controller {
       Ok(views.html.user.render(uid, session))
   }
 
+  def order(oid: String) = Action {
+    implicit request =>
+      Ok(views.html.order.render(oid, session))
+  }
+
   def transaction(tid: String) = Action {
     implicit request =>
       Ok(views.html.transaction.render(tid, session))

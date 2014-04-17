@@ -46,6 +46,11 @@ object MessageController extends Controller with Json4s {
       }
   }
 
+  def getOrder(oid: String) = Action.async {
+    implicit request =>
+      AccountService.getOrders(None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
+  }
+
   def submitOrder() = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body

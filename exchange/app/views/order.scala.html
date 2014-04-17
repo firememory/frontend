@@ -1,0 +1,95 @@
+@(oid: String)(implicit session: Session)
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>coinport</title>
+    @imports()
+    <script src="/js/order.js"></script>
+</head>
+
+<body ng-app="coinport.order">
+@navbar()
+<div class="container" id="main-container" ng-controller="OrderCtrl">
+    <div id="main-content">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>订单 #@oid</h4>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th><th></th><th></th><th></th><th></th><th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>下单时间</td>
+                    <td>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>操作</td>
+                    <td><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}</span></td>
+                    <td>状态</td>
+                    <td><span class="badge">{{order.status | orderStatusText}}</span></td>
+                </tr>
+                <tr>
+                    <td>挂单价格</td>
+                    <td><i class="fa fa-cny"></i> {{order.price | currency}}</td>
+                    <td>平均成交价格</td>
+                    <td><i class="fa fa-cny"></i> {{order.finishedAmount / order.finished | currency}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>挂单数量</td>
+                    <td><i class="fa fa-btc"></i> {{order.amount | quantity}}</td>
+                    <td>成交数量</td>
+                    <td><i class="fa fa-btc"></i> {{order.finished | quantity}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>挂单金额</td>
+                    <td><i class="fa fa-cny"></i> {{order.total | currency}}</td>
+                    <td>成交金额</td>
+                    <td><i class="fa fa-cny"></i> {{order.finishedAmount | currency}}</td>
+                    <td></td>
+                    <td></td>
+               </tr>
+               </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <h4>该订单成交记录</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>TID</th>
+                    <th>成交时间</th>
+                    <th>成交价</th>
+                    <th>成交量</th>
+                    <th>总金额</th>
+                    <th>交易发起用户</th>
+                    <th>交易类型</th>
+                    <th>挂单用户</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in transactions">
+                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-list-alt"></i> {{item.id}}</a></td>
+                    <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td><i class="fa fa-cny"></i> {{item.price | currency}}</td>
+                    <td><i class="fa fa-btc"></i> {{item.amount | quantity}}</td>
+                    <td><i class="fa fa-cny"></i> {{item.total | currency}}</td>
+                    <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
+                    <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                    <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@footer()
+</body>
+</html>
