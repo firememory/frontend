@@ -14,4 +14,15 @@ userApp.controller('UserCtrl', function ($scope, $http, $window) {
         $scope.transactions = data.data;
     });
 
+    $http.get('/api/RMB/deposit/' + $scope.targetUid)
+      .success(function(data, status, headers, config) {
+        $scope.deposits = data.data;
+        console.log(data.data)
+    });
+
+    $http.get('/api/RMB/withdrawal/' + $scope.targetUid)
+      .success(function(data, status, headers, config) {
+        $scope.withdrawals = data.data;
+        console.log(data.data)
+    });
 });
