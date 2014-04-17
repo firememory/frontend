@@ -1,4 +1,4 @@
-@(user: Option[String], uid: Option[String])
+@()(implicit session: Session)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,18 +19,18 @@
 
 </head>
 <body ng-app="coinport.trade">
-@navbar(user, uid)
+@navbar()
 <div class="container">
-@uid match {
-    case Some(id: String) => {
-    <span ng-init="uid='@id'" ng-show="false"></span>
+    @session.get("uid") match {
+        case Some(id: String) => {
+        <span ng-init="uid='@id'" ng-show="false"></span>
+        }
+        case None => {
+        <span ng-init="uid='0'" ng-show="false"></span>
+        }
     }
-    case None => {
-    <span ng-init="uid='0'" ng-show="false"></span>
-    }
-}
-<div class="row">
-<div class="menu col-md-2">
+    <div class="row">
+    <div class="menu col-md-2">
     <ul class="default_menu">
         <li class="active">
             <a href="#">
@@ -82,15 +82,11 @@
         </li>
     </ul>
 </div>
-<!-- Main Content - Content -->
-<div class="content col-md-10" ng-view>
+        <div class="content col-md-10" ng-view>
 
+    </div>
 </div>
-<!-- end Main Content - Content --></div>
-<!-- end Main Content --></div>
-<!-- end container -->
-<!-- Foot -->
+</div>
 @footer()
-<!-- end Foot -->
 </body>
 </html>

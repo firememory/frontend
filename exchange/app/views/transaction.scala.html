@@ -1,4 +1,4 @@
-@(user: Option[String], tid: String)
+@(tid: String)(implicit session: Session)
 <!DOCTYPE html>
 <html lang="en" ng-app="coinport.transaction">
 <head>
@@ -9,7 +9,7 @@
 </head>
 
 <body ng-app="coinport.transaction">
-@navbar(user)
+@navbar()
 <div class="container" id="main-container" ng-controller="TxCtrl">
     <div id="main-content">
         <div class="row">

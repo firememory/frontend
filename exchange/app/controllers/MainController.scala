@@ -12,14 +12,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object MainController extends Controller {
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(session.get("username"), session.get("uid")))
+      Ok(views.html.index.render(session))
   }
 
   def trade = Action {
     implicit request =>
       session.get("uid").map {
         uid =>
-          Ok(views.html.trade.render(session.get("username"), Some(uid)))
+          Ok(views.html.trade.render(session))
       } getOrElse {
         Redirect(routes.MainController.login())
       }
@@ -32,26 +32,27 @@ object MainController extends Controller {
 
   def user(uid: String) = Action {
     implicit request =>
-      Ok(views.html.user.render(session.get("username"), uid))
+      Ok(views.html.user.render(uid, session))
   }
 
   def transaction(tid: String) = Action {
     implicit request =>
-      Ok(views.html.transaction.render(session.get("username"), tid))
+      Ok(views.html.transaction.render(tid, session))
   }
 
   def login = Action {
-    Ok(views.html.login.render())
+    implicit request =>
+      Ok(views.html.login.render(session))
   }
 
   def register = Action {
     implicit request =>
-      Ok(views.html.register.render())
+      Ok(views.html.register.render(session))
   }
 
   def open = Action {
     implicit request =>
-      Ok(views.html.open.render(session.get("username"), session.get("uid")))
+      Ok(views.html.open.render(session))
   }
 
   def data(fileName: String) = Action {

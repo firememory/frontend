@@ -1,4 +1,4 @@
-@(email: Option[String] = None, uid: Option[String] = None)
+@()(implicit session: Session)
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
     <div class="container">
         <div class="">
@@ -17,34 +17,24 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-            @email match {
-                case Some(username: String) => {
-                <span ng-init="username='@username';isLogin=true" ng-show="false"></span>
-                }
-                case None => {
-                <span ng-init="isLogin=false" ng-show="false"></span>
-                }
-            }
-            @uid match {
-                case Some(id: String) => {
-                <span ng-init="uid='@id'" ng-show="false"></span>
-                }
-                case None => {
-                <span ng-init="uid='0'" ng-show="false"></span>
-                }
-            }
-                <li ng-show="isLogin">
-                    <a><strong>{{username}}</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> {{uid | UID}}</span></a>
+            @session.get("uid") match {
+              case Some(uid: String) => {
+                <li>
+                    <a><strong>@session.get("username")</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> @uid</span></a>
                 </li>
-                <li  ng-show="isLogin">
+                <li>
                     <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
                 </li>
-                <li  ng-show="!isLogin">
+              }
+              case None => {
+                <li>
                     <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
                 </li>
-                <li  ng-show="!isLogin">
+                <li>
                     <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
                 </li>
+              }
+            }
             </ul>
         </div>
     </div>
