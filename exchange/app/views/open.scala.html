@@ -11,6 +11,29 @@
 <body ng-app="coinport.open">
 @navbar(user, uid)
 <div class="container" id="main-container" style="height: 800px;" ng-controller="OpenCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>全站总资产</h4>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>币种</th><th>余额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>CNY</td>
+                    <td><i class="fa fa-cny"></i> {{accounts['RMB']}}</td>
+                </tr>
+                <tr>
+                    <td>BTC</td>
+                    <td><i class="fa fa-btc"></i> {{accounts['BTC']}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
     <div class="col-md-6">
         <div class="row">
             <h4>用户充值提现数据</h4>
@@ -60,6 +83,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 </div>
 @footer()
