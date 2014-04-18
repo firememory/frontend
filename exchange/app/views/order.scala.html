@@ -35,7 +35,7 @@
                     <td>挂单价格</td>
                     <td><i class="fa fa-cny"></i> {{order.price | currency}}</td>
                     <td>平均成交价格</td>
-                    <td><i class="fa fa-cny"></i> {{order.finishedAmount / order.finished | currency}}</td>
+                    <td><i class="fa fa-cny"></i> {{order.finishedAmount / order.finishedQuantity | currency}}</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -43,7 +43,7 @@
                     <td>挂单数量</td>
                     <td><i class="fa fa-btc"></i> {{order.amount | quantity}}</td>
                     <td>成交数量</td>
-                    <td><i class="fa fa-btc"></i> {{order.finished | quantity}}</td>
+                    <td><i class="fa fa-btc"></i> {{order.finishedQuantity | quantity}}</td>
                     <td></td>
                     <td></td>
                 </tr>

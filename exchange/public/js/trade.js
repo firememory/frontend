@@ -54,7 +54,7 @@ function httpConfig($httpProvider) {
 tradeApp.config(routeConfig);
 tradeApp.config(httpConfig);
 
-function BidAskCtrl($scope, $http, $modal) {
+function BidAskCtrl($scope, $http) {
     $scope.orders = [];
     $scope.transactions = [];
     $scope.bid = {price: 4000, amount: 0, total: 0};
@@ -373,23 +373,6 @@ function BidAskCtrl($scope, $http, $modal) {
     $scope.$watch('ask.amount', updateAskTotal);
     $scope.$watch('ask.price', updateAskTotal);
 //    $scope.$watch('ask.total', updateAskAmount);
-    $scope.openTransaction = function (order) {
-      var modalInstance = $modal.open({
-        templateUrl: 'views/order-tx.html',
-        controller: function ($scope, $http, $modalInstance) {
-          $scope.order = order;
-          $http.get('/api/order/' + order.id + '/transaction', {params: {limit: 10}})
-            .success(function(data, status, headers, config) {
-              $scope.transactions = data.data;
-          });
-
-          $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
-          };
-        },
-        scope: $scope
-      });
-    };
 }
 
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
