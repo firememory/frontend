@@ -83,6 +83,12 @@ marketApp.filter('txTypeIcon', function() {
     }
 });
 
+marketApp.filter('txTypeText', function() {
+    return function(input) {
+        return input ?  '卖' : '买';
+    }
+});
+
 marketApp.filter('UID', function() {
     return function(input) {
         var uid = parseInt(input).toString(35).toUpperCase().replace('-','Z');
