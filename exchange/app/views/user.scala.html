@@ -35,64 +35,56 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <h4>充值记录</h4>
+                <h4>人民币充值/提现记录</h4>
                 <table class="table table-condensed ">
                     <thead>
                     <tr>
-                        <th>id</th>
-                        <th>提交时间</th>
-                        <th>更新时间</th>
-                        <th>金额</th>
-                        <th>状态</th>
+                        <th>ID</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                        <th style="text-align: right;">金额</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
+                    <tr  ng-repeat="item in dw.CNY | orderBy: ['-date', '-id']" class="">
                         <td>
                             {{item.id}}
                         </td>
                         <td>
-                            {{item.created | date:"MM-dd HH:mm:ss"}}
+                            <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}}
                         </td>
                         <td>
-                            {{item.updated | date:"MM-dd HH:mm:ss"}}
+                            <span class="{{item.isDeposit | dwClass}}"><i class="fa {{item.isDeposit | dwIcon}}"></i> {{item.isDeposit | dwText}}</span>
                         </td>
-                        <td>
-                            {{item.deposit.display}}
-                        </td>
-                        <td>
-                            <span class="badge">{{item.status | depositStatusText}}</span>
+                        <td style="text-align: right;">
+                            {{item.isDeposit? '' : '-'}} <i class="fa fa-cny"></i> {{item.dw.display}}
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <h4>提现记录</h4>
+                <h4>比特币充值/提现记录</h4>
                 <table class="table table-condensed ">
                     <thead>
                     <tr>
-                        <th>id</th>
-                        <th>提交时间</th>
-                        <th>更新时间</th>
-                        <th>金额</th>
-                        <th>状态</th>
+                        <th>ID</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                        <th style="text-align: right;">金额</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
+                    <tr  ng-repeat="item in dw.BTC | orderBy: ['-date', '-id']" class="">
                         <td>
                             {{item.id}}
                         </td>
                         <td>
-                            {{item.created | date:"MM-dd HH:mm:ss"}}
+                            <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}}
                         </td>
                         <td>
-                            {{item.updated | date:"MM-dd HH:mm:ss"}}
+                            <span class="{{item.isDeposit | dwClass}}"><i class="fa {{item.isDeposit | dwIcon}}"></i> {{item.isDeposit | dwText}}</span>
                         </td>
-                        <td>
-                            {{item.withdrawal.display}}
-                        </td>
-                        <td>
-                            <span class="badge">{{item.status | withdrawalStatusText}}</span>
+                        <td style="text-align: right;">
+                            {{item.isDeposit? '' : '-'}} <i class="fa fa-btc"></i> {{item.dw.display}}
                         </td>
                     </tr>
                     </tbody>

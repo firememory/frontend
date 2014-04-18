@@ -116,4 +116,22 @@ coinportApp.filter('UID', function() {
     return function(input) {
         return parseInt(input).toString(35).toUpperCase().replace('-','Z');
     }
-  });
+});
+
+coinportApp.filter('dwText', function() {
+    return function(input) {
+        return input ? '充值' : '提现';
+    }
+});
+
+coinportApp.filter('dwClass', function() {
+    return function(input) {
+        return input ? 'green' : 'red';
+    }
+});
+
+coinportApp.filter('dwIcon', function() {
+    return function(input) {
+        return input ? 'fa-sign-in' : 'fa-sign-out';
+    }
+});

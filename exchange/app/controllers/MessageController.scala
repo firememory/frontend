@@ -138,6 +138,16 @@ object MessageController extends Controller with Json4s {
       }
   }
 
+  def dwHistory(currency: String, uid: String) = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
+      DWService.getDWItems(Some(uid.toLong), Some(currency), status, None, None, Cursor(0, 100)) map {
+        case result =>
+          Ok(result.toJson)
+      }
+  }
+
   def history = Action.async {
     implicit request =>
       val query = request.queryString
