@@ -10,7 +10,6 @@ body {
     min-width: 960px;
 }
 body {
-    min-height: 2000px;
     padding-top: 60px;
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
@@ -63,7 +62,6 @@ footer li a{
     margin-bottom: 10px;
 }
 .jqcandlestick-container {
-    background-color: #FFFFFF;
     position: relative;
     cursor: none;
     border: 1px solid #e6e6e6;

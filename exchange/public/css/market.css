@@ -5,9 +5,6 @@ html {
 body {
 	overflow: hidden;
 	margin: 0px;
-	font-size: 14px;
-	font-family: Arial, sans;
-	line-height: 18px;
 }
 
 a {
@@ -76,29 +73,6 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 	vertical-align: middle;
 }
 
-#nav {
-	left: 0px;
-	top: 0px;
-	border-bottom: 1px solid #333;
-	font-size: 12px;
-}
-
-#nav .logo {
-	line-height: 32px;
-	font-size: 14px;
-	font-weight: bold;
-	font-family: Arial, sans;
-	margin-left: 0px;
-}
-
-#nav .logo a {
-	margin: 0px;
-}
-
-#nav .horiz {
-	height: 32 px;
-}
-
 #control {
 	font-size: 11px;
 	font-weight: bold;
@@ -121,7 +95,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 
 #sidebar {
 	height: 100%;
-	width: 420px;
+	width: 450px;
 	border-left: 1px solid #333;
 	padding-left: 6px;
 }
@@ -155,6 +129,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 }
 
 #sidebar #trades .row {
+    margin-left: 0;
 	display: block;
 }
 
@@ -378,21 +353,6 @@ abbr {
 	border-bottom: 1px dotted #333;
 }
 
-#qr {
-	border: 1px solid black;
-	left: 0px;
-	top: 0px;
-	padding: 8px;
-	background-color: white;
-	position: absolute;
-	z-index: 105;
-	display: none;
-}
-
-.donate {
-	font-family: Consolas, monospace;
-}
-
 #settings {
 	width: 60%;
 	left: 20%;
@@ -403,29 +363,6 @@ abbr {
 	box-shadow: 0px 0px 3px #666;
 	padding: 12px;
 	display: none;
-}
-
-#settings input {
-	width: 2em;
-	vertical-align: top;
-}
-
-#settings h3 {
-	border-bottom: 1px solid #333;
-}
-
-#settings dl dt, #settings dl dd {
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	margin: 0px;
-	padding: 0px;
-	margin-right: 6px;
-}
-
-#settings #close_settings {
-	text-align: center;
-	margin: 12px;
 }
 
 button, select {
@@ -458,7 +395,7 @@ button, select {
 }
 
 .dark {
-	background-color: #0A0A0A;
+	background-color: #222;
 	color: #CCC;
 }
 
@@ -543,7 +480,7 @@ button, select {
 	color: #999;
 }
 
-.dark #nav, .dark #control, .dark #before_trades {
+.dark .dark #control, .dark #before_trades {
 	border-bottom: 1px solid #333;
 }
 
@@ -559,17 +496,6 @@ button, select {
 	background-color: #333;
 	color: #CCC;
 	border: 1px solid #999;
-}
-
-.dark .gg468x60 {
-	background-color: #0A0A0A;
-	border-left: 1px solid #333;
-	border-bottom: 1px solid #333;
-}
-
-.dark .markets_outer .markets {
-	background-color: #222;
-	border: 1px solid #666;
 }
 
 .dark li.sep, .dark li.subsep {
@@ -605,11 +531,6 @@ button, select {
 .dark ::-webkit-scrollbar-button:start:decrement, .dark ::-webkit-scrollbar-button:end:increment {
 	height: 0px;
 	width: 0px;
-}
-
-.dark ::-webkit-scrollbar-track-piece {
-	background-color: #222;
-	border: 1px solid #555;
 }
 
 .dark ::-webkit-scrollbar-thumb:vertical {
@@ -707,7 +628,7 @@ button, select {
 	color: #333;
 }
 
-.light #nav, .light #control, .light #before_trades {
+.light .light #control, .light #before_trades {
 	border-bottom: 1px solid #CCC;
 }
 
@@ -770,10 +691,6 @@ button, select {
 }
 
 .light #nav-charts td, .light table.simple td {
-	border-bottom: 1px solid #CCC;
-}
-
-.light .navbar {
 	border-bottom: 1px solid #CCC;
 }
 
@@ -892,62 +809,8 @@ button, select {
 	background-color: #FFF;
 }
 
-.COINWIDGETCOM_WINDOW input {
-	font-size: 11px !important;
-}
-
-.COINWIDGETCOM_CONTAINER > span {
-	color: #333 !important;
-}
-
-.COINWIDGETCOM_CONTAINER > a {
-	height: 16px !important;
-}
-
-.COINWIDGETCOM_CONTAINER > span {
-	line-height: 16px !important;
-	padding: 0px 2px;
-}
-
-#mtgoxNav div {
-	display: block;
-}
-
 .nowrap {
 	white-space: nowrap;
-}
-
-.nav-markets {
-	font-family: Consolas, monospace;
-}
-
-.nav-markets a {
-	margin-right: 6px;
-}
-
-#markets {
-	right: 0px;
-	font-size: 11px;
-	text-align: center;
-	font-weight: normal;
-}
-
-#markets a {
-	margin: 0px 3px;
-}
-
-#markets .currency {
-	font-size: 12px;
-}
-
-#markets div {
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	font-family: Consolas, monospace;
-	margin-right: 12px;
-	margin-left: 0px;
-	text-align: left;
 }
 
 .dropdown, .dropup {
@@ -1020,44 +883,6 @@ button, select {
 .dropdown-data li, .dropup-data li {
 	display: block;
 	white-space: nowrap;
-}
-
-.navbar {
-	font-size: 11px;
-	border-bottom: 1px solid #333;
-}
-
-.navbar .nav {
-	padding: 0px;
-	margin: 0px;
-	list-style: none;
-	padding-left: 3px;
-}
-
-.navbar .nav li {
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	margin-right: 18px;
-}
-
-.navbar .nav li.logo {
-	margin-left: 3px;
-	font-size: 14px;
-	line-height: 32px;
-}
-
-.navbar .nav li.ticker span {
-	margin-left: 6px;
-	font-family: Consolas, monospace;
-}
-
-.navbar .nav li.ticker span.eprice {
-	margin-left: 0px;
-}
-
-#nav-charts {
-	font-weight: normal;
 }
 
 table.simple {
@@ -1168,35 +993,6 @@ table.simple {
 	display: none;
 }
 
-.difficulty {
-	position: absolute;
-	right: 0px;
-	top: 5px;
-	width: 220px;
-	font-family: Arial, sans;
-	font-size: 11px;
-	text-align: right;
-}
-
-.difficulty table {
-	margin: auto;
-	border: 1px solid #333;
-	border-collapse: collapse;
-	text-align: left;
-	background-color: #0A0A0A;
-}
-
-.difficulty table td {
-	overflow: hidden;
-	height: 16px;
-	padding: 0px 4px;
-	line-height: 16px;
-}
-
-.difficulty span {
-	font-family: Consolas, monospace;
-}
-
 @media (max-width: 1200px) {
 	.difficulty {
 		display: none;
@@ -1211,22 +1007,6 @@ table.simple {
 
 .more {
 	text-align: right;
-}
-
-.navbar .nav li.passport {
-	font-size: 13px;
-	float: right;
-	line-height: 32px;
-	height: 32px;
-	margin: 0px;
-	padding: 0px;
-}
-
-.navbar .nav li.passport >div {
-	margin-right: 8px;
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 }
 
 .address {
@@ -1289,208 +1069,6 @@ input[type=button]:hover, input[type=submit]:hover {
 input[type=button]:active, input[type=submit]:active {
 	background-color: #333333;
 }
-
-.dialog {
-	position: absolute;
-	left: 50%;
-	top: 40%;
-	width: 640px;
-	padding: 8px;
-	border: 1px solid #333;
-	font-family: Arial, sans;
-	font-size: 13px;
-	background-color: #1A1A1A;
-	color: #CCCCCC;
-	z-index: 101;
-	display: none;
-}
-
-.dialog .tablist {
-	border-bottom: 1px solid #333333;
-	background-color: #0A0A0A;
-	margin-bottom: 8px;
-	cursor: move;
-}
-
-.dialog .tablist .tab {
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-	padding: 8px;
-	font-size: 12px;
-	text-align: center;
-	margin-right: 6px;
-	cursor: pointer;
-}
-
-.dialog .tablist .selected {
-	color: #FC6;
-}
-
-.dialog .tablist .tab:hover {
-	text-decoration: underline;
-}
-
-.dialog .tablist .close {
-	width: auto;
-	padding: 8px;
-	text-align: right;
-	float: right;
-}
-
-.dialog .tablist i.icon-ok {
-	color: #6C6;
-}
-
-.dialog .tablist table {
-	border-collapse: collapse;
-}
-
-.dialog .tablist table td {
-	padding: 2px 4px;
-}
-
-.dialog .tablist table td:first-child {
-	text-align: right;
-	width: 160px;
-}
-
-.dialog .tablist-one .tab {
-	width: auto;
-}
-
-.dialog-auto-size {
-	width: auto;
-	height: auto;
-}
-
-.dialog-auto-size form table td:first-child {
-	width: auto;
-}
-
-.dialog table.s1 {
-	width: 100%;
-	text-align: center;
-	border-collapse: collapse;
-	margin-bottom: 8px;
-}
-
-.dialog table.s1 i.icon-ok {
-	color: #6C6;
-}
-
-.dialog table.s1 i.icon-remove {
-	color: #F66;
-}
-
-.dialog table.s1 td, .dialog table.s1 th {
-	border: 1px solid #4D4D4D;
-	padding: 4px;
-}
-
-.dialog h3 {
-	margin-top: 0px;
-	margin-bottom: 8px;
-	padding-top: 4px;
-	font-size: 12px;
-}
-
-.dialog dl {
-	margin-top: 0px;
-}
-
-.dialog ol {
-	margin: 0px;
-	padding: 0px;
-}
-
-.dialog ol li {
-	margin-left: 40px;
-}
-
-.del {
-	text-decoration: line-through;
-}
-
-.del i {
-	text-decoration: none;
-}
-
-.ic {
-	font-family: FontAwesome;
-	font-style: normal;
-}
-
-.dialog .error {
-	color: #F33;
-	text-align: center;
-	display: none;
-}
-
-.dialog .rt {
-	display: none;
-}
-
-.dialog .ok {
-	color: #6C6;
-	text-align: center;
-}
-
-.dialog .content_premium table#price_table {
-	width: 300px;
-	margin: auto;
-	margin-bottom: 8px;
-}
-
-.dialog .content_premium .steps {
-	text-align: center;
-}
-
-#dlg_ucp {
-	width: 420px;
-}
-
-#dlg_ucp .content {
-	height: 250px;
-	overflow-y: auto;
-}
-
-#dlg_ucp .content_home {
-	text-align: center;
-	font-size: 13px;
-	line-height: 20px;
-}
-
-#dlg_ucp .content_home dl {
-	text-align: left;
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-
-#dlg_ucp .content_home dl dd {
-	margin-bottom: 6px;
-}
-
-#dlg_ucp .content_history {
-	text-align: left;
-	overflow-y: auto;
-}
-
-#dlg_ucp .content_history table {
-	font-size: 11px;
-}
-
-.dialog .content .selected {
-	background-color: #333;
-	border-radius: 3px;
-}
-
-.dialog .unit {
-	padding: 3px;
-	cursor: pointer;
-}
-
 .content_warning {
 	text-align: center;
 }
@@ -1661,13 +1239,20 @@ code {
 	cursor: pointer;
 }
 
+.candle-chart-wrap {
+    margin-bottom: 10px;
+}
 .jqcandlestick-container {
     position: relative;
     cursor: none;
+    border: none;
+    height: 220px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 .jqcandlestick-canvas {
-    position: absolute;
-    display: block;
-    height: 100%;
-    width: 100%;
+  position: absolute;
+  display: block;
+  height: 100%;
 }

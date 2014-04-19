@@ -1,100 +1,44 @@
-@(user: Option[String])
-</html>
+@()(implicit session: Session)
 <!DOCTYPE html>
-<html class="dark" ng-app="coinport.market">
+<html ng-app="coinport.market">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="description" content="Live Bitcoin charts">
     <meta name="keywords" content="Bitcoin Live Market Charts">
-    <title>{{lastPrice.toFixed(2)}} Coinport Live Market</title>
-    <link rel="icon" href="image/favicon.png" type="image/png">
+    <title>{{lastTransaction.price.toFixed(2)}} Coinport Live Market</title>
 
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-route.min.js"></script>
-    <script src="lib/angular/angular-resource.min.js"></script>
-    <script src="lib/angular/angular-timer.min.js"></script>
+    @imports()
 
-    <script src="lib/jquery-1.11.0.min.js"></script>
-    <script src="lib/jquery.mousewheel.js"></script>
-    <script src="lib/jquery.jqcandlestick.js"></script>
+    <script src="lib/jquery.jqcandlestick.js" type="text/javascript" ></script>
+    <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
+    <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="js/market.js"></script>
 
-    <script src="lib/bootstrap/js/bootstrap.js"></script>
-
-    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
     <link href="css/market.css" rel="stylesheet" type="text/css">
 
 
-<body screen_capture_injected="true" ng-controller="MarketCtrl">
+<body class="dark" screen_capture_injected="true" ng-controller="MarketCtrl">
+@navbar()
 <div id="header_outer">
     <div id="header">
-        <div class="navbar navbar-static-top">
-            <div class="navbar-inner">
-                <div class="container">
-
-                    <div id="warning"></div>
-                    <ul class="nav">
-                        <li class="logo"><a href="/"><b>Coinport</b></a>
-                        </li>
-                        <li>
-                            <a href="/"><b>首页</b></a>
-                        </li>
-                        <li>
-                            <a href="/trade"><b>交易中心</b></a>
-                        </li>
-                        <li>
-                            <a href="#" class="active"><b>实时行情</b></a>
-                        </li>
-                        <li>
-                            <a href="/about"><b>关于我们</b></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="qr"><img></div>
-
         <div id="control">
             <div class="inner">
                 <ul id="periods" class="horiz">
                     <li style="line-height:26px">时间间隔:</li>
-                    <li class="period"><a ng-click="candleParam.period = 13">1周</a></li>
-                    <li class="subsep"></li>
-                    <li class="period"><a ng-click="candleParam.period = 12">3日</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 11">1日</a></li>
-                    <li class="subsep"></li>
-                    <li class="period"><a ng-click="candleParam.period = 10">12小时</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 9">6小时</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 8">4小时</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 7">2小时</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 6">1小时</a></li>
-                    <li class="subsep"></li>
-                    <li class="period"><a ng-click="candleParam.period = 5">30分钟</a></li>
-                    <li class="period selected"><a ng-click="candleParam.period = 4">15分钟</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 3">5分钟</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 2">3分钟</a></li>
-                    <li class="period"><a ng-click="candleParam.period = 1">1分钟</a></li>
-                    <li class="subsep"></li>
-
+                    <li ng-repeat="item in periods" class="{{item.class}}"><a ng-click="setPeriod(item.period)">{{item.title}}</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-
-<div id="notify" class="notify">
-    <div class="inner"></div>
-</div>
 <div id="main" style="height: 407px; display: block;">
 <div id="sidebar_outer">
 <div id="sidebar">
 <div id="before_trades">
-    <div id="market"><a href="#" target="bwMarket"
-                        title="Coinport BTC/CNY">Coinport BTC/CNY</a></div>
+    <div id="market">Coinport BTC/CNY</div>
     <div id="orderbook">
         <div class="orderbook" style="height: 143px;">
             <div id="asks" style="margin-top: -52px;">
@@ -173,32 +117,26 @@
 
         height = (_ref = window.innerHeight) != null ? _ref : document.documentElement.clientHeight;
 
-        main.style.height = height - header.clientHeight - 33 + 'px';
+        main.style.height = height - header.clientHeight - 33 - 60 + 'px';
 
         main.style.display = 'block';
 
     }).call(this);
 </script>
-
 <div id="footer_outer">
     <div id="footer">
         <ul class="horiz donate">
             <li>
-                Updated
-                <span id="change">21</span>
-                seconds ago
-	<span id="realtime_error" style="display:none">in
-	<abbr title="Realtime(WebSocket) connection failed. Orderbook update every 1 minute, Trades update every 10 seconds.">Slow
-        Mode</abbr></span>
+                数据更新时间 {{lastUpdate | date:'yyyy-HH:mm:ss'}}
+            </li>
+            <li class="sep"></li>
+            <li class="period">
+                下次更新在 <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> 秒之后
             </li>
             <li class="sep"></li>
             <li class="period"><a href="#" target="_blank">Help</a></li>
-            <li id="now"><timer ng-show="true" interval="2000"/></li>
+            <li id="now"></li>
             <li class="sep"></li>
-            <li class="period"><input type="button" id="btn-update" value="update"></li>
-            <li class="period"><input type="button" id="btn-add" value="add"></li>
-            <li class="period"><input type="button" id="btn-move-left" value="<<"></li>
-            <li class="period"><input type="button" id="btn-move-right" value=">>"></li>
         </ul>
     </div>
 </div>

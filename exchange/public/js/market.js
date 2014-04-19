@@ -1,9 +1,38 @@
-var marketApp = angular.module('coinport.market', ['timer']);
+var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'coinport.app', 'navbar']);
 
 marketApp.controller('MarketCtrl', function ($scope, $http) {
     $scope.history = [];
+    $scope.lastUpdate = new Date().getTime();
     $scope.candleParam = {period: 4};
     $scope.candleChart = null;
+    $scope.periods = [
+        {period: 13, title: '1周'},
+        {period: 12, title: '3日'},
+        {period: 11, title: '1日'},
+        {class: 'subsep'},
+        {period: 10, title: '12小时'},
+        {period: 9, title: '6小时'},
+        {period: 8, title: '4小时'},
+        {period: 7, title: '2小时'},
+        {period: 6, title: '1小时'},
+        {class: 'subsep'},
+        {period: 5, title: '30分钟'},
+        {period: 4, title: '15分钟', class: 'period selected'},
+        {period: 3, title: '5分钟'},
+        {period: 2, title: '3分钟'},
+        {period: 1, title: '1分钟'}];
+    $scope.setPeriod = function(period) {
+        if ($scope.candleParam.period == period)
+            return;
+        $scope.periods.forEach(function(item) {
+            if (item.period == period)
+                item.class = 'period selected';
+            else if (item.class == 'period selected')
+                item.class = 'period';
+        });
+        $scope.candleParam.period = period;
+        $scope.$broadcast('timer-stop');
+    };
     $scope.refresh = function() {
         $http.get('api/price')
             .success(function(data, status, headers, config) {
@@ -23,6 +52,15 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                         xAxis: {
                             dataLeftOffset: 0,
                             minDataLength: 90
+                        },
+                        yAxisDefaults: {
+                          color: '#333',
+                          labels: {
+                            color: '#AAA'
+                          }
+                        },
+                        info: {
+                          color: '#AAA'
                         },
                         series: [{
                             type: 'candlestick',
@@ -65,9 +103,11 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
 
     $scope.refresh();
 
-    $scope.$on('timer-tick', function (event, args) {
-        console.log('polling', args);
+    $scope.$on('timer-stopped', function (event, data){
+        console.log('polling', data);
         $scope.refresh();
+        $scope.lastUpdate = new Date().getTime();
+        $scope.$broadcast('timer-start');
     });
 });
 
@@ -85,7 +125,7 @@ marketApp.filter('txTypeIcon', function() {
 
 marketApp.filter('txTypeText', function() {
     return function(input) {
-        return input ?  '卖' : '买';
+        return input ?  '卖出' : '买入';
     }
 });
 
