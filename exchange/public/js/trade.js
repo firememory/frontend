@@ -381,7 +381,7 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
         $scope.balance = data.data.accounts['RMB'];
     });
 
-    $http.get('/api/RMB/deposit/' + $scope.uid)
+    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 1}})
       .success(function(data, status, headers, config) {
         $scope.deposits = data.data;
     });
@@ -392,7 +392,7 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
         console.log('deposit ' + $scope.depositData.amount);
         $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
-            var deposit = data.data.deposit;
+            var deposit = data.data.transfer;
             alert('充值成功，本次充值' + deposit.amount/100 + '元');
           });
     };
@@ -404,9 +404,8 @@ tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $h
             $scope.balance = data.data.accounts['RMB'];
         });
 
-    $http.get('/api/RMB/withdrawal/' + $scope.uid)
+    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 1}})
         .success(function(data, status, headers, config) {
-            console.log("lalalala",data.data)
             $scope.withdrawals = data.data;
         });
 
@@ -416,8 +415,12 @@ tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $h
         console.log('withdrawal ' , $scope.withdrawalData);
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function(data, status, headers, config) {
-                var withdrawal = data.data.withdrawal;
-                alert('提现成功，本次提现' + withdrawal.amount/100 + '元');
+                if (data.success) {
+                    var withdrawal = data.data.transfer;
+                    alert('提现成功，本次提现' + withdrawal.amount/100 + '元');
+                } else {
+                    alert(data.message);
+                }
             });
     };
 }]);
@@ -428,7 +431,7 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
             $scope.balance = data.data.accounts['BTC'];
     });
 
-    $http.get('/api/BTC/deposit/' + $scope.uid)
+    $http.get('/api/BTC/transfer/' + $scope.uid, {params: {'type': 0}})
       .success(function(data, status, headers, config) {
         $scope.deposits = data.data;
     });
@@ -439,7 +442,7 @@ tradeApp.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http
         console.log('deposit ' + $scope.depositData.amount);
         $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
-            var deposit = data.data.deposit;
+            var deposit = data.data.transfer;
             alert('充值成功，本次充值' + deposit.amount/1000 + 'BTC');
           });
     };
@@ -452,7 +455,7 @@ tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $h
             $scope.balance = data.data.accounts['BTC'];
         });
 
-    $http.get('/api/BTC/withdrawal/' + $scope.uid)
+    $http.get('/api/BTC/transfer/' + $scope.uid, {params: {'type': 1}})
         .success(function(data, status, headers, config) {
             $scope.withdrawals = data.data;
         });
@@ -463,8 +466,12 @@ tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $h
         console.log('withdrawal ' + $scope.withdrawalData.amount);
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function(data, status, headers, config) {
-                var withdrawal = data.data.withdrawal;
-                alert('提现成功，本次提现' + withdrawal.amount/1000 + 'BTC');
+                if (data.success) {
+                    var withdrawal = data.data.transfer;
+                    alert('提现成功，本次提现' + withdrawal.amount/1000 + 'BTC');
+                } else {
+                    alert(data.message);
+                }
             });
     };
 }]);

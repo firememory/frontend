@@ -15,15 +15,13 @@ userApp.controller('UserCtrl', function ($scope, $http, $window) {
         $scope.transactions = data.data;
     });
 
-    $http.get('/api/RMB/dw/' + $scope.targetUid, {params: {status: 1}})
+    $http.get('/api/RMB/transfer/' + $scope.targetUid, {params: {status: 1}})
       .success(function(data, status, headers, config) {
         $scope.dw.CNY = data.data;
-        console.log(data.data)
     });
 
-    $http.get('/api/BTC/dw/' + $scope.targetUid, {params: {status: 1}})
+    $http.get('/api/BTC/transfer/' + $scope.targetUid, {params: {status: 1}})
       .success(function(data, status, headers, config) {
         $scope.dw.BTC = data.data;
-        console.log(data.data)
     });
 });

@@ -17,7 +17,6 @@ import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import java.io.File
 import models.FileItem
-import play.core.Router.Route
 
 object MessageController extends Controller with Json4s {
 
@@ -106,14 +105,6 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def depositHistory(currency: String, uid: String) = Action.async {
-    implicit request =>
-      DWService.getDWItems(Some(uid.toLong), Some(currency), None, None, Some(true), Cursor(0, 100)) map {
-        case result =>
-          Ok(result.toJson)
-      }
-  }
-
   def withdrawal = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body
@@ -130,19 +121,12 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def withdrawalHistory(currency: String, uid: String) = Action.async {
-    implicit request =>
-      DWService.getDWItems(Some(uid.toLong), Some(currency), None, None, Some(false), Cursor(0, 100)) map {
-        case result =>
-          Ok(result.toJson)
-      }
-  }
-
-  def dwHistory(currency: String, uid: String) = Action.async {
+  def transfers(currency: String, uid: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
-      DWService.getDWItems(Some(uid.toLong), Some(currency), status, None, None, Cursor(0, 100)) map {
+      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit))
+      TransferService.getTransfers(Some(uid.toLong), Some(currency), status, None, types, Cursor(0, 100)) map {
         case result =>
           Ok(result.toJson)
       }
@@ -189,11 +173,11 @@ object MessageController extends Controller with Json4s {
 
   def userTransaction(side: String, uid: String) = Action.async {
     implicit request =>
-          val query = request.queryString
-          val limit = getParam(query, "limit", "20").toInt
-          val skip = getParam(query, "skip", "0").toInt
+      val query = request.queryString
+      val limit = getParam(query, "limit", "20").toInt
+      val skip = getParam(query, "skip", "0").toInt
 
-          MarketService.getTransactionsByUser(side, uid.toLong, skip, limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByUser(side, uid.toLong, skip, limit).map(result => Ok(result.toJson))
   }
 
   def ticker(market: String) = Action.async {
@@ -204,7 +188,7 @@ object MessageController extends Controller with Json4s {
 
   def exportDataFiles(dataType: String) = Action {
     implicit request =>
-      // TODO: load path from config
+    // TODO: load path from config
       val dir = new File("/data/export/")
       val files = dir.listFiles
         .filter(_.getName contains "_" + dataType + "_")

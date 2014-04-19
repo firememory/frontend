@@ -120,18 +120,18 @@ coinportApp.filter('UID', function() {
 
 coinportApp.filter('dwText', function() {
     return function(input) {
-        return input ? '充值' : '提现';
+        return input == 0 ? '充值' : '提现';
     }
 });
 
 coinportApp.filter('dwClass', function() {
     return function(input) {
-        return input ? 'green' : 'red';
+        return input == 0 ? 'green' : 'red';
     }
 });
 
 coinportApp.filter('dwIcon', function() {
     return function(input) {
-        return input ? 'fa-sign-in' : 'fa-sign-out';
+        return input == 0 ? 'fa-sign-in' : 'fa-sign-out';
     }
 });

@@ -33,9 +33,7 @@ GET     /api/user/*uid/transaction/*market  controllers.MessageController.userTr
 GET     /api/transaction            controllers.MessageController.transactions()
 GET     /api/*market/transaction/*tid       controllers.MessageController.transaction(market, tid)
 GET     /api/*market/order/*oid/transaction   controllers.MessageController.orderTransaction(market, oid)
-GET     /api/*currency/deposit/*uid   controllers.MessageController.depositHistory(currency, uid)
-GET     /api/*currency/withdrawal/*uid   controllers.MessageController.withdrawalHistory(currency, uid)
-GET     /api/*currency/dw/*uid      controllers.MessageController.dwHistory(currency, uid)
+GET     /api/*currency/transfer/*uid      controllers.MessageController.transfers(currency, uid)
 GET     /api/open/data/*type       controllers.MessageController.exportDataFiles(type)
 
 GET     /data/*file                 controllers.MainController.data(file)
