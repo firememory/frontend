@@ -89,6 +89,16 @@ object MessageController extends Controller with Json4s {
       }
   }
 
+  def asset(uid: String) = Action.async {
+    implicit request =>
+      var from = System.currentTimeMillis()
+      val to = from + 3600 * 24 * 1000
+      from = from - 3600 * 24 * 1000
+
+      println("get the user assset!!!!")
+      MarketService.getAsset(uid.toLong, from, to, Currency.Rmb).map(rv => Ok(rv.toJson))
+  }
+
   def deposit = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body
