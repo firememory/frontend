@@ -462,7 +462,6 @@ tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $h
 
     $scope.withdrawalData = {currency: 'BTC'};
     $scope.withdrawal = function() {
-        var amount = $scope.withdrawalData.amount;
         console.log('withdrawal ' + $scope.withdrawalData.amount);
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function(data, status, headers, config) {
@@ -477,119 +476,92 @@ tradeApp.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $h
 }]);
 
 tradeApp.controller('AssetCtrl', function ($scope, $http) {
-    $scope.prices = {BTC: 1, RMB: 1};
-    $scope.assets = [];
-    $http.get('api/account/' + $scope.uid)
+    $http.get('api/asset/' + $scope.uid)
         .success(function(data, status, headers, config) {
-            console.log('accounts', data.data.accounts);
-            $scope.accounts = data.data.accounts;
-            $scope.updatePrice();
+            $scope.assets = data.data;
+            var map = $scope.assets[$scope.assets.length-1].amountMap;
+            $scope.pieData = [];
+            for(asset in map) {
+                $scope.pieData.push([asset, map[asset]]);
+            }
+            $scope.updateAsset();
         });
 
-    $scope.updatePrice = function() {
+    $scope.updateAsset = function() {
     // TODO: use ticker API instead
-    $http.get('api/ticker')
-        .success(function(data, status, headers, config) {
-            $scope.prices['BTC'] = data.data[0].price;
-            if ($scope.accounts) {
-                console.log('calculate assets', $scope.accounts, $scope.prices);
-                for(var currency in $scope.accounts) {
-                    var amount = $scope.accounts[currency];
-                    var price = $scope.prices[currency];
-                    console.log('asset', currency, amount, price);
-                    $scope.assets.push([currency, price * amount]);
-                };
-                $('#user-finance-chart-pie').jqChart({
-                    title: { text: '资产构成' },
-                    legend: {},
-                    shadows: {
-                        enabled: true
+        $('#user-finance-chart-pie').jqChart({
+            title: { text: '资产构成' },
+            legend: {},
+            shadows: {
+                enabled: true
+            },
+            series: [
+                {
+                    type: 'pie',
+                    fillStyles: ['#418CF0', '#FCB441', '#E0400A', '#056492', '#BFBFBF', '#1A3B69', '#FFE382'],
+                    data: $scope.pieData,
+                    labels: {
+                        stringFormat: '%.1f%%',
+                        valueType: 'percentage',
+                        font: '15px sans-serif',
+                        fillStyle: 'white'
                     },
-                    series: [
-                        {
-                            type: 'pie',
-                            fillStyles: ['#418CF0', '#FCB441', '#E0400A', '#056492', '#BFBFBF', '#1A3B69', '#FFE382'],
-                            data: $scope.assets,
-                            labels: {
-                                stringFormat: '%.1f%%',
-                                valueType: 'percentage',
-                                font: '15px sans-serif',
-                                fillStyle: 'white'
-                            },
-                            explodedRadius: 10,
-                            explodedSlices: [0],
-                            strokeStyle : '#cccccc',
-                            lineWidth : 1
-                        }
-                    ]
-                });
-            }
+                    explodedRadius: 10,
+                    explodedSlices: [0],
+                    strokeStyle : '#cccccc',
+                    lineWidth : 1
+                }
+            ]
+        });
+
+        var assetData = [];
+            $scope.assets.forEach(function(row) {
+                var asset = row;
+                console.log("asset", asset);
+                var time = new Date(asset.timestamp);
+                var btc = asset.amountMap["Btc"];
+                var cny = asset.amountMap["Rmb"];
+
+                assetData.push({date: time, value1: cny, value2: btc});
+            });
+
+
+        // jQuery code
+        $('#user-finance-chart-history').jqChart({
+            title: { text: '资产走势' },
+            dataSource: assetData,
+            axes: [
+                {
+                    type: 'dateTime',
+                    location: 'bottom',
+                    minimum: new Date($scope.assets[0].timestamp),
+                    maximum: new Date($scope.assets[$scope.assets.length-1].timestamp),
+                    interval: 1,
+                    intervalType: 'minutes'
+                },
+                {
+                    name: 'y1',
+                    location: 'left'
+                }
+            ],
+            series: [
+                {
+                    type: 'stackedArea',
+                    title: '人民币(CNY)',
+                    xValuesField: 'date',
+                    yValuesField: 'value1',
+                    axisY: 'y1'
+                },
+                {
+                    type: 'stackedArea',
+                    title: '比特币(BTC)',
+                    xValuesField: 'date',
+                    yValuesField: 'value2',
+                    axisY: 'y1'
+                }
+            ]
         });
     };
-
-    // mocked data
-    var data = [];
-
-    for (var i = 1; i < 30; i++) {
-        var time = new Date(2014, 0, i);
-        var btc = 10000 + 2000 * Math.random();
-        var ltc = 3100;
-        var pts = 1000;
-        var cny = 13411 + 5000 * Math.floor(i / 20);
-        var price = 4000 + 200 * Math.random();
-
-        data.push({date: time, value1: cny, value2: btc, value3: ltc, value4: pts, value5: price});
-    }
-
-    // jQuery code
-    $('#user-finance-chart-history').jqChart({
-        title: { text: '资产净值(未完成)' },
-        dataSource: data,
-        axes: [
-            {
-                type: 'dateTime',
-                location: 'bottom',
-                minimum: new Date(2014, 0, 1),
-                maximum: new Date(2014, 0, 29),
-                interval: 1,
-                intervalType: 'days'
-            },
-            {
-                name: 'y1',
-                location: 'left'
-            }
-        ],
-        series: [
-            {
-                type: 'stackedArea',
-                title: '人民币(CNY)',
-                xValuesField: 'date',
-                yValuesField: 'value1',
-                axisY: 'y1'
-            },
-            {
-                type: 'stackedArea',
-                title: '比特币(BTC)',
-                xValuesField: 'date',
-                yValuesField: 'value2',
-                axisY: 'y1'
-            },
-            {
-                type: 'stackedArea',
-                title: '莱特币(LTC)',
-                xValuesField: 'date',
-                yValuesField: 'value3',
-                axisY: 'y1'
-            },
-            {
-                type: 'stackedArea',
-                title: '原型股(PTS)',
-                xValuesField: 'date',
-                yValuesField: 'value4',
-                axisY: 'y1'
-            }
-        ]
-    });
 });
 
 tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
