@@ -381,7 +381,7 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
         $scope.balance = data.data.accounts['RMB'];
     });
 
-    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 1}})
+    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 0}})
       .success(function(data, status, headers, config) {
         $scope.deposits = data.data;
     });
