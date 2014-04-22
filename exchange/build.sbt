@@ -4,6 +4,7 @@ version := "1.0.0-SNAPSHOT"
 
 resolvers ++= Seq(
   "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
+  "jahia org repository" at "http://maven.jahia.org/maven2/",
   Resolver.sonatypeRepo("snapshots")
 )
 
