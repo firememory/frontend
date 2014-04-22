@@ -12,14 +12,15 @@ GET     /open                       controllers.MainController.open()
 GET     /transaction/*tid           controllers.MainController.transaction(tid)
 GET     /order/*oid                 controllers.MainController.order(oid)
 
-GET     /account/logout              controllers.UserController.logout()
+GET     /account/logout             controllers.UserController.logout()
 POST    /account/login              controllers.UserController.login()
 POST    /account/register           controllers.UserController.register()
+GET     /captcha                    controllers.CaptchaController.captcha()
 
-POST    /trade/bid               controllers.MessageController.submitOrder()
-POST    /trade/ask               controllers.MessageController.submitOrder()
+POST    /trade/bid                controllers.MessageController.submitOrder()
+POST    /trade/ask                controllers.MessageController.submitOrder()
 GET     /trade/order/cancel/*id   controllers.MessageController.cancelOrder(id)
-POST    /account/deposit            controllers.MessageController.deposit()
+POST    /account/deposit          controllers.MessageController.deposit()
 POST    /account/withdrawal            controllers.MessageController.withdrawal()
 
 # API routes
