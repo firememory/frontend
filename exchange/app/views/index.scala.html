@@ -3,55 +3,196 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>coinport</title>
-    @imports()
+    <title>Coinport 全球首家全透明交易所</title>
+    <link rel="icon" href="/image/favicon.png" type="image/png">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/jqcandlestick.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/settings.css" media="screen"/>
+
+    <script type="text/javascript" src="lib/jquery-1.11.0.min.js"></script>
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular/angular-route.min.js"></script>
+    <script src="/lib/angular/angular-resource.min.js"></script>
+    <script src="/lib/angular/angular-timer.min.js"></script>
+    <script src="/lib/ui-bootstrap-tpls-0.9.0.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
+    <script type="text/javascript" src="lib/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.nicescroll.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.themepunch.plugins.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.themepunch.revolution.min.js"></script>
+
+    <script src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/navbar.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
 </head>
 
 <body ng-app="coinport.index">
-@navbar()
-<div class="container" id="main-container" ng-controller="IndexCtrl">
-    <div class="jumbotron">
-        <img src="image/logo-h.png" height="200" style="margin-top: -80px; margin-left: -50px; margin-bottom: -60px;" />
-        <h3>最透明的交易平台</h3>
-        <p class="lead">
-            coinport所有的核心代码将在github上开源。
-            同时开放用户存取款，成交记录，数据快照等全部数据。
-        </p>
-        <p>
-            我们将提供100%准备金证明，确保您的资产安全。
-        </p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button" ng-click="openLoginWindow(1)">现在试用</a></p>
-    </div>
-    <div class="row clearfix">
-        <div class="col-md-6">
-            <div class="candle-chart"></div>
-        </div>
-        <div class="col-md-6">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th></th><th>最新成交价</th><th>24小时涨跌幅</th><th>最高价</th><th>最低价</th><th>24小时成交量</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="ticker in tickers">
-                    <td>{{ticker.currency}} <img src="image/BTC_logo.png" height="15"></td>
-                    <td><i class="fa fa-cny"></i> {{ticker.price.value | currency}} <img ng-show="{{ticker.trend != 'keep'}}" ng-src="image/{{ticker.trend}}.png"></td>
-                    <td>{{ticker.gain ? (ticker.gain * 100).toFixed(2) : 0}}% <img ng-show="{{ticker.gain != 0}}" ng-src="image/{{ticker.gain>0?'up':'down'}}.png"></td>
-                    <td class=""><i class="fa fa-cny"></i> {{ticker.high.value | currency}}</td>
-                    <td class=""><i class="fa fa-cny"></i> {{ticker.low.value | currency}}</td>
-                    <td><i class="fa fa-btc"></i> {{ticker.volume.value}}</td>
-                </tr>
-                </tbody>
-            </table>
+<!-- Container -->
+<div id="container" ng-controller="IndexCtrl">
+
+<!-- Start Header -->
+<div class="hidden-header"></div>
+<header class="clearfix">
+
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Start Contact Info -->
+                    <ul class="contact-details">
+                         <li><a href="#">d@@coinport.com</a></li>
+                        <li><a href="#"><i class="fa fa-user"></i> 12345</a></li>
+                    </ul>
+                    <!-- End Contact Info -->
+                </div>
+                <div class="col-md-6">
+                    <!-- Start Social Links -->
+                    <ul class="user-status">
+                        <li><a class="" href="#"><i class="fa fa-sign-in"></i> 登录</a></li>
+                        <li><a class="" href="#"><i class="fa fa-user"></i> 注册</a></li>
+                    </ul>
+                    <!-- End Social Links -->
+                </div>
+            </div>
         </div>
     </div>
+    <!-- End Top Bar -->
+
+    <!-- Start Header ( Logo & Naviagtion ) -->
+    <div class="navbar navbar-default navbar-top">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Stat Toggle Nav Link For Mobiles -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><i
+                        class="icon-menu-1"></i></button>
+                <!-- End Toggle Nav Link For Mobiles -->
+                <a class="navbar-brand" href="index.html" style="color: #b3b3b3; padding-top: 10px;">
+                    <img alt="coinport"
+                         src="image/logo-h.png"
+                         style="height: 50px;"> &nbsp; 币丰港
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <!-- Start Navigation List -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="active" href="#">首页</a></li>
+                    <li><a href="/trade">交易中心</a></li>
+                    <li><a href="/market">实时行情</a></li>
+                    <li><a href="/open">开放数据</a></li>
+                </ul>
+                <!-- End Navigation List -->
+            </div>
+        </div>
+    </div>
+    <!-- End Header ( Logo & Naviagtion ) -->
+
+</header>
+<!-- End Header -->
+
+<!-- Start Home Slider -->
+<div id="slider">
+    <!-- START REVOLUTION SLIDER 3.1 rev5 fullwidth mode -->
+    <div class="fullwidthbanner-container">
+        <div class="fullwidthbanner">
+            <ul>
+                <!-- SLIDE 1 -->
+                <li data-transition="fade" data-slotamount="3" data-masterspeed="400">
+                    <!-- MAIN IMAGE -->
+                    <img src="image/focusbg1.jpg" data-fullwidthcentering="on" alt="slidebg1" data-bgfit="cover"
+                         data-bgposition="center center" data-bgrepeat="no-repeat">
+
+                    <div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"
+                         data-x="270"
+                         data-y="120"
+                         data-speed="400"
+                         data-start="0"
+                         data-easing="easeOutExpo">
+                        <span class="accent-color">信任，源自开放</span>
+                    </div>
+                    <div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"
+                         data-x="270"
+                         data-y="200"
+                         data-speed="400"
+                         data-start="200"
+                         data-easing="easeOutExpo">
+                        <span class="accent-color">全球首家全透明交易所</span>
+                    </div>
+
+                    <div class="tp-caption sfb start"
+                         data-x="500"
+                         data-y="350"
+                         data-speed="400"
+                         data-start="800"
+                         data-easing="easeOutExpo">
+                        <!-- Begin MailChimp Signup Form -->
+                        <div id="mc_embed_signup"
+                             style="width: 265px; height: 140px; padding-left: 15px; padding-top: 15px; padding-right: 15px;">
+                            <form action="http://coinport.us3.list-manage.com/subscribe/post?u=e6acbc6ecc4bd57645c4c08e6&amp;id=e94a64d56c"
+                                  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                                  class="validate" target="_blank" novalidate>
+                                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"
+                                       placeholder="Email Address" required
+                                       style="font-size: 14px; width: 220px; height: 40px; border: 1px solid #aaa; margin-right: 20px; padding-left: 10px;">
+
+                                <div style="position: absolute; left: -5000px;"><input type="text"
+                                                                                       name="b_e6acbc6ecc4bd57645c4c08e6_e94a64d56c"
+                                                                                       value=""></div>
+                                <input type="submit" value="预注册" name="subscribe" id="mc-embedded-subscribe"
+                                       style="font-size: 14px; font-weight: 600; height: 40px; background-color: #4c5264;">
+                            </form>
+                        </div>
+                        <!--End mc_embed_signup-->
+                    </div>
+                </li>
+                <!-- SLIDE 2  -->
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Home Slider -->
+    <!-- Start Full Width Sections Content -->
+    <div id="content" class="full-sections">
+        <div class="blk20"></div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 simply normal">
+                        <div class="candle-chart"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th><th>最新成交价</th><th>24小时涨跌幅</th><th>最高价</th><th>最低价</th><th>24小时成交量</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="ticker in tickers">
+                                <td>{{ticker.currency}} <img src="image/BTC_logo.png" style="height: 15px;"></td>
+                                <td><i class="fa fa-cny"></i> {{ticker.price.value | currency}} <img ng-show="{{ticker.trend != 'keep'}}" ng-src="image/{{ticker.trend}}.png"></td>
+                                <td>{{ticker.gain ? (ticker.gain * 100).toFixed(2) : 0}}% <img ng-show="{{ticker.gain != 0}}" ng-src="image/{{ticker.gain>0?'up':'down'}}.png"></td>
+                                <td class=""><i class="fa fa-cny"></i> {{ticker.high.value | currency}}</td>
+                                <td class=""><i class="fa fa-cny"></i> {{ticker.low.value | currency}}</td>
+                                <td><i class="fa fa-btc"></i> {{ticker.volume.value}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blk20"></div>
+        <div class="section">
+            <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <table class="table table-striped table-condensed">
+        <div class="col-md-6 simply sell">
+            <table class="table table-condensed">
                 <thead>
                 <tr>
                     <th></th><th>委托价</th><th>委托数量</th>
@@ -59,15 +200,15 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.asks">
-                    <td class="sell">卖{{$index + 1}}</td>
-                    <td class="sell" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
-                    <td class=""><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
+                    <td class="red"><strong>卖{{$index + 1}}</strong></td>
+                    <td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
+                    <td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
-            <table class="table table-striped table-condensed">
+        <div class="col-md-6 simply buy">
+            <table class="table table-condensed">
                 <thead>
                 <tr>
                     <th></th><th>委托价</th><th>委托数量</th>
@@ -75,16 +216,165 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.bids">
-                    <td class="buy">买{{$index + 1}}</td>
-                    <td class="buy" ng-click="ask.price=item.price"><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
-                    <td class=""><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
+                    <td class="palegreen"><strong>买{{$index + 1}}</strong></td>
+                    <td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
+                    <td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <timer ng-show="false" interval="5000"/>
 </div>
-@footer()
+        </div>
+        <div class="blk40"></div>
+        <div class="section">
+        <div class="section coinport-feature">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>全透明</h2>
+                        <p>
+                            我们是世界上第一个全透明交易所，平台所有代码全部开源，系统每小时发布一次最新的存取款数据和交易数据。
+                            您可以浏览所有开放数据，或者通过下载这些数据，来验证其真实性和准确性。
+                            在开发数据的同时，最大程度保证信息的匿名性和您的隐私。
+                        </p>
+                    </div>
+                    <div class="col-md-4"><img src="image/illustration1.png" alt=""/></div>
+                </div>
+            </div>
+        </div>
+        <div class="section coinport-feature bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4"><img src="image/illustration1.png" alt=""/></div>
+                    <div class="col-md-8">
+                        <h2>100%准备金证明</h2>
+                        <p>
+                            我们任何时候都不会挪用用户资产。通过我们公开的银行账号和虚拟货币冷热钱包地址，您可以验证我们时时刻刻都有100%的准备金，保证您随时可以提现。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section coinport-feature">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>毫秒级实时性</h2>
+                        <p>
+                            我们的系统采用事件溯源架构，保证所有交易都在毫秒级完成，统计报表和K线也更加实时。确保您无需任何等待。
+                        </p>
+                    </div>
+                    <div class="col-md-4"><img src="image/illustration2.png" alt=""/></div>
+                </div>
+            </div>
+        </div>
+        <div class="section coinport-feature bg-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4"><img src="image/illustration3.png" alt=""/></div>
+                    <div class="col-md-8">
+                        <h2>更贴心的功能</h2>
+                        <p>
+                            我们采用具有对称性的taker-maker交易模型，为您提供除了市场单和限价单之外更灵活的委托方式。同时我们的资产报表将让你对自己的投资收益一目了然。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section coinport-feature">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>安全</h2>
+                        <p>
+                            我们采用多签名机制和业界领先的磁盘加密技术，确保您虚拟资产的安全。同时所有交易相关服务通过SSL加密数据。
+                        </p>
+                    </div>
+                    <div class="col-md-4"><img src="image/illustration4.png" alt=""/></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Full Width Sections Content -->
+
+    <!-- Start Footer -->
+    <footer>
+        <div class="container">
+            <div class="row footer-widgets">
+                <div class="col-md-8">
+                    <div class="footer-widget contact-widget">
+                        <h4>联系我们<span class="head-line"></span></h4>
+                        <ul class="pull-left">
+                            <li><span><i class="fa fa-building-o"></i></span> 上海市浦东闵行区星中路11号阳光乾城苑55栋</li>
+                            <li><span><i class="fa fa-phone"></i></span> 18603589688</li>
+                            <li><span><i class="fa fa-envelope-o"></i></span> d@@coinport.com</li>
+                            <li><span><i class="fa fa-globe"></i></span> www.coinport.com</li>
+                        </ul>
+                        <ul class="pull-left footer-location">
+                            <li><a href="#"><img alt="" src="image/baidumap.png"/></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="footer-widget">
+                        <h4>服务与帮助<span class="head-line"></span></h4>
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fa fa-shield"></i> 隐私政策</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-coffee"></i> 服务协议</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-th"></i> 法律声明</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-github"></i> 源代码</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-code"></i> API</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="footer-widget mail-subscribe-widget">
+                        <h4>关注我们<span class="head-line"></span></h4>
+                        <ul class="social-icons">
+                            <li><a class="" href="#"><i class="fa fa-twitter"></i> twitter：coinport</a></li>
+                            <li><a class="" href="#"><i class="fa fa-weibo"></i> 新浪微博：coinport</a></li>
+                            <li><a class="" href="#"><i class="fa fa-qq"></i> 微信：coinport</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start Copyright -->
+        <div class="copyright-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">© Coinport Inc. 2014. All rights reserved</div>
+                </div>
+            </div>
+        <!-- End Copyright -->
+        </div>
+    </footer>
+    <!-- End Footer -->
+</div>
+<!-- End Container -->
+
+<!-- Go To Top Link -->
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+</div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?9e68a2c3167a62fbc538135dc864cad9";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </body>
 </html>
