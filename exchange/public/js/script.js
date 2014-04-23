@@ -68,11 +68,11 @@ $(document).ready(function($) {
 		var $headerHeight = $('header').height();
 		$('.hidden-header').css({ 'height' : $headerHeight  + "px" });
 	};
-	
+
 	$(window).load(function () {
 	  headerEle();
 	});
-	
+
 	$(window).resize(function () {
 	   headerEle();
 	});
@@ -366,22 +366,7 @@ $(document).ready(function($) {
 			});
 		}
 	});
-	
 
-	/*----------------------------------------------------*/
-	/*	Nivo Lightbox
-	/*----------------------------------------------------*/
-//
-//	$('.lightbox').nivoLightbox({
-//		effect: 'fadeScale',
-//		keyboardNav: true,
-//		errorMessage: 'The requested content cannot be loaded. Please try again later.'
-//	});
-//
-	
-	
-	
-	
 	/*----------------------------------------------------*/
 	/*	Change Slider Nav Icons
 	/*----------------------------------------------------*/
@@ -392,56 +377,17 @@ $(document).ready(function($) {
 	$('.touch-carousel, .testimonials-carousel').find('.owl-next').html('<i class="icon-angle-right"></i>');
 	$('.read-more').append('<i class="icon-right-open-mini"></i>');
 	
-	
-	
-	
-	/*----------------------------------------------------*/
-	/*	Tooltips & Fit Vids & Parallax & Text Animations
-	/*----------------------------------------------------*/
-	
-//	$("body").fitVids();
-//
-//	$('.sh-tooltip').tooltip();
-//
-//	$('.bg-parallax').each(function() {
-//		$(this).parallax("30%", 0.2);
-//	});
-//
-//	$('.tlt').textillate({
-//		loop: true,
-//		in: {
-//			effect: 'fadeInUp',
-//			delayScale: 2,
-//			delay: 50,
-//			sync: false,
-//			shuffle: false,
-//			reverse: true,
-//		},
-//		out: {
-//			effect: 'fadeOutUp',
-//			delayScale: 2,
-//			delay: 50,
-//			sync: false,
-//			shuffle: false,
-//			reverse: true,
-//		},
-//	});
-//
-	
-	
-	
-	
 	/*----------------------------------------------------*/
 	/*	Sticky Header
 	/*----------------------------------------------------*/
-	
+
 	(function() {
-		
+
 		var docElem = document.documentElement,
 			didScroll = false,
 			changeHeaderOn = 100;
 			document.querySelector( 'header' );
-			
+
 		function init() {
 			window.addEventListener( 'scroll', function() {
 				if( !didScroll ) {
@@ -450,46 +396,46 @@ $(document).ready(function($) {
 				}
 			}, false );
 		}
-		
+
 		function scrollPage() {
 			var sy = scrollY();
 			if ( sy >= changeHeaderOn ) {
 				$('.top-bar').slideUp(300);
 				$("header").addClass("fixed-header");
 				$('.navbar-brand').css({ 'padding-top' : 10 + "px", 'padding-bottom' : 10 + "px" });
-				
+
 				if (/iPhone|iPod|BlackBerry/i.test(navigator.userAgent) || $(window).width() < 479 ){
 					$('.navbar-default .navbar-nav > li > a').css({ 'padding-top' : 0 + "px", 'padding-bottom' : 0 + "px" })
 				}else{
 					$('.navbar-default .navbar-nav > li > a').css({ 'padding-top' : 15 + "px", 'padding-bottom' : 15 + "px" })
 					$('.search-side').css({ 'margin-top' : -7 + "px" });
 				};
-				
+
 			}
 			else {
 				$('.top-bar').slideDown(300);
 				$("header").removeClass("fixed-header");
 				$('.navbar-brand').css({ 'padding-top' : 10 + "px", 'padding-bottom' : 10 + "px" });
-				
+
 				if (/iPhone|iPod|BlackBerry/i.test(navigator.userAgent) || $(window).width() < 479 ){
 					$('.navbar-default .navbar-nav > li > a').css({ 'padding-top' : 0 + "px", 'padding-bottom' : 0 + "px" })
 				}else{
 					$('.navbar-default .navbar-nav > li > a').css({ 'padding-top' : 10 + "px", 'padding-bottom' : 10 + "px" })
 					$('.search-side').css({ 'margin-top' : 0  + "px" });
 				};
-				
+
 			}
 			didScroll = false;
 		}
-		
+
 		function scrollY() {
 			return window.pageYOffset || docElem.scrollTop;
 		}
-		
+
 		init();
-		
-		
-		
+
+
+
 	})();
 });
 

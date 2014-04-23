@@ -1,16 +1,15 @@
 body {
     padding-bottom: 0px;
     font-size: 13px;
-    //line-height: 162%;
     color: #333333;
     font-family: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
     -webkit-text-size-adjust:none;
-    background: #fdfdfd;
+    background: #fff;
     font-weight: normal;
     min-width: 960px;
 }
 body {
-    padding-top: 60px;
+    padding-top: 120px;
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
