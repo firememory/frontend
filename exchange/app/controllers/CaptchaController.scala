@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream
 import java.util.Locale
 import java.util.UUID
 import java.awt.Color
+import java.awt.Font
+import java.awt.GraphicsEnvironment
 
 import play.api.mvc._
 import play.api.libs.json._
@@ -70,12 +72,12 @@ object CaptchaController extends Controller with Json4s {
       val maxAcceptedWordLength = new Integer(5)
 
       //Set up Captcha Image Size: Height and Width
-      val imageHeight = new Integer(40)
-      val imageWidth = new Integer(100)
+      val imageHeight = new Integer(50)
+      val imageWidth = new Integer(115)
 
       //Set Captcha Font Size
-      val minFontSize = new Integer(20)
-      val maxFontSize = new Integer(22)
+      val minFontSize = new Integer(22)
+      val maxFontSize = new Integer(24)
 
       val wordGenerator: WordGenerator = new RandomWordGenerator("abcdefghijklmnopqrstuvwxyz")
 
@@ -84,7 +86,8 @@ object CaptchaController extends Controller with Json4s {
 
       //font is not helpful for security but it really increase difficultness for attacker
       val fontGenerator: FontGenerator = new RandomFontGenerator(minFontSize,
-        maxFontSize)
+        maxFontSize, getProperFonts)
+
       // Note that our captcha color is Blue
       val scg: SingleColorGenerator = new SingleColorGenerator(Color.blue)
 
@@ -104,6 +107,30 @@ object CaptchaController extends Controller with Json4s {
       //ok, generate the WordToImage Object for logon service to use.
       val wordToImage: WordToImage = new ComposedWordToImage(fontGenerator, bgGen, textPaster)
       addFactory(new GimpyFactory(wordGenerator, wordToImage))
+    }
+
+    private[this] def getProperFonts: Array[Font] = {
+      val properFontFamilies = Array[String]("Serif", "SansSerif", "Monospaced", "Tahoma", "Arial", "Helvetica", "Times", "Courier").map(_.toUpperCase)
+
+      val e: GraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
+      val allFonts: Array[Font] = e.getAllFonts
+
+      val properFontFamiliesStr = properFontFamilies.mkString(", ")
+      println(s"proper font families: $properFontFamiliesStr")
+
+      val properFonts = allFonts.filter {
+        font =>
+        val family = font.getFamily.toUpperCase
+        properFontFamilies.filter(s => family.contains(s)).nonEmpty
+      }
+      properFonts.foreach {
+        font =>
+        val fontName = font.getFontName
+        val familyName = font.getFamily
+        val fname = font.getName
+        println(s"name: $fname, font name: $fontName, family name: $familyName")
+      }
+      properFonts
     }
   }
 
