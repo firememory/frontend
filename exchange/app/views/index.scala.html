@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" type="text/css" href="css/settings.css" media="screen"/>
 
+    <script type="text/javascript" src="lib/highstock.js"></script>
+
     <script type="text/javascript" src="lib/jquery.jqcandlestick.js"></script>
     <script type="text/javascript" src="lib/owl.carousel.min.js"></script>
 
@@ -93,10 +95,12 @@
         <div class="section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 simply normal">
-                        <div class="candle-chart"></div>
+                    <div class="col-md-12 simply normal">
+                        <div id="candle-chart" style="height: 400px; min-width: 310px"></div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <table class="table table-striped">
                             <thead>
                             <tr>

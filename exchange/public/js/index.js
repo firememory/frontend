@@ -14,56 +14,134 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
   };
 
   refresh();
-  $http.get('api/history', {params: {period: 5}})
-    .success(function(data, status, headers, config) {
-      $scope.history = data.data;
-      var chart = $('.candle-chart').jqCandlestick(
-      $scope.history, {
-        theme: 'light',
-        yAxis: [{
-          height: 8
-        }, {
-          height: 2
-        }],
-        info: {
-          color: '#000', // color for info
-          font: null, // font
-          spacing: 10, // distance between values
-          position: 'left', // 'left', 'right' or 'auto'
-          wrap: 'no' // 'auto', 'yes' or 'no'
-        },
-        cross: {
-          color: 'rgba(0, 0, 0, 0.6)', // color of cursor-cross
-          strokeWidth: 1.0, // width cursor-cross lines
-          text: {
-            //background: '#cccccc', // background color for text
-            font: null, // font for text
-            color: '#000' // color for text
-          }
-        },
-        xAxis: {
-          dataLeftOffset: Math.max(0, $scope.history.length - 61),
-          dataRightOffset: $scope.history.length - 1
-        },
-        series: [{
-          type: 'candlestick',
-          names: ['开盘','最高', '最低', '收盘'],
-          upStroke: '#0C0',
-          upColor: 'rgba(0, 255, 0, 0.4)',
-          downStroke: '#C00',
-          downColor: 'rgba(255, 0, 0, 0.5)'
-        }, {
-          type: 'volume',
-          name: '成交量',
-          dataOffset: 5,
-          yAxis: 1,
-          stroke: '#00C',
-          upStroke: '#0C0',
-          upColor: 'rgba(0, 255, 0, 0.4)',
-          downStroke: '#C00',
-          downColor: 'rgba(255, 0, 0, 0.5)'
-        }]
-      });
+  $http.get('/api/candle', {params: {period: 5}})
+    .success(function(response, status, headers, config) {
+      $scope.history = response.data;
+//            $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function(data) {
+            var data = response;
+      		// split the data set into ohlc and volume
+      		var ohlc = [],
+      			volume = [],
+      			dataLength = data.length;
+
+      		for (i = 0; i < dataLength; i++) {
+      			ohlc.push([
+      				data[i][0] * 1000, // the date
+      				data[i][1], // open
+      				data[i][3], // high
+      				data[i][4], // low
+      				data[i][2] // close
+      			]);
+
+      			volume.push([
+      				data[i][0] * 1000, // the date
+      				data[i][5] // the volume
+      			])
+      		}
+
+      		console.log(ohlc, volume);
+
+      		// set the allowed units for data grouping
+      		var groupingUnits = [[
+      			'hour',                         // unit name
+      			[1]                             // allowed multiples
+      		], [
+      			'hour',
+      			[1, 2, 3, 4, 6]
+      		]];
+
+      		// create the chart
+      		$('#candle-chart').highcharts('StockChart', {
+
+      		    rangeSelector: {
+      				inputEnabled: $('#candle-chart').width() > 480,
+      		        selected: 1
+      		    },
+
+      		    yAxis: [{
+      		        title: {
+      		            text: 'OHLC'
+      		        },
+      		        height: '60%',
+      		        lineWidth: 2
+      		    }, {
+      		        title: {
+      		            text: 'Volume'
+      		        },
+      		        top: '65%',
+      		        height: '35%',
+      		        offset: 0,
+      		        lineWidth: 2
+      		    }],
+
+      		    series: [{
+      		        type: 'candlestick',
+      		        name: 'BTC',
+      		        data: ohlc,
+      		        dataGrouping: {
+      					units: groupingUnits
+      		        }
+      		    }, {
+      		        type: 'column',
+      		        name: 'Volume',
+      		        data: volume,
+      		        yAxis: 1,
+      		        dataGrouping: {
+      					units: groupingUnits
+      		        }
+      		    }]
+      		});
+//      	});
+
+
+
+//      var chart = $('.candle-chart').jqCandlestick(
+//      $scope.history, {
+//        theme: 'light',
+//        yAxis: [{
+//          height: 8
+//        }, {
+//          height: 2
+//        }],
+//        info: {
+//          color: '#000', // color for info
+//          font: null, // font
+//          spacing: 10, // distance between values
+//          position: 'left', // 'left', 'right' or 'auto'
+//          wrap: 'no' // 'auto', 'yes' or 'no'
+//        },
+//        cross: {
+//          color: 'rgba(0, 0, 0, 0.6)', // color of cursor-cross
+//          strokeWidth: 1.0, // width cursor-cross lines
+//          text: {
+//            //background: '#cccccc', // background color for text
+//            font: null, // font for text
+//            color: '#000' // color for text
+//          }
+//        },
+//        xAxis: {
+//          dataLeftOffset: Math.max(0, $scope.history.length - 61),
+//          dataRightOffset: $scope.history.length - 1
+//        },
+//        series: [{
+//          type: 'candlestick',
+//          names: ['开盘','最高', '最低', '收盘'],
+//          upStroke: '#0C0',
+//          upColor: 'rgba(0, 255, 0, 0.4)',
+//          downStroke: '#C00',
+//          downColor: 'rgba(255, 0, 0, 0.5)'
+//        }, {
+//          type: 'volume',
+//          name: '成交量',
+//          dataOffset: 5,
+//          yAxis: 1,
+//          stroke: '#00C',
+//          upStroke: '#0C0',
+//          upColor: 'rgba(0, 255, 0, 0.4)',
+//          downStroke: '#C00',
+//          downColor: 'rgba(255, 0, 0, 0.5)'
+//        }]
+//      });
     });
 
     // polling
