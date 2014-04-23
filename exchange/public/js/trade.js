@@ -47,7 +47,6 @@ function routeConfig($routeProvider) {
     });
 }
 function httpConfig($httpProvider) {
-    console.log($httpProvider)
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
 

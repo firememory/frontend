@@ -1,0 +1,41 @@
+@()(implicit session: Session)
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
+    <div class="container">
+        <div class="">
+            <ul class="nav navbar-nav navbar-middle">
+                <li>
+                    <a href="/"><i class="fa fa-home"></i> 首页</a>
+                </li>
+                <li>
+                    <a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a>
+                </li>
+                <li>
+                    <a href="/market"><i class="fa fa-bar-chart-o"></i> 实时行情</a>
+                </li>
+                <li>
+                    <a href="/open"><i class="fa fa-folder-open"></i> 开放数据</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @session.get("uid") match {
+                case Some(uid: String) => {
+                <li>
+                    <a><strong>@session.get("username")</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> @uid</span></a>
+                </li>
+                <li>
+                    <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
+                </li>
+                }
+                case None => {
+                <li>
+                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
+                </li>
+                <li>
+                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
+                </li>
+                }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

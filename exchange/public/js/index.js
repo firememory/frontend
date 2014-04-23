@@ -17,7 +17,6 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
   $http.get('/api/candle', {params: {period: 5}})
     .success(function(response, status, headers, config) {
       $scope.history = response.data;
-//            $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function(data) {
             var data = response;
       		// split the data set into ohlc and volume
       		var ohlc = [],
@@ -39,8 +38,6 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
       			])
       		}
 
-      		console.log(ohlc, volume);
-
       		// set the allowed units for data grouping
       		var groupingUnits = [[
       			'hour',                         // unit name
@@ -54,26 +51,25 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
       		$('#candle-chart').highcharts('StockChart', {
 
       		    rangeSelector: {
-      				inputEnabled: $('#candle-chart').width() > 480,
+                    inputEnabled: false,
       		        selected: 1
       		    },
 
       		    yAxis: [{
       		        title: {
-      		            text: 'OHLC'
+                        text: '价格'
       		        },
       		        height: '60%',
       		        lineWidth: 2
       		    }, {
       		        title: {
-      		            text: 'Volume'
+                        text: '交易量'
       		        },
       		        top: '65%',
       		        height: '35%',
       		        offset: 0,
       		        lineWidth: 2
       		    }],
-
       		    series: [{
       		        type: 'candlestick',
       		        name: 'BTC',
@@ -91,8 +87,6 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
       		        }
       		    }]
       		});
-//      	});
-
 
 
 //      var chart = $('.candle-chart').jqCandlestick(
