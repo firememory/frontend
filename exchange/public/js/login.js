@@ -1,4 +1,8 @@
-angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar']).controller('LoginCtrl', function ($scope, $http, $window) {
+angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
+.config(function httpConfig($httpProvider) {
+  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+})
+.controller('LoginCtrl', function ($scope, $http, $window) {
   $scope.login = {};
   $scope.showEorror = false;
 
@@ -8,7 +12,7 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar']).contr
   };
 
   $scope.doLogin = function () {
-    $http.post('account/login', $scope.login)
+    $http.post('account/login', $.param($scope.login))
       .success(function(data, status, headers, config) {
         if (data.success) {
             showMessage(data.message);
