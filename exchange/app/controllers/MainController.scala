@@ -8,8 +8,11 @@ package controllers
 import play.api.mvc._
 import play.api.libs.iteratee.Enumerator
 import scala.concurrent.ExecutionContext.Implicits.global
+import com.coinport.coinex.api.model._
+import com.github.tototoshi.play2.json4s.native.Json4s
+import utils.HdfsAccess
 
-object MainController extends Controller {
+object MainController extends Controller with Json4s {
   def index = Action {
     implicit request =>
       Ok(views.html.index.render(session))
@@ -60,13 +63,25 @@ object MainController extends Controller {
       Ok(views.html.open.render(session))
   }
 
-  def data(fileName: String) = Action {
-    val path = "/data/export/" + fileName
-    val file = new java.io.File(path)
-    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(file)
+  def downloadFromHdfs(path: String, filename: String) = Action {
+    val stream = HdfsAccess.getFileStream(path, filename)
+    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
+      .onDoneEnumerating {
+      stream.close()
+    }
+
     SimpleResult(
       header = ResponseHeader(200),
       body = fileContent
-    ).withHeaders("Content-Disposition" -> "attachment")
+    ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
+  }
+
+  def listFilesFromHdfs(path: String) = Action {
+    val files = HdfsAccess.listFiles(path)
+      .sortWith((a, b) => a.updated > b.updated)
+
+    val result = ApiResult(data = Some(files))
+
+    Ok(result.toJson)
   }
 }

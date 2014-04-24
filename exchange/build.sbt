@@ -21,7 +21,9 @@ libraryDependencies ++= {
     "com.github.tototoshi" %% "play-json4s-native" % "0.2.0",
     "com.github.tototoshi" %% "play-json4s-test-native" % "0.2.0" % "test",
     "com.coinport" %% "coinex-client" % "1.1.5-SNAPSHOT",
-    "com.octo.captcha" % "jcaptcha" % "1.0"
+    "com.octo.captcha" % "jcaptcha" % "1.0",
+    "org.apache.hadoop" % "hadoop-core" % "1.1.2",
+    "org.apache.hadoop" % "hadoop-client" % "1.1.2"
   )
 }
 

@@ -36,9 +36,9 @@ GET     /api/transaction            controllers.MessageController.transactions()
 GET     /api/*market/transaction/*tid       controllers.MessageController.transaction(market, tid)
 GET     /api/*market/order/*oid/transaction   controllers.MessageController.orderTransaction(market, oid)
 GET     /api/*currency/transfer/*uid      controllers.MessageController.transfers(currency, uid)
-GET     /api/open/data/*type       controllers.MessageController.exportDataFiles(type)
+GET     /api/open/data/*type       controllers.MainController.listFilesFromHdfs(type)
 
-GET     /data/*file                 controllers.MainController.data(file)
+GET     /download/*path/*file                 controllers.MainController.downloadFromHdfs(path, file)
 GET     /api/*file                  controllers.Assets.at(path="/public/data", file)
 
 # Default path to /public

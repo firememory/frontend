@@ -35,9 +35,9 @@
         </div>
     </div>
     <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="row">
-            <h4>用户充值提现数据</h4>
+            <h4>事件数据</h4>
         </div>
         <div class="row">
             <table class="table table-condensed" style="width: 90%;">
@@ -50,19 +50,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="file in dw">
+                <tr ng-repeat="file in messages">
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
-                    <td><a href="/data/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="col-md-6">
+    </div>
+    <div class="row">
+    <div class="col-md-12">
         <div class="row">
-            <h4>用户订单数据</h4>
+            <h4>状态数据</h4>
         </div>
         <div class="row">
             <table class="table table-condensed" style="width: 90%;">
@@ -75,11 +77,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="file in mu">
+                <tr ng-repeat="file in snapshots">
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
-                    <td><a href="/data/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
                 </tr>
                 </tbody>
             </table>

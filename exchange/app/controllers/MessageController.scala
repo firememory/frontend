@@ -15,8 +15,8 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
-import java.io.File
-import models.FileItem
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem
 
 object MessageController extends Controller with Json4s {
 
@@ -92,7 +92,7 @@ object MessageController extends Controller with Json4s {
   def asset(uid: String) = Action.async {
     implicit request =>
       val to = System.currentTimeMillis()
-      val from = to  - 30 * 60 * 1000
+      val from = to - 30 * 60 * 1000
 
       MarketService.getAsset(uid.toLong, from, to, Currency.Rmb).map(rv => Ok(rv.toJson))
   }
@@ -192,20 +192,6 @@ object MessageController extends Controller with Json4s {
     implicit request =>
       val side: MarketSide = market
       MarketService.getTickers(Set(side)).map(result => Ok(result.toJson))
-  }
-
-  def exportDataFiles(dataType: String) = Action {
-    implicit request =>
-    // TODO: load path from config
-      val dir = new File("/data/export/")
-      val files = dir.listFiles
-        .filter(_.getName contains "_" + dataType + "_")
-        .sortWith((a, b) => a.getName > b.getName)
-        .map(file => FileItem(file.getName, file.length, file.lastModified))
-
-      val result = ApiResult(data = Some(files))
-
-      Ok(result.toJson)
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

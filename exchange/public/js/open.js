@@ -6,13 +6,13 @@ openApp.controller('OpenCtrl', function ($scope, $http) {
         $scope.accounts = data.data.accounts;
     });
 
-    $http.get('/api/open/data/dw')
+    $http.get('/api/open/data/messages')
     .success(function(data, status, headers, config) {
-        $scope.dw = data.data;
+        $scope.messages = data.data;
     });
 
-    $http.get('/api/open/data/mu')
+    $http.get('/api/open/data/snapshot')
     .success(function(data, status, headers, config) {
-        $scope.mu = data.data;
+        $scope.snapshots = data.data;
     });
 });
