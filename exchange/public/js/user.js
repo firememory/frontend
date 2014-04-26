@@ -10,12 +10,12 @@ userApp.controller('UserCtrl', function ($scope, $http, $window) {
         $scope.accounts = data.data.accounts;
     });
 
-    $http.get('/api/user/' + $scope.targetUid + '/transaction/BTCRMB', {params: {}})
+    $http.get('/api/user/' + $scope.targetUid + '/transaction/BTCCNY', {params: {}})
       .success(function(data, status, headers, config) {
         $scope.transactions = data.data;
     });
 
-    $http.get('/api/RMB/transfer/' + $scope.targetUid, {params: {status: 1}})
+    $http.get('/api/CNY/transfer/' + $scope.targetUid, {params: {status: 1}})
       .success(function(data, status, headers, config) {
         $scope.dw.CNY = data.data;
     });

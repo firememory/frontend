@@ -58,7 +58,7 @@ function BidAskCtrl($scope, $http) {
     $scope.transactions = [];
     $scope.bid = {price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
-    $scope.account = {RMB: 0, BTC: 0}
+    $scope.account = {CNY: 0, BTC: 0}
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.config = {
@@ -178,16 +178,16 @@ function BidAskCtrl($scope, $http) {
       });
 
     var updateBidTotal = function() {
-        if(!$scope.account || $scope.account.RMB == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
+        if(!$scope.account || $scope.account.CNY == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = $scope.bid.price * $scope.bid.amount;
-        if(total > $scope.account.RMB) {
-            total = $scope.account.RMB;
+        if(total > $scope.account.CNY) {
+            total = $scope.account.CNY;
 //            updateBidAmount();
         }
         $scope.bid.total = total
         $scope.info.fundingLocked = total;
-        $scope.info.fundingRemaining = $scope.account.RMB - total;
+        $scope.info.fundingRemaining = $scope.account.CNY - total;
         console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
@@ -198,7 +198,7 @@ function BidAskCtrl($scope, $http) {
 
     var updateAskTotal = function() {
         console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
-        if(!$scope.account || $scope.account.RMB == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
+        if(!$scope.account || $scope.account.CNY == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
         var total = $scope.ask.price * $scope.ask.amount;
 
@@ -227,7 +227,7 @@ function BidAskCtrl($scope, $http) {
             $scope.info.bidMessage = '数量不能小于0';
             return;
         }
-        if ($scope.bid.total > $scope.account.RMB) {
+        if ($scope.bid.total > $scope.account.CNY) {
             $scope.info.bidMessage = '余额不足';
             return;
         }
@@ -255,7 +255,7 @@ function BidAskCtrl($scope, $http) {
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
-                $scope.account.RMB -= order.total;
+                $scope.account.CNY -= order.total;
                 $scope.orders.push(order);
             } else {
                 // handle errors
@@ -309,7 +309,7 @@ function BidAskCtrl($scope, $http) {
         $scope.bid.total = amount;
         $scope.bidOptions.limitTotal = true;
         $scope.info.fundingLocked = amount;
-        $scope.info.fundingRemaining = $scope.account.RMB - amount;
+        $scope.info.fundingRemaining = $scope.account.CNY - amount;
     }
 
     $scope.clickQuantity = function(quantity) {
@@ -377,15 +377,15 @@ function BidAskCtrl($scope, $http) {
 tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('/api/account/' + $scope.uid)
       .success(function(data, status, headers, config) {
-        $scope.balance = data.data.accounts['RMB'];
+        $scope.balance = data.data.accounts['CNY'];
     });
 
-    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 0}})
+    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 0}})
       .success(function(data, status, headers, config) {
         $scope.deposits = data.data;
     });
 
-    $scope.depositData = {currency: 'RMB'};
+    $scope.depositData = {currency: 'CNY'};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
@@ -400,15 +400,15 @@ tradeApp.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http
 tradeApp.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('/api/account/' + $scope.uid)
         .success(function(data, status, headers, config) {
-            $scope.balance = data.data.accounts['RMB'];
+            $scope.balance = data.data.accounts['CNY'];
         });
 
-    $http.get('/api/RMB/transfer/' + $scope.uid, {params: {'type': 1}})
+    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 1}})
         .success(function(data, status, headers, config) {
             $scope.withdrawals = data.data;
         });
 
-    $scope.withdrawalData = {currency: 'RMB'};
+    $scope.withdrawalData = {currency: 'CNY'};
     $scope.withdrawal = function() {
         var amount = $scope.amount;
         console.log('withdrawal ' , $scope.withdrawalData);
@@ -519,7 +519,7 @@ tradeApp.controller('AssetCtrl', function ($scope, $http) {
                 console.log("asset", asset);
                 var time = new Date(asset.timestamp);
                 var btc = asset.amountMap["Btc"];
-                var cny = asset.amountMap["Rmb"];
+                var cny = asset.amountMap["Cny"];
 
                 assetData.push({date: time, value1: cny, value2: btc});
             });
@@ -564,7 +564,7 @@ tradeApp.controller('AssetCtrl', function ($scope, $http) {
 });
 
 tradeApp.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
-    $http.get('/api/user/' + $scope.uid + '/transaction/BTCRMB', {params: {}})
+    $http.get('/api/user/' + $scope.uid + '/transaction/BTCCNY', {params: {}})
           .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
           });
@@ -584,7 +584,7 @@ tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($
     $scope.cancelOrder = function(id) {
         $http.get('/trade/order/cancel/' + id)
             .success(function(data, status, headers, config) {
-                $scope.refresh();
+                
             });
     };
 }]);

@@ -2,7 +2,7 @@ var app = angular.module('coinport.index', ['ui.bootstrap', 'ngResource', 'coinp
 
 app.controller('IndexCtrl', function ($scope, $http, $modal) {
   var refresh = function() {
-      $http.get('api/BTCRMB/ticker')
+      $http.get('api/BTCCNY/ticker')
         .success(function(data, status, headers, config) {
           $scope.tickers = data.data;
         });

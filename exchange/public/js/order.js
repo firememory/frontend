@@ -8,7 +8,7 @@ orderApp.controller('OrderCtrl', function ($scope, $http, $window) {
         $scope.order = data.data[0];
     });
 
-    $http.get('/api/BTCRMB/order/' + $scope.oid + '/transaction', {params: {}})
+    $http.get('/api/BTCCNY/order/' + $scope.oid + '/transaction', {params: {}})
       .success(function(data, status, headers, config) {
         $scope.transactions = data.data;
     });

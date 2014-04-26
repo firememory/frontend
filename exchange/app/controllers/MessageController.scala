@@ -30,7 +30,7 @@ object MessageController extends Controller with Json4s {
       val query = request.queryString
       val depth = getParam(query, "depth", "5").toInt
 
-      MarketService.getDepth(Btc ~> Rmb, depth).map(result => Ok(result.toJson))
+      MarketService.getDepth(Btc ~> Cny, depth).map(result => Ok(result.toJson))
   }
 
   def getUserOrders = Action.async {
@@ -64,7 +64,7 @@ object MessageController extends Controller with Json4s {
             case "bid" => Operations.Buy
             case "ask" => Operations.Sell
           }
-          val order = UserOrder(id, operation, Btc, Rmb, price, amount, total, submitTime = System.currentTimeMillis)
+          val order = UserOrder(id, operation, Btc, Cny, price, amount, total, submitTime = System.currentTimeMillis)
 
           AccountService.submitOrder(order).map(result => Ok(result.toJson))
 
@@ -94,7 +94,7 @@ object MessageController extends Controller with Json4s {
       val to = System.currentTimeMillis()
       val from = to - 30 * 60 * 1000
 
-      MarketService.getAsset(uid.toLong, from, to, Currency.Rmb).map(rv => Ok(rv.toJson))
+      MarketService.getAsset(uid.toLong, from, to, Currency.Cny).map(rv => Ok(rv.toJson))
   }
 
   def deposit = Authenticated.async(parse.urlFormEncoded) {
@@ -153,7 +153,7 @@ object MessageController extends Controller with Json4s {
       val from = fromParam.toLong
       val to = toParam.toLong
 
-      MarketService.getHistory(Btc ~> Rmb, timeDimension, from, to).map(result => Ok(result.toJson))
+      MarketService.getHistory(Btc ~> Cny, timeDimension, from, to).map(result => Ok(result.toJson))
   }
 
   def transactions = Action.async {
@@ -162,7 +162,7 @@ object MessageController extends Controller with Json4s {
       val limit = getParam(query, "limit", "20").toInt
       val skip = getParam(query, "skip", "0").toInt
 
-      MarketService.getGlobalTransactions(Btc ~> Rmb, skip, limit).map(result => Ok(result.toJson))
+      MarketService.getGlobalTransactions(Btc ~> Cny, skip, limit).map(result => Ok(result.toJson))
   }
 
   def transaction(side: String, tid: String) = Action.async {

@@ -46,7 +46,7 @@
                     <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
                 </td>
                 <td>
-                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order.tid)">撤单</button>
+                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">撤单</button>
                 </td>
             </tr>
             </tbody>

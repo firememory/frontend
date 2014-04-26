@@ -4,7 +4,7 @@ var txApp = angular.module('coinport.transaction', ['ui.bootstrap', 'ngResource'
 txApp.controller('TxCtrl', function ($scope, $http, $window) {
     $scope.tid = $window.location.pathname.replace("/transaction/", "");
     console.log('query transaction', $scope.tid);
-    $http.get('/api/BTCRMB/transaction/' + $scope.tid, {params: {}})
+    $http.get('/api/BTCCNY/transaction/' + $scope.tid, {params: {}})
       .success(function(data, status, headers, config) {
         $scope.transaction = data.data[0];
     });
