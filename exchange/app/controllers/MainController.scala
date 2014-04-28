@@ -28,6 +28,11 @@ object MainController extends Controller with Json4s {
       }
   }
 
+  def account() = Action {
+    implicit request =>
+      Ok(views.html.account.render(session))
+  }
+
   def market = Action {
     implicit request =>
       Ok(views.html.market.render(session))

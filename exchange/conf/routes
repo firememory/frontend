@@ -5,6 +5,7 @@
 GET     /                           controllers.MainController.index()
 GET     /trade                       controllers.MainController.trade()
 GET     /market                       controllers.MainController.market()
+GET     /account                       controllers.MainController.account()
 GET     /user/*uid                  controllers.MainController.user(uid)
 GET     /register                   controllers.MainController.register()
 GET     /login                      controllers.MainController.login()
