@@ -20,17 +20,15 @@
                 <table class="table table-condensed table-striped">
                     <thead>
                     <tr>
-                        <th>币种</th><th>余额</th>
+                        <th>币种</th><th>可用余额</th><th>挂单金额</th><th>提现冻结金额</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>CNY</td>
-                        <td><i class="fa fa-cny"></i> {{accounts['CNY']}}</td>
-                    </tr>
-                    <tr>
-                        <td>BTC</td>
-                        <td><i class="fa fa-btc"></i> {{accounts['BTC']}}</td>
+                    <tr ng-repeat="account in accounts">
+                        <td>{{account.currency}}</td>
+                        <td>{{account.available.display_short}}</td>
+                        <td>{{account.locked.display_short}}</td>
+                        <td>{{account.pendingWithdrawal.display_short}}</td>
                     </tr>
                     </tbody>
                 </table>

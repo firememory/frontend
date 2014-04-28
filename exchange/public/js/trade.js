@@ -2,12 +2,12 @@ var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', '
 
 function routeConfig($routeProvider) {
     $routeProvider.
-    when('/', {
+    when('/:market', {
         controller: 'BidAskCtrl',
         templateUrl: 'views/bidask.html'
     }).
     otherwise({
-        redirectTo: '/'
+        redirectTo: '/btccny'
     });
 }
 function httpConfig($httpProvider) {
@@ -17,17 +17,20 @@ function httpConfig($httpProvider) {
 tradeApp.config(routeConfig);
 tradeApp.config(httpConfig);
 
-function BidAskCtrl($scope, $http) {
+function BidAskCtrl($scope, $http, $routeParams) {
+    $scope.market = $routeParams.market.toUpperCase();
+    $scope.subject = $scope.market.substr(0, 3);
+    $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
     $scope.transactions = [];
-    $scope.bid = {price: 4000, amount: 0, total: 0};
-    $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
-    $scope.account = {CNY: {}, BTC: {}}
+    $scope.bid = {price: 0, amount: 0, total: 0};
+    $scope.ask = {type: 'ask', price: 0, amount: 0, total: 0};
+    $scope.account = {};
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.config = {
-        bidButtonLabel: '买入 CNY-BTC',
-        askButtonLabel: '卖出 BTC-CNY'};
+        bidButtonLabel: '买入 ' + $scope.subject + '-' + $scope.currency,
+        askButtonLabel: '卖出 ' + $scope.currency + '-' + $scope.subject};
     $scope.info = {
         fundingLocked: 0,
         fundingRemaining: 0,
@@ -40,14 +43,14 @@ function BidAskCtrl($scope, $http) {
         askButtonLabel: $scope.config.askButtonLabel};
 
     $scope.updateOrders = function() {
-        $http.get('api/order')
+        $http.get('/api/order')
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data;
         });
     };
 
     $scope.updateTransactions = function() {
-        $http.get('api/transaction', {params: {limit: 15, skip: 0}})
+        $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
             console.log('transactions', data);
             $scope.transactions = data.data;
@@ -58,7 +61,7 @@ function BidAskCtrl($scope, $http) {
     };
 
     $scope.updateDepth = function() {
-        $http.get('api/depth')
+        $http.get('/api/' + $scope.market + '/depth')
             .success(function(data, status, headers, config) {
                 $scope.depth = data.data;
                 $scope.depth.asks.reverse();
@@ -66,7 +69,7 @@ function BidAskCtrl($scope, $http) {
     };
 
     $scope.updateBestPrice = function() {
-        $http.get('api/depth')
+        $http.get('/api/' + $scope.market + '/depth')
             .success(function(data, status, headers, config) {
                 $scope.ask.price = data.data.bids[0].price;
                 $scope.bid.price = data.data.asks[0].price;
@@ -83,12 +86,12 @@ function BidAskCtrl($scope, $http) {
     $scope.updateTransactions();
     $scope.updateBestPrice();
 
-    $http.get('api/account/' + $scope.uid)
+    $http.get('/api/account/' + $scope.uid)
         .success(function(data, status, headers, config) {
             $scope.account = data.data.accounts;
     });
 
-    $http.get('api/history', {params: {period: 5}})
+    $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})
       .success(function(data, status, headers, config) {
         $scope.history = data.data
         var chart = $('.candle-chart').jqCandlestick($scope.history, {
@@ -142,16 +145,16 @@ function BidAskCtrl($scope, $http) {
       });
 
     var updateBidTotal = function() {
-        if(!$scope.account || $scope.account.CNY == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
+        if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = $scope.bid.price * $scope.bid.amount;
-        if(total > $scope.account.CNY) {
-            total = $scope.account.CNY;
+        if(total > $scope.account[$scope.currency]) {
+            total = $scope.account[$scope.currency];
 //            updateBidAmount();
         }
         $scope.bid.total = total
         $scope.info.fundingLocked = total;
-        $scope.info.fundingRemaining = $scope.account.CNY - total;
+        $scope.info.fundingRemaining = $scope.account[$scope.currency] - total;
         console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
@@ -162,13 +165,13 @@ function BidAskCtrl($scope, $http) {
 
     var updateAskTotal = function() {
         console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
-        if(!$scope.account || $scope.account.CNY == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
+        if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
         var total = $scope.ask.price * $scope.ask.amount;
 
         $scope.info.income = total
         $scope.info.quantityLocked = $scope.ask.amount;
-        $scope.info.quantityRemaining = $scope.account.BTC - $scope.info.quantityLocked;
+        $scope.info.quantityRemaining = $scope.account[$scope.subject] - $scope.info.quantityLocked;
     };
 
     var updateAskAmount = function() {
@@ -191,7 +194,7 @@ function BidAskCtrl($scope, $http) {
             $scope.info.bidMessage = '数量不能小于0';
             return;
         }
-        if ($scope.bid.total > $scope.account.CNY) {
+        if ($scope.bid.total > $scope.account[$scope.currency]) {
             $scope.info.bidMessage = '余额不足';
             return;
         }
@@ -213,13 +216,13 @@ function BidAskCtrl($scope, $http) {
         if ($scope.bidOptions.limitTotal)
             payload.total = $scope.bid.total;
 
-        $http.post('trade/bid', $.param(payload))
+        $http.post('/trade/' + $scope.market + '/bid', $.param(payload))
           .success(function(data, status, headers, config) {
             console.log('bid order sent, response:', data);
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
-                $scope.account.CNY -= order.total;
+                $scope.account[$scope.currency] -= order.total;
                 $scope.orders.push(order);
             } else {
                 // handle errors
@@ -233,7 +236,7 @@ function BidAskCtrl($scope, $http) {
             $scope.info.askMessage = '数量不能小于0';
             return;
         }
-        if ($scope.ask.amount > $scope.account.BTC) {
+        if ($scope.ask.amount > $scope.account[$scope.subject]) {
             $scope.info.askMessage = '余额不足';
             return;
         }
@@ -255,7 +258,7 @@ function BidAskCtrl($scope, $http) {
         if ($scope.askOptions.limitTotal)
             payload.total = $scope.ask.total;
 
-        $http.post('trade/bid', $.param(payload))
+        $http.post('/trade/' + $scope.market + '/ask', $.param(payload))
           .success(function(data, status, headers, config) {
             console.log('bid order sent, response:', data);
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;
@@ -273,7 +276,7 @@ function BidAskCtrl($scope, $http) {
         $scope.bid.total = amount;
         $scope.bidOptions.limitTotal = true;
         $scope.info.fundingLocked = amount;
-        $scope.info.fundingRemaining = $scope.account.CNY - amount;
+        $scope.info.fundingRemaining = $scope.account[$scope.currency] - amount;
     }
 
     $scope.clickQuantity = function(quantity) {
@@ -314,7 +317,7 @@ function BidAskCtrl($scope, $http) {
     }
 
     $scope.cancelOrder = function(id) {
-        $http.get('trade/BTCCNY/order/cancel/' + id)
+        $http.get('/trade/' + $scope.market + '/order/cancel/' + id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     var order = data.data;

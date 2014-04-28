@@ -9,17 +9,17 @@ function routeConfig($routeProvider) {
         controller: 'DepositRmbCtrl',
         templateUrl: 'views/deposit-CNY.html'
     }).
-    when('/deposit/btc', {
-        controller: 'DepositBtcCtrl',
-        templateUrl: 'views/deposit-BTC.html'
+    when('/deposit/:currency', {
+        controller: 'DepositCtrl',
+        templateUrl: 'views/deposit.html'
     }).
     when('/withdrawal/rmb', {
         controller: 'WithdrawalRmbCtrl',
         templateUrl: 'views/withdrawal-CNY.html'
     }).
-    when('/withdrawal/btc', {
-        controller: 'WithdrawalBtcCtrl',
-        templateUrl: 'views/withdrawal-BTC.html'
+    when('/withdrawal/:currency', {
+        controller: 'WithdrawalCtrl',
+        templateUrl: 'views/withdrawal.html'
     }).
     when('/asset', {
             controller: 'AssetCtrl',
@@ -102,49 +102,51 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $http) 
     };
 }]);
 
-app.controller('DepositBtcCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+    $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
           .success(function(data, status, headers, config) {
-            $scope.balance = data.data.accounts['BTC'];
+            $scope.balance = data.data.accounts[$scope.currency];
     });
 
-    $http.get('/api/BTC/transfer/' + $scope.uid, {params: {'type': 0}})
+    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 0}})
       .success(function(data, status, headers, config) {
         $scope.deposits = data.data;
     });
 
-    $scope.depositData = {currency: 'BTC'};
+    $scope.depositData = {currency: $scope.currency};
     $scope.deposit = function() {
         var amount = $scope.amount;
         console.log('deposit ' + $scope.depositData.amount);
         $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
             var deposit = data.data.transfer;
-            alert('充值成功，本次充值' + deposit.amount/1000 + 'BTC');
+            alert('充值成功，本次充值' + deposit.amount/1000 + $scope.currency);
           });
     };
 }]);
 
-app.controller('WithdrawalBtcCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+    $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
         .success(function(data, status, headers, config) {
-            console.log(data.data.accounts['BTC'])
-            $scope.balance = data.data.accounts['BTC'];
+            console.log(data.data.accounts[$scope.currency])
+            $scope.balance = data.data.accounts[$scope.currency];
         });
 
-    $http.get('/api/BTC/transfer/' + $scope.uid, {params: {'type': 1}})
+    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 1}})
         .success(function(data, status, headers, config) {
             $scope.withdrawals = data.data;
         });
 
-    $scope.withdrawalData = {currency: 'BTC'};
+    $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function() {
         console.log('withdrawal ' + $scope.withdrawalData.amount);
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
-                    alert('提现成功，本次提现' + withdrawal.amount/1000 + 'BTC');
+                    alert('提现成功，本次提现' + withdrawal.amount/1000 + $scope.currency);
                 } else {
                     alert(data.message);
                 }

@@ -25,14 +25,14 @@
 <div class="row">
     <div class="col-md-4">
         <div class="buy_sell_box">
-            <div class="box_title">买入BTC</div>
+            <div class="box_title">买入{{subject}}</div>
             <div class="box_subtitle">
                 <!--冻结金额-->
                 <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
                 <!--可用余额-->
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
                 总资金
-                <span class="badge badge-info link" ng-click="clickFunding(account.CNY.available.diplay_short)">{{account.CNY.available.display_short}}</span>
+                <span class="badge badge-info link" ng-click="clickFunding(account[currency].available.diplay_short)">{{account[currency].available.display_short}}</span>
                 <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">普通模式</a>
                 <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">高级模式</a>
                 <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
@@ -101,14 +101,14 @@
     </div>
     <div class="col-md-4">
         <div class="buy_sell_box ">
-            <div class="box_title">卖出BTC</div>
+            <div class="box_title">卖出{{subject}}</div>
             <div class="box_subtitle">
                 <!--冻结数量-->
                 <!--<span class="badge badge-info">{{info.quantityLocked}}</span>-->
                 <!--可用数量-->
                 <!--<span class="badge badge-info link" ng-click="clickQuantity(info.quantityRemaining)">{{info.quantityRemaining}}</span>-->
                 总数量
-                <span class="badge badge-info link" ng-click="clickQuantity(account.BTC)">{{account.BTC.available.display_short}}</span>
+                <span class="badge badge-info link" ng-click="clickQuantity(account[subject])">{{account[subject].available.display_short}}</span>
                 <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">普通模式</a>
                 <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">高级模式</a>
                 <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>

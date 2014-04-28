@@ -1,6 +1,11 @@
-var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'coinport.app', 'navbar']);
+var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'ngRoute', 'coinport.app', 'navbar']);
 
-marketApp.controller('MarketCtrl', function ($scope, $http) {
+marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
+    if ($location.path() == '/')
+        $location.path('/btccny');
+    $scope.market = $location.path().replace('/', '').toUpperCase();
+    $scope.subject = $scope.market.substr(0, 3);
+    $scope.currency = $scope.market.substr(3);
     $scope.history = [];
     $scope.lastUpdate = new Date().getTime();
     $scope.candleParam = {period: 4};
@@ -34,11 +39,11 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
         $scope.$broadcast('timer-stop');
     };
     $scope.refresh = function() {
-        $http.get('api/price')
+        $http.get('/api/price')
             .success(function(data, status, headers, config) {
                 $scope.price = data.ticker;
             });
-        $http.get('api/history', {params: $scope.candleParam})
+        $http.get('/api/' + $scope.market + '/history', {params: $scope.candleParam})
             .success(function(data, status, headers, config) {
                 $scope.history = data.data;
                 if ($scope.candleChart == null) {
@@ -86,13 +91,13 @@ marketApp.controller('MarketCtrl', function ($scope, $http) {
                 $scope.candleChart.setData($scope.history);
             });
 
-        $http.get('api/depth', {params: {depth: 10}})
+        $http.get('/api/' + $scope.market + '/depth', {params: {depth: 10}})
             .success(function(data, status, headers, config) {
                 $scope.depth = data.data;
                 $scope.depth.asks.reverse();
             });
 
-        $http.get('api/transaction', {params: {limit: 40, skip: 0}})
+        $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 40, skip: 0}})
             .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
                 if ($scope.transactions.length > 0) {

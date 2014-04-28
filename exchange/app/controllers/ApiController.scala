@@ -23,12 +23,12 @@ object ApiController extends Controller with Json4s {
 
   implicit val timeout = Timeout(2 seconds)
 
-  def depth = Action.async {
+  def depth(market: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val depth = getParam(query, "depth", "5").toInt
 
-      MarketService.getDepth(Btc ~> Cny, depth).map(result => Ok(result.toJson))
+      MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
   def getUserOrders = Action.async {
@@ -48,8 +48,10 @@ object ApiController extends Controller with Json4s {
       AccountService.getOrders(None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
   }
 
-  def submitOrder() = Authenticated.async(parse.urlFormEncoded) {
+  def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
+      val subject = market.substring(0, 3);
+      val currency = market.substring(3);
       val data = request.body
       session.get("uid") match {
         case Some(id) =>
@@ -62,7 +64,7 @@ object ApiController extends Controller with Json4s {
             case "bid" => Operations.Buy
             case "ask" => Operations.Sell
           }
-          val order = UserOrder(id, operation, Btc, Cny, price, amount, total, submitTime = System.currentTimeMillis)
+          val order = UserOrder(id, operation, subject, currency, price, amount, total, submitTime = System.currentTimeMillis)
 
           AccountService.submitOrder(order).map(result => Ok(result.toJson))
 
@@ -138,7 +140,7 @@ object ApiController extends Controller with Json4s {
       }
   }
 
-  def history = Action.async {
+  def history(market: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
@@ -151,16 +153,16 @@ object ApiController extends Controller with Json4s {
       val from = fromParam.toLong
       val to = toParam.toLong
 
-      MarketService.getHistory(Btc ~> Cny, timeDimension, from, to).map(result => Ok(result.toJson))
+      MarketService.getHistory(market, timeDimension, from, to).map(result => Ok(result.toJson))
   }
 
-  def transactions = Action.async {
+  def transactions(market: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val limit = getParam(query, "limit", "20").toInt
       val skip = getParam(query, "skip", "0").toInt
 
-      MarketService.getGlobalTransactions(Btc ~> Cny, skip, limit).map(result => Ok(result.toJson))
+      MarketService.getGlobalTransactions(market, skip, limit).map(result => Ok(result.toJson))
   }
 
   def transaction(side: String, tid: String) = Action.async {

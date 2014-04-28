@@ -15,14 +15,14 @@
         </thead>
         <tbody>
         <tr ng-repeat="account in accounts">
-            <td><i class="fa fa-{{account.currency.toLowerCase()}}"></i> {{account.currency}}</td>
+            <td>{{account.currency}}</td>
             <td>{{account.available.display_short}}</td>
             <td>{{account.locked.display_short}}</td>
             <td>{{account.pendingWithdrawal.display_short}}</td>
             <td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
             <td><i class="fa fa-cny"></i> {{account.total}}</td>
             <td><i class="fa fa-cny"></i> {{account.asset}}</td>
-            <td><a href="#/deposit/{{account[0].toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+            <td><a href="#/deposit/{{account.currency}}">充值</a>&nbsp;&nbsp;<a href="#/withdrawal/{{account.currency}}">提现</a></td>
         </tr>
         </tbody>
     </table>
