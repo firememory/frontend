@@ -15,10 +15,8 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.FileSystem
 
-object MessageController extends Controller with Json4s {
+object ApiController extends Controller with Json4s {
 
   import akka.util.Timeout
   import scala.concurrent.duration._
@@ -72,11 +70,11 @@ object MessageController extends Controller with Json4s {
       }
   }
 
-  def cancelOrder(id: String) = Authenticated.async {
+  def cancelOrder(market: String, id: String) = Authenticated.async {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
-          AccountService.cancelOrder(id.toLong, uid.toLong).map(result => Ok(result.toJson()))
+          AccountService.cancelOrder(id.toLong, uid.toLong, market).map(result => Ok(result.toJson()))
         case None => Future(Unauthorized)
       }
   }
@@ -85,7 +83,7 @@ object MessageController extends Controller with Json4s {
     implicit request =>
       AccountService.getAccount(uid.toLong) map {
         case result =>
-          Ok(result.toJson)
+         Ok(result.toJson)
       }
   }
 

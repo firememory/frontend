@@ -6,23 +6,24 @@
         <div id="user-finance-chart-pie"></div>
     </div>
 </div>
-<!--<div id="user-finance-table-div" class="row">-->
-    <!--<table id="user-finance-table" class="table table-condensed table-striped">-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>总数量</th><th>价格</th><th>价值(估算)</th><th>操作</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr ng-repeat="asset in assets">-->
-            <!--<td><i class="fa fa-{{asset[0].toLowerCase()}}"></i> {{asset[0]}}</td>-->
-            <!--<td>{{accounts[asset[0]]}}</td>-->
-            <!--<td></td>-->
-            <!--<td></td>-->
-            <!--<td><i class="fa fa-cny"></i> {{prices[asset[0]] | currency}}</td>-->
-            <!--<td><i class="fa fa-cny"></i> {{asset[1] | currency}}</td>-->
-            <!--<td><a href="#/deposit/{{asset[0].toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
-<!--</div>-->
+<div id="user-finance-table-div" class="row">
+    <table id="user-finance-table" class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>提现冻结数量</th><th>总数量</th><th>价格</th><th>价值(估算)</th><th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="account in accounts">
+            <td><i class="fa fa-{{account.currency.toLowerCase()}}"></i> {{account.currency}}</td>
+            <td>{{account.available.display_short}}</td>
+            <td>{{account.locked.display_short}}</td>
+            <td>{{account.pendingWithdrawal.display_short}}</td>
+            <td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
+            <td><i class="fa fa-cny"></i> {{account.total}}</td>
+            <td><i class="fa fa-cny"></i> {{account.asset}}</td>
+            <td><a href="#/deposit/{{account[0].toLowerCase()}}">充值</a>&nbsp;&nbsp;<a href="#">提现</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -58,7 +58,7 @@ function BidAskCtrl($scope, $http) {
     $scope.transactions = [];
     $scope.bid = {price: 4000, amount: 0, total: 0};
     $scope.ask = {type: 'ask', price: 5000, amount: 0, total: 0};
-    $scope.account = {CNY: 0, BTC: 0}
+    $scope.account = {CNY: {}, BTC: {}}
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: false, advanced: false};
     $scope.config = {
@@ -350,8 +350,7 @@ function BidAskCtrl($scope, $http) {
     }
 
     $scope.cancelOrder = function(id) {
-        console.log('cancel order', id);
-        $http.get('trade/order/cancel/' + id)
+        $http.get('trade/BTCCNY/order/cancel/' + id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     var order = data.data;
@@ -362,7 +361,6 @@ function BidAskCtrl($scope, $http) {
 
     // polling
     $scope.$on('timer-tick', function (event, args) {
-//        console.log('polling', args);
         $scope.refresh();
     });
 
@@ -483,11 +481,23 @@ tradeApp.controller('AssetCtrl', function ($scope, $http) {
             for(asset in map) {
                 $scope.pieData.push([asset, map[asset]]);
             }
+            console.log($scope.pieData)
             $scope.updateAsset();
         });
 
     $scope.updateAsset = function() {
-    // TODO: use ticker API instead
+        $http.get('api/account/' + $scope.uid)
+            .success(function(data, status, headers, config) {
+                $scope.accounts = data.data.accounts;
+                var map = $scope.assets[$scope.assets.length-1].amountMap;
+                for (currency in $scope.accounts) {
+                    var account = $scope.accounts[currency];
+                    account.total = account.available.value + account.locked.value + account.pendingWithdrawal.value;
+                    account.asset = map[currency];
+                }
+                console.log($scope.accounts)
+            });
+
         $('#user-finance-chart-pie').jqChart({
             title: { text: '资产构成' },
             legend: {},
@@ -582,9 +592,9 @@ tradeApp.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($
     };
 
     $scope.cancelOrder = function(id) {
-        $http.get('/trade/order/cancel/' + id)
+        $http.get('/trade/BTCCNY/order/cancel/' + id)
             .success(function(data, status, headers, config) {
-                
+
             });
     };
 }]);

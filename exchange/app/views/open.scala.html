@@ -22,13 +22,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>CNY</td>
-                    <td><i class="fa fa-cny"></i> {{accounts['CNY']}}</td>
-                </tr>
-                <tr>
-                    <td>BTC</td>
-                    <td><i class="fa fa-btc"></i> {{accounts['BTC']}}</td>
+                <tr ng-repeat="account in accounts">
+                    <td>{{account.currency}}</td>
+                    <td><i class="fa fa-cny"></i> {{account.available.display_short}}</td>
                 </tr>
                 </tbody>
             </table>
