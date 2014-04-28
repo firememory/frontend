@@ -23,7 +23,8 @@ libraryDependencies ++= {
     "com.coinport" %% "coinex-client" % "1.1.8-SNAPSHOT",
     "com.octo.captcha" % "jcaptcha" % "1.0",
     "org.apache.hadoop" % "hadoop-core" % "1.1.2",
-    "org.apache.hadoop" % "hadoop-client" % "1.1.2"
+    "org.apache.hadoop" % "hadoop-client" % "1.1.2",
+    "com.twilio.sdk" % "twilio-java-sdk" % "3.4.1"
   )
 }
 

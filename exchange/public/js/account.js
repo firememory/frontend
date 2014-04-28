@@ -37,6 +37,10 @@ function routeConfig($routeProvider) {
         controller: 'UserTxCtrl',
         templateUrl: 'views/transactions.html'
     }).
+    when('/accountSettings', {
+        controller: 'AccountSettingsCtrl',
+        templateUrl: 'views/accountSettings.html'
+    }).
     when('/test', {
             controller: 'DepositBtcCtrl',
             templateUrl: 'views/test.html'
@@ -298,4 +302,39 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
         .success(function(data, status, headers, config) {
             $scope.transactions = data.data;
         });
+}]);
+
+app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http) {
+    $scope.account = {};
+    $scope.credentialItems = [{"name" : "身份证", "value" : "1"},
+                              {"name" : "护照", "value" : "2"}];
+    $scope.credentialType = $scope.credentialItems[0];
+
+    $scope.sendVerifySms = function () {
+        $scope.showUpdateAccountError = false;
+        $http.post('/sendVerifySms', $.param({phoneNumber: $scope.account.phoneNumber}))
+            .success(function(data, status, headers, config) {
+                if (data.success) {
+                    $scope.account.verifyCodeUuid = data.data;
+                    console.log('data = ' + data.data);
+                    console.log('uuid = ' + $scope.account.verifyCodeUuid);
+                } else {
+                    $scope.showUpdateAccountError = true;
+                    $scope.updateAccountErrorMessage = data.message;
+                }
+            });
+    };
+
+    $scope.updateAccountSettings = function () {
+        $http.post('/updateAccountSettings', $.param({}))
+            .success(function(data, status, headers, config) {
+                if (data.success) {
+                    
+                } else {
+                    $scope.showUpdateAccountError = true;
+                    $scope.updateAccountErrorMessage = data.message;
+                }
+            });
+    };
+
 }]);

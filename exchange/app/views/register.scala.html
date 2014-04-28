@@ -39,6 +39,25 @@
             </div>
         </div>
 
+        <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
+            <label class="control-label col-sm-3" for="inputPhoneNumber">手机号码</label>
+            <div class="col-sm-6">
+                <input name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="手机号码" ng-model="register.phoneNumber" required>
+                <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+            </div>
+        </div>
+
+        <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
+            <label class="control-label col-sm-3" for="inputVerifyCode">短信验证码</label>
+            <div class="col-sm-3">
+                <input name="verifyCode" id="inputVerifyCode" class="form-control" placeholder="短信验证码" ng-model="register.verifyCode" required>
+                <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+            </div>
+            <div class="col-sm-3">
+                <button style="border: none; background: none;" ng-click="sendVerifySms()"> 发送验证码</button>
+            </div>
+        </div>
+
         <div style="height: 80px;">
             <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showError">{{errorMessage}}</div>
         </div>

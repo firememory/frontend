@@ -57,6 +57,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
                 if (data.success) {
                   $scope.$parent.registerErrorMessage = '注册成功';
                   $scope.$parent.showRegisterError = true;
+                  $window.location.href = '/register';
                 } else {
                   $scope.$parent.registerErrorMessage = data.message;
                   $scope.$parent.showRegisterError = true;

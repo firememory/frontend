@@ -178,6 +178,7 @@ app.controller('IndexCtrl', function ($scope, $http, $modal) {
                       $scope.$parent.username = $scope.register.username;
                       $scope.$parent.isLogin = true;
                       $modalInstance.close();
+                      $location.path('/register');
                     } else {
                       $scope.$parent.registerErrorMessage = data.message;
                       console.log(data);
