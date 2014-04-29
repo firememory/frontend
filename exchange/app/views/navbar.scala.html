@@ -1,68 +1,44 @@
-@()(implicit session: Session)
-<header class="clearfix" ng-controller="NaviCtrl">
-<div class="top-bar">
+@(index: Int)(implicit session: Session)
+<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="contact-details">
-                    @session.get("uid") match {
-                    case Some(uid: String) => {
-                    <li>
-                        <a><strong>@session.get("username")</strong></a>
-                    </li>
-                    <li>
-                        <a> <i class="fa fa-user"></i> @uid</span></a>
-                    </li>
-                    }
-                    case None => {
-                    }
-                    }
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <ul class="user-status">
-                    @session.get("uid") match {
-                    case Some(uid: String) => {
-                    <li>
-                        <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
-                    </li>
-                    }
-                    case None => {
-                    <li>
-                        <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
-                    </li>
-                    <li>
-                        <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
-                    </li>
-                    }
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="navbar navbar-default navbar-top" ng-controller="NaviCtrl">
-    <div class="container">
-        <div class="navbar-header">
-            <!-- Stat Toggle Nav Link For Mobiles -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><i
-                    class="icon-menu-1"></i></button>
-            <!-- End Toggle Nav Link For Mobiles -->
-            <a class="navbar-brand" href="/" style="color: #b3b3b3; padding-top: 10px;">
-                <img alt="coinport"
-                     src="/image/logo-h.png"
-                     style="height: 50px;"> &nbsp; 币丰港
-            </a>
-        </div>
-        <div class="navbar-collapse collapse">
+        <div class="">
+            <ul class="nav navbar-nav navbar-middle">
+                @if(index==0){<li class="active">} else {<li>}
+                    <a href="/"><i class="fa fa-home"></i> 首页</a>
+                </li>
+                @if(index==1){<li class="active">} else {<li>}
+                    <a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a>
+                </li>
+                @if(index==2){<li class="active">} else {<li>}
+                    <a href="/account"><i class="fa fa-shopping-cart"></i> 用户中心</a>
+                </li>
+                @if(index==3){<li class="active">} else {<li>}
+                    <a href="/market#/"><i class="fa fa-bar-chart-o"></i> 实时行情</a>
+                </li>
+                @if(index==4){<li class="active">} else {<li>}
+                    <a href="/open"><i class="fa fa-folder-open"></i> 开放数据</a>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a class="active" href="/"><i class="fa fa-home"></i> 首页</a></li>
-                <li><a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a></li>
-                <li><a href="/account"><i class="fa fa-bar-chart-o"></i> 用户中心</a></li>
-                <li><a href="/market"><i class="fa fa-bar-chart-o"></i> 实时行情</a></li>
-                <li><a href="/open"><i class="fa fa-folder-open"></i> 开放数据</a></li>
+                @session.get("uid") match {
+                case Some(uid: String) => {
+                <li>
+                    <a><strong>@session.get("username")</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> @uid</span></a>
+                </li>
+                <li>
+                    <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
+                </li>
+                }
+                case None => {
+                <li>
+                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
+                </li>
+                <li>
+                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
+                </li>
+                }
+                }
             </ul>
         </div>
     </div>
 </div>
-</header>

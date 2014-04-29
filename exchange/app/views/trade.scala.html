@@ -20,7 +20,7 @@
 
 </head>
 <body ng-app="coinport.trade">
-@navbar()
+@navbar(1)
 <div class="container">
     @session.get("uid") match {
         case Some(id: String) => {
