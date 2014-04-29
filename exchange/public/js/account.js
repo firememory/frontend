@@ -256,19 +256,27 @@ app.controller('AssetCtrl', function ($scope, $http) {
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.market = 'BTCCNY';
-    $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
+    $scope.update = function(market) {
+        $scope.market = market;
+        $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
           .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
-          });
+        });
+    };
+
+    $scope.update('BTCCNY');
 }]);
 
 app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
-    $scope.market = 'all';
-    $http.get('/api/' + $scope.market + '/order')
-        .success(function(data, status, headers, config) {
-            $scope.orders = data.data;
-        });
+    $scope.update = function(market) {
+        $scope.market = market;
+        $http.get('/api/' + $scope.market + '/order')
+            .success(function(data, status, headers, config) {
+                $scope.orders = data.data;
+            });
+    };
+
+    $scope.update('all');
 
     $scope.showDetail = function(order) {
         $scope.$parent.order = order;
