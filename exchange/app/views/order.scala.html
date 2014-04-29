@@ -34,26 +34,34 @@
                     <td><span class="badge">{{order.status | orderStatusText}}</span></td>
                 </tr>
                 <tr>
+                    <td>交易币种</td>
+                    <td>{{order.subject}}</td>
+                    <td>计价货币</td>
+                    <td>{{order.currency}}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
                     <td>挂单价格</td>
-                    <td><i class="fa fa-cny"></i> {{order.price | currency}}</td>
+                    <td>{{order.price | currency}} {{order.currency}}/{{order.subject}}</td>
                     <td>平均成交价格</td>
-                    <td><i class="fa fa-cny"></i> {{order.finishedAmount / order.finishedQuantity | currency}}</td>
+                    <td>{{order.finishedAmount / order.finishedQuantity | currency}} {{order.currency}}/{{order.subject}}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>挂单数量</td>
-                    <td><i class="fa fa-btc"></i> {{order.amount | quantity}}</td>
+                    <td>{{order.amount | quantity}} {{order.subject}}</td>
                     <td>成交数量</td>
-                    <td><i class="fa fa-btc"></i> {{order.finishedQuantity | quantity}}</td>
+                    <td>{{order.finishedQuantity | quantity}} {{order.subject}}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>挂单金额</td>
-                    <td><i class="fa fa-cny"></i> {{order.total | currency}}</td>
+                    <td>{{order.total | currency}}  {{order.currency}}</td>
                     <td>成交金额</td>
-                    <td><i class="fa fa-cny"></i> {{order.finishedAmount | currency}}</td>
+                    <td>{{order.finishedAmount | currency}}  {{order.currency}}</td>
                     <td></td>
                     <td></td>
                </tr>

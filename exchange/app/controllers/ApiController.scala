@@ -31,11 +31,12 @@ object ApiController extends Controller with Json4s {
       MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
-  def getUserOrders = Action.async {
+  def getUserOrders(market: String) = Action.async {
     implicit request =>
       session.get("uid") match {
         case Some(uid) =>
-          AccountService.getOrders(Some(uid.toLong), None, None, 0, 30) map {
+          val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
+          AccountService.getOrders(marketSide, Some(uid.toLong), None, None, 0, 30) map {
             case result: ApiResult =>
               Ok(result.toJson)
           }
@@ -45,7 +46,7 @@ object ApiController extends Controller with Json4s {
 
   def getOrder(oid: String) = Action.async {
     implicit request =>
-      AccountService.getOrders(None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
+      AccountService.getOrders(None, None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
   }
 
   def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {

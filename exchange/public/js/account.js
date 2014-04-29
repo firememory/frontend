@@ -155,7 +155,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function($s
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
-    $http.get('api/asset/' + $scope.uid)
+    $http.get('/api/asset/' + $scope.uid)
         .success(function(data, status, headers, config) {
             $scope.assets = data.data;
             var map = $scope.assets[$scope.assets.length-1].amountMap;
@@ -168,7 +168,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
         });
 
     $scope.updateAsset = function() {
-        $http.get('api/account/' + $scope.uid)
+        $http.get('/api/account/' + $scope.uid)
             .success(function(data, status, headers, config) {
                 $scope.accounts = data.data.accounts;
                 var map = $scope.assets[$scope.assets.length-1].amountMap;
@@ -256,14 +256,16 @@ app.controller('AssetCtrl', function ($scope, $http) {
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
-    $http.get('/api/user/' + $scope.uid + '/transaction/BTCCNY', {params: {}})
+    $scope.market = 'BTCCNY';
+    $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
           .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
           });
 }]);
 
 app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
-    $http.get('/api/order')
+    $scope.market = 'all';
+    $http.get('/api/' + $scope.market + '/order')
         .success(function(data, status, headers, config) {
             $scope.orders = data.data;
         });
@@ -273,8 +275,9 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope
         $location.path('/order');
     };
 
-    $scope.cancelOrder = function(id) {
-        $http.get('/trade/BTCCNY/order/cancel/' + id)
+    $scope.cancelOrder = function(order) {
+        var market = order.subject + order.currency
+        $http.get('/trade/' + market + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
 
             });

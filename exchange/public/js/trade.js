@@ -43,7 +43,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
         askButtonLabel: $scope.config.askButtonLabel};
 
     $scope.updateOrders = function() {
-        $http.get('/api/order')
+        $http.get('/api/' + $scope.market + '/order')
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data;
         });

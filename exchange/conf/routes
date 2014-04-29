@@ -27,7 +27,7 @@ POST    /account/withdrawal                controllers.ApiController.withdrawal(
 # API routes
 GET     /api/*market/depth          controllers.ApiController.depth(market)
 GET     /api/*market/ticker         controllers.ApiController.ticker(market)
-GET     /api/order                  controllers.ApiController.getUserOrders()
+GET     /api/*market/order                  controllers.ApiController.getUserOrders(market)
 GET     /api/order/*oid             controllers.ApiController.getOrder(oid)
 GET     /api/account/*uid           controllers.ApiController.account(uid)
 GET     /api/asset/*uid             controllers.ApiController.asset(uid)

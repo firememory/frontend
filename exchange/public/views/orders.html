@@ -7,6 +7,7 @@
                 <th>订单ID</th>
                 <th>委托时间</th>
                 <th>类型</th>
+                <th>币种</th>
                 <th>委托价</th>
                 <th>委托量</th>
                 <th>成交量</th>
@@ -27,26 +28,29 @@
                 <td class="{{order.operation | orderTypeClass}}">
                     {{order.operation | orderTypeText}}
                 </td>
+                <td>
+                    {{order.subject}}
+                </td>
                 <td class="{{order.operation | orderTypeClass}}">
-                    {{order.price | currency}}
+                    {{order.price | currency}} {{order.currency}}
                 </td>
                 <td>
-                    {{order.amount | quantity}}
+                    {{order.amount | quantity}} {{order.subject}}
                 </td>
                 <td>
-                    {{order.finishedQuantity | quantity}}
+                    {{order.finishedQuantity | quantity}} {{order.subject}}
                 </td>
                 <td>
-                    {{order.total | currency}}
+                    {{order.total | currency}} {{order.currency}}
                 </td>
                 <td>
-                    {{order.finishedAmount | currency}}
+                    {{order.finishedAmount | currency}} {{order.currency}}
                 </td>
                 <td>
                     <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
                 </td>
                 <td>
-                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">撤单</button>
+                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order)">撤单</button>
                 </td>
             </tr>
             </tbody>
