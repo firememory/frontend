@@ -14,10 +14,6 @@
     <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
     <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
     <script src="js/trade.js"></script>
-
-    <link rel="stylesheet"  href="/css/coinport.css">
-    <link rel="stylesheet" href="css/simple.css" type="text/css" media="screen">
-
 </head>
 <body ng-app="coinport.trade">
 @navbar(1)
@@ -31,21 +27,27 @@
         }
     }
     <div class="row">
-    <div class="menu col-md-2">
-    <ul class="default_menu">
+    <div class="col-md-2">
+    <ul class="nav nav-pills">
         <li class="active">
             <a href="#/btccny">
                 BTC-CNY
                 <span></span>
             </a>
+        </li>
+        <li>
             <a href="#/ltcbtc">
                 LTC-BTC
                 <span></span>
             </a>
+        </li>
+        <li>
             <a href="#/dogbtc">
                 DOG-BTC
                 <span></span>
             </a>
+        </li>
+        <li>
             <a href="#/ptsbtc">
                 PTS-BTC
                 <span></span>
@@ -53,7 +55,7 @@
         </li>
     </ul>
 </div>
-        <div class="content col-md-10" ng-view>
+    <div class="content col-md-10" ng-view>
 
     </div>
 </div>

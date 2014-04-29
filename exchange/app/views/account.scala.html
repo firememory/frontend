@@ -14,10 +14,6 @@
     <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
     <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
     <script src="js/account.js"></script>
-
-    <link rel="stylesheet"  href="/css/coinport.css">
-    <link rel="stylesheet" href="css/simple.css" type="text/css" media="screen">
-
 </head>
 <body ng-app="coinport.account">
 @navbar(2)
@@ -31,22 +27,22 @@
     }
     }
     <div class="row">
-        <div class="menu col-md-2">
-            <ul class="default_menu">
-                <li>
-                    <a class="template_toogle_class" href="#/asset">
+        <div class="col-md-2">
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#/asset">
                         我的资产
                         <span></span>
                     </a>
                 </li>
                 <li>
-                    <a class="template_toogle_class" href="#/orders">
+                    <a href="#/orders">
                         我的委托
                         <span></span>
                     </a>
                 </li>
                 <li>
-                    <a class="template_toogle_class" href="#/transaction">
+                    <a href="#/transaction">
                         我的成交
                         <span></span>
                     </a>

@@ -41,7 +41,7 @@
                 <form name="bidForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
-                            <span class="input-group-addon">价格 <i class="fa fa-cny"></i></span>
+                            <span class="input-group-addon">价格</span>
                             <input type="number" class="form-control" ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
@@ -49,7 +49,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">数量 <i class="fa fa-btc"></i></span>
+                            <span class="input-group-addon">数量</span>
                             <input class="form-control" name="amount" type="number" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount" min="0">
                             <span class="input-group-addon" ng-show="bidOptions.advanced">
                                 <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="input-group">
-                            <span class="input-group-addon">金额 <i class="fa fa-cny"></i></span>
+                            <span class="input-group-addon">金额</span>
                             <input type="number" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button full_width button_buy" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
+                        <button class="btn btn-block btn-success" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
                     </div>
                 </form>
             </div>
@@ -117,7 +117,7 @@
                 <form name="askForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
-                            <span class="input-group-addon">价格 <i class="fa fa-cny"></i></span>
+                            <span class="input-group-addon">价格</span>
                             <input type="number" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
@@ -125,7 +125,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">数量 <i class="fa fa-btc"></i></span>
+                            <span class="input-group-addon">数量</span>
                             <input type="number" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
@@ -133,7 +133,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">金额 <i class="fa fa-cny"></i></span>
+                            <span class="input-group-addon">金额</span>
                             <input type="number" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
@@ -168,7 +168,7 @@
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
-                        <button class="button button_sell full_width" ng-click="addAskOrder()"><i class="fa fa-money"></i> {{info.askButtonLabel}}</button>
+                        <button class="btn btn-block btn-danger" ng-click="addAskOrder()"><i class="fa fa-money"></i> {{info.askButtonLabel}}</button>
                     </div>
                 </form>
             </div>
