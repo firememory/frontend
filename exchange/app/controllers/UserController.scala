@@ -81,6 +81,34 @@ object UserController extends Controller with Json4s {
     }
   }
 
+  def updateSettings = Action.async(parse.urlFormEncoded) {
+    implicit request =>
+    val data = request.body
+    val userId = session.get("uid").getOrElse("")
+    val email = session.get("username").getOrElse("")
+    println(session.toJson)
+    println(s"userId: $userId, email: $email")
+    //val nationalId = getParam(data, "nationalId").getOrElse("")
+    val realName = getParam(data, "realName").getOrElse("")
+    val mobile = getParam(data, "mobile").getOrElse("")
+    // TODO: validate sms verification code here
+    val (paramsValid, failedResult) = stringParamsNotEmpty(Seq(userId, email, realName, mobile)){
+      parmaErrorResult
+    }
+
+    val uid = userId.toLong
+    if (!paramsValid) {
+      Future { Ok(failedResult.toJson) }
+    } else {
+      val user: User = User(Some(uid), email,  Some(realName), null, None, Some(mobile))
+      UserService.updateProfile(user) map {
+        result =>
+        Ok(result.toJson)
+      }
+    }
+  }
+
+
   def logout = Action {
     implicit request =>
       Redirect(routes.MainController.index()).withSession(
@@ -88,7 +116,7 @@ object UserController extends Controller with Json4s {
       )
   }
 
-  private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
-    queryString.get(param).map(_(0))
-  }
+  // private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
+  //   queryString.get(param).map(_(0))
+  // }
 }

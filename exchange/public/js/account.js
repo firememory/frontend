@@ -37,7 +37,7 @@ function routeConfig($routeProvider) {
         controller: 'UserTxCtrl',
         templateUrl: 'views/transactions.html'
     }).
-    when('/accountSettings', {
+    when('/accountsettings', {
         controller: 'AccountSettingsCtrl',
         templateUrl: 'views/accountSettings.html'
     }).
@@ -305,6 +305,7 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
 }]);
 
 app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http) {
+    $scope.showUpdateAccountError = false;
     $scope.account = {};
     $scope.credentialItems = [{"name" : "身份证", "value" : "1"},
                               {"name" : "护照", "value" : "2"}];
@@ -312,7 +313,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http
 
     $scope.sendVerifySms = function () {
         $scope.showUpdateAccountError = false;
-        $http.post('/sendVerifySms', $.param({phoneNumber: $scope.account.phoneNumber}))
+        $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     $scope.account.verifyCodeUuid = data.data;
@@ -324,12 +325,14 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http
                 }
             });
     };
-
+    
     $scope.updateAccountSettings = function () {
-        $http.post('/updateAccountSettings', $.param({}))
+        $http.post('/account/settings', $.param({ realName: $scope.account.realName, 
+                                                  mobile: $scope.account.mobile }))
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    
+                    $scope.showUpdateAccountError = true;
+                    $scope.updateAccountErrorMessage = '保存成功！';
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;

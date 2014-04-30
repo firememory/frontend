@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">手机号码</label>
                 <div class="col-sm-3">
-                    <input name="phoneNumber" class="form-control" placeholder="手机号码" ng-model="account.phoneNumber" required>
+                    <input name="mobile" class="form-control" placeholder="手机号码" ng-model="account.mobile" required>
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
                     <input name="verifyCode" class="form-control" placeholder="短信验证码" ng-model="verifyCode" required>
                 </div>
                 <div class="col-sm-2">
-                    <button style="border: none; background: none;" ng-click="sendVerifySms()">发送短信验证码</button>
+                    <button class="form-control" ng-click="sendVerifySms()">发送短信验证码</button>
                 </div>
             </div>
 
@@ -58,7 +58,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-2">
-                    <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!registerForm.$valid"><i class="glyphicon glyphicon-ok"></i> 保存</button>
+                    <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i> 保存</button>
                 </div>
                 <div class="col-sm-2">
                     <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消</button>

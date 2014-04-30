@@ -70,11 +70,11 @@
                     </div>
                 </div>
 
-                <div class="form-group has-{{registerForm.realName.$valid?'success':'error'}} has-feedback">
+                <div class="form-group has-{{registerForm.captchaCode.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-3" for="inputCaptcha">验证码</label>
                     <div class="col-sm-6">
-                        <input name="realName" id="inputRealName" class="form-control" placeholder="请输入验证码" ng-model="captcha.text" required>
-                        <span class="glyphicon glyphicon-{{registerForm.nationalId.$valid?'ok':'remove'}} form-control-feedback"></span>
+                        <input name="captchaCode" id="inputCaptchaCode" class="form-control" placeholder="请输入验证码" ng-model="captcha.text" required>
+                        <span class="glyphicon glyphicon-{{registerForm.captchaCode.$valid?'ok':'remove'}} form-control-feedback"></span>
                     </div>
                 </div>
 
