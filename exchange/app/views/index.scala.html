@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <link rel="stylesheet" type="text/css" href="css/settings.css" media="screen"/>
 
+    <script type="text/javascript" src="lib/sparkline/jquery.sparkline.min.js"></script>
     <script type="text/javascript" src="lib/highstock.js"></script>
 
     <script type="text/javascript" src="lib/owl.carousel.min.js"></script>
@@ -26,84 +27,84 @@
 @navbar(0)
 <!-- End Header -->
 
-<!-- Start Home Slider -->
-<div id="slider">
-    <!-- START REVOLUTION SLIDER 3.1 rev5 fullwidth mode -->
-    <div class="fullwidthbanner-container">
-        <div class="fullwidthbanner">
-            <ul>
-                <!-- SLIDE 1 -->
-                <li data-transition="fade" data-slotamount="3" data-masterspeed="400">
-                    <!-- MAIN IMAGE -->
-                    <img src="image/focusbg1.jpg" data-fullwidthcentering="on" alt="slidebg1" data-bgfit="cover"
-                         data-bgposition="center center" data-bgrepeat="no-repeat">
+<!--&lt;!&ndash; Start Home Slider &ndash;&gt;-->
+<!--<div id="slider">-->
+    <!--&lt;!&ndash; START REVOLUTION SLIDER 3.1 rev5 fullwidth mode &ndash;&gt;-->
+    <!--<div class="fullwidthbanner-container">-->
+        <!--<div class="fullwidthbanner">-->
+            <!--<ul>-->
+                <!--&lt;!&ndash; SLIDE 1 &ndash;&gt;-->
+                <!--<li data-transition="fade" data-slotamount="3" data-masterspeed="400">-->
+                    <!--&lt;!&ndash; MAIN IMAGE &ndash;&gt;-->
+                    <!--<img src="image/focusbg1.jpg" data-fullwidthcentering="on" alt="slidebg1" data-bgfit="cover"-->
+                         <!--data-bgposition="center center" data-bgrepeat="no-repeat">-->
 
-                    <div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"
-                         data-x="270"
-                         data-y="120"
-                         data-speed="400"
-                         data-start="0"
-                         data-easing="easeOutExpo">
-                        <span class="accent-color">信任，源自开放</span>
-                    </div>
-                    <div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"
-                         data-x="270"
-                         data-y="200"
-                         data-speed="400"
-                         data-start="200"
-                         data-easing="easeOutExpo">
-                        <span class="accent-color">全球首家全透明交易所</span>
-                    </div>
+                    <!--<div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"-->
+                         <!--data-x="270"-->
+                         <!--data-y="120"-->
+                         <!--data-speed="400"-->
+                         <!--data-start="0"-->
+                         <!--data-easing="easeOutExpo">-->
+                        <!--<span class="accent-color">信任，源自开放</span>-->
+                    <!--</div>-->
+                    <!--<div class="tp-caption big_font_size bold_font_weight grey_font_color sft start"-->
+                         <!--data-x="270"-->
+                         <!--data-y="200"-->
+                         <!--data-speed="400"-->
+                         <!--data-start="200"-->
+                         <!--data-easing="easeOutExpo">-->
+                        <!--<span class="accent-color">全球首家全透明交易所</span>-->
+                    <!--</div>-->
 
-                    <div class="tp-caption sfb start"
-                         data-x="500"
-                         data-y="350"
-                         data-speed="400"
-                         data-start="800"
-                         data-easing="easeOutExpo">
-                        <!-- Begin MailChimp Signup Form -->
-                        <div id="mc_embed_signup"
-                             style="width: 265px; height: 140px; padding-left: 15px; padding-top: 15px; padding-right: 15px;">
-                            <form action="http://coinport.us3.list-manage.com/subscribe/post?u=e6acbc6ecc4bd57645c4c08e6&amp;id=e94a64d56c"
-                                  method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
-                                  class="validate" target="_blank" novalidate>
-                                <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"
-                                       placeholder="Email Address" required
-                                       style="font-size: 14px; width: 220px; height: 40px; border: 1px solid #aaa; margin-right: 20px; padding-left: 10px;">
+                    <!--<div class="tp-caption sfb start"-->
+                         <!--data-x="500"-->
+                         <!--data-y="350"-->
+                         <!--data-speed="400"-->
+                         <!--data-start="800"-->
+                         <!--data-easing="easeOutExpo">-->
+                        <!--&lt;!&ndash; Begin MailChimp Signup Form &ndash;&gt;-->
+                        <!--<div id="mc_embed_signup"-->
+                             <!--style="width: 265px; height: 140px; padding-left: 15px; padding-top: 15px; padding-right: 15px;">-->
+                            <!--<form action="http://coinport.us3.list-manage.com/subscribe/post?u=e6acbc6ecc4bd57645c4c08e6&amp;id=e94a64d56c"-->
+                                  <!--method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"-->
+                                  <!--class="validate" target="_blank" novalidate>-->
+                                <!--<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL"-->
+                                       <!--placeholder="Email Address" required-->
+                                       <!--style="font-size: 14px; width: 220px; height: 40px; border: 1px solid #aaa; margin-right: 20px; padding-left: 10px;">-->
 
-                                <div style="position: absolute; left: -5000px;"><input type="text"
-                                                                                       name="b_e6acbc6ecc4bd57645c4c08e6_e94a64d56c"
-                                                                                       value=""></div>
-                                <input type="submit" value="预注册" name="subscribe" id="mc-embedded-subscribe"
-                                       style="font-size: 14px; font-weight: 600; height: 40px; background-color: #4c5264;">
-                            </form>
-                        </div>
-                        <!--End mc_embed_signup-->
-                    </div>
-                </li>
-                <!-- SLIDE 2  -->
+                                <!--<div style="position: absolute; left: -5000px;"><input type="text"-->
+                                                                                       <!--name="b_e6acbc6ecc4bd57645c4c08e6_e94a64d56c"-->
+                                                                                       <!--value=""></div>-->
+                                <!--<input type="submit" value="预注册" name="subscribe" id="mc-embedded-subscribe"-->
+                                       <!--style="font-size: 14px; font-weight: 600; height: 40px; background-color: #4c5264;">-->
+                            <!--</form>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;End mc_embed_signup&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--&lt;!&ndash; SLIDE 2  &ndash;&gt;-->
 
-            </ul>
-        </div>
-    </div>
-</div>
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 <!-- End Home Slider -->
     <!-- Start Full Width Sections Content -->
     <div id="content" class="full-sections">
         <div class="blk20"></div>
         <div class="section">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12 simply normal">
-                        <div id="candle-chart" style="height: 400px; min-width: 310px"></div>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="col-md-12 simply normal">-->
+                        <!--<div id="candle-chart" style="height: 400px; min-width: 310px"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                             <tr>
-                                <th>市场</th><th>最新成交价</th><th>24小时涨跌幅</th><th>24小时最高价</th><th>24小时最低价</th><th>24小时成交量</th>
+                                <th>市场</th><th>最新成交价</th><th>24小时涨跌幅</th><th>24小时最高价</th><th>24小时最低价</th><th>24小时成交量</th><th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -114,6 +115,7 @@
                                 <td>{{ticker.high.display_short}} {{ticker.high.currency}}</td>
                                 <td>{{ticker.low.display_short}} {{ticker.low.currency}}</td>
                                 <td>{{ticker.volume.display_short}} {{ticker.volume.currency}}</td>
+                                <td class="sparkline-{{ticker.market}}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -124,40 +126,40 @@
         <div class="blk20"></div>
         <div class="section">
             <div class="container">
-    <div class="row">
-        <div class="col-md-6 simply sell">
-            <table class="table table-condensed">
-                <thead>
-                <tr>
-                    <th></th><th>委托价</th><th>委托数量</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in depth.asks">
-                    <td class="red"><strong>卖{{$index + 1}}</strong></td>
-                    <td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
-                    <td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6 simply buy">
-            <table class="table table-condensed">
-                <thead>
-                <tr>
-                    <th></th><th>委托价</th><th>委托数量</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in depth.bids">
-                    <td class="palegreen"><strong>买{{$index + 1}}</strong></td>
-                    <td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>
-                    <td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <!--<div class="row">-->
+        <!--<div class="col-md-6 simply sell">-->
+            <!--<table class="table table-condensed">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th></th><th>委托价</th><th>委托数量</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="item in depth.asks">-->
+                    <!--<td class="red"><strong>卖{{$index + 1}}</strong></td>-->
+                    <!--<td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>-->
+                    <!--<td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
+        <!--</div>-->
+        <!--<div class="col-md-6 simply buy">-->
+            <!--<table class="table table-condensed">-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th></th><th>委托价</th><th>委托数量</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="item in depth.bids">-->
+                    <!--<td class="palegreen"><strong>买{{$index + 1}}</strong></td>-->
+                    <!--<td><i class="fa fa-cny"></i> {{item.price.toFixed(2)}}</td>-->
+                    <!--<td><i class="fa fa-btc"></i> {{item.amount.toFixed(3)}}</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
         </div>
         <div class="blk40"></div>
