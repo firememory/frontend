@@ -192,7 +192,13 @@ object ApiController extends Controller with Json4s {
   def ticker(market: String) = Action.async {
     implicit request =>
       val side: MarketSide = market
-      MarketService.getTickers(Set(side)).map(result => Ok(result.toJson))
+      MarketService.getTickers(Seq(side)).map(result => Ok(result.toJson))
+  }
+
+  def tickers() = Action.async {
+    implicit request =>
+      val sides = Seq(Btc ~> Cny, Ltc ~> Btc, Pts ~> Btc, Dog ~> Btc)
+      MarketService.getTickers(sides).map(result => Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
