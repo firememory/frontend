@@ -28,28 +28,10 @@
     }
     <div class="row">
     <div class="col-md-2">
-    <ul class="nav nav-pills">
-        <li class="active">
-            <a href="#/btccny">
-                BTC-CNY
-                <span></span>
-            </a>
-        </li>
-        <li>
-            <a href="#/ltcbtc">
-                LTC-BTC
-                <span></span>
-            </a>
-        </li>
-        <li>
-            <a href="#/dogbtc">
-                DOG-BTC
-                <span></span>
-            </a>
-        </li>
-        <li>
-            <a href="#/ptsbtc">
-                PTS-BTC
+    <ul class="nav nav-pills nav-stacked" ng-controller="SidebarCtrl">
+        <li ng-repeat="nav in navs" class="{{nav.class}}">
+            <a href="{{nav.link}}" ng-click="click(nav)">
+                {{nav.title}}
                 <span></span>
             </a>
         </li>

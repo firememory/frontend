@@ -56,6 +56,27 @@ function httpConfig($httpProvider) {
 app.config(routeConfig);
 app.config(httpConfig);
 
+function SidebarCtrl($scope) {
+    $scope.navs = [
+        {title: '我的资产', link: '#/asset', class: 'active'},
+        {title: '我的订单', link: '#/orders', class: ''},
+        {title: '我的成交', link: '#/transaction', class: ''},
+        {title: 'CNY充值', link: '#/deposit/cny', class: ''},
+        {title: 'CNY提现', link: '#/withdrawal/cny', class: ''},
+        {title: 'BTC充值', link: '#/deposit/btc', class: ''},
+        {title: 'BTC提现', link: '#/withdrawal/btc', class: ''},
+        {title: '账号设置', link: '#/accountsettings', class: ''}];
+
+    $scope.click = function(activeNav) {
+        $scope.navs.forEach(function(nav) {
+            if (nav.link == activeNav.link)
+                nav.class = 'active';
+            else
+                nav.class = '';
+        });
+    };
+}
+
 app.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('/api/account/' + $scope.uid)
       .success(function(data, status, headers, config) {
