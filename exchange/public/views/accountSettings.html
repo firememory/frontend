@@ -47,7 +47,10 @@
                     <input name="verifyCode" class="form-control" placeholder="短信验证码" ng-model="verifyCode" required>
                 </div>
                 <div class="col-sm-2">
-                    <button class="form-control" ng-click="sendVerifySms()">发送短信验证码</button>
+                    <button class="form-control" ng-click="sendVerifySms()"
+                            ng-disabled="isTiming">
+                        {{verifyButton}}
+                    </button>
                 </div>
             </div>
 

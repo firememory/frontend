@@ -60,9 +60,9 @@ object MainController extends Controller with Json4s {
       Ok(views.html.transactions.render(market, session))
   }
 
-  def login = Action {
+  def login(showEmailVerifiedMsg: Boolean = false) = Action {
     implicit request =>
-      Ok(views.html.login.render(session))
+      Ok(views.html.login.render(showEmailVerifiedMsg, session))
   }
 
   def register = Action {

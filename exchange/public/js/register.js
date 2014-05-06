@@ -22,17 +22,17 @@ angular.module('coinport.register', ['ui.bootstrap', 'ngResource', 'navbar'])
           });
       };
 
-  $scope.sendVerifySms = function () {
-    $http.post('/sendVerifySms', $.param({phoneNumber: $scope.register.phoneNumber}))
-      .success(function(data, status, headers, config) {
-        if (data.success) {
-          $scope.register.verifyCodeUuid = data.data.uuid;
-          console.log('uuid = ' + $scope.register.verifyCodeUuid);
-          //$window.location.href = '/login';
-        } else {
-          showMessage(data.message);
-        }
-      });
-  };
+  // $scope.sendVerifySms = function () {
+  //   $http.post('/sendVerifySms', $.param({phoneNumber: $scope.register.phoneNumber}))
+  //     .success(function(data, status, headers, config) {
+  //       if (data.success) {
+  //         $scope.register.verifyCodeUuid = data.data.uuid;
+  //         console.log('uuid = ' + $scope.register.verifyCodeUuid);
+  //         //$window.location.href = '/login';
+  //       } else {
+  //         showMessage(data.message);
+  //       }
+  //     });
+  // };
 
 });

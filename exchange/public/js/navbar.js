@@ -67,10 +67,11 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
                             if (data.success) {
                                 $scope.$parent.registerErrorMessage = '注册成功';
                                 $scope.$parent.showRegisterError = true;
-                                $window.location.href = '/account#/accountsettings';
+                                $window.location.href = '/account/registersucceeded';
                             } else {
                                 $scope.$parent.registerErrorMessage = data.message;
                                 $scope.$parent.showRegisterError = true;
+                                $scope.newCaptcha();
                             }
                         });
                 };

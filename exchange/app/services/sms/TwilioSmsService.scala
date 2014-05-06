@@ -18,11 +18,12 @@ object TwilioSmsService extends SmsService {
   val accountSid = twilio.getString("accountSid")
   val authToken = twilio.getString("authToken")
 
+  val client = new TwilioRestClient(accountSid, authToken)
+  val mainAccount = client.getAccount()
+  val messageFactory = mainAccount.getMessageFactory
+
   override def sendSmsSingle(phoneNum: String, text: String): Future[ApiResult] = future {
     try {
-      val client = new TwilioRestClient(accountSid, authToken)
-      val mainAccount = client.getAccount()
-      val messageFactory = mainAccount.getMessageFactory
       val messageParams: JList[NameValuePair] = new ArrayList[NameValuePair]()
       messageParams.add(new BasicNameValuePair("To", phoneNum))
       messageParams.add(new BasicNameValuePair("From", twilioNumber))
@@ -33,11 +34,16 @@ object TwilioSmsService extends SmsService {
       case e: TwilioRestException =>
         e.printStackTrace()
         ApiResult(false, -1, e.getMessage, None)
+      case e2: Exception =>
+        e2.printStackTrace()
+        ApiResult(false, -1, e2.getMessage, None)
     }
   }
+
   override def sendSmsGroup(phoneNums: Set[String], text: String): Future[ApiResult] = future {
     failedResult
   }
+
   override def sendVerifySms(phoneNum: String, randCode: String): Future[ApiResult] = {
     val verifyMessage = createVerifyMessage(randCode)
     sendSmsSingle(phoneNum, verifyMessage)

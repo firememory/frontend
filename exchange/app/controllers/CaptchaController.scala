@@ -54,14 +54,15 @@ object CaptchaController extends Controller with Json4s {
     Ok(apiResult.toJson)
   }
 
-  def validate(uuid: String, text: String) = {
+  def validate(uuid: String, text: String): Boolean = {
     println(s"captchaController.validate, uuid: $uuid, text: $text")
-    if (captchaService.validateResponseForID(uuid, text)) {
-      println("validate success")
+    try {
+      captchaService.validateResponseForID(uuid, text)
       true
-    } else {
-      println("validate failed.")
-      false
+    } catch {
+      case e: Throwable =>
+        e.printStackTrace
+        false
     }
   }
 
@@ -116,7 +117,7 @@ object CaptchaController extends Controller with Json4s {
       val allFonts: Array[Font] = e.getAllFonts
 
       val properFontFamiliesStr = properFontFamilies.mkString(", ")
-      println(s"proper font families: $properFontFamiliesStr")
+      //println(s"proper font families: $properFontFamiliesStr")
 
       val properFonts = allFonts.filter {
         font =>
@@ -128,7 +129,7 @@ object CaptchaController extends Controller with Json4s {
         val fontName = font.getFontName
         val familyName = font.getFamily
         val fname = font.getName
-        println(s"name: $fname, font name: $fontName, family name: $familyName")
+        //println(s"name: $fname, font name: $fontName, family name: $familyName")
       }
       properFonts
     }

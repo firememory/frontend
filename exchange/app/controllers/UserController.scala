@@ -70,10 +70,11 @@ object UserController extends Controller with Json4s {
         result =>
         if (result.success) {
           val profile = result.data.get.asInstanceOf[UserProfile]
-          Ok(result.toJson).withSession(
-            "username" -> profile.email,
-            "uid" -> profile.id.toString
-          )
+          Ok(result.toJson)
+          // Ok(result.toJson).withSession(
+          //   "username" -> profile.email,
+          //   "uid" -> profile.id.toString
+          // )
         } else {
           Ok(result.toJson)
         }
@@ -108,6 +109,30 @@ object UserController extends Controller with Json4s {
     }
   }
 
+  def verifyEmail(token: String) = Action.async {
+    implicit request =>
+    println(s"verify email token: $token")
+    UserService.verifyEmail(token) map {
+      result =>
+      if (result.success) {
+        println("verify email success!")
+        Redirect(routes.MainController.login(true))
+      } else {
+        println("verify email failed!")
+        Ok(views.html.responseMessage.render("邮件验证失败！"))
+      }
+    }
+  }
+
+  def registerSucceeded() = Action {
+    implicit request =>
+    Ok(views.html.responseMessage.render("验证邮件已发送到注册邮箱，请点击链接完成最后注册。"))
+  }
+
+  def verifyEmailFailed() = Action {
+    implicit request =>
+    Ok(views.html.responseMessage.render("邮件验证失败！"))
+  }
 
   def logout = Action {
     implicit request =>
@@ -115,8 +140,4 @@ object UserController extends Controller with Json4s {
         session - "username" - "uid"
       )
   }
-
-  // private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
-  //   queryString.get(param).map(_(0))
-  // }
 }

@@ -325,30 +325,81 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {
         });
 }]);
 
-app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
     $scope.showUpdateAccountError = false;
     $scope.account = {};
     $scope.credentialItems = [{"name" : "身份证", "value" : "1"},
                               {"name" : "护照", "value" : "2"}];
     $scope.credentialType = $scope.credentialItems[0];
+    $scope.verifyButton = "获取短信验证码";
 
+    var stop;
+    $scope.isTiming = false;
+
+    $scope.disableButton = function() {
+        if (angular.isDefined(stop)) {
+            $scope.isTiming = true;
+            return;
+        }
+
+        stop = $interval(function() {
+            if ($scope.seconds > 0) {
+                $scope.seconds = $scope.seconds -1;
+                $scope.verifyButton = $scope.seconds + "秒后重新获取";
+                $scope.isTiming = true;
+            }
+            else {
+                $scope.stopTiming();
+                $scope.verifyButton = "获取短信验证码";
+                $scope.isTiming = false;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTiming = function() {
+        if (angular.isDefined(stop)) {
+            $interval.cancel(stop);
+            stop = undefined;
+        }
+        $scope.isTiming = false;
+    };
+
+    $scope.$on('destroy', function() {
+        $scope.stopTiming();
+    });
+
+    $scope.disableButton();
+
+    var sending = false;
     $scope.sendVerifySms = function () {
         $scope.showUpdateAccountError = false;
+        $scope.isTiming = true;
+        // if (sending) {
+        //     console.log("sending verifysms");
+        //     return;
+        // }
+        sending = true;
         $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     $scope.account.verifyCodeUuid = data.data;
                     console.log('data = ' + data.data);
                     console.log('uuid = ' + $scope.account.verifyCodeUuid);
+                    $scope.seconds = 60;
+                    $scope.disableButton();
+                    sending = false;
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;
+                    $scope.stopTiming();
+                    sending = false;
                 }
             });
     };
-    
+
     $scope.updateAccountSettings = function () {
-        $http.post('/account/settings', $.param({ realName: $scope.account.realName, 
+        $scope.showUpdateAccountError = false;
+        $http.post('/account/settings', $.param({ realName: $scope.account.realName,
                                                   mobile: $scope.account.mobile }))
             .success(function(data, status, headers, config) {
                 if (data.success) {
@@ -360,5 +411,4 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', function($scope, $http
                 }
             });
     };
-
 }]);
