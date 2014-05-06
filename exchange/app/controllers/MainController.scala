@@ -12,6 +12,7 @@ import com.coinport.coinex.api.model._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import utils.HdfsAccess
 import models.PagingWrapper
+import com.coinport.coinex.api.service.NotificationService
 
 object MainController extends Controller with Json4s {
   def index = Action {
@@ -109,5 +110,9 @@ object MainController extends Controller with Json4s {
       val result = ApiResult(data = Some(data))
 
       Ok(result.toJson)
+  }
+
+  def getNotifications() = Action {
+    Ok(NotificationService.getNotifications().toJson)
   }
 }

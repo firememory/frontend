@@ -43,6 +43,9 @@ GET     /api/*market/order/*oid/transaction   controllers.ApiController.orderTra
 GET     /api/*currency/transfer/*uid      controllers.ApiController.transfers(currency, uid)
 GET     /api/open/data/*type       controllers.MainController.listFilesFromHdfs(type)
 
+# Notifications
+GET     /notifications              controllers.MainController.getNotifications()
+
 GET     /download/*path/*file                 controllers.MainController.downloadFromHdfs(path, file)
 GET     /api/*file                  controllers.Assets.at(path="/public/data", file)
 

@@ -4,6 +4,16 @@ function httpConfig($httpProvider) {
 }
 app.config(httpConfig);
 
+app.controller('AlertCtrl', function ($scope, $http) {
+  $http.get('/notifications').success(function(data, status, headers, config) {
+      $scope.alerts = data.data;
+  });
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+});
+
 app.controller('NaviCtrl', function ($scope, $modal, $log) {
     $scope.openLoginWindow = function (activeTab) {
         $scope.activeTab = activeTab;
