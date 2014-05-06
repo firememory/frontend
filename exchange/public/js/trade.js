@@ -59,8 +59,11 @@ function BidAskCtrl($scope, $http, $routeParams) {
         bidButtonLabel: $scope.config.bidButtonLabel,
         askButtonLabel: $scope.config.askButtonLabel};
 
-    $scope.updateOrders = function() {
-        $http.get('/api/' + $scope.market + '/order')
+    $scope.loadOrders = function(status) {
+        var params = {limit: 10};
+        if (status >= 0)
+            params.status = status;
+        $http.get('/api/' + $scope.market + '/order', {params: params})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data;
         });
@@ -98,7 +101,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $scope.updateTransactions();
     };
 
-    $scope.updateOrders();
+    $scope.loadOrders(-1);
     $scope.updateDepth();
     $scope.updateTransactions();
     $scope.updateBestPrice();

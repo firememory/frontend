@@ -35,10 +35,12 @@ object ApiController extends Controller with Json4s {
 
   def getUserOrders(market: String) = Action.async {
     implicit request =>
+      val pager = ControllerHelper.parsePagingParam()
+      val status = ControllerHelper.getParam(request.queryString, "status").map(s => OrderStatus.get(s.toInt).getOrElse(OrderStatus.Pending))
       session.get("uid") match {
         case Some(uid) =>
           val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
-          AccountService.getOrders(marketSide, Some(uid.toLong), None, None, 0, 30) map {
+          AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
             case result: ApiResult =>
               Ok(result.toJson)
           }
