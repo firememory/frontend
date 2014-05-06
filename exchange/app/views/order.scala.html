@@ -87,9 +87,9 @@
                 <tr ng-repeat="item in transactions.items">
                     <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-list-alt"></i> {{item.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td><i class="fa fa-cny"></i> {{item.price | currency}}</td>
-                    <td><i class="fa fa-btc"></i> {{item.amount | quantity}}</td>
-                    <td><i class="fa fa-cny"></i> {{item.total | currency}}</td>
+                    <td>{{item.price.display_short}} {{item.price.currency}}</td>
+                    <td>{{item.subjectAmount.display_short}} {{item.subjectAmount.currency}}</td>
+                    <td>{{item.currencyAmount.display_short}} {{item.currencyAmount.currency}}</td>
                     <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
                     <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
                     <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
