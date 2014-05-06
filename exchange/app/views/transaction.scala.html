@@ -26,21 +26,44 @@
                     <th>成交价</th>
                     <th>成交量</th>
                     <th>总金额</th>
-                    <th>交易发起用户</th>
                     <th>交易类型</th>
-                    <th>挂单用户</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-list-alt"></i> {{transaction.id}}</a></td>
+                    <td><i class="fa fa-list-alt"></i> {{transaction.id}} </a></td>
                     <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td><i class="fa fa-cny"></i> {{transaction.price | currency}}</td>
-                    <td><i class="fa fa-btc"></i> {{transaction.amount | quantity}}</td>
-                    <td><i class="fa fa-cny"></i> {{transaction.total | currency}}</td>
-                    <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '我' : (transaction.taker)}}</a></td>
-                    <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                    <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '我' : (transaction.maker)}}</a></td>
+                    <td>{{transaction.price.display_short}} {{transaction.price.currency}}</td>
+                    <td>{{transaction.subjectAmount.display_short}} {{transaction.subjectAmount.currency}}</td>
+                    <td>{{transaction.currencyAmount.display_short}} {{transaction.currencyAmount.currency}}</td>
+                    <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>订单角色</th>
+                    <th>订单ID</th>
+                    <th>成交前剩余</th>
+                    <th>成交后剩余</th>
+                    <th>订单用户</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>触发单</td>
+                    <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{takeOrder.oid}}</a></td>
+                    <td> {{takeOrder.preAmount.display_short}} {{takeOrder.preAmount.currency}}</td>
+                    <td> {{takeOrder.curAmount.display_short}} {{takeOrder.curAmount.currency}}</td>
+                    <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '我' : (takeOrder.uid)}}</a></td>
+                </tr>
+                <tr>
+                    <td>限价单</td>
+                    <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{makeOrder.oid}}</a></td>
+                    <td>{{makeOrder.preAmount.display_short}} {{makeOrder.preAmount.currency}}</td>
+                    <td>{{makeOrder.curAmount.display_short}} {{makeOrder.curAmount.currency}}</td>
+                    <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? '我' : (makeOrder.uid)}}</a></td>
                 </tr>
                 </tbody>
             </table>

@@ -18,9 +18,21 @@ coinportApp.filter('orderTypeClass', function() {
     }
 });
 
+coinportApp.filter('orderRoleClass', function() {
+    return function(input) {
+        return input ? 'sell' : 'buy';
+    }
+});
+
 coinportApp.filter('txTypeClass', function() {
     return function(input) {
         return input ? 'sell' : 'buy';
+    }
+});
+
+coinportApp.filter('orderRoleClass', function() {
+    return function(input) {
+        return input ? 'fa fa-btc' : 'fa fa-cny';
     }
 });
 
@@ -109,6 +121,13 @@ coinportApp.filter('quantity', function() {
     var filter = function(input) {
         return input ? input.toFixed(3) : '0';
     }
+    return filter;
+});
+
+coinportApp.filter('amountUnit', function() {
+    var filter = function(amount, sell) {
+        return sell==true? amount.toFixed(3) : amount.toFixed(2);
+    };
     return filter;
 });
 
