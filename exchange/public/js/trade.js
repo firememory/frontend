@@ -72,10 +72,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.updateTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
-            console.log('transactions', data);
             $scope.transactions = data.data;
-            if ($scope.transactions.length > 0) {
-                $scope.lastPrice = $scope.transactions[0].price;
+            if ($scope.transactions.items.length > 0) {
+                $scope.lastPrice = $scope.transactions.items[0].price.display;
             }
         });
     };

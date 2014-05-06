@@ -100,8 +100,8 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 40, skip: 0}})
             .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
-                if ($scope.transactions.length > 0) {
-                    $scope.lastTransaction = $scope.transactions[0];
+                if ($scope.transactions.items.length > 0) {
+                    $scope.lastTransaction = $scope.transactions.items[0];
                 }
             });
     };
