@@ -63,7 +63,7 @@ object ControllerHelper {
     }
   }
 
-  def getPagingParam()(implicit request: Request[_]): Pager = {
+  def parsePagingParam()(implicit request: Request[_]): Pager = {
     val query = request.queryString
     val limit = getParam(query, "limit", "10").toInt
     val page = getParam(query, "page", "1").toInt

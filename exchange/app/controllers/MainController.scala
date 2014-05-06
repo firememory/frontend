@@ -54,6 +54,11 @@ object MainController extends Controller with Json4s {
       Ok(views.html.transaction.render(tid, session))
   }
 
+  def transactions(market: String) = Action {
+    implicit request =>
+      Ok(views.html.transactions.render(market, session))
+  }
+
   def login = Action {
     implicit request =>
       Ok(views.html.login.render(session))
@@ -84,7 +89,7 @@ object MainController extends Controller with Json4s {
 
   def listFilesFromHdfs(path: String) = Action {
     implicit request =>
-      val pager = ControllerHelper.getPagingParam()
+      val pager = ControllerHelper.parsePagingParam()
       val files = HdfsAccess.listFiles(path)
         .sortWith((a, b) => a.updated > b.updated)
 

@@ -15,6 +15,8 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
+import models.PagingWrapper
+import com.coinport.coinex.data.QueryTransactionResult
 
 object ApiController extends Controller with Json4s {
 
@@ -86,7 +88,7 @@ object ApiController extends Controller with Json4s {
     implicit request =>
       AccountService.getAccount(uid.toLong) map {
         case result =>
-         Ok(result.toJson)
+          Ok(result.toJson)
       }
   }
 
@@ -159,11 +161,20 @@ object ApiController extends Controller with Json4s {
 
   def transactions(market: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val limit = getParam(query, "limit", "20").toInt
-      val skip = getParam(query, "skip", "0").toInt
+      val pager = ControllerHelper.parsePagingParam()
+      MarketService.getGlobalTransactions(market, pager.skip, pager.limit).map {
+        result =>
+          val items = result.data.get
+          val data = PagingWrapper(
+            count = 100, // TODO: use count field
+            skip = pager.skip,
+            limit = pager.limit,
+            currentPage = pager.page,
+            pageSize = pager.limit,
+            items = items)
 
-      MarketService.getGlobalTransactions(market, skip, limit).map(result => Ok(result.toJson))
+          Ok(result.copy(data = Some(data)).toJson)
+      }
   }
 
   def transaction(side: String, tid: String) = Action.async {
