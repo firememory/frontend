@@ -2,6 +2,9 @@ package controllers
 
 import scala.concurrent.Future
 import com.coinport.coinex.api.model._
+import play.api.mvc.Request
+
+case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
 
 object ControllerHelper {
   type Validator = (_) => (Boolean, Future[ApiResult])
@@ -9,6 +12,15 @@ object ControllerHelper {
 
   def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
     queryString.get(param).map(_(0))
+  }
+
+  def getParam(queryString: Map[String, Seq[String]], param: String, default: String): String = {
+    queryString.get(param) match {
+      case Some(seq) =>
+        if (seq.isEmpty) default else seq(0)
+      case None =>
+        default
+    }
   }
 
   // def validateParamsAndThen(validators: Seq[Validator])(f: => Future[ApiResult]) {
@@ -49,6 +61,14 @@ object ControllerHelper {
       else
         optionStringParamsNotEmpty(params.tail)(f)
     }
+  }
+
+  def getPagingParam()(implicit request: Request[_]): Pager = {
+    val query = request.queryString
+    val limit = getParam(query, "limit", "10").toInt
+    val page = getParam(query, "page", "1").toInt
+    val skip = (page - 1) * limit
+    Pager(skip = skip, limit = limit, page = page)
   }
 
 }

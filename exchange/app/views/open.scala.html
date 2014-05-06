@@ -10,7 +10,7 @@
 
 <body ng-app="coinport.open">
 @navbar(4)
-<div class="container" id="main-container" style="height: 800px;" ng-controller="OpenCtrl">
+<div class="container" ng-controller="OpenCtrl">
     <div class="row">
         <div class="col-md-4">
             <h4>全站总资产</h4>
@@ -45,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="file in messages">
+                <tr ng-repeat="file in messages.items">
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
@@ -53,6 +53,7 @@
                 </tr>
                 </tbody>
             </table>
+            <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
     </div>
     </div>
@@ -72,7 +73,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="file in snapshots">
+                <tr ng-repeat="file in snapshots.items">
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
@@ -80,6 +81,7 @@
                 </tr>
                 </tbody>
             </table>
+            <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
     </div>
     </div>

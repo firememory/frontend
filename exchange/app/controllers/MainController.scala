@@ -11,6 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import utils.HdfsAccess
+import models.PagingWrapper
 
 object MainController extends Controller with Json4s {
   def index = Action {
@@ -82,11 +83,26 @@ object MainController extends Controller with Json4s {
   }
 
   def listFilesFromHdfs(path: String) = Action {
-    val files = HdfsAccess.listFiles(path)
-      .sortWith((a, b) => a.updated > b.updated)
+    implicit request =>
+      val pager = ControllerHelper.getPagingParam()
+      val files = HdfsAccess.listFiles(path)
+        .sortWith((a, b) => a.updated > b.updated)
 
-    val result = ApiResult(data = Some(files))
+      val from = Math.min(pager.skip, files.length - 1)
+      val until = pager.skip + pager.limit
 
-    Ok(result.toJson)
+      val items = files.slice(from, until)
+
+      val data = PagingWrapper(
+        count = files.length,
+        skip = pager.skip,
+        limit = pager.limit,
+        currentPage = pager.page,
+        pageSize = pager.limit,
+        items = items)
+
+      val result = ApiResult(data = Some(data))
+
+      Ok(result.toJson)
   }
 }
