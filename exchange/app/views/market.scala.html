@@ -84,7 +84,7 @@
 </div>
 
 <div id="trades" style="height: 100%;">
-    <div class="row" ng-repeat="item in transactions" style="display: block;">
+    <div class="row" ng-repeat="item in transactions.items" style="display: block;">
         <div class="t">{{item.timestamp | date:"HH:mm:ss"}}</div>
         <div class="p {{item.sell | txTypeClass}}"><i class="fa fa-cny"></i>{{item.price.toFixed(2)}}</div>
         <div class="u {{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></div>
