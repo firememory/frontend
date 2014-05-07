@@ -211,7 +211,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr  ng-repeat="order in orders.items | orderBy: ['-date', '-id']" class="">
+            <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="">
                 <td>
                     <a href="/order/{{order.id}}">{{order.id}}</a>
                 </td>
