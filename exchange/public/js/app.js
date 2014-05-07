@@ -14,6 +14,7 @@ coinportApp.filter('orderTypeText', function() {
 
 coinportApp.filter('orderTypeClass', function() {
     return function(input) {
+//        console.log("lalallalalala", input);
         return input.toLowerCase();
     }
 });

@@ -15,7 +15,6 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
-import models.PagingWrapper
 import com.coinport.coinex.data.QueryTransactionResult
 
 object ApiController extends Controller with Json4s {
@@ -139,9 +138,9 @@ object ApiController extends Controller with Json4s {
       val query = request.queryString
       val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
       val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit))
-      TransferService.getTransfers(Some(uid.toLong), Some(currency), status, None, types, Cursor(0, 100)) map {
-        case result =>
-          Ok(result.toJson)
+      val pager = ControllerHelper.parsePagingParam()
+      TransferService.getTransfers(Some(uid.toLong), Some(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
+        case result => Ok(result.toJson)
       }
   }
 
@@ -164,19 +163,8 @@ object ApiController extends Controller with Json4s {
   def transactions(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getGlobalTransactions(market, pager.skip, pager.limit).map {
-        result =>
-          val items = result.data.get
-          val data = PagingWrapper(
-            count = 100, // TODO: use count field
-            skip = pager.skip,
-            limit = pager.limit,
-            currentPage = pager.page,
-            pageSize = pager.limit,
-            items = items)
-
-          Ok(result.copy(data = Some(data)).toJson)
-      }
+      MarketService.getGlobalTransactions(market, pager.skip, pager.limit).map (
+        result => Ok(result.toJson))
   }
 
   def transaction(side: String, tid: String) = Action.async {
@@ -186,20 +174,14 @@ object ApiController extends Controller with Json4s {
 
   def orderTransaction(side: String, oid: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val limit = getParam(query, "limit", "20").toInt
-      val skip = getParam(query, "skip", "0").toInt
-
-      MarketService.getTransactionsByOrder(side, oid.toLong, skip, limit).map(result => Ok(result.toJson))
+      val pager = ControllerHelper.parsePagingParam()
+      MarketService.getTransactionsByOrder(side, oid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def userTransaction(side: String, uid: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val limit = getParam(query, "limit", "20").toInt
-      val skip = getParam(query, "skip", "0").toInt
-
-      MarketService.getTransactionsByUser(side, uid.toLong, skip, limit).map(result => Ok(result.toJson))
+      val pager = ControllerHelper.parsePagingParam()
+      MarketService.getTransactionsByUser(side, uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def ticker(market: String) = Action.async {

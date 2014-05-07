@@ -65,7 +65,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
             params.status = status;
         $http.get('/api/' + $scope.market + '/order', {params: params})
             .success(function(data, status, headers, config) {
-                $scope.orders = data.data;
+                $scope.orders = data.data.items;
+                $scope.count = data.data.count;
         });
     };
 

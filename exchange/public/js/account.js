@@ -83,10 +83,20 @@ app.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.balance = data.data.accounts['CNY'];
     });
 
-    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 0}})
-      .success(function(data, status, headers, config) {
-        $scope.deposits = data.data;
-    });
+//    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 0}})
+//      .success(function(data, status, headers, config) {
+//        $scope.deposits = data.data;
+//    });
+
+    $scope.page = 1;
+    $scope.loadDeposits = function() {
+        $http.get('/api/CNY/transfer' + $scope.uid + {params: {limit: 15, page: $scope.page, 'type':0}})
+            .success(function(data, status, headers, config) {
+                $scope.deposits = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+    $scope.loadDeposits();
 
     $scope.depositData = {currency: 'CNY'};
     $scope.deposit = function() {
@@ -106,10 +116,20 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $http) 
             $scope.balance = data.data.accounts['CNY'];
         });
 
-    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 1}})
-        .success(function(data, status, headers, config) {
-            $scope.withdrawals = data.data;
-        });
+//    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 1}})
+//        .success(function(data, status, headers, config) {
+//            $scope.withdrawals = data.data;
+//        });
+
+    $scope.page = 1;
+    $scope.loadWithdrawals = function() {
+        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type':1}})
+            .success(function(data, status, headers, config) {
+                $scope.withdrawals = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+    $scope.loadWithdrawals();
 
     $scope.withdrawalData = {currency: 'CNY'};
     $scope.withdrawal = function() {
@@ -134,10 +154,20 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function($scop
             $scope.balance = data.data.accounts[$scope.currency];
     });
 
-    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 0}})
-      .success(function(data, status, headers, config) {
-        $scope.deposits = data.data;
-    });
+//    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 0}})
+//      .success(function(data, status, headers, config) {
+//        $scope.deposits = data.data;
+//    });
+
+    $scope.page = 1;
+    $scope.loadDeposits = function() {
+        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type':0}})
+            .success(function(data, status, headers, config) {
+                $scope.deposits = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+    $scope.loadDeposits();
 
     $scope.depositData = {currency: $scope.currency};
     $scope.deposit = function() {
@@ -159,10 +189,20 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function($s
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 1}})
-        .success(function(data, status, headers, config) {
-            $scope.withdrawals = data.data;
-        });
+//    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 1}})
+//        .success(function(data, status, headers, config) {
+//            $scope.withdrawals = data.data;
+//        });
+    $scope.page = 1;
+    $scope.loadWithdrawals = function() {
+        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type':1}})
+            .success(function(data, status, headers, config) {
+                $scope.withdrawals = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+    $scope.loadWithdrawals();
+
 
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function() {
@@ -281,27 +321,41 @@ app.controller('AssetCtrl', function ($scope, $http) {
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function($scope, $http) {
-    $scope.update = function(market) {
-        $scope.market = market;
-        $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
-          .success(function(data, status, headers, config) {
-                $scope.transactions = data.data;
-        });
-    };
+//    $scope.update = function(market) {
+//        $scope.market = market;
+//        $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
+//          .success(function(data, status, headers, config) {
+//                $scope.transactions = data.data;
+//                console.log("transactions", $scope.transactions)
+//        });
+//    };
 
-    $scope.update('BTCCNY');
-}]);
+//    $scope.update('BTCCNY');
 
-app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
-    $scope.update = function(market) {
-        $scope.market = market;
-        $http.get('/api/' + $scope.market + '/order')
+    $scope.page = 1;
+    $scope.loadTransactions = function() {
+        $http.get('/api/user/' + $scope.uid + '/transaction/BTCCNY', {params: {limit: 15, page: $scope.page}})
             .success(function(data, status, headers, config) {
-                $scope.orders = data.data;
+                $scope.transactions = data.data.items;
+                $scope.count = data.data.count;
             });
     };
 
-    $scope.update('all');
+    $scope.loadTransactions();
+
+}]);
+
+app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope, $http, $location) {
+//    $scope.update = function(market) {
+//        $scope.market = market;
+//        $http.get('/api/' + $scope.market + '/order')
+//            .success(function(data, status, headers, config) {
+//                $scope.orders = data.data.items;
+//                $scope.count = data.data.count;
+//            });
+//    };
+
+//    $scope.update('all');
 
     $scope.showDetail = function(order) {
         $scope.$parent.order = order;
@@ -309,12 +363,23 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function($scope
     };
 
     $scope.cancelOrder = function(order) {
-        var market = order.subject + order.currency
+        var market = order.subject + order.currency;
         $http.get('/trade/' + market + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
 
             });
     };
+
+    $scope.page = 1;
+    $scope.loadOrders = function() {
+        $http.get('/api/all/order', {params: {limit: 15, page: $scope.page}})
+            .success(function(data, status, headers, config) {
+                $scope.orders = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+
+    $scope.loadOrders();
 }]);
 
 app.controller('OrderDetailCtrl', ['$scope', '$http', function($scope, $http) {

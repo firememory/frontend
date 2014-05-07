@@ -7,8 +7,8 @@ app.controller('TransCtrl', function ($scope, $http, $window) {
     $scope.loadTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, page: $scope.page}})
         .success(function(data, status, headers, config) {
-            console.log('transactions', data);
-            $scope.transactions = data.data;
+            $scope.transactions = data.data.items;
+            $scope.count = data.data.count;
         });
     };
 

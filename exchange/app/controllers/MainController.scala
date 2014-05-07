@@ -11,8 +11,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import utils.HdfsAccess
-import models.PagingWrapper
 import com.coinport.coinex.api.service.NotificationService
+import models.PagingWrapper
 
 object MainController extends Controller with Json4s {
   def index = Action {
