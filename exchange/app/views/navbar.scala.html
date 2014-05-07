@@ -1,22 +1,22 @@
-@(index: Int)(implicit session: Session)
+@(index: Int)(implicit session: Session, lang: Lang)
 <div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NaviCtrl">
     <div class="container">
         <div class="">
             <ul class="nav navbar-nav navbar-middle">
                 @if(index==0){<li class="active">} else {<li>}
-                    <a href="/"><i class="fa fa-home"></i> 首页</a>
+                    <a href="/"><i class="fa fa-home"></i> @Messages("nav.home")</a>
                 </li>
                 @if(index==1){<li class="active">} else {<li>}
-                    <a href="/trade"><i class="fa fa-shopping-cart"></i> 交易中心</a>
+                    <a href="/trade"><i class="fa fa-shopping-cart"></i> @Messages("nav.trade")</a>
                 </li>
                 @if(index==2){<li class="active">} else {<li>}
-                    <a href="/account"><i class="fa fa-shopping-cart"></i> 用户中心</a>
+                    <a href="/account"><i class="fa fa-shopping-cart"></i> @Messages("nav.account")</a>
                 </li>
                 @if(index==3){<li class="active">} else {<li>}
-                    <a href="/market#/"><i class="fa fa-bar-chart-o"></i> 实时行情</a>
+                    <a href="/market#/"><i class="fa fa-bar-chart-o"></i> @Messages("nav.market")</a>
                 </li>
                 @if(index==4){<li class="active">} else {<li>}
-                    <a href="/open"><i class="fa fa-folder-open"></i> 开放数据</a>
+                    <a href="/open"><i class="fa fa-folder-open"></i> @Messages("nav.open")</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -26,15 +26,15 @@
                     <a><strong>@session.get("username")</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> @uid</span></a>
                 </li>
                 <li>
-                    <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> 退出登录</a>
+                    <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> @Messages("nav.logout")</a>
                 </li>
                 }
                 case None => {
                 <li>
-                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> 登录</a>
+                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> @Messages("nav.login")</a>
                 </li>
                 <li>
-                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> 注册</a>
+                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> @Messages("nav.register")</a>
                 </li>
                 }
                 }

@@ -5,10 +5,10 @@ coinportApp.filter('orderTypeText', function() {
         if(! input) return '';
         var input = input.toLowerCase();
         if(input == 'buy')
-            return '买入';
+            return Messages.buy;
         if(input == 'sell')
-            return '卖出';
-        return '未知';
+            return Messages.sell;
+        return Messages.unknown;
     }
 });
 
@@ -39,7 +39,7 @@ coinportApp.filter('orderRoleClass', function() {
 
 coinportApp.filter('txTypeText', function() {
     return function(input) {
-        return input ?  '卖出' : '买入';
+        return input ?  Messages.sell : Messages.buy;
     }
 });
 
@@ -67,20 +67,18 @@ coinportApp.filter('orderStatusClass', function() {
 coinportApp.filter('orderStatusText', function() {
     var filter = function(input) {
         if(input == 2)
-            return '全部成交';
+            return Messages.orderStatus.finished;
         if(input == 0)
-            return '正在挂单';
+            return Messages.orderStatus.pending;
         if(input == 1)
-            return '部分成交';
+            return Messages.orderStatus.open;
         if(input == 3)
-            return '已经撤销';
+            return Messages.orderStatus.cancelled;
         if(input == 4)
-            return '未能成交';
+            return Messages.orderStatus.cancelled;
         if(input == 5)
-            return '部分成交';
-        if(input == -1)
-            return '等待处理';
-        return '未知状态:'+input;
+            return Messages.orderStatus.open;
+        return Messages.unknown + input;
     }
     return filter;
 });

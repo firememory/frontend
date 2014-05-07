@@ -17,14 +17,14 @@ import models.PagingWrapper
 object MainController extends Controller with Json4s {
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(session))
+      Ok(views.html.index.render(session, lang))
   }
 
   def trade = Action {
     implicit request =>
       session.get("uid").map {
         uid =>
-          Ok(views.html.trade.render(session))
+          Ok(views.html.trade.render(session, lang))
       } getOrElse {
         Redirect(routes.MainController.login())
       }
@@ -114,5 +114,15 @@ object MainController extends Controller with Json4s {
 
   def getNotifications() = Action {
     Ok(NotificationService.getNotifications().toJson)
+  }
+
+  def bidaskView() = Action {
+    implicit request =>
+      Ok(views.html.viewBidask.render(lang))
+  }
+
+  def registerView() = Action {
+    implicit request =>
+      Ok(views.html.viewRegister.render(lang))
   }
 }

@@ -1,0 +1,63 @@
+title=coinport
+details=Details
+more=More
+all=All
+ok=OK
+cancel=Cancel
+login=Login
+register=Sign Up
+captcha=Captcha
+email=Email
+password=Password
+passwordConfirm=Confirm Password
+forgotPassword=forgot password
+inputCaptcha=Input the text in the picture below
+
+nav.home=Home
+nav.trade=Trade
+nav.account=Account
+nav.market=Market
+nav.open=Open
+nav.login=Login
+nav.logout=Logout
+nav.register=Sign Up
+
+login.title=Sign In
+register.title=Account Information
+register.changeCaptcha=Change
+
+ticker.market=Market
+ticker.price=Price
+ticker.gain=24h Change
+ticker.high=Highest Price in 24h
+ticker.low=Lowest Price in 24h
+ticker.volume=Volume in 24h
+
+trade.buy=Buy
+trade.sell=Sell
+trade.buyShort=B
+trade.sellShort=S
+trade.simple=simple
+trade.advanced=advanced
+trade.advancedTip=support for more customized orders
+trade.price=Price
+trade.amount=Amount
+trade.total=Total
+trade.cancel=Cancel
+trade.availableAmount=Available
+trade.availableCurrency=Available
+
+order.id=ID
+order.time=Time
+order.type=Type
+order.price=Price
+order.amount=Amount
+order.finishedAmount=Finished Amount
+order.total=Total
+order.finishedTotal=Finished Total
+order.status=Status
+order.status.pending=Pending
+order.status.open=Open
+order.status.finished=Finished
+order.status.cancelled=Cancelled
+order.operation=Operation

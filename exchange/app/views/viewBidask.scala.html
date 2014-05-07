@@ -1,3 +1,4 @@
+@()(implicit lang: Lang)
 <div class="row">
     <div class="col-md-8 candle-chart-wrap">
         <div class="candle-chart"></div>
@@ -5,43 +6,43 @@
     <div class="depth-box col-md-4">
         <div class="row">
             <div ng-repeat="item in depth.asks" class="depth-item">
-                <span class="title sell">卖{{depth.asks.length-$index}}</span>
+                <span class="title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                 <span class="price" ng-click="clickDepthAsks($index)"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
                 <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
             </div>
         </div>
         <div class="row">
-        <h3 class="depth-price">{{lastPrice}}</h3>
+            <h3 class="depth-price">{{lastPrice}}</h3>
         </div>
         <div class="row">
-        <div ng-repeat="item in depth.bids" class="depth-item">
-            <span class="title buy">买{{1+$index}}</span>
-            <span class="price" ng-click="clickDepthBids($index)"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
-            <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
-        </div>
+            <div ng-repeat="item in depth.bids" class="depth-item">
+                <span class="title buy">@(Messages("trade.buyShort")){{1+$index}}</span>
+                <span class="price" ng-click="clickDepthBids($index)"><i class="fa fa-cny"></i> {{item.price | currency}}</span>
+                <span class="amount"><i class="fa fa-btc"></i> {{item.amount | quantity}}</span>
+            </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-4">
         <div class="buy_sell_box">
-            <div class="box_title">买入{{subject}}</div>
+            <div class="box_title">@(Messages("trade.buy")) {{subject}}</div>
             <div class="box_subtitle">
                 <!--冻结金额-->
                 <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
                 <!--可用余额-->
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
-                总资金
+                @(Messages("trade.availableCurrency"))
                 <span class="badge badge-info link" ng-click="clickFunding(account[currency].available.diplay_short)">{{account[currency].available.display_short}} {{currency}}</span>
-                <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">普通模式</a>
-                <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">高级模式</a>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
+                <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">@(Messages("trade.simple"))</a>
+                <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">@(Messages("trade.advanced"))</a>
+                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
             </div>
             <div class="box clearfix">
                 <form name="bidForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
-                            <span class="input-group-addon">价格</span>
+                            <span class="input-group-addon">@(Messages("trade.price"))</span>
                             <input type="number" class="form-control" ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
@@ -49,7 +50,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">数量</span>
+                            <span class="input-group-addon">@(Messages("trade.amount"))</span>
                             <input class="form-control" name="amount" type="number" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount" min="0">
                             <span class="input-group-addon" ng-show="bidOptions.advanced">
                                 <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
@@ -58,7 +59,7 @@
                         </div>
 
                         <div class="input-group">
-                            <span class="input-group-addon">金额</span>
+                            <span class="input-group-addon">@(Messages("trade.total"))</span>
                             <input type="number" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
@@ -75,10 +76,10 @@
                                 以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price | currency}}</span>
                             </li>
                             <li class="list-group-item" ng-show="!bidOptions.limitAmount">
-                                 购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
+                                购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
                             </li>
                             <li class="list-group-item" ng-show="bidOptions.limitAmount">
-                                 购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
+                                购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
                             </li>
                             <li class="list-group-item" ng-show="bidOptions.limitTotal">
                                 希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total | currency}}</span>
@@ -101,23 +102,19 @@
     </div>
     <div class="col-md-4">
         <div class="buy_sell_box ">
-            <div class="box_title">卖出{{subject}}</div>
+            <div class="box_title">@(Messages("trade.sell")) {{subject}}</div>
             <div class="box_subtitle">
-                <!--冻结数量-->
-                <!--<span class="badge badge-info">{{info.quantityLocked}}</span>-->
-                <!--可用数量-->
-                <!--<span class="badge badge-info link" ng-click="clickQuantity(info.quantityRemaining)">{{info.quantityRemaining}}</span>-->
-                总数量
+                @(Messages("trade.availableAmount"))
                 <span class="badge badge-info link" ng-click="clickQuantity(account[subject])">{{account[subject].available.display_short}} {{subject}}</span>
-                <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">普通模式</a>
-                <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">高级模式</a>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="高级模式提供更多自定义下单方式"></i>
+                <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">@(Messages("trade.simple"))</a>
+                <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">@(Messages("trade.advanced"))</a>
+                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
             </div>
             <div class="box clearfix">
                 <form name="askForm" class="form-buy-sell">
                     <div class="row_100 clearfix">
                         <div class="input-group">
-                            <span class="input-group-addon">价格</span>
+                            <span class="input-group-addon">@(Messages("trade.price"))</span>
                             <input type="number" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
@@ -125,7 +122,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">数量</span>
+                            <span class="input-group-addon">@(Messages("trade.amount"))</span>
                             <input type="number" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
@@ -133,7 +130,7 @@
                           </span>
                         </div>
                         <div class="input-group">
-                            <span class="input-group-addon">金额</span>
+                            <span class="input-group-addon">@(Messages("trade.total"))</span>
                             <input type="number" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
@@ -150,10 +147,10 @@
                                 以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price | currency}}</span>价格
                             </li>
                             <li class="list-group-item"  ng-show="!askOptions.limitAmount">
-                                 卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
+                                卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
                             </li>
                             <li class="list-group-item"  ng-show="askOptions.limitAmount">
-                                 卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
+                                卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
                             </li>
                             <li class="list-group-item"  ng-show="askOptions.limitTotal">
                                 最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total | currency}}</span>
@@ -181,74 +178,74 @@
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
                 <span class="price"><i class="fa fa-cny"></i> {{item.price.display_short}}</span>
                 <span class="amount"><i class="fa fa-btc"></i> {{item.subjectAmount.display_short}}</span>
-                <a href="/transaction/{{item.id}}" class="title">详细>></a>
+                <a href="/transaction/{{item.id}}" class="title">@(Messages("details"))>></a>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-offset-10"><a href="/transactions/{{market}}">More >></a></div>
+            <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more")) >></a></div>
         </div>
     </div>
 </div>
 <div class="row">
     <tabset>
-        <tab heading="All" select="loadOrders(-1)"></tab>
-        <tab heading="Pending" select="loadOrders(0)"></tab>
-        <tab heading="Open" select="loadOrders(1)"></tab>
-        <tab heading="Finished" select="loadOrders(2)"></tab>
-        <tab heading="Cancelled" select="loadOrders(3)"></tab>
+        <tab heading='@(Messages("all"))' select="loadOrders(-1)"></tab>
+        <tab heading='@(Messages("order.status.pending"))' select="loadOrders(0)"></tab>
+        <tab heading='@(Messages("order.status.open"))' select="loadOrders(1)"></tab>
+        <tab heading='@(Messages("order.status.finished"))' select="loadOrders(2)"></tab>
+        <tab heading='@(Messages("order.status.cancelled"))' select="loadOrders(3)"></tab>
     </tabset>
     <div class="user-order-box">
-    <table class="table table-condensed ">
-        <thead>
-        <tr>
-            <th>订单ID</th>
-            <th>委托时间</th>
-            <th>类型</th>
-            <th>委托价</th>
-            <th>委托量</th>
-            <th>成交量</th>
-            <th>总金额</th>
-            <th>成交额</th>
-            <th>状态</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="">
-            <td>
-                <a href="/order/{{order.id}}">{{order.id}}</a>
-            </td>
-            <td>
-                {{order.submitTime | date:"MM-dd HH:mm:ss"}}
-            </td>
-            <td class="{{order.operation | orderTypeClass}}">
-                {{order.operation | orderTypeText}}
-            </td>
-            <td class="{{order.operation | orderTypeClass}}">
-                {{order.price | currency}}
-            </td>
-            <td>
-                {{order.amount | quantity}}
-            </td>
-            <td>
-                {{order.finishedQuantity | quantity}}
-            </td>
-            <td>
-                {{order.total | currency}}
-            </td>
-            <td>
-                {{order.finishedAmount | currency}}
-            </td>
-            <td>
-                <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
-            </td>
-            <td>
-                <button ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">撤单</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a style="float: right;" href="/account#/orders">More >></a>
+        <table class="table table-condensed ">
+            <thead>
+            <tr>
+                <th>@(Messages("order.id"))</th>
+                <th>@(Messages("order.time"))</th>
+                <th>@(Messages("order.type"))</th>
+                <th>@(Messages("order.price"))</th>
+                <th>@(Messages("order.amount"))</th>
+                <th>@(Messages("order.finishedAmount"))</th>
+                <th>@(Messages("order.total"))</th>
+                <th>@(Messages("order.finishedTotal"))</th>
+                <th>@(Messages("order.status"))</th>
+                <th>@(Messages("order.operation"))</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  ng-repeat="order in orders.items | orderBy: ['-date', '-id']" class="">
+                <td>
+                    <a href="/order/{{order.id}}">{{order.id}}</a>
+                </td>
+                <td>
+                    {{order.submitTime | date:"MM-dd HH:mm:ss"}}
+                </td>
+                <td class="{{order.operation | orderTypeClass}}">
+                    {{order.operation | orderTypeText}}
+                </td>
+                <td class="{{order.operation | orderTypeClass}}">
+                    {{order.price | currency}}
+                </td>
+                <td>
+                    {{order.amount | quantity}}
+                </td>
+                <td>
+                    {{order.finishedQuantity | quantity}}
+                </td>
+                <td>
+                    {{order.total | currency}}
+                </td>
+                <td>
+                    {{order.finishedAmount | currency}}
+                </td>
+                <td>
+                    <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
+                </td>
+                <td>
+                    <button ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a style="float: right;" href="/account#/orders">@(Messages("more")) >></a>
     </div>
 </div>
 <timer ng-show="false" interval="2000"/>

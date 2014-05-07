@@ -1,11 +1,8 @@
-import akka.actor.ActorSystem
-import akka.util.Timeout
-import com.coinport.coinex.data.Currency.Btc
-import com.coinport.coinex.LocalRouters
-import com.typesafe.config.ConfigFactory
+import filters._
 import play.api._
+import play.api.mvc.WithFilters
 
-object Global extends GlobalSettings {
+object Global extends WithFilters(LoggingFilter) {
 
   override def onStart(app: Application) {
     println("Application has started")

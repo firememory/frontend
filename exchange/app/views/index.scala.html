@@ -1,10 +1,8 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
-    <title>Coinport 全球首家全透明交易所</title>
-
     @imports()
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <link rel="stylesheet" type="text/css" href="css/settings.css" media="screen"/>
@@ -104,7 +102,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>市场</th><th>最新成交价</th><th>24小时涨跌幅</th><th>24小时最高价</th><th>24小时最低价</th><th>24小时成交量</th><th></th>
+                                <th>@Messages("ticker.market")</th><th>@Messages("ticker.price")</th><th>@Messages("ticker.gain")</th><th>@Messages("ticker.high")</th><th>@Messages("ticker.low")</th><th>@Messages("ticker.volume")</th><th></th>
                             </tr>
                             </thead>
                             <tbody>

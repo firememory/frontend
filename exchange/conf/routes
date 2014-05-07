@@ -32,6 +32,10 @@ GET     /trade/*market/order/cancel/*oid   controllers.ApiController.cancelOrder
 POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
 
+# html pieces
+GET     /views/bidask.html          controllers.MainController.bidaskView()
+GET     /views/register.html        controllers.MainController.registerView()
+
 # API routes
 GET     /api/*market/depth          controllers.ApiController.depth(market)
 GET     /api/ticker/*market         controllers.ApiController.ticker(market)
