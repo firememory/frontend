@@ -65,9 +65,9 @@ object MainController extends Controller with Json4s {
       Ok(views.html.depth.render(market, session, lang))
   }
 
-  def login(showEmailVerifiedMsg: Boolean = false) = Action {
+  def login(showMsg: Boolean = false, msg: String = "") = Action {
     implicit request =>
-      Ok(views.html.login.render(showEmailVerifiedMsg, session))
+      Ok(views.html.login.render(showMsg, msg, session))
   }
 
   def register = Action {
@@ -78,6 +78,13 @@ object MainController extends Controller with Json4s {
   def open = Action {
     implicit request =>
       Ok(views.html.open.render(session))
+  }
+
+  def prompt(msg: String) = Action {
+    implicit request =>
+    // println(s"prompt msg: $msg")
+    // val msgDecoded = java.net.URLDecoder.decode(msg, "utf8")
+    Ok(views.html.prompt.render(msg))
   }
 
   def downloadFromHdfs(path: String, filename: String) = Action {

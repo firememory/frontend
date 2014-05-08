@@ -115,23 +115,74 @@ object UserController extends Controller with Json4s {
     UserService.verifyEmail(token) map {
       result =>
       if (result.success) {
-        println("verify email success!")
-        Redirect(routes.MainController.login(true))
+        val msg = "注册邮件验证通过，请登录。"
+        Redirect(routes.MainController.login(true, msg))
       } else {
-        println("verify email failed!")
-        Ok(views.html.responseMessage.render("邮件验证失败！"))
+        val msg = "邮件验证失败！"
+        Redirect(routes.MainController.prompt(msg))
       }
     }
   }
 
   def registerSucceeded() = Action {
     implicit request =>
-    Ok(views.html.responseMessage.render("验证邮件已发送到注册邮箱，请点击链接完成最后注册。"))
+    val msg = "验证邮件已发送到注册邮箱，请点击链接完成最后注册。"
+    Redirect(routes.MainController.prompt(msg))
   }
 
   def verifyEmailFailed() = Action {
     implicit request =>
-    Ok(views.html.responseMessage.render("邮件验证失败！"))
+    val msg = "邮件验证失败！"
+    Redirect(routes.MainController.prompt(msg))
+  }
+
+  def forgetPassword  = Action {
+    implicit request =>
+    Ok(views.html.forgetPassword.render(session))
+  }
+
+  def requestPasswordReset(email: String) = Action.async {
+    implicit request =>
+    println(s"reset password email: $email")
+    UserService.requestPasswordReset(email) map {
+      result =>
+      if (result.success) {
+        // val msg = "密码重置成功，请登录。"
+        // Redirect(routes.MainController.login(true, msg))
+
+        // val profile = result.data.get.asInstanceOf[UserProfile]
+        // println(s"new password reset token: $profile.passwordResetToken.get")
+        // Ok(views.html.resetPassword.render(token, session))
+        val msg = "密码重置邮件已发送，请登录邮箱重置密码！"
+        Redirect(routes.MainController.prompt(msg))
+      } else {
+        val msg = "密码重置链接已失效！"
+        Redirect(routes.MainController.prompt(msg))
+      }
+    }
+  }
+
+  def validatePasswordReset(token: String) = Action.async {
+    implicit request =>
+    println(s"password reset token: $token")
+    UserService.validatePasswordResetToken(token) map {
+      result =>
+      if (result.success) {
+        // val msg = "密码重置成功，请登录。"
+        // Redirect(routes.MainController.login(true, msg))
+        val profile = result.data.get.asInstanceOf[UserProfile]
+        println(s"new password reset token: $profile.passwordResetToken.get")
+        Ok(views.html.resetPassword.render(token, session))
+      } else {
+        val msg = "密码重置链接已失效！"
+        Redirect(routes.MainController.prompt(msg))
+      }
+    }
+  }
+
+  def doPasswordReset() = Action.async {
+    implicit request =>
+    Future { Ok(ApiResult(false, -1, "").toJson) }
   }
 
   def logout = Action {
