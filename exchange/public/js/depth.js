@@ -4,8 +4,9 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/depth/", "");
 
     var accumulateDepth = function(items) {
+        items[0].accumulated = items[0].amount;
         for(var i = 1; i < items.length; i++) {
-           items[i].amount = items[i].amount + items[i - 1].amount;
+           items[i].accumulated = items[i].amount + items[i - 1].accumulated;
         }
     };
 
@@ -13,11 +14,11 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
         .success(function(data, status, headers, config) {
             $scope.depth = data.data;
             // accumulate depth
-            var bids = data.data.bids.slice(0);
-            var asks = data.data.asks.slice(0);
+            var bids = data.data.bids;
+            var asks = data.data.asks;
             accumulateDepth(bids);
             accumulateDepth(asks);
-            $scope.drawGraph(bids, asks);
+            $scope.drawGraph(bids.slice(0).reverse(), asks);
     });
 
     $scope.drawGraph = function(data1, data2) {
@@ -44,11 +45,11 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
         var area = d3.svg.area()
             .x(function(d) { return x(d.price); })
             .y0(height)
-            .y1(function(d) { return y(d.amount); });
+            .y1(function(d) { return y(d.accumulated); });
 
         var line = d3.svg.line()
             .x(function(d) { return x(d.price); })
-            .y(function(d) { return y(d.amount); });
+            .y(function(d) { return y(d.accumulated); });
 
         var svg = d3.select("#depth-graph").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -56,13 +57,13 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var data = data1.reverse().concat(data2);
+        var data = data1.concat(data2);
 
         x.domain(d3.extent(data, function(d) { return d.price; }));
-        y.domain([0, d3.max(data, function(d) { return d.amount; })]);
+        y.domain([0, d3.max(data, function(d) { return d.accumulated; })]);
 
         svg.append("path")
-          .datum(data1.reverse())
+          .datum(data1)
           .attr("class", "area-buy")
           .attr("d", area);
 
@@ -72,7 +73,7 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
           .attr("d", area);
 
         svg.append("path")
-          .datum(data1.reverse())
+          .datum(data1)
           .attr("class", "line-buy")
           .attr("d", line);
 

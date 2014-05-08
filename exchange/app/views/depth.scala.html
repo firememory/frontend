@@ -54,7 +54,7 @@
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th>
+                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,6 +62,7 @@
                     <td>@(Messages("trade.buyShort")){{1+$index}}</td>
                     <td>{{item.price}}</td>
                     <td>{{item.amount}}</td>
+                    <td>{{item.accumulated}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -71,7 +72,7 @@
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th>
+                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,6 +80,7 @@
                     <td>@(Messages("trade.sellShort")){{1+$index}}</td>
                     <td>{{item.price}}</td>
                     <td>{{item.amount}}</td>
+                    <td>{{item.accumulated}}</td>
                 </tr>
                 </tbody>
             </table>
