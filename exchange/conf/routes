@@ -12,6 +12,7 @@ GET     /login                      controllers.MainController.login(showVerifie
 GET     /open                       controllers.MainController.open()
 GET     /transaction/*tid           controllers.MainController.transaction(tid)
 GET     /transactions/*market       controllers.MainController.transactions(market)
+GET     /depth/*market              controllers.MainController.depth(market)
 GET     /order/*oid                 controllers.MainController.order(oid)
 
 GET     /account/logout             controllers.UserController.logout()
