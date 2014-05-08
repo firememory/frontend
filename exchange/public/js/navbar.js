@@ -1,16 +1,25 @@
-var app = angular.module('navbar', []);
+var app = angular.module('navbar', ['ngCookies']);
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
 app.config(httpConfig);
 
-app.controller('AlertCtrl', function ($scope, $http) {
+app.controller('AlertCtrl', function ($scope, $http, $cookieStore) {
   $http.get('/notifications').success(function(data, status, headers, config) {
-      $scope.alerts = data.data;
+      var cookieAlerts = $cookieStore.get('alerts') || {};
+      $scope.alerts = [];
+      data.data.forEach(function(alert) {
+        if (!cookieAlerts[alert.type])// TODO: use alert.id instead of alert.type
+            $scope.alerts.push(alert);
+      });
   });
 
   $scope.closeAlert = function(index) {
+    var alert = $scope.alerts[index];
     $scope.alerts.splice(index, 1);
+    var cookieAlerts = $cookieStore.get('alerts') || {};
+    cookieAlerts[alert.type] = new Date().getTime(); // TODO: use alert.id instead of alert.type
+    $cookieStore.put('alerts', cookieAlerts);
   };
 });
 
