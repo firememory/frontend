@@ -8,6 +8,7 @@ package controllers
 import play.api.mvc._
 import play.api.libs.functional.syntax._
 import com.coinport.coinex.api.model._
+import com.coinport.coinex.data.ErrorCode
 import com.coinport.coinex.api.service._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -56,6 +57,7 @@ object UserController extends Controller with Json4s {
     val password = getParam(data, "password").getOrElse("")
     val nationalId = getParam(data, "nationalId")
     val realName = getParam(data, "realName")
+    println(s"uuid: $uuid, text: $text, email: $email, password: $password")
     val (paramsValid, failedResult) = stringParamsNotEmpty(Seq(uuid, text, email, password)){
       parmaErrorResult
     }
@@ -63,7 +65,7 @@ object UserController extends Controller with Json4s {
       Future { Ok(failedResult.toJson) }
     }
     else if(!CaptchaController.validate(uuid, text)) {
-      Future { Ok(ApiResult(false, -1, "error: 验证码错误").toJson) }
+      Future { Ok(ApiResult(false, ErrorCode.CaptchaNotMatch.value, "").toJson) }
     } else {
       val user: User = User(Some(-1L), email, realName, password, nationalId)
       UserService.register(user) map {
@@ -115,30 +117,26 @@ object UserController extends Controller with Json4s {
     UserService.verifyEmail(token) map {
       result =>
       if (result.success) {
-        val msg = "注册邮件验证通过，请登录。"
-        Redirect(routes.MainController.login(true, msg))
+        Redirect(routes.MainController.login(true, "login.verifyEmailSucceeded"))
       } else {
-        val msg = "邮件验证失败！"
-        Redirect(routes.MainController.prompt(msg))
+        Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
       }
     }
   }
 
   def registerSucceeded() = Action {
     implicit request =>
-    val msg = "验证邮件已发送到注册邮箱，请点击链接完成最后注册。"
-    Redirect(routes.MainController.prompt(msg))
+    Redirect(routes.MainController.prompt("prompt.verifyEmailSended"))
   }
 
-  def verifyEmailFailed() = Action {
-    implicit request =>
-    val msg = "邮件验证失败！"
-    Redirect(routes.MainController.prompt(msg))
-  }
+  // def verifyEmailFailed() = Action {
+  //   implicit request =>
+  //   Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
+  // }
 
   def forgetPassword  = Action {
     implicit request =>
-    Ok(views.html.forgetPassword.render(session))
+    Ok(views.html.forgetPassword.render(session, lang))
   }
 
   def requestPasswordReset(email: String) = Action.async {
@@ -147,17 +145,9 @@ object UserController extends Controller with Json4s {
     UserService.requestPasswordReset(email) map {
       result =>
       if (result.success) {
-        // val msg = "密码重置成功，请登录。"
-        // Redirect(routes.MainController.login(true, msg))
-
-        // val profile = result.data.get.asInstanceOf[UserProfile]
-        // println(s"new password reset token: $profile.passwordResetToken.get")
-        // Ok(views.html.resetPassword.render(token, session))
-        val msg = "密码重置邮件已发送，请登录邮箱重置密码！"
-        Redirect(routes.MainController.prompt(msg))
+        Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
       } else {
-        val msg = "密码重置链接已失效！"
-        Redirect(routes.MainController.prompt(msg))
+        Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
       }
     }
   }
@@ -168,21 +158,25 @@ object UserController extends Controller with Json4s {
     UserService.validatePasswordResetToken(token) map {
       result =>
       if (result.success) {
-        // val msg = "密码重置成功，请登录。"
-        // Redirect(routes.MainController.login(true, msg))
         val profile = result.data.get.asInstanceOf[UserProfile]
-        println(s"new password reset token: $profile.passwordResetToken.get")
-        Ok(views.html.resetPassword.render(token, session))
+        println(s"profile: $profile")
+        Ok(views.html.resetPassword.render(token, session, lang))
       } else {
-        val msg = "密码重置链接已失效！"
-        Redirect(routes.MainController.prompt(msg))
+        Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
       }
     }
   }
 
-  def doPasswordReset() = Action.async {
+  def doPasswordReset() = Action.async(parse.urlFormEncoded) {
     implicit request =>
-    Future { Ok(ApiResult(false, -1, "").toJson) }
+    val data = request.body
+    val newPassword = getParam(data, "password").getOrElse("")
+    val token = getParam(data, "token").getOrElse("")
+    println(s"doreset password. token=$token")
+    UserService.validatePasswordResetToken(token) map {
+      result =>
+      Ok(result.toJson)
+    }
   }
 
   def logout = Action {

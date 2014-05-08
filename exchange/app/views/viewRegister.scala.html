@@ -34,7 +34,7 @@
                         <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> @(Messages("cancel"))</button>
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-link">@(Messages("forgotPassword"))</button>
+                        <button class="btn btn-link" ng-click="forgetPassword()">@(Messages("forgotPassword"))</button>
                     </div>
                 </div>
             </form>
@@ -52,7 +52,7 @@
                 <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-3" for="inputEmail">@(Messages("email"))</label>
                     <div class="col-sm-6">
-                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="email" required>
+                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.email" required>
                         <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
                     </div>
                 </div>

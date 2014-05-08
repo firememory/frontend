@@ -15,21 +15,13 @@ app.controller('PasswordCtrl', function ($scope, $http, $window) {
 
   $scope.requestPwdReset = function () {
     $window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email;
-    // $http.post('/account/requestpwdreset', $.param({email: $scope.pwdreset.email}))
-    //   .success(function(data, status, headers, config) {
-    //     if (data.success) {
-    //       // var promptMsg = data.message;
-    //       // $window.location.href = '/prompt/' + promptMsg;
-    //     } else {
-    //       showMessage(data.message);
-    //     }
-    //   });
   };
 });
 
 app.controller('ResetPasswordCtrl', function ($scope, $http, $window) {
   $scope.pwdreset = {};
   $scope.showEorror = false;
+  $scope.token = '';
 
   var showMessage = function(message) {
     $scope.errorMessage = message;
@@ -38,12 +30,14 @@ app.controller('ResetPasswordCtrl', function ($scope, $http, $window) {
 
   $scope.resetPassword = function () {
     $http.post('/account/dopwdreset', $.param({password: $scope.pwdreset.password,
-                                               token: $scope.pwdreset.token}))
+                                               token: _token}))
       .success(function(data, status, headers, config) {
         if (data.success) {
-          //var promptMsg = data.message;
-          //$window.location.href = '/prompt/' + promptMsg;
+          console.log("data: ", data);
+          var msgKey = 'login.resetPwdSucceeded';
+          $window.location.href = '/login?showMsg=true&msgKey=' + msgKey;
         } else {
+
           showMessage(data.message);
         }
       });

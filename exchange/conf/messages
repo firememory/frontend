@@ -23,6 +23,10 @@ nav.logout=Logout
 nav.register=Sign Up
 
 login.title=Sign In
+login.verifyEmailSucceeded=email verify succeeded, please login
+login.resetPwdSucceeded=reset password succeeded, please login
+login.pwdPlaceHolder=Please enter password
+login.doLogin=Login
 register.title=Account Information
 register.changeCaptcha=Change
 
@@ -61,3 +65,21 @@ order.status.open=Open
 order.status.finished=Finished
 order.status.cancelled=Cancelled
 order.operation=Operation
+
+prompt.backToHome=Back to home
+prompt.verifyEmailFailed=verify email failed
+prompt.verifyEmailSent=we had sent you an e-mail message, you can choose to activate your account
+prompt.resetPwdEmailSent=we had sent you an e-mail message including a link, you can click the link to reset your password
+prompt.resetPwdFailed=Reset password link out of date
+prompt.doResetPwdFailed=Reset password failed.
+
+forgetpwd.title=Reset password request
+forgetpwd.email=E-mail
+forgetpwd.submit=Submit
+
+resetpwd.title=Reset password
+resetpwd.newPassword=New password
+resetpwd.newPwdPlaceHolder=Enter new password
+resetpwd.repeat=Repeat password
+resetpwd.repeatPlaceHolder=Repeat your password
+resetpwd.submit=Submit

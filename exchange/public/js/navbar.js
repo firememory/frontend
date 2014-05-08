@@ -27,7 +27,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
   $scope.openLoginWindow = function (activeTab) {
     $scope.activeTab = activeTab;
     var modalInstance = $modal.open({
-      templateUrl: 'views/register.html',
+      templateUrl: '/views/register.html',
       controller: function ($scope, $http, $modalInstance, $window) {
         $scope.login = {};
         $scope.register = {};
@@ -48,7 +48,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
         }
 
         $scope.doLogin = function () {
-          $http.post('account/login',
+          $http.post('/account/login',
                      $.param({username: $scope.login.username,
                               password: $scope.login.password}))
             .success(function(data, status, headers, config) {
@@ -70,7 +70,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
         };
 
         $scope.doRegister = function () {
-          $http.post('account/register',
+          $http.post('/account/register',
                      $.param({uuid: $scope.captcha.uuid,
                               text: $scope.captcha.text,
                               email: $scope.register.email,
