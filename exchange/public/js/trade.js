@@ -36,6 +36,8 @@ function SidebarCtrl($scope) {
 
 function BidAskCtrl($scope, $http, $routeParams) {
     $scope.market = $routeParams.market.toUpperCase();
+    $scope.historyPeriod = 1; // 1 - minute K
+    $scope.historyUpdateTime = 5000; // polling period in milliseconds
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
@@ -113,33 +115,43 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.account = data.data.accounts;
     });
 
-    $http.get('/api/' + $scope.market + '/history', {params: {period: 2}})
-      .success(function(response, status, headers, config) {
-        var data = response.data;
-        // split the data set into ohlc and volume
-        var ohlc = [],
-            volume = [],
-            dataLength = data.length;
+    $scope.updateHistory = function() {
+         $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})
+              .success(function(response, status, headers, config) {
+                    var data = response.data;
+              });
+    };
 
-        for (i = 0; i < dataLength; i++) {
+    var splitHistoryData = function(data) {
+        // split the data set into ohlc and volume
+        var ohlc = [];
+        var volume = [];
+        $scope.history.forEach(function(data){
             ohlc.push([
-                data[i][0], // the date
-                data[i][1], // open
-                data[i][2], // high
-                data[i][3], // low
-                data[i][4] // close
+                data[0], // the date
+                data[1], // open
+                data[2], // high
+                data[3], // low
+                data[4] // close
             ]);
 
             volume.push([
-                data[i][0], // the date
-                data[i][5] // the volume
-            ])
-        }
+                data[0], // the date
+                data[5] // the volume
+            ]);
+        });
+        return {ohlc: ohlc, volume: volume};
+    };
+
+    $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
+      .success(function(response, status, headers, config) {
+        $scope.history = response.data;
+        $scope.lastHistory = $scope.history[$scope.history.length - 1];
 
         // set the allowed units for data grouping
         var groupingUnits = [[
-            'minute',                         // unit name
-            [1, 3, 5, 15, 30]                             // allowed multiples
+            'minute', // unit name
+            [1, 3, 5, 15, 30] // allowed multiples
         ], [
             'hour',
             [1]
@@ -147,6 +159,36 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
         // create the chart
         $('.candle-chart').highcharts('StockChart', {
+            chart : {
+                events : {
+                    load : function() {
+                        var candleSeries = this.series[0];
+                        var volumeSeries = this.series[1];
+                        // polling new data
+                        setInterval(function() {
+                            $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod, from: $scope.lastHistory[0]}})
+                              .success(function(response, status, headers, config) {
+                                    var data = response.data;
+                                    // merge new data
+                                    var last = $scope.history.pop();
+                                    data.forEach(function(item){
+                                        if (item[1] == 0){
+                                            item[1] = last[1];
+                                            item[2] = last[2];
+                                            item[3] = last[3];
+                                            item[4] = last[4];
+                                        }
+                                    });
+                                    $scope.history = $scope.history.concat(data);
+                                    $scope.lastHistory = data[data.length - 1];
+                                    // set data
+                                    candleSeries.setData(splitHistoryData($scope.history).ohlc, true, true, false);
+                                    volumeSeries.setData(splitHistoryData($scope.history).volume, true, true, false);
+                            });
+                        }, $scope.historyUpdateTime);
+                    }
+                }
+            },
             rangeSelector : {
                 enabled: true,
                 buttons : [
@@ -186,21 +228,21 @@ function BidAskCtrl($scope, $http, $routeParams) {
             series: [{
                 type: 'candlestick',
                 name: 'BTC',
-                data: ohlc,
+                data: splitHistoryData($scope.history).ohlc,
                 dataGrouping: {
                     units: groupingUnits
                 }
             }, {
                 type: 'column',
                 name: 'Volume',
-                data: volume,
+                data: splitHistoryData($scope.history).volume,
                 yAxis: 1,
                 dataGrouping: {
                     units: groupingUnits
                 }
             }]
         });
-      });
+    });
 
     var updateBidTotal = function() {
         if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
