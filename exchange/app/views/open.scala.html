@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +13,11 @@
 <div class="container" ng-controller="OpenCtrl">
     <div class="row">
         <div class="col-md-4">
-            <h4>全站总资产</h4>
+            <h4>@Messages("open.totalAssets")</h4>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                    <th>币种</th><th>余额</th>
+                    <th>@Messages("open.coinType")</th><th>@Messages("open.balance")</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,15 +32,15 @@
     <div class="row">
     <div class="col-md-12">
         <div class="row">
-            <h4>事件数据</h4>
+            <h4>@Messages("open.eventData")</h4>
         </div>
         <div class="row">
             <table class="table table-condensed" style="width: 90%;">
                 <thead>
                 <tr>
-                    <th>文件名</th>
-                    <th>更新时间</th>
-                    <th>大小</th>
+                    <th>@Messages("open.file")</th>
+                    <th>@Messages("open.updatedTime")</th>
+                    <th>@Messages("open.size")</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -49,7 +49,7 @@
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
-                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -60,15 +60,15 @@
     <div class="row">
     <div class="col-md-12">
         <div class="row">
-            <h4>状态数据</h4>
+            <h4>@Messages("open.snapshotData")</h4>
         </div>
         <div class="row">
             <table class="table table-condensed" style="width: 90%;">
                 <thead>
                 <tr>
-                    <th>文件名</th>
-                    <th>更新时间</th>
-                    <th>大小</th>
+                    <th>@Messages("open.file")</th>
+                    <th>@Messages("open.updatedTime")</th>
+                    <th>@Messages("open.size")</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -77,7 +77,7 @@
                     <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
                     <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{file.size}} Bytes</td>
-                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> 下载</a></td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
                 </tr>
                 </tbody>
             </table>

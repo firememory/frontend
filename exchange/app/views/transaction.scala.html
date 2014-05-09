@@ -1,4 +1,4 @@
-@(tid: String)(implicit session: Session)
+@(tid: String)(implicit session: Session, lang: Lang)
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,12 +21,12 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>TID</th>
-                    <th>成交时间</th>
-                    <th>成交价</th>
-                    <th>成交量</th>
-                    <th>总金额</th>
-                    <th>交易类型</th>
+                    <th>@Messages("transaction.tid")</th>
+                    <th>@Messages("transaction.timestamp")</th>
+                    <th>@Messages("transaction.price")</th>
+                    <th>@Messages("transaction.amount")</th>
+                    <th>@Messages("transaction.value")</th>
+                    <th>@Messages("transaction.type")</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,23 +43,23 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>订单角色</th>
-                    <th>订单ID</th>
-                    <th>成交前剩余</th>
-                    <th>成交后剩余</th>
-                    <th>订单用户</th>
+                    <th>@Messages("transaction.orderRole")</th>
+                    <th>@Messages("transaction.orderId")</th>
+                    <th>@Messages("transaction.beforeAmount")</th>
+                    <th>@Messages("transaction.afterAmount")</th>
+                    <th>@Messages("transaction.userId")</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>触发单</td>
+                    <td>@Messages("transaction.takeOrder")</td>
                     <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{takeOrder.oid}}</a></td>
                     <td> {{takeOrder.preAmount.display_short}} {{takeOrder.preAmount.currency}}</td>
                     <td> {{takeOrder.curAmount.display_short}} {{takeOrder.curAmount.currency}}</td>
                     <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '我' : (takeOrder.uid)}}</a></td>
                 </tr>
                 <tr>
-                    <td>限价单</td>
+                    <td>@Messages("transaction.makeOrder")</td>
                     <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{makeOrder.oid}}</a></td>
                     <td>{{makeOrder.preAmount.display_short}} {{makeOrder.preAmount.currency}}</td>
                     <td>{{makeOrder.curAmount.display_short}} {{makeOrder.curAmount.currency}}</td>

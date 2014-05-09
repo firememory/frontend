@@ -32,37 +32,37 @@ object MainController extends Controller with Json4s {
 
   def account() = Action {
     implicit request =>
-      Ok(views.html.account.render(session))
+      Ok(views.html.account.render(session, lang))
   }
 
   def market = Action {
     implicit request =>
-      Ok(views.html.market.render(session))
+      Ok(views.html.market.render(session, lang))
   }
 
   def user(uid: String) = Action {
     implicit request =>
-      Ok(views.html.user.render(uid, session))
+      Ok(views.html.user.render(uid, session, lang))
   }
 
   def order(oid: String) = Action {
     implicit request =>
-      Ok(views.html.order.render(oid, session))
+      Ok(views.html.order.render(oid, session, lang))
   }
 
   def transaction(tid: String) = Action {
     implicit request =>
-      Ok(views.html.transaction.render(tid, session))
+      Ok(views.html.transaction.render(tid, session, lang))
   }
 
   def transactions(market: String) = Action {
     implicit request =>
-      Ok(views.html.transactions.render(market, session))
+      Ok(views.html.transactions.render(market, session, lang))
   }
 
   def depth(market: String) = Action {
     implicit request =>
-      Ok(views.html.depth.render(market, session, lang))
+      Ok(views.html.login.render(showEmailVerifiedMsg, session))
   }
 
   def login(showMsg: Boolean = false, msgKey: String = "") = Action {
@@ -72,12 +72,12 @@ object MainController extends Controller with Json4s {
 
   def register = Action {
     implicit request =>
-      Ok(views.html.register.render(session))
+      Ok(views.html.register.render(session, lang))
   }
 
   def open = Action {
     implicit request =>
-      Ok(views.html.open.render(session))
+      Ok(views.html.open.render(session, lang))
   }
 
   def prompt(msgKey: String) = Action {

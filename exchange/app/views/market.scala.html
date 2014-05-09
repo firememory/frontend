@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 <!DOCTYPE html>
 <html ng-app="coinport.market">
 <head>
@@ -26,7 +26,7 @@
         <div id="control">
             <div class="inner">
                 <ul id="periods" class="horiz">
-                    <li style="line-height:26px">时间间隔:</li>
+                    <li style="line-height:26px">@Messages("market.timeInterval"):</li>
                     <li ng-repeat="item in periods" class="{{item.class}}"><a ng-click="setPeriod(item.period)">{{item.title}}</a></li>
                 </ul>
             </div>
@@ -90,7 +90,7 @@
         <div class="u {{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></div>
         <div class="u {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i> </div>
         <div class="u {{!item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></div>
-        <div class="p"><a target="_blank" href="/transaction/{{item.id}}">详细</a></div>
+        <div class="p"><a target="_blank" href="/transaction/{{item.id}}">@Messages("market.Detail")</a></div>
         <div class="v">{{item.subjectAmount.display_short}}</div>
     </div>
     <!--<div class="row" style="display: block;">-->
@@ -127,11 +127,11 @@
     <div id="footer">
         <ul class="horiz donate">
             <li>
-                数据更新时间 {{lastUpdate | date:'yyyy-HH:mm:ss'}}
+                @(Messages("market.latestUpdateTime")) {{lastUpdate | date:'yyyy-HH:mm:ss'}}
             </li>
             <li class="sep"></li>
             <li class="period">
-                下次更新在 <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> 秒之后
+                @Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> @Messages("market.seconds")
             </li>
             <li class="sep"></li>
             <li class="period"><a href="#" target="_blank">Help</a></li>

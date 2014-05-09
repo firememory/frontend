@@ -1,4 +1,4 @@
-@(target: String)(implicit session: Session)
+@(target: String)(implicit session: Session, lang: Lang)
 <!DOCTYPE html>
 <html lang="en" ng-app="coinport.user">
 <head>
@@ -15,11 +15,14 @@
         <div class="row">
             <div class="col-md-6">
                 <h4><i class="fa fa-user"></i>  @target</h4>
-                <h4>账户余额</h4>
+                <h4>@Messages("user.account")</h4>
                 <table class="table table-condensed table-striped">
                     <thead>
                     <tr>
-                        <th>币种</th><th>可用余额</th><th>挂单金额</th><th>提现冻结金额</th>
+                        <th>@Messages("user.coinType")</th>
+                        <th>@Messages("user.available")</th>
+                        <th>@Messages("user.orderPending")</th>
+                        <th>@Messages("user.withdrawalPending")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,14 +36,14 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <h4>人民币充值/提现记录</h4>
+                <h4>@Messages("user.cnyTransfer")</h4>
                 <table class="table table-condensed ">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>时间</th>
-                        <th>操作</th>
-                        <th style="text-align: right;">金额</th>
+                        <th>@Messages("user.transfer.id")</th>
+                        <th>@Messages("user.transfer.timestamp")</th>
+                        <th>@Messages("user.transfer.operation")</th>
+                        <th style="text-align: right;">@Messages("user.transfer.amount")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -60,14 +63,14 @@
                     </tr>
                     </tbody>
                 </table>
-                <h4>比特币充值/提现记录</h4>
+                <h4>@Messages("user.btcTransfer")</h4>
                 <table class="table table-condensed ">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>时间</th>
-                        <th>操作</th>
-                        <th style="text-align: right;">金额</th>
+                        <th>@Messages("user.transfer.id")</th>
+                        <th>@Messages("user.transfer.timestamp")</th>
+                        <th>@Messages("user.transfer.operation")</th>
+                        <th style="text-align: right;">@Messages("user.transfer.amount")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,18 +93,18 @@
             </div>
         </div>
         <div class="row">
-            <h4>交易记录</h4>
+            <h4>@Messages("user.transactions")</h4>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>TID</th>
-                    <th>成交时间</th>
-                    <th>成交价</th>
-                    <th>成交量</th>
-                    <th>总金额</th>
-                    <th>交易发起用户</th>
-                    <th>交易类型</th>
-                    <th>挂单用户</th>
+                    <th>@Messages("transaction.tid")</th>
+                    <th>@Messages("transaction.timestamp")</th>
+                    <th>@Messages("transaction.price")</th>
+                    <th>@Messages("transaction.amount")</th>
+                    <th>@Messages("transaction.value")</th>
+                    <th>@Messages("transaction.taker")</th>
+                    <th>@Messages("transaction.type")</th>
+                    <th>@Messages("transaction.maker")</th>
                 </tr>
                 </thead>
                 <tbody>
