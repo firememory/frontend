@@ -39,9 +39,14 @@ POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
 
 # html pieces
-GET     /views/bidask.html              controllers.MainController.bidaskView()
-GET     /views/register.html            controllers.MainController.registerView()
-GET     /views/accountSettings.html     controllers.MainController.accountSettingsView()
+GET     /views/bidask.html               controllers.MainController.bidaskView()
+GET     /views/register.html             controllers.MainController.registerView()
+GET     /views/accountSettings.html      controllers.MainController.accountSettingsView()
+GET     /views/asset.html                controllers.MainController.assetView()
+GET     /views/deposit.html             controllers.MainController.depositView()
+GET     /views/withdrawal.html          controllers.MainController.withdrawalView()
+GET     /views/transactions.html        controllers.MainController.transactionsView()
+GET     /views/orders.html              controllers.MainController.ordersView()
 
 # API routes
 GET     /api/*market/depth          controllers.ApiController.depth(market)

@@ -62,7 +62,7 @@ object MainController extends Controller with Json4s {
 
   def depth(market: String) = Action {
     implicit request =>
-      Ok(views.html.login.render(showEmailVerifiedMsg, session))
+      Ok(views.html.depth.render(market, session, lang))
   }
 
   def login(showMsg: Boolean = false, msgKey: String = "") = Action {
@@ -139,5 +139,30 @@ object MainController extends Controller with Json4s {
   def accountSettingsView() = Action {
     implicit request =>
       Ok(views.html.viewAccountSettings.render(lang))
+  }
+
+  def assetView() = Action {
+    implicit request =>
+      Ok(views.html.viewAsset.render(lang))
+  }
+
+  def depositView() = Action {
+    implicit request =>
+      Ok(views.html.viewDeposit.render(lang))
+  }
+
+  def withdrawalView() = Action {
+    implicit request =>
+      Ok(views.html.viewWithdrawal.render(lang))
+  }
+
+  def ordersView() = Action {
+    implicit request =>
+      Ok(views.html.viewOrders.render(lang))
+  }
+
+  def transactionsView() = Action {
+    implicit request =>
+      Ok(views.html.viewTransactions.render(lang))
   }
 }
