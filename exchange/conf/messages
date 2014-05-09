@@ -92,3 +92,55 @@ accountsettings.mobile=Mobile
 accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit
 accountsettings.cancel=Cancel
+
+footer.aboutUs=About Us
+footer.fq=F&Q
+footer.fee=Fee Instrument
+footer.termsOfService=Terms Of Service
+footer.contact=Contact Us
+
+market.timeInterval=Time Interval
+market.detail=Detail
+market.latestUpdateTime=Latest update time
+market.willBeUpdatedIn=Will be updated in
+market.seconds=s
+
+open.totalAssets=Total Assets
+open.coinType=Coin Type
+open.balance=Balance
+open.file=File
+open.updatedTime=Updated Time
+open.size=size
+open.eventData=Event Data
+open.snapshotData=Snapshot Data
+open.Download=Download
+
+transaction.tid=Transaction ID
+transaction.timestamp=Timestamp
+transaction.price=Price
+transaction.amount=Amount
+transaction.value=Value
+transaction.type=Type
+
+transaction.orderRole=Order Role
+transaction.orderId=Order ID
+transaction.beforeAmount=Amount Before Transaction
+transaction.afterAmount=Amount After Transaction
+transaction.userId=User ID
+transaction.takeOrder=Take Order
+transaction.makeOrder=Make Order
+transaction.taker=Taker
+transaction.maker=Maker
+
+user.account=Account
+user.coinType=Coin Type
+user.available=available
+user.orderPending=Pending With Order
+user.withdrawalPending=Pending With Withdrawal
+user.cnyTransfer=CNY Deposit/Withdrawal
+user.btcTransfer=BTC Deposit/Withdrawal
+user.transfer.id=ID
+user.transfer.timestamp=Timestamp
+user.transfer.operation=Operation
+user.transfer.amount=Amount
+user.transactions=Transactions
