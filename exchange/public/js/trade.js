@@ -158,6 +158,11 @@ function BidAskCtrl($scope, $http, $routeParams) {
         ]];
 
         // create the chart
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
         $('.candle-chart').highcharts('StockChart', {
             chart : {
                 events : {
@@ -210,24 +215,21 @@ function BidAskCtrl($scope, $http, $routeParams) {
             },
             navigator: {
                 enabled: true,
-                height: 30,
+                height: 20,
                 margin: 5
             },
             scrollbar: {
                 enabled: false,
             },
             yAxis: [{
-                height: '60%',
-                lineWidth: 2
+                height: '75%'
             }, {
-                top: '65%',
-                height: '35%',
-                offset: 0,
-                lineWidth: 2
+                top: '80%',
+                height: '20%'
             }],
             series: [{
                 type: 'candlestick',
-                name: 'BTC',
+                name: $scope.subject + '-' + $scope.currency,
                 data: splitHistoryData($scope.history).ohlc,
                 dataGrouping: {
                     units: groupingUnits
