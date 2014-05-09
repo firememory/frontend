@@ -23,6 +23,10 @@ nav.logout=退出登录
 nav.register=注册
 
 login.title=登录信息
+login.verifyEmailSucceeded=注册邮箱已验证，请登录
+login.resetPwdSucceeded=密码重置成功，请登录
+login.pwdPlaceHolder=请输入密码
+login.doLogin=登录
 register.title=注册信息
 register.changeCaptcha=看不清，换一张
 
@@ -61,3 +65,30 @@ order.status.open=部分成交
 order.status.finished=全部成交
 order.status.cancelled=已撤销
 order.operation=操作
+
+prompt.backToHome=返回首页
+prompt.verifyEmailFailed=注册邮箱验证失败
+prompt.verifyEmailSent=验证邮件已发送到您的注册邮箱，请登录邮箱点击链接完成注册。
+prompt.resetPwdEmailSent=密码重置邮件已发送到您的注册邮箱，请登录邮箱点击链接进行密码重置
+prompt.resetPwdFailed=密码重置链接已过期
+prompt.doResetPwdFailed=密码重置失败
+
+forgetpwd.title=密码重置
+forgetpwd.email=E-mail
+forgetpwd.submit=确定
+
+resetpwd.title=密码重置
+resetpwd.newPassword=新密码
+resetpwd.newPwdPlaceHolder=输入新密码
+resetpwd.repeat=重复密码
+resetpwd.repeatPlaceHolder=重复密码
+resetpwd.submit=确定
+
+accountsettings.title=账号设置
+accountsettings.realName=真实姓名
+accountsettings.realNamePrompt=一旦提交，不可更改
+accountsettings.realNameAgain=重复姓名
+accountsettings.mobile=手机
+accountsettings.smsVerifyCode=短信验证码
+accountsettings.submit=确定
+accountsettings.cancel=取消

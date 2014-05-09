@@ -1,20 +1,21 @@
+@()(implicit lang: Lang)
 <div class="row">
-    <h4>账号设置</h4>
+    <h4>@Messages("accountsettings.title")</h4>
     <br/><br/>
     <div>
         <form class="form-horizontal" name="accountSettingsForm">
             <div class="form-group">
-                <label class="control-label col-sm-2">真实姓名</label>
+                <label class="control-label col-sm-2">@Messages("accountsettings.realName")</label>
                 <div class="col-sm-3">
-                    <input name="realName" class="form-control" placeholder="真实姓名" ng-model="account.realName" required>
+                    <input name="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required>
                 </div>
-                <div class="col-sm-2">一经提交，不可更改</div>
+                <div class="col-sm-2">@Messages("accountsettings.realNamePrompt")</div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2">再次输入真实姓名</label>
+                <label class="control-label col-sm-2">@Messages("accountsettings.realNameAgain")</label>
                 <div class="col-sm-3">
-                    <input name="confirmRealName" class="form-control" placeholder="再次输入真实姓名" ng-model="account.confirmRealName" required>
+                    <input name="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" required>
                 </div>
             </div>
 
@@ -35,18 +36,18 @@
 -->
 
             <div class="form-group">
-                <label class="control-label col-sm-2">手机号码</label>
+                <label class="control-label col-sm-2">@Messages("accountsettings.mobile")</label>
                 <div class="col-sm-3">
-                    <input name="mobile" class="form-control" placeholder="手机号码" ng-model="account.mobile" required>
+                    <input name="mobile" class="form-control" placeholder="@Messages("accountsettings.mobile")" ng-model="account.mobile" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2">短信验证码</label>
+                <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
                 <div class="col-sm-3">
-                    <input name="verifyCode" class="form-control" placeholder="短信验证码" ng-model="verifyCode" required>
+                    <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="verifyCode" required>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <button class="form-control" ng-click="sendVerifySms()"
                             ng-disabled="isTiming">
                         {{verifyButton}}
@@ -61,10 +62,10 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-2">
-                    <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i> 保存</button>
+                    <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i>@Messages("accountsettings.submit")</button>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消</button>
+                    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i>@Messages("accountsettings.cancel")</button>
                 </div>
             </div>
         </form>

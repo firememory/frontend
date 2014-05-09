@@ -12,3 +12,13 @@ Messages.orderStatus = {
     finished: '全部成交',
     cancelled: '已撤销'
 };
+
+Messages.account = {
+  registerSucceeded: '注册成功',
+  updateAccountProfileSucceeded: '更新用户资料成功',
+  getVerifyCodeButtonText: '获取短信验证码'
+};
+
+var ErrorMessage = {
+  9002: '验证码错误'
+};

@@ -43,9 +43,7 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
           });
         };
 
-        if ($scope.isRegisterActive) {
-          $scope.newCaptcha();
-        }
+        $scope.newCaptcha();
 
         $scope.doLogin = function () {
           $http.post('/account/login',
@@ -80,9 +78,9 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
             .success(function(data, status, headers, config) {
               console.log(data);
               if (data.success) {
-                $scope.$parent.registerErrorMessage = '注册成功';
+                $scope.$parent.registerErrorMessage = Messages.account.registerSucceeded;
                 $scope.$parent.showRegisterError = true;
-                $window.location.href = '/account/registersucceeded';
+                $window.location.href = '/prompt/prompt.verifyEmailSent';
               } else {
                 $scope.$parent.registerErrorMessage = data.message;
                 $scope.$parent.showRegisterError = true;

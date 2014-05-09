@@ -396,7 +396,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function(
     $scope.credentialItems = [{"name" : "身份证", "value" : "1"},
                               {"name" : "护照", "value" : "2"}];
     $scope.credentialType = $scope.credentialItems[0];
-    $scope.verifyButton = "获取短信验证码";
+    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
 
     var stop;
     $scope.isTiming = false;
@@ -410,12 +410,12 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function(
         stop = $interval(function() {
             if ($scope.seconds > 0) {
                 $scope.seconds = $scope.seconds -1;
-                $scope.verifyButton = $scope.seconds + "秒后重新获取";
+                $scope.verifyButton = $scope.seconds + " " + Messages.account.getVerifyCodeButtonText;
                 $scope.isTiming = true;
             }
             else {
                 $scope.stopTiming();
-                $scope.verifyButton = "获取短信验证码";
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
                 $scope.isTiming = false;
             }
         }, 1000);
@@ -439,10 +439,6 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function(
     $scope.sendVerifySms = function () {
         $scope.showUpdateAccountError = false;
         $scope.isTiming = true;
-        // if (sending) {
-        //     console.log("sending verifysms");
-        //     return;
-        // }
         sending = true;
         $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function(data, status, headers, config) {
@@ -469,7 +465,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function(
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     $scope.showUpdateAccountError = true;
-                    $scope.updateAccountErrorMessage = '保存成功！';
+                    $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;

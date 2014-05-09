@@ -135,4 +135,9 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.viewRegister.render(lang))
   }
+
+  def accountSettingsView() = Action {
+    implicit request =>
+      Ok(views.html.viewAccountSettings.render(lang))
+  }
 }

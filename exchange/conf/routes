@@ -20,7 +20,7 @@ GET     /account/logout             controllers.UserController.logout()
 POST    /account/login              controllers.UserController.login()
 POST    /account/register           controllers.UserController.register()
 POST    /account/settings           controllers.UserController.updateSettings()
-GET     /account/registersucceeded    controllers.UserController.registerSucceeded()
+##GET     /account/registersucceeded    controllers.UserController.registerSucceeded()
 ##GET     /account/verifyemailfailed    controllers.UserController.verifyEmailFailed()
 GET     /account/forgetpassword     controllers.UserController.forgetPassword()
 GET    /account/requestpwdreset/*email    controllers.UserController.requestPasswordReset(email)
@@ -39,8 +39,9 @@ POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
 
 # html pieces
-GET     /views/bidask.html          controllers.MainController.bidaskView()
-GET     /views/register.html        controllers.MainController.registerView()
+GET     /views/bidask.html              controllers.MainController.bidaskView()
+GET     /views/register.html            controllers.MainController.registerView()
+GET     /views/accountSettings.html     controllers.MainController.accountSettingsView()
 
 # API routes
 GET     /api/*market/depth          controllers.ApiController.depth(market)

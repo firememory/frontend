@@ -124,10 +124,10 @@ object UserController extends Controller with Json4s {
     }
   }
 
-  def registerSucceeded() = Action {
-    implicit request =>
-    Redirect(routes.MainController.prompt("prompt.verifyEmailSended"))
-  }
+  // def registerSucceeded() = Action {
+  //   implicit request =>
+  //   Redirect(routes.MainController.prompt("prompt.verifyEmailSent"))
+  // }
 
   // def verifyEmailFailed() = Action {
   //   implicit request =>

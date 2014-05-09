@@ -13,13 +13,12 @@ Messages.orderStatus = {
   cancelled: 'Cancelled'
 };
 
-Messages.prompt = {
-  passwordResetSucceeded: 'password reset succeeded, please login.',
-  passwordResetFailed: 'password reset failed!',
-  emailVerifySucceeded: 'email verify succeeded, please login.',
-  emailVerifyFailed: 'email verify failed!',
+Messages.account = {
+  registerSucceeded: 'register succeeded',
+  updateAccountProfileSucceeded: 'save profile succeeded',
+  getVerifyCodeButtonText: 'get sms verify code'
 };
 
 var ErrorMessage = {
   9002: 'captcha text not match'
-}
+};
