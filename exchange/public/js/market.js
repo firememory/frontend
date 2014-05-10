@@ -11,21 +11,21 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
     $scope.candleParam = {period: 4};
     $scope.candleChart = null;
     $scope.periods = [
-        {period: 13, title: '1周'},
-        {period: 12, title: '3日'},
-        {period: 11, title: '1日'},
+        {period: 13, title: Messages.timeDemension.w1},
+        {period: 12, title: Messages.timeDemension.d3},
+        {period: 11, title: Messages.timeDemension.d1},
         {class: 'subsep'},
-        {period: 10, title: '12小时'},
-        {period: 9, title: '6小时'},
-        {period: 8, title: '4小时'},
-        {period: 7, title: '2小时'},
-        {period: 6, title: '1小时'},
+        {period: 10, title: Messages.timeDemension.h12},
+        {period: 9, title: Messages.timeDemension.h6},
+        {period: 8, title: Messages.timeDemension.h4},
+        {period: 7, title: Messages.timeDemension.h2},
+        {period: 6, title: Messages.timeDemension.h1},
         {class: 'subsep'},
-        {period: 5, title: '30分钟'},
-        {period: 4, title: '15分钟', class: 'period selected'},
-        {period: 3, title: '5分钟'},
-        {period: 2, title: '3分钟'},
-        {period: 1, title: '1分钟'}];
+        {period: 5, title: Messages.timeDemension.m30},
+        {period: 4, title: Messages.timeDemension.m15, class: 'period selected'},
+        {period: 3, title: Messages.timeDemension.m5},
+        {period: 2, title: Messages.timeDemension.m3},
+        {period: 1, title: Messages.timeDemension.m1}];
     $scope.setPeriod = function(period) {
         if ($scope.candleParam.period == period)
             return;
@@ -130,7 +130,7 @@ marketApp.filter('txTypeIcon', function() {
 
 marketApp.filter('txTypeText', function() {
     return function(input) {
-        return input ?  '卖出' : '买入';
+        return input ?  Messages.sell : Messages.buy;
     }
 });
 

@@ -4,7 +4,7 @@ var Messages = {
     buyShort: '买',
     sellShort: '卖',
     unknown: '未知'
-}
+};
 
 Messages.orderStatus = {
     pending: '挂单中',

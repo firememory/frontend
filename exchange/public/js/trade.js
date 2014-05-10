@@ -276,23 +276,23 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $scope.addBidOrder = function() {
         if($scope.bid.amount < 0) {
-            $scope.info.bidMessage = '数量不能小于0';
+            $scope.info.bidMessage = Messages.trade.lowerZero;
             return;
         }
         if ($scope.bid.total > $scope.account[$scope.currency]) {
-            $scope.info.bidMessage = '余额不足';
+            $scope.info.bidMessage = Messages.trade.noEnough;
             return;
         }
         if ($scope.bidOptions.limitAmount && $scope.bid.amount <= 0) {
-            $scope.info.bidMessage = '请输入数量';
+            $scope.info.bidMessage = Messages.trade.inputAmount;
             return;
         }
         if ($scope.bidOptions.limitPrice && $scope.bid.price <= 0) {
-            $scope.info.bidMessage = '请输入价格';
+            $scope.info.bidMessage = Messages.trade.inputPrice;
             return;
         }
 
-        $scope.info.bidButtonLabel = '提交订单中...';
+        $scope.info.bidButtonLabel = Messages.trade.submit;
         var payload = {type: 'bid'};
         if ($scope.bidOptions.limitPrice)
             payload.price = $scope.bid.price;
@@ -318,23 +318,23 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $scope.addAskOrder = function() {
         if($scope.ask.amount < 0) {
-            $scope.info.askMessage = '数量不能小于0';
+            $scope.info.askMessage = Messages.trade.lowerZero;
             return;
         }
         if ($scope.ask.amount > $scope.account[$scope.subject]) {
-            $scope.info.askMessage = '余额不足';
+            $scope.info.askMessage = Messages.trade.noEnough;
             return;
         }
         if ($scope.askOptions.limitAmount && $scope.ask.amount <= 0) {
-            $scope.info.askMessage = '请输入数量';
+            $scope.info.askMessage = Messages.trade.inputAmount;
             return;
         }
         if ($scope.askOptions.limitPrice && $scope.ask.price <= 0) {
-            $scope.info.askMessage = '请输入价格';
+            $scope.info.askMessage = Messages.trade.inputPrice;
             return;
         }
 
-        $scope.info.askButtonLabel = '提交订单中...';
+        $scope.info.askButtonLabel = Messages.trade.submit;
         var payload = {type: 'ask'};
         if ($scope.askOptions.limitPrice)
             payload.price = $scope.ask.price;

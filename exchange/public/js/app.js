@@ -86,12 +86,12 @@ coinportApp.filter('orderStatusText', function() {
 coinportApp.filter('depositStatusText', function() {
     var filter = function(input) {
         if(input == 0)
-            return '等待处理';
+            return Messages.transfer.waiting;
         if(input == 1)
-            return '充值成功';
+            return Messages.transfer.succeed;
         if(input == 2)
-            return '充值失败';
-        return '未知状态:'+input;
+            return Messages.transfer.failed;
+        return Messages.unknown + input;
     }
     return filter;
 });
@@ -99,12 +99,12 @@ coinportApp.filter('depositStatusText', function() {
 coinportApp.filter('withdrawalStatusText', function() {
     var filter = function(input) {
         if(input == 0)
-            return '等待处理';
+            return Messages.transfer.waiting;
         if(input == 1)
-            return '提现成功';
+            return Messages.transfer.succeed;
         if(input == 2)
-            return '提现失败';
-        return '未知状态:'+input;
+            return Messages.transfer.failed;
+        return Messages.unknown + input;
     }
     return filter;
 });
@@ -138,7 +138,7 @@ coinportApp.filter('UID', function() {
 
 coinportApp.filter('dwText', function() {
     return function(input) {
-        return input == 0 ? '充值' : '提现';
+        return input == 0 ? Messages.transfer.deposit : Messages.transfer.withdrawal;
     }
 });
 

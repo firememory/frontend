@@ -84,7 +84,7 @@ app.controller('DepositRmbCtrl', ['$scope', '$http', function($scope, $http) {
         $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
             var deposit = data.data.transfer;
-            alert('充值成功，本次充值' + deposit.amount/100 + '元');
+            alert(Messages.transfer.depositSuccess + deposit.amount/100 + Messages.transfer.cny);
           });
     };
 }]);
@@ -118,7 +118,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function($scope, $http) 
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
-                    alert('提现成功，本次提现' + withdrawal.amount/100 + '元');
+                    alert(Messages.transfer.withdrawalSuccess + withdrawal.amount/100 + Messages.cny);
                 } else {
                     alert(data.message);
                 }
@@ -150,7 +150,7 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function($scop
         $http.post('/account/deposit', $.param($scope.depositData))
           .success(function(data, status, headers, config) {
             var deposit = data.data.transfer;
-            alert('充值成功，本次充值' + deposit.amount/1000 + $scope.currency);
+            alert(Messages.transfer.depositSuccess + deposit.amount/1000 + $scope.currency);
           });
     };
 }]);
@@ -185,7 +185,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function($s
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
-                    alert('提现成功，本次提现' + withdrawal.amount/1000 + $scope.currency);
+                    alert(Messages.transfer.withdrawalSuccess + withdrawal.amount/1000 + $scope.currency);
                 } else {
                     alert(data.message);
                 }
@@ -220,7 +220,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             });
 
         $('#user-finance-chart-pie').jqChart({
-            title: { text: '资产构成' },
+            title: { text: Messages.asset.assetComposition },
             legend: {},
             shadows: {
                 enabled: true
@@ -258,7 +258,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         // jQuery code
         $('#user-finance-chart-history').jqChart({
-            title: { text: '资产走势' },
+            title: { text: Messages.asset.assetTrend },
             dataSource: assetData,
             axes: [
                 {
@@ -277,14 +277,14 @@ app.controller('AssetCtrl', function ($scope, $http) {
             series: [
                 {
                     type: 'stackedArea',
-                    title: '人民币(CNY)',
+                    title: 'CNY',
                     xValuesField: 'date',
                     yValuesField: 'value1',
                     axisY: 'y1'
                 },
                 {
                     type: 'stackedArea',
-                    title: '比特币(BTC)',
+                    title: 'BTC',
                     xValuesField: 'date',
                     yValuesField: 'value2',
                     axisY: 'y1'
