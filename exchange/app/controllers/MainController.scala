@@ -92,7 +92,7 @@ object MainController extends Controller with Json4s {
       stream.close()
     }
 
-    Result(
+    SimpleResult(
       header = ResponseHeader(200),
       body = fileContent
     ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
