@@ -28,15 +28,18 @@
     }
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav nav-pills nav-stacked" ng-controller="SidebarCtrl">
-                <li ng-repeat="nav in navs" class="{{nav.class}}">
-                    <a href="{{nav.link}}" ng-click="click(nav)">
-                        {{nav.title}}
-                        <span></span>
-                    </a>
-                </li>
+            <ul class="nav nav-pills nav-stacked" cp-nav>
+                <li route="#/asset"><a href="#/asset">我的资产</a></li>
+                <li route="#/orders"><a href="#/orders">我的订单</a></li>
+                <li route="#/transaction"><a href="#/transaction">我的成交</a></li>
+                <li route="#/deposit/cny"><a href="#/deposit/cny">CNY充值</a></li>
+                <li route="#/withdrawal/cny"><a href="#/withdrawal/cny">CNY提现</a></li>
+                <li route="#/deposit/btc"><a href="#/deposit/btc">BTC充值</a></li>
+                <li route="#/withdrawal/btc"><a href="#/withdrawal/btc">BTC提现</a></li>
+                <li route="#/accountsettings"><a href="#/accountsettings">账号设置</a></li>
             </ul>
         </div>
+
         <div class="content col-md-10" ng-view>
 
         </div>

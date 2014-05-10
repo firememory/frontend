@@ -17,23 +17,6 @@ function httpConfig($httpProvider) {
 tradeApp.config(routeConfig);
 tradeApp.config(httpConfig);
 
-function SidebarCtrl($scope) {
-    $scope.navs = [
-        {title: 'BTC-CNY', link: '#/btccny', class: 'active'},
-        {title: 'LTC-BTC', link: '#/ltcbtc', class: ''},
-        {title: 'PTS-BTC', link: '#/ptsbtc', class: ''},
-        {title: 'DOG-BTC', link: '#/dogbtc', class: ''}];
-
-    $scope.click = function(activeNav) {
-        $scope.navs.forEach(function(nav) {
-            if (nav.link == activeNav.link)
-                nav.class = 'active';
-            else
-                nav.class = '';
-        });
-    };
-}
-
 function BidAskCtrl($scope, $http, $routeParams) {
     $scope.market = $routeParams.market.toUpperCase();
     $scope.historyPeriod = 1; // 1 - minute K

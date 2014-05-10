@@ -1,5 +1,6 @@
 // Declare app level module which depends on filters, and services
 var coinportApp = angular.module('coinport.app', []);
+// Filters
 coinportApp.filter('orderTypeText', function() {
     return function(input) {
         if(! input) return '';
@@ -152,4 +153,30 @@ coinportApp.filter('dwIcon', function() {
     return function(input) {
         return input == 0 ? 'fa-sign-in' : 'fa-sign-out';
     }
+});
+
+// Directives
+coinportApp.directive('cpNav', function($window) {
+ 'use strict';
+ return {
+   restrict: 'A',
+   link: function postLink(scope, element, attrs, controller) {
+     // Watch for the $window
+     scope.$watch(function() {
+       return $window.location.hash;
+     }, function(newValue, oldValue) {
+
+       $('li[route]', element).each(function(k, li) {
+         var $li = angular.element(li),
+           pattern = $li.attr('route'),
+           regexp = new RegExp('^' + pattern + '$', ['i']);
+         if(regexp.test(newValue)) {
+           $li.addClass('active');
+         } else {
+           $li.removeClass('active');
+         }
+       });
+     });
+   }
+ };
 });
