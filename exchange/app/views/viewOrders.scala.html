@@ -1,5 +1,5 @@
 @()(implicit lang: Lang)
-    <h4>我的委托:</h4>
+    <h4>@Messages("order.myOrders"):</h4>
     <ul class="nav">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -19,17 +19,16 @@
         <table class="table table-condensed table-striped table-user-order">
             <thead>
             <tr>
-                <th>订单ID</th>
-                <th>委托时间</th>
-                <th>类型</th>
-                <th>币种</th>
-                <th>委托价</th>
-                <th>委托量</th>
-                <th>成交量</th>
-                <th>总金额</th>
-                <th>成交额</th>
-                <th>状态</th>
-                <th>操作</th>
+                <th>@(Messages("order.id"))</th>
+                <th>@(Messages("order.time"))</th>
+                <th>@(Messages("order.type"))</th>
+                <th>@(Messages("order.price"))</th>
+                <th>@(Messages("order.amount"))</th>
+                <th>@(Messages("order.finishedAmount"))</th>
+                <th>@(Messages("order.total"))</th>
+                <th>@(Messages("order.finishedTotal"))</th>
+                <th>@(Messages("order.status"))</th>
+                <th>@(Messages("order.operation"))</th>
             </tr>
             </thead>
             <tbody>

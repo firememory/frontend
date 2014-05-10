@@ -1,20 +1,20 @@
 @()(implicit lang: Lang)
 <div class="row">
-    <h4><strong>{{currency}}</strong>提现</h4>
-    <h4>重要提示：网站内测阶段，提现仅供测试之用</h4>
-    <h4>当前余额：{{balance.available.display_short}} {{currency}}</h4>
+    <h4><strong>{{currency}}</strong>@Messages("transfer.withdrawal")</h4>
+    <h4>@Messages("transfer.withdrawalMessages")</h4>
+    <h4>@Messages("transfer.account")：{{balance.available.display_short}} {{currency}}</h4>
 </div>
 <div class="row">
     <form class="form-horizontal" name="withdrawalForm">
         <div class="form-group">
-            <label class="control-label col-sm-3">虚拟{{currency}}提现数量</label>
+            <label class="control-label col-sm-3">{{currency}} @(Messages("transfer.withdrawalAmount"))</label>
             <div class="col-sm-6">
-                <input type="number" name="amount" class="form-control" placeholder="数量" ng-model="withdrawalData.amount"  required>
+                <input type="number" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount"  required>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-3">
-                <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> 提现</button>
+                <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> @Messages("transfer.depositAmount")</button>
             </div>
         </div>
     </form>
@@ -23,11 +23,11 @@
     <table class="table table-condensed ">
         <thead>
         <tr>
-            <th>id</th>
-            <th>提交时间</th>
-            <th>更新时间</th>
-            <th>金额</th>
-            <th>状态</th>
+            <th>@Messages("transfer.id")</th>
+            <th>@Messages("transfer.created")</th>
+            <th>@Messages("transfer.updated")</th>
+            <th>@Messages("transfer.amount")</th>
+            <th>@Messages("transfer.status")</th>
         </tr>
         </thead>
         <tbody>

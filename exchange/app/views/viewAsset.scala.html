@@ -11,7 +11,14 @@
     <table id="user-finance-table" class="table table-condensed table-striped">
         <thead>
         <tr>
-            <th>资产种类</th><th>可用数量</th><th>挂单数量</th><th>提现冻结数量</th><th>总数量</th><th>价格</th><th>价值(估算)</th><th>操作</th>
+            <th>@Messages("asset.category")</th>
+            <th>@Messages("asset.available")</th>
+            <th>@Messages("user.orderPending")</th>
+            <th>@Messages("user.withdrawalPending")</th>
+            <th>@Messages("asset.totalAmount")</th>
+            <th>@Messages("asset.price")</th>
+            <th>@Messages("asset.valueOnEstimate")</th>
+            <th>@Messages("asset.operation")</th>
         </tr>
         </thead>
         <tbody>
@@ -23,7 +30,8 @@
             <td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
             <td><i class="fa fa-cny"></i> {{account.total}}</td>
             <td><i class="fa fa-cny"></i> {{account.asset}}</td>
-            <td><a href="#/deposit/{{account.currency}}">充值</a>&nbsp;&nbsp;<a href="#/withdrawal/{{account.currency}}">提现</a></td>
+            <td><a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
+                <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a></td>
         </tr>
         </tbody>
     </table>

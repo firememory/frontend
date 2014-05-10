@@ -65,6 +65,7 @@ order.status.open=Open
 order.status.finished=Finished
 order.status.cancelled=Cancelled
 order.operation=Operation
+order.myOrders=My Orders
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed
@@ -131,6 +132,7 @@ transaction.takeOrder=Take Order
 transaction.makeOrder=Make Order
 transaction.taker=Taker
 transaction.maker=Maker
+transaction.myTransactions=My Transactions
 
 user.account=Account
 user.coinType=Coin Type
@@ -144,3 +146,28 @@ user.transfer.timestamp=Timestamp
 user.transfer.operation=Operation
 user.transfer.amount=Amount
 user.transactions=Transactions
+
+transfer.withdrawal=Withdrawal
+transfer.deposit=Deposit
+transfer.withdrawalMessage=In Test
+transfer.depositMessage=In Test
+transfer.depositAddress=Deposit Address
+transfer.withdrawalAddress=Withdrawal Address
+transfer.account=Account
+transfer.withdrawalAmount=Withdrawal Amount
+transfer.depositAmount=Deposit Amount
+transfer.id=ID
+transfer.created=Created
+transfer.updated=Updated
+transfer.amount=Amount
+transfer.status=Status
+
+asset.category=Category
+asset.available=Available
+asset.totalAmount=Total Amount
+asset.price=Price
+asset.valueOnEstimate=Value(E)
+asset.operation=Operation
+
+
+
