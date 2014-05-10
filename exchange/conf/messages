@@ -51,7 +51,8 @@ trade.cancel=Cancel
 trade.availableAmount=Available
 trade.availableCurrency=Available
 
-order.id=ID
+order.oid=ID
+order.uid=User
 order.time=Time
 order.type=Type
 order.price=Price
@@ -66,6 +67,17 @@ order.status.finished=Finished
 order.status.cancelled=Cancelled
 order.operation=Operation
 order.myOrders=My Orders
+order.submitTime=Time
+order.baseCurrency=Base Currency
+order.targetCurrency=Target Currency
+order.orderPrice=Price
+order.averagePrice=Average Price
+order.orderAmount=Amount
+order.tradingAmount=Trading Amount
+order.orderValue=Value
+order.tradingValue=Trading Value
+
+
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed
