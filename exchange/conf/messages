@@ -168,6 +168,13 @@ asset.totalAmount=Total Amount
 asset.price=Price
 asset.valueOnEstimate=Value(E)
 asset.operation=Operation
+asset.myAsset=My Asset
+asset.cnyDeposit=CNY Deposit
+asset.btcDeposit=BTC Deposit
+asset.cnyWithdrawal=CNY Withdrawal
+asset.btcWithdrawal=BTC Withdrawal
+asset.accountSettings=Account Settings
+
 
 
 

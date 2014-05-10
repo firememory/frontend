@@ -133,11 +133,6 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function($scop
             $scope.balance = data.data.accounts[$scope.currency];
     });
 
-//    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 0}})
-//      .success(function(data, status, headers, config) {
-//        $scope.deposits = data.data;
-//    });
-
     $scope.page = 1;
     $scope.loadDeposits = function() {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type':0}})
