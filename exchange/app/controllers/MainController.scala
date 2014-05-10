@@ -165,4 +165,19 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.viewTransactions.render(lang))
   }
+
+  def downloadView() = Action {
+    implicit request =>
+      Ok(views.html.viewDownload.render(lang))
+  }
+
+  def reserveView() = Action {
+    implicit request =>
+      Ok(views.html.viewReserve.render(lang))
+  }
+
+  def codeView() = Action {
+    implicit request =>
+      Ok(views.html.viewCode.render(lang))
+  }
 }

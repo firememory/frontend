@@ -1,0 +1,28 @@
+@()(implicit lang: Lang)
+<div class="row">
+    <div class="col-md-12">
+        <h4>@Messages("open.totalAssets")</h4>
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>@Messages("open.coinType")</th>
+                <th>Available</th>
+                <th>Locked</th>
+                <th>Pending Withdrawal</th>
+                <th>@Messages("open.balance")</th>
+                <th>Wallet Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="account in accounts">
+                <td>{{account.currency}}</td>
+                <td>{{account.available.display_short}}</td>
+                <td>{{account.locked.display_short}}</td>
+                <td>{{account.pendingWithdrawal.display_short}}</td>
+                <td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
+                <td><a href="https://blockchain.info/address/1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R">1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

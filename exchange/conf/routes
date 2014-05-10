@@ -38,7 +38,7 @@ GET     /trade/*market/order/cancel/*oid   controllers.ApiController.cancelOrder
 POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
 
-# html pieces
+# html snippet
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()
 GET     /views/accountSettings.html      controllers.MainController.accountSettingsView()
@@ -47,6 +47,9 @@ GET     /views/deposit.html             controllers.MainController.depositView()
 GET     /views/withdrawal.html          controllers.MainController.withdrawalView()
 GET     /views/transactions.html        controllers.MainController.transactionsView()
 GET     /views/orders.html              controllers.MainController.ordersView()
+GET     /views/download.html            controllers.MainController.downloadView()
+GET     /views/reserve.html             controllers.MainController.reserveView()
+GET     /views/code.html                controllers.MainController.codeView()
 
 # API routes
 GET     /api/*market/depth          controllers.ApiController.depth(market)

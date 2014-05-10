@@ -1,6 +1,29 @@
-var openApp = angular.module('coinport.open', ['ui.bootstrap', 'ngResource', 'navbar']);
+var app = angular.module('coinport.open', ['ui.bootstrap', 'ngResource', 'navbar', 'ngRoute', 'coinport.app']);
 
-openApp.controller('OpenCtrl', function ($scope, $http) {
+function routeConfig($routeProvider) {
+    $routeProvider.
+    when('/', {
+        redirectTo: '/reserve'
+    }).
+    when('/download', {
+        controller: 'DownCtrl',
+        templateUrl: 'views/download.html'
+    }).
+    when('/reserve', {
+        controller: 'ReserveCtrl',
+        templateUrl: 'views/reserve.html'
+    }).
+    when('/code', {
+        templateUrl: 'views/code.html'
+    }).
+    otherwise({
+        redirectTo: '/'
+    });
+}
+
+app.config(routeConfig);
+
+app.controller('DownCtrl', function ($scope, $http) {
     $scope.messagesPage = 1;
     $scope.snapshotsPage = 1;
 
@@ -20,10 +43,11 @@ openApp.controller('OpenCtrl', function ($scope, $http) {
 
     $scope.loadSnapshots();
     $scope.loadMessages();
+});
 
-
+app.controller('ReserveCtrl', function ($scope, $http) {
     $http.get('/api/account/-1')
-    .success(function(data, status, headers, config) {
-        $scope.accounts = data.data.accounts;
+        .success(function(data, status, headers, config) {
+            $scope.accounts = data.data.accounts;
     });
 });

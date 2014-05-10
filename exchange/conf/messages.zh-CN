@@ -74,7 +74,7 @@ prompt.resetPwdFailed=密码重置链接已过期
 prompt.doResetPwdFailed=密码重置失败
 
 forgetpwd.title=密码重置
-forgetpwd.email=E-mail
+forgetpwd.email=Email
 forgetpwd.submit=确定
 
 resetpwd.title=密码重置
