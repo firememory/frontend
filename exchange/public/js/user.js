@@ -12,16 +12,16 @@ userApp.controller('UserCtrl', function ($scope, $http, $window) {
 
     $http.get('/api/user/' + $scope.targetUid + '/transaction/BTCCNY', {params: {}})
       .success(function(data, status, headers, config) {
-        $scope.transactions = data.data;
+        $scope.transactions = data.data.items;
     });
 
     $http.get('/api/CNY/transfer/' + $scope.targetUid, {params: {status: 1}})
       .success(function(data, status, headers, config) {
-        $scope.dw.CNY = data.data;
+        $scope.dw.CNY = data.data.items;
     });
 
     $http.get('/api/BTC/transfer/' + $scope.targetUid, {params: {status: 1}})
       .success(function(data, status, headers, config) {
-        $scope.dw.BTC = data.data;
+        $scope.dw.BTC = data.data.items;
     });
 });
