@@ -76,6 +76,7 @@ order.orderAmount=Amount
 order.tradingAmount=Trading Amount
 order.orderValue=Value
 order.tradingValue=Trading Value
+order.transactions=Transactions in Order
 
 
 
