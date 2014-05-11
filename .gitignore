@@ -3,3 +3,5 @@
 logs/
 target/
 **.swp
+
+exchange/app/assets/css/*.css

@@ -1,0 +1,64 @@
+/* Overriding Boostrap's default styles but only used in 实时行情 pages.      */
+/* Overriding Boostrap's default styles but only used in 实时行情 pages.      */
+/* Note page specific settings should be put elsewhere.                      */
+
+// -------------------------------------------------------------------
+// COLORS
+// basic colors, do not use them directly
+
+@blue:   #00bfe7;
+@green:  #4acea6;
+@orange: #f76b50;
+
+// use the following in other files instead
+
+@white: #fff;
+@black: #000;
+@grey90: lighten(black, 10%);
+@grey80: lighten(black, 20%);
+@grey70: lighten(black, 30%);
+@grey60: lighten(black, 40%);
+@grey50: lighten(black, 50%);
+@grey40: lighten(black, 60%);
+@grey30: lighten(black, 70%);
+@grey20: lighten(black, 80%);
+@grey10: lighten(black, 90%);
+@red: #ff0000;
+
+@primary-color1: @blue;
+@primary-color2: @green;
+@secondary-color1: @orange;
+
+// -------------------------------------------------------------------
+// FONTS
+@default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
+
+
+
+// -------------------------------------------------------------------
+// SELECTABLE
+
+.set-selectable(@mode) {
+    -webkit-touch-callout: @mode;
+    -webkit-user-select: @mode;
+    -khtml-user-select: @mode;
+    -moz-user-select: @mode;
+    -ms-user-select: @mode;
+    user-select: @mode;
+}
+
+.not-selectable {
+    .set-selectable(none);
+}
+
+.selectable {
+    .set-selectable(text);
+}
+
+.pagination, .nav {
+    .not-selectable;
+}
+
+// -------------------------------------------------------------------
+// CURSOR
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

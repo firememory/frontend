@@ -1,32 +1,91 @@
+/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_common";
+
+// -------------------------------------------------------------------
+// COLOR SPECS
+@text-color: @grey60;
+@navbar-background-color: @white;
+@navbar-shadow-color: lighten(@primary-color1, 40%);
+@navbar-active-color: darken(@primary-color1, 0%);
+@navbar-inactive-color: @grey40;
+@footer-background-color: @grey40;
+
+// -------------------------------------------------------------------
+// BODY
 body {
     padding-bottom: 0px;
     font-size: 13px;
-    color: #333333;
-    font-family: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
+    color: @text-color;
+    font-family: @default-fonts;
     -webkit-text-size-adjust:none;
-    background: #fff;
+    background: @white;
     font-weight: normal;
     min-width: 960px;
-}
-body {
     padding-top: 60px;
     overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+// -------------------------------------------------------------------
+// Navigation bar
+.navbar {
+    * {
+        .not-selectable;
+    }
+    background: @navbar-background-color;
+    border-bottom-color: @navbar-shadow-color;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    -moz-box-shadow:    0px 0px 3px 0px @navbar-shadow-color;
+    box-shadow:         0px 0px 3px 0px @navbar-shadow-color;
+
+  a {
+    color: @navbar-inactive-color;
+    text-decoration: none;
+  }
+  a:hover,
+  a:focus {
+    color: darken(@navbar-inactive-color, 10%);
+    background-color: lighen(@navbar-inactive-color, 40%);
+    text-decoration: none;
+    border-bottom-color: @navbar-inactive-color;
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+  }
+  .active {
+      a {
+        font-weight: bold;
+        color: @navbar-active-color;
+        background-color: lighten(@navbar-active-color, 60%);
+        border-bottom-color: @navbar-active-color;
+        border-bottom-style: solid;
+        border-bottom-width: 5px;
+      }
+      a:hover,
+      a:focus {
+        color: darken(@navbar-active-color, 10%);
+        background-color: lighten(@primary-color1, 50%);
+        text-decoration: none;
+      }
+    }
+}
+
 
 footer {
     padding: 20px 0;
-    background: none repeat scroll 0 0 #EEEDED;
+    background: none repeat scroll 0 0 @footer-background-color;
     border-top: 1px solid #c1c3c4;
     margin: 0 auto;
     text-align: center;
     min-width: 980px;
     height: 80px;
 }
+
 footer li a{
     margin:0 10px 0 0;
 }
+
 .badge {
     background-color: #009dc6
 }
@@ -85,7 +144,7 @@ footer li a{
 .buy_sell_box {
 		border: 1px solid #e6e6e6;
 		background: #fff;
-		
+
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
