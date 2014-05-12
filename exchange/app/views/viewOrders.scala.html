@@ -19,7 +19,7 @@
         <table class="table table-condensed table-striped table-user-order">
             <thead>
             <tr>
-                <th>@(Messages("order.id"))</th>
+                <th>@(Messages("order.oid"))</th>
                 <th>@(Messages("order.time"))</th>
                 <th>@(Messages("order.type"))</th>
                 <th>@(Messages("order.price"))</th>
@@ -41,9 +41,6 @@
                 </td>
                 <td class="{{order.operation | orderTypeClass}}">
                     {{order.operation | orderTypeText}}
-                </td>
-                <td>
-                    {{order.subject}}
                 </td>
                 <td class="{{order.operation | orderTypeClass}}">
                     {{order.price | currency}} {{order.currency}}

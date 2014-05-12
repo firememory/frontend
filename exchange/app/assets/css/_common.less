@@ -5,10 +5,11 @@
 // -------------------------------------------------------------------
 // COLORS
 // basic colors, do not use them directly
+@import "_elements";
 
 @blue:   #00bfe7;
-@green:  #4acea6;
-@orange: #f76b50;
+@green:  spin(blue, 270);
+@orange: spin(blue, 135);
 
 // use the following in other files instead
 
@@ -29,6 +30,9 @@
 @primary-color2: @green;
 @secondary-color1: @orange;
 
+@link-color: @primary-color1;
+@link-over-color: @secondary-color1;
+
 // -------------------------------------------------------------------
 // FONTS
 @default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
@@ -37,28 +41,58 @@
 
 // -------------------------------------------------------------------
 // SELECTABLE
-
-.set-selectable(@mode) {
-    -webkit-touch-callout: @mode;
-    -webkit-user-select: @mode;
-    -khtml-user-select: @mode;
-    -moz-user-select: @mode;
-    -ms-user-select: @mode;
-    user-select: @mode;
-}
-
-.not-selectable {
-    .set-selectable(none);
-}
-
 .selectable {
-    .set-selectable(text);
+    .user-select(text);
 }
 
 .pagination, .nav {
-    .not-selectable;
+    .user-select(none);
 }
 
 // -------------------------------------------------------------------
 // CURSOR
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title, .badge, a { cursor: pointer; }
+
+
+// LINK
+
+a {
+  color: @link-color;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: @link-over-color;
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.btn-link {
+  color: @link-color;
+  cursor: pointer;
+}
+.btn-link:hover,
+.btn-link:focus {
+  color: @white;
+  background-color: @secondary-color1;
+  text-decoration: none;
+}
+
+.btn {
+  border-radius: 0;
+}
+.input-group, input-group-addon {
+  border-radius: 0;
+  margin: 0;
+}
+
+.nav-pills > li > a {
+  border-radius: 0px;
+}
+.nav-stacked > li + li {
+  margin-top: 0;
+}

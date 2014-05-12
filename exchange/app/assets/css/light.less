@@ -8,8 +8,10 @@
 @text-color: @grey60;
 @navbar-background-color: @white;
 @navbar-shadow-color: lighten(@primary-color1, 40%);
-@navbar-active-color: darken(@primary-color1, 0%);
+@navbar-active-color: @primary-color1;
+@navbar-active-background-color: lighten(@navbar-active-color, 60%);
 @navbar-inactive-color: @grey40;
+
 @footer-background-color: @grey40;
 
 // -------------------------------------------------------------------
@@ -31,7 +33,7 @@ body {
 // Navigation bar
 .navbar {
     * {
-        .not-selectable;
+        .user-select(none);
     }
     background: @navbar-background-color;
     border-bottom-color: @navbar-shadow-color;
@@ -46,18 +48,19 @@ body {
   }
   a:hover,
   a:focus {
-    color: darken(@navbar-inactive-color, 10%);
-    background-color: lighen(@navbar-inactive-color, 40%);
+    color: greyscale(@navbar-active-color);
+    background-color: greyscale(@navbar-active-background-color);
     text-decoration: none;
-    border-bottom-color: @navbar-inactive-color;
+    border-bottom-color: greyscale(@navbar-active-color);
     border-bottom-style: solid;
     border-bottom-width: 5px;
   }
+
   .active {
       a {
         font-weight: bold;
         color: @navbar-active-color;
-        background-color: lighten(@navbar-active-color, 60%);
+        background-color: @navbar-active-background-color;
         border-bottom-color: @navbar-active-color;
         border-bottom-style: solid;
         border-bottom-width: 5px;
@@ -87,11 +90,7 @@ footer li a{
 }
 
 .badge {
-    background-color: #009dc6
-}
-
-.link {
-    cursor: pointer;
+    background-color: @grey30;
 }
 
 #price-summary {
