@@ -13,6 +13,48 @@ Messages.orderStatus = {
     cancelled: '已撤销'
 };
 
+Messages.transfer = {
+  waiting: '等待处理',
+  processing: '处理中',
+  succeed: '成功',
+  failed: '失败',
+  deposit: '存款',
+  withdrawal: '取款',
+  depositSuccess: '存款成功: ',
+  withdrawalSuccess: '取款成功: ',
+  cny: '人民币',
+  btc: '比特币'
+};
+
+Messages.timeDemension = {
+    w1 : '1周',
+    d3: '3天',
+    d1: '一天',
+    h12: '12小时',
+    h6: '6小时',
+    h4: '4小时',
+    h2: '2小时',
+    h1: '1小时',
+    m30: '30分钟',
+    m15: '15分钟',
+    m5: '5分钟',
+    m3:'3分钟',
+    m1: '1分钟'
+};
+
+Messages.asset = {
+   assetComposition: '资产结构',
+   assetTrend: '资产趋势'
+}
+
+Messages.trade = {
+   lowerZero: '数量需要大于0',
+   noEnough: '账户余额不足',
+   inputAmount: '请输入数据',
+   inputPrice: '请输入价格',
+   submit: '正在提交订单'
+};
+
 Messages.account = {
   registerSucceeded: '注册成功',
   updateAccountProfileSucceeded: '更新用户资料成功',

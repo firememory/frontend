@@ -78,8 +78,6 @@ order.orderValue=Value
 order.tradingValue=Trading Value
 order.transactions=Transactions in Order
 
-
-
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed
 prompt.verifyEmailSent=we had sent you an e-mail message, you can choose to activate your account
@@ -187,7 +185,3 @@ asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal
 asset.btcWithdrawal=BTC Withdrawal
 asset.accountSettings=Account Settings
-
-
-
-
