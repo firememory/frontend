@@ -5,10 +5,13 @@
 
 // -------------------------------------------------------------------
 // COLOR SPECS
+@text-color: white;
 @background-color: darken(@blue, 55%);
-@navbar-background-color: @background-color;
+
+@navbar-background-color: darken(@blue, 55%);
 @navbar-shadow-color: @background-color;
-@navbar-active-color: lighten(@blue, 20%);
+@navbar-active-color: white;
+@navbar-active-background-color: @background-color;
 @navbar-inactive-color: @grey6;
 
 @footer-background-color: @background-color;
@@ -37,39 +40,43 @@ body {
 // -------------------------------------------------------------------
 // Navigation bar
 .navbar {
+    * {
+        .user-select(none);
+    }
     background: @navbar-background-color;
     border-bottom-color: @navbar-shadow-color;
     border-bottom-style: solid;
-    border-bottom-width: 1px;
+    border-bottom-width: 5px;
     -moz-box-shadow:    0px 0px 3px 0px @navbar-shadow-color;
     box-shadow:         0px 0px 3px 0px @navbar-shadow-color;
 
   a {
-    color: @grey7;
+    color: @navbar-inactive-color;
     text-decoration: none;
   }
   a:hover,
   a:focus {
-    color: lighten(@navbar-inactive-color, 10%);
-    background-color: darken(@navbar-inactive-color, 40%);
+    color: @grey7;
+    background-color: red;
     text-decoration: none;
-    border-bottom-color: @navbar-inactive-color;
+    border-bottom-color: @darkyellow;
     border-bottom-style: solid;
-    border-bottom-width: 5px;
+    border-bottom-width: 4px;
   }
 
   .active {
       a {
-        color: @navbar-active-color;
-        background-color: darken(@navbar-active-color, 50%);
-        border-bottom-color: @navbar-active-color;
+        font-weight: bold;
+        color: white;
+        background-color: @navbar-background-color;
+        border-bottom-color: white;
         border-bottom-style: solid;
-        border-bottom-width: 5px;
+        border-bottom-width: 4px;
       }
       a:hover,
       a:focus {
-        color: lighten(@navbar-active-color, 10%);
-        background-color: darken(@blue, 35%);
+        color: @darkyellow;
+        background-color: @navbar-background-color;
         text-decoration: none;
       }
     }
