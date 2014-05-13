@@ -5,14 +5,14 @@
 
 // -------------------------------------------------------------------
 // COLOR SPECS
-@text-color: @grey60;
+@text-color: @grey6;
 @navbar-background-color: @white;
 @navbar-shadow-color: lighten(@primary-color1, 40%);
 @navbar-active-color: @primary-color1;
 @navbar-active-background-color: lighten(@navbar-active-color, 60%);
-@navbar-inactive-color: @grey40;
+@navbar-inactive-color: @grey4;
 
-@footer-background-color: @grey40;
+@footer-background-color: @warmgrey;
 
 // -------------------------------------------------------------------
 // BODY
@@ -74,15 +74,38 @@ body {
     }
 }
 
+.btn-bid {
+    color: @white;
+    background-color: @green2;
+    border-color: @green2;
 
+    &:hover {
+      color: @white;
+      background-color: @green;
+      border-color: @green;
+    }
+}
+
+.btn-ask {
+    color: @white;
+    background-color: @red2;
+    border-color: @red2;
+    &:hover {
+      color: @white;
+      background-color: @red;
+      border-color: @red;
+    }
+}
+
+// the following are not optimized yet by Dong Wang
 footer {
     padding: 20px 0;
     background: none repeat scroll 0 0 @footer-background-color;
-    border-top: 1px solid #c1c3c4;
+
     margin: 0 auto;
     text-align: center;
     min-width: 980px;
-    height: 80px;
+    height: 200px;
 }
 
 footer li a{
@@ -90,7 +113,7 @@ footer li a{
 }
 
 .badge {
-    background-color: @grey30;
+    background-color: @grey3;
 }
 
 #price-summary {

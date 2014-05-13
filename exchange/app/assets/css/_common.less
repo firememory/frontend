@@ -7,28 +7,49 @@
 // basic colors, do not use them directly
 @import "_elements";
 
-@blue:   #00bfe7;
-@green:  spin(blue, 270);
+// basic colors
+@blue:   #4285F4;
+@green:  #0F9D58;
+@red:    #DB4437;
+@yellow: #F4B400;
+
+@white:  #ffffff;
+@black:  #000000;
+
+// ligher colors;
+@blue2:   mix(@blue,   @white, 60%);
+@blue3:   mix(@blue,   @white, 40%);
+@green2:  mix(@green,  @white, 60%);
+@green3:  mix(@green,  @white, 40%);
+@red2:    mix(@red,    @white, 60%);
+@red3:    mix(@red,    @white, 40%);
+@yellow2: mix(@yellow, @white, 60%);
+@yellow3: mix(@yellow, @white, 40%);
+
+// special background
+@warmgrey: #E7E6DD;
+
+@red:    #db4437;
 @orange: spin(blue, 135);
 
 // use the following in other files instead
 
 @white: #fff;
-@black: #000;
-@grey90: lighten(black, 10%);
-@grey80: lighten(black, 20%);
-@grey70: lighten(black, 30%);
-@grey60: lighten(black, 40%);
-@grey50: lighten(black, 50%);
-@grey40: lighten(black, 60%);
-@grey30: lighten(black, 70%);
-@grey20: lighten(black, 80%);
-@grey10: lighten(black, 90%);
-@red: #ff0000;
+
+@grey9: lighten(black, 10%);
+@grey8: lighten(black, 20%);
+@grey7: lighten(black, 30%);
+@grey6: lighten(black, 40%);
+@grey5: lighten(black, 50%);
+@grey4: lighten(black, 60%);
+@grey3: lighten(black, 70%);
+@grey2: lighten(black, 80%);
+@grey1: lighten(black, 90%);
+@grey0: lighten(black, 95%);
 
 @primary-color1: @blue;
 @primary-color2: @green;
-@secondary-color1: @orange;
+@secondary-color1: @red;
 
 @link-color: @primary-color1;
 @link-over-color: @secondary-color1;
