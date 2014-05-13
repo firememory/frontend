@@ -248,7 +248,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["#aad", "#556"]);
+            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
         var pieChartPieces = pie.datum(data)
             .selectAll('path')
@@ -412,7 +412,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["#aad", "#556"]);
+            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
         var xAxis = d3.svg.axis()
             .scale(x)

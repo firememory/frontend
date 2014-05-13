@@ -27,10 +27,10 @@
                 <tr>
                     <td>@Messages("order.submitTime")</td>
                     <td>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td>@Messages("order.operation")</td>
+                    <td>@Messages("order.type")</td>
                     <td><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}</span></td>
                     <td>@Messages("order.status")</td>
-                    <td><span class="badge">{{order.status | orderStatusText}}</span></td>
+                    <td><span>{{order.status | orderStatusText}}</span></td>
                 </tr>
                 <tr>
                     <td>@Messages("order.baseCurrency")</td>

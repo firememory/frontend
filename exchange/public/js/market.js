@@ -59,13 +59,13 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                             minDataLength: 90
                         },
                         yAxisDefaults: {
-                          color: '#333',
+                          color: '#1A1A1A',
                           labels: {
-                            color: '#AAA'
+                            color: '#999;'
                           }
                         },
                         info: {
-                          color: '#AAA'
+                          color: '#F4B400;'
                         },
                         series: [{
                             type: 'candlestick',
