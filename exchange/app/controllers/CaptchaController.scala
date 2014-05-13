@@ -116,22 +116,11 @@ object CaptchaController extends Controller with Json4s {
       val e: GraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
       val allFonts: Array[Font] = e.getAllFonts
 
-      val properFontFamiliesStr = properFontFamilies.mkString(", ")
-      //println(s"proper font families: $properFontFamiliesStr")
-
-      val properFonts = allFonts.filter {
+      allFonts.filter {
         font =>
         val family = font.getFamily.toUpperCase
-        properFontFamilies.filter(s => family.contains(s)).nonEmpty
+        properFontFamilies.exists(family.contains(_))
       }
-      properFonts.foreach {
-        font =>
-        val fontName = font.getFontName
-        val familyName = font.getFamily
-        val fname = font.getName
-        //println(s"name: $fname, font name: $fontName, family name: $familyName")
-      }
-      properFonts
     }
   }
 

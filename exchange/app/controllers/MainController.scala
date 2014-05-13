@@ -21,7 +21,7 @@ object MainController extends Controller with Json4s {
       .withSession("uid" -> "1", "username" -> "a@a")
   }
 
-  def trade = Action {
+  def trade = Authenticated {
     implicit request =>
       session.get("uid").map {
         uid =>
@@ -31,7 +31,7 @@ object MainController extends Controller with Json4s {
       }
   }
 
-  def account() = Action {
+  def account() = Authenticated {
     implicit request =>
       Ok(views.html.account.render(session, lang))
   }
@@ -68,7 +68,7 @@ object MainController extends Controller with Json4s {
 
   def login(showMsg: Boolean = false, msgKey: String = "") = Action {
     implicit request =>
-      Ok(views.html.login.render(showMsg, msgKey, session, lang))
+      Ok(views.html.login.render(showMsg, msgKey, session, lang)).withNewSession
   }
 
   def register = Action {
@@ -135,11 +135,6 @@ object MainController extends Controller with Json4s {
   def registerView() = Action {
     implicit request =>
       Ok(views.html.viewRegister.render(lang))
-  }
-
-  def accountSettingsView() = Action {
-    implicit request =>
-      Ok(views.html.viewAccountSettings.render(lang))
   }
 
   def assetView() = Action {

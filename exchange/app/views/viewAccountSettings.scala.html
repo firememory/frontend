@@ -1,4 +1,44 @@
-@()(implicit lang: Lang)
+@(profile: Map[String, String])(implicit lang: Lang)
+
+@println(s"profile: $profile")
+@if("true".equals(profile.get("mobileVerified").getOrElse("false"))) {
+<div class="row">
+    <h3>@Messages("accountsettings.view.title")</h3>
+    <br/>
+    <!-- <p><h4>@Messages("accountsettings.view.namediv.title")</h4> </p>
+    <div class="col-sm-5" style="border:1px solid #bbb">
+    <label class="control-label col-sm-2" for="realName">@Messages("accountsettings.realName")</label>
+    <input name="realName" id="realName" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
+    </div> -->
+    <div class="row">
+        <div class="col-sm-8">
+        <fieldset>
+            <div class="row">
+                <legend class="col-sm-8"><h4>@Messages("accountsettings.view.namediv.title")</h4></legend>
+            </div>
+            <div class="row">
+                <label class=" col-sm-2" for="realName">@Messages("accountsettings.realName")</label>
+                <input name="realName" id="realName" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
+            </div>
+        </fieldset>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-8">
+        <fieldset>
+            <div class="row">
+                <legend class="col-sm-8"><h4>@Messages("accountsettings.view.mobilediv.title")</h4></legend>
+            </div>
+            <div class="row">
+                <label class="control-label col-sm-2" for="mobile">@Messages("accountsettings.mobile")</label>
+                <input name="mobile" id="mobile" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("mobile").getOrElse("false")" readonly="readonly">
+            </div>
+        </fieldset>
+        </div>
+    </div>
+</div>
+} else {
 <div class="row">
     <h4>@Messages("accountsettings.title")</h4>
     <br/><br/>
@@ -71,3 +111,4 @@
         </form>
     </div>
 </div>
+}

@@ -73,10 +73,6 @@ object UserController extends Controller with Json4s {
         if (result.success) {
           val profile = result.data.get.asInstanceOf[UserProfile]
           Ok(result.toJson)
-          // Ok(result.toJson).withSession(
-          //   "username" -> profile.email,
-          //   "uid" -> profile.id.toString
-          // )
         } else {
           Ok(result.toJson)
         }
@@ -84,7 +80,7 @@ object UserController extends Controller with Json4s {
     }
   }
 
-  def updateSettings = Action.async(parse.urlFormEncoded) {
+  def updateSettings = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
     val data = request.body
     val userId = session.get("uid").getOrElse("")
@@ -123,16 +119,6 @@ object UserController extends Controller with Json4s {
       }
     }
   }
-
-  // def registerSucceeded() = Action {
-  //   implicit request =>
-  //   Redirect(routes.MainController.prompt("prompt.verifyEmailSent"))
-  // }
-
-  // def verifyEmailFailed() = Action {
-  //   implicit request =>
-  //   Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
-  // }
 
   def forgetPassword  = Action {
     implicit request =>
@@ -179,10 +165,29 @@ object UserController extends Controller with Json4s {
     }
   }
 
+  def accountSettingsView() = Authenticated.async {
+    implicit request =>
+    val email = session.get("username").getOrElse("")
+    assert(email!=null && email.trim.nonEmpty)
+    UserService.queryUserProfileByEmail(email) map {
+      result =>
+      println(result)
+      assert(result.success)
+      assert (result.data != None)
+      val profile = result.data.get.asInstanceOf[UserProfile]
+      assert(profile != null && email.equals(profile.email))
+      val profileMap = Map(
+        ("emailVerified" -> profile.emailVerified.toString),
+        ("mobileVerified" -> profile.mobileVerified.toString),
+        ("realName" -> profile.realName.getOrElse("")),
+        ("mobile" -> profile.mobile.getOrElse(""))
+      )
+      Ok(views.html.viewAccountSettings.render(profileMap, lang))
+    }
+  }
+
   def logout = Action {
     implicit request =>
-      Redirect(routes.MainController.index()).withSession(
-        session - "username" - "uid"
-      )
+      Redirect(routes.MainController.index()).withNewSession
   }
 }

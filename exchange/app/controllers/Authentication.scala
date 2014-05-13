@@ -4,15 +4,51 @@ import play.api.mvc._
 import play.api.mvc.Results._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import com.typesafe.config.ConfigFactory
+import utils.Constant._
 
-class AuthenticatedRequest[A](val uid: String, request: Request[A]) extends WrappedRequest[A](request)
+trait AuthenticateHelper {
+  val ajaxRequestHeaderKey="ajaxRequestKey"
+  val ajaxRequestHeadervalue="value"
 
-object Authenticated extends ActionBuilder[AuthenticatedRequest] {
-  def invokeBlock[A](request: Request[A], block: (AuthenticatedRequest[A]) => Future[SimpleResult]) = {
-    request.session.get("uid").map { uid =>
-      block(new AuthenticatedRequest(uid, request))
-    } getOrElse {
+  val sysConfig = ConfigFactory.load("application.conf")
+  val timeoutMinutes: Int = sysConfig.getInt("session.timout.minutes")
+  val timeoutMillis: Long = timeoutMinutes * 60 * 1000
+
+  def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[SimpleResult] = {
+    val ajaxRequestHeader = request.headers.get(ajaxRequestHeaderKey).getOrElse("")
+    if (ajaxRequestHeadervalue.equals(ajaxRequestHeader)) {
       Future(Unauthorized)
+    } else {
+      Future(Redirect(redirectUri))
+    }
+  }
+}
+
+object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
+
+  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[SimpleResult]) = {
+    // check login and session timeout here:
+    request.session.get("uid").map { uid =>
+      val currTs = System.currentTimeMillis
+      request.cookies.get(cookieNameTimestamp).map {
+        tsCookie =>
+        println(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        val ts = tsCookie.value.toLong
+        if (currTs - ts > timeoutMillis) {
+          val redirectUri = "/login?showMsg=true&msgKey=authenticateTimeout"
+          responseOnRequestHeader(request, redirectUri)
+        } else {
+          block(request).map(_.withCookies(
+            Cookie(cookieNameTimestamp, currTs.toString)))
+        }
+      } getOrElse {
+        block(request).map(_.withCookies(
+          Cookie(cookieNameTimestamp, currTs.toString)))
+      }
+    } getOrElse {
+      val redirectUri = "/login?showMsg=true&msgKey=authenticateNotLogin"
+      responseOnRequestHeader(request, redirectUri)
     }
   }
 }
