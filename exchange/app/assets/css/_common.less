@@ -7,35 +7,7 @@
 // basic colors, do not use them directly
 @import "_elements";
 
-// basic colors
-@blue:   #4285F4;
-@green:  #0F9D58;
-@red:    #DB4437;
-@yellow: #F4B400;
-
-@white:  #ffffff;
-@black:  #000000;
-
-// ligher colors;
-@blue2:   mix(@blue,   @white, 60%);
-@blue3:   mix(@blue,   @white, 40%);
-@green2:  mix(@green,  @white, 60%);
-@green3:  mix(@green,  @white, 40%);
-@red2:    mix(@red,    @white, 60%);
-@red3:    mix(@red,    @white, 40%);
-@yellow2: mix(@yellow, @white, 60%);
-@yellow3: mix(@yellow, @white, 40%);
-
-// special background
-@warmgrey: #E7E6DD;
-
-@red:    #db4437;
-@orange: spin(blue, 135);
-
-// use the following in other files instead
-
-@white: #fff;
-
+// grey
 @grey9: lighten(black, 10%);
 @grey8: lighten(black, 20%);
 @grey7: lighten(black, 30%);
@@ -47,12 +19,39 @@
 @grey1: lighten(black, 90%);
 @grey0: lighten(black, 95%);
 
-@primary-color1: @blue;
-@primary-color2: @green;
-@secondary-color1: @red;
+// special background
+@warmgrey:      #E7E6DD;
+@darkwarmgrey:  #CfCfC6;
 
-@link-color: @primary-color1;
-@link-over-color: @secondary-color1;
+// basic colors
+@blue:       #4285F4;
+@green:      #0F9D58;
+@red:        #DB4437;
+@yellow:     #F4B400;
+
+// darker colors
+@darkblue:   #4379D8;
+@darkgreen:  #1A8C51;
+@darkred:    #C23D36;
+@darkyellow: #D8A122;
+
+// ligher colors;
+@blue2:   mix(@blue,   white, 60%);
+@blue3:   mix(@blue,   white, 40%);
+@green2:  mix(@green,  white, 60%);
+@green3:  mix(@green,  white, 40%);
+@red2:    mix(@red,    white, 60%);
+@red3:    mix(@red,    white, 40%);
+@yellow2: mix(@yellow, white, 60%);
+@yellow3: mix(@yellow, white, 40%);
+
+// use the following in other files instead
+
+@link-color: darken(@blue, 30);
+@link-over-color: @darkblue;
+
+@buy-color: @green;
+@sell-color: @red;
 
 // -------------------------------------------------------------------
 // FONTS
@@ -98,8 +97,8 @@ a:focus {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: @white;
-  background-color: @secondary-color1;
+  color: white;
+  background-color: @green;
   text-decoration: none;
 }
 

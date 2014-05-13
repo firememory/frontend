@@ -39,8 +39,8 @@ ticker.volume=Volume in 24h
 
 trade.buy=Buy
 trade.sell=Sell
-trade.buyShort=B
-trade.sellShort=S
+trade.buyShort=Buy
+trade.sellShort=Sell
 trade.simple=simple
 trade.advanced=advanced
 trade.advancedTip=support for more customized orders

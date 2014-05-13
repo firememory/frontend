@@ -6,13 +6,13 @@
 // -------------------------------------------------------------------
 // COLOR SPECS
 @text-color: @grey6;
-@navbar-background-color: @white;
-@navbar-shadow-color: lighten(@primary-color1, 40%);
-@navbar-active-color: @primary-color1;
+@navbar-background-color: white;
+@navbar-shadow-color: @blue3;
+@navbar-active-color: @blue;
 @navbar-active-background-color: lighten(@navbar-active-color, 60%);
 @navbar-inactive-color: @grey4;
 
-@footer-background-color: @warmgrey;
+
 
 // -------------------------------------------------------------------
 // BODY
@@ -22,7 +22,7 @@ body {
     color: @text-color;
     font-family: @default-fonts;
     -webkit-text-size-adjust:none;
-    background: @white;
+    background: white;
     font-weight: normal;
     min-width: 960px;
     padding-top: 60px;
@@ -68,36 +68,124 @@ body {
       a:hover,
       a:focus {
         color: darken(@navbar-active-color, 10%);
-        background-color: lighten(@primary-color1, 50%);
+        background-color: lighten(@blue, 50%);
         text-decoration: none;
       }
     }
 }
 
+// -------------------------------------------------------------------
+// Secondary Level Navigation
+.nav-pills > li {
+    a {
+        color: @blue;
+    }
+    &.active a {
+        background-color: @blue;
+        &:hover {
+            background-color: @darkblue;
+        }
+    }
+}
+
 .btn-bid {
-    color: @white;
-    background-color: @green2;
-    border-color: @green2;
+    color: white;
+    background-color: @green;
+    border-color: @green;
 
     &:hover {
-      color: @white;
-      background-color: @green;
-      border-color: @green;
+      color: white;
+      background-color: @darkgreen;
+      border-color: @darkgreen;
     }
 }
 
 .btn-ask {
-    color: @white;
-    background-color: @red2;
-    border-color: @red2;
+    color: white;
+    background-color: @red;
+    border-color: @red;
     &:hover {
-      color: @white;
-      background-color: @red;
-      border-color: @red;
+      color: white;
+      background-color: @darkred;
+      border-color: @darkred;
+    }
+}
+
+.sell {
+    color: @sell-color;
+}
+.buy {
+    color: @buy-color;
+}
+
+.box-area {
+    padding-left: 15px;
+    padding-top: 5px;
+    border: 1px solid @grey1;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    font-size: 12px;
+}
+// -------------------------------------------------------------------
+// Market Depth Box
+
+.depth-box {
+    .box-area;
+    height: 220px;
+
+    .depth-item {
+        cursor: pointer;
+        //font-size: 12px;
+        margin: 0;
+        padding: 0;
+        .title {
+            padding-left: 10px;
+        }
+        .price {
+            padding-left: 20px;
+        }
+        .amount {
+            padding-left: 20px;
+        }
+    }
+ }
+
+// -------------------------------------------------------------------
+// Recent Transaction Box
+.transaction-box {
+    .box-area;
+    height: 325px;
+
+    .transaction-item {
+        cursor: pointer;
+        //font-size: 12px;
+        margin: 0;
+        padding: 1px;
+        border-bottom: 1px dashed #e6e6e6;
+
+        .timestamp {
+            padding-left: 5px;
+            color: @grey3;
+        }
+        .sell {
+            padding-left: 5px;
+        }
+        .buy {
+            padding-left: 5px;
+        }
+        .price {
+            padding-left: 10px;
+        }
+        .amount {
+            padding-left: 10px;
+        }
     }
 }
 
 // the following are not optimized yet by Dong Wang
+
+@footer-background-color: @warmgrey;
 footer {
     padding: 20px 0;
     background: none repeat scroll 0 0 @footer-background-color;
@@ -157,12 +245,7 @@ footer li a{
   display: block;
   height: 100%;
 }
-.sell {
-    color: #CC9999;
-}
-.buy {
-    color: #99CC99;
-}
+
 .buy_sell_box {
 		border: 1px solid #e6e6e6;
 		background: #fff;
@@ -237,83 +320,15 @@ footer li a{
     margin-top: 10px;
 }
 
-.depth-box {
-    height: 220px;
-    padding-left: 15px;
-    padding-top: 5px;
-    color: #808080;
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-}
-.depth-item {
-    cursor: pointer;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-}
-.depth-item .title {
-    padding-left: 10px;
-}
-.depth-item .price {
-    padding-left: 20px;
-}
-.depth-item .amount {
-    padding-left: 20px;
-}
+
+
 .depth-price {
     padding-left: 10px;
     margin-top: 4px;
     margin-bottom: 4px;
 }
-.transaction-box {
-    height: 325px;
-    padding-left: 15px;
-    padding-top: 5px;
 
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-}
-.transaction-item {
-    cursor: pointer;
-    font-size: 12px;
-    margin: 0;
-    padding: 1px;
-    border-bottom: 1px dashed #e6e6e6;
-}
-.transaction-item .title {
-    padding-left: 10px;
-    font-size: 10px;
-    color: #999;
-}
-.transaction-item .sell {
-    padding-left: 10px;
-    font-size: 10px;
-    color: #CC9999;
-}
-.transaction-item .buy {
-    padding-left: 10px;
-    font-size: 10px;
-    color: #99CC99;
-}
-.transaction-item .price {
-    padding-left: 20px;
-    color: #808080;
-}
-.transaction-item .amount {
-    padding-left: 20px;
-    color: #808080;
-}
-.transaction-price {
-    padding-left: 10px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
+
 .user-order-box {
     font-size: 12px;
     margin-top: 15px;

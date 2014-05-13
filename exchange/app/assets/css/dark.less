@@ -5,12 +5,13 @@
 
 // -------------------------------------------------------------------
 // COLOR SPECS
-@background-color: darken(@primary-color1, 45%);
+@background-color: @grey9;
 @navbar-background-color: @background-color;
-@navbar-shadow-color: darken(@primary-color1, 40%);
-@navbar-active-color: lighten(@primary-color1, 20%);
+@navbar-shadow-color: darken(@blue, 40%);
+@navbar-active-color: lighten(@blue, 20%);
 @navbar-inactive-color: @grey6;
-@footer-background-color: @grey7;
+
+@footer-background-color: @background-color;
 
 // -------------------------------------------------------------------
 // BODY
@@ -44,7 +45,7 @@ body {
     box-shadow:         0px 0px 3px 0px @navbar-shadow-color;
 
   a {
-    color: @red;//@navbar-inactive-color;
+    color: @grey7;
     text-decoration: none;
   }
   a:hover,
@@ -68,32 +69,31 @@ body {
       a:hover,
       a:focus {
         color: lighten(@navbar-active-color, 10%);
-        background-color: darken(@primary-color1, 35%);
+        background-color: darken(@blue, 35%);
         text-decoration: none;
       }
     }
 }
-
-.dark {
-  background-color: @background-color;
-  color: @primary-color1;
-}
-
+// -------------------------------------------------------------------
+// Default Link Color
 a {
-  color: @primary-color1;
-  text-decoration: none;
-  cursor: pointer;
+  color: @darkblue;
+  &:hover {
+    color: @blue3;
+  }
 }
 
+// -------------------------------------------------------------------
+// Time span selection
+#periods li{
+  &.selected {
+    a {
+     color: @yellow;
+     font-weight: bold;
+    }
+   }
+ }
 
-
-.green {
-  color: green;
-}
-
-.red {
-  color: red;
-}
 
 .ab {
   position: absolute;
@@ -106,42 +106,42 @@ ul.horiz {
   padding: 0px;
   margin: 0px;
   padding-left: 6px;
+
+  input, select, button {
+    vertical-align: middle;
+  }
+
+  &> li {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: baseline;
+    margin-right: 12px;
+
+    &.sep {
+      height: 16px;
+      vertical-align: middle;
+    }
+   &.addthis {
+      position: absolute;
+      right: 0px;
+      margin-top: 6px;
+      vertical-align: top;
+      width: 190px;
+    }
+
+    &.subsep {
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    &.last {
+      margin-right: 0px;
+    }
+  }
 }
 
-ul.horiz > li {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  vertical-align: baseline;
-  margin-right: 12px;
-}
-
-ul.horiz > li.sep {
-  height: 16px;
-  vertical-align: middle;
-}
-
-ul.horiz li.subsep {
-  height: 16px;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-ul.horiz li.addthis {
-  position: absolute;
-  right: 0px;
-  margin-top: 6px;
-  vertical-align: top;
-  width: 190px;
-}
-
-ul.horiz li.last {
-  margin-right: 0px;
-}
-
-ul.horiz input, ul.horiz select, ul.horiz button {
-  vertical-align: middle;
-}
 
 #control {
   font-size: 11px;
@@ -294,14 +294,6 @@ ul.horiz input, ul.horiz select, ul.horiz button {
   border-top: 1px solid #ccc;
 }
 
-#periods li.period {
-  cursor: pointer;
-  color: #0D86FF;
-}
-
-#periods li.selected {
-  color: #F80;
-}
 
 .gg468x60 {
   position: absolute;
@@ -466,141 +458,84 @@ button, select {
 
 
 
-.dark #trades {
+#trades {
   scrollbar-basecolor: #333;
   scrollbar-highlight-color: #CCC;
   scrollbar-shadow-color: #666;
 }
 
-.dark :-webkit-scrollbar {
+:-webkit-scrollbar {
   background-color: #333;
 }
 
-.dark g {
+g {
   color: #666;
 }
 
-.dark h {
+h {
   visibility: hidden;
 }
 
-.dark a {
-  color: #6BF;
-}
-
-.dark a:hover {
-  text-decoration: underline;
-}
-
-.dark #close_ad span {
-  cursor: pointer;
-  color: #6BF;
-}
-
-.dark .green {
-  color: #0C0;
-}
-
-.dark .red {
-  color: #C00;
-}
-
-.dark a.active {
-  color: #FC9;
-}
-
-.dark a.active.grey {
-  color: #CCA37A;
-}
-
-.dark #periods li.period {
-  color: #6BF;
-}
-
-.dark #periods li.selected a {
-  color: #FB6;
-}
-
-.dark .modes a.selected {
-  color: #FB6;
-}
-
-.dark #sidebar .green {
-  color: #6C6;
-}
-
-.dark #sidebar .red {
-  color: #C66;
-}
-
-.dark #sidebar #price.green {
-  color: #0F0;
-}
-
-.dark #sidebar #price.red {
-  color: #F00;
-}
-
-.dark #assist {
+#assist {
   background-color: rgba(10, 10, 10, 0.8);
   font-weight: normal;
   color: #999;
 }
 
-.dark .dark #control, .dark #before_trades {
+#control, #before_trades {
   border-bottom: 1px solid #333;
 }
 
-.dark #leftbar {
+#leftbar {
   border-right: 1px solid #333;
 }
 
-.dark #date {
+#date {
   border-top: 1px solid #333;
 }
 
-.dark select, .dark button, .dark option {
+select, button, option {
   background-color: #333;
   color: #CCC;
   border: 1px solid #999;
 }
 
-.dark li.sep, .dark li.subsep {
+li.sep, li.subsep {
   border-right: 1px solid #333;
 }
 
-.dark #qr {
+#qr {
   border: 1px solid #333;
   background-color: rgba(10, 10, 10, 0.8);
 }
 
-.dark #settings {
+#settings {
   background-color: rgba(10,10,10,0.6);
 }
 
-.dark abbr {
+abbr {
   border-bottom: 1px dotted #CCC;
 }
 
-.dark .external .green {
+.external .green {
   color: #6C6;
 }
 
-.dark .external .red {
+.external .red {
   color: #C66;
 }
 
-.dark ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 16px;
   height: 13px;
 }
 
-.dark ::-webkit-scrollbar-button:start:decrement, .dark ::-webkit-scrollbar-button:end:increment {
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {
   height: 0px;
   width: 0px;
 }
 
-.dark ::-webkit-scrollbar-thumb:vertical {
+::-webkit-scrollbar-thumb:vertical {
   height: 50px;
   background: -webkit-gradient(linear, left top, right top, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
   border: 1px solid #0d0d0d;
@@ -608,7 +543,7 @@ button, select {
   border-left: 1px solid #666666;
 }
 
-.dark ::-webkit-scrollbar-thumb:horizontal {
+::-webkit-scrollbar-thumb:horizontal {
   width: 50px;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
   border: 1px solid #1f1f1f;
@@ -616,21 +551,21 @@ button, select {
   border-left: 1px solid #666666;
 }
 
-.dark .help {
+.help {
   background-color: #0A0A0A;
   border: 1px solid #333;
 }
 
-.dark .grey {
+.grey {
   color: grey;
 }
 
-.dark .ticker_red {
+.ticker_red {
   background-color: #F66;
   color: #0A0A0A;
 }
 
-.dark .ticker_green {
+.ticker_green {
   background-color: #6C6;
   color: #0A0A0A;
 }
@@ -866,7 +801,7 @@ button, select {
   vertical-align: top;
 }
 
-.dark .COINWIDGETCOM_WINDOW input {
+.COINWIDGETCOM_WINDOW input {
   color: #333;
   background-color: #FFF;
 }
