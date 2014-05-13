@@ -70,20 +70,20 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                         series: [{
                             type: 'candlestick',
                             name: 'OHLC',
-                            upStroke: '#0C0',
-                            downStroke: '#C00',
-                            downColor: 'rgba(255, 0, 0, 0.5)'
+                            upStroke: 'rgb(15, 157, 88)',      // green
+                            downStroke: 'rgb(219, 68, 55)',    // red
+                            downColor: 'rgba(219, 68, 55, 0.5)' // red with 0.5 alpha
                         }, {
                             type: 'volume',
                             name: 'VOLUME',
                             yAxis: 1,
                             dataOffset: 5,
-                            stroke: '#00C',
-                            color: 'rgba(0, 0, 255, 0.6)',
-                            upStroke: '#0C0',
-                            downStroke: '#C00',
-                            upColor: 'rgba(0, 255, 0, 0.5)',
-                            downColor: 'rgba(255, 0, 0, 0.5)'
+                            stroke: 'rgb(66, 133, 244)', // blue
+                            color: 'rgba(66, 133, 244, 0.6)',  // blue with 0.6 alpha
+                            upStroke: 'rgb(15, 157, 88)',
+                            downStroke: 'rgb(219, 68, 55)',
+                            upColor: 'rgba(15, 157, 88, 0.5)',
+                            downColor: 'rgba(219, 68, 55, 0.5)' // red with 0.5 alpha
                         }]
                     });
                 }
