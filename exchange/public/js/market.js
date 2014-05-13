@@ -116,12 +116,6 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
     });
 });
 
-marketApp.filter('txTypeClass', function() {
-    return function(input) {
-        return input ? 'red' : 'green';
-    }
-});
-
 marketApp.filter('txTypeIcon', function() {
     return function(input) {
         return input ?  'fa-angle-double-right' : 'fa-angle-double-left';
