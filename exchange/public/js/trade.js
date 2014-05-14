@@ -290,6 +290,22 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.ask.amount = +($scope.ask.total / $scope.ask.price).toFixed(4);
     };
 
+    var toggleBidAdvanced = function(newValue, oldValue) {
+        if (!newValue && oldValue) {
+            $scope.bidOptions.limitAmount = true;
+            $scope.bidOptions.limitPrice = true;
+            $scope.bidOptions.limitTotal = true;
+        }
+    }
+
+    var toggleAskAdvanced = function(newValue, oldValue) {
+        if (!newValue && oldValue) {
+            $scope.askOptions.limitAmount = true;
+            $scope.askOptions.limitPrice = true;
+            $scope.askOptions.limitTotal = true;
+        }
+    }
+
     var cancelOrder = function(id) {
         for(var i = 0; i < $scope.orders.length; i++) {
             var order = $scope.orders[i];
@@ -453,4 +469,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.$watch('ask.amount', updateAskTotal);
     $scope.$watch('ask.price', updateAskTotal);
     $scope.$watch('ask.total', updateAskAmount);
+    $scope.$watch('bidOptions.advanced', toggleBidAdvanced);
+    $scope.$watch('askOptions.advanced', toggleAskAdvanced);
 }
