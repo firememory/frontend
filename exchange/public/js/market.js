@@ -45,7 +45,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
             });
         $http.get('/api/' + $scope.market + '/history', {params: $scope.candleParam})
             .success(function(data, status, headers, config) {
-                $scope.history = data.data;
+                $scope.history = data.data.candles;
                 if ($scope.candleChart == null) {
                     $scope.candleChart = $('#wrapper').jqCandlestick($scope.history, {
                         theme: 'dark',

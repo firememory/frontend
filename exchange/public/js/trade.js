@@ -132,7 +132,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
       .success(function(response, status, headers, config) {
-        $scope.history = response.data;
+        $scope.history = response.data.candles;
         $scope.lastHistory = $scope.history[$scope.history.length - 1];
 
         // set the allowed units for data grouping
