@@ -23,7 +23,7 @@
                 case Some(uid: String) => {
                     <span ng-show="false" ng-init="isLogin=true"></span>
                     <span ng-show="false" ng-init="uid=@uid"></span>
-                    <span ng-show="false" ng-init='username=@session.get("username")'></span>
+                    <span ng-show="false" ng-init="username='@(session.get("username"))'"></span>
                 }
                 case None => {
                     <span ng-show="false" ng-init="isLogin=false"></span>
