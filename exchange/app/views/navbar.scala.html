@@ -1,5 +1,5 @@
-@(index: Int)(implicit session: Session, lang: Lang)
-<div class="navbar navbar-fixed-top" ng-controller="NaviCtrl">
+@(index: Int, fix: Boolean = true)(implicit session: Session, lang: Lang)
+<div class="navbar @if(fix) {navbar-fixed-top} else {navbar-top}" ng-controller="NaviCtrl">
     <div class="container">
         <div class="">
             <ul class="nav navbar-nav navbar-middle">

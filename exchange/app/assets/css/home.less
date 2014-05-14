@@ -1,0 +1,60 @@
+/*
+This CSS file is soly used in the index.html page
+*/
+
+@import "light";
+
+body {
+  padding: 0;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.section {
+  width: 100%;
+  color: @text-color;
+  background-color: white;
+  margin: 0;
+  padding:0;
+}
+.branding {
+	margin-top: -5px;
+	padding-top: 80px;
+	padding-bottom: 80px;
+	color: white;
+	background-color: @blue;
+
+  .branding-box {
+    text-align: center;
+  }
+}
+
+.stats {
+  color: white;
+  background-color: @green;
+}
+
+footer {
+	color: @grey0;
+	background-color: @grey6;
+}
+
+
+.back-to-top {
+    position: fixed;
+    bottom: 2em;
+    right: 0px;
+    text-decoration: none;
+    color: black;
+    background-color: fadeout(@grey3, 20%);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+}
+
+.back-to-top:hover {
+    background-color: fadeout(@grey3, 50%);
+    color: black;
+}
