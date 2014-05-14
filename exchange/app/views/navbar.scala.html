@@ -7,16 +7,16 @@
                     <a href="/"><i class="fa fa-home"></i> @Messages("nav.home")</a>
                 </li>
                 @if(index==1){<li class="active">} else {<li>}
-                    <a href="/trade"><i class="fa fa-shopping-cart"></i> @Messages("nav.trade")</a>
+                    <a href="/trade"><i class="fa fa-retweet"></i> @Messages("nav.trade")</a>
                 </li>
                 @if(index==2){<li class="active">} else {<li>}
-                    <a href="/account"><i class="fa fa-shopping-cart"></i> @Messages("nav.account")</a>
+                    <a href="/account"><i class="fa fa-money"></i> @Messages("nav.account")</a>
                 </li>
                 @if(index==3){<li class="active">} else {<li>}
                     <a href="/market#/"><i class="fa fa-bar-chart-o"></i> @Messages("nav.market")</a>
                 </li>
                 @if(index==4){<li class="active">} else {<li>}
-                    <a href="/open"><i class="fa fa-folder-open"></i> @Messages("nav.open")</a>
+                    <a href="/open"><i class="fa fa-eye"></i> @Messages("nav.open")</a>
                 </li>
             </ul>
             @session.get("uid") match {

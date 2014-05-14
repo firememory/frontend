@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="transaction in transactions">
-                    <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-list-alt"></i> {{transaction.id}}</a></td>
+                    <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-retweet"></i> {{transaction.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{transaction.price.display_short}} {{transaction.price.currency}}</td>
                     <td>{{transaction.subjectAmount.display_short}} {{transaction.subjectAmount.currency}}</td>

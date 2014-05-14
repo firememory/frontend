@@ -127,6 +127,7 @@ open.eventData=事件数据
 open.snapshotData=快照数据
 open.Download=下载
 
+transaction.transaction=交易
 transaction.tid=交易ID
 transaction.timestamp=时间
 transaction.price=价格

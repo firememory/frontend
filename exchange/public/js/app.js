@@ -150,7 +150,7 @@ coinportApp.filter('dwClass', function() {
 
 coinportApp.filter('dwIcon', function() {
     return function(input) {
-        return input == 0 ? 'fa-sign-in' : 'fa-sign-out';
+        return input == 0 ? 'fa-sign-out fa-rotate-270' : 'fa-sign-in fa-rotate-90';
     }
 });
 

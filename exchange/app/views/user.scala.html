@@ -109,7 +109,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in transactions">
-                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-list-alt"></i> {{item.id}}</a></td>
+                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{item.price.display_short}} {{item.price.currency}}</td>
                     <td>{{item.subjectAmount.display_short}} {{item.subjectAmount.currency}}</td>

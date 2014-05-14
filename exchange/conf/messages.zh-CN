@@ -134,6 +134,7 @@ transaction.amount=成交量
 transaction.value=成交额
 transaction.type=类型
 
+transaction.transaction=交易
 transaction.orderRole=订单角色
 transaction.orderId=订单ID
 transaction.beforeAmount=交易前剩余

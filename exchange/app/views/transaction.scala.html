@@ -14,7 +14,7 @@
     <div id="main-content">
         <div class="row">
             <div class="col-md-6">
-                <h4><i class="fa fa-list-alt"></i>  @tid</h4>
+                <h4>@Messages("transaction.transaction"): @tid</h4>
             </div>
         </div>
         <div class="row">
@@ -31,8 +31,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><i class="fa fa-list-alt"></i> {{transaction.id}} </a></td>
-                    <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
+                    <td><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{transaction.price.display_short}} {{transaction.price.currency}}</td>
                     <td>{{transaction.subjectAmount.display_short}} {{transaction.subjectAmount.currency}}</td>
                     <td>{{transaction.currencyAmount.display_short}} {{transaction.currencyAmount.currency}}</td>
@@ -53,14 +53,14 @@
                 <tbody>
                 <tr>
                     <td>@Messages("transaction.takeOrder")</td>
-                    <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{takeOrder.oid}}</a></td>
+                    <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
                     <td> {{takeOrder.preAmount.display_short}} {{takeOrder.preAmount.currency}}</td>
                     <td> {{takeOrder.curAmount.display_short}} {{takeOrder.curAmount.currency}}</td>
                     <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '我' : (takeOrder.uid)}}</a></td>
                 </tr>
                 <tr>
                     <td>@Messages("transaction.makeOrder")</td>
-                    <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-list-alt"></i> {{makeOrder.oid}}</a></td>
+                    <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
                     <td>{{makeOrder.preAmount.display_short}} {{makeOrder.preAmount.currency}}</td>
                     <td>{{makeOrder.curAmount.display_short}} {{makeOrder.curAmount.currency}}</td>
                     <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? '我' : (makeOrder.uid)}}</a></td>

@@ -121,7 +121,7 @@ market.willBeUpdatedIn=Will be updated in
 market.seconds=s
 
 open.totalAssets=Total Assets
-open.coinType=Coin Type
+open.coinType=Currency
 open.balance=Balance
 open.file=File
 open.updatedTime=Updated Time
@@ -130,13 +130,14 @@ open.eventData=Event Data
 open.snapshotData=Snapshot Data
 open.Download=Download
 
-transaction.tid=Transaction ID
+transaction.tid=ID
 transaction.timestamp=Timestamp
 transaction.price=Price
 transaction.amount=Amount
 transaction.value=Value
 transaction.type=Type
 
+transaction.transaction=Transaction
 transaction.orderRole=Order Role
 transaction.orderId=Order ID
 transaction.beforeAmount=Amount Before Transaction
@@ -149,15 +150,15 @@ transaction.maker=Maker
 transaction.myTransactions=My Transactions
 
 user.account=Account
-user.coinType=Coin Type
-user.available=available
-user.orderPending=Pending With Order
-user.withdrawalPending=Pending With Withdrawal
-user.cnyTransfer=CNY Deposit/Withdrawal
-user.btcTransfer=BTC Deposit/Withdrawal
+user.coinType=Currency
+user.available=Available
+user.orderPending=Frozen
+user.withdrawalPending=Pending Withdrawal
+user.cnyTransfer=CNY Deposit & Withdrawal
+user.btcTransfer=BTC Deposit & Withdrawal
 user.transfer.id=ID
 user.transfer.timestamp=Timestamp
-user.transfer.operation=Operation
+user.transfer.operation=Type
 user.transfer.amount=Amount
 user.transactions=Transactions
 
