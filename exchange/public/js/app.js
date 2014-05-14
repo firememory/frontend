@@ -45,7 +45,7 @@ coinportApp.filter('txTypeText', function() {
 
 coinportApp.filter('txTypeIcon', function() {
     return function(input) {
-        return input ?  'fa-angle-double-right' : 'fa-angle-double-left';
+        return input ?  'fa-arrow-right' : 'fa-arrow-left';
     }
 });
 
