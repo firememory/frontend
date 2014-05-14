@@ -39,48 +39,44 @@ body {
 
 // -------------------------------------------------------------------
 // Navigation bar
+
+.nav li a:hover {
+  background-color: @background-color;
+}
+
+.nav li.active a:hover {
+  background-color: @grey8;
+
+}
+
 .navbar {
-    * {
-        .user-select(none);
-    }
-    background: @navbar-background-color;
-    border-bottom-color: @navbar-shadow-color;
-    border-bottom-style: solid;
-    border-bottom-width: 5px;
-    -moz-box-shadow:    0px 0px 3px 0px @navbar-shadow-color;
-    box-shadow:         0px 0px 3px 0px @navbar-shadow-color;
+  background: @background-color;
+  border-bottom-color: @grey8;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  * {
+    .user-select(none);
+  }
+
 
   a {
     font-weight: bold;
-    color: @navbar-inactive-color;
+    color: @grey4;
     text-decoration: none;
   }
+
   a:hover,
   a:focus {
-    color: @grey7;
-    background-color: red;
-    text-decoration: none;
-    border-bottom-color: @darkyellow;
-    border-bottom-style: solid;
-    border-bottom-width: 4px;
+    color: white;
   }
 
   .active {
-      a {
-        font-weight: bolder;
-        color: white;
-        background-color: @navbar-background-color;
-        border-bottom-color: white;
-        border-bottom-style: solid;
-        border-bottom-width: 4px;
-      }
-      a:hover,
-      a:focus {
-        color: @darkyellow;
-        background-color: @navbar-background-color;
-        text-decoration: none;
-      }
+    a {
+      font-weight: bolder;
+      color: white;
+      background-color: @grey8;
     }
+  }
 }
 // -------------------------------------------------------------------
 // Default Link Color
