@@ -2,23 +2,12 @@
 /* Note page specific settings should be put elsewhere.                      */
 
 @import "_common";
+@import "_navbar";
 
 // -------------------------------------------------------------------
 // COLOR SPECS
-/*
+
 @text-color: @grey6;
-@navbar-background-color: white;
-@navbar-shadow-color: @blue3;
-@navbar-active-color: @blue;
-@navbar-active-background-color: lighten(@navbar-active-color, 60%);
-@navbar-inactive-color: @grey4;
-*/
-@text-color: @grey6;
-@navbar-background-color: @blue;
-@navbar-shadow-color: @blue;
-@navbar-active-color: white;
-@navbar-active-background-color: @blue;
-@navbar-inactive-color: @grey2;
 
 
 // -------------------------------------------------------------------
@@ -36,47 +25,13 @@ body {
 	overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
-// -------------------------------------------------------------------
 // Navigation bar
-
-.nav li a:hover {
-  background-color: @blue;
-}
-
-.nav li.active a:hover {
-  background-color: @shadeblue;
-
-}
-
-.navbar {
-	background: @blue;
-	border-bottom-color: @shadeblue;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	* {
-		.user-select(none);
-	}
-
-
-	a {
-		font-weight: bold;
-		color: lighten(@blue, 20%);
-		text-decoration: none;
-	}
-
-	a:hover,
-	a:focus {
-		color: white;
-	}
-
-	.active {
-		a {
-			font-weight: bolder;
-			color: @navbar-active-color;
-			background-color: @shadeblue;
-		}
-	}
-}
+.config-navbar(
+	@blue, 				// navbar-background-color
+	white, 				// navbar-active-text-color
+	@blue3, 			// navbar-inactive-text-color
+	@shadeblue 		// navbar-active-background-color
+);
 
 // -------------------------------------------------------------------
 // Secondary Level Navigation
@@ -90,10 +45,10 @@ body {
 	}
 	&.active a {
 		color: white;
-		background-color: @blue;
+		background-color: @grey4;
 		&:hover {
 			color: white;
-			background-color: @darkblue;
+			background-color: @grey5;
 		}
 	}
 }

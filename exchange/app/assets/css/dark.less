@@ -2,17 +2,12 @@
 /* Note page specific settings should be put elsewhere.                      */
 
 @import "_common";
+@import "_navbar";
 
 // -------------------------------------------------------------------
 // COLOR SPECS
 @text-color: white;
 @background-color: darken(@blue, 55%);
-
-@navbar-background-color: darken(@blue, 55%);
-@navbar-shadow-color: @background-color;
-@navbar-active-color: white;
-@navbar-active-background-color: @background-color;
-@navbar-inactive-color: @grey6;
 
 @footer-background-color: @background-color;
 
@@ -37,47 +32,14 @@ body {
     margin: 0px;
 }
 
-// -------------------------------------------------------------------
 // Navigation bar
+.config-navbar(
+  @background-color,  // navbar-background-color
+  @grey3,             // navbar-active-text-color
+  @grey6,             // navbar-inactive-text-color
+  @grey8              // navbar-active-background-color
+);
 
-.nav li a:hover {
-  background-color: @background-color;
-}
-
-.nav li.active a:hover {
-  background-color: @grey8;
-
-}
-
-.navbar {
-  background: @background-color;
-  border-bottom-color: @grey8;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  * {
-    .user-select(none);
-  }
-
-
-  a {
-    font-weight: bold;
-    color: @grey4;
-    text-decoration: none;
-  }
-
-  a:hover,
-  a:focus {
-    color: white;
-  }
-
-  .active {
-    a {
-      font-weight: bolder;
-      color: white;
-      background-color: @grey8;
-    }
-  }
-}
 // -------------------------------------------------------------------
 // Default Link Color
 a {
