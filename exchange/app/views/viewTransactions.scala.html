@@ -2,14 +2,14 @@
     <h4>@Messages("transaction.myTransactions"):</h4>
     <ul class="nav">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                {{market.substr(0, 3)}}-{{market.substr(3)}}<span class="caret"></span>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                {{market}}<span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="" ng-click="update('BTCCNY')">BTC-CNY</a></li>
-                <li><a href="" ng-click="update('LTCBTC')">LTC-BTC</a></li>
-                <li><a href="" ng-click="update('DOGBTC')">DOG-BTC</a></li>
-                <li><a href="" ng-click="update('PTSBTC')">PTS-BTC</a>
+                <li><a href="" ng-click="changeMarket('BTCCNY')">BTC-CNY</a></li>
+                <li><a href="" ng-click="changeMarket('LTCBTC')">LTC-BTC</a></li>
+                <li><a href="" ng-click="changeMarket('DOGBTC')">DOG-BTC</a></li>
+                <li><a href="" ng-click="changeMarket('PTSBTC')">PTS-BTC</a>
             </ul>
         </li>
     </ul>
@@ -29,7 +29,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in transactions">
+                <tr ng-repeat="item in transactions.items">
                     <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-list-alt"></i> {{item.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{item.price.display_short}} {{item.price.currency}}</td>
@@ -41,5 +41,5 @@
                 </tr>
             </tbody>
         </table>
-        <pagination boundary-links="true" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
     </div>

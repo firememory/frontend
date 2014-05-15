@@ -549,41 +549,43 @@ app.controller('AssetCtrl', function ($scope, $http) {
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
-//    $scope.update = function(market) {
-//        $scope.market = market;
-//        $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {}})
-//          .success(function(data, status, headers, config) {
-//                $scope.transactions = data.data;
-//                console.log("transactions", $scope.transactions)
-//        });
-//    };
-
-//    $scope.update('BTCCNY');
-
+    $scope.market = 'BTCCNY';
     $scope.page = 1;
-    $scope.loadTransactions = function () {
-        $http.get('/api/user/' + $scope.uid + '/transaction/BTCCNY', {params: {limit: 15, page: $scope.page}})
-            .success(function (data, status, headers, config) {
-                $scope.transactions = data.data.items;
-                $scope.count = data.data.count;
-            });
+    $scope.limit = 15;
+
+    $scope.changeMarket = function(market) {
+        $scope.market = market;
+        $scope.page = 1;
+        $scope.reload();
     };
 
-    $scope.loadTransactions();
+    $scope.reload = function() {
+        $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {limit: $scope.limit, page: $scope.page}})
+          .success(function(data, status, headers, config) {
+                $scope.transactions = data.data;
+        });
+    };
 
+    $scope.reload();
 }]);
 
 app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-//    $scope.update = function(market) {
-//        $scope.market = market;
-//        $http.get('/api/' + $scope.market + '/order')
-//            .success(function(data, status, headers, config) {
-//                $scope.orders = data.data.items;
-//                $scope.count = data.data.count;
-//            });
-//    };
+    $scope.market = 'all';
+    $scope.page = 1;
+    $scope.limit = 15;
 
-//    $scope.update('all');
+    $scope.changeMarket = function(market) {
+        $scope.market = market;
+        $scope.page = 1;
+        $scope.reload();
+    };
+
+    $scope.reload = function() {
+        $http.get('/api/' + $scope.market + '/order', {params: {limit: $scope.limit, page: $scope.page}})
+            .success(function(data, status, headers, config) {
+                $scope.orders = data.data;
+            });
+    };
 
     $scope.showDetail = function (order) {
         $scope.$parent.order = order;
@@ -598,16 +600,7 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
             });
     };
 
-    $scope.page = 1;
-    $scope.loadOrders = function () {
-        $http.get('/api/all/order', {params: {limit: 15, page: $scope.page}})
-            .success(function (data, status, headers, config) {
-                $scope.orders = data.data.items;
-                $scope.count = data.data.count;
-            });
-    };
-
-    $scope.loadOrders();
+    $scope.reload();
 }]);
 
 app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
