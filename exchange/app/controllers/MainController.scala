@@ -15,10 +15,15 @@ import com.coinport.coinex.api.service.NotificationService
 import models.PagingWrapper
 
 object MainController extends Controller with Json4s {
+  def backdoor = Action {
+    implicit request =>
+      Redirect(routes.MainController.index())
+        .withSession("uid" -> "1001", "username" -> "developer@coinport.com")
+  }
+
   def index = Action {
     implicit request =>
       Ok(views.html.index.render(session, lang))
-      .withSession("uid" -> "1", "username" -> "a@a")
   }
 
   def trade = Authenticated {
