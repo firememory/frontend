@@ -12,6 +12,9 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
   };
 
   $scope.doLogin = function () {
+    var pwdSha256 = $.sha256b64($scope.login.password);
+    $scope.login.password = pwdSha256;
+
     $http.post('account/login', $.param($scope.login))
       .success(function(data, status, headers, config) {
         if (data.success) {

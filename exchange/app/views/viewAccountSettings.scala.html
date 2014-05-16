@@ -5,11 +5,6 @@
 <div class="row">
     <h3>@Messages("accountsettings.view.title")</h3>
     <br/>
-    <!-- <p><h4>@Messages("accountsettings.view.namediv.title")</h4> </p>
-    <div class="col-sm-5" style="border:1px solid #bbb">
-    <label class="control-label col-sm-2" for="realName">@Messages("accountsettings.realName")</label>
-    <input name="realName" id="realName" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
-    </div> -->
     <div class="row">
         <div class="col-sm-8">
         <fieldset>
@@ -44,18 +39,20 @@
     <br/><br/>
     <div>
         <form class="form-horizontal" name="accountSettingsForm">
-            <div class="form-group">
+            <div class="form-group has-{{accountSettingsForm.realName.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.realName")</label>
                 <div class="col-sm-3">
-                    <input name="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required>
+                    <input name="realName" id="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required>
+                    <span class="glyphicon glyphicon-{{registerForm.realName.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
                 <div class="col-sm-2">@Messages("accountsettings.realNamePrompt")</div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.realNameAgain")</label>
                 <div class="col-sm-3">
-                    <input name="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" required>
+                    <input name="confirmRealName" id="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" repeat-input="realName" required>
+                    <span class="glyphicon glyphicon-{{registerForm.confirmRealName.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
             </div>
 
@@ -75,17 +72,19 @@
             </div>
 -->
 
-            <div class="form-group">
+            <div class="form-group has-{{accountSettingsForm.mobile.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.mobile")</label>
                 <div class="col-sm-3">
                     <input name="mobile" class="form-control" placeholder="@Messages("accountsettings.mobile")" ng-model="account.mobile" required>
+                    <span class="glyphicon glyphicon-{{registerForm.mobile.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-{{accountSettingsForm.verifyCode.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
                 <div class="col-sm-3">
-                    <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="verifyCode" required>
+                    <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="verifyCode" min-length="5" required>
+                    <span class="glyphicon glyphicon-{{registerForm.verifyCode.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
                 <div class="col-sm-3">
                     <button class="form-control" ng-click="sendVerifySms()"

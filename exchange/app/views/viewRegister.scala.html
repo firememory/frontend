@@ -59,14 +59,14 @@
                 <div class="form-group has-{{registerForm.password.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-3" for="inputPassword">@(Messages("password"))</label>
                     <div class="col-sm-6">
-                        <input name="password" type="password" id="inputPassword" class="form-control" placeholder='@(Messages("password"))' ng-model="register.password" required>
+                        <input name="password" type="password" id="inputPassword" class="form-control" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="8" required>
                         <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
                     </div>
                 </div>
                 <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-3" for="inputConfirmPassword">@(Messages("passwordConfirm"))</label>
                     <div class="col-sm-6">
-                        <input name="confirmPassword" type="password" id="inputConfirmPassword" class="form-control" placeholder='@(Messages("passwordConfirm"))' ng-model="register.confirmPassword" confirm-password="register.confirmPassword" required="">
+                        <input name="confirmPassword" type="password" id="confirmPassword" class="form-control" placeholder='@(Messages("passwordConfirm"))' ng-model="register.confirmPassword" repeat-input="password" required="">
                         <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
                     </div>
                 </div>

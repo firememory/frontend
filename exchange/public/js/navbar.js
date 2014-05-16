@@ -38,7 +38,6 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
 
         $scope.newCaptcha = function() {
           $http.get('/captcha', $scope.captcha).success(function(data, status, headers, config) {
-            console.log(data.data);
             $scope.captcha = data.data;
           });
         };
@@ -46,9 +45,10 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
         $scope.newCaptcha();
 
         $scope.doLogin = function () {
+          var pwdSha256 = $.sha256b64($scope.login.password);
           $http.post('/account/login',
                      $.param({username: $scope.login.username,
-                              password: $scope.login.password}))
+                              password: pwdSha256}))
             .success(function(data, status, headers, config) {
               if (data.success) {
                 var result = data.data;
@@ -68,15 +68,15 @@ app.controller('NaviCtrl', function ($scope, $modal, $log) {
         };
 
         $scope.doRegister = function () {
+          var pwdSha256 = $.sha256b64($scope.register.password);
           $http.post('/account/register',
                      $.param({uuid: $scope.captcha.uuid,
                               text: $scope.captcha.text,
                               email: $scope.register.email,
-                              password: $scope.register.password,
+                              password: pwdSha256,
                               nationalId: $scope.register.nationalId,
                               realName: $scope.register.realName}))
             .success(function(data, status, headers, config) {
-              console.log(data);
               if (data.success) {
                 $scope.$parent.registerErrorMessage = Messages.account.registerSucceeded;
                 $scope.$parent.showRegisterError = true;
@@ -102,4 +102,27 @@ app.filter('UID', function() {
     return function(input) {
         return parseInt(input).toString(35).toUpperCase().replace('-','Z');
     }
+});
+
+app.directive("repeatInput", function() {
+  console.log("repeatInput directive invoked.");
+  return {
+    require: "ngModel",
+    link: function(scope, elem, attrs, ctrl) {
+      var otherInput = elem.inheritedData("$formController")[attrs.repeatInput];
+
+      ctrl.$parsers.push(function(value) {
+        if(value === otherInput.$viewValue) {
+          ctrl.$setValidity("repeat", true);
+          return value;
+        }
+        ctrl.$setValidity("repeat", false);
+      });
+
+      otherInput.$parsers.push(function(value) {
+        ctrl.$setValidity("repeat", value === ctrl.$viewValue);
+        return value;
+      });
+    }
+  };
 });
