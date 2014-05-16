@@ -37,6 +37,11 @@ GET     /trade/*market/order/cancel/*oid   controllers.ApiController.cancelOrder
 POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
 
+GET     /profile/*uid               controllers.UserController.getUserProfile(uid)
+GET     /depoaddr/*currency/*uid    controllers.UserController.getDepositAddress(currency, uid)
+GET     /withaddr/*currency/*uid    controllers.UserController.getWithdrawalAddress(currency, uid)
+
+
 # html snippet
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()

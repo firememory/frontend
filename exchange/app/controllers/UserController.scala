@@ -28,7 +28,7 @@ object UserController extends Controller with Json4s {
     if (!paramsValid) {
       Future { Ok(failedResult.toJson) }
     } else {
-      val user: User = User(None, email, None, password, None)
+      val user: User = User(-1L, email, None, password, None)
       UserService.login(user) map {
         result =>
         if (result.success) {
@@ -67,17 +67,45 @@ object UserController extends Controller with Json4s {
     else if(!CaptchaController.validate(uuid, text)) {
       Future { Ok(ApiResult(false, ErrorCode.CaptchaNotMatch.value, "").toJson) }
     } else {
-      val user: User = User(Some(-1L), email, realName, password, nationalId)
+      val user: User = User(-1L, email, realName, password, nationalId)
       UserService.register(user) map {
         result =>
         if (result.success) {
           val profile = result.data.get.asInstanceOf[UserProfile]
           Ok(result.toJson)
+          // Ok(result.toJson).withSession(
+          //   "username" -> profile.email,
+          //   "uid" -> profile.id.toString
+          // )
         } else {
           Ok(result.toJson)
         }
       }
     }
+  }
+
+  def getUserProfile(userId: String)  = Action.async {
+    implicit request =>
+    UserService.getProfile(userId.toLong) map {
+        result =>
+          Ok(result.toJson)
+    }
+  }
+
+  def getDepositAddress(currency: String, userId: String) = Action.async {
+    implicit  request =>
+      UserService.getDepositAddress(currency, userId.toLong) map {
+        result =>
+          Ok(result.toJson)
+      }
+  }
+
+  def getWithdrawalAddress(currency: String, userId: String) = Action.async {
+    implicit  request =>
+      UserService.getWithdrawalAddress(currency, userId.toLong) map {
+        result =>
+          Ok(result.toJson)
+      }
   }
 
   def updateSettings = Authenticated.async(parse.urlFormEncoded) {
@@ -99,7 +127,7 @@ object UserController extends Controller with Json4s {
     if (!paramsValid) {
       Future { Ok(failedResult.toJson) }
     } else {
-      val user: User = User(Some(uid), email,  Some(realName), null, None, Some(mobile))
+      val user: User = User(uid, email,  Some(realName), null, None, Some(mobile))
       UserService.updateProfile(user) map {
         result =>
         Ok(result.toJson)

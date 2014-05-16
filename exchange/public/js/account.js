@@ -5,18 +5,18 @@ function routeConfig($routeProvider) {
         when('/', {
             redirectTo: '/asset'
         }).
-        when('/deposit/rmb', {
-            controller: 'DepositRmbCtrl',
-            templateUrl: 'views/deposit-CNY.html'
-        }).
+//        when('/deposit/rmb', {
+//            controller: 'DepositRmbCtrl',
+//            templateUrl: 'views/deposit-CNY.html'
+//        }).
         when('/deposit/:currency', {
             controller: 'DepositCtrl',
             templateUrl: 'views/deposit.html'
         }).
-        when('/withdrawal/rmb', {
-            controller: 'WithdrawalRmbCtrl',
-            templateUrl: 'views/withdrawal-CNY.html'
-        }).
+//        when('/withdrawal/rmb', {
+//            controller: 'WithdrawalRmbCtrl',
+//            templateUrl: 'views/withdrawal-CNY.html'
+//        }).
         when('/withdrawal/:currency', {
             controller: 'WithdrawalCtrl',
             templateUrl: 'views/withdrawal.html'
@@ -62,11 +62,6 @@ app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.balance = data.data.accounts['CNY'];
         });
 
-//    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 0}})
-//      .success(function(data, status, headers, config) {
-//        $scope.deposits = data.data;
-//    });
-
     $scope.page = 1;
     $scope.loadDeposits = function () {
         $http.get('/api/CNY/transfer' + $scope.uid + {params: {limit: 15, page: $scope.page, 'type': 0}})
@@ -95,11 +90,6 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
             $scope.balance = data.data.accounts['CNY'];
         });
 
-//    $http.get('/api/CNY/transfer/' + $scope.uid, {params: {'type': 1}})
-//        .success(function(data, status, headers, config) {
-//            $scope.withdrawals = data.data;
-//        });
-
     $scope.page = 1;
     $scope.loadWithdrawals = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type': 1}})
@@ -114,6 +104,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
     $scope.withdrawal = function () {
         var amount = $scope.amount;
         console.log('withdrawal ', $scope.withdrawalData);
+        $scope.withdrawalData = {};
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function (data, status, headers, config) {
                 if (data.success) {
@@ -131,6 +122,11 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function ($sco
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.balance = data.data.accounts[$scope.currency];
+        });
+
+    $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
+        .success(function (data, status, headers, config) {
+            $scope.depositAddress = data.data;
         });
 
     $scope.page = 1;
@@ -159,14 +155,15 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function ($
     $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
-            console.log(data.data.accounts[$scope.currency])
+            console.log(data.data.accounts[$scope.currency]);
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-//    $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {'type': 1}})
-//        .success(function(data, status, headers, config) {
-//            $scope.withdrawals = data.data;
-//        });
+    $http.get('/withaddr/' +$scope.currency+ '/' + $scope.uid)
+        .success(function (data, status, headers, config) {
+            $scope.withdrawalAddress = data.data;
+        });
+
     $scope.page = 1;
     $scope.loadWithdrawals = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type': 1}})
