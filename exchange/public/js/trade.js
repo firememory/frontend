@@ -133,6 +133,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
       .success(function(response, status, headers, config) {
         $scope.history = response.data.candles;
+        $scope.ma7 = response.data.ma7;
+        $scope.ma30 = response.data.ma30;
         $scope.lastHistory = $scope.history[$scope.history.length - 1];
 
         // set the allowed units for data grouping
@@ -156,12 +158,16 @@ function BidAskCtrl($scope, $http, $routeParams) {
                     load : function() {
                         var candleSeries = this.series[0];
                         var volumeSeries = this.series[1];
+                        var ma7Series = this.series[2];
+                        var ma30Series = this.series[3];
                         // polling new data
                         setInterval(function() {
                             $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod, from: $scope.lastHistory[0]}})
                               .success(function(response, status, headers, config) {
-                                    var data = response.data;
-                                    // merge new data
+                                    var data = response.data.candles;
+                                    if (!data || data.length == 0)
+                                        return;
+                                    // merge candle data
                                     var last = $scope.history.pop();
                                     data.forEach(function(item){
                                         if (item[1] == 0){
@@ -173,9 +179,17 @@ function BidAskCtrl($scope, $http, $routeParams) {
                                     });
                                     $scope.history = $scope.history.concat(data);
                                     $scope.lastHistory = data[data.length - 1];
+                                    // merge MA data
+                                    $scope.ma7.pop();
+                                    $scope.ma7 = $scope.ma7.concat(response.data.ma7);
+                                    $scope.ma30.pop();
+                                    $scope.ma30 = $scope.ma30.concat(response.data.ma30);
+
                                     // set data
                                     candleSeries.setData(splitHistoryData($scope.history).ohlc, true, true, false);
                                     volumeSeries.setData(splitHistoryData($scope.history).volume, true, true, false);
+                                    ma7Series.setData($scope.ma7, true, true, false);
+                                    ma30Series.setData($scope.ma30, true, true, false);
                             });
                         }, $scope.historyUpdateTime);
                     }
@@ -210,7 +224,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             },
             yAxis: [{
                 height: '75%'
-            }, {
+            },{
                 top: '80%',
                 height: '20%'
             }],
@@ -221,11 +235,39 @@ function BidAskCtrl($scope, $http, $routeParams) {
                 dataGrouping: {
                     units: groupingUnits
                 }
-            }, {
+            },{
                 type: 'column',
                 name: 'Volume',
                 data: splitHistoryData($scope.history).volume,
                 yAxis: 1,
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            },{
+                type: 'spline',
+                name: 'MA7',
+                data: $scope.ma7,
+                color: '#660033',
+                lineWidth: 1,
+                yAxis: 0,
+                threshold: null,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            },{
+                type: 'spline',
+                name: 'MA30',
+                data: $scope.ma30,
+                color: '#666633',
+                lineWidth: 1,
+                yAxis: 0,
+                threshold: null,
+                tooltip: {
+                    valueDecimals: 2
+                },
                 dataGrouping: {
                     units: groupingUnits
                 }
