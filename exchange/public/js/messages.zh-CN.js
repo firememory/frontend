@@ -14,10 +14,7 @@ Messages.orderStatus = {
 };
 
 Messages.transfer = {
-  waiting: '等待处理',
-  processing: '处理中',
-  succeed: '成功',
-  failed: '失败',
+  status: ['等待处理', '处理中', '待确认', '已确认', '成功', '失败', '待确认'],
   deposit: '存款',
   withdrawal: '取款',
   depositSuccess: '存款成功: ',
@@ -29,7 +26,7 @@ Messages.transfer = {
 Messages.timeDemension = {
     w1 : '1周',
     d3: '3天',
-    d1: '一天',
+    d1: '1天',
     h12: '12小时',
     h6: '6小时',
     h4: '4小时',

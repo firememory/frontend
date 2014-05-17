@@ -83,30 +83,10 @@ coinportApp.filter('orderStatusText', function() {
     return filter;
 });
 
-coinportApp.filter('depositStatusText', function() {
-    var filter = function(input) {
-        if(input == 0)
-            return Messages.transfer.waiting;
-        if(input == 1)
-            return Messages.transfer.succeed;
-        if(input == 2)
-            return Messages.transfer.failed;
-        return Messages.unknown + input;
-    }
-    return filter;
-});
-
-coinportApp.filter('withdrawalStatusText', function() {
-    var filter = function(input) {
-        if(input == 0)
-            return Messages.transfer.waiting;
-        if(input == 1)
-            return Messages.transfer.succeed;
-        if(input == 2)
-            return Messages.transfer.failed;
-        return Messages.unknown + input;
-    }
-    return filter;
+coinportApp.filter('transferStatusText', function() {
+    return function(input) {
+        return Messages.transfer.status[input];
+    };
 });
 
 coinportApp.filter('currency', function() {

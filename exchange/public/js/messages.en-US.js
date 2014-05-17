@@ -14,10 +14,7 @@ Messages.orderStatus = {
 };
 
 Messages.transfer = {
-  waiting: 'Waiting',
-  processing: 'Processing',
-  succeed: 'Succeed',
-  failed: 'Failed',
+  status: ['Pending', 'Accepted', 'Confirming', 'Confirmed', 'Succeeded', 'Failed', 'Confirming'],
   deposit: 'Deposit',
   withdrawal: 'Withdrawal',
   depositSuccess: 'Deposit Succeed: ',
