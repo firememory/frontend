@@ -3,14 +3,14 @@ var app = angular.module('coinport.transactions', ['ui.bootstrap', 'ngResource',
 app.controller('TransCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/transactions/", "");
     $scope.page = 1;
+    $scope.limit = 15;
 
-    $scope.loadTransactions = function() {
-        $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, page: $scope.page}})
+    $scope.reload = function() {
+        $http.get('/api/' + $scope.market + '/transaction', {params: {limit: $scope.limit, page: $scope.page}})
         .success(function(data, status, headers, config) {
-            $scope.transactions = data.data.items;
-            $scope.count = data.data.count;
+            $scope.transactions = data.data;
         });
     };
 
-    $scope.loadTransactions();
+    $scope.reload();
 });

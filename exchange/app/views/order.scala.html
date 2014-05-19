@@ -42,25 +42,25 @@
                 </tr>
                 <tr>
                     <td>@Messages("order.orderPrice")</td>
-                    <td>{{order.price | currency}} {{order.currency}}/{{order.subject}}</td>
+                    <td>{{order.price | price}} {{order.currency}}/{{order.subject}}</td>
                     <td>@Messages("order.averagePrice")</td>
-                    <td>{{order.finishedAmount / order.finishedQuantity | currency}} {{order.currency}}/{{order.subject}}</td>
+                    <td>{{order.finishedAmount / order.finishedQuantity | price}} {{order.currency}}/{{order.subject}}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>@Messages("order.orderAmount")</td>
-                    <td>{{order.amount | quantity}} {{order.subject}}</td>
+                    <td>{{order.amount | coin}} {{order.subject}}</td>
                     <td>@Messages("order.tradingAmount")</td>
-                    <td>{{order.finishedQuantity | quantity}} {{order.subject}}</td>
+                    <td>{{order.finishedQuantity | coin}} {{order.subject}}</td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>@Messages("order.orderValue")</td>
-                    <td>{{order.total | currency}}  {{order.currency}}</td>
+                    <td>{{order.total | coin}}  {{order.currency}}</td>
                     <td>@Messages("order.tradingValue")</td>
-                    <td>{{order.finishedAmount | currency}}  {{order.currency}}</td>
+                    <td>{{order.finishedAmount | coin}}  {{order.currency}}</td>
                     <td></td>
                     <td></td>
                </tr>
@@ -87,9 +87,9 @@
                 <tr ng-repeat="item in transactions.items">
                     <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td>{{item.price.display_short}} {{item.price.currency}}</td>
-                    <td>{{item.subjectAmount.display_short}} {{item.subjectAmount.currency}}</td>
-                    <td>{{item.currencyAmount.display_short}} {{item.currencyAmount.currency}}</td>
+                    <td>{{item.price.value | price}} {{item.price.currency}}</td>
+                    <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
+                    <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
                     <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
                     <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
                     <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>

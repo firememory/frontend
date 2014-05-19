@@ -43,19 +43,19 @@
                     {{order.operation | orderTypeText}}
                 </td>
                 <td class="{{order.operation | orderTypeClass}}">
-                    {{order.price | currency}} {{order.currency}}
+                    {{order.price | price}} {{order.currency}}
                 </td>
                 <td>
-                    {{order.amount | quantity}} {{order.subject}}
+                    {{order.amount | coin}} {{order.subject}}
                 </td>
                 <td>
-                    {{order.finishedQuantity | quantity}} {{order.subject}}
+                    {{order.finishedQuantity | coin}} {{order.subject}}
                 </td>
                 <td>
-                    {{order.total | currency}} {{order.currency}}
+                    {{order.total | coin}} {{order.currency}}
                 </td>
                 <td>
-                    {{order.finishedAmount | currency}} {{order.currency}}
+                    {{order.finishedAmount | coin}} {{order.currency}}
                 </td>
                 <td>
                     <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>

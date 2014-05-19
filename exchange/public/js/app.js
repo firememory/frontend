@@ -103,11 +103,16 @@ coinportApp.filter('quantity', function() {
     return filter;
 });
 
-coinportApp.filter('amountUnit', function() {
-    var filter = function(amount, sell) {
-        return sell==true? amount.toFixed(3) : amount.toFixed(2);
+coinportApp.filter('price', function() {
+    return function(input) {
+        return input ? input.toFixed(4) : '0';
     };
-    return filter;
+});
+
+coinportApp.filter('coin', function() {
+    return function(input) {
+        return input ? input.toFixed(4) : '0';
+    };
 });
 
 coinportApp.filter('UID', function() {
@@ -135,6 +140,7 @@ coinportApp.filter('dwIcon', function() {
 });
 
 // Directives
+// nav bar
 coinportApp.directive('cpNav', function($window) {
  'use strict';
  return {
@@ -159,3 +165,22 @@ coinportApp.directive('cpNav', function($window) {
    }
  };
 });
+
+// form validations
+//var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
+//coinportApp.directive('cpPrice', function() {
+//    return {
+//        require : 'ngModel',
+//        link : function(scope, elm, attrs, ctrl) {
+//            ctrl.$parsers.unshift(function(viewValue) {
+//                if (FLOAT_REGEXP.test(viewValue)) {
+//                    ctrl.$setValidity('price', true);
+//                    return parseFloat(viewValue.replace(',','.'));
+//                } else {
+//                    ctrl.$setValidity('price', false);
+//                    return undefined;
+//                }
+//            });
+//        }
+//    };
+//});

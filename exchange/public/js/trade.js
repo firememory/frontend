@@ -60,7 +60,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
         .success(function(data, status, headers, config) {
             $scope.transactions = data.data;
             if ($scope.transactions.items.length > 0) {
-                $scope.lastPrice = $scope.transactions.items[0].price.display;
+                $scope.lastPrice = $scope.transactions.items[0].price.value;
             if (!$scope.ask.price)
                 $scope.ask.price = +$scope.lastPrice;
             if (!$scope.bid.price)
@@ -505,8 +505,46 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $scope.refresh();
     });
 
-    $scope.$watch('bid.amount', updateBidTotal);
-    $scope.$watch('bid.price', updateBidTotal);
+    // watch
+    var watchBidPrice = function(newValue) {
+        if (newValue == null)
+            $scope.bid.price = 0;
+        else if (newValue < 0)
+            $scope.bid.price = -newValue;
+        else
+            $scope.bid.price = +newValue.toFixed(4);
+        updateBidTotal();
+    };
+    var watchBidAmount = function(newValue) {
+        if (newValue == null)
+            $scope.bid.amount = 0;
+        else if (newValue < 0)
+            $scope.bid.amount = -newValue;
+        else
+            $scope.bid.amount = +newValue.toFixed(4);
+        updateBidTotal();
+    };
+    var watchAskPrice = function(newValue) {
+        if (newValue == null)
+            $scope.ask.price = 0;
+        else if (newValue < 0)
+            $scope.ask.price = -newValue;
+        else
+            $scope.ask.price = +newValue.toFixed(4);
+        updateAskTotal();
+    };
+    var watchAskAmount = function(newValue) {
+        if (newValue == null)
+            $scope.ask.amount = 0;
+        else if (newValue < 0)
+            $scope.ask.amount = -newValue;
+        else
+            $scope.ask.amount = +newValue.toFixed(4);
+        updateAskTotal();
+    };
+
+    $scope.$watch('bid.amount', watchBidAmount);
+    $scope.$watch('bid.price', watchBidPrice);
     $scope.$watch('bid.total', updateBidAmount);
     $scope.$watch('ask.amount', updateAskTotal);
     $scope.$watch('ask.price', updateAskTotal);

@@ -32,19 +32,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="transaction in transactions">
+                <tr ng-repeat="transaction in transactions.items">
                     <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-retweet"></i> {{transaction.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td>{{transaction.price.display_short}} {{transaction.price.currency}}</td>
-                    <td>{{transaction.subjectAmount.display_short}} {{transaction.subjectAmount.currency}}</td>
-                    <td>{{transaction.currencyAmount.display_short}} {{transaction.currencyAmount.currency}}</td>
+                    <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
+                    <td>{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
+                    <td>{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
                     <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '我' : (transaction.taker)}}</a></td>
                     <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
                     <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '我' : (transaction.maker)}}</a></td>
                 </tr>
                 </tbody>
             </table>
-            <pagination boundary-links="true" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
     </div>
 </div>

@@ -7,18 +7,18 @@
         <div class="row">
             <div ng-repeat="item in depth.asks" class="depth-item" ng-click="clickDepthAsks($index)">
                 <span class="title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
-                <span class="price">{{item.price | currency}}</span>
-                <span class="amount">{{item.amount | quantity}}</span>
+                <span class="price">{{item.price | price}}</span>
+                <span class="amount">{{item.amount | coin}}</span>
             </div>
         </div>
         <div class="row">
-            <h3 class="depth-price">{{lastPrice}}</h3>
+            <h3 class="depth-price">{{lastPrice | price}}</h3>
         </div>
         <div class="row">
             <div ng-repeat="item in depth.bids" class="depth-item" ng-click="clickDepthBids($index)">
                 <span class="title buy">@(Messages("trade.buyShort")){{1+$index}}</span>
-                <span class="price">{{item.price | currency}}</span>
-                <span class="amount">{{item.amount | quantity}}</span>
+                <span class="price">{{item.price | price}}</span>
+                <span class="amount">{{item.amount | coin}}</span>
             </div>
         </div>
         <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
@@ -44,7 +44,7 @@
                     <div class="row_100 clearfix">
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.price"))</span>
-                            <input type="number" class="form-control" ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
+                            <input type="number" step="0.0001" name="price" class="form-control " ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
                             <span data-toggle="tooltip" data-placement="top" title="是否限制买入价格">限价</span>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                            <input class="form-control" name="amount" type="number" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount" min="0">
+                            <input type="number" step="0.0001" class="form-control" name="amount" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount">
                             <span class="input-group-addon" ng-show="bidOptions.advanced">
                                 <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
                                 <span  data-toggle="tooltip" data-placement="top" title="是否限制买入数量">限量</span>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.total"))</span>
-                            <input id="bid-total" type="number" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
+                            <input id="bid-total" type="number" step="0.01" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
                             <span  data-toggle="tooltip" data-placement="top" title="是否根据花费人民币总金额下单">限额</span>
@@ -73,7 +73,7 @@
                                 以<span class="badge badge-info">任意价格</span>
                             </li>
                             <li class="list-group-item" ng-show="bidOptions.limitPrice">
-                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price | currency}}</span>
+                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price | price}}</span>
                             </li>
                             <li class="list-group-item" ng-show="!bidOptions.limitAmount">
                                 购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
@@ -115,7 +115,7 @@
                     <div class="row_100 clearfix">
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.price"))</span>
-                            <input type="number" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
+                            <input type="number" step="0.0001" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
                             <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出价格">限价</span>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                            <input type="number" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
+                            <input type="number" step="0.0001" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
                             <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出数量">限量</span>
@@ -131,7 +131,7 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">@(Messages("trade.total"))</span>
-                            <input type="number" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
+                            <input type="number" step="0.01" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
                             <span  data-toggle="tooltip" data-placement="top" title="是否根据卖得人民币金额下单">限额</span>
@@ -144,7 +144,7 @@
                                 以<span class="badge badge-info">任意价格</span>
                             </li>
                             <li class="list-group-item"  ng-show="askOptions.limitPrice">
-                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price | currency}}</span>价格
+                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price | price}}</span>价格
                             </li>
                             <li class="list-group-item"  ng-show="!askOptions.limitAmount">
                                 卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
@@ -176,8 +176,8 @@
             <div ng-repeat="item in transactions.items" class="transaction-item">
                 <a href="/transaction/{{item.id}}" class="title">
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
-                <span class="price">{{item.price.display_short}} {{item.price.currency}}</span>
-				<span class="amount">{{item.subjectAmount.display_short}} {{item.subjectAmount.currency}}</span>
+                <span class="price">{{item.price.value | price}} {{item.price.currency}}</span>
+				<span class="amount">{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</span>
 				<span class="timestamp"><i class="fa fa-clock-o"></i> {{item.timestamp | date:"HH:mm:ss"}}</span>                
                 </a>
             </div>
@@ -223,19 +223,19 @@
                     {{order.operation | orderTypeText}}
                 </td>
                 <td class="{{order.operation | orderTypeClass}}">
-                    {{order.price | currency}}
+                    {{order.price | price}}
                 </td>
                 <td>
-                    {{order.amount | quantity}}
+                    {{order.amount | coin}}
                 </td>
                 <td>
-                    {{order.finishedQuantity | quantity}}
+                    {{order.finishedQuantity | coin}}
                 </td>
                 <td>
-                    {{order.total | currency}}
+                    {{order.total | coin}}
                 </td>
                 <td>
-                    {{order.finishedAmount | currency}}
+                    {{order.finishedAmount | coin}}
                 </td>
                 <td>
                     <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
