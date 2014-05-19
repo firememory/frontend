@@ -3,7 +3,13 @@ var app = angular.module('coinport.open', ['ui.bootstrap', 'ngResource', 'navbar
 function routeConfig($routeProvider) {
     $routeProvider.
     when('/', {
-        redirectTo: '/reserve'
+        redirectTo: '/about/en-US'
+    }).
+    when('/about/en-US', {
+        templateUrl: 'views/transparency.en-US.html'
+    }).
+    when('/about/zh-CN', {
+        templateUrl: 'views/transparency.zh-CN.html'
     }).
     when('/download', {
         controller: 'DownCtrl',
