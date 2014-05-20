@@ -8,16 +8,16 @@
 
   .navbar {
     background: @navbar-background-color;
-    border-bottom-color: @navbar-active-background-color;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
+    margin: 0;
+    top: 0px;
+    border-width: 0 0 1px;
 
     .nav li a {
-      font-weight: bold;
       color: @navbar-inactive-text-color;
+      background-color: @navbar-background-color;
       text-decoration: none;
-
-
+      text-transform: uppercase;
+      font-weight: normal;
 
       &:focus,
       &:hover {
@@ -27,7 +27,7 @@
     }
 
     .nav li.active a {
-      font-weight: bolder;
+      text-transform: uppercase;
       color: @navbar-active-text-color;
       background-color: @navbar-active-background-color;
 

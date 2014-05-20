@@ -101,7 +101,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="buy_sell_box ">
+        <div class="buy_sell_box">
             <div class="box_title">@(Messages("trade.sell")) {{subject}}</div>
             <div class="box_subtitle">
                 @(Messages("trade.availableAmount"))
@@ -178,7 +178,7 @@
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
                 <span class="price">{{item.price.value | price}} {{item.price.currency}}</span>
 				<span class="amount">{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</span>
-				<span class="timestamp"><i class="fa fa-clock-o"></i> {{item.timestamp | date:"HH:mm:ss"}}</span>                
+				<span class="timestamp"><i class="fa fa-clock-o"></i> {{item.timestamp | date:"HH:mm:ss"}}</span>
                 </a>
             </div>
         </div>
@@ -188,6 +188,8 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-12">
+    <div class="recent-orders">
     <tabset>
         <tab heading='@(Messages("all"))' select="loadOrders(-1)"></tab>
         <tab heading='@(Messages("order.status.pending"))' select="loadOrders(0)"></tab>
@@ -196,7 +198,7 @@
         <tab heading='@(Messages("order.status.cancelled"))' select="loadOrders(3)"></tab>
     </tabset>
     <div class="user-order-box">
-        <table class="table table-condensed ">
+        <table class="table table-condensed">
             <thead>
             <tr>
                 <th>@(Messages("order.oid"))</th>
@@ -247,6 +249,8 @@
             </tbody>
         </table>
         <a style="float: right;" href="/account#/orders">@(Messages("more")) >></a>
+    </div> <!-- table -->
+    </div>
     </div>
 </div>
 <timer ng-show="false" interval="2000"/>

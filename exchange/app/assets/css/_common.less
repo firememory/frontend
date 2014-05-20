@@ -24,31 +24,35 @@
 @darkwarmgrey:  #CfCfC6;
 
 // basic colors
-@blue:       #4285F4;
+
+@blue:       #05254C;
 @green:      #0F9D58;
 @red:        #DB4437;
 @yellow:     #F4B400;
 
+@primary:     #34D4DF;
+@primary1:    darken(@primary, 3%);
+
 // darker colors
-@darkblue:   #4379D8;
+@darkblue:  darken(@blue, 3%);
+@darkblue2: darken(@blue, 6%);
+
 @darkgreen:  #1A8C51;
 @darkred:    #C23D36;
 @darkyellow: #D8A122;
 
 // ligher colors;
-@blue2:   mix(@blue,   white, 60%);
-@blue3:   mix(@blue,   white, 40%);
-@green2:  mix(@green,  white, 60%);
-@green3:  mix(@green,  white, 40%);
-@red2:    mix(@red,    white, 60%);
-@red3:    mix(@red,    white, 40%);
-@yellow2: mix(@yellow, white, 60%);
-@yellow3: mix(@yellow, white, 40%);
+@blue2:   mix(@blue,   white, 70%);
+@blue3:   mix(@blue,   white, 30%);
+@green2:  mix(@green,  white, 70%);
+@green3:  mix(@green,  white, 30%);
+@red2:    mix(@red,    white, 70%);
+@red3:    mix(@red,    white, 30%);
+@yellow2: mix(@yellow, white, 70%);
+@yellow3: mix(@yellow, white, 30%);
 
 // use the following in other files instead
 
-@link-color: darken(@blue, 30);
-@link-over-color: @darkblue;
 
 @buy-color: @green;
 @sell-color: @red;
@@ -57,6 +61,8 @@
 // FONTS
 @default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
 
+@link-color: darken(@blue, 30);
+@link-over-color: @darkblue;
 
 
 // -------------------------------------------------------------------
@@ -78,45 +84,3 @@
   .rounded(0);
 }
 
-// LINK
-
-a {
-  color: @link-color;
-  text-decoration: none;
-}
-a:hover,
-a:focus {
-  color: @link-over-color;
-  text-decoration: underline;
-}
-a:focus {
-  outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
-.btn-link {
-  color: @link-color;
-  cursor: pointer;
-}
-.btn-link:hover,
-.btn-link:focus {
-  color: white;
-  background-color: @green;
-  text-decoration: none;
-}
-
-.btn {
-  border-radius: 0;
-}
-.input-group, input-group-addon {
-  border-radius: 0;
-  margin: 0;
-}
-
-.nav-pills > li > a {
-  border-radius: 0px;
-}
-.nav-stacked > li + li {
-  margin-top: 0;
-}

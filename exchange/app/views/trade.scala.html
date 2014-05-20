@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="bitcoin exchange">
     <meta name="keywords" content="bitcoin">
-    @imports()
+    @imports(Seq("trade.css"))
 
     <!--<script src="lib/jquery.jqcandlestick.js" type="text/javascript" ></script>-->
     <script type="text/javascript" src="lib/highstock.js"></script>
@@ -17,7 +17,7 @@
 </head>
 <body ng-app="coinport.trade">
 @navbar(1)
-<div class="container">
+<div class="container top-container">
     @session.get("uid") match {
         case Some(id: String) => {
         <span ng-init="uid='@id'" ng-show="false"></span>

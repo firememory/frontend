@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <title>coinport</title>
-    @imports()
+    @imports(Seq("opendata.css"))
     <script src="/js/transaction.js"></script>
 </head>
 
 <body ng-app="coinport.transaction">
 @navbar(4)
-<div class="container" id="main-container" ng-controller="TxCtrl">
+<div class="top-container container" id="main-container" ng-controller="TxCtrl">
     <div id="main-content">
         <div class="row">
             <div class="col-md-6">
@@ -70,6 +70,5 @@
         </div>
     </div>
 </div>
-@footer()
 </body>
 </html>

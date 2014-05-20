@@ -1,0 +1,280 @@
+/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_light";
+
+a {
+	color: @text-color;
+	&:hover {
+		color: @primary1;
+	}
+}
+
+// -------------------------------------------------------------------
+// Order Boxes
+
+.box-area {
+	padding: 20px;
+	margin-top: 5px;
+	border: 1px solid @grey1;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	//font-size: 18px;
+	background-color: white;
+	min-height: 400px;
+	color: @text-color;
+}
+
+.btn-bid {
+	color: white;
+	background-color: @green;
+	border-color: @green;
+
+	&:hover {
+	  color: white;
+	  background-color: @darkgreen;
+	  border-color: @darkgreen;
+	}
+}
+
+.btn-ask {
+	color: white;
+	background-color: @red;
+	border-color: @red;
+	&:hover {
+	  color: white;
+	  background-color: @darkred;
+	  border-color: @darkred;
+	}
+}
+
+// -------------------------------------------------------------------
+// Buy & Sell Box
+.buy_sell_box {
+	.box-area;
+
+	&:hover {
+	  border-color: @grey2;
+	  box-shadow: 2px 2px 2px @grey2;
+  }
+
+ .wrap_input {
+		position: relative;
+	}
+	.all {
+		position: absolute;
+		right: 0;
+	}
+  .right {
+		margin-left: 2%;
+	}
+
+	&> .box_title {
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.4em;
+		padding-top: 15px;
+		padding-bottom: 0px;
+		color: #009dc6;
+		font-weight: bold;
+	}
+	 &> .box_subtitle {
+		border-bottom: 1px dashed #e6e6e6;
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.1em;
+		padding-top: 10px;
+		padding-bottom: 15px;
+		color: #808080;
+	}
+	&> .box {
+		padding-top: 0px;
+	}
+}
+.sell, .deposit { color: @sell-color; }
+.buy, .withdrawal {	color: @buy-color; }
+
+
+// -------------------------------------------------------------------
+// Market Depth Box
+
+.depth-box {
+	.box-area;
+	min-height: 300px;
+
+	.depth-item {
+		cursor: pointer;
+		.title {
+			padding-left: 10px;
+		}
+		.price {
+			padding-left: 20px;
+		}
+		.amount {
+			padding-left: 20px;
+		}
+	}
+ }
+
+// -------------------------------------------------------------------
+// Recent Transaction Box
+.transaction-box {
+	.box-area;
+
+	.transaction-item {
+		cursor: pointer;
+		margin: 0;
+		padding: 1px;
+		border-bottom: 1px dashed #e6e6e6;
+
+		.timestamp {
+			padding-left: 5px;
+		}
+		.sell {
+			padding-left: 5px;
+		}
+		.buy {
+			padding-left: 5px;
+		}
+		.price {
+			padding-left: 10px;
+		}
+		.amount {
+			padding-left: 10px;
+		}
+	}
+}
+
+.recent-orders {
+	.box-area;
+	margin-right: -15px;
+
+	.user-order-box {
+		margin-top: 15px;
+		padding-left: 15px;
+		width: 100%;
+
+		.title {
+			padding-top: 5px;
+			padding-bottom: 5px;
+			color: #336699;
+		}
+		.user-order-item {
+			padding-top: 5px;
+			padding-bottom: 5px;
+			border-top: 1px dashed #e6e6e6;
+
+			.head {
+				// color: #bbb;
+			}
+			.body {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			.data {
+				font-weight: bold;
+			}
+			.foot {
+			}
+		}
+	}
+}
+
+// the following are not optimized yet by Dong Wang
+
+.badge {
+	background-color: @grey3;
+}
+
+#price-summary {
+	padding-top: 50px;
+	padding-right: 15px;
+	padding-left: -100px;
+}
+#price-summary dd {
+	color: #c00;
+}
+.user-summary {
+	margin-top: 10px;
+}
+#user-finance-chart-history {
+	margin-top: 10px;
+	height: 260px;
+}
+#user-finance-chart-pie {
+	margin-top: 10px;
+	height: 260px;
+}
+#user-finance-table-div {
+	padding-top: 15px;
+}
+
+/*------------------------------------------------------------------------- trade */
+.candle-chart-wrap {
+	.candle-chart {
+		.box-area;
+		min-height: 300px;
+		background-color: white;
+	}
+}
+.jqcandlestick-container {
+	position: relative;
+	cursor: none;
+	border: 1px solid #e6e6e6;
+	height: 220px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+.jqcandlestick-canvas {
+  position: absolute;
+  display: block;
+  height: 100%;
+}
+
+
+.form-buy-sell {
+	margin: 2px;
+}
+.form-buy-sell .input-group {
+	margin-top: 10px;
+}
+.form-buy-sell .detail-info-box {
+	font-size: 10px;
+	margin-top: 10px;
+}
+
+.form-buy-sell .detail-info-box .list-group {
+	padding: 0;
+	margin: 0px;
+}
+.form-buy-sell .detail-info-box .list-group .list-group-item {
+	position: relative;
+	display: block;
+	padding: 5px 10px;
+	margin-bottom: -1px;
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+}
+
+.label {
+	float: left;
+	width: 100%;
+	color: #808080;
+	margin-bottom: 7px;
+	margin-top: 10px;
+}
+
+
+
+.depth-price {
+	padding-left: 10px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+
+

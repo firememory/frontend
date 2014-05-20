@@ -4,22 +4,22 @@
 <head>
     <meta charset="utf-8">
     <title>coinport</title>
-    @imports()
+    @imports(Seq("opendata.css"))
     <script type="text/javascript" src="js/open.js"></script>
 </head>
 
 <body ng-app="coinport.open">
 @navbar(4)
-<div class="container">
+<div class="container top-container">
     <div class="col-md-2">
         <ul class="nav nav-pills nav-stacked" cp-nav>
-            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">About Transparency</a></li>
-            <li route="#/reserve"><a href="#/reserve">Reserve Proof</a></li>
-            <li route="#/download"><a href="#/download">Download Data</a></li>
-            <li route="#/code"><a href="#/code">Source Code</a></li>
+            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">About</a></li>
+            <li route="#/code"><a href="#/code">Open-sourced</a></li>
+            <li route="#/download"><a href="#/download">Open-data</a></li>
+            <li route="#/reserve"><a href="#/reserve">Provable full reserve</a></li>
         </ul>
     </div>
-    <div class="col-md-10"  ng-view></div>
+    <div class="col-md-10 data-container"  ng-view></div>
 </div>
 @footer()
 </body>

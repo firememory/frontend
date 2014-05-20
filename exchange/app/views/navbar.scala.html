@@ -4,19 +4,19 @@
         <div class="">
             <ul class="nav navbar-nav navbar-middle">
                 @if(index==0){<li class="active">} else {<li>}
-                    <a href="/"><i class="fa fa-home"></i> @Messages("nav.home")</a>
+                    <a href="/">@Messages("nav.home")</a>
                 </li>
                 @if(index==1){<li class="active">} else {<li>}
-                    <a href="/trade"><i class="fa fa-retweet"></i> @Messages("nav.trade")</a>
+                    <a href="/trade">@Messages("nav.trade")</a>
                 </li>
                 @if(index==2){<li class="active">} else {<li>}
-                    <a href="/account"><i class="fa fa-money"></i> @Messages("nav.account")</a>
+                    <a href="/account">@Messages("nav.account")</a>
                 </li>
                 @if(index==3){<li class="active">} else {<li>}
-                    <a href="/market#/"><i class="fa fa-bar-chart-o"></i> @Messages("nav.market")</a>
+                    <a href="/market#/"> @Messages("nav.market")</a>
                 </li>
                 @if(index==4){<li class="active">} else {<li>}
-                    <a href="/open"><i class="fa fa-eye"></i> @Messages("nav.open")</a>
+                    <a href="/open">@Messages("nav.open")</a>
                 </li>
             </ul>
             @session.get("uid") match {
@@ -34,14 +34,14 @@
                     <a href="/user/{{uid}}"><strong>{{username}}</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> {{uid}}</span></a>
                 </li>
                 <li ng-show="isLogin">
-                    <a href="/account/logout" class=""><i class="glyphicon glyphicon-log-out"></i> @Messages("nav.logout")</a>
+                    <a href="/account/logout" class="">@Messages("nav.logout")</a>
                 </li>
 
                 <li ng-show="!isLogin">
-                    <a href="#" class="" ng-click="openLoginWindow(0)"><i class="glyphicon glyphicon-log-in"></i> @Messages("nav.login")</a>
+                    <a href="#" class="" ng-click="openLoginWindow(0)">@Messages("nav.login")</a>
                 </li>
                 <li ng-show="!isLogin">
-                    <a href="#" class="" ng-click="openLoginWindow(1)"><i class="glyphicon glyphicon-user"></i> @Messages("nav.register")</a>
+                    <a href="#" class="" ng-click="openLoginWindow(1)">@Messages("nav.register")</a>
                 </li>
             </ul>
         </div>

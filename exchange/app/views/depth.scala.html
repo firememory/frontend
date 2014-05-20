@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    @imports()
+    @imports(Seq("depth.css"))
     <script src="/lib/d3/d3.js"></script>
     <script type="text/javascript" src="/js/depth.js"></script>
     <style>
@@ -48,9 +48,9 @@
         <div id="depth-graph"></div>
     </div>
     <div class="row">
-        <h4>Order Book</h4>
+        <h1>Order Book</h1>
         <div class="col-md-6">
-            <h5>@(Messages("buy"))</h5>
+            <h2>@(Messages("buy"))</h2>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -68,7 +68,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <h5>@(Messages("sell"))</h5>
+            <h2>@(Messages("sell"))</h2>
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
@@ -87,6 +87,5 @@
         </div>
     </div>
 </div>
-@footer()
 </body>
 </html>

@@ -1,0 +1,23 @@
+/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_light";
+
+@text-color: @grey7;
+body {
+  color: @text-color;
+}
+
+a {
+  color: @text-color;
+  &:hover {
+    color: @primary1;
+  }
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 40px;
+  font-weight: bold;
+  color: @grey6;
+}

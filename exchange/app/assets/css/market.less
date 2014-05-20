@@ -1,0 +1,245 @@
+/* Overriding Boostrap's default styles but only used in 实时行情 pages.      */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_common";
+@import "_navbar";
+
+// COLOR SPECS
+@text-color: @grey4;
+@background-color: @grey9;
+@box-line-color:@grey8;
+
+// BODY
+
+html, body {
+	height: 100%;
+}
+
+body {
+	padding-bottom: 0px;
+	font-size: 13px;
+	color:  @text-color;
+	font-family: @default-fonts;
+	-webkit-text-size-adjust:none;
+	background: @background-color;
+	font-weight: normal;
+	min-width: 960px;
+	padding-top: 60px;
+	overflow-x: hidden; /* Prevent scroll on narrow devices */
+	margin: 0px;
+}
+
+
+// Default Link Color
+a {
+	color: @primary;
+	&:hover {
+		color: @primary1;
+	}
+}
+
+// Navigation bar
+.config-navbar(
+	white,         // navbar-background-color
+	@grey3,        // navbar-active-text-color
+	@grey9,        // navbar-inactive-text-color
+	white          // navbar-active-background-color
+);
+
+// Time span selection
+#periods li {
+	&.selected {
+		a {
+		  color: @yellow;
+		  font-weight: bold;
+		}
+	}
+}
+
+ul.horiz {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	padding-left: 6px;
+
+	input, select, button {
+		vertical-align: middle;
+	}
+
+	&> li {
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+		vertical-align: baseline;
+		margin-right: 12px;
+
+		&.sep {
+			height: 16px;
+			vertical-align: middle;
+		}
+
+	  &.addthis {
+			position: absolute;
+			right: 0px;
+			margin-top: 6px;
+			vertical-align: top;
+			width: 190px;
+		}
+
+		&.subsep {
+			height: 16px;
+			vertical-align: middle;
+			margin-right: 6px;
+		}
+
+		&.last {
+			margin-right: 0px;
+		}
+	}
+}
+
+// --------------
+// The top level container
+#main {
+	font-family: Consolas, monospace;
+	font-size: 12px;
+	line-height: 14px;
+	overflow: hidden;
+
+  #wrapper {
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hide_cursor canvas, .hide_cursor #chart_info {
+		cursor: none;
+	}
+}
+
+
+
+// -------------
+// The rigt vertical bar
+#sidebar_outer {
+	float: right;
+	font-family: Consolas, monospace;
+	height: 100%;
+	font-size: 11px;
+	line-height: 13px;
+
+	#sidebar {
+		height: 100%;
+		width: 450px;
+		border-left: 1px solid @box-line-color;
+		padding-left: 6px;
+
+		#market {
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+			height: 18px;
+			line-height: 18px;
+			font-family: Arial, sans;
+			padding: 6px;
+		}
+
+		#price {
+			text-align: center;
+			font-size: 16px;
+			font-weight: bold;
+			height: 28px;
+			line-height: 28px;
+			color: @grey2;
+		}
+	}
+}
+
+
+// ----------------
+// Top right order book.
+#orderbook {
+	padding-bottom: 6px;
+	padding-top: 16px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	margin-bottom: 6px;
+	border-bottom-color: @box-line-color;
+
+	#asks .row, #bids .row {
+		position: relative;
+		width: 120px;
+	}
+
+	#gasks .row, #gbids .row {
+		width: 80px;
+	}
+}
+
+// ----------------
+// Bottom-right recent trades.
+#trades {
+	overflow-y:	hidden;
+	text-align: left;
+	.row {
+		margin-left: 5px;
+		margin-right: 5px;
+		display: block;
+		clear: both;
+		height: 13px;
+		line-height: 13px;
+	}
+
+	.t, .p, .v, .u, .d{
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+		margin-right: 2px;
+		vertical-align: top;
+	}
+	.buy {
+		a {
+			color: @green
+		}
+		color: @green;
+	}
+	.sell {
+		a {
+			color: @red;
+		}
+		color: @red;
+	}
+
+	.d { // volume
+		float: right;
+		text-align: left;
+		padding-left: 4px;
+	}
+}
+
+
+
+.candle-chart-wrap {
+		margin-bottom: 10px;
+}
+
+.jqcandlestick-container {
+		position: relative;
+		cursor: none;
+		border: none;
+		height: 220px;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border-radius: 0px;
+}
+.jqcandlestick-canvas {
+	position: absolute;
+	display: block;
+	height: 100%;
+}
+
+// Footer
+#footer {
+	border-top: 1px solid @box-line-color;
+	line-height: 32px;
+}

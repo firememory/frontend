@@ -1,0 +1,105 @@
+/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_common";
+@import "_navbar";
+@import "_footer";
+
+// -------------------------------------------------------------------
+// COLOR SPECS
+@text-color: @grey6;
+
+// -------------------------------------------------------------------
+// BODY
+body {
+	padding-bottom: 0px;
+	font-size: 13px;
+	color: @text-color;
+	background: @grey0;
+	font-family: @default-fonts;
+	-webkit-text-size-adjust:none;
+	font-weight: normal;
+	min-width: 960px;
+	padding-top: 60px;
+	overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+// Navigation bar
+.config-navbar(
+	white, 				// navbar-background-color
+	@grey3, 				// navbar-active-text-color
+	@grey9, 			// navbar-inactive-text-color
+	white 	    	// navbar-active-background-color
+);
+
+// -------------------------------------------------------------------
+// Secondary Level Navigation
+.nav-pills > li {
+	a {
+		color: @text-color;
+		&:hover {
+			color: @blue;
+			background-color: @grey1;
+		}
+	}
+	&.active a {
+		color: white;
+		background-color: @grey4;
+		&:hover {
+			color: white;
+			background-color: @grey5;
+		}
+	}
+}
+
+
+body > div.main {
+  margin-top: 30px;
+}
+
+// LINK
+
+a {
+  color: @link-color;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: @link-over-color;
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.btn-link {
+  color: @link-color;
+  cursor: pointer;
+}
+.btn-link:hover,
+.btn-link:focus {
+  color: white;
+  background-color: @green;
+  text-decoration: none;
+}
+
+.btn {
+  border-radius: 0;
+}
+.input-group, input-group-addon {
+  border-radius: 0;
+  margin: 0;
+}
+
+.nav-pills > li > a {
+  border-radius: 0px;
+}
+.nav-stacked > li + li {
+  margin-top: 0;
+}
+
+div.top-container {
+  margin-top: 30px;
+}

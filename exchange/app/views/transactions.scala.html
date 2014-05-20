@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>coinport</title>
-    @imports()
+    @imports(Seq("opendata.css"))
     <script src="/js/transactions.js"></script>
 </head>
 
@@ -33,6 +33,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="transaction in transactions.items">
+
                     <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-retweet"></i> {{transaction.id}}</a></td>
                     <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                     <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
@@ -48,6 +49,5 @@
         </div>
     </div>
 </div>
-@footer()
 </body>
 </html>
