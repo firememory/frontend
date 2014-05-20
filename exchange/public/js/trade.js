@@ -354,6 +354,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.bidOptions.limitAmount = true;
             $scope.bidOptions.limitPrice = true;
             $scope.bidOptions.limitTotal = true;
+            addBidWatches();
+        } else if (newValue && !oldValue) {
+            removeBidWatches();
         }
     }
 
@@ -362,6 +365,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.askOptions.limitAmount = true;
             $scope.askOptions.limitPrice = true;
             $scope.askOptions.limitTotal = true;
+            addAskWatches();
+        } else if (newValue && !oldValue) {
+            removeAskWatches();
         }
     }
 
@@ -560,12 +566,31 @@ function BidAskCtrl($scope, $http, $routeParams) {
         updateAskTotal();
     };
 
-    $scope.$watch('bid.amount', watchBidAmount);
-    $scope.$watch('bid.price', watchBidPrice);
-    $scope.$watch('bid.total', updateBidAmount);
-    $scope.$watch('ask.amount', updateAskTotal);
-    $scope.$watch('ask.price', updateAskTotal);
-    $scope.$watch('ask.total', updateAskAmount);
+    var bidWatches = [];
+    var askWatches = [];
+
+    var addBidWatches = function() {
+        bidWatches.push($scope.$watch('bid.amount', watchBidAmount));
+        bidWatches.push($scope.$watch('bid.price', watchBidPrice));
+        bidWatches.push($scope.$watch('bid.total', updateBidAmount));
+    };
+
+    var addAskWatches = function() {
+        askWatches.push($scope.$watch('ask.amount', updateAskTotal));
+        askWatches.push($scope.$watch('ask.price', updateAskTotal));
+        askWatches.push($scope.$watch('ask.total', updateAskAmount));
+    };
+
+    var removeBidWatches = function() {
+        bidWatches.forEach(function(fn) {fn.apply();});
+    };
+
+    var removeAskWatches = function() {
+        askWatches.forEach(function(fn) {fn.apply();});
+    };
+
+    addBidWatches();
+    addAskWatches();
     $scope.$watch('bidOptions.advanced', toggleBidAdvanced);
     $scope.$watch('askOptions.advanced', toggleAskAdvanced);
 }
