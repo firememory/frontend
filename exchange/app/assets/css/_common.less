@@ -57,6 +57,7 @@
 @buy-color: @green;
 @sell-color: @red;
 
+
 // -------------------------------------------------------------------
 // FONTS
 @default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
@@ -68,7 +69,7 @@
 }
 
 .pagination, .nav {
-    .user-select(none);
+  .user-select(none);
 }
 
 // -------------------------------------------------------------------
@@ -91,4 +92,8 @@
     position: absolute;
     max-width: 320px;
   }
+}
+.buysell-collors {
+  .buy {color: @buy-color; }
+  .sell {color: @sell-color; }
 }

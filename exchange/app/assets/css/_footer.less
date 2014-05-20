@@ -1,8 +1,8 @@
 @import "_common";
 
-@footer-height: 200px;
-@footer-text-color: @grey6;
-@footer-background-color: white;
+@footer-height: 180px;
+@footer-text-color: @grey4;
+@footer-background-color: @grey6;
 
 
 body {
@@ -22,9 +22,14 @@ footer {
   width: 100%;
   bottom: 0;
 
+  box-shadow: rgba(0, 0, 0, 0.34902) 0px 5px 25px 0px inset;
+
   .copyright {
-    font-weight: bold;
+    color: white;
+    a {color: @primary1; }
+    a:hover {color: @primary1;}
   }
+
   a {
     text-decoration: none;
   }
