@@ -88,7 +88,7 @@ prompt.resetPwdEmailSent=We had sent you an email message including a link, you 
 prompt.resetPwdFailed=Reset password link out of date
 prompt.doResetPwdFailed=Reset password failed.
 
-forgetpwd.title=Reset password request
+forgetpwd.title=Reset password
 forgetpwd.email=E-mail
 forgetpwd.submit=Submit
 
