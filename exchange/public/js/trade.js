@@ -137,8 +137,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
         var sum = 0;
         for (var i = 0; i < n; i++) {
             sum += data[i][4];
+            ma.push([data[i][0], sum / (i + 1)]);
         }
-        ma.push([data[n-1][0], sum / n]);
+
         for (var i = n; i < data.length; i++) {
             var row = data[i];
             var time = row[0];
