@@ -126,8 +126,8 @@ open.balance=Balance
 open.file=File
 open.updatedTime=Updated Time
 open.size=size
-open.eventData=Event Data
-open.snapshotData=Snapshot Data
+open.eventData=Events
+open.snapshotData=Snapshots
 open.Download=Download
 
 transaction.tid=ID
