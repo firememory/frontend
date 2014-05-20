@@ -31,7 +31,7 @@
             }
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show="isLogin">
-                    <a href="/user/{{uid}}"><strong>{{username}}</strong>&nbsp;&nbsp;<span><i class="fa fa-user"></i> {{uid}}</span></a>
+                    <a class="user" href="/user/{{uid}}"><i class="fa fa-user"></i>{{username}}</a>
                 </li>
                 <li ng-show="isLogin">
                     <a href="/account/logout" class="">@Messages("nav.logout")</a>
