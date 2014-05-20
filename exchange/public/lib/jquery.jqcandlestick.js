@@ -311,12 +311,20 @@
                 var hours = minutes / 60;
                 var days = hours / 24;
 
+                var minute = 60000;
+                var hour = 60 * minute;
+                var day = 24 * hour;
+                var week = 7 * day;
+                var month = 30 * day;
+
                 var validSteps = [
-                    60000, 2 * 60000, 5 * 60000, 10 * 60000, 15 * 60000, 30 * 60000,
-                    60 * 60000, 2 * 60 * 60000, 3 * 60 * 60000, 6 * 60 * 60000, 12 * 60 * 60000,
-                    24 * 60 * 60000
+                    minute, 3 * minute, 5 * minute, 10 * minute, 15 * minute, 30 * minute,
+                    hour, 2 * hour, 3 * hour, 6 * hour, 12 * hour,
+                    day, 2 * day, 5 * day,
+                    week, 2 * week,
+                    month, 3 * month, 6 * month, 12 * month
                 ];
-                var step = 60000;
+                var step = minute;
                 for (var i = 0; i < validSteps.length; i++) {
                     step = validSteps[i];
                     if (maxStep <= step) {
@@ -329,7 +337,7 @@
                 for (var x = getX(value); x < maxX; value += step, x = getX(value)) {
                     var date = new Date(value);
                     var label;
-                    if (date.getHours() == 0 && date.getMinutes() == 0) {
+                    if (step >= day) {
                         label = settings.xAxis.months[date.getMonth()] + ' ' + date.getDate();
                     }
                     else {
@@ -344,6 +352,7 @@
                     var labelWidth = ctx.measureText(label).width;
                     if (x + labelWidth / 2 > maxX)
                         continue;
+
                     ctx.fillText(label, x, xAxisMiddle);
                     ctx.beginPath();
                     if (tickSize != 0) {

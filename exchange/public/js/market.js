@@ -51,15 +51,20 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                 if ($scope.candleChart == null) {
                     $scope.candleChart = $('#wrapper').jqCandlestick($scope.history, {
                         theme: 'dark',
+                        plot: {
+                            spacing: 10,
+                            padding: {
+                                top: 0,
+                                left: 15,
+                                bottom: 0,
+                                right: 15
+                            }
+                        },
                         yAxis: [{
                             height: 8
                         }, {
                             height: 2
                         }],
-                        xAxis: {
-                            dataLeftOffset: 0,
-                            minDataLength: 90
-                        },
                         yAxisDefaults: {
                           color: '#1A1A1A',
                           labels: {
