@@ -55,7 +55,7 @@
 
             data.push([time, o, h, l, c, v]);
 
-            for (var i = 0; i < 60; i++) {
+            for (var i = 0; i < 90; i++) {
                 addData(data);
             }
             return data;
@@ -74,6 +74,18 @@
             minDataLength: 30
           },
           series: [{
+            type: 'maline',
+            name: 'MA7',
+            span: 7,
+            dataOffset: 4,
+            color: 'rgba(0, 0, 255, 0.6)'
+          }, {
+            type: 'maline',
+            name: 'MA30',
+            span: 30,
+            dataOffset: 4,
+            color: 'rgba(0, 122, 122, 0.6)'
+          }, {
             type: 'candlestick',
             name: 'OHLC',
             upStroke: '#0C0',

@@ -38,6 +38,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.candleParam.period = period;
         $scope.$broadcast('timer-stop');
     };
+
     $scope.refresh = function() {
         $http.get('/api/price')
             .success(function(data, status, headers, config) {
@@ -46,6 +47,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $http.get('/api/' + $scope.market + '/history', {params: $scope.candleParam})
             .success(function(data, status, headers, config) {
                 $scope.history = data.data.candles;
+
                 if ($scope.candleChart == null) {
                     $scope.candleChart = $('#wrapper').jqCandlestick($scope.history, {
                         theme: 'dark',
@@ -68,14 +70,26 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                           color: '#F4B400;'
                         },
                         series: [{
+                            type: 'maline',
+                            name: 'MA7',
+                            span: 7,
+                            dataOffset: 4,
+                            color: 'rgba(66, 133, 244, 0.6)'
+                        }, {
+                            type: 'maline',
+                            name: 'MA30',
+                            span: 30,
+                            dataOffset: 4,
+                            color: 'rgba(255, 255, 102, 0.6)'
+                        }, {
                             type: 'candlestick',
-                            name: 'OHLC',
+                            names: ['Open', 'High', 'Low', 'Close'],
                             upStroke: 'rgb(15, 157, 88)',      // green
                             downStroke: 'rgb(219, 68, 55)',    // red
                             downColor: 'rgba(219, 68, 55, 0.5)' // red with 0.5 alpha
                         }, {
                             type: 'volume',
-                            name: 'VOLUME',
+                            name: 'Volume',
                             yAxis: 1,
                             dataOffset: 5,
                             stroke: 'rgb(66, 133, 244)', // blue

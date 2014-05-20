@@ -611,7 +611,7 @@
       }
     },
     xAxis: {
-      name: 'DATE',
+      name: 'Date',
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       dataOffset: 0,
       min: null,
@@ -790,6 +790,49 @@
         data.forEach(function(row) {
           var x = getX(row[settings.xAxis.dataOffset]);
           var y = getY(plot, row[series.dataOffset]);
+          if (previousX && previousY)
+            ctx.lineTo(x, y);
+          else
+            ctx.moveTo(x, y);
+          previousX = x;
+          previousY = y;
+        });
+        ctx.stroke();
+      }
+    },
+    maline: {
+      dataSize: 1,
+      span: 7,
+      strokeWidth: 1.0,
+      draw: function(ctx, settings, plot, series, data, getX, getY) {
+      // TODO: apply spline to MA line
+        var getMA = function(data) {
+          var ma = [];
+          var n = series.span;
+          if (!data || n > data.length)
+            return ma;
+          var sum = 0;
+          for (var i = 0; i < n; i++) {
+            sum += data[i][4];
+            ma.push([data[i][0], sum / (i + 1)]);
+          }
+          for (var i = n; i < data.length; i++) {
+            var row = data[i];
+            var time = row[0];
+            sum = sum - data[i - n][4] + row[4];
+            ma.push([time, sum / n]);
+          }
+          return ma;
+        };
+
+        ctx.strokeStyle = series.color;
+        ctx.lineWidth = series.strokeWidth;
+        ctx.beginPath();
+        var previousX = null;
+        var previousY = null;
+        getMA(data).forEach(function(row) {
+          var x = getX(row[0]);
+          var y = getY(plot, row[1]);
           if (previousX && previousY)
             ctx.lineTo(x, y);
           else

@@ -130,11 +130,29 @@ function BidAskCtrl($scope, $http, $routeParams) {
         return {ohlc: ohlc, volume: volume};
     };
 
+    var getMA = function(data, n) {
+        var ma = [];
+        if (!data || n > data.length)
+            return ma;
+        var sum = 0;
+        for (var i = 0; i < n; i++) {
+            sum += data[i][4];
+        }
+        ma.push([data[n-1][0], sum / n]);
+        for (var i = n; i < data.length; i++) {
+            var row = data[i];
+            var time = row[0];
+            sum = sum - data[i - n][4] + row[4];
+            ma.push([time, sum / n]);
+        }
+        return ma;
+    };
+
     $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
       .success(function(response, status, headers, config) {
         $scope.history = response.data.candles;
-        $scope.ma7 = response.data.ma7;
-        $scope.ma30 = response.data.ma30;
+        $scope.ma7 = getMA($scope.history, 7);
+        $scope.ma30 = getMA($scope.history, 30);
         $scope.lastHistory = $scope.history[$scope.history.length - 1];
 
         // set the allowed units for data grouping
@@ -179,11 +197,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
                                     });
                                     $scope.history = $scope.history.concat(data);
                                     $scope.lastHistory = data[data.length - 1];
-                                    // merge MA data
-                                    $scope.ma7.pop();
-                                    $scope.ma7 = $scope.ma7.concat(response.data.ma7);
-                                    $scope.ma30.pop();
-                                    $scope.ma30 = $scope.ma30.concat(response.data.ma30);
+                                    // update MA data
+                                    $scope.ma7 = getMA($scope.history, 7);
+                                    $scope.ma30 = getMA($scope.history, 30);
 
                                     // set data
                                     candleSeries.setData(splitHistoryData($scope.history).ohlc, true, true, false);

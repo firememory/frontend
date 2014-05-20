@@ -69,7 +69,6 @@ object ApiController extends Controller with Json4s {
             case "ask" => Operations.Sell
           }
           val order = UserOrder(id, operation, subject, currency, price, amount, total, submitTime = System.currentTimeMillis)
-
           AccountService.submitOrder(order).map(result => Ok(result.toJson))
 
         case None => Future(Unauthorized)
