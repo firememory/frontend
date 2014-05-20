@@ -167,9 +167,9 @@ object MainController extends Controller with Json4s {
       Ok(views.html.viewTransactions.render(lang))
   }
 
-  def downloadView() = Action {
+  def opendataView() = Action {
     implicit request =>
-      Ok(views.html.viewDownload.render(lang))
+      Ok(views.html.viewOpendata.render(lang))
   }
 
   def reserveView() = Action {
@@ -177,8 +177,8 @@ object MainController extends Controller with Json4s {
       Ok(views.html.viewReserve.render(lang))
   }
 
-  def codeView() = Action {
+  def opensourceView() = Action {
     implicit request =>
-      Ok(views.html.viewCode.render(lang))
+      Ok(views.html.viewOpensource.render(lang))
   }
 }

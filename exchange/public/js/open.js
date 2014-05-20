@@ -11,16 +11,16 @@ function routeConfig($routeProvider) {
     when('/about/zh-CN', {
         templateUrl: 'views/transparency.zh-CN.html'
     }).
-    when('/download', {
+    when('/opendata', {
         controller: 'DownCtrl',
-        templateUrl: 'views/download.html'
+        templateUrl: 'views/opendata.html'
     }).
     when('/reserve', {
         controller: 'ReserveCtrl',
         templateUrl: 'views/reserve.html'
     }).
-    when('/code', {
-        templateUrl: 'views/code.html'
+    when('/opensource', {
+        templateUrl: 'views/opensource.html'
     }).
     otherwise({
         redirectTo: '/'
