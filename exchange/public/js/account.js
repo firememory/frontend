@@ -680,8 +680,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
 
     $scope.updateAccountSettings = function () {
         $scope.showUpdateAccountError = false;
-        $http.post('/account/settings', $.param({ realName: $scope.account.realName,
-                mobile: $scope.account.mobile }))
+        $http.post('/account/settings', $.param($scope.account))
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     $scope.showUpdateAccountError = true;

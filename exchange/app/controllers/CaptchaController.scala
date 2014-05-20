@@ -13,8 +13,10 @@ import play.api.libs.json._
 import com.coinport.coinex.api.model._
 
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService
+//import com.octo.captcha.service.multitype.GenericManageableCaptchaService
 import com.octo.captcha.service.image.ImageCaptchaService
 import com.octo.captcha.service.captchastore.FastHashMapCaptchaStore
+//import com.octo.captcha.service.captchastore.JBossCacheCaptchaStore
 import com.octo.captcha.component.image.backgroundgenerator.BackgroundGenerator
 import com.octo.captcha.component.image.backgroundgenerator.GradientBackgroundGenerator
 import com.octo.captcha.component.image.color.SingleColorGenerator
@@ -36,8 +38,16 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import com.google.common.io.BaseEncoding
 
 object CaptchaController extends Controller with Json4s {
-  val captchaService: ImageCaptchaService = new DefaultManageableImageCaptchaService(
-    new FastHashMapCaptchaStore(), new CaptchaEngineEx(), 180, 100000, 75000)
+  val captchaService: ImageCaptchaService =
+    // new GenericManageableCaptchaService(
+    //   new JBossCacheCaptchaStore(),
+    //   new CaptchaEngineEx(),
+    //   180, // minGuarantedStorageDelayInSeconds
+    //   18000, // maxCaptchaStoreSize
+    //   18000 // captchaStoreLoadBeforeGarbageCollection
+    // )
+    new DefaultManageableImageCaptchaService(
+      new FastHashMapCaptchaStore(), new CaptchaEngineEx(), 180, 100000, 75000)
 
   def captcha = Action { implicit request =>
     // https://groups.google.com/forum/?fromgroups#!searchin/play-framework/2.0$20image/play-framework/5h5wh3eCiYo/1uTKQ2AQ3g4J

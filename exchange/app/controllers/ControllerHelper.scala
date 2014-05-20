@@ -4,6 +4,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
 import play.api.mvc.Request
+import services.CacheService
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
 
@@ -24,6 +25,16 @@ abstract class GeneralValidator[T](params: T*) extends Validator {
       else
         validate(params.tail)
     }
+}
+
+class CachedValueValidator(name: String, uuid: String, value: String) extends Validator {
+  val cacheService = CacheService.getDefaultServiceImpl
+  val result = ApiResult(false, -1, s"$name not match")
+
+  def validate = {
+    val cachedValue = cacheService.get(uuid)
+    if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+  }
 }
 
 object ControllerHelper {

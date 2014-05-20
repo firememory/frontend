@@ -83,7 +83,7 @@
             <div class="form-group has-{{accountSettingsForm.verifyCode.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
                 <div class="col-sm-3">
-                    <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="verifyCode" min-length="5" required>
+                    <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required>
                     <span class="glyphicon glyphicon-{{registerForm.verifyCode.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
                 <div class="col-sm-3">

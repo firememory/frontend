@@ -29,15 +29,14 @@ app.controller('ResetPasswordCtrl', function ($scope, $http, $window) {
   };
 
   $scope.resetPassword = function () {
-    $http.post('/account/dopwdreset', $.param({password: $scope.pwdreset.password,
-                                               token: _token}))
+    $http.post('/account/dopwdreset', $.param(
+      {password: $.sha256b64($scope.pwdreset.password), token: _token}))
       .success(function(data, status, headers, config) {
         if (data.success) {
           console.log("data: ", data);
           var msgKey = 'login.resetPwdSucceeded';
           $window.location.href = '/login?showMsg=true&msgKey=' + msgKey;
         } else {
-
           showMessage(data.message);
         }
       });

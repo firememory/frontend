@@ -98,8 +98,12 @@ object UserController extends Controller with Json4s {
     //val nationalId = getParam(data, "nationalId").getOrElse("")
     val realName = getParam(data, "realName").getOrElse("")
     val mobile = getParam(data, "mobile").getOrElse("")
-    // TODO: validate sms verification code here
-    validateParamsAndThen(new StringNonemptyValidator(userId, email, realName, mobile)) {
+    val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+    val verifyCode = getParam(data, "verifyCode").getOrElse("")
+    validateParamsAndThen(
+      new StringNonemptyValidator(userId, email, realName, mobile, uuid, verifyCode),
+      new CachedValueValidator("sms verify code", uuid, verifyCode)
+    ) {
       val uid = userId.toLong
       UserService.getProfile(uid)
     } flatMap {
@@ -166,7 +170,7 @@ object UserController extends Controller with Json4s {
     val data = request.body
     val newPassword = getParam(data, "password").getOrElse("")
     val token = getParam(data, "token").getOrElse("")
-    UserService.validatePasswordResetToken(token) map {
+    UserService.resetPassword(newPassword, token) map {
       result =>
       Ok(result.toJson)
     }

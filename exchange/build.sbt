@@ -25,7 +25,8 @@ libraryDependencies ++= {
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
     "org.webjars"                 %  "bootstrap"                        % "3.1.1",
-    "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1"
+    "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1",
+    "net.debasishg"               % "redisclient_2.10"                  % "2.12"
   )
 }
 
