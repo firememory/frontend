@@ -7,7 +7,7 @@
 
 // -------------------------------------------------------------------
 // COLOR SPECS
-@text-color: @grey6;
+@text-color: @grey7;
 
 // -------------------------------------------------------------------
 // BODY
@@ -52,30 +52,12 @@ body {
 	}
 }
 
-
 body > div.main {
   margin-top: 30px;
 }
 
-// LINK
-
-a {
-  color: @link-color;
-  text-decoration: none;
-}
-a:hover,
-a:focus {
-  color: @link-over-color;
-  text-decoration: underline;
-}
-a:focus {
-  outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
 .btn-link {
-  color: @link-color;
+  color: @text-color;
   cursor: pointer;
 }
 .btn-link:hover,
@@ -103,3 +85,21 @@ a:focus {
 div.top-container {
   margin-top: 30px;
 }
+
+// LINK
+a {
+  color: @text-color;
+  text-decoration: underline;
+}
+
+a:hover,
+a:focus {
+  color: @primary1;
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+

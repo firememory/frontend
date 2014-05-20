@@ -31,7 +31,7 @@
 @yellow:     #F4B400;
 
 @primary:     #34D4DF;
-@primary1:    darken(@primary, 3%);
+@primary1:    darken(@primary, 6%);
 
 // darker colors
 @darkblue:  darken(@blue, 3%);
@@ -61,10 +61,6 @@
 // FONTS
 @default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
 
-@link-color: darken(@blue, 30);
-@link-over-color: @darkblue;
-
-
 // -------------------------------------------------------------------
 // SELECTABLE
 .selectable {
@@ -84,3 +80,15 @@
   .rounded(0);
 }
 
+.noscript {
+  noscript p {
+    background-color: @primary;
+    color: #fff;
+    display: block;
+    left: 0;
+    margin: 0;
+    padding: 20px;
+    position: absolute;
+    max-width: 320px;
+  }
+}

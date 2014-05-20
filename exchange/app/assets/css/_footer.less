@@ -1,12 +1,17 @@
 @import "_common";
 
 @footer-height: 200px;
+@footer-text-color: @grey6;
+@footer-background-color: white;
+
+
 body {
   margin-bottom: @footer-height;
 }
 
-@footer-background-color: @grey4;
 footer {
+  z-index: 100;
+
 	padding: 20px 0;
 	background: none repeat scroll 0 0 @footer-background-color;
 	margin: 0 auto;
@@ -16,8 +21,20 @@ footer {
   position: fixed;
   width: 100%;
   bottom: 0;
-}
 
-footer li a{
-	margin:0 10px 0 0;
+  .copyright {
+    font-weight: bold;
+  }
+  a {
+    text-decoration: none;
+  }
+
+  li a {
+    margin:0 10px 0 0;
+    color: @footer-text-color;
+
+    &:hover {
+      color: @primary1;
+    }
+   }
 }

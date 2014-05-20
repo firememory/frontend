@@ -83,8 +83,8 @@ order.transactions=Transactions in Order
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed
-prompt.verifyEmailSent=We had sent you an e-mail message, you can choose to activate your account
-prompt.resetPwdEmailSent=We had sent you an e-mail message including a link, you can click the link to reset your password
+prompt.verifyEmailSent=We had sent you an email message, you can choose to activate your account
+prompt.resetPwdEmailSent=We had sent you an email message including a link, you can click the link to reset your password
 prompt.resetPwdFailed=Reset password link out of date
 prompt.doResetPwdFailed=Reset password failed.
 

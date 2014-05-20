@@ -1,0 +1,45 @@
+@()(implicit session: Session, lang: Lang)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    @imports(Seq("account.css"))
+
+    <script src="/lib/d3/d3.min.js"></script>
+    <script src="js/account.js"></script>
+</head>
+<body ng-app="coinport.account">
+@navbar(2)
+@nojs()
+<div class="container top-container">
+    @session.get("uid") match {
+    case Some(id: String) => {
+    <span ng-init="uid='@id'" ng-show="false"></span>
+    }
+    case None => {
+    <span ng-init="uid='0'" ng-show="false"></span>
+    }
+    }
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" cp-nav>
+                <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
+                <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
+                <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
+                <li route="#/deposit/cny"><a href="#/deposit/cny">@Messages("asset.cnyDeposit")</a></li>
+                <li route="#/withdrawal/cny"><a href="#/withdrawal/cny">@Messages("asset.cnyWithdrawal")</a></li>
+                <li route="#/deposit/btc"><a href="#/deposit/btc">@Messages("asset.btcDeposit")</a></li>
+                <li route="#/withdrawal/btc"><a href="#/withdrawal/btc">@Messages("asset.btcWithdrawal")</a></li>
+                <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li>
+            </ul>
+        </div>
+
+        <div class="content col-md-10" ng-view>
+
+        </div>
+    </div>
+</div>
+@footer()
+</body>
+</html>

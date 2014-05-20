@@ -10,11 +10,12 @@
 
 <body ng-app="coinport.transactions">
 @navbar(4)
+@nojs()
 <div class="container" ng-controller="TransCtrl">
     <div id="main-content">
         <div class="row">
             <div class="col-md-6">
-                <h4>@market</h4>
+                <h1>Recent Transactions - @market</h1>
             </div>
         </div>
         <div class="row">
