@@ -26,16 +26,20 @@
     <div class="col-md-8 col-md-offset-2">
     <form class="form-horizontal" name="loginForm">
         <div class="form-group has-{{loginForm.email.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3">@Messages("email")</label>
             <div class="col-sm-6">
-                <input type="email" name="email" class="form-control" placeholder="Email" ng-model="login.username" required>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+                    <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
+                </div>
                 <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
             </div>
         </div>
         <div class="form-group has-{{loginForm.password.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputPassword">@Messages("password")</label>
             <div class="col-sm-6">
-                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("pwdPlaceHolder")" ng-model="login.password" required>
+                <div class="input-group">
+                 <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
+                 </div>
                 <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
             </div>
         </div>

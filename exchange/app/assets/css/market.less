@@ -38,6 +38,18 @@ body {
 	white          // navbar-active-background-color
 );
 
+.config_table() {
+	.table {
+		th, td, tr, thead, tbody{
+	    border: none;
+	    padding: 0;
+	    margin: 0;
+		}
+		th {color: @grey6; }
+	}
+}
+
+
 // Time span selection
 #periods li {
 	&.selected {
@@ -147,68 +159,34 @@ ul.horiz {
 	}
 }
 
-
 // ----------------
 // Top right order book.
-#orderbook {
+.depth {
 	padding-bottom: 6px;
-	padding-top: 16px;
+	padding-top: 60px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	margin-bottom: 6px;
 	border-bottom-color: @box-line-color;
+	vertical-align: middle;
 
-	#asks .row, #bids .row {
-		position: relative;
-		width: 120px;
+	.config_table();
+
+	.last-price-td {
+		text-align: center;
 	}
-
-	#gasks .row, #gbids .row {
-		width: 80px;
+	.last-price {
+		font-size: 36px;
 	}
 }
 
 // ----------------
 // Bottom-right recent trades.
-#trades {
+.transactions {
 	overflow-y:	hidden;
 	text-align: left;
-	.row {
-		margin-left: 5px;
-		margin-right: 5px;
-		display: block;
-		clear: both;
-		height: 13px;
-		line-height: 13px;
-	}
-
-	.t, .p, .v, .u, .d{
-		display: inline-block;
-		*display: inline;
-		*zoom: 1;
-		margin-right: 2px;
-		vertical-align: top;
-	}
-	.buy {
-		a {
-			color: @green
-		}
-		color: @green;
-	}
-	.sell {
-		a {
-			color: @red;
-		}
-		color: @red;
-	}
-
-	.d { // volume
-		float: right;
-		text-align: left;
-		padding-left: 4px;
-	}
+	.config_table();
 }
-
 
 
 .candle-chart-wrap {

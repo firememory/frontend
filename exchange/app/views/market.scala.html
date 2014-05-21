@@ -34,68 +34,57 @@
 <div id="sidebar_outer">
 <div id="sidebar">
 <div id="market">{{subject}}/{{currency}}</div>
-<div id="orderbook">
-    <div class="orderbook" style="height: 143px;">
-        <div id="asks" style="margin-top: -52px;">
-            <div class="table">
-                <!--<div class="row" style="display: block;">-->
-                    <!--<span class="price">595.49<g>000</g></span>-->
-                    <!--<span class="amount">10<g>.951</g></span>-->
-                <!--</div>-->
+<div class="depth" style="height: 286px;">
+    <table class="table table-condensed">
+        <tbody>
+            <tr ng-repeat="item in depth.asks">
+                <td class="sell">{{item.price | price}}</td>
+                <td>{{item.amount | coin}}</dd>
+                <td class="sell">{{item.price.toFixed(0)}}</td>
+                <td>{{item.amount.toFixed(0)}}</td>
+            </tr>
 
-                <div class="row" ng-repeat="item in depth.asks">
-                    <span class="price sell">{{item.price | price}}</span>
-                    <span class="amount">{{item.amount | coin}}</span>
-                </div>
-            </div>
-        </div>
-        <div id="gasks" style="margin-top: -52px;">
-            <div class="table">
-                <div class="row" ng-repeat="item in depth.asks">
-                    <span class="price sell">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="price" class="{{lastTransaction.sell | txTypeClass}}">{{lastTransaction.price.value | price}}</div>
-    <div class="orderbook" style="height: 143px;">
-        <div id="bids">
-            <div class="table">
-                <div class="row" ng-repeat="item in depth.bids">
-                    <span class="price buy">{{item.price | price}}</span>
-                    <span class="amount">{{item.amount | coin}}</span></div>
-            </div>
-        </div>
-        <div id="gbids">
-            <div class="table">
-                <div class="row" ng-repeat="item in depth.bids">
-                    <span class="price buy">{{item.price.toFixed(0)}}</span>
-                    <span class="amount">{{item.amount.toFixed(0)}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            <tr>
+                <td colspan="4" class="last-price-td {{lastTransaction.sell | txTypeClass}}">
+                    <div class="last-price">{{lastTransaction.price.value | price}}</div>
+                </td>
+            </tr>
+
+             <tr ng-repeat="item in depth.bids">
+                <td class="buy">{{item.price | price}}</td>
+                <td>{{item.amount | coin}}</dd>
+                <td class="buy">{{item.price.toFixed(0)}}</td>
+                <td>{{item.amount.toFixed(0)}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<div id="trades" style="height: 100%;">
-    <div class="row" ng-repeat="item in transactions.items" style="display: block;">
-        <div class="t">{{item.timestamp | date:"HH:mm:ss"}}</div>
-        <div class="p"><i class="fa fa-cny"></i>{{item.price.value | price}}</div>
-        <div class="v">{{item.subjectAmount.value | coin}}</div>
-        <div class="u {{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></div>
-        <div class="u {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i> </div>
-        <div class="u {{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></div>
-
-        <div class="d"><a target="_blank" href="/transaction/{{item.id}}">@Messages("market.detail")</a></div>
-
-    </div>
-    <!--<div class="row" style="display: block;">-->
-        <!--<div class="v">0-->
-            <!--<g>.135</g>-->
-        <!--</div>-->
-        <!--<div class="t">21:35:04</div>-->
-        <!--<div class="p buy">594.59</div>-->
-    <!--</div>-->
+<div class="transactions" style="height: 100%;">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>@Messages("trade.price")</th>
+                <th>@Messages("trade.amount")</th>
+                <th>Taker</th>
+                <th>Type</th>
+                <th>Maker</th>
+                <th>Time</th>
+                <th>@Messages("market.detail")</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in transactions.items">
+                <td>{{item.price.value | price}}</td>
+                <td>{{item.subjectAmount.value | coin}}</td>
+                <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></td>
+                <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i></td>
+                <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></td>
+                <td>{{item.timestamp | date:"HH:mm:ss"}}</td>
+                <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </div>
 </div>

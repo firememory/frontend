@@ -68,8 +68,16 @@ noscript p {
 .alert {.rounded(0); }
 .nav, .pagination, .carousel, .panel-title, .badge, a { cursor: pointer; }
 .pagination, .nav, footer {.user-select(none); }
-.buy, .withdrawal {color: @green; }
-.sell, .deposit {color: @red; }
+
+.buy, .withdrawal, .bid {
+  color: @green;
+  a {color: @green; }
+}
+
+.sell, .deposit, .ask {
+  color: @red;
+  a {color: @red; }
+}
 
 // ===================================================================
 // METHORDS

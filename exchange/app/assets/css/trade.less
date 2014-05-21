@@ -13,6 +13,14 @@ body {
 
 .config_footer(@text-color, @bk-color);
 .config_link(@text-color, @primary1);
+.config_level2_nav();
+
+.input-group-addon:first-child {
+	border-radius: 0;
+	width: 80px;
+	text-align: left;
+	.user-select(none);
+}
 
 // -------------------------------------------------------------------
 // Order Boxes
@@ -241,6 +249,7 @@ body {
 }
 
 /*------------------------------------------------------------------------- trade */
+
 .candle-chart-wrap {
 	.candle-chart {
 		.box-area;
@@ -262,7 +271,6 @@ body {
   display: block;
   height: 100%;
 }
-
 
 .form-buy-sell {
 	margin: 2px;

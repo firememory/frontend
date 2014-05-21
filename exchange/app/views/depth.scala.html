@@ -6,39 +6,6 @@
     @imports(Seq("depth.css"))
     <script src="/lib/d3/d3.js"></script>
     <script type="text/javascript" src="/js/depth.js"></script>
-    <style>
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
-
-        .tick line {
-            stroke: lightgrey;
-            opacity: 0.7;
-        }
-
-        path.line-buy {
-            fill: none;
-            stroke: rgba(44, 137, 25, 0.9);
-            stroke-width: 2px;
-        }
-
-        path.line-sell {
-            fill: none;
-            stroke: rgba(137, 22, 22, 0.9);
-            stroke-width: 2px;
-        }
-
-        .area-buy {
-            fill: rgba(144, 237, 125, 0.6);
-        }
-
-        .area-sell {
-            fill: rgba(237, 122, 122, 0.6);
-        }
-    </style>
 </head>
 
 <body ng-app="coinport.depth">
@@ -46,7 +13,7 @@
 <div id="top-container">
 <!---->
 
-@navbar(1)
+@navbar(4)
 
 <div id="body-container">
     <div class="container" ng-controller="DepthCtrl">
@@ -54,7 +21,7 @@
             <div id="depth-graph"></div>
         </div>
         <div class="row">
-            <h1>Order Book</h1>
+            <h1>Order Book - @market</h1>
             <div class="col-md-6">
                 <h2>@(Messages("buy"))</h2>
                 <table class="table table-condensed table-striped">
