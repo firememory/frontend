@@ -2,8 +2,16 @@
 /* Note page specific settings should be put elsewhere.                      */
 
 @import "_light";
+@import "_footer";
 
-.buysell-collors;
+@bk-color: @grey0;
+
+.config_footer(@text-color, white);
+.config_link(@text-color, @primary1);
+
+body {
+  background-color: @bk-color;
+}
 
 a {
   text-decoration: underline;
@@ -15,5 +23,3 @@ h1 {
   font-weight: bold;
   color: @grey6;
 }
-
-

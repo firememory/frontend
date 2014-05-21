@@ -2,13 +2,18 @@
 /* Note page specific settings should be put elsewhere.      */
 
 @import "_light";
+@import "_footer";
+
+@bk-color: white;
 
 body {
-  background-color: white;
+  background-color: @bk-color;
 }
 
-.noscript;
-.buysell-collors;
+.config_footer(@text-color, @grey0);
+.config_link(@text-color, @primary1);
+
+//=============================================
 
 .data-container {
 	min-height: 800px;

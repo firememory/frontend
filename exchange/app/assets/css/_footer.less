@@ -1,45 +1,51 @@
 @import "_common";
+@import "_elements";
 
-@footer-height: 180px;
-@footer-text-color: @grey4;
-@footer-background-color: white;
+.config_footer(@text-color, @bk-color) {
+  @footer-height: 100px;
 
-
-body {
-  margin-bottom: @footer-height;
-}
-
-footer {
-  z-index: 100;
-
-	padding: 20px 0;
-	background: none repeat scroll 0 0 @footer-background-color;
-	margin: 0 auto;
-	text-align: center;
-	min-width: 980px;
-	height: @footer-height;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 1px 0px inset;
-
-  .copyright {
-    color: @grey8;
-    a {color: @grey8; }
-    a:hover {color: @primary1;}
+  html {
+    position: relative;
+    height: 100%;
+  }
+  body {
+    height: 100%;
+    //padding-bottom: @footer-height;
   }
 
-  a {
-    text-decoration: none;
+  #top-container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
   }
 
-  li a {
-    margin:0 10px 0 0;
-    color: @footer-text-color;
+  #body-container {
+    padding-bottom: @footer-height;
+  }
 
-    &:hover {
-      color: @primary1;
+  footer {
+  	background: none repeat scroll 0 0 @bk-color;
+  	margin: 0 auto;
+  	text-align: center;
+  	min-width: 980px;
+  	height: @footer-height;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+
+    ul.list-inline {.user-select(none);}
+
+    .copyright {
+      color: @grey8;
+      .config_link(@grey8, @primary1);
+      a:hover {color: @primary1;}
     }
-   }
+
+    a {text-decoration: none; }
+
+    li a {
+      margin:0 10px 0 0;
+      .config_link(@text-color, @primary1);
+    }
+  }
 }

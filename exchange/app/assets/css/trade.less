@@ -2,13 +2,17 @@
 /* Note page specific settings should be put elsewhere.                      */
 
 @import "_light";
+@import "_footer";
 
-a {
-  color: @grey6;
-  &:hover {
-    color: @primary1;
-  }
+
+@bk-color: @grey0;
+
+body {
+	background-color: @bk-color;
 }
+
+.config_footer(@text-color, @bk-color);
+.config_link(@text-color, @primary1);
 
 // -------------------------------------------------------------------
 // Order Boxes
@@ -94,8 +98,6 @@ a {
 		padding-top: 0px;
 	}
 }
-.sell, .deposit { color: @sell-color; }
-.buy, .withdrawal {	color: @buy-color; }
 
 
 // -------------------------------------------------------------------
@@ -228,10 +230,12 @@ a {
 	margin-top: 10px;
 	height: 260px;
 }
+
 #user-finance-chart-pie {
 	margin-top: 10px;
-	height: 260px;
+	height: 0;
 }
+
 #user-finance-table-div {
 	padding-top: 15px;
 }

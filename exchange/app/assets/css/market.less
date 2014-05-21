@@ -9,9 +9,6 @@
 @background-color: @grey9;
 @box-line-color:@grey8;
 
-
-.noscript;
-
 // BODY
 html, body {
 	height: 100%;
@@ -31,14 +28,7 @@ body {
 	margin: 0px;
 }
 
-
-// Default Link Color
-a {
-	color: @primary;
-	&:hover {
-		color: @primary1;
-	}
-}
+.config_link(@primary, @primary1);
 
 // Navigation bar
 .config-navbar(

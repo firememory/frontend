@@ -1,13 +1,11 @@
 /* Overriding Boostrap's default styles but only used in 实时行情 pages.      */
 /* Overriding Boostrap's default styles but only used in 实时行情 pages.      */
 /* Note page specific settings should be put elsewhere.                      */
-
-// -------------------------------------------------------------------
-// COLORS
-// basic colors, do not use them directly
 @import "_elements";
 
-// grey
+// ===================================================================
+// CONTANTS
+
 @grey9: lighten(black, 10%);
 @grey8: lighten(black, 20%);
 @grey7: lighten(black, 30%);
@@ -51,49 +49,37 @@
 @yellow2: mix(@yellow, white, 70%);
 @yellow3: mix(@yellow, white, 30%);
 
-// use the following in other files instead
-
-
-@buy-color: @green;
-@sell-color: @red;
-
-
-// -------------------------------------------------------------------
-// FONTS
+// fonts
 @default-fonts: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
 
-// -------------------------------------------------------------------
-// SELECTABLE
-.selectable {
-    .user-select(text);
+// ===================================================================
+// DEFAULTS
+noscript p {
+  background-color: @primary;
+  color: #fff;
+  display: block;
+  left: 0;
+  margin: 0;
+  padding: 20px;
+  position: absolute;
+  max-width: 320px;
 }
 
-.pagination, .nav {
-  .user-select(none);
-}
-
-// -------------------------------------------------------------------
-// CURSOR
+.alert {.rounded(0); }
 .nav, .pagination, .carousel, .panel-title, .badge, a { cursor: pointer; }
+.pagination, .nav, footer {.user-select(none); }
+.buy, .withdrawal {color: @green; }
+.sell, .deposit {color: @red; }
 
-// ALERT
-.alert {
-  .rounded(0);
-}
-
-.noscript {
-  noscript p {
-    background-color: @primary;
-    color: #fff;
-    display: block;
-    left: 0;
-    margin: 0;
-    padding: 20px;
-    position: absolute;
-    max-width: 320px;
+// ===================================================================
+// METHORDS
+.config_link(@color, @hover_color) {
+  a {
+    color: @color;
+    &:hover {
+      color: @hover_color;
+    }
   }
 }
-.buysell-collors {
-  .buy {color: @buy-color; }
-  .sell {color: @sell-color; }
-}
+
+

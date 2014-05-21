@@ -9,19 +9,30 @@
 </head>
 
 <body ng-app="coinport.open">
-@navbar(4)
 @nojs()
-<div class="container top-container">
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked" cp-nav>
-            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">About</a></li>
-            <li route="#/opensource"><a href="#/opensource">Open-sourced</a></li>
-            <li route="#/opendata"><a href="#/opendata">Open-data</a></li>
-            <li route="#/reserve"><a href="#/reserve">Provable full reserve</a></li>
-        </ul>
+<div id="top-container">
+<!---->
+
+@navbar(4)
+
+<div id="body-container">
+    <div class="container">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" cp-nav>
+                <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">About</a></li>
+                <li route="#/opensource"><a href="#/opensource">Open-sourced</a></li>
+                <li route="#/opendata"><a href="#/opendata">Open-data</a></li>
+                <li route="#/reserve"><a href="#/reserve">Provable full reserve</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 data-container"  ng-view></div>
     </div>
-    <div class="col-md-10 data-container"  ng-view></div>
 </div>
+
 @footer()
+
+<!---->
+</div>
 </body>
 </html>

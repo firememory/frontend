@@ -42,51 +42,62 @@
 </head>
 
 <body ng-app="coinport.depth">
-@navbar(1)
 @nojs()
-<div class="container" ng-controller="DepthCtrl">
-    <div class="row">
-        <div id="depth-graph"></div>
-    </div>
-    <div class="row">
-        <h1>Order Book</h1>
-        <div class="col-md-6">
-            <h2>@(Messages("buy"))</h2>
-            <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in depth.bids">
-                    <td>@(Messages("trade.buyShort")){{1+$index}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.amount}}</td>
-                    <td>{{item.accumulated}}</td>
-                </tr>
-                </tbody>
-            </table>
+<div id="top-container">
+<!---->
+
+@navbar(1)
+
+<div id="body-container">
+    <div class="container" ng-controller="DepthCtrl">
+        <div class="row">
+            <div id="depth-graph"></div>
         </div>
-        <div class="col-md-6">
-            <h2>@(Messages("sell"))</h2>
-            <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in depth.asks">
-                    <td>@(Messages("trade.sellShort")){{1+$index}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.amount}}</td>
-                    <td>{{item.accumulated}}</td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <h1>Order Book</h1>
+            <div class="col-md-6">
+                <h2>@(Messages("buy"))</h2>
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in depth.bids">
+                        <td>@(Messages("trade.buyShort")){{1+$index}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.accumulated}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h2>@(Messages("sell"))</h2>
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in depth.asks">
+                        <td>@(Messages("trade.sellShort")){{1+$index}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.accumulated}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+</div> <!-- body-container -->
+
+@footer()
+
+<!---->
 </div>
 </body>
 </html>
