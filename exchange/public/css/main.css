@@ -1172,7 +1172,7 @@ noscript p a:hover {
 
 /* BEGIN MAP */
 #map {
-	background: #222 url("/image/homepage/map.png") no-repeat center center;
+	background: #222 url("/image/homepage/map.jpg") no-repeat center center;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	-webkit-background-size: cover;
