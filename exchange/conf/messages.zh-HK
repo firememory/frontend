@@ -51,7 +51,8 @@ trade.cancel=撤單
 trade.availableAmount=可用數量
 trade.availableCurrency=可用資金
 
-order.oid=訂單ID
+order.order=委託
+order.oid=委託ID
 order.uid=用户
 order.time=委託時間
 order.type=類型
@@ -146,7 +147,8 @@ transaction.taker=触发订单用户
 transaction.maker=限价订单用户
 transaction.myTransactions=我的成交单
 
-user.account=账户
+user.user=用戶
+user.account=戶頭
 user.coinType=货币类型
 user.available=可用
 user.orderPending=订单冻结

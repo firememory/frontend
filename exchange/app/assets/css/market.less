@@ -162,13 +162,16 @@ ul.horiz {
 // ----------------
 // Top right order book.
 .depth {
-	padding-bottom: 6px;
-	padding-top: 60px;
+	padding-bottom: 2px;
+	padding-top: 20px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	margin-bottom: 6px;
 	border-bottom-color: @box-line-color;
 	vertical-align: middle;
+	overflow-y:	hidden;
+	min-height: 280px;
+	height: 40%;
 
 	.config_table();
 
@@ -183,6 +186,7 @@ ul.horiz {
 // ----------------
 // Bottom-right recent trades.
 .transactions {
+	background-color: @background-color;
 	overflow-y:	hidden;
 	text-align: left;
 	.config_table();

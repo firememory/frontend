@@ -54,6 +54,7 @@ trade.cancel=Cancel
 trade.availableAmount=Available
 trade.availableCurrency=Available
 
+order.order=Order
 order.oid=ID
 order.uid=User
 order.time=Time
@@ -143,12 +144,13 @@ transaction.orderId=Order ID
 transaction.beforeAmount=Amount Before Transaction
 transaction.afterAmount=Amount After Transaction
 transaction.userId=User ID
-transaction.takeOrder=Take Order
-transaction.makeOrder=Make Order
+transaction.takeOrder=Taker Order
+transaction.makeOrder=Maker Order
 transaction.taker=Taker
 transaction.maker=Maker
 transaction.myTransactions=My Transactions
 
+user.user=User
 user.account=Account
 user.coinType=Currency
 user.available=Available

@@ -51,7 +51,8 @@ trade.cancel=撤单
 trade.availableAmount=可用数量
 trade.availableCurrency=可用资金
 
-order.oid=订单ID
+order.order=委托
+order.oid=委托ID
 order.uid=用户
 order.time=委托时间
 order.type=类型
@@ -146,6 +147,7 @@ transaction.taker=触发订单用户
 transaction.maker=限价订单用户
 transaction.myTransactions=我的成交单
 
+user.user=用户
 user.account=账户
 user.coinType=货币类型
 user.available=可用
