@@ -48,5 +48,5 @@
     </div>
 </div>
 <div ng-controller="AlertCtrl">
-    <alert ng-repeat="alert in alerts" type="{{alert.type.toLowerCase()}}" close="closeAlert($index)">{{alert.message}}</alert>
+    <alert ng-repeat="alert in alerts" type="{{alert.ntype.toLowerCase()}}" close="closeAlert($index)"><strong>{{alert.title}}</strong>: {{alert.content}}</alert>
 </div>

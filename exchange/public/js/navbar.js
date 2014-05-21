@@ -9,7 +9,7 @@ app.controller('AlertCtrl', function ($scope, $http, $cookieStore) {
       var cookieAlerts = $cookieStore.get('alerts') || {};
       $scope.alerts = [];
       data.data.forEach(function(alert) {
-        if (!cookieAlerts[alert.type])// TODO: use alert.id instead of alert.type
+        if (!cookieAlerts[alert.id])
             $scope.alerts.push(alert);
       });
   });
@@ -18,7 +18,7 @@ app.controller('AlertCtrl', function ($scope, $http, $cookieStore) {
     var alert = $scope.alerts[index];
     $scope.alerts.splice(index, 1);
     var cookieAlerts = $cookieStore.get('alerts') || {};
-    cookieAlerts[alert.type] = new Date().getTime(); // TODO: use alert.id instead of alert.type
+    cookieAlerts[alert.id] = new Date().getTime();
     $cookieStore.put('alerts', cookieAlerts);
   };
 });
