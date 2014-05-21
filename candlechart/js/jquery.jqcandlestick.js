@@ -538,6 +538,10 @@
       redrawChart();
     };
 
+    this.resize = function() {
+      resize();
+    };
+
     this.setData = function(newData) {
       data = newData;
       redrawChart();

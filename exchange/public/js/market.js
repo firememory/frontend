@@ -1,6 +1,24 @@
 var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'ngRoute', 'coinport.app', 'navbar']);
 
 marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
+    var resize = function() {
+        var navbar = document.getElementById('navbar');
+        var main = document.getElementById('main');
+        var header = document.getElementById('header_outer');
+        var footer = document.getElementById('footer_outer');
+        var _ref;
+        var height = (_ref = window.innerHeight) != null ? _ref : document.documentElement.clientHeight;
+        main.style.height = height - header.clientHeight - footer.clientHeight - navbar.clientHeight - 3 + 'px';
+        main.style.display = 'block';
+    };
+
+    resize();
+
+    $(window).resize(function(){
+        resize();
+        $scope.candleChart.resize();
+    });
+
     if ($location.path() == '/')
         $location.path('/btccny');
     $scope.market = $location.path().replace('/', '').toUpperCase();
