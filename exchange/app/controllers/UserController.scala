@@ -100,6 +100,7 @@ object UserController extends Controller with Json4s {
     val mobile = getParam(data, "mobile").getOrElse("")
     val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
+    println(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
     validateParamsAndThen(
       new StringNonemptyValidator(userId, email, realName, mobile, uuid, verifyCode),
       new CachedValueValidator("sms verify code", uuid, verifyCode)
@@ -109,7 +110,9 @@ object UserController extends Controller with Json4s {
     } flatMap {
       result =>
       if (result.success) {
-        UserService.updateProfile(result.data.get.asInstanceOf[User]) map {
+        val oldUser = result.data.get.asInstanceOf[User]
+        val updatedUser = User(oldUser.id, oldUser.email, Some(realName), oldUser.password, None, Some(mobile), oldUser.depositAddress, oldUser.withdrawalAddress)
+        UserService.updateProfile(updatedUser) map {
           updateRes =>
           Ok(updateRes.toJson)
         }

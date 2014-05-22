@@ -34,6 +34,7 @@ object SmsController extends Controller with Json4s {
     implicit request =>
     val data = request.body
     val phoneNum = getParam(data, "phoneNumber").getOrElse("")
+    println(s"phoneNum: $phoneNum")
     val (uuid, verifyCode) = generateVerifyCode
     smsService.sendVerifySms(phoneNum, verifyCode) map {
       result =>

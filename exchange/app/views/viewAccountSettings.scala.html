@@ -1,7 +1,7 @@
 @(profile: Map[String, String])(implicit lang: Lang)
 
 @println(s"profile: $profile")
-@if("true".equals(profile.get("mobileVerified").getOrElse("false"))) {
+@if("true".equals(profile.get("mobileVerified").getOrElse("false")) && profile.get("realName").getOrElse("").trim.length > 0) {
 <div class="row">
     <h3>@Messages("accountsettings.view.title")</h3>
     <br/>
@@ -12,8 +12,8 @@
                 <legend class="col-sm-8"><h4>@Messages("accountsettings.view.namediv.title")</h4></legend>
             </div>
             <div class="row">
-                <label class=" col-sm-2" for="realName">@Messages("accountsettings.realName")</label>
-                <input name="realName" id="realName" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
+                <label class=" col-sm-3" for="realName">@Messages("accountsettings.realName")</label>
+                <input name="realName" id="realName" type="text" class="col-sm-5" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
             </div>
         </fieldset>
         </div>
@@ -26,8 +26,8 @@
                 <legend class="col-sm-8"><h4>@Messages("accountsettings.view.mobilediv.title")</h4></legend>
             </div>
             <div class="row">
-                <label class="control-label col-sm-2" for="mobile">@Messages("accountsettings.mobile")</label>
-                <input name="mobile" id="mobile" type="text" class="col-sm-2" style="border: none; background: none;" value="@profile.get("mobile").getOrElse("false")" readonly="readonly">
+                <label class="control-label col-sm-3" for="mobile">@Messages("accountsettings.mobile")</label>
+                <input name="mobile" id="mobile" type="text" class="col-sm-5" style="border: none; background: none;" value="@profile.get("mobile").getOrElse("false")" readonly="readonly">
             </div>
         </fieldset>
         </div>
@@ -41,56 +41,62 @@
         <form class="form-horizontal" name="accountSettingsForm">
             <div class="form-group has-{{accountSettingsForm.realName.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.realName")</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <input name="realName" id="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required>
-                    <span class="glyphicon glyphicon-{{registerForm.realName.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-{{accountSettingsForm.realName.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
                 <div class="col-sm-2">@Messages("accountsettings.realNamePrompt")</div>
             </div>
 
             <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.realNameAgain")</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <input name="confirmRealName" id="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" repeat-input="realName" required>
-                    <span class="glyphicon glyphicon-{{registerForm.confirmRealName.$valid?'ok':'remove'}} form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-{{accountSettingsForm.confirmRealName.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
             </div>
 
 <!--
             <div class="form-group">
                 <label class="control-label col-sm-2">证件类型</label>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <select name="credentialType" class="form-control" ng-model="credentialType" ng-options="item.name for item in credentialItems" required></select>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2">证件号码</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <input name="credentialId" class="form-control" placeholder="证件号码" ng-model="account.credentialId" required>
                 </div>
             </div>
 -->
 
-            <div class="form-group has-{{accountSettingsForm.mobile.$valid?'success':'error'}} has-feedback">
+            <div class="form-group has-{{'success'}} has-feedback">
+                <label class="control-label col-sm-2">@Messages("accountsettings.country")</label>
+                <div class="col-sm-4">
+                    <select name="country" id="countries_phone1" class="form-control bfh-countries" data-country="CN" data-flags="false"></select>
+                </div>
+            </div>
+
+            <div class="form-group has-{{'success'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.mobile")</label>
+                <div class="col-sm-4">
+                    <input name="mobile" id="mobile" type="text" class="form-control bfh-phone" data-country="countries_phone1" ng-model="account.mobile" required>
+                </div>
                 <div class="col-sm-3">
-                    <input name="mobile" class="form-control" placeholder="@Messages("accountsettings.mobile")" ng-model="account.mobile" required>
-                    <span class="glyphicon glyphicon-{{registerForm.mobile.$valid?'ok':'remove'}} form-control-feedback"></span>
+                        <button class="form-control" style="border: none; background: none;" ng-click="sendVerifySms()"
+                                ng-disabled="isTiming">
+                            {{verifyButton}}
+                        </button>
                 </div>
             </div>
 
             <div class="form-group has-{{accountSettingsForm.verifyCode.$valid?'success':'error'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required>
-                    <span class="glyphicon glyphicon-{{registerForm.verifyCode.$valid?'ok':'remove'}} form-control-feedback"></span>
-                </div>
-                <div class="col-sm-3">
-                    <button class="form-control" ng-click="sendVerifySms()"
-                            ng-disabled="isTiming">
-                        {{verifyButton}}
-                    </button>
+                    <span class="glyphicon glyphicon-{{accountSettingsForm.verifyCode.$valid?'ok':'remove'}} form-control-feedback"></span>
                 </div>
             </div>
 

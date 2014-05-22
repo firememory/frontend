@@ -104,6 +104,7 @@ accountsettings.title=Account Settings
 accountsettings.realName=Name
 accountsettings.realNamePrompt=Once submited, can not be changed
 accountsettings.realNameAgain=Repeat Name
+accountsettings.country=Country
 accountsettings.mobile=Mobile
 accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit

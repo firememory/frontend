@@ -616,7 +616,26 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
         {"name": "护照", "value": "2"}
     ];
     $scope.credentialType = $scope.credentialItems[0];
+
     $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+
+    angular.element(document).ready( function () {
+        $('form select.bfh-countries, span.bfh-countries, div.bfh-countries').each(function () {
+            var $countries;
+            $countries = $(this);
+            if ($countries.hasClass('bfh-selectbox')) {
+                $countries.bfhselectbox($countries.data());
+            }
+            $countries.bfhcountries($countries.data());
+        });
+
+        $('form input[type="text"].bfh-phone, form input[type="tel"].bfh-phone, span.bfh-phone').each(function () {
+            var $phone;
+            $phone = $(this);
+            $phone.bfhphone($phone.data());
+        });
+
+    });
 
     var stop;
     $scope.isTiming = false;
@@ -685,6 +704,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
                 if (data.success) {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
+                    $location.path('/account#/accountsettings');
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;

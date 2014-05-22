@@ -17,61 +17,118 @@
     </div>
     <div class="row">
     <div class="col-md-8 col-md-offset-2">
-    <form class="form-horizontal" name="registerForm">
-        <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputEmail">注册邮箱</label>
-            <div class="col-sm-6">
-                <input type="email" name="email" class="form-control" placeholder="Email" ng-model="register.username" required>
-                <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
+        <form class="form-horizontal" name="registerForm">
+            <div style="height: 20px;"></div>
+            <!-- <div class="title control-group">
+            <label class="control-label" for="inputEmail">@(Messages("register.title"))</label>
+            </div> -->
+
+            <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
+                <label class="control-label col-sm-3" for="inputEmail">@(Messages("email"))</label>
+                <div class="col-sm-6">
+                    <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.email" required>
+                    <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
+                </div>
             </div>
+            <div class="form-group has-{{registerForm.password.$valid?'success':'error'}} has-feedback">
+                <label class="control-label col-sm-3" for="inputPassword">@(Messages("password"))</label>
+                <div class="col-sm-6">
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="8" required>
+                    <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
+                <label class="control-label col-sm-3" for="inputConfirmPassword">@(Messages("passwordConfirm"))</label>
+                <div class="col-sm-6">
+                    <input name="confirmPassword" type="password" id="confirmPassword" class="form-control" placeholder='@(Messages("passwordConfirm"))' ng-model="register.confirmPassword" repeat-input="password" required="">
+                    <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+                </div>
+            </div>
+
+            <div class="form-group has-{{registerForm.captchaCode.$valid?'success':'error'}} has-feedback">
+                <label class="control-label col-sm-3" for="inputCaptcha">@(Messages("captcha"))</label>
+                <div class="col-sm-6">
+                    <input name="captchaCode" id="inputCaptchaCode" class="form-control" placeholder='@(Messages("inputCaptcha"))' ng-model="captcha.text" required>
+                    <span class="glyphicon glyphicon-{{registerForm.captchaCode.$valid?'ok':'remove'}} form-control-feedback"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <img ng-src="{{captcha.imageSrc}}" ng-model="captcha.imageSrc" ng-click="newCaptcha()" />&nbsp;&nbsp;
+                    <button style="border: none; background: none;" ng-click="newCaptcha()">@(Messages("register.changeCaptcha"))</button>
+                </div>
+            </div>
+
+            <div style="height: 60px;">
+                <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showRegisterError">{{registerErrorMessage}}</div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-3">
+                    <button class="btn btn-block btn-success" ng-click="doRegister()" ng-disabled="!registerForm.$valid"><i class="glyphicon glyphicon-ok"></i> @(Messages("ok"))</button>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> @(Messages("cancel"))</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- <form class="form-horizontal" name="registerForm">
+        <div class="form-group has-{{registerForm.email.$valid?'success':'error'}} has-feedback">
+        <label class="control-label col-sm-3" for="inputEmail">注册邮箱</label>
+        <div class="col-sm-6">
+        <input type="email" name="email" class="form-control" placeholder="Email" ng-model="register.username" required>
+        <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
+        </div>
         </div>
         <div class="form-group has-{{registerForm.password.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputPassword">登录密码</label>
-            <div class="col-sm-6">
-                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="请输入密码" ng-model="register.password" required>
-                <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
-            </div>
+        <label class="control-label col-sm-3" for="inputPassword">登录密码</label>
+        <div class="col-sm-6">
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="请输入密码" ng-model="register.password" required>
+        <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
+        </div>
         </div>
         <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputConfirmPassword">重复密码</label>
-            <div class="col-sm-6">
-                <input name="confirmPassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" ng-model="register.confirmPassword" confirm-password="register.confirmPassword" required="">
-                <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
-            </div>
+        <label class="control-label col-sm-3" for="inputConfirmPassword">重复密码</label>
+        <div class="col-sm-6">
+        <input name="confirmPassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="请再次输入密码" ng-model="register.confirmPassword" confirm-password="register.confirmPassword" required="">
+        <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
         </div>
-
-        <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputPhoneNumber">手机号码</label>
-            <div class="col-sm-6">
-                <input name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="手机号码" ng-model="register.phoneNumber" required>
-                <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
-            </div>
         </div>
 
         <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
-            <label class="control-label col-sm-3" for="inputVerifyCode">短信验证码</label>
-            <div class="col-sm-3">
-                <input name="verifyCode" id="inputVerifyCode" class="form-control" placeholder="短信验证码" ng-model="register.verifyCode" required>
-                <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
-            </div>
-            <div class="col-sm-3">
-                <button style="border: none; background: none;" ng-click="sendVerifySms()"> 发送验证码</button>
-            </div>
+        <label class="control-label col-sm-3" for="inputPhoneNumber">手机号码</label>
+        <div class="col-sm-6">
+        <input name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="手机号码" ng-model="register.phoneNumber" required>
+        <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+        </div>
+        </div>
+
+        <div class="form-group has-{{registerForm.confirmPassword.$valid?'success':'error'}} has-feedback">
+        <label class="control-label col-sm-3" for="inputVerifyCode">短信验证码</label>
+        <div class="col-sm-3">
+        <input name="verifyCode" id="inputVerifyCode" class="form-control" placeholder="短信验证码" ng-model="register.verifyCode" required>
+        <span class="glyphicon glyphicon-{{registerForm.confirmPassword.$valid?'ok':'remove'}} form-control-feedback"></span>
+        </div>
+        <div class="col-sm-3">
+        <button style="border: none; background: none;" ng-click="sendVerifySms()"> 发送验证码</button>
+        </div>
         </div>
 
         <div style="height: 80px;">
-            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showError">{{errorMessage}}</div>
+        <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showError">{{errorMessage}}</div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-3">
-                <button class="btn btn-block btn-success" ng-click="doRegister()" ng-disabled="!registerForm.$valid"><i class="glyphicon glyphicon-ok"></i> 确定注册</button>
-            </div>
-            <div class="col-sm-3">
-                <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消注册</button>
-            </div>
+        <div class="col-sm-offset-3 col-sm-3">
+        <button class="btn btn-block btn-success" ng-click="doRegister()" ng-disabled="!registerForm.$valid"><i class="glyphicon glyphicon-ok"></i> 确定注册</button>
         </div>
-    </form>
+        <div class="col-sm-3">
+        <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i> 取消注册</button>
+        </div>
+        </div>
+        </form> -->
     </div>
     </div>
 </div>

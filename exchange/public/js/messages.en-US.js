@@ -55,7 +55,7 @@ Messages.trade = {
 Messages.account = {
   registerSucceeded: 'register succeeded',
   updateAccountProfileSucceeded: 'save profile succeeded',
-  getVerifyCodeButtonText: 'get sms verify code'
+  getVerifyCodeButtonText: 'Get sms verify code'
 };
 
 Messages.connectivity = {
