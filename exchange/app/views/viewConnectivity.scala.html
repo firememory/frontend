@@ -20,7 +20,7 @@
                 <td>{{currency}}</td>
                 <td>{{!status[currency].timestamp ? 'Never Seen' : ((timestamp - status[currency].timestamp) / 60000).toFixed(0)+' minutes ago'}}</td>
                 <td>{{timestamp | date:'MM-dd HH:mm:ss'}}</td>
-                <td>{{status[currency].timestamp | date:'MM-dd HH:mm:ss'}}</td>
+                <td>{{status[currency].timestamp <= 0 ? 'Never Seen' : status[currency].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                 <td>{{status[currency].height}}</td>
                 <td><a target="_blank" href="https://blockchain.info/block-index/{{status[currency].block}}">check</a></td>
             </tr>
