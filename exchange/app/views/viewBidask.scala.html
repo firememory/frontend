@@ -5,7 +5,7 @@
     </div>
     <div class="depth-box col-md-4">
         <div class="row">
-            <div ng-repeat="item in depth.asks" class="depth-item" ng-click="clickDepthAsks($index)">
+            <div ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
                 <span class="title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                 <span class="price">{{item.price | price}}</span>
                 <span class="amount">{{item.amount | coin}}</span>
@@ -89,8 +89,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="row_100 clearfix">
-                        <span class="bg-info">{{info.bidMessage}}</span>
+                    <div class="info-box">
+                        <span class="info-label" ng-show="showMessage['bid']">{{info.message['bid']}}</span>
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
@@ -160,8 +160,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="row_100 clearfix bg-info">
-                        <span class="">{{info.askMessage}}</span>
+                    <div class="info-box">
+                        <span class="info-label" ng-show="showMessage['ask']">{{info.message['ask']}}</span>
                     </div>
 
                     <div class="row_100 clearfix" style="margin-top: 20px;">
@@ -173,7 +173,7 @@
     </div>
     <div class="col-md-4 transaction-box">
         <div class="row">
-            <div ng-repeat="item in transactions.items" class="transaction-item">
+            <div ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item">
                 <a href="/transaction/{{item.id}}" class="title">
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
                 <span class="price">{{item.price.value | price}} {{item.price.currency}}</span>

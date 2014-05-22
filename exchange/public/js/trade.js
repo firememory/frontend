@@ -1,4 +1,4 @@
-var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'coinport.app', 'navbar', 'timer']);
+var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'ngAnimate', 'coinport.app', 'navbar', 'timer']);
 
 function routeConfig($routeProvider) {
     $routeProvider.
@@ -28,6 +28,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.bid = {price: 0, amount: 0, total: 0};
     $scope.ask = {price: 0, amount: 0, total: 0};
     $scope.account = {};
+    $scope.showMessage = {bid: false, ask: false};
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: true, advanced: false};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: true, advanced: false};
     $scope.config = {
@@ -39,10 +40,18 @@ function BidAskCtrl($scope, $http, $routeParams) {
         quantityLocked: 0,
         quantityRemaining: 0,
         income: 0,
-        bidMessage: '',
-        askMessage: '',
+        message: {},
         bidButtonLabel: $scope.config.bidButtonLabel,
         askButtonLabel: $scope.config.askButtonLabel};
+
+    $scope.alert = function(operation, message) {
+        console.log(operation, message)
+        $scope.showMessage[operation] = true;
+        $scope.info.message[operation] = message;
+        setTimeout(function() {
+            $scope.showMessage[operation] = false;
+        }, 3000);
+    };
 
     $scope.loadOrders = function(status) {
         var params = {limit: 10};
@@ -383,19 +392,19 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $scope.addBidOrder = function() {
         if($scope.bid.amount < 0) {
-            $scope.info.bidMessage = Messages.trade.lowerZero;
+            $scope.alert('bid', Messages.trade.lowerZero);
             return;
         }
         if ($scope.bid.total > $scope.account[$scope.currency]) {
-            $scope.info.bidMessage = Messages.trade.noEnough;
+            $scope.alert('bid', Messages.trade.noEnough);
             return;
         }
         if ($scope.bidOptions.limitAmount && $scope.bid.amount <= 0) {
-            $scope.info.bidMessage = Messages.trade.inputAmount;
+            $scope.alert('bid', Messages.trade.inputAmount);
             return;
         }
         if ($scope.bidOptions.limitPrice && $scope.bid.price <= 0) {
-            $scope.info.bidMessage = Messages.trade.inputPrice;
+            $scope.alert('bid', Messages.trade.inputPrice);
             return;
         }
 
@@ -419,7 +428,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             } else {
                 // handle errors
             }
-            $scope.info.bidMessage = data.message;
+            $scope.alert('bid', data.message);
             // clear amount
             $scope.bid.amount = 0;
         });
@@ -427,19 +436,19 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $scope.addAskOrder = function() {
         if($scope.ask.amount < 0) {
-            $scope.info.askMessage = Messages.trade.lowerZero;
+            $scope.alert('ask', Messages.trade.lowerZero);
             return;
         }
         if ($scope.ask.amount > $scope.account[$scope.subject].available.value) {
-            $scope.info.askMessage = Messages.trade.noEnough;
+            $scope.alert('ask', Messages.trade.noEnough);
             return;
         }
         if ($scope.askOptions.limitAmount && $scope.ask.amount <= 0) {
-            $scope.info.askMessage = Messages.trade.inputAmount;
+            $scope.alert('ask', Messages.trade.inputAmount);
             return;
         }
         if ($scope.askOptions.limitPrice && $scope.ask.price <= 0) {
-            $scope.info.askMessage = Messages.trade.inputPrice;
+            $scope.alert('ask', Messages.trade.inputPrice);
             return;
         }
 
@@ -463,7 +472,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             } else {
                 // handle errors
             }
-            $scope.info.askMessage = data.message;
+            $scope.alert('ask', data.message);
             // clear amount
             $scope.ask.amount = 0;
         });

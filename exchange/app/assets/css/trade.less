@@ -309,3 +309,34 @@ body {
 	margin-top: 4px;
 	margin-bottom: 4px;
 }
+
+.info-box {
+    padding-top: 10px;
+    padding-left: 3px;
+    height: 30px;
+}
+
+.info-label {
+    color: #808080;
+    background: white;
+}
+
+/*------------------------------------------------------------------------- animate */
+
+.info-label.ng-hide-add, .info-label.ng-hide-remove {
+  -webkit-transition:all linear 0.5s;
+  -moz-transition:all linear 0.5s;
+  -o-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  display:block!important;
+}
+
+.info-label.ng-hide-add.ng-hide-add-active,
+.info-label.ng-hide-remove {
+  opacity:0;
+}
+
+.info-label.ng-hide-add,
+.info-label.ng-hide-remove.ng-hide-remove-active {
+  opacity:1;
+}
