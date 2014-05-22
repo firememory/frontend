@@ -170,13 +170,14 @@ noscript p a:hover {
 
 .navbar-custom-1 .navbar-brand {
 	background: url("/image/homepage/logo_small.png") no-repeat 15px center;
-	-moz-background-size: 27px 34px;
-	-o-background-size: 27px 34px;
-	-webkit-background-size: 27px 34px;
-	background-size: 27px 34px;
+	-moz-background-size: 27px 27px;
+	-o-background-size: 27px 27px;
+	-webkit-background-size: 27px 27px;
+	background-size: 27px 27px;
 	color: #333;
 	font-weight: 900;
 	padding-left: 55px;
+	vertical-align: middle;
 }
 
 .navbar-custom-1 .navbar-brand:hover,
@@ -273,7 +274,7 @@ noscript p a:hover {
 	display: block;
 	margin: 0 auto;
 	height: 70px;
-	width: 55px;
+	width: 70px;
 }
 
 #home #main-title {
