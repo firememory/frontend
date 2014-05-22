@@ -15,7 +15,6 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
-import com.coinport.coinex.data.QueryTransactionResult
 
 object ApiController extends Controller with Json4s {
 
@@ -194,6 +193,11 @@ object ApiController extends Controller with Json4s {
     implicit request =>
       val sides = Seq(Btc ~> Cny, Ltc ~> Btc, Pts ~> Btc, Dog ~> Btc)
       MarketService.getTickers(sides).map(result => Ok(result.toJson))
+  }
+
+  def ccNetworkStatus(currency: String) = Action.async {
+    implicit request =>
+      BitwayService.getNetworkStatus(currency).map(result => Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

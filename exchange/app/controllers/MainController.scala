@@ -181,4 +181,9 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.viewOpensource.render(lang))
   }
+
+  def connectivityView() = Action {
+    implicit request =>
+      Ok(views.html.viewConnectivity.render(lang))
+  }
 }

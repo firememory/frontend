@@ -58,6 +58,10 @@ Messages.account = {
   getVerifyCodeButtonText: '获取短信验证码'
 };
 
+Messages.connectivity = {
+  status: {normal: '正常', delayed: '延迟', blocked: '无法连通'}
+};
+
 var ErrorMessage = {
   9002: '验证码错误'
 };

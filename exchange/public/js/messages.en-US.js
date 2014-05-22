@@ -58,6 +58,10 @@ Messages.account = {
   getVerifyCodeButtonText: 'get sms verify code'
 };
 
+Messages.connectivity = {
+  status: {normal: 'Normal', delayed: 'Delayed', blocked: 'Blocked'}
+};
+
 var ErrorMessage = {
   9002: 'captcha text not match'
 };

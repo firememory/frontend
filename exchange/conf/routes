@@ -54,6 +54,7 @@ GET     /views/orders.html               controllers.MainController.ordersView()
 GET     /views/opendata.html             controllers.MainController.opendataView()
 GET     /views/reserve.html              controllers.MainController.reserveView()
 GET     /views/opensource.html           controllers.MainController.opensourceView()
+GET     /views/connectivity.html           controllers.MainController.connectivityView()
 
 # API routes
 GET     /api/*market/order/*oid/transaction   controllers.ApiController.orderTransaction(market, oid)
@@ -68,8 +69,9 @@ GET     /api/*market/history                controllers.ApiController.history(ma
 GET     /api/user/*uid/transaction/*market  controllers.ApiController.userTransaction(market, uid)
 GET     /api/*market/transaction            controllers.ApiController.transactions(market)
 GET     /api/*market/transaction/*tid       controllers.ApiController.transaction(market, tid)
-GET     /api/*currency/transfer/*uid      controllers.ApiController.transfers(currency, uid)
-GET     /api/open/data/*type       controllers.MainController.listFilesFromHdfs(type)
+GET     /api/*currency/transfer/*uid        controllers.ApiController.transfers(currency, uid)
+GET     /api/open/data/*type                controllers.MainController.listFilesFromHdfs(type)
+GET     /api/open/network/*currency         controllers.ApiController.ccNetworkStatus(currency)
 
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()

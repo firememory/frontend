@@ -22,6 +22,10 @@ function routeConfig($routeProvider) {
     when('/opensource', {
         templateUrl: 'views/opensource.html'
     }).
+    when('/connectivity', {
+        controller: 'ConnectCtrl',
+        templateUrl: 'views/connectivity.html'
+    }).
     otherwise({
         redirectTo: '/'
     });
@@ -57,3 +61,43 @@ app.controller('ReserveCtrl', function ($scope, $http) {
             $scope.accounts = data.data.accounts;
     });
 });
+
+app.controller('ConnectCtrl', function ($scope, $http) {
+    $scope.currencies = ['BTC', 'LTC', 'DOG', 'PTS'];
+    $scope.status = {};
+    $scope.check = function() {
+        $scope.timestamp = new Date().getTime();
+        $scope.currencies.forEach(function(currency) {
+            $http.get('/api/open/network/' + currency)
+                .success(function(data, status, headers, config) {
+                    $scope.status[currency] = data.data;
+                    console.log($scope.status);
+            });
+        });
+    };
+    $scope.check();
+    setInterval($scope.check, 5000);
+});
+
+app.filter('statusClass', function() {
+    return function(input) {
+        if (input < 30 * 60 * 1000)
+            return 'success';
+        else if (input < 60 * 60 * 1000)
+            return 'warning';
+        else
+            return 'danger';
+    }
+});
+
+app.filter('statusText', function() {
+    return function(input) {
+        if (input < 30 * 60 * 1000)
+            return Messages.connectivity.status.normal;
+        else if (input < 60 * 60 * 1000)
+            return Messages.connectivity.status.delayed;
+        else
+            return Messages.connectivity.status.blocked;
+    }
+});
+

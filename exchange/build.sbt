@@ -2,7 +2,7 @@ import sbt.Keys._
 
 name := """coinport-frontend"""
 
-version := "1.0.1-SNAPSHOT"
+version := "1.1.0"
 
 resolvers ++= Seq(
   "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
@@ -30,7 +30,7 @@ libraryDependencies ++= {
     "org.json4s"                  %% "json4s-ext"                       % "3.2.8",
     "com.github.tototoshi"        %% "play-json4s-native"               % "0.2.0",
     "com.github.tototoshi"        %% "play-json4s-test-native"          % "0.2.0" % "test",
-    "com.coinport"                %% "coinex-client"                    % "1.1.13-SNAPSHOT",
+    "com.coinport"                %% "coinex-client"                    % "1.1.14-SNAPSHOT",
     "com.octo.captcha"            %  "jcaptcha"                         % "1.0",
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
