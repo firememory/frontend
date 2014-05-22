@@ -8,6 +8,8 @@ app.controller('AlertCtrl', function ($scope, $http, $cookieStore) {
   $http.get('/notifications').success(function(data, status, headers, config) {
       var cookieAlerts = $cookieStore.get('alerts') || {};
       $scope.alerts = [];
+      if (!data.data)
+        return;
       data.data.forEach(function(alert) {
         if (!cookieAlerts[alert.id])
             $scope.alerts.push(alert);
