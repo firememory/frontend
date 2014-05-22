@@ -128,8 +128,12 @@ object MainController extends Controller with Json4s {
       Ok(result.toJson)
   }
 
-  def getNotifications() = Action {
-    Ok(NotificationService.getNotifications().toJson)
+  def getNotifications() = Action.async {
+    implicit  request =>
+      NotificationService.getNotifications() map {
+        case result =>
+        Ok(result.toJson)
+      }
   }
 
   def bidaskView() = Action {
