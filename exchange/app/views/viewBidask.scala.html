@@ -5,7 +5,7 @@
     </div>
     <div class="depth-box col-md-4">
         <div class="row">
-            <div ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
+            <div ng-repeat="item in depth.asks" class="depth-item" ng-click="clickDepthAsks($index)">
                 <span class="title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                 <span class="price">{{item.price | price}}</span>
                 <span class="amount">{{item.amount | coin}}</span>
@@ -173,7 +173,7 @@
     </div>
     <div class="col-md-4 transaction-box">
         <div class="row">
-            <div ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item">
+            <div ng-repeat="item in transactions.items" class="transaction-item scalable-item">
                 <a href="/transaction/{{item.id}}" class="title">
                 <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
                 <span class="price">{{item.price.value | price}} {{item.price.currency}}</span>
@@ -214,7 +214,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="">
+            <tr ng-repeat="order in orders | orderBy: ['-date', '-id']" class="user-order-item">
                 <td>
                     <a href="/order/{{order.id}}">{{order.id}}</a>
                 </td>

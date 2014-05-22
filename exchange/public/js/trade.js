@@ -24,7 +24,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
-    $scope.transactions = [];
     $scope.bid = {price: 0, amount: 0, total: 0};
     $scope.ask = {price: 0, amount: 0, total: 0};
     $scope.account = {};
@@ -67,7 +66,21 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.updateTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
-            $scope.transactions = data.data;
+            if(!$scope.transactions) {
+                $scope.transactions = data.data;
+            } else {
+                for(var i = 0; i < data.data.items.length; i ++) {
+                    if ($scope.transactions.items[0].id == data.data.items[i].id)
+                        break;
+                }
+                console.log(i);
+                for(var j = i - 1; j >= 0; j--) {
+                    $scope.transactions.items.unshift(data.data.items[j]);
+                    if ($scope.transactions.length > data.data.items.length)
+                        $scope.transactions.items.pop();
+                }
+            }
+
             if ($scope.transactions.items.length > 0) {
                 $scope.lastPrice = $scope.transactions.items[0].price.value;
             if (!$scope.ask.price)
@@ -80,9 +93,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
     $scope.updateDepth = function() {
         $http.get('/api/' + $scope.market + '/depth')
-            .success(function(data, status, headers, config) {
-                $scope.depth = data.data;
-                $scope.depth.asks.reverse();
+            .success(function(response, status, headers, config) {
+                response.data.asks.reverse();
+                $scope.depth = response.data;
         });
     };
 
