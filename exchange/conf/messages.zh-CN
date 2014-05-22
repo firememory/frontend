@@ -78,6 +78,7 @@ order.tradingAmount=成交量
 order.orderValue=总金额
 order.tradingValue=成交额
 order.transactions=订单中的成交记录
+order.allMarkets=所有市场
 
 prompt.backToHome=返回首页
 prompt.verifyEmailFailed=注册邮箱验证失败

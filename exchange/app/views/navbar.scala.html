@@ -1,6 +1,7 @@
 @(index: Int, fix: Boolean = true)(implicit session: Session, lang: Lang)
 <div id="navbar" class="navbar @if(fix) {navbar-fixed-top} else {navbar-top}" ng-controller="NaviCtrl">
     <div class="container">
+        <div class="navbar-brand"></div>
         <div class="">
             <ul class="nav navbar-nav navbar-middle">
                 @if(index==0){<li class="active">} else {<li>}

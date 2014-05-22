@@ -81,6 +81,7 @@ order.tradingAmount=Trading Amount
 order.orderValue=Value
 order.tradingValue=Trading Value
 order.transactions=Transactions in Order
+order.allMarkets=All Markets
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed

@@ -1,10 +1,12 @@
 @import "_elements";
 @import "_common";
+
 .config-navbar(
   @navbar-background-color,
   @navbar-active-text-color,
   @navbar-inactive-text-color,
   @navbar-active-background-color) {
+
 
   .navbar {
     background: @navbar-background-color;
@@ -43,5 +45,11 @@
     * {
       .user-select(none);
     }
+  }
+
+  .navbar-brand {
+    background: url("/image/homepage/black-logo.png") no-repeat 0 center;
+    padding-top: 48px;
+    width: 145px;
   }
 }

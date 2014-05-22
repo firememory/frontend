@@ -1,6 +1,3 @@
-/*
-(c) 2014 Su-Jie Wang | http://suj.co
-*/
 
 function main_ini() {
 	function is_touch_device() {
