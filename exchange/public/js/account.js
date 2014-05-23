@@ -54,6 +54,7 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.accounts = data.data.accounts;
         });
     $scope.status = {};
+    $scope.depositAddresses = {};
     $scope.getCurrencyDetails = function(currency) {
         // get network status
         $scope.timestamp = new Date().getTime();
