@@ -4,15 +4,15 @@ import play.api.mvc._
 import play.api.mvc.Results._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import com.typesafe.config.ConfigFactory
 import utils.Constant._
+import play.api.Play
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
   val ajaxRequestHeadervalue="value"
 
-  val sysConfig = ConfigFactory.load("application.conf")
-  val timeoutMinutes: Int = sysConfig.getInt("session.timout.minutes")
+  val sysConfig = Play.current.configuration
+  val timeoutMinutes: Int = sysConfig.getInt("session.timeout.minutes").getOrElse(60)
   val timeoutMillis: Long = timeoutMinutes * 60 * 1000
 
   def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[SimpleResult] = {
