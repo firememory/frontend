@@ -47,7 +47,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-      val redirectUri = "/login?showMsg=true&msgKey=authenticateNotLogin"
+      val redirectUri = "/login?showMsg=false&msgKey=authenticateNotLogin"
       responseOnRequestHeader(request, redirectUri)
     }
   }

@@ -13,7 +13,7 @@ import com.coinport.coinex.api.service._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.github.tototoshi.play2.json4s.native.Json4s
-import com.coinport.coinex.data.{LoginSucceeded, UserProfile}
+import com.coinport.coinex.data.{LoginSucceeded, LoginFailed, UserProfile}
 import ControllerHelper._
 
 object UserController extends Controller with Json4s {
@@ -41,9 +41,8 @@ object UserController extends Controller with Json4s {
           case _ =>
             Ok(result.toJson)
         }
-      } else {
+      } else
         Ok(result.toJson)
-      }
     }
   }
 
@@ -56,7 +55,11 @@ object UserController extends Controller with Json4s {
     val password = getParam(data, "password").getOrElse("")
     val nationalId = getParam(data, "nationalId")
     val realName = getParam(data, "realName")
-    validateParamsAndThen(new StringNonemptyValidator(uuid, text, email, password)) {
+    validateParamsAndThen(
+      new StringNonemptyValidator(uuid, text, email, password),
+      new EmailFormatValidator(email),
+      new PasswordFormetValidator(password)
+    ) {
       if(!CaptchaController.validate(uuid, text))
         Future { ApiResult(false, ErrorCode.CaptchaNotMatch.value, "") }
       else {

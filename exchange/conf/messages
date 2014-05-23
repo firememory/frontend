@@ -10,7 +10,8 @@ captcha=Captcha
 email=Email
 password=Password
 passwordConfirm=Confirm Password
-forgotPassword=forgot password
+forgotPassword=Forgot Password
+ResendVerifyEmail=Resend Verify Email
 inputCaptcha=Input the text in the picture below
 
 authenticateNotLogin=operation not permitted, please login first.
@@ -84,7 +85,7 @@ order.transactions=Transactions in Order
 order.allMarkets=All Markets
 
 prompt.backToHome=Back to home
-prompt.verifyEmailFailed=verify email failed
+prompt.verifyEmailFailed=verify email failed.
 prompt.verifyEmailSent=We had sent you an email message, you can choose to activate your account
 prompt.resetPwdEmailSent=We had sent you an email message including a link, you can click the link to reset your password
 prompt.resetPwdFailed=Reset password link out of date
