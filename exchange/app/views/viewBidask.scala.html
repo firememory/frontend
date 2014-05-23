@@ -4,23 +4,23 @@
         <div class="candle-chart" style="height: 250px;"></div>
     </div>
     <div class="depth-box col-md-4">
-        <div class="row">
-            <div ng-repeat="item in depth.asks" class="depth-item" ng-click="clickDepthAsks($index)">
-                <span class="title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
-                <span class="price">{{item.price | price}}</span>
-                <span class="amount">{{item.amount | coin}}</span>
-            </div>
-        </div>
+        <table><tbody>
+            <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
+                <td class="l title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</td>
+                <td class="price">{{item.price | price}}</td>
+                <td class="amount">{{item.amount | coin}}</td>
+            </tr>
+        </tbody></table>
         <div class="row">
             <h3 class="depth-price">{{lastPrice | price}}</h3>
         </div>
-        <div class="row">
-            <div ng-repeat="item in depth.bids" class="depth-item" ng-click="clickDepthBids($index)">
-                <span class="title buy">@(Messages("trade.buyShort")){{1+$index}}</span>
-                <span class="price">{{item.price | price}}</span>
-                <span class="amount">{{item.amount | coin}}</span>
-            </div>
-        </div>
+        <table><tbody>
+            <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthBids($index)">
+                <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
+                <td class="price">{{item.price | price}}{{item.price.currency}}</td>
+                <td class="amount">{{item.amount | coin}}{{item.subjectAmount.currency}}</td>
+            </tr>
+        </tbody></table>
         <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
     </div>
 </div>
@@ -172,16 +172,25 @@
         </div>
     </div>
     <div class="col-md-4 transaction-box">
-        <div class="row">
-            <div ng-repeat="item in transactions.items" class="transaction-item scalable-item">
-                <a href="/transaction/{{item.id}}" class="title">
-                <span class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</span>
-                <span class="price">{{item.price.value | price}} {{item.price.currency}}</span>
-				<span class="amount">{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</span>
-				<span class="timestamp"><i class="fa fa-clock-o"></i> {{item.timestamp | date:"HH:mm:ss"}}</span>
-                </a>
-            </div>
-        </div>
+        <table class="table table-condensed">
+        <thead>
+            <th>@Messages("transaction.type")</th>
+            <th>@Messages("transaction.price")</th>
+            <th>@Messages("transaction.amount")</th>
+            <th>@Messages("transaction.timestamp")</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item">
+                <td class="l {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
+                <td class="price">{{item.price.value | price}}</td>
+                <td class="amount">{{item.subjectAmount.value | coin}}</td>
+                <td class="timestamp">{{item.timestamp | date:"HH:mm:ss"}}</td>
+                <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+
         <div class="row">
             <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more")) >></a></div>
         </div>
@@ -214,8 +223,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="order in orders | orderBy: ['-date', '-id']" class="user-order-item">
-                <td>
+            <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="user-order-item">
+                <td class="l">
                     <a href="/order/{{order.id}}">{{order.id}}</a>
                 </td>
                 <td>

@@ -22,6 +22,15 @@ body {
 	.user-select(none);
 }
 
+td {
+	white-space:nowrap;
+	text-align: right;
+	&.l {
+		text-align: left;
+	}
+}
+
+
 // -------------------------------------------------------------------
 // Order Boxes
 
@@ -114,6 +123,8 @@ body {
 .depth-box {
 	.box-area;
 	min-height: 300px;
+	padding: 10px;
+
 
 	.depth-item {
 		cursor: pointer;
@@ -143,26 +154,20 @@ body {
 // Recent Transaction Box
 .transaction-box {
 	.box-area;
+	padding: 10px;
+
+	tr {
+	   line-height: 25px;
+	   min-height: 25px;
+	   height: 25px;
+	}
+
 
 	.transaction-item {
 		cursor: pointer;
 		margin: 0;
 		padding: 1px;
 		border-bottom: 1px dashed @grey1;
-
-		a {
-			text-decoration: none;
-		}
-
-		&:hover {
-			background-color: @grey0;
-
-
-			a:hover {
-				color: @grey9;
-				text-decoration: underline;
-			}
-		}
 
 		.timestamp {
 			padding-left: 5px;
