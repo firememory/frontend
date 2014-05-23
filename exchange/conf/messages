@@ -193,6 +193,7 @@ asset.price=Price
 asset.valueOnEstimate=Value(E)
 asset.operation=Operation
 asset.myAsset=My Asset
+asset.transfer=Deposit / Withdrawal
 asset.cnyDeposit=CNY Deposit
 asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal

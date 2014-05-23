@@ -5,18 +5,14 @@ function routeConfig($routeProvider) {
         when('/', {
             redirectTo: '/asset'
         }).
-//        when('/deposit/rmb', {
-//            controller: 'DepositRmbCtrl',
-//            templateUrl: 'views/deposit-CNY.html'
-//        }).
+        when('/transfer', {
+            controller: 'TransferCtrl',
+            templateUrl: 'views/transfer.html'
+        }).
         when('/deposit/:currency', {
             controller: 'DepositCtrl',
             templateUrl: 'views/deposit.html'
         }).
-//        when('/withdrawal/rmb', {
-//            controller: 'WithdrawalRmbCtrl',
-//            templateUrl: 'views/withdrawal-CNY.html'
-//        }).
         when('/withdrawal/:currency', {
             controller: 'WithdrawalCtrl',
             templateUrl: 'views/withdrawal.html'
@@ -41,10 +37,6 @@ function routeConfig($routeProvider) {
             controller: 'AccountSettingsCtrl',
             templateUrl: 'views/accountSettings.html'
         }).
-        when('/test', {
-            controller: 'DepositBtcCtrl',
-            templateUrl: 'views/test.html'
-        }).
         otherwise({
             redirectTo: '/'
         });
@@ -55,6 +47,13 @@ function httpConfig($httpProvider) {
 
 app.config(routeConfig);
 app.config(httpConfig);
+
+app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get('/api/account/' + $scope.uid)
+        .success(function (data, status, headers, config) {
+            $scope.accounts = data.data.accounts;
+        });
+}]);
 
 app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('/api/account/' + $scope.uid)
@@ -117,7 +116,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
     };
 }]);
 
-app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
@@ -149,9 +148,13 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', function ($sco
                 alert(Messages.transfer.depositSuccess + deposit.amount / 1000 + $scope.currency);
             });
     };
+
+    $scope.changeCurrency = function() {
+        $location.path('/deposit/' + $scope.currency);
+    }
 }]);
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
@@ -174,7 +177,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function ($
     };
     $scope.loadWithdrawals();
 
-
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function () {
         console.log('withdrawal ' + $scope.withdrawalData.amount);
@@ -187,6 +189,10 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', function ($
                     alert(data.message);
                 }
             });
+    };
+
+    $scope.changeCurrency = function() {
+        $location.path('/withdrawal/' + $scope.currency);
     };
 }]);
 

@@ -1,8 +1,14 @@
 @()(implicit lang: Lang)
+@import utils.Constant._
 <div class="row">
-    <h4><strong>{{currency}}</strong>@Messages("transfer.withdrawal")</h4>
-    <h4>@Messages("transfer.withdrawalMessage")</h4>
-    <h4>@Messages("transfer.account")：{{balance.available.display_short}} {{currency}}</h4>
+    <h4>@Messages("transfer.withdrawal")
+        <select ng-model="currency" ng-change="changeCurrency()">
+            @for(coin <- coins) {
+            <option>@coin</option>
+            }
+        </select>
+    </h4>
+    <h5>@Messages("transfer.account"): {{balance.available.display}} {{currency}}</h5>
 </div>
 <div class="row">
     <form class="form-horizontal" name="withdrawalForm">

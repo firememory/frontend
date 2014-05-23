@@ -184,6 +184,7 @@ asset.price=价格
 asset.valueOnEstimate=金额(评估)
 asset.operation=操作
 asset.myAsset=我的资产
+asset.transfer=充值提现
 asset.cnyDeposit=人民币存款
 asset.btcDeposit=比特币存款
 asset.cnyWithdrawal=人民币取款

@@ -1,0 +1,31 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+<div class="row">
+    <div class="col-md-12">
+        <h1>@Messages("asset.transfer")</h1>
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>@Messages("open.coinType")</th>
+                <th>Available</th>
+                <th>Locked</th>
+                <th>@Messages("open.balance")</th>
+                <th>Deposit Address</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(coin <- coins) {
+            <tr>
+                <td>@coin</td>
+                <td>{{accounts['@coin'].available.value | coin}}</td>
+                <td>{{accounts['@coin'].locked.value | coin}}</td>
+                <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                <td><a href="https://blockchain.info/address/1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R">1Au69GamgP2cLBG1SdXdVk4aeLn5Tx674R</a></td>
+                <td><a href="#/deposit/@coin">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a></td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
