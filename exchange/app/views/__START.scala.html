@@ -1,0 +1,18 @@
+@(ngApp: String, navIndex: Int, cssFiles: Seq[String] = Nil, jsFiles: Seq[String] = Nil, title: String = "coinport")(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@title</title>
+    @__imports(cssFiles, jsFiles)
+</head>
+
+<body ng-app="coinport.@ngApp">
+@nojs()
+<div id="top-container">
+<!---->
+
+@navbar(navIndex)
+
+<div id="body-container">

@@ -1,70 +1,53 @@
 @(market: String)(implicit session: Session, lang: Lang)
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    @imports(Seq("depth.css"))
-    <script src="/lib/d3/d3.js"></script>
-    <script type="text/javascript" src="/js/depth.js"></script>
-</head>
+@__START(
+    ngApp = "depth",
+    navIndex = 4,
+    cssFiles = Seq("/js/depth.css"),
+    jsFiles  = Seq("/lib/d3/d3.min.js", "/js/depth.js"))
 
-<body ng-app="coinport.depth">
-@nojs()
-<div id="top-container">
-<!---->
-
-@navbar(4)
-
-<div id="body-container">
-    <div class="container" ng-controller="DepthCtrl">
-        <div class="row">
-            <div id="depth-graph"></div>
+<div class="container" ng-controller="DepthCtrl">
+    <div class="row">
+        <div id="depth-graph"></div>
+    </div>
+    <div class="row">
+        <h1>Order Book - @market</h1>
+        <div class="col-md-6">
+            <h2>@(Messages("buy"))</h2>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in depth.bids">
+                    <td>@(Messages("trade.buyShort")){{1+$index}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.accumulated}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <h1>Order Book - @market</h1>
-            <div class="col-md-6">
-                <h2>@(Messages("buy"))</h2>
-                <table class="table table-condensed table-striped">
-                    <thead>
-                    <tr>
-                        <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in depth.bids">
-                        <td>@(Messages("trade.buyShort")){{1+$index}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.amount}}</td>
-                        <td>{{item.accumulated}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h2>@(Messages("sell"))</h2>
-                <table class="table table-condensed table-striped">
-                    <thead>
-                    <tr>
-                        <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="item in depth.asks">
-                        <td>@(Messages("trade.sellShort")){{1+$index}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.amount}}</td>
-                        <td>{{item.accumulated}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="col-md-6">
+            <h2>@(Messages("sell"))</h2>
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th></th><th>@(Messages("trade.price"))</th><th>@(Messages("trade.amount"))</th><th>Accumulated</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in depth.asks">
+                    <td>@(Messages("trade.sellShort")){{1+$index}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{item.accumulated}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</div> <!-- body-container -->
-
-@footer()
-
-<!---->
 </div>
-</body>
-</html>
+
+@__END()
