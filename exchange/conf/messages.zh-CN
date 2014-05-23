@@ -22,7 +22,7 @@ nav.login=登录
 nav.logout=退出登录
 nav.register=注册
 
-login.title=登录信息
+login.title=登录
 login.verifyEmailSucceeded=注册邮箱已验证，请登录
 login.resetPwdSucceeded=密码重置成功，请登录
 login.pwdPlaceHolder=请输入密码

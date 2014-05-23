@@ -9,59 +9,57 @@
 </head>
 
 <body ng-app="coinport.login">
-@navbar(0)
 @nojs()
-<div class="container" ng-controller="LoginCtrl">
-    @if(showMessage) {
-    <div style="height: 20px;"></div>
-    <div style="height: 50px;">
-        <div class="alert alert-success col-sm-offset-2 col-sm-6">@Messages(msgKey)</div>
-    </div>
-    }
+<div id="top-container">
+<!---->
 
-    <div class="row">
-        <div class="col-md-offset-2"><h3>@Messages("login.title")</h3></div>
-    </div>
-    <div style="height: 20px;"></div>
-    <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-    <form class="form-horizontal" name="loginForm">
-        <div class="form-group has-{{loginForm.email.$valid?'success':'error'}} has-feedback">
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
-                    <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
-                </div>
-                <span class="glyphicon glyphicon-{{registerForm.email.$valid?'ok':'remove'}} form-control-feedback"></span>
+@navbar(0)
+
+<div id="body-container">
+    <div class="container" ng-controller="LoginCtrl">
+
+        <div class="row">
+           <div class="col-md-4 col-md-offset-4 msg-container">
+            @if(showMessage) {
+                <div id="login-msg" class="alert alert-warning">@Messages(msgKey)</div>
+            } else {
+                <div id="login-msg" class="alert">&nbsp;</div>
+            }
+            </div>
+       </div>
+
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <form id="login-form" class="form-horizontal" name="loginForm">
+                    <div class="form-group has-feedback">
+                        <div class="input-group input-group-lg">
+                            <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="input-group input-group-lg">
+                            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
+                        </div>
+                    </div>
+                    <div class="form-group input-group-lg">
+                        <button class="btn btn-lg btn-block btn-success" ng-click="doLogin()" ng-disabled="!loginForm.$valid">@Messages("login.doLogin")</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="form-group has-{{loginForm.password.$valid?'success':'error'}} has-feedback">
-            <div class="col-sm-6">
-                <div class="input-group">
-                 <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
-                 </div>
-                <span class="glyphicon glyphicon-{{registerForm.password.$valid?'ok':'remove'}} form-control-feedback"></span>
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 msg-container">
+                <div id="login-error" class="alert alert-danger" ng-show="showError">{{errorMessage}}</div>
             </div>
         </div>
-        <div style="height: 80px;">
-            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showError">{{errorMessage}}</div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-3">
-                <button class="btn btn-block" ng-click="doLogin()" ng-disabled="!loginForm.$valid"><i class="glyphicon glyphicon-ok"></i>@Messages("login.doLogin")</button>
-            </div>
-
-            <!--<div class="col-sm-3">-->
-                <!--<a href="/register" class="btn btn-block btn-danger"><i class="glyphicon glyphicon-user"></i> 注册用户</a>-->
-            <!--</div>-->
-        </div>
-    </form>
     </div>
-    </div>
-</div>
+</div> <!-- body-container -->
+
 @footer()
-<!-- end Foot -->
+
+<!---->
+</div>
 </body>
 </html>

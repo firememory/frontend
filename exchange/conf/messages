@@ -25,7 +25,7 @@ nav.login=Login
 nav.logout=Logout
 nav.register=Sign Up
 
-login.title=Sign In
+login.title=Log in
 login.verifyEmailSucceeded=email verify succeeded, please login
 login.resetPwdSucceeded=reset password succeeded, please login
 login.pwdPlaceHolder=Please enter password

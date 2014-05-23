@@ -5,3 +5,34 @@
 @import "_footer";
 
 .config_footer(@text-color, @grey0);
+
+//----------------------------------------------
+// Login page
+
+.msg-container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#login-msg, {
+  text-align: center;
+  width: 100%;
+  .user-select(none);
+}
+
+#login-error {
+    text-align: center;
+  width: 100%;
+  margin-top: 40px;
+}
+
+#login-form {
+  width: 100%;
+  .form-group {
+    margin-bottom: -1px;
+  }
+
+  .input-group {
+    width: 100%;
+  }
+}

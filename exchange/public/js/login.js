@@ -21,6 +21,7 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
             showMessage(data.message);
             $window.location.href = '/trade';
         } else {
+          // TODO(chunming): clear password here.
           showMessage(data.message);
         }
       });
