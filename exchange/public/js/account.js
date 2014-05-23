@@ -53,6 +53,20 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
         .success(function (data, status, headers, config) {
             $scope.accounts = data.data.accounts;
         });
+    $scope.status = {};
+    $scope.getCurrencyDetails = function(currency) {
+        // get network status
+        $scope.timestamp = new Date().getTime();
+        $http.get('/api/open/network/' + currency)
+            .success(function(data, status, headers, config) {
+                $scope.status[currency] = data.data;
+        });
+        // get deposit address
+        $http.get('/depoaddr/' + currency+ '/' + $scope.uid)
+            .success(function (data, status, headers, config) {
+                $scope.depositAddresses[currency] = data.data;
+        });
+    };
 }]);
 
 app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {

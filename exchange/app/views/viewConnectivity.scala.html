@@ -5,8 +5,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Status</th>
                 <th>@Messages("open.coinType")</th>
+                <th>Status</th>
                 <th>Update</th>
                 <th>Last Checked</th>
                 <th>Last Active</th>
@@ -16,8 +16,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="currency in currencies">
-                <td><span class="label label-{{timestamp - status[currency].timestamp | statusClass}}">{{timestamp - status[currency].timestamp | statusText}}</span></td>
-                <td>{{currency}}</td>
+                <td><strong>{{currency}}</strong></td>
+                <td><span class="label label-{{timestamp - status[currency].timestamp | networkStatusClass}}">{{timestamp - status[currency].timestamp | networkStatusText}}</span></td>
                 <td>{{!status[currency].timestamp ? 'Never Seen' : ((timestamp - status[currency].timestamp) / 60000).toFixed(0)+' minutes ago'}}</td>
                 <td>{{timestamp | date:'MM-dd HH:mm:ss'}}</td>
                 <td>{{status[currency].timestamp <= 0 ? 'Never Seen' : status[currency].timestamp | date:'MM-dd HH:mm:ss'}}</td>

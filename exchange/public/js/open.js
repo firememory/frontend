@@ -79,25 +79,3 @@ app.controller('ConnectCtrl', function ($scope, $http) {
     setInterval($scope.check, 5000);
 });
 
-app.filter('statusClass', function() {
-    return function(input) {
-        if (input < 30 * 60 * 1000)
-            return 'success';
-        else if (input < 60 * 60 * 1000)
-            return 'warning';
-        else
-            return 'danger';
-    }
-});
-
-app.filter('statusText', function() {
-    return function(input) {
-        if (input < 30 * 60 * 1000)
-            return Messages.connectivity.status.normal;
-        else if (input < 60 * 60 * 1000)
-            return Messages.connectivity.status.delayed;
-        else
-            return Messages.connectivity.status.blocked;
-    }
-});
-
