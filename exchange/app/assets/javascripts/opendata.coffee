@@ -47,18 +47,18 @@ app.controller 'DownCtrl', ($scope, $http) ->
 
 app.controller 'ReserveCtrl', ($scope, $http) ->
 	$http.get('/api/account/-1')
-			.success (data, status, headers, config) -> $scope.accounts = data.data.accounts
+		.success (data, status, headers, config) -> $scope.accounts = data.data.accounts
 
 app.controller 'ConnectCtrl', ($scope, $http) ->
 	$scope.currencies = ['BTC', 'LTC', 'DOG', 'PTS']
 	$scope.status = {}
 	$scope.check = () ->
-			$scope.timestamp = new Date().getTime()
-			$scope.currencies.forEach (currency) ->
-					$http.get('/api/open/network/' + currency)
-							.success (data, status, headers, config) ->
-									$scope.status[currency] = data.data
-									console.log($scope.status)
+		$scope.timestamp = new Date().getTime()
+		$scope.currencies.forEach (currency) ->
+			$http.get('/api/open/network/' + currency)
+				.success (data, status, headers, config) ->
+					$scope.status[currency] = data.data
+					console.log($scope.status)
 	$scope.check()
 	setInterval($scope.check, 5000)
 
