@@ -1,26 +1,26 @@
 var Messages = {
-  buy: 'Buy',
-  sell: 'Sell',
-  buyShort: 'Buy',
-  sellShort: 'Sell',
-  unknown: 'Unknown'
+    buy: 'Buy',
+    sell: 'Sell',
+    buyShort: 'Buy',
+    sellShort: 'Sell',
+    unknown: 'Unknown'
 };
 
 Messages.orderStatus = {
-  pending: 'Pending',
-  open: 'Open',
-  finished: 'Finished',
-  cancelled: 'Cancelled'
+    pending: 'Pending',
+    open: 'Open',
+    finished: 'Finished',
+    cancelled: 'Cancelled'
 };
 
 Messages.transfer = {
-  status: ['Pending', 'Accepted', 'Confirming', 'Confirmed', 'Succeeded', 'Failed', 'Confirming'],
-  deposit: 'Deposit',
-  withdrawal: 'Withdrawal',
-  depositSuccess: 'Deposit Succeed: ',
-  withdrawalSuccess: 'Withdrawal Succeed: ',
-  cny: 'CNY',
-  btc: 'BTC'
+    status: ['Pending', 'Accepted', 'Confirming', 'Confirmed', 'Succeeded', 'Failed', 'Confirming'],
+    deposit: 'Deposit',
+    withdrawal: 'Withdrawal',
+    depositSuccess: 'Deposit Succeed: ',
+    withdrawalSuccess: 'Withdrawal Succeed: ',
+    cny: 'CNY',
+    btc: 'BTC'
 };
 
 Messages.timeDemension = {
@@ -40,28 +40,38 @@ Messages.timeDemension = {
 };
 
 Messages.asset = {
-   assetComposition: 'Composition of Assets',
-   assetTrend: 'Trend of Assets'
+    assetComposition: 'Composition of Assets',
+    assetTrend: 'Trend of Assets'
 }
 
 Messages.trade = {
-   lowerZero: 'amount should bigger than zero',
-   noEnough: 'account balance is not enough',
-   inputAmount: 'please input amount',
-   inputPrice: 'please input price',
-   submit: 'submitting the order'
+    lowerZero: 'amount should bigger than zero',
+    noEnough: 'account balance is not enough',
+    inputAmount: 'please input amount',
+    inputPrice: 'please input price',
+    submit: 'submitting the order'
 };
 
 Messages.account = {
-  registerSucceeded: 'register succeeded',
-  updateAccountProfileSucceeded: 'save profile succeeded',
-  getVerifyCodeButtonText: 'Get sms verify code'
+    registerSucceeded: 'register succeeded',
+    updateAccountProfileSucceeded: 'save profile succeeded',
+    getVerifyCodeButtonText: 'Get sms verify code'
 };
 
 Messages.connectivity = {
-  status: {normal: 'Normal', delayed: 'Delayed', blocked: 'Blocked'}
+    status: {normal: 'Normal', delayed: 'Delayed', blocked: 'Blocked'}
 };
 
-var ErrorMessage = {
-  9002: 'captcha text not match'
+Messages.ErrorMessages = {
+    M1006: 'email not verified',
+    M9002: 'captcha text not match'
+};
+
+Messages.getMessage = function(code) {
+    var key = "M" + code;
+    if (key in Messages.ErrorMessages) {
+        return Messages.ErrorMessages[key];
+    } else {
+        return "internal error. errorCode=" + code;
+    }
 };

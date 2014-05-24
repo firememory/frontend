@@ -18,5 +18,6 @@ app.controller 'LoginCtrl', ($scope, $http, $window) ->
             .success (data, status, headers, config) ->
                 if data.success
                     $window.location.href = '/trade'
-                else
-                    showMessage(data.message)
+                else 
+                    message = Messages.getMessage(data.code)
+                    showMessage(message)
