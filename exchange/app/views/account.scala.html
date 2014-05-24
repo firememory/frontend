@@ -6,29 +6,27 @@
     cssFiles = Seq("/css/account.css"),
     jsFiles  = Seq("/lib/d3/d3.min.js", "/js/account.js"))
 
-<div id="body-container">
-    <div class="container">
-        @session.get("uid") match {
+<div class="container">
+    @session.get("uid") match {
         case Some(id: String) => {
             <span ng-init="uid='@id'" ng-show="false"></span>
         }
         case None => {
             <span ng-init="uid='0'" ng-show="false"></span>
         }
-        }
-        <div class="row">
-            <div class="col-md-2">
-                <ul class="nav nav-pills nav-stacked" cp-nav>
-                    <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
-                    <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
-                    <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
-                    <li route="#/deposit/cny"><a href="#/deposit/cny">@Messages("asset.cnyDeposit")</a></li>
-                    <li route="#/withdrawal/cny"><a href="#/withdrawal/cny">@Messages("asset.cnyWithdrawal")</a></li>
-                    <li route="#/deposit/btc"><a href="#/deposit/btc">@Messages("asset.btcDeposit")</a></li>
-                    <li route="#/withdrawal/btc"><a href="#/withdrawal/btc">@Messages("asset.btcWithdrawal")</a></li>
-                    <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li>
-                </ul>
-            </div>
+    }
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" cp-nav>
+                <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
+                <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
+                <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
+                <li route="#/deposit/cny"><a href="#/deposit/cny">@Messages("asset.cnyDeposit")</a></li>
+                <li route="#/withdrawal/cny"><a href="#/withdrawal/cny">@Messages("asset.cnyWithdrawal")</a></li>
+                <li route="#/deposit/btc"><a href="#/deposit/btc">@Messages("asset.btcDeposit")</a></li>
+                <li route="#/withdrawal/btc"><a href="#/withdrawal/btc">@Messages("asset.btcWithdrawal")</a></li>
+                <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li>
+            </ul>
         </div>
 
         <div class="content col-md-10" ng-view> </div>
