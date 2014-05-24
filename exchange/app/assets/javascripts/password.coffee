@@ -10,7 +10,7 @@ app.controller 'PasswordCtrl', ($scope, $http, $window) ->
 	showMessage = (message) -> $scope.errorMessage = message
 
 	$scope.requestPwdReset = () ->
-	$window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email
+		$window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email
 
 
 
