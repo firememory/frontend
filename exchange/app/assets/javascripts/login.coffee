@@ -2,17 +2,17 @@ app = angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
 
 
 class PasswordCtrl
-	@$inject: ["$scope", "$http", "$window"]
-	constructor: ($scope, $http, $window) ->
-		$scope.pwdreset = {}
+	constructor: (@$scope, @$http, @$window) ->
+    $scope.pwdreset = {}
+    $scope.errorMessage = ''
+    console.log("hhhhhhhhhhhhhh")
 		$scope.requestPwdReset = () ->
 			$window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email
 
 
 
 class ResetPasswordCtrl
-	@$inject: ["$scope", "$http", "$window"]
-	constructor: ($scope, $http, $window) ->
+	constructor: (@$scope, @$http, @$window) ->
 		$scope.pwdreset = {}
 		$scope.errorMessage = ''
 		$scope.token = ''
@@ -32,8 +32,9 @@ class ResetPasswordCtrl
 
 
 
-#app.config ($httpProvider) ->
-#	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+app.config ($httpProvider) ->
+	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 app.controller 'PasswordCtrl', PasswordCtrl
 app.controller 'ResetPasswordCtrl', ResetPasswordCtrl
+
