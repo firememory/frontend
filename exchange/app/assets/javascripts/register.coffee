@@ -1,43 +1,47 @@
 app = angular.module('coinport.register', ['ui.bootstrap', 'ngResource', 'navbar'])
 
 app.config ($httpProvider) ->
-	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 app.controller 'RegisterCtrl', ($scope, $http, $window) ->
-	$scope.register = {}
-	$scope.message = ""
-	$scope.captcha = {}
+  $scope.register = {}
+  $scope.errorMessage = ""
+  $scope.showError = false
+  $scope.captcha = {}
 
-	showMessage = (message) ->
-		$scope.message = message
+  $scope.newCaptcha = () ->
+    $http.get('/captcha', $scope.captcha)
+      .success (data, status, headers, config) -> $scope.captcha = data.data
 
-	$scope.newCaptcha = () ->
-		$http.get('/captcha', $scope.captcha)
-	 	 .success (data, status, headers, config) -> $scope.captcha = data.data
+  $scope.newCaptcha()
 
-	$scope.newCaptcha()
+  $scope.cancel = () -> $scope.register = {}
 
-	$scope.cancel = () ->
-		$scope.register = {}
+  $scope.doRegister = () ->
+    $http.post('/account/register',
+      $.param(
+        uuid: $scope.captcha.uuid
+        text: $scope.captcha.text
+        email: $scope.register.email
+        password: $.sha256b64($scope.register.password)
+        nationalId: $scope.register.nationalId
+        realName: $scope.register.realName))
 
-	$scope.doRegister = () ->
-		pwdSha256 = $.sha256b64($scope.register.password)
-		$http.post('/account/register',
-			$.param(
-				uuid: $scope.captcha.uuid
-				text: $scope.captcha.text
-				email: $scope.register.email
-				password: pwdSha256
-				nationalId: $scope.register.nationalId
-				realName: $scope.register.realName))
-			.success (data, status, headers, config) ->
-				if data.success
-					#$scope.$parent.message = Messages.account.registerSucceeded
-					#$scope.$parent.message = ""
-					$window.location.href = '/prompt/prompt.verifyEmailSent'
-				else
-					$scope.newCaptcha()
-					$scope.$parent.message = data.message
+      .success (data, status, headers, config) ->
+        if data.success
+          console.debug 'success: ', data
+          $window.location.href = '/prompt/prompt.verifyEmailSent'
+          $scope.showError = false
+        else
+          console.debug 'failed: ', data
+          $scope.newCaptcha()
+          $scope.errorMessage = data.message
+          $scope.showError = true
+
+      .error (data, status, headers, config) ->
+        console.debug 'failed: ', data, ', status: ', status
+        $scope.errorMessage = data.message
+        $scope.showError= true
 
 
   # $scope.sendVerifySms = function () {
