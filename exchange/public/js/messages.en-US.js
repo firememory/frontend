@@ -62,13 +62,16 @@ Messages.connectivity = {
     status: {normal: 'Normal', delayed: 'Delayed', blocked: 'Blocked'}
 };
 
+// defines error messages for errorCode in data.thrift
+// See enum ErrorCode in data.thrift
+// key = m + errorCode
 Messages.ErrorMessages = {
-    M1006: 'email not verified',
-    M9002: 'captcha text not match'
+    m1006: 'email not verified',
+    m9002: 'captcha text not match'
 };
 
 Messages.getMessage = function(code) {
-    var key = "M" + code;
+    var key = "m" + code;
     if (key in Messages.ErrorMessages) {
         return Messages.ErrorMessages[key];
     } else {
