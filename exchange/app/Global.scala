@@ -19,4 +19,14 @@ object Global extends WithFilters(LoggingFilter) {
       views.html.errorPage(ex.toString)
     ))
   }
+
+   override def onHandlerNotFound(request: RequestHeader) = {
+    Future.successful(NotFound(
+      views.html.notFoundPage(request.path)
+    ))
+  }
+
+  override def onBadRequest(request: RequestHeader, error: String) = {
+    Future.successful(BadRequest("Bad Request: " + error))
+  }
 }

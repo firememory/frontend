@@ -1,0 +1,18 @@
+/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
+/* Note page specific settings should be put elsewhere.                      */
+
+@import "_light";
+@import "_footer";
+
+
+#main-logo {
+
+text-align: middle;
+  img, h2, h3 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    .user-select(none);
+    text-align: center;
+  }
+}
