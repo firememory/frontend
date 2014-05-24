@@ -67,7 +67,10 @@ Messages.connectivity = {
 // key = m + errorCode
 Messages.ErrorMessages = {
     m1006: 'email not verified',
-    m9002: 'captcha text not match'
+    m9002: 'captcha text not match',
+    m9003: 'invalid email format',
+    m9004: 'invalid password format',
+    m9005: 'sms verify code not match'
 };
 
 Messages.getMessage = function(code) {

@@ -77,7 +77,6 @@ object CaptchaController extends Controller with Json4s {
     println(s"captchaController.validate, uuid: $uuid, text: $text")
     try {
       captchaService.validateResponseForID(uuid, text)
-      true
     } catch {
       case e: Throwable =>
         e.printStackTrace

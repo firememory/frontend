@@ -727,7 +727,8 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
                     $location.path('/account#/accountsettings');
                 } else {
                     $scope.showUpdateAccountError = true;
-                    $scope.updateAccountErrorMessage = data.message;
+	            var errorMsg = Messages.getMessage(data.code);
+                    $scope.updateAccountErrorMessage = errorMsg;
                 }
             });
     };

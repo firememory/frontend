@@ -106,7 +106,7 @@ object UserController extends Controller with Json4s {
     println(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
     validateParamsAndThen(
       new StringNonemptyValidator(userId, email, realName, mobile, uuid, verifyCode),
-      new CachedValueValidator("sms verify code", uuid, verifyCode)
+      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
     ) {
       val uid = userId.toLong
       UserService.getProfile(uid)

@@ -3,6 +3,7 @@ package controllers
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
+import com.coinport.coinex.data.ErrorCode
 import play.api.mvc.Request
 import services.CacheService
 
@@ -27,9 +28,9 @@ abstract class GeneralValidator[T](params: T*) extends Validator {
     }
 }
 
-class CachedValueValidator(name: String, uuid: String, value: String) extends Validator {
+class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extends Validator {
   val cacheService = CacheService.getDefaultServiceImpl
-  val result = ApiResult(false, -1, s"$name not match")
+  val result = ApiResult(false, error.value, error.toString)
 
   def validate = {
     val cachedValue = cacheService.get(uuid)
@@ -38,10 +39,9 @@ class CachedValueValidator(name: String, uuid: String, value: String) extends Va
 }
 
 object ControllerHelper {
-  val parmaErrorResult = ApiResult(false, -1, "参数错误", None)
-  val emptyParamError = ApiResult(false, -1, "param can not empty", None)
-  val emailFormatError = ApiResult(false, -1, "email format error", None)
-  val passwordFormatError = ApiResult(false, -1, "password format error", None)
+  val emptyParamError = ApiResult(false, ErrorCode.ParamEmpty.value, "param can not emppty", None)
+  val emailFormatError = ApiResult(false, ErrorCode.InvalidEmailFormat.value, "email format error", None)
+  val passwordFormatError = ApiResult(false, ErrorCode.InvalidPasswordFormat.value, "password format error", None)
 
   class StringNonemptyValidator(stringParams: String*) extends GeneralValidator[String](stringParams: _*) {
     val result = emptyParamError
