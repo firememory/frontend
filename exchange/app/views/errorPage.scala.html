@@ -1,0 +1,29 @@
+@(msg: String = "")(implicit lang: Lang)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>coinport</title>
+    @__imports(Seq("/css/user_common.css"))
+</head>
+
+<body>
+@__nojs()
+<div id="top-container">
+<div id="body-container">
+<!-- CONTENT START -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+          <div id="logo">Coinport</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div id="logo">@msg</div>
+        </div>
+    </div>
+</div>
+
+@__END(false)
