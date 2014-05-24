@@ -1,122 +1,105 @@
 @(oid: String)(implicit session: Session, lang: Lang)
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>coinport</title>
-    @imports(Seq("opendata.css"))
-    <script src="/js/order.js"></script>
-</head>
+@__START(
+    ngApp = "order",
+    navIndex = 4,
+    cssFiles = Seq("/css/opendata.css"),
+    jsFiles  = Seq("/js/order.js"))
 
-<body ng-app="coinport.order">
-@nojs()
-<div id="top-container">
-<!---->
-
-@navbar(4)
-
-<div id="body-container">
-    <div class="container" ng-controller="OrderCtrl">
-        <div id="main-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>@Messages("order.order"): @oid</h1>
-                    <h1></h1>
-                </div>
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th></th><th></th><th></th><th></th><th></th><th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>@Messages("order.submitTime")</td>
-                            <td>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                            <td>@Messages("order.type")</td>
-                            <td><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}</span></td>
-                            <td>@Messages("order.status")</td>
-                            <td><span>{{order.status | orderStatusText}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>@Messages("order.baseCurrency")</td>
-                            <td>{{order.subject}}</td>
-                            <td>@Messages("order.targetCurrency")</td>
-                            <td>{{order.currency}}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>@Messages("order.orderPrice")</td>
-                            <td>{{order.price | price}} {{order.currency}}/{{order.subject}}</td>
-                            <td>@Messages("order.averagePrice")</td>
-                            <td>{{order.finishedAmount / order.finishedQuantity | price}} {{order.currency}}/{{order.subject}}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>@Messages("order.orderAmount")</td>
-                            <td>{{order.amount | coin}} {{order.subject}}</td>
-                            <td>@Messages("order.tradingAmount")</td>
-                            <td>{{order.finishedQuantity | coin}} {{order.subject}}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>@Messages("order.orderValue")</td>
-                            <td>{{order.total | coin}}  {{order.currency}}</td>
-                            <td>@Messages("order.tradingValue")</td>
-                            <td>{{order.finishedAmount | coin}}  {{order.currency}}</td>
-                            <td></td>
-                            <td></td>
-                       </tr>
-                       </tbody>
-                    </table>
-                </div>
+<div class="container" ng-controller="OrderCtrl">
+    <div id="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Messages("order.order"): @oid</h1>
+                <h1></h1>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>@Messages("order.transactions")</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+            <div class="col-md-12">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>@Messages("transaction.tid")</th>
-                        <th>@Messages("transaction.timestamp")</th>
-                        <th>@Messages("transaction.price")</th>
-                        <th>@Messages("transaction.amount")</th>
-                        <th>@Messages("transaction.value")</th>
-                        <th>@Messages("transaction.taker")</th>
-                        <th>@Messages("transaction.type")</th>
-                        <th>@Messages("transaction.maker")</th>
+                        <th></th><th></th><th></th><th></th><th></th><th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="item in transactions.items">
-                        <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
-                        <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                        <td>{{item.price.value | price}} {{item.price.currency}}</td>
-                        <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
-                        <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
-                        <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
-                        <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                        <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
+                    <tr>
+                        <td>@Messages("order.submitTime")</td>
+                        <td>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>@Messages("order.type")</td>
+                        <td><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}</span></td>
+                        <td>@Messages("order.status")</td>
+                        <td><span>{{order.status | orderStatusText}}</span></td>
                     </tr>
-                    </tbody>
+                    <tr>
+                        <td>@Messages("order.baseCurrency")</td>
+                        <td>{{order.subject}}</td>
+                        <td>@Messages("order.targetCurrency")</td>
+                        <td>{{order.currency}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>@Messages("order.orderPrice")</td>
+                        <td>{{order.price | price}} {{order.currency}}/{{order.subject}}</td>
+                        <td>@Messages("order.averagePrice")</td>
+                        <td>{{order.finishedAmount / order.finishedQuantity | price}} {{order.currency}}/{{order.subject}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>@Messages("order.orderAmount")</td>
+                        <td>{{order.amount | coin}} {{order.subject}}</td>
+                        <td>@Messages("order.tradingAmount")</td>
+                        <td>{{order.finishedQuantity | coin}} {{order.subject}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>@Messages("order.orderValue")</td>
+                        <td>{{order.total | coin}}  {{order.currency}}</td>
+                        <td>@Messages("order.tradingValue")</td>
+                        <td>{{order.finishedAmount | coin}}  {{order.currency}}</td>
+                        <td></td>
+                        <td></td>
+                   </tr>
+                   </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>@Messages("order.transactions")</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>@Messages("transaction.tid")</th>
+                    <th>@Messages("transaction.timestamp")</th>
+                    <th>@Messages("transaction.price")</th>
+                    <th>@Messages("transaction.amount")</th>
+                    <th>@Messages("transaction.value")</th>
+                    <th>@Messages("transaction.taker")</th>
+                    <th>@Messages("transaction.type")</th>
+                    <th>@Messages("transaction.maker")</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in transactions.items">
+                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
+                    <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{item.price.value | price}} {{item.price.currency}}</td>
+                    <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
+                    <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
+                    <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
+                    <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                    <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-@footer()
-
-<!---->
-</div>
-</body>
-</html>
+@__END()

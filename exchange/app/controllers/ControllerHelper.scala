@@ -50,8 +50,8 @@ object ControllerHelper {
 
   class EmailFormatValidator(emails: String*) extends GeneralValidator[String](emails: _*) {
     val result = emailFormatError
-    val emailRegex = """(\w+)@([\w\.]+)""".r
-    def isValid(param: String) = param.matches(emailRegex.toString)
+    val emailRegex = """^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$"""
+    def isValid(param: String) = param.matches(emailRegex)
   }
 
   class PasswordFormetValidator(passwords: String*) extends GeneralValidator[String](passwords: _*) {

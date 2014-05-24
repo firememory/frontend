@@ -35,7 +35,7 @@ app.controller('ResetPasswordCtrl', function ($scope, $http, $window) {
         if (data.success) {
           console.log("data: ", data);
           var msgKey = 'login.resetPwdSucceeded';
-          $window.location.href = '/login?showMsg=true&msgKey=' + msgKey;
+          $window.location.href = '/login?msg=' + msgKey;
         } else {
           showMessage(data.message);
         }

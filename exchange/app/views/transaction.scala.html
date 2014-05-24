@@ -1,89 +1,73 @@
 @(tid: String)(implicit session: Session, lang: Lang)
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>coinport</title>
-    @imports(Seq("opendata.css"))
-    <script src="/js/transaction.js"></script>
-</head>
+@__START(
+    ngApp = "transaction",
+    navIndex = 4,
+    cssFiles = Seq("/css/opendata.css"),
+    jsFiles  = Seq("/js/transaction.js"))
 
-<body ng-app="coinport.transaction">
-@nojs()
-<div id="top-container">
-<!---->
 
-@navbar(4)
-
-<div id="body-container">
-    <div class="container" ng-controller="TxCtrl">
-        <div id="main-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>@Messages("transaction.transaction"): @tid</h1>
-                    <h1></h1>
-                </div>
+<div class="container" ng-controller="TxCtrl">
+    <div id="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Messages("transaction.transaction"): @tid</h1>
+                <h1></h1>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Messages("transaction.tid")</th>
-                                <th>@Messages("transaction.timestamp")</th>
-                                <th>@Messages("transaction.price")</th>
-                                <th>@Messages("transaction.amount")</th>
-                                <th>@Messages("transaction.value")</th>
-                                <th>@Messages("transaction.type")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
-                                <td><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                                <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
-                                <td>{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
-                                <td>{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
-                                <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Messages("transaction.orderRole")</th>
-                                <th>@Messages("transaction.orderId")</th>
-                                <th>@Messages("transaction.beforeAmount")</th>
-                                <th>@Messages("transaction.afterAmount")</th>
-                                <th>@Messages("transaction.userId")</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>@Messages("transaction.takeOrder")</td>
-                                <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
-                                <td> {{takeOrder.preAmount.value | coin}} {{takeOrder.preAmount.currency}}</td>
-                                <td> {{takeOrder.curAmount.value | coin}} {{takeOrder.curAmount.currency}}</td>
-                                <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? 'Me' : (takeOrder.uid)}}</a></td>
-                            </tr>
-                            <tr>
-                                <td>@Messages("transaction.makeOrder")</td>
-                                <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
-                                <td>{{makeOrder.preAmount.value | coin}} {{makeOrder.preAmount.currency}}</td>
-                                <td>{{makeOrder.curAmount.value | coin}} {{makeOrder.curAmount.currency}}</td>
-                                <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? 'Me' : (makeOrder.uid)}}</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div> <!-- row -->
-        </div> <!-- main-content -->
-    </div> <!-- main-container -->
- </div> <!-- body-container -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Messages("transaction.tid")</th>
+                            <th>@Messages("transaction.timestamp")</th>
+                            <th>@Messages("transaction.price")</th>
+                            <th>@Messages("transaction.amount")</th>
+                            <th>@Messages("transaction.value")</th>
+                            <th>@Messages("transaction.type")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
+                            <td><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
+                            <td>{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
+                            <td>{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
+                            <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Messages("transaction.orderRole")</th>
+                            <th>@Messages("transaction.orderId")</th>
+                            <th>@Messages("transaction.beforeAmount")</th>
+                            <th>@Messages("transaction.afterAmount")</th>
+                            <th>@Messages("transaction.userId")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Messages("transaction.takeOrder")</td>
+                            <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
+                            <td> {{takeOrder.preAmount.value | coin}} {{takeOrder.preAmount.currency}}</td>
+                            <td> {{takeOrder.curAmount.value | coin}} {{takeOrder.curAmount.currency}}</td>
+                            <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? 'Me' : (takeOrder.uid)}}</a></td>
+                        </tr>
+                        <tr>
+                            <td>@Messages("transaction.makeOrder")</td>
+                            <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
+                            <td>{{makeOrder.preAmount.value | coin}} {{makeOrder.preAmount.currency}}</td>
+                            <td>{{makeOrder.curAmount.value | coin}} {{makeOrder.curAmount.currency}}</td>
+                            <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? 'Me' : (makeOrder.uid)}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- row -->
+    </div> <!-- main-content -->
+</div> <!-- main-container -->
 
-@footer()
-
-<!---->
-</div>
-</body>
-</html>
+@__END()

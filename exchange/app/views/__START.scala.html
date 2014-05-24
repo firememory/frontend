@@ -9,10 +9,8 @@
 </head>
 
 <body ng-app="coinport.@ngApp">
-@nojs()
+@__nojs()
 <div id="top-container">
-<!---->
-
-@navbar(navIndex)
-
+@if(navIndex >=0) {@__navbar(navIndex)}
 <div id="body-container">
+<!-- CONTENT START -->

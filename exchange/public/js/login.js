@@ -10,10 +10,6 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
         $scope.showError = true;
     };
 
-    $scope.forgetPassword = function() {
-        $window.location.href = '/account/forgetpassword';
-    };
-
     $scope.doLogin = function () {
         var pwdSha256 = $.sha256b64($scope.login.password);
         $scope.login.password = pwdSha256;

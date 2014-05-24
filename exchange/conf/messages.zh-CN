@@ -10,7 +10,7 @@ captcha=验证码
 email=Email
 password=密码
 passwordConfirm=重复密码
-forgotPassword=忘记密码
+forgotPassword=忘记密码了？
 inputCaptcha=输入验证码
 
 nav.home=首页

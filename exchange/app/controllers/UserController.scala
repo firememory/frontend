@@ -131,7 +131,7 @@ object UserController extends Controller with Json4s {
     UserService.verifyEmail(token) map {
       result =>
       if (result.success) {
-        Redirect(routes.MainController.login(true, "login.verifyEmailSucceeded"))
+        Redirect(routes.MainController.login("login.verifyEmailSucceeded"))
       } else {
         Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
       }

@@ -1,54 +1,35 @@
 @()(implicit session: Session, lang: Lang)
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="bitcoin exchange">
-    <meta name="keywords" content="bitcoin">
-    @imports(Seq("trade.css"))
+@__START(
+    ngApp = "trade",
+    navIndex = 1,
+    cssFiles = Seq("/css/trade.css"),
+    jsFiles  = Seq(
+        "/js/trade.js",
+        "/lib/highstock.js",
+        "/lib/jqchart/js/jquery.jqChart.min.js",
+        "/lib/jqchart/js/jquery.jqRangeSlider.min.js"
+        ))
 
-    <!--<script src="lib/jquery.jqcandlestick.js" type="text/javascript" ></script>-->
-    <script type="text/javascript" src="lib/highstock.js"></script>
-    <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
-    <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
-    <script src="js/trade.js"></script>
-</head>
-<body ng-app="coinport.trade">
-@nojs()
-<div id="top-container">
-<!---->
-
-@navbar(1)
-
-<div id="body-container">
-    <div class="container">
-        @session.get("uid") match {
-            case Some(id: String) => {
-                <span ng-init="uid='@id'" ng-show="false"></span>
-            }
-            case None => {
-                <span ng-init="uid='0'" ng-show="false"></span>
-            }
+<div class="container">
+    @session.get("uid") match {
+        case Some(id: String) => {
+            <span ng-init="uid='@id'" ng-show="false"></span>
         }
-        <div class="row">
-            <div class="col-md-2">
-                <ul class="nav nav-pills nav-stacked" cp-nav>
-                    <li route="#/btccny"><a href="#/btccny">BTCCNY</a></li>
-                    <li route="#/ltcbtc"><a href="#/ltcbtc">LTCBTC</a></li>
-                    <li route="#/ptsbtc"><a href="#/ptsbtc">PTSBTC</a></li>
-                    <li route="#/dogbtc"><a href="#/dogbtc">DOGBTC</a></li>
-                </ul>
-            </div>
-            <div class="content col-md-10" ng-view></div>
+        case None => {
+            <span ng-init="uid='0'" ng-show="false"></span>
+        }
+    }
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" cp-nav>
+                <li route="#/btccny"><a href="#/btccny">BTCCNY</a></li>
+                <li route="#/ltcbtc"><a href="#/ltcbtc">LTCBTC</a></li>
+                <li route="#/ptsbtc"><a href="#/ptsbtc">PTSBTC</a></li>
+                <li route="#/dogbtc"><a href="#/dogbtc">DOGBTC</a></li>
+            </ul>
         </div>
+        <div class="content col-md-10" ng-view></div>
     </div>
 </div>
 
-@footer()
-
-<!---->
-</div>
-</body>
-</html>
+@__END()

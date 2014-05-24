@@ -1,57 +1,58 @@
 @()(implicit lang: Lang)
+
 <div class="row">
-<div class="col-md-12">
-    <div class="row">
-        <h1>@Messages("open.eventData")</h1>
+    <div class="col-md-12">
+        <div class="row">
+            <h1>@Messages("open.eventData")</h1>
+        </div>
+        <div class="row">
+            <table class="table table-condensed" style="width: 90%;">
+                <thead>
+                <tr>
+                    <th>@Messages("open.file")</th>
+                    <th>@Messages("open.updatedTime")</th>
+                    <th>@Messages("open.size")</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in messages.items">
+                    <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
+                    <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{file.size}} Bytes</td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+    </div>
     </div>
     <div class="row">
-        <table class="table table-condensed" style="width: 90%;">
-            <thead>
-            <tr>
-                <th>@Messages("open.file")</th>
-                <th>@Messages("open.updatedTime")</th>
-                <th>@Messages("open.size")</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="file in messages.items">
-                <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
-                <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                <td>{{file.size}} Bytes</td>
-                <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    <div class="col-md-12">
+        <div class="row">
+            <h1>@Messages("open.snapshotData")</h1>
+        </div>
+        <div class="row">
+            <table class="table table-condensed" style="width: 90%;">
+                <thead>
+                <tr>
+                    <th>@Messages("open.file")</th>
+                    <th>@Messages("open.updatedTime")</th>
+                    <th>@Messages("open.size")</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="file in snapshots.items">
+                    <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
+                    <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{file.size}} Bytes</td>
+                    <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
     </div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-12">
-    <div class="row">
-        <h1>@Messages("open.snapshotData")</h1>
-    </div>
-    <div class="row">
-        <table class="table table-condensed" style="width: 90%;">
-            <thead>
-            <tr>
-                <th>@Messages("open.file")</th>
-                <th>@Messages("open.updatedTime")</th>
-                <th>@Messages("open.size")</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="file in snapshots.items">
-                <td><i class="fa fa-file-text-o"></i> {{file.name}}</td>
-                <td><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                <td>{{file.size}} Bytes</td>
-                <td><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-    </div>
-</div>
 </div>

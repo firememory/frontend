@@ -10,7 +10,7 @@ captcha=Captcha
 email=Email
 password=Password
 passwordConfirm=Confirm Password
-forgotPassword=Forgot Password
+forgotPassword=Forgot Password?
 ResendVerifyEmail=Resend Verify Email
 inputCaptcha=Input the text in the picture below
 

@@ -1,22 +1,16 @@
 @()(implicit session: Session, lang: Lang)
-<!DOCTYPE html>
-<html ng-app="coinport.market">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="description" content="Live Bitcoin charts">
-    <meta name="keywords" content="Bitcoin Live Market Charts">
-    @imports(Seq("market.css"))
-
-    <script src="lib/jquery.jqcandlestick.js" type="text/javascript" ></script>
-    <script src="lib/jqchart/js/jquery.jqChart.min.js" type="text/javascript"></script>
-    <script src="lib/jqchart/js/jquery.jqRangeSlider.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/market.js"></script>
-
+@__START(
+    ngApp = "market",
+    navIndex = 3,
+    cssFiles = Seq("/css/market.css"),
+    jsFiles  = Seq(
+        "/js/market.js",
+        "/lib/jquery.jqcandlestick.js",
+        "/lib/jqchart/js/jquery.jqChart.min.js",
+        "/lib/jqchart/js/jquery.jqRangeSlider.min.js"
+        ))
 
 <body screen_capture_injected="true" ng-controller="MarketCtrl">
-@navbar(3)
-@nojs()
 <div id="header_outer">
     <div id="header">
         <div id="control">
@@ -109,5 +103,4 @@
     </div>
 </div>
 
-</body>
-</html>
+@__END(false)

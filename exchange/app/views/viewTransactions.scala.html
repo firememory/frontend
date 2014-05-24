@@ -1,45 +1,46 @@
 @()(implicit lang: Lang)
-    <h4>@Messages("transaction.myTransactions"):</h4>
-    <ul class="nav">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="">
-                {{market}}<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="" ng-click="changeMarket('BTCCNY')">BTCCNY</a></li>
-                <li><a href="" ng-click="changeMarket('LTCBTC')">LTCBTC</a></li>
-                <li><a href="" ng-click="changeMarket('DOGBTC')">DOGBTC</a></li>
-                <li><a href="" ng-click="changeMarket('PTSBTC')">PTSBTC</a>
-            </ul>
-        </li>
-    </ul>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>@Messages("transaction.tid")</th>
-                <th>@Messages("transaction.timestamp")</th>
-                <th>@Messages("transaction.price")</th>
-                <th>@Messages("transaction.amount")</th>
-                <th>@Messages("transaction.value")</th>
-                <th>@Messages("transaction.taker")</th>
-                <th>@Messages("transaction.type")</th>
-                <th>@Messages("transaction.maker")</th>
+
+<h4>@Messages("transaction.myTransactions"):</h4>
+<ul class="nav">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="">
+            {{market}}<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="" ng-click="changeMarket('BTCCNY')">BTCCNY</a></li>
+            <li><a href="" ng-click="changeMarket('LTCBTC')">LTCBTC</a></li>
+            <li><a href="" ng-click="changeMarket('DOGBTC')">DOGBTC</a></li>
+            <li><a href="" ng-click="changeMarket('PTSBTC')">PTSBTC</a>
+        </ul>
+    </li>
+</ul>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>@Messages("transaction.tid")</th>
+            <th>@Messages("transaction.timestamp")</th>
+            <th>@Messages("transaction.price")</th>
+            <th>@Messages("transaction.amount")</th>
+            <th>@Messages("transaction.value")</th>
+            <th>@Messages("transaction.taker")</th>
+            <th>@Messages("transaction.type")</th>
+            <th>@Messages("transaction.maker")</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in transactions.items">
+                <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
+                <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                <td>{{item.price.value | price}} {{item.price.currency}}</td>
+                <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
+                <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
+                <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
+                <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
             </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in transactions.items">
-                    <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
-                    <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                    <td>{{item.price.value | price}} {{item.price.currency}}</td>
-                    <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
-                    <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
-                    <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
-                    <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                    <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
-                </tr>
-            </tbody>
-        </table>
-        <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-    </div>
+        </tbody>
+    </table>
+    <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+</div>

@@ -1,25 +1,16 @@
-@(showMessage: Boolean = false, msgKey: String = "")(implicit session: Session, lang: Lang)
+@(msg: String = "")(implicit session: Session, lang: Lang)
 @__START(
     ngApp = "login",
     navIndex = 0,
-    cssFiles = Seq("user_common.css"),
-    jsFiles  = Seq("login.js"))
-    <div class="container" ng-controller="LoginCtrl">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4 msg-container">
-            @if(showMessage) {
-                <div id="login-msg" class="alert alert-warning">@Messages(msgKey)</div>
-            } else {
-                <div id="login-msg" class="alert">&nbsp;</div>
-            }
-            </div>
-        </div>
+    cssFiles = Seq("/css/user_common.css"),
+    jsFiles  = Seq("/js/login.js"))
+
 <div class="container" ng-controller="LoginCtrl">
 
     <div class="row">
        <div class="col-md-4 col-md-offset-4 msg-container">
-        @if(showMessage) {
-            <div id="login-msg" class="alert alert-warning">@Messages(msgKey)</div>
+        @if(msg.nonEmpty) {
+            <div id="login-msg" class="alert alert-warning">@Messages(msg)</div>
         } else {
             <div id="login-msg" class="alert">&nbsp;</div>
         }
@@ -33,21 +24,21 @@
                     <div class="input-group input-group-lg">
                         <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
                     </div>
-                </div>
-                <div class="form-group has-feedback">
                     <div class="input-group input-group-lg">
                         <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
                     </div>
-                    <div class="form-group input-group-lg">
-                        <button class="btn btn-lg btn-block btn-primary" type="submit" ng-click="doLogin()" ng-disabled="!loginForm.$valid">@Messages("login.doLogin")</button>
-                    </div>
-
-                    <div class="row" style="height: 10px"></div>
-                    <div class="form-group input-group-lg">
-                        <button class="btn btn-link col-md-4 col-md-offset-8" ng-click="forgetPassword()">@(Messages("forgotPassword"))</button>
-                    </div>
+                </div>
+                <div class="form-group input-group-lg">
+                    <button class="btn btn-lg btn-block btn-primary" type="submit" ng-click="doLogin()" ng-disabled="!loginForm.$valid">@Messages("login.doLogin")</button>
+                </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 col-md-offset-6">
+            <a href="/account/forgetpassword">@(Messages("forgotPassword"))</a>
         </div>
     </div>
 
