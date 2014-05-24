@@ -1,40 +1,33 @@
+
+
+
 app = angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
 
-
-class PasswordCtrl
-	constructor: (@$scope, @$http, @$window) ->
-    $scope.pwdreset = {}
-    $scope.errorMessage = ''
-    console.log("hhhhhhhhhhhhhh")
-		$scope.requestPwdReset = () ->
-			$window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email
-
-
-
-class ResetPasswordCtrl
-	constructor: (@$scope, @$http, @$window) ->
-		$scope.pwdreset = {}
-		$scope.errorMessage = ''
-		$scope.token = ''
-
-
-		$scope.resetPassword = () ->
-			hash = $.sha256b64($scope.pwdreset.password)
-			$http.post('/account/dopwdreset', $.param({password: hash, token: _token}))
-				.success (data, status, headers, config) ->
-					if data.success
-						console.log("data: ", data)
-						$window.location.href = '/login?msg=login.resetPwdSucceeded'
-					else
-						$scope.errorMessage = data.message
-
-
-
-
-
 app.config ($httpProvider) ->
-	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-app.controller 'PasswordCtrl', PasswordCtrl
-app.controller 'ResetPasswordCtrl', ResetPasswordCtrl
+class LoginCtrl
+    constructor : (@$scope, $http, $window) ->
+        $scope.login = {}
+        $scope.msg = ''
+        $scope.showMsg = false
+        $scope.errorMessage = ''
+        $scope.showError = false
 
+        $scope.doLogin =  () =>
+            $scope.login.password = $.sha256b64($scope.login.password)
+            console.info 'data ', $scope.login
+
+            $http.post('account/login', $.param($scope.login))
+                .success (data, status, headers, config) ->
+                    if data.success
+                        $window.location.href = '/trade'
+                        $scope.showError= false
+                    else
+                        $scope.errorMessage = data.message
+                        $scope.showError= true
+                .error (data, status, headers, config) ->
+                    $scope.errorMessage = data.message
+                    $scope.showError= true
+
+app.controller 'LoginCtrl', LoginCtrl
