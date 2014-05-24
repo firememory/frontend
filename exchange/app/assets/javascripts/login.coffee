@@ -1,23 +1,39 @@
-
 app = angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
 
-app.config ($httpProvider) ->
-    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
-app.controller 'LoginCtrl', ($scope, $http, $window) ->
-    $scope.login = {}
-    $scope.showEorror = false
+class PasswordCtrl
+	@$inject: ["$scope", "$http", "$window"]
+	constructor: ($scope, $http, $window) ->
+		$scope.pwdreset = {}
+		$scope.requestPwdReset = () ->
+			$window.location.href = '/account/requestpwdreset/' + $scope.pwdreset.email
 
-    showMessage = (message) ->
-        $scope.errorMessage = message
-        $scope.showError = true
 
-    $scope.doLogin = () ->
-        $scope.login.password = $.sha256b64($scope.login.password)
-        $http.post('account/login', $.param($scope.login))
-            .success (data, status, headers, config) ->
-                if data.success
-                    $window.location.href = '/trade'
-                else 
-                    message = Messages.getMessage(data.code)
-                    showMessage(message)
+
+class ResetPasswordCtrl
+	@$inject: ["$scope", "$http", "$window"]
+	constructor: ($scope, $http, $window) ->
+		$scope.pwdreset = {}
+		$scope.errorMessage = ''
+		$scope.token = ''
+
+
+		$scope.resetPassword = () ->
+			hash = $.sha256b64($scope.pwdreset.password)
+			$http.post('/account/dopwdreset', $.param({password: hash, token: _token}))
+				.success (data, status, headers, config) ->
+					if data.success
+						console.log("data: ", data)
+						$window.location.href = '/login?msg=login.resetPwdSucceeded'
+					else
+						$scope.errorMessage = data.message
+
+
+
+
+
+#app.config ($httpProvider) ->
+#	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
+app.controller 'PasswordCtrl', PasswordCtrl
+app.controller 'ResetPasswordCtrl', ResetPasswordCtrl
