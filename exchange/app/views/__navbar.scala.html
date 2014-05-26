@@ -26,16 +26,16 @@
                 @if(index==0){<li class="active">} else {<li>}
                     <a href="/">@Messages("nav.home")</a>
                 </li>
-                @if(index==1){<li class="active">} else {<li>}
-                    <a href="/trade">@Messages("nav.trade")</a>
+                <li ng-show="isLogin" @if(index==1) {class="active"}>
+                    <a ng-show="isLogin" href="/trade">@Messages("nav.trade")</a>
                 </li>
-                @if(index==2){<li class="active">} else {<li>}
+                <li ng-show="isLogin" @if(index==2) {class="active"}>
                     <a href="/account">@Messages("nav.account")</a>
                 </li>
-                @if(index==3){<li class="active">} else {<li>}
+                <li @if(index==3){class="active"}>
                     <a href="/market#/"> @Messages("nav.market")</a>
                 </li>
-                @if(index==4){<li class="active">} else {<li>}
+                <li @if(index==4){class="active"}>
                     <a href="/open">@Messages("nav.open")</a>
                 </li>
 
