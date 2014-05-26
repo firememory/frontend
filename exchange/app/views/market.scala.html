@@ -1,16 +1,24 @@
 @()(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "market",
-    navIndex = 3,
-    cssFiles = Seq("/css/market.css"),
-    jsFiles  = Seq(
-        "/js/market.js",
-        "/lib/jquery.jqcandlestick.js",
-        "/lib/jqchart/js/jquery.jqChart.min.js",
-        "/lib/jqchart/js/jquery.jqRangeSlider.min.js"
-        ))
 
-<body screen_capture_injected="true" ng-controller="MarketCtrl">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/market.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.market">
+@__nojs()
+<div id="top-container" ng-controller="MarketCtrl">
+@__navbar(3)
+<!-- CONTENT START ================================ -->
+
+
 <div id="header_outer">
     <div id="header">
         <div id="control">
@@ -25,76 +33,72 @@
 </div>
 
 <div id="main" style="height: 407px; display: block;">
-<div id="sidebar_outer">
-<div id="sidebar">
-<div id="market">{{subject}}/{{currency}}</div>
-<div class="depth">
-    <table class="table table-condensed">
-        <tbody>
-            <tr ng-repeat="item in depth.asks">
-                <td class="sell">{{item.price | price}}</td>
-                <td>{{item.amount | coin}}</dd>
-                <td class="sell">{{item.price.toFixed(0)}}</td>
-                <td>{{item.amount.toFixed(0)}}</td>
-            </tr>
+    <div id="sidebar_outer">
+        <div id="sidebar">
+            <div id="market">{{subject}}/{{currency}}</div>
+            <div class="depth">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr ng-repeat="item in depth.asks">
+                            <td class="sell">{{item.price | price}}</td>
+                            <td>{{item.amount | coin}}</dd>
+                            <td class="sell">{{item.price.toFixed(0)}}</td>
+                            <td>{{item.amount.toFixed(0)}}</td>
+                        </tr>
 
-            <tr>
-                <td colspan="4" class="last-price-td {{lastTransaction.sell | txTypeClass}}">
-                    <div class="last-price">{{lastTransaction.price.value | price}}</div>
-                </td>
-            </tr>
+                        <tr>
+                            <td colspan="4" class="last-price-td {{lastTransaction.sell | txTypeClass}}">
+                                <div class="last-price">{{lastTransaction.price.value | price}}</div>
+                            </td>
+                        </tr>
 
-             <tr ng-repeat="item in depth.bids">
-                <td class="buy">{{item.price | price}}</td>
-                <td>{{item.amount | coin}}</dd>
-                <td class="buy">{{item.price.toFixed(0)}}</td>
-                <td>{{item.amount.toFixed(0)}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                         <tr ng-repeat="item in depth.bids">
+                            <td class="buy">{{item.price | price}}</td>
+                            <td>{{item.amount | coin}}</dd>
+                            <td class="buy">{{item.price.toFixed(0)}}</td>
+                            <td>{{item.amount.toFixed(0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- depth -->
 
-<div class="transactions" style="height: 100%;">
-    <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th>@Messages("trade.price")</th>
-                <th>@Messages("trade.amount")</th>
-                <th>Taker</th>
-                <th>Type</th>
-                <th>Maker</th>
-                <th>Time</th>
-                <th>@Messages("market.detail")</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in transactions.items">
-                <td>{{item.price.value | price}}</td>
-                <td>{{item.subjectAmount.value | coin}}</td>
-                <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></td>
-                <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i></td>
-                <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></td>
-                <td>{{item.timestamp | date:"HH:mm:ss"}}</td>
-                <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-</div>
-</div>
-<div id="wrapper" class="candle-chart">
-</div>
-</div>
+            <div class="transactions" style="height: 100%;">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>@Messages("trade.price")</th>
+                            <th>@Messages("trade.amount")</th>
+                            <th>Taker</th>
+                            <th>Type</th>
+                            <th>Maker</th>
+                            <th>Time</th>
+                            <th>@Messages("market.detail")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in transactions.items">
+                            <td>{{item.price.value | price}}</td>
+                            <td>{{item.subjectAmount.value | coin}}</td>
+                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></td>
+                            <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i></td>
+                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></td>
+                            <td>{{item.timestamp | date:"HH:mm:ss"}}</td>
+                            <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- transactions -->
+        </div> <!-- sidebar -->
+    </div> <!-- sidebar outer-->
+    <div id="wrapper" class="candle-chart"> </div>
+</div> <!-- main -->
+
 <div id="footer_outer">
     <div id="footer">
         <ul class="horiz donate">
-            <li>
-                @(Messages("market.latestUpdateTime")) {{lastUpdate | date:'yyyy-HH:mm:ss'}}
-            </li>
+            <li>@(Messages("market.latestUpdateTime")) {{lastUpdate | date:'yyyy-HH:mm:ss'}} </li>
             <li class="sep"></li>
-            <li class="period">
-                @Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> @Messages("market.seconds")
-            </li>
+            <li class="period">@Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> @Messages("market.seconds")</li>
             <li class="sep"></li>
             <li class="period"><a href="#" target="_blank">Help</a></li>
             <li id="now"></li>
@@ -103,4 +107,17 @@
     </div>
 </div>
 
-@__END(false)
+
+
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+
+@__common_js()
+@__js("/lib/jquery.jqcandlestick.js")
+@__js("/lib/jqchart/js/jquery.jqChart.min.js")
+@__js("/lib/jqchart/js/jquery.jqRangeSlider.min.js")
+@__js("/js/market.js")
+</body>
+</html>
+
+

@@ -1,0 +1,33 @@
+@()(implicit lang: Lang)
+
+
+@__js("/lib/angular/angular.js")
+@__js("/lib/angular/angular-route.min.js")
+@__js("/lib/angular/angular-resource.min.js")
+@__js("/lib/angular/angular-cookies.min.js")
+@__js("/lib/angular/angular-animate.min.js")
+@__js("/lib/angular/angular-timer.min.js")
+@__js("/lib/ui-bootstrap-tpls-0.11.0.js")
+@__js("/lib/jquery-1.11.0.min.js")
+@__js("/lib/jquery.mousewheel.js")
+@__js("/lib/bootstrap/js/bootstrap.min.js")
+@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-countries.js")
+@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.js")
+@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-countries.@(lang.code).js")
+@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.@(lang.code).js")
+@__js("/lib/jquery.nicescroll.min.js")
+@__js("/lib/jquery.themepunch.plugins.min.js")
+@__js("/lib/jquery.themepunch.revolution.min.js")
+@__js("/lib/jquery.sha256.js")
+@__js("/javascripts/app.min.js")
+@__js("/javascripts/navbar.js") <!-- min.js doesn't work -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?9e68a2c3167a62fbc538135dc864cad9";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>

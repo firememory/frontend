@@ -1,10 +1,24 @@
 @()(implicit session: Session, lang: Lang)
 
-@__START(
-    ngApp = "account",
-    navIndex = 2,
-    cssFiles = Seq("/css/account.css"),
-    jsFiles  = Seq("/lib/d3/d3.min.js", "/js/account.js"))
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/account.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.account">
+@__nojs()
+<div id="top-container">
+@__navbar(2)
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
 
 <div class="container">
     @session.get("uid") match {
@@ -30,4 +44,15 @@
     </div>
 </div>
 
-@__END()
+
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+@__footer()
+</div> <!-- id="body-container" -->
+
+@__common_js()
+@__js("/lib/d3/d3.min.js")
+@__js("/js/account.js")
+</body>
+</html>
+

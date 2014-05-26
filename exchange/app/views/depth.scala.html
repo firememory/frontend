@@ -1,9 +1,24 @@
 @(market: String)(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "depth",
-    navIndex = 4,
-    cssFiles = Seq("/css/depth.css"),
-    jsFiles  = Seq("/lib/d3/d3.min.js", "/js/depth.js"))
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/depth.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.depth">
+@__nojs()
+<div id="top-container">
+@__navbar(4)
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
 
 <div class="container" ng-controller="DepthCtrl">
     <div class="row">
@@ -50,4 +65,15 @@
     </div>
 </div>
 
-@__END()
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+@__footer()
+</div> <!-- id="body-container" -->
+
+@__common_js()
+@__js("/lib/d3/d3.min.js")
+@__js("/js/depth.js")
+</body>
+</html>
+
+

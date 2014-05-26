@@ -1,14 +1,24 @@
 @()(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "trade",
-    navIndex = 1,
-    cssFiles = Seq("/css/trade.css"),
-    jsFiles  = Seq(
-        "/js/trade.js",
-        "/lib/highstock.js",
-        "/lib/jqchart/js/jquery.jqChart.min.js",
-        "/lib/jqchart/js/jquery.jqRangeSlider.min.js"
-        ))
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/trade.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.trade">
+@__nojs()
+<div id="top-container">
+@__navbar(4)
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
 
 <div class="container">
     @session.get("uid") match {
@@ -32,4 +42,17 @@
     </div>
 </div>
 
-@__END()
+
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+@__footer()
+</div> <!-- id="body-container" -->
+
+@__common_js()
+@__js("/lib/highstock.js")
+@__js("/lib/jqchart/js/jquery.jqChart.min.js")
+@__js("/lib/jqchart/js/jquery.jqRangeSlider.min.js")
+@__js("/js/trade.js")
+</body>
+</html>
+

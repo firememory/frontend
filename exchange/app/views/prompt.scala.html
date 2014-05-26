@@ -1,8 +1,24 @@
 @(messageKey: String)(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "verifyemail",
-    navIndex = -1,
-    cssFiles = Seq("/css/user_common.css"))
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/user_common.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.verifyemail">
+@__nojs()
+<div id="top-container">
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
+
 
 <div class="container">
     <div class="row">
@@ -13,4 +29,10 @@
     </div>
 </div>
 
-@__END(false)
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+</div> <!-- id="body-container" -->
+
+@__common_js()
+</body>
+</html>

@@ -1,9 +1,24 @@
 @(msg: String = "")(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "login",
-    navIndex = 0,
-    cssFiles = Seq("/css/user_common.css"),
-    jsFiles  = Seq("/javascripts/login.min.js"))
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/user_common.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.login">
+@__nojs()
+<div id="top-container">
+@__navbar(0)
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
 
 <div class="container" ng-controller="LoginCtrl">
 
@@ -48,4 +63,13 @@
     </div>
 </div>
 
-@__END()
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+@__footer()
+</div> <!-- id="body-container" -->
+
+@__common_js()
+@__js("/javascripts/login.min.js")
+</body>
+</html>
+

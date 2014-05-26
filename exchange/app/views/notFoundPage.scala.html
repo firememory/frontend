@@ -13,6 +13,25 @@
 <div id="body-container">
 <!-- CONTENT START -->
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/ommon_error.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.depth">
+@__nojs()
+<div id="top-container">
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -24,4 +43,10 @@
     </div>
 </div>
 
-@__END(false)
+<!-- CONTENT END ================================ -->
+</div> <!-- id="body-container" -->
+</div> <!-- top-container -->
+@__common_js()
+</body>
+</html>
+

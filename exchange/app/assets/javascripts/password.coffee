@@ -20,12 +20,12 @@ app.controller 'ResetPasswordCtrl', ($scope, $http, $window) ->
 	$scope.token = ''
 
 	$scope.resetPassword =  () ->
-	$http.post('/account/dopwdreset', $.param(
-		password: $.sha256b64($scope.pwdreset.password)
-		token: _token)
-	).success (data, status, headers, config) ->
-		if data.success
-			console.log("data: ", data)
-			$window.location.href = '/login?msg=login.resetPwdSucceeded'
-		else
-			showMessage(data.message);
+		$http.post('/account/dopwdreset', $.param(
+			password: $.sha256b64($scope.pwdreset.password)
+			token: _token)
+		).success (data, status, headers, config) ->
+			if data.success
+				console.log("data: ", data)
+				$window.location.href = '/login?msg=login.resetPwdSucceeded'
+			else
+				showMessage(data.message);

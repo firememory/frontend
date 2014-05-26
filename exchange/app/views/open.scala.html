@@ -1,9 +1,24 @@
 @()(implicit session: Session, lang: Lang)
-@__START(
-    ngApp = "open",
-    navIndex = 4,
-    cssFiles = Seq("/css/opendata.css"),
-    jsFiles  = Seq("/javascripts/opendata.min.js"))
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>coinport</title>
+    @__common_css()
+    @__css("/css/opendata.css")
+    @__js_lang()
+</head>
+
+<body ng-app="coinport.open">
+@__nojs()
+<div id="top-container">
+@__navbar(4)
+<div id="body-container">
+<!-- CONTENT START ================================ -->
+
 
 <div class="container">
     <div class="col-md-2">
@@ -19,4 +34,13 @@
     <div class="col-md-10 data-container"  ng-view></div>
 </div>
 
-@__END()
+
+<!-- CONTENT END ================================ -->
+</div> <!-- top-container -->
+@__footer()
+</div> <!-- id="body-container" -->
+
+@__common_js()
+@__js("/javascripts/opendata.min.js")
+</body>
+</html>
