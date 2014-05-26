@@ -68,7 +68,13 @@ Messages.connectivity = {
 // See enum ErrorCode in data.thrift
 // key = m + errorCode
 Messages.ErrorMessages = {
+    m1001: 'email already registered',
+    m1002: 'missing information',
+    m1003: 'user not exist',
+    m1004: 'password not match',
+    m1005: 'token not match',
     m1006: 'email not verified',
+
     m9002: 'captcha text not match',
     m9003: 'invalid email format',
     m9004: 'invalid password format',

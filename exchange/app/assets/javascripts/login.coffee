@@ -24,7 +24,7 @@ class LoginCtrl
                         $window.location.href = '/trade'
                         $scope.showError= false
                     else
-                        $scope.errorMessage = data.message
+                        $scope.errorMessage = Messages.getMessage(data.code, data.message)
                         $scope.showError= true
                 .error (data, status, headers, config) ->
                     $scope.errorMessage = data.message

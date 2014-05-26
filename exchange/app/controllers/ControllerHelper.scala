@@ -4,14 +4,27 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
-import play.api.mvc.Request
+import play.api.mvc._
+import play.api.Logger
 import services.CacheService
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
 
+trait AccessLogging {
+  val accessLogger = Logger("access")
+
+  object AccessLoggingAction extends ActionBuilder[Request] {
+    def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[SimpleResult]) = {
+      accessLogger.info(s"method=${request.method} uri=${request.uri} remote-address=${request.remoteAddress}")
+      block(request)
+    }
+  }
+}
+
 trait Validator {
   def result: ApiResult
   def validate: Either[ApiResult, Boolean]
+  def logger: Logger = Logger("validator")
 }
 
 abstract class GeneralValidator[T](params: T*) extends Validator {
@@ -34,7 +47,7 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
 
   def validate = {
     val cachedValue = cacheService.get(uuid)
-    println(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
+    logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
     if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
   }
 }

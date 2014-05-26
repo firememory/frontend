@@ -1,16 +1,17 @@
 package controllers
 
+import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import utils.Constant._
-import play.api.Play
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
   val ajaxRequestHeadervalue="value"
 
+  val logger = Logger(this.getClass)
   val sysConfig = Play.current.configuration
   val timeoutMinutes: Int = sysConfig.getInt("session.timeout.minutes").getOrElse(60)
   val timeoutMillis: Long = timeoutMinutes * 60 * 1000
@@ -33,7 +34,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
         tsCookie =>
-        println(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
         val ts = tsCookie.value.toLong
         if (currTs - ts > timeoutMillis) {
           val redirectUri = "/login?msg=authenticateTimeout"

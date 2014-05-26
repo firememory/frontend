@@ -6,6 +6,7 @@
 package controllers
 
 import play.api.mvc._
+import play.api.Logger
 import play.api.libs.functional.syntax._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
@@ -16,7 +17,9 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.data.{LoginSucceeded, LoginFailed, UserProfile}
 import ControllerHelper._
 
-object UserController extends Controller with Json4s {
+object UserController extends Controller with Json4s with AccessLogging {
+  val logger = Logger(this.getClass)
+
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
     val data = request.body
@@ -103,7 +106,7 @@ object UserController extends Controller with Json4s {
     val mobile = getParam(data, "mobile").getOrElse("")
     val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
-    println(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
+    logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
     validateParamsAndThen(
       new StringNonemptyValidator(userId, email, realName, mobile, uuid, verifyCode),
       new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
@@ -127,7 +130,7 @@ object UserController extends Controller with Json4s {
 
   def verifyEmail(token: String) = Action.async {
     implicit request =>
-    println(s"verify email token: $token")
+    logger.info(s"verify email token: $token")
     UserService.verifyEmail(token) map {
       result =>
       if (result.success) {
@@ -145,7 +148,7 @@ object UserController extends Controller with Json4s {
 
   def requestPasswordReset(email: String) = Action.async {
     implicit request =>
-    println(s"reset password email: $email")
+    logger.info(s"reset password email: $email")
     UserService.requestPasswordReset(email) map {
       result =>
       if (result.success) {
@@ -158,12 +161,12 @@ object UserController extends Controller with Json4s {
 
   def validatePasswordReset(token: String) = Action.async {
     implicit request =>
-    println(s"password reset token: $token")
+    logger.info(s"password reset token: $token")
     UserService.validatePasswordResetToken(token) map {
       result =>
       if (result.success) {
         val profile = result.data.get.asInstanceOf[UserProfile]
-        println(s"profile: $profile")
+        logger.info(s"profile: $profile")
         Ok(views.html.resetPassword.render(token, session, lang))
       } else {
         Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
@@ -185,10 +188,10 @@ object UserController extends Controller with Json4s {
   def accountSettingsView() = Authenticated.async {
     implicit request =>
     val email = session.get("username").getOrElse("")
-    assert(email!=null && email.trim.nonEmpty)
+    assert(email != null && email.trim.nonEmpty)
     UserService.queryUserProfileByEmail(email) map {
       result =>
-      println(result)
+      logger.info("query user profile result: " + result)
       assert(result.success)
       assert (result.data != None)
       val profile = result.data.get.asInstanceOf[UserProfile]
