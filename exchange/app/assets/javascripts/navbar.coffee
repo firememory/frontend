@@ -99,3 +99,19 @@ app.directive "repeatInput", () ->
 		otherInput.$parsers.push (value) ->
 			ctrl.$setValidity("repeat", value == ctrl.$viewValue)
 			return value
+
+
+
+# mouse over a dropdown nav button will automatically trigger the dropdown.
+#$(document).ready () ->
+#      if $(window).width() > 768
+#            $('.navbar .dropdown').on('mouseover', ()->
+#                $('.dropdown-toggle', this).trigger('click')
+#            ).on('mouseout',() ->
+#                $('.dropdown-toggle', this).trigger('click').blur()
+#            )
+#        else
+#            $('.navbar .dropdown').off('mouseover').off('mouseout')
+#    toggleNavbarMethod()
+
+#    $(window).resize(toggleNavbarMethod)

@@ -26,14 +26,30 @@
                 @if(index==0){<li class="active">} else {<li>}
                     <a href="/">@Messages("nav.home")</a>
                 </li>
-                <li ng-show="isLogin" @if(index==1) {class="active"}>
-                    <a ng-show="isLogin" href="/trade">@Messages("nav.trade")</a>
+                  <li  ng-show="isLogin"  class="dropdown @if(index==1){ active}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/trade#/btccny">BTC/CNY</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/trade#/ltcbtc">LTC/BTC</a></li>
+                        <li><a href="/trade#/ptsbtc">PTS/BTC</a></li>
+                        <li><a href="/trade#/dogbtc">DOG/BTC</a></li>
+                    </ul>
+
                 </li>
                 <li ng-show="isLogin" @if(index==2) {class="active"}>
                     <a href="/account">@Messages("nav.account")</a>
                 </li>
-                <li @if(index==3){class="active"}>
-                    <a href="/market#/"> @Messages("nav.market")</a>
+                <li class="dropdown @if(index==3){ active}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/market#/btccny">BTC/CNY</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/market#/ltcbtc">LTC/BTC</a></li>
+                        <li><a href="/market#/ptsbtc">PTS/BTC</a></li>
+                        <li><a href="/market#/dogbtc">DOG/BTC</a></li>
+                    </ul>
+
                 </li>
                 <li @if(index==4){class="active"}>
                     <a href="/open">@Messages("nav.open")</a>
