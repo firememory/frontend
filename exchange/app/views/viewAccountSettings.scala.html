@@ -1,36 +1,31 @@
 @(profile: Map[String, String])(implicit lang: Lang)
 
-@println(s"profile: $profile")
 @if("true".equals(profile.get("mobileVerified").getOrElse("false")) && profile.get("realName").getOrElse("").trim.length > 0) {
-<div class="row">
+<div class="row" >
     <h3>@Messages("accountsettings.view.title")</h3>
     <br/>
-    <div class="row">
-        <div class="col-sm-8">
+    <div class="col-md-8">
         <fieldset>
             <div class="row">
-                <legend class="col-sm-8"><h4>@Messages("accountsettings.view.namediv.title")</h4></legend>
+                <legend class="col-md-8"><h4>@Messages("accountsettings.view.namediv.title")</h4></legend>
             </div>
             <div class="row">
-                <label class=" col-sm-3" for="realName">@Messages("accountsettings.realName")</label>
-                <input name="realName" id="realName" type="text" class="col-sm-5" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
+                <label class=" col-md-3" for="realName">@Messages("accountsettings.realName")</label>
+                <input name="realName" id="realName" type="text" class="col-md-5" style="border: none; background: none;" value="@profile.get("realName").getOrElse("")" readonly="readonly">
             </div>
         </fieldset>
-        </div>
+        <div style="height: 30px;"></div>
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-sm-8">
+    <div class="col-md-8">
         <fieldset>
             <div class="row">
-                <legend class="col-sm-8"><h4>@Messages("accountsettings.view.mobilediv.title")</h4></legend>
+                <legend class="col-md-8"><h4>@Messages("accountsettings.view.mobilediv.title")</h4></legend>
             </div>
             <div class="row">
-                <label class="control-label col-sm-3" for="mobile">@Messages("accountsettings.mobile")</label>
-                <input name="mobile" id="mobile" type="text" class="col-sm-5" style="border: none; background: none;" value="@profile.get("mobile").getOrElse("false")" readonly="readonly">
+                <label class="control-label col-md-3" for="mobile">@Messages("accountsettings.mobile")</label>
+                <input name="mobile" id="mobile" type="text" class="col-md-5" style="border: none; background: none;" value="@profile.get("mobile").getOrElse("false")" readonly="readonly">
             </div>
         </fieldset>
-        </div>
     </div>
 </div>
 } else {
@@ -85,10 +80,9 @@
                     <input name="mobile" id="mobile" type="text" class="form-control bfh-phone" data-country="countries_phone1" ng-model="account.mobile" required>
                 </div>
                 <div class="col-sm-3">
-                        <button class="form-control" style="border: none; background: none;" ng-click="sendVerifySms()"
-                                ng-disabled="isTiming">
-                            {{verifyButton}}
-                        </button>
+                    <button ng-click="sendVerifySms()" ng-disabled="isTiming">
+                        {{verifyButton}}
+                    </button>
                 </div>
             </div>
 
@@ -100,20 +94,20 @@
                 </div>
             </div>
 
-            <div style="height: 70px;">
+            <div style="height: 40px;">
                 <div class="alert alert-danger col-sm-offset-2 col-sm-6" ng-show="showUpdateAccountError">{{updateAccountErrorMessage}}</div>
-
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-2">
-                    <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i>@Messages("accountsettings.submit")</button>
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i>@Messages("accountsettings.cancel")</button>
-                </div>
             </div>
         </form>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-2">
+        <button class="btn btn-block btn-success" ng-click="updateAccountSettings()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i>@Messages("accountsettings.submit")</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-block btn-danger" ng-click="cancel()"><i class="glyphicon glyphicon-remove"></i>@Messages("accountsettings.cancel")</button>
+    </div>
+</div>
+
 }

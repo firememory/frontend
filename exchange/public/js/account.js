@@ -631,12 +631,13 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 
 app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
     $scope.showUpdateAccountError = false;
+
     $scope.account = {};
-    $scope.credentialItems = [
-        {"name": "身份证", "value": "1"},
-        {"name": "护照", "value": "2"}
-    ];
-    $scope.credentialType = $scope.credentialItems[0];
+    // $scope.credentialItems = [
+    //     {"name": "身份证", "value": "1"},
+    //     {"name": "护照", "value": "2"}
+    // ];
+    // $scope.credentialType = $scope.credentialItems[0];
 
     $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
 
@@ -667,10 +668,12 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
             return;
         }
 
+        $scope.seconds = 60;
+
         stop = $interval(function () {
             if ($scope.seconds > 0) {
                 $scope.seconds = $scope.seconds - 1;
-                $scope.verifyButton = $scope.seconds + " " + Messages.account.getVerifyCodeButtonText;
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
                 $scope.isTiming = true;
             }
             else {
@@ -687,33 +690,30 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
             stop = undefined;
         }
         $scope.isTiming = false;
+        $scope.seconds = 0;
+        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
     };
 
     $scope.$on('destroy', function () {
         $scope.stopTiming();
     });
 
-    $scope.disableButton();
+    //$scope.disableButton();
 
-    var sending = false;
     $scope.sendVerifySms = function () {
         $scope.showUpdateAccountError = false;
-        $scope.isTiming = true;
-        sending = true;
+        $scope.disableButton();
+
         $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     $scope.account.verifyCodeUuid = data.data;
                     console.log('data = ' + data.data);
                     console.log('uuid = ' + $scope.account.verifyCodeUuid);
-                    $scope.seconds = 60;
-                    $scope.disableButton();
-                    sending = false;
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;
                     $scope.stopTiming();
-                    sending = false;
                 }
             });
     };
@@ -725,7 +725,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
                 if (data.success) {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
-                    $location.path('/account#/accountsettings');
+                    $window.location.href = '/account#/accountsettings';
                 } else {
                     $scope.showUpdateAccountError = true;
                     var errorMsg = Messages.getMessage(data.code, data.message);

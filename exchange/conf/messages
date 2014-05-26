@@ -32,7 +32,7 @@ login.resetPwdSucceeded=reset password succeeded, please login
 login.pwdPlaceHolder=Please enter password
 login.doLogin=Login
 register.title=Account Information
-register.changeCaptcha=Change
+register.changeCaptcha=Try a different image
 
 ticker.market=Market
 ticker.price=Price

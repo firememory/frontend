@@ -34,6 +34,7 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
 
   def validate = {
     val cachedValue = cacheService.get(uuid)
+    println(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
     if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
   }
 }
