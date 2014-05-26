@@ -3,10 +3,12 @@
 
 @import "_common";
 @import "_navbar";
+@import "_footer";
 
 // -------------------------------------------------------------------
 // COLOR SPECS
 @text-color: @grey7;
+@bk-color: @grey0;
 
 // -------------------------------------------------------------------
 // BODY
@@ -21,6 +23,7 @@ body {
   height: 100%;
 	// padding-top: 60px;
 	overflow-x: hidden; /* Prevent scroll on narrow devices */
+  background-color: @bk-color;
 }
 
 #top-container {
@@ -43,6 +46,8 @@ body {
 	white 	    	// navbar-active-background-color
 );
 
+.config_footer(@text-color, white);
+
 // -------------------------------------------------------------------
 // Secondary Level Navigation
 .config_level2_nav() {
@@ -51,6 +56,7 @@ body {
   		color: @text-color;
       text-decoration: none;
   		&:hover {
+        color: white;
   			background-color: @primary;
   		}
   	}

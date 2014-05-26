@@ -11,8 +11,18 @@
             </button>
             <a class="navbar-brand" href="/"></a>
         </div>
+              @session.get("uid") match {
+                case Some(uid: String) => {
+                    <span ng-show="false" ng-init="isLogin=true"></span>
+                    <span ng-show="false" ng-init="uid=@uid"></span>
+                    <span ng-show="false" ng-init="username='@(session.get("username"))'"></span>
+                }
+                case None => {
+                    <span ng-show="false" ng-init="isLogin=false"></span>
+                }
+            }
         <div class="collapse navbar-collapse" id="cp-navbar">
-            <ul class="nav navbar-nav navbar-middle">
+            <ul class="nav navbar-nav navbar-right">
                 @if(index==0){<li class="active">} else {<li>}
                     <a href="/">@Messages("nav.home")</a>
                 </li>
@@ -28,20 +38,9 @@
                 @if(index==4){<li class="active">} else {<li>}
                     <a href="/open">@Messages("nav.open")</a>
                 </li>
-            </ul>
-            @session.get("uid") match {
-                case Some(uid: String) => {
-                    <span ng-show="false" ng-init="isLogin=true"></span>
-                    <span ng-show="false" ng-init="uid=@uid"></span>
-                    <span ng-show="false" ng-init="username='@(session.get("username"))'"></span>
-                }
-                case None => {
-                    <span ng-show="false" ng-init="isLogin=false"></span>
-                }
-            }
-            <ul class="nav navbar-nav navbar-right">
+
                 <li ng-show="isLogin">
-                    <a class="user" href="/user/{{uid}}"><i class="fa fa-user"></i> <span ng-bind="username"></span></a>
+                    <a class="user" href="/user/{{uid}}"><span><i class="fa fa-user"></i><span ng-bind="username"></span></span></a>
                 </li>
                 <li ng-show="isLogin">
                     <a href="/account/logout" class="">@Messages("nav.logout")</a>
