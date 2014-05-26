@@ -94,7 +94,7 @@ object ApiController extends Controller with Json4s {
   def asset(uid: String) = Action.async {
     implicit request =>
       val to = System.currentTimeMillis()
-      val from = to - 30 * 60 * 1000
+      val from = to - (30L * 24L * 60L * 60L * 1000L).toLong
 
       MarketService.getAsset(uid.toLong, from, to, Currency.Btc).map(rv => Ok(rv.toJson))
   }
