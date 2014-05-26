@@ -25,7 +25,7 @@
             <div class="inner">
                 <ul id="periods" class="horiz">
                     <li style="line-height:26px">@Messages("market.timeInterval"):</li>
-                    <li ng-repeat="item in periods" class="{{item.class}}"><a ng-click="setPeriod(item.period)">{{item.title}}</a></li>
+                    <li ng-repeat="item in periods" class="{{item.class}}"><a ng-click="setPeriod(item.period)" ng-bind="item.title"></a></li>
                 </ul>
             </div>
         </div>
@@ -35,28 +35,28 @@
 <div id="main" style="height: 407px; display: block;">
     <div id="sidebar_outer">
         <div id="sidebar">
-            <div id="market">{{subject}}/{{currency}}</div>
+            <div id="market" ng-bind="market"></div>
             <div class="depth">
                 <table class="table table-condensed">
                     <tbody>
                         <tr ng-repeat="item in depth.asks">
-                            <td class="sell">{{item.price | price}}</td>
-                            <td>{{item.amount | coin}}</dd>
-                            <td class="sell">{{item.price.toFixed(0)}}</td>
-                            <td>{{item.amount.toFixed(0)}}</td>
+                            <td class="sell" ng-bind="item.price | price"></td>
+                            <td ng-bind="item.amount | coin"></td>
+                            <td class="sell" ng-bind="item.price"></td>
+                            <td ng-bind="item.amount"></td>
                         </tr>
 
                         <tr>
                             <td colspan="4" class="last-price-td {{lastTransaction.sell | txTypeClass}}">
-                                <div class="last-price">{{lastTransaction.price.value | price}}</div>
+                                <div class="last-price" ng-bind="lastTransaction.price.value | price"></div>
                             </td>
                         </tr>
 
                          <tr ng-repeat="item in depth.bids">
-                            <td class="buy">{{item.price | price}}</td>
-                            <td>{{item.amount | coin}}</dd>
-                            <td class="buy">{{item.price.toFixed(0)}}</td>
-                            <td>{{item.amount.toFixed(0)}}</td>
+                            <td class="buy" ng-bind="item.price | price"></td>
+                            <td ng-bind="item.amount | coin"></td>
+                            <td class="buy" ng-bind="item.price"></td>
+                            <td ng-bind="item.amount"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,12 +77,12 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in transactions.items">
-                            <td>{{item.price.value | price}}</td>
-                            <td>{{item.subjectAmount.value | coin}}</td>
-                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}">{{item.taker}}</a></td>
-                            <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i></td>
-                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}">{{item.maker}}</a></td>
-                            <td>{{item.timestamp | date:"HH:mm:ss"}}</td>
+                            <td ng-bind="item.price.value | price"></td>
+                            <td ng-bind="item.subjectAmount.value | coin"></td>
+                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.taker}}"><span ng-bind="item.taker"></span></a></td>
+                            <td class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span><i class="fa {{item.sell | txTypeIcon}}"></i></td>
+                            <td class="{{item.sell | txTypeClass}}"><i class="fa fa-user"></i><a target="_blank" href="/user/{{item.maker}}"><span ng-bind="item.maker"></span></a></td>
+                            <td ng-bind="item.timestamp | date:'HH:mm:ss'"></td>
                             <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
                         </tr>
                     </tbody>
@@ -96,13 +96,9 @@
 <div id="footer_outer">
     <div id="footer">
         <ul class="horiz donate">
-            <li>@(Messages("market.latestUpdateTime")) {{lastUpdate | date:'yyyy-HH:mm:ss'}} </li>
+            <li>@(Messages("market.latestUpdateTime")) <span ng-bind="lastUpdate | date:'yyyy-HH:mm:ss'"></span> </li>
             <li class="sep"></li>
-            <li class="period">@Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> @Messages("market.seconds")</li>
-            <li class="sep"></li>
-            <li class="period"><a href="#" target="_blank">Help</a></li>
-            <li id="now"></li>
-            <li class="sep"></li>
+            <li class="period">@Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000"><span ng-bind="seconds"></span></timer></span> @Messages("market.seconds")</li>
         </ul>
     </div>
 </div>
