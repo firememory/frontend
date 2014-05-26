@@ -1,5 +1,5 @@
-/* Overriding Boostrap's default styles used in pages other than 实时行情.    */
-/* Note page specific settings should be put elsewhere.                      */
+// Overriding Boostrap's default styles used in pages other than 实时行情.    //
+// Note page specific settings should be put elsewhere.                      //
 
 @import "_light";
 @import "_footer";
@@ -27,8 +27,7 @@ td {
 // Order Boxes
 
 .box-area {
-	padding: 20px;
-	margin-top: 5px;
+	padding: 15px;
 	border: 1px solid @grey1;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -37,6 +36,7 @@ td {
 	background-color: white;
 	min-height: 420px;
 	color: @text-color;
+	margin-bottom: 15px;
 }
 
 .btn-bid {
@@ -66,20 +66,22 @@ td {
 // Buy & Sell Box
 .buy_sell_box {
 	.box-area;
-
 	&:hover {
 	  border-color: @grey2;
 	  box-shadow: 2px 2px 2px @grey2;
-  }
+  	}
 
- .wrap_input {
+  	.input-group-full {
+  		width: 100%;
+  	}
+	.wrap_input {
 		position: relative;
 	}
 	.all {
 		position: absolute;
 		right: 0;
 	}
-  .right {
+	.right {
 		margin-left: 2%;
 	}
 
@@ -115,8 +117,6 @@ td {
 .depth-box {
 	.box-area;
 	min-height: 300px;
-	padding: 10px;
-
 
 	.depth-item {
 		cursor: pointer;
@@ -146,7 +146,6 @@ td {
 // Recent Transaction Box
 .transaction-box {
 	.box-area;
-	padding: 10px;
 
 	tr {
 	   line-height: 25px;
@@ -181,11 +180,9 @@ td {
 
 .recent-orders {
 	.box-area;
-	margin-right: -15px;
 
 	.user-order-box {
 		margin-top: 15px;
-		padding-left: 15px;
 		width: 100%;
 
 		.title {

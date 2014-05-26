@@ -19,17 +19,15 @@
 <div id="body-container">
 <!-- CONTENT START ================================ -->
 
-
-<div class="container">
-    @session.get("uid") match {
-        case Some(id: String) => {
-            <span ng-init="uid='@id'" ng-show="false"></span>
-        }
-        case None => {
-            <span ng-init="uid='0'" ng-show="false"></span>
-        }
+@session.get("uid") match {
+    case Some(id: String) => {
+        <span ng-init="uid='@id'" ng-show="false"></span>
     }
-<div class="content" ng-view></div>
+    case None => {
+        <span ng-init="uid='0'" ng-show="false"></span>
+    }
+}
+<div class="container" ng-view>
 </div>
 
 
