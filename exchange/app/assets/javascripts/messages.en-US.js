@@ -73,11 +73,14 @@ Messages.ErrorMessages = {
     m9005: 'sms verify code not match'
 };
 
-Messages.getMessage = function(code) {
+Messages.getMessage = function(code, msg) {
     var key = "m" + code;
     if (key in Messages.ErrorMessages) {
         return Messages.ErrorMessages[key];
     } else {
-        return "internal error. errorCode=" + code;
+        if (msg != undefined && msg.trim().length > 0)
+            return msg;
+        else
+            return "internal error. errorCode=" + code;
     }
 };
