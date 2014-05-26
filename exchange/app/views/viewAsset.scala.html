@@ -57,7 +57,7 @@
 				<td>{{account.locked.display_short}}</td>
 				<td>{{account.pendingWithdrawal.display_short}}</td>
 				<td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
-				<td><i class="fa fa-btc"></i> {{account.total}}</td>
+				<td><i class="fa fa-btc"></i> {{account.price | price}}</td>
 				<td><i class="fa fa-btc"></i> {{account.asset}}</td>
 				<td><a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a></td>
 			</tr>

@@ -561,6 +561,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
                     var account = $scope.accounts[currency];
                     account.total = account.available.value + account.locked.value + account.pendingWithdrawal.value;
                     account.asset = map[currency];
+                    account.price = (account.asset/account.total);
                 }
             });
     };
