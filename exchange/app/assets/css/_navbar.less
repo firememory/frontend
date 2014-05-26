@@ -12,7 +12,8 @@
     background: @navbar-background-color;
     margin: 0;
     top: 0px;
-    border-width: 0 0 1px;
+    border: 0;
+    .drop-shadow(0,0,0,0);
 
     .nav li a {
       color: @navbar-inactive-text-color;
@@ -47,9 +48,27 @@
     }
   }
 
-  .navbar-brand {
-    background: url("/image/homepage/black-logo.png") no-repeat 0 center;
-    padding-top: 48px;
-    width: 145px;
+	.navbar .brand:hover {
+	    text-decoration: none;
+	}
+
+.navbar-inner {
+    min-height: 0px;
+}
+
+  .navbar-brand,
+  .navbar-nav li a {
+      line-height: 40px;
+      height: 60px;
   }
+
+  .navbar-brand {
+    background: url(/image/logo_mini.png) no-repeat left bottom;
+overflow: hidden;
+width: 190px;
+    h1 {
+      margin: 0;
+    }
+  }
+
 }
