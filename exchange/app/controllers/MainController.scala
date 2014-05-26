@@ -26,6 +26,11 @@ object MainController extends Controller with Json4s {
       Ok(views.html.index.render(session, lang))
   }
 
+  def index2= Action {
+    implicit request =>
+      Ok(views.html.index2.render(session, lang))
+  }
+
   def trade = Authenticated {
     implicit request =>
       session.get("uid").map {
