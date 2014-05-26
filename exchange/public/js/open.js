@@ -56,10 +56,35 @@ app.controller('DownCtrl', function ($scope, $http) {
 });
 
 app.controller('ReserveCtrl', function ($scope, $http) {
+    $scope.hotWallets = {};
+    $scope.coldWallets = {};
+    $scope.walletsBalance = {};
+
     $http.get('/api/account/-1')
         .success(function(data, status, headers, config) {
             $scope.accounts = data.data.accounts;
     });
+
+    $scope.getWallets = function(currency) {
+        $http.get('/api/open/wallet/' + currency + '/hot')
+            .success(function(data, status, headers, config) {
+                $scope.hotWallets[currency] = data.data;
+                data.data.forEach(function(w){
+                    if (!$scope.walletsBalance[w.currency])
+                        $scope.walletsBalance[w.currency] = 0;
+                    $scope.walletsBalance[w.currency] += w.amount.value;
+                });
+        });
+        $http.get('/api/open/wallet/' + currency + '/cold')
+            .success(function(data, status, headers, config) {
+                $scope.coldWallets[currency] = data.data;
+                data.data.forEach(function(w){
+                    if (!$scope.walletsBalance[w.currency])
+                        $scope.walletsBalance[w.currency] = 0;
+                    $scope.walletsBalance[w.currency] += w.amount.value;
+                });
+        });
+    };
 });
 
 app.controller('ConnectCtrl', function ($scope, $http) {

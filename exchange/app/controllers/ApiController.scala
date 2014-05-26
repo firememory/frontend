@@ -200,6 +200,11 @@ object ApiController extends Controller with Json4s {
       BitwayService.getNetworkStatus(currency).map(result => Ok(result.toJson))
   }
 
+  def wallets(currency: String, walletsType: String) = Action.async {
+    implicit request =>
+      BitwayService.getWallets(currency, CryptoCurrencyAddressType.valueOf(walletsType).get).map(result => Ok(result.toJson))
+  }
+
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
     queryString.get(param).map(_(0))
   }
