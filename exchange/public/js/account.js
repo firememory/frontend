@@ -227,7 +227,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             for (asset in map) {
                 $scope.pieData.push({title: asset, value: map[asset] / total});
             }
-            console.log($scope.pieData)
+            console.log($scope.pieData);
             drawPieChart($scope.pieData);
             $scope.updateAsset();
         });

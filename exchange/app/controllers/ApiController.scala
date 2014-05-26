@@ -96,7 +96,7 @@ object ApiController extends Controller with Json4s {
       val to = System.currentTimeMillis()
       val from = to - 30 * 60 * 1000
 
-      MarketService.getAsset(uid.toLong, from, to, Currency.Cny).map(rv => Ok(rv.toJson))
+      MarketService.getAsset(uid.toLong, from, to, Currency.Btc).map(rv => Ok(rv.toJson))
   }
 
   def deposit = Authenticated.async(parse.urlFormEncoded) {
