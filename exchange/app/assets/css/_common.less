@@ -23,21 +23,17 @@
 
 // basic colors
 
-@blue:       #559af5;
-@green:      #0F9D58;
-@red:        #DB4437;
+@blue:  #4c87f3;
+@green:      green;
+@red:        red;
 @yellow:     #F4B400;
 
-@primary:     @blue;
-@primary1:    darken(@primary, 6%);
-
 // darker colors
-@darkblue:  darken(@blue, 3%);
-@darkblue2: darken(@blue, 6%);
+@darkblue:   #3862ac;
 
-@darkgreen:  #1A8C51;
-@darkred:    #C23D36;
-@darkyellow: #D8A122;
+@darkgreen:  darken(@green, 3%);
+@darkred:    darken(@red,   3%);
+@darkyellow: darken(@yellow,3%);
 
 // ligher colors;
 @blue2:   mix(@blue,   white, 70%);
@@ -55,7 +51,7 @@
 // ===================================================================
 // DEFAULTS
 noscript p {
-  background-color: @primary;
+  background-color: @blue;
   color: #fff;
   display: block;
   left: 0;
@@ -70,13 +66,13 @@ noscript p {
 .pagination, .nav, footer {.user-select(none); }
 
 .buy, .withdrawal, .bid {
-  color: @green;
-  a {color: @green; }
+  color: @green2;
+  a {color: @green2; }
 }
 
 .sell, .deposit, .ask {
-  color: @red;
-  a {color: @red; }
+  color: @red2;
+  a {color: @red2; }
 }
 
 // ===================================================================

@@ -19,18 +19,11 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.candleChart.resize();
     });
 
-    var changeUrl = function(event, newUrl) {
-        if ($location.path() == '') {
-            event.preventDefault();
-            return;
-        }
-        $scope.market = $location.path().replace('/', '').toUpperCase();
-        $scope.subject = $scope.market.substr(0, 3);
-        $scope.currency = $scope.market.substr(3);
-        $scope.lastTransaction = {};
-        $scope.refresh();
-    };
-
+    if ($location.path() == '/')
+        $location.path('/btccny');
+    $scope.market = $location.path().replace('/', '').toUpperCase();
+    $scope.subject = $scope.market.substr(0, 3);
+    $scope.currency = $scope.market.substr(3);
     $scope.history = [];
     $scope.lastUpdate = new Date().getTime();
     $scope.candleParam = {period: 4};
@@ -104,30 +97,30 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                             name: 'MA7',
                             span: 7,
                             dataOffset: 4,
-                            color: 'rgba(66, 133, 244, 0.6)'
+                            color: 'rgba(134,172,245,0.7)' //blue
                         }, {
                             type: 'maline',
                             name: 'MA30',
                             span: 30,
                             dataOffset: 4,
-                            color: 'rgba(255, 255, 102, 0.6)'
+                            color: 'rgba(255, 255, 102, 0.6)' // dark yellow
                         }, {
                             type: 'candlestick',
                             names: ['Open', 'High', 'Low', 'Close'],
-                            upStroke: 'rgb(15, 157, 88)',      // green
-                            downStroke: 'rgb(219, 68, 55)',    // red
-                            downColor: 'rgba(219, 68, 55, 0.5)' // red with 0.5 alpha
+                            upStroke: 'rgb(25,178,28)',      // green
+                            downStroke: 'rgb(251,2,25)',    // red
+                            downColor: 'rgba(251,2,25,0.7)' // red with 0.7 alpha
                         }, {
                             type: 'volume',
                             name: 'Volume',
                             yAxis: 1,
                             dataOffset: 5,
-                            stroke: 'rgb(66, 133, 244)', // blue
-                            color: 'rgba(66, 133, 244, 0.6)',  // blue with 0.6 alpha
-                            upStroke: 'rgb(15, 157, 88)',
-                            downStroke: 'rgb(219, 68, 55)',
-                            upColor: 'rgba(15, 157, 88, 0.5)',
-                            downColor: 'rgba(219, 68, 55, 0.5)' // red with 0.5 alpha
+                            stroke: 'rgb(134,172,245)', // blue
+                            color: 'rgba(134,172,245,0.7)',  // blue with 0.7 alpha
+                            upStroke: 'rgba(25,178,28)', //green
+                            downStroke: 'rgb(251,2,25)',  //red
+                            upColor: 'rgba(25,178,28,0.7)',  //green with 0.7 alpha
+                            downColor: 'rgba(251,2,25,0.7)' // red with 0.7 alpha
                         }]
                     });
                 }
@@ -158,8 +151,6 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.lastUpdate = new Date().getTime();
         $scope.$broadcast('timer-start');
     });
-
-    $scope.$on('$locationChangeStart', changeUrl);
 });
 
 marketApp.filter('txTypeIcon', function() {

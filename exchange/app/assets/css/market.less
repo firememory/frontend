@@ -28,15 +28,26 @@ body {
 	margin: 0px;
 }
 
-.config_link(@primary, @primary1);
+.config_link(@blue2, @blue3);
 
 // Navigation bar
 .config-navbar(
 	white,         // navbar-background-color
-	@primary,      // navbar-active-text-color
+	@blue,         // navbar-active-text-color
 	@grey9,        // navbar-inactive-text-color
 	white          // navbar-active-background-color
 );
+
+.buy, .withdrawal, .bid {
+  color: lighten(@green, 10%);
+  a {color: lighten(@green, 10%); }
+}
+
+.sell, .deposit, .ask {
+  color: @red;
+  a {color: @red; }
+}
+
 
 .config_table() {
 	.table {
