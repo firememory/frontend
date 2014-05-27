@@ -28,19 +28,18 @@
                     <a href="/">@Messages("nav.home")</a>
                 </li>
                   <li  ng-show="isLogin"  class="@if(index==1){active}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         @for(market <- markets) {
                         <li><a href="/trade#/@market">@market</a></li>
                         }
                     </ul>
-
                 </li>
                 <li ng-show="isLogin" class="@if(index==2) {active}">
                     <a href="/account">@Messages("nav.account")</a>
                 </li>
                 <li class="@if(index==3){active}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         @for(market <- markets) {
                         <li><a href="/market#/@market">@market</a></li>

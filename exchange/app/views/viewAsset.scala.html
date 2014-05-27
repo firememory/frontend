@@ -2,9 +2,11 @@
 
 <div class="row">
 	<div class="col-md-8">
-		<form>
-			<label><input type="radio" name="mode" value="grouped"> Grouped</label>
-			<label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+        <h3 class="chart--subHeadline">Net Asset Value Trend (by Day)</h3>
+        <form>
+            <label style="padding-left: 10px; padding-right: 10px;">Style </label>
+			<input type="radio" name="mode" value="grouped"> grouped
+			<input type="radio" name="mode" value="stacked" checked> stacked
 		</form>
 		<div>
             <svg id="user-finance-chart-history"></svg>
@@ -54,14 +56,17 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="account in accounts">
-				<td>{{account.currency}}</td>
-				<td>{{account.available.display_short}}</td>
-				<td>{{account.locked.display_short}}</td>
-				<td>{{account.pendingWithdrawal.display_short}}</td>
-				<td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value}}</td>
+				<td><strong>{{account.currency}}</strong></td>
+				<td>{{account.available.display}}</td>
+				<td>{{account.locked.display}}</td>
+				<td>{{account.pendingWithdrawal.display}}</td>
+				<td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
 				<td><i class="fa fa-btc"></i> {{account.price | price}}</td>
-				<td><i class="fa fa-btc"></i> {{account.asset}}</td>
-				<td><a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a></td>
+				<td><i class="fa fa-btc"></i> {{account.asset | coin}}</td>
+				<td>
+                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
+                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
+                </td>
 			</tr>
 		</tbody>
 	</table>
