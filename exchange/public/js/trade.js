@@ -492,6 +492,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     };
 
     $scope.clickFunding = function(amount) {
+        if (!amount)
+            return;
         $scope.bid.total = +amount;
         $scope.bidOptions.limitTotal = true;
         $scope.info.fundingLocked = $scope.bid.total;

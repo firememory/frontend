@@ -43,17 +43,16 @@
 <div class="row">
     <div class="col-md-4 col-sm-6">
         <div class="buy_sell_box">
-            <div class="box_title">@(Messages("trade.buy")) {{subject}}</div>
+            <div class="box_title">@(Messages("trade.buy")) {{subject}}
+                <i class="btn btn-sm fa fa-tags" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
+                <i class="btn btn-sm fa fa-tag" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
+            </div>
             <div class="box_subtitle">
                 <!--冻结金额-->
                 <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
                 <!--可用余额-->
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
-                @(Messages("trade.availableCurrency"))
-                <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value}} {{currency}}</kbd> </span>
-                <a href="" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false">@(Messages("trade.simple"))</a>
-                <a href="" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true">@(Messages("trade.advanced"))</a>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
+                <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}} {{currency}}</kbd> available</span>
             </div>
             <div class="box clearfix">
                 <form name="bidForm" class="form-buy-sell" role="form">
@@ -63,7 +62,7 @@
                             <input type="number" step="0.0001" name="price" class="form-control " ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
-                            <span data-toggle="tooltip" data-placement="top" title="是否限制买入价格">限价</span>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit price to a given number, DISABLE to buy AT ANY PRICE (market order).">limit</a>
                           </span>
                         </div>
                         <div class="input-group input-group-full">
@@ -71,7 +70,7 @@
                             <input type="number" step="0.0001" class="form-control" name="amount" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount">
                             <span class="input-group-addon" ng-show="bidOptions.advanced">
                                 <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
-                                <span  data-toggle="tooltip" data-placement="top" title="是否限制买入数量">限量</span>
+                                <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit amount to a given number, DISABLE to buy AS MUCH AS you can.">limit</a>
                             </span>
                         </div>
                         <div class="input-group input-group-full">
@@ -91,31 +90,26 @@
 
                           <span class="input-group-addon" ng-show="bidOptions.advanced">
                             <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
-                            <span  data-toggle="tooltip" data-placement="top" title="是否根据花费人民币总金额下单">限额</span>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total spending, DISABLE to buy without spending limited.">limit</a>
                           </span>
                         </div>
                     </div>
-                    <div class="row_100 clearfix detail-info-box" ng-show="bidOptions.advanced">
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-show="!bidOptions.limitPrice">
-                                以<span class="badge badge-info">任意价格</span>
-                            </li>
-                            <li class="list-group-item" ng-show="bidOptions.limitPrice">
-                                以最高价格<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.price | price}}</span>
-                            </li>
-                            <li class="list-group-item" ng-show="!bidOptions.limitAmount">
-                                购买<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
-                            </li>
-                            <li class="list-group-item" ng-show="bidOptions.limitAmount">
-                                购买<span class="badge badge-warning"><i class="fa fa-btc"></i> {{bid.amount}}</span>
-                            </li>
-                            <li class="list-group-item" ng-show="bidOptions.limitTotal">
-                                希望花费<span class="badge badge-warning"><i class="fa fa-cny"></i> {{bid.total | currency}}</span>
-                            </li>
-                            <li class="list-group-item" ng-show="!bidOptions.limitTotal">
-                                最多花费<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.fundingLocked | currency}}</span>
-                            </li>
-                        </ul>
+                    <div class="row_100 detail-info-box" ng-show="bidOptions.advanced">
+                            <span ng-show="!bidOptions.limitAmount">
+                                Buy as much as possible {{subject}}
+                            </span>
+                            <span ng-show="bidOptions.limitAmount">
+                                Buy <span class="badge badge-warning">{{bid.amount}}</span> {{subject}}
+                            </span>
+                            <span ng-show="!bidOptions.limitPrice">
+                                at <span class="badge badge-info">Any Price</span>
+                            </span>
+                            <span ng-show="bidOptions.limitPrice">
+                                at the price lower than <span class="badge badge-warning"> {{bid.price | price}}</span>
+                            </span>
+                            <span ng-show="bidOptions.limitTotal">
+                                spending <span class="badge badge-warning">{{bid.total | coin}}</span> {{currency}}
+                            </span>
                     </div>
                     <div class="info-box">
                         <span class="info-label" ng-show="showMessage['bid']">{{info.message['bid']}}</span>
@@ -130,13 +124,12 @@
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="buy_sell_box">
-            <div class="box_title">@(Messages("trade.sell")) {{subject}}</div>
+            <div class="box_title">@(Messages("trade.sell")) {{subject}}
+                <i class="btn btn-sm fa fa-tags" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
+                <i class="btn btn-sm fa fa-tag" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
+            </div>
             <div class="box_subtitle">
-                @(Messages("trade.availableAmount"))
-                <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value}} {{subject}}</kbd> </span>
-                <a href="" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false">@(Messages("trade.simple"))</a>
-                <a href="" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true">@(Messages("trade.advanced"))</a>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
+                <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value | coin}} {{subject}}</kbd> available</span>
             </div>
             <div class="box clearfix">
                 <form name="askForm" class="form-buy-sell" role="form">
@@ -146,7 +139,7 @@
                             <input type="number" step="0.0001" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
-                            <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出价格">限价</span>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit price to a given number, disable to sell AT ANY PRICE (market order)">limit</a>
                           </span>
                         </div>
                         <div class="input-group input-group-full">
@@ -154,7 +147,7 @@
                             <input type="number" step="0.0001" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
-                            <span  data-toggle="tooltip" data-placement="top" title="是否限制卖出数量">限量</span>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit amount to a given number, disable to sell AS MUCH AS you have">limit</a>
                           </span>
                         </div>
                         <div class="input-group input-group-full">
@@ -172,31 +165,26 @@
                               </div><!-- /btn-group -->
                           <span class="input-group-addon" ng-show="askOptions.advanced">
                             <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
-                            <span  data-toggle="tooltip" data-placement="top" title="是否根据卖得人民币金额下单">限额</span>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total income, DISABLE to sell ALL OF the amount you type in AMOUNT field if possible.">limit</a>
                           </span>
                         </div>
                     </div>
-                    <div class="row_100 clearfix detail-info-box" ng-show="askOptions.advanced">
-                        <ul class="list-group">
-                            <li class="list-group-item"  ng-show="!askOptions.limitPrice">
-                                以<span class="badge badge-info">任意价格</span>
-                            </li>
-                            <li class="list-group-item"  ng-show="askOptions.limitPrice">
-                                以最低<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.price | price}}</span>价格
-                            </li>
-                            <li class="list-group-item"  ng-show="!askOptions.limitAmount">
-                                卖出<span class="badge badge-info"><i class="fa fa-btc"></i> 尽可能多</span>
-                            </li>
-                            <li class="list-group-item"  ng-show="askOptions.limitAmount">
-                                卖出<span class="badge badge-warning"><i class="fa fa-btc"></i> {{ask.amount}}</span>
-                            </li>
-                            <li class="list-group-item"  ng-show="askOptions.limitTotal">
-                                最多收入<span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total | currency}}</span>
-                            </li>
-                            <li class="list-group-item"  ng-show="!askOptions.limitTotal">
-                                预计收入<span class="badge badge-info"><i class="fa fa-cny"></i> {{info.income | currency}}</span>
-                            </li>
-                        </ul>
+                    <div class="row_100 detail-info-box" ng-show="askOptions.advanced">
+                            <span  ng-show="!askOptions.limitAmount">
+                                Sell as much as possible {{subject}}
+                            </span>
+                            <span  ng-show="askOptions.limitAmount">
+                                Sell <span class="badge badge-warning">{{ask.amount}}</span> {{subject}}
+                            </span>
+                            <span ng-show="!askOptions.limitPrice">
+                                at <span class="badge badge-info">Any Price</span>
+                            </span>
+                            <span  ng-show="askOptions.limitPrice">
+                                at the price higher than <span class="badge badge-warning">{{ask.price | price}}</span>
+                            </span>
+                            <span ng-show="askOptions.limitTotal">
+                                to get income of <span class="badge badge-warning"><i class="fa fa-cny"></i> {{ask.total | coin}}</span> {{currency}} at least.
+                            </span>
                     </div>
                     <div class="info-box">
                         <span class="info-label" ng-show="showMessage['ask']">{{info.message['ask']}}</span>
