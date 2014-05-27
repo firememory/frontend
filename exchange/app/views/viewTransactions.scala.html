@@ -1,19 +1,14 @@
 @()(implicit lang: Lang)
+@import utils.Constant._
 
-<h4>@Messages("transaction.myTransactions"):</h4>
-<ul class="nav">
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="">
-            {{market}}<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li><a href="" ng-click="changeMarket('BTCCNY')">BTCCNY</a></li>
-            <li><a href="" ng-click="changeMarket('LTCBTC')">LTCBTC</a></li>
-            <li><a href="" ng-click="changeMarket('DOGBTC')">DOGBTC</a></li>
-            <li><a href="" ng-click="changeMarket('PTSBTC')">PTSBTC</a>
-        </ul>
-    </li>
-</ul>
+<h2>@Messages("transaction.myTransactions")</h2>
+<h5>filter by market
+<select ng-model="market" ng-change="changeMarket()">
+    @for(market <- markets) {
+    <option>@market</option>
+    }
+</select>
+</h5>
 <div class="row">&nbsp;</div>
 <div class="row">
     <table class="table">

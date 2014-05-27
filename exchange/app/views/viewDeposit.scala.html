@@ -3,13 +3,12 @@
 
 <div class="row">
     <h4>@Messages("transfer.deposit")
-    <strong>
-        <select ng-model="currency" ng-change="changeCurrency()">
-        @for(coin <- coins) {
-        <option>@coin</option>
-        }
-        </select>
-    </strong></h4>
+    <select ng-model="currency" ng-change="changeCurrency()">
+    @for(coin <- coins) {
+    <option>@coin</option>
+    }
+    </select>
+    </h4>
     <h5>@(Messages("transfer.account")): {{balance.available.display}} {{currency}}</h5>
     <h5>@Messages("transfer.depositAddress"):</h5>
     <div class="alert alert-success"><strong>{{depositAddress}}</strong></div>

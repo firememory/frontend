@@ -572,8 +572,7 @@ app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.page = 1;
     $scope.limit = 15;
 
-    $scope.changeMarket = function(market) {
-        $scope.market = market;
+    $scope.changeMarket = function() {
         $scope.page = 1;
         $scope.reload();
     };
@@ -593,8 +592,7 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
     $scope.page = 1;
     $scope.limit = 15;
 
-    $scope.changeMarket = function(market) {
-        $scope.market = market;
+    $scope.changeMarket = function() {
         $scope.page = 1;
         $scope.reload();
     };
