@@ -1,6 +1,7 @@
 package controllers
 
 import play.api.mvc._
+import play.api.Logger
 import play.api.libs.functional.syntax._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
@@ -11,13 +12,17 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import ControllerHelper._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
+import com.coinport.coinex.api.service.UserService
 import services._
 import models._
 
 object SmsController extends Controller with Json4s {
+  val logger = Logger(this.getClass)
+
   val smsService = SmsService.getDefaultServiceImpl
   val cacheService = CacheService.getDefaultServiceImpl
 
+  val allowedMinIntervalSeconds :Int = 110
   val rand = new Random()
   val randMax = 999999
   val randMin = 100000
@@ -30,24 +35,73 @@ object SmsController extends Controller with Json4s {
     (uuid, verifyCode)
   }
 
-  def sendVerifySms = Action.async(parse.urlFormEncoded) {
+  def sendVerifySms = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
     val data = request.body
     val phoneNum = getParam(data, "phoneNumber").getOrElse("")
-    println(s"phoneNum: $phoneNum")
+    logger.info(s"phoneNum: $phoneNum")
     val (uuid, verifyCode) = generateVerifyCode
-    smsService.sendVerifySms(phoneNum, verifyCode) map {
+    sendSms(phoneNum, verifyCode, uuid) map {
       result =>
-      if (result.success) {
-        Ok(ApiResult(true, 0, "", Some(uuid)).toJson)
-      } else {
-        Ok(result.toJson)
+      Ok(result.toJson)
+    }
+  }
+
+  private def checkSmsFrequency(phoneNum: String): Boolean = {
+    val lastTsStr = cacheService.get(phoneNum)
+    val currTs = System.currentTimeMillis
+    if (lastTsStr == null) {
+      cacheService.putWithTimeout(phoneNum, currTs.toString, 120)
+      true
+    } else {
+      val lastTs = lastTsStr.toLong
+      if (currTs - lastTs < allowedMinIntervalSeconds)
+        false
+      else {
+        cacheService.putWithTimeout(phoneNum, currTs.toString, 120)
+        true
       }
     }
   }
 
-  // def validateSmsCode (uuid: String, code: String): Boolean = {
-  //   val codeCached = cacheService.get(uuid)
-  //   if (codeCached != null && codeCached.trim.equals(code.trim)) true else false
-  // }
+  // TODO check phoneNum format.
+  private def sendSms(phoneNum: String, verifyCode: String, uuid: String): Future[ApiResult] =
+    if (! checkSmsFrequency(phoneNum)) {
+      val err = ErrorCode.SendSmsFrequencyTooHigh
+      Future(ApiResult(false, err.value, err.toString))
+    } else {
+      logger.info(s"send sms verify code: phoneNum=$phoneNum, verifyCode=$verifyCode")
+      smsService.sendVerifySms(phoneNum, verifyCode) map {
+        result =>
+        if (result.success)
+          ApiResult(true, 0, "", Some(uuid))
+        else
+          result
+      }
+    }
+
+  def sendVerifySms2 = Authenticated.async {
+    implicit request =>
+    val userId = session.get("uid").getOrElse("")
+    val (uuid, verifyCode) = generateVerifyCode
+    val uid = userId.toLong
+    UserService.getProfile(uid) flatMap {
+      result =>
+      if (result.success) {
+        val user = result.data.get.asInstanceOf[User]
+        val phoneNum = user.mobile.getOrElse("")
+        if (phoneNum == null || phoneNum.trim.length == 0) {
+          val err = ErrorCode.MobileNotVerified
+          Future(Ok(ApiResult(false, err.value, err.toString).toJson))
+        } else {
+          sendSms(phoneNum, verifyCode, uuid) map {
+            result =>
+            Ok(result.toJson)
+          }
+        }
+      } else
+        Future(Ok(result.toJson))
+    }
+  }
+
 }

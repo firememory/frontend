@@ -30,6 +30,7 @@ GET     /verification/:token        controllers.UserController.verifyEmail(token
 
 GET     /captcha                    controllers.CaptchaController.captcha()
 POST    /smsverification            controllers.SmsController.sendVerifySms()
+GET     /smsverification2           controllers.SmsController.sendVerifySms2()
 
 POST    /trade/*market/bid                 controllers.ApiController.submitOrder(market)
 POST    /trade/*market/ask                 controllers.ApiController.submitOrder(market)

@@ -7,9 +7,10 @@ import com.typesafe.config.ConfigFactory
 import com.redis._
 
 trait CacheService {
-  def maximumSize: Int
+  val defaultTimeoutSecs: Int = 24 * 3600  // 24 hours.
 
-  def put(key: String, value: String): Unit
+  def maximumSize: Int
+  def put(key: String, value: String) = putWithTimeout(key, value, defaultTimeoutSecs)
   def putWithTimeout(key: String, value: String, timeoutSecs: Int): Unit
   def get(key: String): String // return null if not present
 }
@@ -37,8 +38,6 @@ object GoogleGuavaCacheService extends CacheService {
     .expireAfterWrite(30, TimeUnit.MINUTES)
     .build()
 
-  def put(key: String, value: String): Unit = cache.put(key, value)
-
   def putWithTimeout(key: String, value: String, timeoutSecs: Int): Unit = cache.put(key, value)
 
   def get(key: String): String = cache.getIfPresent(key)
@@ -48,14 +47,9 @@ object RedisCacheService extends CacheService {
   val redisConfig = ConfigFactory.load("application.conf")
   val redisHost = redisConfig.getString("redis.host")
   val redisPort = redisConfig.getInt("redis.port")
-
   val redisClient = new RedisClient(redisHost, redisPort)
 
-  def maximumSize: Int = 0
-
-  def put(key: String, value: String): Unit = {
-    redisClient.set(key, value)
-  }
+  def maximumSize: Int = 100000
 
   def putWithTimeout(key: String, value: String, timeoutSecs: Int): Unit = {
     redisClient.set(key, value)

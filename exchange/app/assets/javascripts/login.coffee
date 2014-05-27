@@ -16,7 +16,6 @@ class LoginCtrl
 
         $scope.doLogin =  () =>
             $scope.login.password = $.sha256b64($scope.login.password)
-            console.info 'data ', $scope.login
 
             $http.post('account/login', $.param($scope.login))
                 .success (data, status, headers, config) ->

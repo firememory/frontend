@@ -169,7 +169,7 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
     }
 }]);
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', function ($scope, $http, $routeParams, $location, $interval) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
@@ -208,6 +208,65 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.changeCurrency = function() {
         $location.path('/withdrawal/' + $scope.currency);
+    };
+
+    // sms verification code and button timer:
+    $scope.showWithdrawalError = false;
+    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    var _stop;
+    $scope.isTiming = false;
+
+    $scope.disableButton = function () {
+        console.log("send sms button clicked. ", _stop)
+        if (angular.isDefined(_stop)) {
+            $scope.isTiming = true;
+            return;
+        }
+
+        $scope.seconds = 120;
+
+        _stop = $interval(function () {
+            if ($scope.seconds > 0) {
+                $scope.seconds = $scope.seconds - 1;
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTiming = true;
+            }
+            else {
+                $scope.stopTiming();
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTiming = function () {
+        if (angular.isDefined(_stop)) {
+            $interval.cancel(_stop);
+            _stop = undefined;
+        }
+        $scope.isTiming = false;
+        $scope.seconds = 0;
+        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    };
+
+    $scope.$on('destroy', function () {
+        $scope.stopTiming();
+    });
+
+    $scope.sendVerifySms = function () {
+        $scope.showWithdrawalError = false;
+        $scope.disableButton();
+
+        $http.get('/smsverification2')
+            .success(function (data, status, headers, config) {
+                console.log('data in withdrawal: ', data);
+                if (data.success) {
+                    $scope.withdrawalData.verifyCodeUuid = data.data;
+                } else {
+                    $scope.stopTiming();
+                    $scope.showWithdrawalError = true;
+                    $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
+                }
+            });
     };
 }]);
 
@@ -628,7 +687,7 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 }]);
 
-app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
+app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window) {
     $scope.showUpdateAccountError = false;
 
     $scope.account = {};
@@ -667,7 +726,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', function 
             return;
         }
 
-        $scope.seconds = 60;
+        $scope.seconds = 120;
 
         stop = $interval(function () {
             if ($scope.seconds > 0) {

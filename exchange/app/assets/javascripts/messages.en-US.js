@@ -78,7 +78,8 @@ Messages.ErrorMessages = {
     m9002: 'captcha text not match',
     m9003: 'invalid email format',
     m9004: 'invalid password format',
-    m9005: 'sms verify code not match'
+    m9005: 'sms verify code not match',
+    m9006: 'your mobile phone number not verified yet'
 };
 
 Messages.getMessage = function(code, msg) {
