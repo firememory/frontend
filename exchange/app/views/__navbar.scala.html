@@ -1,4 +1,5 @@
 @(index: Int, fix: Boolean = false)(implicit session: Session, lang: Lang)
+@import utils.Constant._
 <nav id="navbar" class="navbar navbar-default @if(fix) {navbar-fixed-top} else {navbar-static-top}" ng-controller="NaviCtrl">
     <div class="container navbar-inner">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,11 +30,9 @@
                   <li  ng-show="isLogin"  class="@if(index==1){active}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/trade#/btccny">BTC/CNY</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/trade#/ltcbtc">LTC/BTC</a></li>
-                        <li><a href="/trade#/ptsbtc">PTS/BTC</a></li>
-                        <li><a href="/trade#/dogbtc">DOG/BTC</a></li>
+                        @for(market <- markets) {
+                        <li><a href="/trade#/@market">@market</a></li>
+                        }
                     </ul>
 
                 </li>
@@ -43,13 +42,10 @@
                 <li class="@if(index==3){active}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/market#/btccny">BTC/CNY</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/market#/ltcbtc">LTC/BTC</a></li>
-                        <li><a href="/market#/ptsbtc">PTS/BTC</a></li>
-                        <li><a href="/market#/dogbtc">DOG/BTC</a></li>
+                        @for(market <- markets) {
+                        <li><a href="/market#/@market">@market</a></li>
+                        }
                     </ul>
-
                 </li>
                 <li class="@if(index==4){active}">
                     <a href="/open">@Messages("nav.open")</a>
