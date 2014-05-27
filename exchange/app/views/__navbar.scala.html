@@ -26,7 +26,7 @@
                 @if(index==0){<li class="active">} else {<li>}
                     <a href="/">@Messages("nav.home")</a>
                 </li>
-                  <li  ng-show="isLogin"  class="dropdown @if(index==1){ active}">
+                  <li  ng-show="isLogin"  class="@if(index==1){active}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/trade#/btccny">BTC/CNY</a></li>
@@ -37,10 +37,10 @@
                     </ul>
 
                 </li>
-                <li ng-show="isLogin" @if(index==2) {class="active"}>
+                <li ng-show="isLogin" class="@if(index==2) {active}">
                     <a href="/account">@Messages("nav.account")</a>
                 </li>
-                <li class="dropdown @if(index==3){ active}">
+                <li class="@if(index==3){active}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/market#/btccny">BTC/CNY</a></li>
@@ -51,7 +51,7 @@
                     </ul>
 
                 </li>
-                <li @if(index==4){class="active"}>
+                <li class="@if(index==4){active}">
                     <a href="/open">@Messages("nav.open")</a>
                 </li>
 
