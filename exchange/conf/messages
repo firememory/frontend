@@ -1,4 +1,5 @@
 title=coinport
+
 details=Details
 more=More
 all=All
@@ -21,7 +22,7 @@ nav.home=Home
 nav.trade=Trade
 nav.account=Account
 nav.market=Market
-nav.open=Transparency
+nav.open=Openness
 nav.login=Login
 nav.logout=Logout
 nav.register=Sign Up
@@ -124,6 +125,11 @@ market.latestUpdateTime=Latest update time
 market.willBeUpdatedIn=Will be updated in
 market.seconds=s
 
+open.nav.about=About
+open.nav.opensource=Open-Sourced
+open.nav.opendata=Open-Data
+open.nav.reserve=100% Reserve
+open.nav.connectivity=Network Connectivity
 open.totalAssets=Total Assets
 open.coinType=Currency
 open.balance=Balance

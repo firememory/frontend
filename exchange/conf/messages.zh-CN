@@ -1,4 +1,5 @@
-title=coinport
+title=coinport - 币丰港
+
 details=详细
 more=更多
 all=全部
@@ -17,7 +18,7 @@ nav.home=首页
 nav.trade=交易中心
 nav.account=用户中心
 nav.market=实时行情
-nav.open=透明性
+nav.open=开放透明
 nav.login=登录
 nav.logout=退出登录
 nav.register=注册
@@ -119,6 +120,11 @@ market.latestUpdateTime=上次更新时间
 market.willBeUpdatedIn=下次更新时间在
 market.seconds=秒后
 
+open.nav.about=开放透明
+open.nav.opensource=代码开源
+open.nav.opendata=数据开放
+open.nav.reserve=100%准备金
+open.nav.connectivity=网络状态
 open.totalAssets=全部资产
 open.coinType=货币类型
 open.balance=余额

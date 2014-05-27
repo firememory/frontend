@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>coinport</title>
+    <title>@Messages("title")</title>
     @__common_css()
     @__css("/css/open.css")
     @__js_lang()
@@ -23,11 +23,11 @@
 <div class="container">
     <div class="col-md-2">
         <ul class="nav nav-pills nav-stacked" cp-nav>
-            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">About</a></li>
-            <li route="#/opensource"><a href="#/opensource">Open-sourced</a></li>
-            <li route="#/opendata"><a href="#/opendata">Open-data</a></li>
-            <li route="#/reserve"><a href="#/reserve">Provable full reserve</a></li>
-            <li route="#/connectivity"><a href="#/connectivity">Connectivity</a></li>
+            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">@Messages("open.nav.about")</a></li>
+            <li route="#/opensource"><a href="#/opensource">@Messages("open.nav.opensource")</a></li>
+            <li route="#/opendata"><a href="#/opendata">@Messages("open.nav.opendata")</a></li>
+            <li route="#/reserve"><a href="#/reserve">@Messages("open.nav.reserve")</a></li>
+            <li route="#/connectivity"><a href="#/connectivity">@Messages("open.nav.connectivity")</a></li>
         </ul>
     </div>
 

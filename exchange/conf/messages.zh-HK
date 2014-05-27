@@ -1,4 +1,5 @@
-title=coinport
+title=coinport - 幣豐港
+
 details=詳細
 more=更多
 all=全部
@@ -17,7 +18,7 @@ nav.home=首頁
 nav.trade=交易中心
 nav.account=用戶中心
 nav.market=實時行情
-nav.open=透明性
+nav.open=開放透明
 nav.login=登錄
 nav.logout=退出登錄
 nav.register=註冊
@@ -129,6 +130,11 @@ open.eventData=事件数据
 open.snapshotData=快照数据
 open.Download=下载
 
+open.nav.about=開放透明
+open.nav.opensource=軟件開源
+open.nav.opendata=公開數據
+open.nav.reserve=100%儲備金
+open.nav.connectivity=網絡狀態
 transaction.transaction=交易
 transaction.tid=交易ID
 transaction.timestamp=时间

@@ -6,10 +6,13 @@ app.config ($routeProvider) ->
 			redirectTo: '/about/en-US'
 		}).
 		when('/about/en-US', {
-			templateUrl: 'views/transparency.en-US.html'
+			templateUrl: 'views/openness.en-US.html'
 		}).
 		when('/about/zh-CN', {
-			templateUrl: 'views/transparency.zh-CN.html'
+			templateUrl: 'views/openness.zh-CN.html'
+		}).
+		when('/about/zh-HK', {
+			templateUrl: 'views/openness.zh-HK.html'
 		}).
 		when('/opendata', {
 			controller: 'DownCtrl',
