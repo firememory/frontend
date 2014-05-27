@@ -2,17 +2,17 @@
 @import utils.Constant._
 <div class="row">
     <div class="col-md-12">
-        <h1>Network Status</h1>
+        <h1>@Messages("open.network.title")</h1>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>@Messages("open.coinType")</th>
-                <th>Status</th>
-                <th>Update</th>
-                <th>Last Checked</th>
-                <th>Last Active</th>
-                <th>Block Height</th>
-                <th>Last Block</th>
+                <th>@Messages("open.network.connectivity")</th>
+                <th>@Messages("open.network.status")</th>
+                <th>@Messages("open.network.lastcheck")</th>
+                <th>@Messages("open.network.lastactive")</th>
+                <th>@Messages("open.network.height")</th>
+                <th>@Messages("open.network.lastblock")</th>
             </tr>
             </thead>
             <tbody>
@@ -20,11 +20,11 @@
             <tr ng-init="getNetworkStatus('@coin')">
                 <td><strong>@coin</strong></td>
                 <td><span class="label label-{{timestamp - status['@coin'].timestamp | networkStatusClass}}">{{timestamp - status['@coin'].timestamp | networkStatusText}}</span></td>
-                <td>{{!status['@coin'].timestamp ? 'Never Seen' : ((timestamp - status['@coin'].timestamp) / 60000).toFixed(0)+' minutes ago'}}</td>
+                <td>{{!status['@coin'].timestamp ? '@Messages("open.network.neverseen")' : ((timestamp - status['@coin'].timestamp) / 60000).toFixed(0)+' @Messages("open.network.minutesago")'}}</td>
                 <td>{{timestamp | date:'MM-dd HH:mm:ss'}}</td>
-                <td>{{status['@coin'].timestamp <= 0 ? 'Never Seen' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
+                <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                 <td>{{status['@coin'].height}}</td>
-                <td><a target="_blank" href="https://blockchain.info/block-index/{{status['@coin'].block}}">check</a></td>
+                <td><a target="_blank" href="https://blockchain.info/block-index/{{status['@coin'].block}}">@Messages("open.network.checkNow")</a></td>
             </tr>
             }
             </tbody>
