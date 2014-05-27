@@ -3,7 +3,6 @@
 # ~~~~
 
 GET     /                           controllers.MainController.index()
-GET     /index2                     controllers.MainController.index2()
 GET     /backdoor                   controllers.MainController.backdoor()
 GET     /trade                      controllers.MainController.trade()
 GET     /market                     controllers.MainController.market()
