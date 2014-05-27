@@ -223,11 +223,11 @@ app.controller('AssetCtrl', function ($scope, $http) {
             for (asset in map) {
                 total += map[asset];
             }
-            ;
+
             for (asset in map) {
                 $scope.pieData.push({title: asset, value: map[asset] / total});
             }
-//            console.log($scope.pieData);
+
             drawPieChart($scope.pieData);
             $scope.updateAsset();
         });
@@ -446,7 +446,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             .orient("left")
             .tickFormat(d3.format(".2s"));
 
-        var svg = d3.select("#user-finance-chart-history").append("svg")
+        var svg = d3.select("#user-finance-chart-history")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
