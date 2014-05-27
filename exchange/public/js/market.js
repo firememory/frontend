@@ -19,11 +19,18 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.candleChart.resize();
     });
 
-    if ($location.path() == '/')
-        $location.path('/btccny');
-    $scope.market = $location.path().replace('/', '').toUpperCase();
-    $scope.subject = $scope.market.substr(0, 3);
-    $scope.currency = $scope.market.substr(3);
+    var changeUrl = function(event, newUrl) {
+        if ($location.path() == '') {
+            event.preventDefault();
+            return;
+        }
+        $scope.market = $location.path().replace('/', '').toUpperCase();
+        $scope.subject = $scope.market.substr(0, 3);
+        $scope.currency = $scope.market.substr(3);
+        $scope.lastTransaction = {};
+        $scope.refresh();
+    };
+
     $scope.history = [];
     $scope.lastUpdate = new Date().getTime();
     $scope.candleParam = {period: 4};
@@ -151,6 +158,8 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.lastUpdate = new Date().getTime();
         $scope.$broadcast('timer-start');
     });
+
+    $scope.$on('$locationChangeStart', changeUrl);
 });
 
 marketApp.filter('txTypeIcon', function() {
