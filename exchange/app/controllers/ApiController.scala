@@ -138,7 +138,8 @@ object ApiController extends Controller with Json4s {
       val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
       val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit))
       val pager = ControllerHelper.parsePagingParam()
-      TransferService.getTransfers(Some(uid.toLong), Some(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
+
+      TransferService.getTransfers(Some(uid.toLong), Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
         case result => Ok(result.toJson)
       }
   }

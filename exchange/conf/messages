@@ -180,12 +180,13 @@ user.coinType=Currency
 user.available=Available
 user.orderPending=Frozen
 user.withdrawalPending=Pending Withdrawal
-user.cnyTransfer=CNY Deposit & Withdrawal
-user.btcTransfer=BTC Deposit & Withdrawal
+user.Transfer=Deposit & Withdrawal
 user.transfer.id=ID
 user.transfer.timestamp=Timestamp
 user.transfer.operation=Type
+user.transfer.currency=Currency
 user.transfer.amount=Amount
+user.transfer.status=Status
 user.transactions=Transactions
 
 transfer.withdrawal=Withdrawal

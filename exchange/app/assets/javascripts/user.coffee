@@ -11,11 +11,8 @@ app.controller 'UserCtrl', ($scope, $http, $window) ->
     $http.get('/api/account/' + $scope.targetUid)
         .success (data, status, headers, config) -> $scope.accounts = data.data.accounts
 
-    $http.get('/api/user/' + $scope.targetUid + '/transaction/BTCCNY', {params: {}})
+    $http.get('/api/user/' + $scope.targetUid + '/transaction', {params: {}})
         .success (data, status, headers, config) -> $scope.transactions = data.data.items
 
-    $http.get('/api/CNY/transfer/' + $scope.targetUid, {params: {status: 1}})
-        .success (data, status, headers, config) -> $scope.dw.CNY = data.data.items
-
-    $http.get('/api/BTC/transfer/' + $scope.targetUid, {params: {status: 1}})
-        .success (data, status, headers, config) -> $scope.dw.BTC = data.data.items
+    $http.get('/api/ALL/transfer/' + $scope.targetUid, {params: {}})
+        .success (data, status, headers, config) -> $scope.transfers = data.data.items
