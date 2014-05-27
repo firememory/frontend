@@ -1,6 +1,6 @@
 @(msg: String)(implicit lang: Lang)
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
     <title>@Messages("title")</title>
@@ -15,7 +15,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,6 +49,7 @@
 </div> <!-- id="body-container" -->
 </div> <!-- top-container -->
 @__common_js()
+@__tracking_js()
 </body>
 </html>
 

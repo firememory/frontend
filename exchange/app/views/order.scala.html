@@ -1,7 +1,7 @@
 @(oid: String)(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -125,6 +125,7 @@
 
 @__common_js()
 @__js("/javascripts/order.min.js")
+@__tracking_js()
 </body>
 </html>
 

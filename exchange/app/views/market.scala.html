@@ -1,7 +1,7 @@
 @()(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -112,6 +112,7 @@
 @__js("/lib/jqchart/js/jquery.jqChart.min.js")
 @__js("/lib/jqchart/js/jquery.jqRangeSlider.min.js")
 @__js("/js/market.js")
+@__tracking_js()
 </body>
 </html>
 

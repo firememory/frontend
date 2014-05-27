@@ -1,7 +1,7 @@
 @()(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -100,7 +100,7 @@
 	  	<li class="lead">All traffic are SSL encrypted.</li>
 	  	<li class="lead">All event and snapshot data are encrypted using AES algorithm before saving to disk. Even our employees cannot access your private data without authorization.</li>
 	  	<li class="lead">We use cloud storage to backup all data.</li>
-	  	<li class="lead">Your password are hashed on client-side then encrypted on server side using XXX.</li>
+	  	<li class="lead">Your password are hashed on client-side then encrypted on server side using Bcrypt.</li>
 	  </ul>
 	</div>
 	</div>
@@ -156,6 +156,7 @@
 @__js("/lib/docs.min.js")
 @__js("/lib/flexslider/jquery.flexslider.js")
 @__js("/javascripts/index.min.js")
+@__tracking_js()
 </body>
 </html>
 
