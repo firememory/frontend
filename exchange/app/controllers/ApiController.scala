@@ -166,9 +166,9 @@ object ApiController extends Controller with Json4s {
         result => Ok(result.toJson))
   }
 
-  def transaction(side: String, tid: String) = Action.async {
+  def transaction(tid: String) = Action.async {
     implicit request =>
-      MarketService.getTransactions(side, Some(tid.toLong), None, None, 0, 1).map(result => Ok(result.toJson))
+      MarketService.getTransaction(tid.toLong).map(result => Ok(result.toJson))
   }
 
   def orderTransaction(side: String, oid: String) = Action.async {
