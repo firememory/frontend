@@ -53,15 +53,19 @@
         <div style="height: 20px;">
             <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
         </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> Withdrawal</button>
+            </div>
+        </div>
     </form>
 </div>
 <div class="row">
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-3">
-            <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> @Messages("transfer.depositAmount")</button>
-        </div>
-    </div>
+
 </div>
+
+<h5>Withdrawal Records</h5>
 
 <div class="row">
     <table class="table table-striped">
