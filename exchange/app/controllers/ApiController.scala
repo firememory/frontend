@@ -163,7 +163,7 @@ object ApiController extends Controller with Json4s {
   def transactions(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getGlobalTransactions(market, pager.skip, pager.limit).map (
+      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map (
         result => Ok(result.toJson))
   }
 
@@ -175,13 +175,19 @@ object ApiController extends Controller with Json4s {
   def orderTransaction(side: String, oid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getTransactionsByOrder(side, oid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByOrder(Some(side), oid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
-  def userTransaction(side: String, uid: String) = Action.async {
+  def userTransactionByMarket(side: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getTransactionsByUser(side, uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByUser(Some(side), uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+  }
+
+  def userTransaction(uid: String) = Action.async {
+    implicit request =>
+      val pager = ControllerHelper.parsePagingParam()
+      MarketService.getTransactionsByUser(None, uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def ticker(market: String) = Action.async {
