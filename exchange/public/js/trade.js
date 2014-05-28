@@ -73,7 +73,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
                     if ($scope.transactions.items[0].id == data.data.items[i].id)
                         break;
                 }
-                console.log(i);
                 for(var j = i - 1; j >= 0; j--) {
                     $scope.transactions.items.unshift(data.data.items[j]);
                     if ($scope.transactions.length > data.data.items.length)
@@ -83,10 +82,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
             if ($scope.transactions.items.length > 0) {
                 $scope.lastPrice = $scope.transactions.items[0].price.value;
-            if (!$scope.ask.price)
-                $scope.ask.price = +$scope.lastPrice;
-            if (!$scope.bid.price)
-                $scope.bid.price = +$scope.lastPrice;
             }
         });
     };
@@ -315,60 +310,33 @@ function BidAskCtrl($scope, $http, $routeParams) {
     });
 
     var updateBidTotal = function() {
-        if ($scope.updatingBidAmount) {
-            $scope.updatingBidAmount = false;
+        if($scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
-        }
-
-        if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.bid.price == undefined || $scope.bid.amount == undefined)
-            return;
-        var total = +($scope.bid.price * $scope.bid.amount).toFixed(2);
-        var available = $scope.account[$scope.currency].available.value;
-        if(total > available) {
-            total = available;
-            updateBidAmount();
-        }
-
-        $scope.info.fundingLocked = total;
-        $scope.info.fundingRemaining = available - total;
+        var total = +($scope.bid.price * $scope.bid.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         $scope.bid.total = total;
         console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
     var updateBidAmount = function() {
-        // flag to avoid updating total again
-        $scope.updatingBidAmount = true;
         if (!$scope.bid.price)
             $scope.bid.amount = 0;
         else
-            $scope.bid.amount = +($scope.bid.total / $scope.bid.price).toFixed(4);
-
-        console.log('update bid amount', $scope.bid.total, $scope.bid.price, $scope.bid.amount);
+            $scope.bid.amount = +($scope.bid.total / $scope.bid.price).toFixed(COINPORT.getAmountFixed($scope.subject));
     };
 
     var updateAskTotal = function() {
-        if ($scope.updatingAskAmount) {
-            $scope.updatingAskAmount = false;
-            return;
-        }
-
         if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
-        var total = +($scope.ask.price * $scope.ask.amount).toFixed(2);
+        var total = +($scope.ask.price * $scope.ask.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
-        $scope.info.income = total
-        $scope.info.quantityLocked = $scope.ask.amount;
-        $scope.info.quantityRemaining = $scope.account[$scope.subject] - $scope.info.quantityLocked;
         $scope.ask.total = total;
     };
 
     var updateAskAmount = function() {
-        $scope.updatingAskAmount = true;
-        console.log('update ask amount', $scope.ask.total, $scope.ask.price);
         if (!$scope.ask.price)
             $scope.ask.amount = 0;
         else
-            $scope.ask.amount = +($scope.ask.total / $scope.ask.price).toFixed(4);
+            $scope.ask.amount = +($scope.ask.total / $scope.ask.price).toFixed(COINPORT.getAmountFixed($scope.subject));
     };
 
     var toggleBidAdvanced = function(newValue, oldValue) {
@@ -376,9 +344,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.bidOptions.limitAmount = true;
             $scope.bidOptions.limitPrice = true;
             $scope.bidOptions.limitTotal = true;
-            addBidWatches();
+//            addBidWatches();
         } else if (newValue && !oldValue) {
-            removeBidWatches();
+//            removeBidWatches();
         }
     }
 
@@ -387,9 +355,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.askOptions.limitAmount = true;
             $scope.askOptions.limitPrice = true;
             $scope.askOptions.limitTotal = true;
-            addAskWatches();
+//            addAskWatches();
         } else if (newValue && !oldValue) {
-            removeAskWatches();
+//            removeAskWatches();
         }
     }
 
@@ -496,13 +464,13 @@ function BidAskCtrl($scope, $http, $routeParams) {
             return;
         $scope.bid.total = +amount;
         $scope.bidOptions.limitTotal = true;
-        $scope.info.fundingLocked = $scope.bid.total;
-        $scope.info.fundingRemaining = $scope.account[$scope.currency].value - $scope.bid.total;
+        updateBidAmount();
     }
 
     $scope.clickQuantity = function(quantity) {
         $scope.ask.amount = +quantity;
         $scope.askOptions.limitAmount = true;
+        updateAskTotal();
     }
 
     $scope.clickDepthBids = function(index) {
@@ -514,11 +482,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             amount += data[i].amount;
         }
         var price = data[index].price;
-
-        var target = $scope.ask
-
-        target.price = price;
-        target.amount = amount;
+        $scope.ask.price = price;
+        $scope.ask.amount = amount;
+        updateAskTotal();
     }
 
     $scope.clickDepthAsks = function(index) {
@@ -530,11 +496,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
                 amount += data[i].amount;
             }
             var price = data[index].price;
-
-            var target = $scope.bid
-
-            target.price = price;
-            target.amount = amount;
+            $scope.bid.price = price;
+            $scope.bid.amount = amount;
+            updateBidTotal();
     }
 
     $scope.cancelOrder = function(id) {
@@ -595,28 +559,34 @@ function BidAskCtrl($scope, $http, $routeParams) {
     var bidWatches = [];
     var askWatches = [];
 
-    var addBidWatches = function() {
-        bidWatches.push($scope.$watch('bid.amount', watchBidAmount));
-        bidWatches.push($scope.$watch('bid.price', watchBidPrice));
-        bidWatches.push($scope.$watch('bid.total', updateBidAmount));
-    };
+//    var addBidWatches = function() {
+//        bidWatches.push($scope.$watch('bid.amount', watchBidAmount));
+//        bidWatches.push($scope.$watch('bid.price', watchBidPrice));
+//        bidWatches.push($scope.$watch('bid.total', updateBidAmount));
+//    };
+//
+//    var addAskWatches = function() {
+//        askWatches.push($scope.$watch('ask.amount', watchAskAmount));
+//        askWatches.push($scope.$watch('ask.price', watchAskPrice));
+//        askWatches.push($scope.$watch('ask.total', updateAskAmount));
+//    };
+//
+//    var removeBidWatches = function() {
+//        bidWatches.forEach(function(fn) {fn.apply();});
+//    };
+//
+//    var removeAskWatches = function() {
+//        askWatches.forEach(function(fn) {fn.apply();});
+//    };
 
-    var addAskWatches = function() {
-        askWatches.push($scope.$watch('ask.amount', watchAskAmount));
-        askWatches.push($scope.$watch('ask.price', watchAskPrice));
-        askWatches.push($scope.$watch('ask.total', updateAskAmount));
-    };
-
-    var removeBidWatches = function() {
-        bidWatches.forEach(function(fn) {fn.apply();});
-    };
-
-    var removeAskWatches = function() {
-        askWatches.forEach(function(fn) {fn.apply();});
-    };
-
-    addBidWatches();
-    addAskWatches();
     $scope.$watch('bidOptions.advanced', toggleBidAdvanced);
     $scope.$watch('askOptions.advanced', toggleAskAdvanced);
+
+    $('#bid_price').keyup(updateBidTotal);
+    $('#bid_amount').keyup(updateBidTotal);
+    $('#bid_total').keyup(updateBidAmount);
+
+    $('#ask_price').keyup(updateAskTotal);
+    $('#ask_amount').keyup(updateAskTotal);
+    $('#ask_total').keyup(updateAskAmount);
 }
