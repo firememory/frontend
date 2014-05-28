@@ -217,7 +217,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.isTiming = false;
 
     $scope.disableButton = function () {
-        console.log("send sms button clicked. ", _stop)
         if (angular.isDefined(_stop)) {
             $scope.isTiming = true;
             return;
@@ -783,7 +782,8 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
                 if (data.success) {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
-                    $window.location.href = '/account#/accountsettings';
+                    //$window.location.href = '/account#/accountsettings';
+                    $window.location.reload(true);
                 } else {
                     $scope.showUpdateAccountError = true;
                     var errorMsg = Messages.getMessage(data.code, data.message);

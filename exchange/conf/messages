@@ -12,7 +12,7 @@ email=Email
 password=Password
 passwordConfirm=Confirm Password
 forgotPassword=Forgot Password?
-ResendVerifyEmail=Resend Verify Email
+resendVerifyEmail=Resend Verify Email
 inputCaptcha=Input the text in the picture below
 
 authenticateNotLogin=operation not permitted, please login first.
@@ -92,6 +92,8 @@ prompt.verifyEmailSent=We had sent you an email message, you can choose to activ
 prompt.resetPwdEmailSent=We had sent you an email message including a link, you can click the link to reset your password
 prompt.resetPwdFailed=Reset password link out of date
 prompt.doResetPwdFailed=Reset password failed.
+prompt.resendVerifyEmailSucceedded=Resend verify email succeeded, please check your mailbox to activate your account
+prompt.resendVerifyEmailFailed=Resend verify email failed.
 
 forgetpwd.title=Reset password
 forgetpwd.email=E-mail

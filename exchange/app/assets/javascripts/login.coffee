@@ -13,10 +13,11 @@ class LoginCtrl
         $scope.showMsg = false
         $scope.errorMessage = ''
         $scope.showError = false
+        $scope.ifEmailNotVerified = false
 
         $scope.doLogin =  () =>
             $scope.login.password = $.sha256b64($scope.login.password)
-
+            $scope.ifEmailNotVerified = false
             $http.post('account/login', $.param($scope.login))
                 .success (data, status, headers, config) ->
                     if data.success
@@ -25,6 +26,8 @@ class LoginCtrl
                     else
                         $scope.errorMessage = Messages.getMessage(data.code, data.message)
                         $scope.showError= true
+                        if data.code == 1006
+                            $scope.ifEmailNotVerified = true
                 .error (data, status, headers, config) ->
                     $scope.errorMessage = data.message
                     $scope.showError= true

@@ -185,6 +185,21 @@ object UserController extends Controller with Json4s with AccessLogging {
     }
   }
 
+  def resendVerifyEmail(email: String) = Action.async {
+    implicit request =>
+    logger.info(s"resend verify email: $email")
+    UserService.resendVerifyEmail(email) map {
+      result =>
+      logger.info(s"result: $result")
+      if (result.success) {
+        Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
+      } else {
+        logger.warn(s"resend verify email failed. email: $email")
+        Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
+      }
+    }
+  }
+
   def accountSettingsView() = Authenticated.async {
     implicit request =>
     val email = session.get("username").getOrElse("")

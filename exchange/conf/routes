@@ -22,6 +22,7 @@ POST    /account/login              controllers.UserController.login()
 POST    /account/register           controllers.UserController.register()
 POST    /account/settings           controllers.UserController.updateSettings()
 GET     /account/forgetpassword     controllers.UserController.forgetPassword()
+GET     /account/resendVerifyEmail/*email  controllers.UserController.resendVerifyEmail(email)
 GET     /account/requestpwdreset/*email    controllers.UserController.requestPasswordReset(email)
 POST    /account/dopwdreset         controllers.UserController.doPasswordReset()
 
