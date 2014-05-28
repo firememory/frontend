@@ -54,7 +54,12 @@ coinportApp.filter 'quantity', () -> (input) ->
 	if input then input.toFixed(3) else '0'
 
 coinportApp.filter 'price', () -> (input) ->
-	if input then input.toFixed(4) else '0'
+	if input
+	    s = input.toPrecision(8)
+	    `for (i = s.length; i >= 0 && s.charAt(i - 1) == '0'; i--)`
+	    return s.slice(0, i + 1)
+	else
+	    return '0'
 
 coinportApp.filter 'coin', () -> (input) ->
 	if input then input.toFixed(4) else '0'
