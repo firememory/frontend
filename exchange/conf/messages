@@ -18,6 +18,7 @@ inputCaptcha=Input the text in the picture below
 authenticateNotLogin=operation not permitted, please login first.
 authenticateTimeout=Session timeout, please re-login
 
+nav.brand=coinport
 nav.home=Home
 nav.trade=Trade
 nav.account=Account
