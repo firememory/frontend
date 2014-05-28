@@ -141,13 +141,16 @@
         });
 
         // Round limits to nearest multiple of a power of ten
-        // var power = Math.pow(10, Math.floor(Math.log(plotArea.max) / Math.log(10)));
-        // plotArea.max = Math.ceil(plotArea.max / power) * power;
-        // plotArea.min = Math.floor(plotArea.min / power) * power;
+//        var power = Math.pow(10, Math.floor(Math.log(plotArea.max) / Math.log(10)));
+//        plotArea.max = Math.ceil(plotArea.max / power) * power;
+//        plotArea.min = Math.floor(plotArea.min / power) * power;
 
-		// TODO(chunming): modify limits
-        plotArea.max = Math.ceil(plotArea.max * 1.01);
-        plotArea.min = Math.floor(plotArea.min * 0.99);
+        var span = plotArea.max - plotArea.min;
+        var padding = span * 0.4;
+        if (padding <= 0) padding = 1;
+
+        plotArea.max = plotArea.max + padding;
+        plotArea.min = Math.max(0, plotArea.min - padding);
 
         // Find appropriate precision for axis labels
         if (typeof plotArea.yAxis.labels.format === 'object'

@@ -29,38 +29,48 @@
     <div id="example"></div>
     
     <script type="text/javascript">
+        // config
+        var average = 3000;
+        var amplitude = 200;
+        var height = 20;
+        var volume = 1000;
+
         // Generate data
-        addData = function(data) {
+        var addData = function(data) {
             var last = data[data.length - 1];
-            var o = last[1] + Math.floor(Math.random() * 200 - 100);
-            var h = o + Math.floor(Math.random() * 200);
-            var l = o - Math.floor(Math.random() * 200);
-            var c = h - Math.floor(Math.random() * (h - l));
+            var o = last[1] + Math.random() * amplitude - amplitude / 2;
+            var h = o + Math.random() * amplitude;
+            var l = o - Math.random() * amplitude;
+            var c = h - Math.random() * (h - l);
             var v = Math.max(0, last[5] + Math.floor(Math.random() * 100 - 50));
             var time = last[0] + 60 * 60000;
             if (Math.random() > 0.8)
                 o = c;
             data.push([time, o, h, l, c, v]);
         };
-        generateData = function() {
+
+        var generateData = function() {
             var data = [];
             var time = new Date('Dec 1, 2013 12:00').valueOf();
 
-            var h = 4000 + Math.floor(Math.random() * 100);
-            var l = h - Math.floor(Math.random() * 20);
+            var h = average + Math.floor(Math.random() * amplitude);
+            var l = h - Math.floor(Math.random() * height);
             var o = h - Math.floor(Math.random() * (h - l));
             var c = h - Math.floor(Math.random() * (h - l));
 
-            var v = Math.floor(Math.random() * 1000);
+            var v = Math.floor(Math.random() * volume);
 
             data.push([time, o, h, l, c, v]);
 
             for (var i = 0; i < 90; i++) {
                 addData(data);
             }
+            console.log('data generated', data);
             return data;
-        }
+        };
+
         data = generateData();
+
       $(function() {
         chart = $('#example').jqCandlestick(data, {
           theme: 'light',
