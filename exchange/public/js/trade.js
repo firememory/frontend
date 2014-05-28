@@ -43,6 +43,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
         bidButtonLabel: $scope.config.bidButtonLabel,
         askButtonLabel: $scope.config.askButtonLabel};
 
+    $scope.orderStatus = -1;
+
     $scope.alert = function(operation, message) {
         console.log(operation, message)
         $scope.showMessage[operation] = true;
@@ -52,15 +54,20 @@ function BidAskCtrl($scope, $http, $routeParams) {
         }, 3000);
     };
 
-    $scope.loadOrders = function(status) {
+    $scope.loadOrders = function() {
         var params = {limit: 10};
-        if (status >= 0)
-            params.status = status;
+        if ($scope.orderStatus >= 0)
+            params.status = $scope.orderStatus;
         $http.get('/api/' + $scope.market + '/order', {params: params})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data.items;
                 $scope.count = data.data.count;
         });
+    };
+
+    $scope.changeOrderStatus = function(status) {
+        $scope.orderStatus = status;
+        $scope.loadOrders();
     };
 
     $scope.updateTransactions = function() {
@@ -109,7 +116,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $scope.updateTransactions();
     };
 
-    $scope.loadOrders(-1);
+    $scope.loadOrders();
     $scope.updateDepth();
     $scope.updateTransactions();
     $scope.updateBestPrice();
@@ -361,16 +368,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
         }
     }
 
-    var cancelOrder = function(id) {
-        for(var i = 0; i < $scope.orders.length; i++) {
-            var order = $scope.orders[i];
-            if (order.id == id) {
-                order.status = 3; // set status to 3-Cancelled
-                break;
-            }
-        }
-    }
-
     $scope.addBidOrder = function() {
         if($scope.bid.amount < 0) {
             $scope.alert('bid', Messages.trade.lowerZero);
@@ -406,12 +403,18 @@ function BidAskCtrl($scope, $http, $routeParams) {
                 var order = data.data;
                 $scope.account[$scope.currency].available.value -= order.total;
                 $scope.orders.push(order);
+                $scope.alert('bid', 'order submitted');
+                setTimeout($scope.loadOrders, 1000);
             } else {
                 // handle errors
+                $scope.alert('bid', 'order submission failed');
             }
-            $scope.alert('bid', data.message);
             // clear amount
             $scope.bid.amount = 0;
+            $scope.bid.total = 0;
+        }).error(function() {
+            $scope.alert('bid', 'internal error occurs');
+            $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
         });
     };
 
@@ -450,12 +453,18 @@ function BidAskCtrl($scope, $http, $routeParams) {
                 var order = data.data;
                 $scope.orders.push(order);
                 $scope.account[$scope.subject].available.value -= order.amount;
+                $scope.alert('ask', 'order submitted');
+                setTimeout($scope.loadOrders, 1000);
             } else {
-                // handle errors
+                $scope.alert('ask', 'order submission failed');
             }
-            $scope.alert('ask', data.message);
+
             // clear amount
             $scope.ask.amount = 0;
+            $scope.ask.total = 0;
+        }).error(function() {
+            $scope.alert('ask', 'internal error occurs');
+            $scope.info.askButtonLabel = $scope.config.askButtonLabel;
         });
     };
 
@@ -505,8 +514,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $http.get('/trade/' + $scope.market + '/order/cancel/' + id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    var order = data.data;
-                    cancelOrder(order.id);
+                    setTimeout($scope.loadOrders, 1000);
                 }
             });
     };

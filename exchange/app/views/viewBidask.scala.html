@@ -228,11 +228,11 @@
     <div class="col-md-12 col-sm-12">
         <div class="recent-orders">
         <tabset>
-            <tab heading='@(Messages("all"))' select="loadOrders(-1)"></tab>
-            <tab heading='@(Messages("order.status.pending"))' select="loadOrders(0)"></tab>
-            <tab heading='@(Messages("order.status.open"))' select="loadOrders(1)"></tab>
-            <tab heading='@(Messages("order.status.finished"))' select="loadOrders(2)"></tab>
-            <tab heading='@(Messages("order.status.cancelled"))' select="loadOrders(3)"></tab>
+            <tab heading='@(Messages("all"))' select="changeOrderStatus(-1)"></tab>
+            <tab heading='@(Messages("order.status.pending"))' select="changeOrderStatus(0)"></tab>
+            <tab heading='@(Messages("order.status.open"))' select="changeOrderStatus(1)"></tab>
+            <tab heading='@(Messages("order.status.finished"))' select="changeOrderStatus(2)"></tab>
+            <tab heading='@(Messages("order.status.cancelled"))' select="changeOrderStatus(3)"></tab>
         </tabset>
         <div class="user-order-box">
             <table class="table table-condensed table-responsive">
