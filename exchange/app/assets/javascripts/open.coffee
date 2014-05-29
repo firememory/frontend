@@ -53,6 +53,7 @@ app.controller 'ReserveCtrl', ($scope, $http) ->
     $scope.hotWallets = {}
     $scope.coldWallets = {}
     $scope.walletsBalance = {}
+    $scope.addressUrl = COINPORT.addressUrl
 
     $http.get('/api/account/-1')
         .success (data, status, headers, config) -> $scope.accounts = data.data.accounts
@@ -77,6 +78,7 @@ app.controller 'ConnectCtrl', ($scope, $http) ->
     $scope.currencies = {}
     $scope.status = {}
     $scope.timestamp = new Date().getTime()
+    $scope.blockUrl = COINPORT.blockUrl
 
     $scope.getNetworkStatus = (currency) ->
         $scope.currencies[currency] = true

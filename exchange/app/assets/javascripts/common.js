@@ -14,7 +14,19 @@ COINPORT = {
         dog: 2
     },
 
-    defaultMarket: 'LTCBTC'
+    defaultMarket: 'LTCBTC',
+
+    blockUrl: {
+        BTC: 'https://blockchain.info/block-index/',
+        LTC: 'http://block-explorer.com/block/',
+        DOG: 'http://dogechain.info/'
+    },
+
+    addressUrl: {
+        BTC: 'https://blockchain.info/address/',
+        LTC: 'http://block-explorer.com/address/',
+        DOG: 'http://dogechain.info/address/'
+    }
 };
 
 COINPORT.getPriceFixed = function(market) {
