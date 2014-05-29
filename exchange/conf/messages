@@ -34,7 +34,7 @@ login.verifyEmailSucceeded=email verify succeeded, please login
 login.resetPwdSucceeded=reset password succeeded, please login
 login.pwdPlaceHolder=Please enter password
 login.doLogin=Login
-register.title=Account Information
+register.title=Sign Up
 register.changeCaptcha=Try a different image
 
 ticker.market=Market
