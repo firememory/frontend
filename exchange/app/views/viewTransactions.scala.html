@@ -31,9 +31,9 @@
                 <td>{{item.price.value | price}} {{item.price.currency}}</td>
                 <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
                 <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
-                <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
+                <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '@Messages("me")' : (item.taker)}}</a></td>
                 <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
+                <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("me")' : (item.maker)}}</a></td>
             </tr>
         </tbody>
     </table>

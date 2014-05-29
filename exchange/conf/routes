@@ -59,7 +59,7 @@ GET     /views/opensource.html           controllers.MainController.opensourceVi
 GET     /views/connectivity.html         controllers.MainController.connectivityView()
 
 # API routes
-GET     /api/*market/order/*oid/transaction   controllers.ApiController.orderTransaction(market, oid)
+GET     /api/order/*oid/transaction   controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth          controllers.ApiController.depth(market)
 GET     /api/ticker/*market         controllers.ApiController.ticker(market)
 GET     /api/ticker                 controllers.ApiController.tickers()

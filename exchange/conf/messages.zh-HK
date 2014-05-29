@@ -9,6 +9,7 @@ login=登錄
 register=註冊
 captcha=驗證碼
 email=Email
+me=我
 password=密碼
 passwordConfirm=重複密碼
 forgotPassword=忘記密碼？

@@ -172,10 +172,10 @@ object ApiController extends Controller with Json4s {
       MarketService.getTransaction(tid.toLong).map(result => Ok(result.toJson))
   }
 
-  def orderTransaction(side: String, oid: String) = Action.async {
+  def orderTransaction(oid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getTransactionsByOrder(Some(side), oid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByOrder(None, oid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def userTransactionByMarket(side: String, uid: String) = Action.async {
