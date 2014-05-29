@@ -5,9 +5,6 @@ function routeConfig($routeProvider) {
     when('/:market', {
         controller: 'BidAskCtrl',
         templateUrl: 'views/bidask.html'
-    }).
-    otherwise({
-        redirectTo: '/btccny'
     });
 }
 function httpConfig($httpProvider) {
@@ -317,7 +314,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
     });
 
     var updateBidTotal = function() {
-        if($scope.bid.price == undefined || $scope.bid.amount == undefined)
+        if($scope.bidOptions.advanced || $scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = +($scope.bid.price * $scope.bid.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         $scope.bid.total = total;
@@ -325,6 +322,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     };
 
     var updateBidAmount = function() {
+        if ($scope.bidOptions.advanced)
+            return;
         if (!$scope.bid.price)
             $scope.bid.amount = 0;
         else
@@ -332,7 +331,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
     };
 
     var updateAskTotal = function() {
-        if(!$scope.account || $scope.account[$scope.currency] == undefined || $scope.ask.price == undefined || $scope.ask.amount == undefined)
+        if($scope.askOptions.advanced || $scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
         var total = +($scope.ask.price * $scope.ask.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
@@ -340,6 +339,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     };
 
     var updateAskAmount = function() {
+        if ($scope.askOptions.advanced)
+            return;
         if (!$scope.ask.price)
             $scope.ask.amount = 0;
         else
@@ -351,9 +352,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.bidOptions.limitAmount = true;
             $scope.bidOptions.limitPrice = true;
             $scope.bidOptions.limitTotal = true;
-//            addBidWatches();
-        } else if (newValue && !oldValue) {
-//            removeBidWatches();
         }
     }
 
@@ -362,9 +360,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.askOptions.limitAmount = true;
             $scope.askOptions.limitPrice = true;
             $scope.askOptions.limitTotal = true;
-//            addAskWatches();
-        } else if (newValue && !oldValue) {
-//            removeAskWatches();
         }
     }
 
@@ -563,29 +558,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.ask.amount = +newValue.toFixed(COINPORT.getAmountFixed($scope.subject));
         updateAskTotal();
     };
-
-    var bidWatches = [];
-    var askWatches = [];
-
-//    var addBidWatches = function() {
-//        bidWatches.push($scope.$watch('bid.amount', watchBidAmount));
-//        bidWatches.push($scope.$watch('bid.price', watchBidPrice));
-//        bidWatches.push($scope.$watch('bid.total', updateBidAmount));
-//    };
-//
-//    var addAskWatches = function() {
-//        askWatches.push($scope.$watch('ask.amount', watchAskAmount));
-//        askWatches.push($scope.$watch('ask.price', watchAskPrice));
-//        askWatches.push($scope.$watch('ask.total', updateAskAmount));
-//    };
-//
-//    var removeBidWatches = function() {
-//        bidWatches.forEach(function(fn) {fn.apply();});
-//    };
-//
-//    var removeAskWatches = function() {
-//        askWatches.forEach(function(fn) {fn.apply();});
-//    };
 
     $scope.$watch('bidOptions.advanced', toggleBidAdvanced);
     $scope.$watch('askOptions.advanced', toggleAskAdvanced);
