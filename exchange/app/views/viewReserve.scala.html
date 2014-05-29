@@ -27,24 +27,22 @@
                 <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
                 <td>
                     <span ng-repeat="wallet in hotWallets['@coin']">
-                        {{wallet.address}}
-                        ({{wallet.walletType}})
+                        <span class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
                     </span>
                     <span ng-repeat="wallet in coldWallets['@coin']">
-                        {{wallet.address}}
-                        ({{wallet.walletType}})
+                        <span class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
                     </span>
                 </td>
                 <td>
                     <span ng-repeat="wallet in hotWallets['@coin']">
-                        {{wallet.amount.display}}
+                        <span class="label label-warning">{{wallet.amount.display_short}}</span>
                     </span>
                     <span ng-repeat="wallet in coldWallets['@coin']">
-                        {{wallet.amount.display}}
+                        <span class="label label-info">{{wallet.amount.display_short}}</span>
                     </span>
                 </td>
                 <td>{{walletsBalance['@coin'] | coin}}</td>
-                <td>{{((walletsBalance['@coin'] || 0) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)).toFixed(2)}}%</td>
+                <td><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
             </tr>
             }
             </tbody>
