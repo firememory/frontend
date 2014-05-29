@@ -52,7 +52,7 @@
                 <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
                 <!--可用余额-->
                 <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
-                <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}} {{currency}}</kbd> available</span>
+                <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}}</kbd> {{currency}} Available</span>
             </div>
             <div class="box clearfix">
                 <form name="bidForm" class="form-buy-sell" role="form">
@@ -129,7 +129,7 @@
                 <i class="btn btn-sm fa fa-tag" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
             </div>
             <div class="box_subtitle">
-                <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value | coin}} {{subject}}</kbd> available</span>
+                <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value | coin}}</kbd> {{subject}} Available</span>
             </div>
             <div class="box clearfix">
                 <form name="askForm" class="form-buy-sell" role="form">

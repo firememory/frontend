@@ -5,6 +5,9 @@ function routeConfig($routeProvider) {
     when('/:market', {
         controller: 'BidAskCtrl',
         templateUrl: 'views/bidask.html'
+    })
+    .otherwise({
+        redirectTo: '/' + COINPORT.defaultMarket
     });
 }
 function httpConfig($httpProvider) {
