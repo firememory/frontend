@@ -171,6 +171,8 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
 
 app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', function ($scope, $http, $routeParams, $location, $interval) {
     $scope.currency = $routeParams.currency.toUpperCase();
+    $scope.withdrawalData = {};
+
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
             console.log(data.data.accounts[$scope.currency]);
@@ -179,7 +181,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $http.get('/withaddr/' +$scope.currency+ '/' + $scope.uid)
         .success(function (data, status, headers, config) {
-            $scope.withdrawalAddress = data.data;
+            $scope.withdrawalData.address = data.data;
         });
 
     $scope.page = 1;

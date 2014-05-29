@@ -15,6 +15,7 @@ import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
+import controllers.ControllerHelper._
 
 object ApiController extends Controller with Json4s {
 
@@ -115,22 +116,45 @@ object ApiController extends Controller with Json4s {
       }
   }
 
-  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
-    implicit request =>
-      val data = request.body
-      val username = session.get("username").getOrElse(null)
-      val uid = session.get("uid").getOrElse(null)
-      if (username == null || uid == null) {
-        Future(Unauthorized)
-      } else {
-        val amount = getParam(data, "amount", "0.0").toDouble
-        val currency: Currency = getParam(data, "currency", "")
-        val address = getParam(data, "address", "")
-        AccountService.withdrawal(uid.toLong, currency, amount, address) map {
-          case result => Ok(result.toJson)
-        }
-      }
-  }
+//  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
+//    implicit request =>
+//      val data = request.body
+//      val username = session.get("username").getOrElse(null)
+//      val uid = session.get("uid").getOrElse(null)
+//      if (username == null || uid == null) {
+//        Future(Unauthorized)
+//      } else {
+//        val amount = getParam(data, "amount", "0.0").toDouble
+//        val currency: Currency = getParam(data, "currency", "")
+//        val address = getParam(data, "address", "")
+//        val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+//        val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
+//        validateParamsAndThen(
+//          new StringNonemptyValidator(uuid, verifyCode),
+//          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
+//        ) {
+//          AccountService.withdrawal(uid.toLong, currency, amount, address)} map {
+//            case result => Ok(result.toJson)
+//          }
+//        }
+//
+//  }
+def withdrawal = Authenticated.async(parse.urlFormEncoded) {
+  implicit request =>
+    val data = request.body
+    val username = session.get("username").getOrElse(null)
+    val uid = session.get("uid").getOrElse(null)
+    if (username == null || uid == null) {
+      Future(Unauthorized)
+    } else {
+      val amount = getParam(data, "amount", "0.0").toDouble
+      val currency: Currency = getParam(data, "currency", "")
+      val address = getParam(data, "address", "")
+      AccountService.withdrawal(uid.toLong, currency, amount, address)
+      UserService.setWithdrawalAddress(uid.toLong, currency, address)
+      Future(Ok(ApiResult.toJson()))
+    }
+}
 
   def transfers(currency: String, uid: String) = Action.async {
     implicit request =>

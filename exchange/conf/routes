@@ -41,6 +41,7 @@ POST    /account/withdrawal                controllers.ApiController.withdrawal(
 GET     /profile/*uid               controllers.UserController.getUserProfile(uid)
 GET     /depoaddr/*currency/*uid    controllers.UserController.getDepositAddress(currency, uid)
 GET     /withaddr/*currency/*uid    controllers.UserController.getWithdrawalAddress(currency, uid)
+GET     /withaddr/*currency/*uid/*addr    controllers.UserController.setWithdrawalAddress(currency, uid, addr)
 
 
 # html snippet

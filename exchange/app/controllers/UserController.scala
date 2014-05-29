@@ -88,9 +88,17 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def setWithdrawalAddress(currency: String, userId: String, address: String) = Action.async {
+    implicit  request =>
+      UserService.setWithdrawalAddress(userId.toLong, currency, address) map {
+        result =>
+          Ok(result.toJson)
+      }
+  }
+
   def getWithdrawalAddress(currency: String, userId: String) = Action.async {
     implicit  request =>
-      UserService.getWithdrawalAddress(currency, userId.toLong) map {
+      UserService.getWithdrawalAddress(userId.toLong, currency) map {
         result =>
           Ok(result.toJson)
       }
