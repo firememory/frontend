@@ -1,3 +1,4 @@
+@import "../mixins";
 //
 // Pagination
 // --------------------------------------------------
@@ -21,7 +22,7 @@
       // Pseudos and states
       &:first-child {
         border-radius: @border-radius-large 0 0 @border-radius-large;
-        
+
         &.previous + li {
           > a,
           > span {
@@ -118,7 +119,7 @@
         min-width: 0;
         min-height: 16px;
         padding: 0 4px;
-        border-radius: 50px;        
+        border-radius: 50px;
         .transition(~"background .2s ease-out, border-color 0s ease-out, color .2s ease-out");
 
         &:hover,
@@ -145,7 +146,7 @@
       line-height: 1.429; // ~20px
       padding-left: 23px;
       padding-right: 23px;
-      
+
       [class*="fui-"] {
         font-size: @icon-normal;
         margin-left: -2px;
@@ -156,11 +157,11 @@
     &.next {
       margin-left: 8px;
       margin-right: 0;
-      
+
       [class*="fui-"] {
         margin-right: -2px;
         margin-left: 4px;
       }
     }
-  } 
+  }
 }

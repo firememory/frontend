@@ -5,3 +5,7 @@ target/
 **.swp
 
 exchange/app/assets/css/*.css
+exchange/app/assets/startup/common-files/less/*.css
+exchange/app/assets/startup/flat-ui/less/*.css
+exchange/app/assets/startup/flat-ui/less/modules/*.css
+exchange/app/assets/startup/ui-kit/*/less/*.css

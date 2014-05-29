@@ -1,3 +1,5 @@
+@import "variables";
+
 //
 // Mixins
 // --------------------------------------------------
@@ -554,7 +556,7 @@
   }
   .palette-@{second-color} {
     background-color: ~"@{@{second-color}}";
-  }  
+  }
 }
 
 // Dropdown arrow
@@ -706,10 +708,10 @@
 .label-variant(@color, @hover-color, @text-color: @inverse) {
   background-color: @color;
   color: @text-color;
-  
+
   &[href] {
     color: @text-color;
-    
+
     &:hover,
     &:focus {
       color: @text-color;
@@ -766,7 +768,7 @@
     border-color: @border-color;
     .box-shadow(none);
     .placeholder(@text-color);
-    
+
     &:focus {
       border-color: @border-color;
       .box-shadow(none);

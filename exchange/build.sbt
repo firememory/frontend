@@ -40,4 +40,15 @@ libraryDependencies ++= {
   )
 }
 
-play.Project.playScalaSettings
+
+def customLessEntryPoints(base: File): PathFinder = (
+  (base / "app" / "assets" ** "*.less")
+)
+
+play.Project.playScalaSettings ++ lesscSettings
+
+lessEntryPoints := Nil
+
+lesscOptions in Compile := Seq("--no-color", "--verbose")
+
+lesscEntryPoints in Compile <<= baseDirectory(customLessEntryPoints)

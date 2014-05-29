@@ -1,3 +1,4 @@
+@import "../mixins";
 //
 // Forms
 // --------------------------------------------------
@@ -98,12 +99,12 @@ label {
     color: mix(@gray, white, 40%);
     cursor: default;
     .opacity(.7);
-  }  
-  
+  }
+
   // Flat (without border)
   &.flat {
     border-color: transparent;
-    
+
     &:hover {
       border-color: @gray-light;
     }

@@ -5,14 +5,14 @@ Frontend of coinport.com
 Frontend project of exchange using Playframework
 
 ### /nodex
-Frontend project of exchange using Node.js. 
+Frontend project of exchange using Node.js.
 Postponed.
 
 ### /prototype
 Prototype of exchange website.
 
 ### /candlechart
-Candle stick chart jQuery plugin. 
+Candle stick chart jQuery plugin.
 
 ## preview address:
 http://coinport.cn

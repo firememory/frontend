@@ -1,8 +1,9 @@
+@import "../mixins";
 //
 // Todo list
 // --------------------------------------------------
 
-.todo {  
+.todo {
   color: mix(@brand-primary, @inverse, 66%);
   margin-bottom: 20px;
   border-radius: @border-radius-large;
@@ -24,10 +25,10 @@
     padding: 18px 42px 21px 25px;
     position: relative;
     .transition(.25s);
-    
+
     &:first-child {
       margin-top: 0;
-    }  
+    }
     &:last-child {
       border-radius: 0 0 @border-radius-large @border-radius-large;
       padding-bottom: 21px;
@@ -39,9 +40,9 @@
 
       .todo-name {
         color: @brand-secondary;
-      }  
-    }  
-  }      
+      }
+    }
+  }
 }
 
 .todo-search {
@@ -51,7 +52,7 @@
   border-radius: @border-radius-large @border-radius-large 0 0;
   color: @brand-primary;
   padding: 19px 25px 20px;
-  
+
   &:before {
     position: absolute;
     font-family: 'Flat-UI-Icons';
@@ -94,17 +95,17 @@ input.todo-search-field {
   color: @inverse;
   font-size: 17px;
   margin: 1px 0 3px;
-}  
+}
 
 // Retina Support
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
   .todo {
     li {
       background-image: ~"url(../images/todo/todo-2x.png)";
-      
+
       &.todo-done {
         background-image: ~"url(../images/todo/done-2x.png)";
-      }  
-    }    
-  }  
+      }
+    }
+  }
 }
