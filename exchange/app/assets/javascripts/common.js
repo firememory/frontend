@@ -12,7 +12,9 @@ COINPORT = {
         btc: 4,
         ltc: 2,
         dog: 2
-    }
+    },
+
+    defaultMarket: 'LTCBTC'
 };
 
 COINPORT.getPriceFixed = function(market) {

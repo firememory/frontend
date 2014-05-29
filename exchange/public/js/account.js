@@ -626,7 +626,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.market = 'BTCCNY';
+    $scope.market = COINPORT.defaultMarket;
     $scope.page = 1;
     $scope.limit = 15;
 
