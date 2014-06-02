@@ -31,10 +31,6 @@
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 // NavBar
-html,body {
-    height: 100%;
-}
-
 header.header-3 {
     ul.nav > li > a {
         text-transform: uppercase;
@@ -71,6 +67,14 @@ div.openness {
 // CSS for opendata browser views
 div.opendata-browser {
     div.opendata-data {
+        tbody {color: @midnight-blue;}
         padding-top: 40px;
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .sell {color: red;}
+        .buy {color: green;}
     }
 }
