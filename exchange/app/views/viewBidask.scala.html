@@ -6,287 +6,39 @@
     </div>
 </footer>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-sm-12 candle-chart-wrap">
-            <div class="candle-chart" style="height: 250px;"></div>
+<section class="header-3-sub">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="row">
+            @_trade_depth()
         </div>
-        <div class="col-md-4 col-sm-12">
-            <div class="depth-box">
-                <table class="table table-condensed table-responsive">
-                    <tbody>
-                        <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
-                            <td class="l title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</td>
-                            <td class="price">{{item.price | price}}</td>
-                            <td class="amount">{{item.amount | coin}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <h3 class="depth-price">{{lastPrice | price}}</h3>
-                </div>
-                <table class="table table-condensed table-responsive">
-                    <tbody>
-                        <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthBids($index)">
-                            <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
-                            <td class="price">{{item.price | price}}{{item.price.currency}}</td>
-                            <td class="amount">{{item.amount | coin}}{{item.subjectAmount.currency}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
+    </div>
+</section>
+
+<section class="header-3-sub alt">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                @_trade_buy()
+            </div>
+            <div class="col-md-4 col-sm-6">
+                @_trade_sell()
+            <div class="col-md-4 col-sm-12">
+                @_trade_transactions()
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 col-sm-6">
-            <div class="buy_sell_box">
-                <div class="box_title">@(Messages("trade.buy")) {{subject}}
-                    <i class="btn btn-sm fa fa-tags" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
-                    <i class="btn btn-sm fa fa-tag" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
-                </div>
-                <div class="box_subtitle">
-                    <!--冻结金额-->
-                    <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
-                    <!--可用余额-->
-                    <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
-                    <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}}</kbd> {{currency}} Available</span>
-                </div>
-                <div class="box clearfix">
-                    <form name="bidForm" class="form-buy-sell" role="form">
-                        <div class="row_100 clearfix buy-box">
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.price"))</span>
-                                <input type="number" step="0.0001" id="bid_price" name="price" class="form-control " ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
-                              <span class="input-group-addon" ng-show="bidOptions.advanced">
-                                <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
-                                <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit price to a given number, DISABLE to buy AT ANY PRICE (market order)."></a>
-                              </span>
-                            </div>
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                                <input type="number" step="0.0001" class="form-control" id="bid_amount" name="amount" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount">
-                                <span class="input-group-addon" ng-show="bidOptions.advanced">
-                                    <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
-                                    <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit amount to a given number, DISABLE to buy AS MUCH AS you can."></a>
-                                </span>
-                            </div>
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.total"))</span>
-                                <input id="bid_total" type="number" step="0.01" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span><span class="caret"></span></button>
-                                        <ul class="dropdown-menu pull-right">
-                                              <li><a href="#">Action</a></li>
-                                              <li><a href="#">Another action</a></li>
-                                              <li><a href="#">Something else here</a></li>
-                                              <li class="divider"></li>
-                                              <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                  </div><!-- /btn-group -->
+</section>
 
-
-                              <span class="input-group-addon" ng-show="bidOptions.advanced">
-                                <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
-                                <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total spending, DISABLE to buy without spending limited."></a>
-                              </span>
-                            </div>
-                        </div>
-                        <div class="row_100 detail-info-box" ng-show="bidOptions.advanced">
-                                <span ng-show="!bidOptions.limitAmount">
-                                    Buy as much as possible {{subject}}
-                                </span>
-                                <span ng-show="bidOptions.limitAmount">
-                                    Buy <span class="badge badge-warning">{{bid.amount}}</span> {{subject}}
-                                </span>
-                                <span ng-show="!bidOptions.limitPrice">
-                                    at <span class="badge badge-info">Any Price</span>
-                                </span>
-                                <span ng-show="bidOptions.limitPrice">
-                                    at the price lower than <span class="badge badge-warning"> {{bid.price | price}}</span>
-                                </span>
-                                <span ng-show="bidOptions.limitTotal">
-                                    spending <span class="badge badge-warning">{{bid.total | coin}}</span> {{currency}}
-                                </span>
-                        </div>
-                        <div class="info-box text-center">
-                            <span class="info-label" ng-show="showMessage['bid']">{{info.message['bid']}}</span>
-                        </div>
-
-                        <div class="row_100 clearfix" style="margin-top: 20px;">
-                            <button class="btn btn-block btn-bid" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="buy_sell_box">
-                <div class="box_title">@(Messages("trade.sell")) {{subject}}
-                    <i class="btn btn-sm fa fa-tags" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
-                    <i class="btn btn-sm fa fa-tag" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
-                </div>
-                <div class="box_subtitle">
-                    <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value | coin}}</kbd> {{subject}} Available</span>
-                </div>
-                <div class="box clearfix">
-                    <form name="askForm" class="form-buy-sell" role="form">
-                        <div class="row_100 clearfix sell-box">
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.price"))</span>
-                                <input type="number" step="0.0001" id="ask_price" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
-                              <span class="input-group-addon" ng-show="askOptions.advanced">
-                                <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
-                                <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit price to a given number, disable to sell AT ANY PRICE (market order)"></a>
-                              </span>
-                            </div>
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                                <input type="number" step="0.0001" id="ask_amount" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
-                              <span class="input-group-addon" ng-show="askOptions.advanced">
-                                <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
-                                <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit amount to a given number, disable to sell AS MUCH AS you have"></a>
-                              </span>
-                            </div>
-                            <div class="input-group input-group-full">
-                                <span class="input-group-addon">@(Messages("trade.total"))</span>
-                                <input type="number" step="0.01" id="ask_total" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span><span class="caret"></span></button>
-                                    <ul class="dropdown-menu pull-right">
-                                          <li><a href="#">Action</a></li>
-                                          <li><a href="#">Another action</a></li>
-                                          <li><a href="#">Something else here</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                  </div><!-- /btn-group -->
-                              <span class="input-group-addon" ng-show="askOptions.advanced">
-                                <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
-                                <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total income, DISABLE to sell ALL OF the amount you type in AMOUNT field if possible."></a>
-                              </span>
-                            </div>
-                        </div>
-                        <div class="row_100 detail-info-box" ng-show="askOptions.advanced">
-                                <span  ng-show="!askOptions.limitAmount">
-                                    Sell as much as possible {{subject}}
-                                </span>
-                                <span  ng-show="askOptions.limitAmount">
-                                    Sell <span class="badge badge-warning">{{ask.amount}}</span> {{subject}}
-                                </span>
-                                <span ng-show="!askOptions.limitPrice">
-                                    at <span class="badge badge-info">Any Price</span>
-                                </span>
-                                <span  ng-show="askOptions.limitPrice">
-                                    at the price higher than <span class="badge badge-warning">{{ask.price | price}}</span>
-                                </span>
-                                <span ng-show="askOptions.limitTotal">
-                                    to get income of <span class="badge badge-warning">{{ask.total | coin}}</span> {{currency}} at least.
-                                </span>
-                        </div>
-                        <div class="info-box text-center">
-                            <span class="info-label" ng-show="showMessage['ask']">{{info.message['ask']}}</span>
-                        </div>
-
-                        <div class="row_100 clearfix" style="margin-top: 20px;">
-                            <button class="btn btn-block btn-ask" ng-click="addAskOrder()"><i class="fa fa-money"></i> {{info.askButtonLabel}}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-12">
-            <div class="transaction-box">
-                <table class="table table-condensed table-responsive">
-                    <thead>
-                        <th>@Messages("transaction.type")</th>
-                        <th>@Messages("transaction.price")</th>
-                        <th>@Messages("transaction.amount")</th>
-                        <th>@Messages("transaction.timestamp")</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item">
-                            <td class="l {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
-                            <td class="price">{{item.price.value | price}}</td>
-                            <td class="amount">{{item.subjectAmount.value | coin}}</td>
-                            <td class="timestamp">{{item.timestamp | date:"HH:mm:ss"}}</td>
-                            <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="row">
-                    <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more")) >></a></div>
-                </div>
+<section class="header-3-sub alt">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                @_trade_orders()
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <div class="recent-orders">
-            <tabset>
-                <tab heading='@(Messages("all"))' select="changeOrderStatus(-1)"></tab>
-                <tab heading='@(Messages("order.status.pending"))' select="changeOrderStatus(0)"></tab>
-                <tab heading='@(Messages("order.status.open"))' select="changeOrderStatus(1)"></tab>
-                <tab heading='@(Messages("order.status.finished"))' select="changeOrderStatus(2)"></tab>
-                <tab heading='@(Messages("order.status.cancelled"))' select="changeOrderStatus(3)"></tab>
-            </tabset>
-            <div class="user-order-box">
-                <table class="table table-condensed table-responsive">
-                    <thead>
-                    <tr>
-                        <th>@(Messages("order.oid"))</th>
-                        <th>@(Messages("order.time"))</th>
-                        <th>@(Messages("order.type"))</th>
-                        <th>@(Messages("order.price"))</th>
-                        <th>@(Messages("order.amount"))</th>
-                        <th>@(Messages("order.finishedAmount"))</th>
-                        <th>@(Messages("order.total"))</th>
-                        <th>@(Messages("order.finishedTotal"))</th>
-                        <th>@(Messages("order.status"))</th>
-                        <th>@(Messages("order.operation"))</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="user-order-item">
-                        <td class="l">
-                            <a href="/order/{{order.id}}">{{order.id}}</a>
-                        </td>
-                        <td>
-                            {{order.submitTime | date:"MM-dd HH:mm:ss"}}
-                        </td>
-                        <td class="{{order.operation | orderTypeClass}}">
-                            {{order.operation | orderTypeText}}
-                        </td>
-                        <td class="{{order.operation | orderTypeClass}}">
-                            {{order.price | price}}
-                        </td>
-                        <td>
-                            {{order.amount | coin}}
-                        </td>
-                        <td>
-                            {{order.finishedQuantity | coin}}
-                        </td>
-                        <td>
-                            {{order.total | coin}}
-                        </td>
-                        <td>
-                            {{order.finishedAmount | coin}}
-                        </td>
-                        <td>
-                            <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
-                        </td>
-                        <td>
-                            <button class="btn-link" ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <a style="float: right;" href="/account#/orders">@(Messages("more")) >></a>
-            </div> <!-- user-order-box-->
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 <timer ng-show="false" interval="2000"/>

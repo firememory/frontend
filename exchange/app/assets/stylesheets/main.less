@@ -27,6 +27,10 @@
 @import '../startup/ui-kit/ui-kit-content/less/content-11.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-16.less';
 
+.has-sell-buy-color() {
+    .sell {color: red;}
+    .buy {color: green;}
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
@@ -37,6 +41,21 @@ header.header-3 {
     }
 }
 
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for '/trade'
+
+div.trade {
+    tbody {color: @midnight-blue;}
+    section.header-3-sub {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        .has-sell-buy-color();
+
+        &.alt { background-color: white;}
+    }
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
@@ -74,7 +93,6 @@ div.opendata-browser {
             text-decoration: underline;
         }
 
-        .sell {color: red;}
-        .buy {color: green;}
+        .has-sell-buy-color();
     }
 }

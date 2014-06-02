@@ -1,0 +1,31 @@
+@()(implicit lang: Lang)
+
+<div class="col-sm-8 candle-chart-wrap">
+    <div class="candle-chart" style="height: 250px;"></div>
+</div>
+<div class="col-sm-4">
+    <div class="depth-box">
+        <table class="table table-condensed table-responsive">
+            <tbody>
+                <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
+                    <td class="l title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</td>
+                    <td class="price">{{item.price | price}}</td>
+                    <td class="amount">{{item.amount | coin}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <h3 class="depth-price">{{lastPrice | price}}</h3>
+        </div>
+        <table class="table table-condensed table-responsive">
+            <tbody>
+                <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthBids($index)">
+                    <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
+                    <td class="price">{{item.price | price}}{{item.price.currency}}</td>
+                    <td class="amount">{{item.amount | coin}}{{item.subjectAmount.currency}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
+    </div>
+</div>

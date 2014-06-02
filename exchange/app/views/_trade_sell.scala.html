@@ -1,0 +1,76 @@
+ @()(implicit lang: Lang)
+
+<div class="buy_sell_box">
+    <div class="box_title">@(Messages("trade.sell")) {{subject}}
+        <i class="btn btn-sm fa fa-tags" ng-show="askOptions.advanced" ng-click="askOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
+        <i class="btn btn-sm fa fa-tag" ng-show="!askOptions.advanced" ng-click="askOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
+    </div>
+    <div class="box_subtitle">
+        <span class="link" ng-click="clickQuantity(account[subject].available.value)"><kbd>{{account[subject].available.value | coin}}</kbd> {{subject}} Available</span>
+    </div>
+    <div class="box clearfix">
+        <form name="askForm" class="form-buy-sell" role="form">
+            <div class="row_100 clearfix sell-box">
+                <div class="input-group input-group-full">
+                    <span class="input-group-addon">@(Messages("trade.price"))</span>
+                    <input type="number" step="0.0001" id="ask_price" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
+                  <span class="input-group-addon" ng-show="askOptions.advanced">
+                    <input type="checkbox" class="" ng-model="askOptions.limitPrice" ng-click="ask.price=0"/>
+                    <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit price to a given number, disable to sell AT ANY PRICE (market order)"></a>
+                  </span>
+                </div>
+                <div class="input-group input-group-full">
+                    <span class="input-group-addon">@(Messages("trade.amount"))</span>
+                    <input type="number" step="0.0001" id="ask_amount" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
+                  <span class="input-group-addon" ng-show="askOptions.advanced">
+                    <input type="checkbox" class="" ng-model="askOptions.limitAmount" ng-click="ask.amount=0"/>
+                    <a href="" data-toggle="tooltip" data-placement="top" title="enable to limit amount to a given number, disable to sell AS MUCH AS you have"></a>
+                  </span>
+                </div>
+                <div class="input-group input-group-full">
+                    <span class="input-group-addon">@(Messages("trade.total"))</span>
+                    <input type="number" step="0.01" id="ask_total" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                              <li><a href="#">Action</a></li>
+                              <li><a href="#">Another action</a></li>
+                              <li><a href="#">Something else here</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#">Separated link</a></li>
+                        </ul>
+                      </div><!-- /btn-group -->
+                  <span class="input-group-addon" ng-show="askOptions.advanced">
+                    <input type="checkbox" class="" ng-model="askOptions.limitTotal"/>
+                    <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total income, DISABLE to sell ALL OF the amount you type in AMOUNT field if possible."></a>
+                  </span>
+                </div>
+            </div>
+            <div class="row_100 detail-info-box" ng-show="askOptions.advanced">
+                    <span  ng-show="!askOptions.limitAmount">
+                        Sell as much as possible {{subject}}
+                    </span>
+                    <span  ng-show="askOptions.limitAmount">
+                        Sell <span class="badge badge-warning">{{ask.amount}}</span> {{subject}}
+                    </span>
+                    <span ng-show="!askOptions.limitPrice">
+                        at <span class="badge badge-info">Any Price</span>
+                    </span>
+                    <span  ng-show="askOptions.limitPrice">
+                        at the price higher than <span class="badge badge-warning">{{ask.price | price}}</span>
+                    </span>
+                    <span ng-show="askOptions.limitTotal">
+                        to get income of <span class="badge badge-warning">{{ask.total | coin}}</span> {{currency}} at least.
+                    </span>
+            </div>
+            <div class="info-box text-center">
+                <span class="info-label" ng-show="showMessage['ask']">{{info.message['ask']}}</span>
+            </div>
+
+            <div class="row_100 clearfix" style="margin-top: 20px;">
+                <button class="btn btn-block btn-ask" ng-click="addAskOrder()"><i class="fa fa-money"></i> {{info.askButtonLabel}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
