@@ -55,7 +55,7 @@
                     <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
                 </td>
                 <td>
-                    <button class="btn-link" ng-show="order.status <= 1" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</button>
+                    <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</a>
                 </td>
             </tr>
             </tbody>

@@ -1,7 +1,7 @@
 @()(implicit lang: Lang)
 
 <div class="box_title">
-    <h4>@(Messages("trade.buy")) {{subject}}</h4>
+    <h4 class="buy">@(Messages("trade.buy")) {{subject}}</h4>
     <i class="btn btn-sm fa fa-tags" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
     <i class="btn btn-sm fa fa-tag" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
 </div>
