@@ -7,8 +7,8 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import utils.Constant._
 
 object LoggingFilter extends Filter {
-  def apply(nextFilter: (RequestHeader) => Future[SimpleResult])
-           (requestHeader: RequestHeader): Future[SimpleResult] = {
+  def apply(nextFilter: (RequestHeader) => Future[Result])
+           (requestHeader: RequestHeader): Future[Result] = {
     val startTime = System.currentTimeMillis
     nextFilter(requestHeader).map { result =>
       val endTime = System.currentTimeMillis

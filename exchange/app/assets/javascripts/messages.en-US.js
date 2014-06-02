@@ -42,7 +42,7 @@ Messages.timeDemension = {
 Messages.asset = {
     assetComposition: 'Composition of Assets',
     assetTrend: 'Trend of Assets'
-}
+};
 
 Messages.trade = {
     lowerZero: 'amount should bigger than zero',
@@ -87,7 +87,7 @@ Messages.getMessage = function(code, msg) {
     if (key in Messages.ErrorMessages) {
         return Messages.ErrorMessages[key];
     } else {
-        if (msg != undefined && msg.trim().length > 0)
+        if (msg !== undefined && msg.trim().length > 0)
             return msg;
         else
             return "internal error. errorCode=" + code;

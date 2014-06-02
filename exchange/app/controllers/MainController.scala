@@ -23,19 +23,19 @@ object MainController extends Controller with Json4s {
 
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(session, lang))
+      Ok(views.html.index.render(request.session, request.acceptLanguages(0)))
   }
 
   def index2= Action {
     implicit request =>
-      Ok(views.html.index2.render(session, lang))
+      Ok(views.html.index2.render(request.session, request.acceptLanguages(0)))
   }
 
   def trade = Authenticated {
     implicit request =>
-      session.get("uid").map {
+      request.session.get("uid").map {
         uid =>
-          Ok(views.html.trade.render(session, lang))
+          Ok(views.html.trade.render(request.session, request.acceptLanguages(0)))
       } getOrElse {
         Redirect(routes.MainController.login())
       }
@@ -43,57 +43,57 @@ object MainController extends Controller with Json4s {
 
   def account() = Authenticated {
     implicit request =>
-      Ok(views.html.account.render(session, lang))
+      Ok(views.html.account.render(request.session, request.acceptLanguages(0)))
   }
 
   def market = Action {
     implicit request =>
-      Ok(views.html.market.render(session, lang))
+      Ok(views.html.market.render(request.session, request.acceptLanguages(0)))
   }
 
   def user(uid: String) = Action {
     implicit request =>
-      Ok(views.html.user.render(uid, session, lang))
+      Ok(views.html.user.render(uid, request.session, request.acceptLanguages(0)))
   }
 
   def order(oid: String) = Action {
     implicit request =>
-      Ok(views.html.order.render(oid, session, lang))
+      Ok(views.html.order.render(oid, request.session, request.acceptLanguages(0)))
   }
 
   def transaction(tid: String) = Action {
     implicit request =>
-      Ok(views.html.transaction.render(tid, session, lang))
+      Ok(views.html.transaction.render(tid, request.session, request.acceptLanguages(0)))
   }
 
   def transactions(market: String) = Action {
     implicit request =>
-      Ok(views.html.transactions.render(market, session, lang))
+      Ok(views.html.transactions.render(market, request.session, request.acceptLanguages(0)))
   }
 
   def depth(market: String) = Action {
     implicit request =>
-      Ok(views.html.depth.render(market, session, lang))
+      Ok(views.html.depth.render(market, request.session, request.acceptLanguages(0)))
   }
 
   def login(msg: String = "") = Action {
     implicit request =>
-      Ok(views.html.login.render(msg, session, lang)).withNewSession
+      Ok(views.html.login.render(msg, request.session, request.acceptLanguages(0))).withNewSession
   }
 
   def register = Action {
     implicit request =>
-      Ok(views.html.register.render(session, lang))
+      Ok(views.html.register.render(request.session, request.acceptLanguages(0)))
   }
 
   def open = Action {
     implicit request =>
-      Ok(views.html.open.render(session, lang))
+      Ok(views.html.open.render(request.session, request.acceptLanguages(0)))
   }
 
   def prompt(msgKey: String) = Action {
     implicit request =>
-    Ok(views.html.prompt.render(msgKey, session, lang))
+    Ok(views.html.prompt.render(msgKey, request.session, request.acceptLanguages(0)))
   }
 
   def downloadFromHdfs(path: String, filename: String) = Action {
@@ -103,7 +103,7 @@ object MainController extends Controller with Json4s {
       stream.close()
     }
 
-    SimpleResult(
+    Result(
       header = ResponseHeader(200),
       body = fileContent
     ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
@@ -143,61 +143,61 @@ object MainController extends Controller with Json4s {
 
   def bidaskView() = Action {
     implicit request =>
-      Ok(views.html.viewBidask.render(lang))
+      Ok(views.html.viewBidask.render(request.acceptLanguages(0)))
   }
 
   def registerView() = Action {
     implicit request =>
-      Ok(views.html.viewRegister.render(lang))
+      Ok(views.html.viewRegister.render(request.acceptLanguages(0)))
   }
 
   def assetView() = Action {
     implicit request =>
-      Ok(views.html.viewAsset.render(lang))
+      Ok(views.html.viewAsset.render(request.acceptLanguages(0)))
   }
 
   def transferView() = Action {
     implicit request =>
-      Ok(views.html.viewTransfer.render(lang))
+      Ok(views.html.viewTransfer.render(request.acceptLanguages(0)))
   }
 
   def depositView() = Action {
     implicit request =>
-      Ok(views.html.viewDeposit.render(lang))
+      Ok(views.html.viewDeposit.render(request.acceptLanguages(0)))
   }
 
   def withdrawalView() = Action {
     implicit request =>
-      Ok(views.html.viewWithdrawal.render(lang))
+      Ok(views.html.viewWithdrawal.render(request.acceptLanguages(0)))
   }
 
   def ordersView() = Action {
     implicit request =>
-      Ok(views.html.viewOrders.render(lang))
+      Ok(views.html.viewOrders.render(request.acceptLanguages(0)))
   }
 
   def transactionsView() = Action {
     implicit request =>
-      Ok(views.html.viewTransactions.render(lang))
+      Ok(views.html.viewTransactions.render(request.acceptLanguages(0)))
   }
 
   def opendataView() = Action {
     implicit request =>
-      Ok(views.html.viewOpendata.render(lang))
+      Ok(views.html.viewOpendata.render(request.acceptLanguages(0)))
   }
 
   def reserveView() = Action {
     implicit request =>
-      Ok(views.html.viewReserve.render(lang))
+      Ok(views.html.viewReserve.render(request.acceptLanguages(0)))
   }
 
   def opensourceView() = Action {
     implicit request =>
-      Ok(views.html.viewOpensource.render(lang))
+      Ok(views.html.viewOpensource.render(request.acceptLanguages(0)))
   }
 
   def connectivityView() = Action {
     implicit request =>
-      Ok(views.html.viewConnectivity.render(lang))
+      Ok(views.html.viewConnectivity.render(request.acceptLanguages(0)))
   }
 }

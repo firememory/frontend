@@ -1,51 +1,62 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
-<div class="row">
-    <div class="col-md-12">
-        <h2>@Messages("open.reserve.proof")</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>@Messages("open.coinType")</th>
-                <th>@Messages("user.available")</th>
-                <th>@Messages("user.orderPending")</th>
-                <th>@Messages("user.withdrawalPending")</th>
-                <th>Account</th>
-                <th>@Messages("open.reserve.coinaddr")</th>
-                <th>@Messages("open.reserve.balance")</th>
-                <th>Total Reserve</th>
-                <th>@Messages("open.reserve.ratio")</th>
-            </tr>
-            </thead>
-            <tbody>
-            @for(coin <- coins) {
-            <tr ng-init="getWallets('@coin')">
-                <td><strong>@coin</strong></td>
-                <td>{{accounts['@coin'].available.value | coin}}</td>
-                <td>{{accounts['@coin'].locked.value | coin}}</td>
-                <td>{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                <td>
-                    <span ng-repeat="wallet in hotWallets['@coin']">
-                        <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
-                    </span>
-                    <span ng-repeat="wallet in coldWallets['@coin']">
-                        <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
-                    </span>
-                </td>
-                <td>
-                    <span ng-repeat="wallet in hotWallets['@coin']">
-                        <span class="label label-warning">{{wallet.amount.display_short}}</span>
-                    </span>
-                    <span ng-repeat="wallet in coldWallets['@coin']">
-                        <span class="label label-info">{{wallet.amount.display_short}}</span>
-                    </span>
-                </td>
-                <td>{{walletsBalance['@coin'] | coin}}</td>
-                <td><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
-            </tr>
-            }
-            </tbody>
-        </table>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>@Messages("open.reserve.proof")</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>@Messages("open.coinType")</th>
+                            <th>@Messages("user.available")</th>
+                            <th>@Messages("user.orderPending")</th>
+                            <th>@Messages("user.withdrawalPending")</th>
+                            <th>Account</th>
+                            <th>@Messages("open.reserve.coinaddr")</th>
+                            <th>@Messages("open.reserve.balance")</th>
+                            <th>Total Reserve</th>
+                            <th>@Messages("open.reserve.ratio")</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(coin <- coins) {
+                        <tr ng-init="getWallets('@coin')">
+                            <td><strong>@coin</strong></td>
+                            <td>{{accounts['@coin'].available.value | coin}}</td>
+                            <td>{{accounts['@coin'].locked.value | coin}}</td>
+                            <td>{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td>
+                                <span ng-repeat="wallet in hotWallets['@coin']">
+                                    <span class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
+                                </span>
+                                <span ng-repeat="wallet in coldWallets['@coin']">
+                                    <span class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-repeat="wallet in hotWallets['@coin']">
+                                    <span class="label label-warning">{{wallet.amount.display_short}}</span>
+                                </span>
+                                <span ng-repeat="wallet in coldWallets['@coin']">
+                                    <span class="label label-info">{{wallet.amount.display_short}}</span>
+                                </span>
+                            </td>
+                            <td>{{walletsBalance['@coin'] | coin}}</td>
+                            <td><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>

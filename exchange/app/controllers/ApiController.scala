@@ -36,7 +36,7 @@ object ApiController extends Controller with Json4s {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
       val status = ControllerHelper.getParam(request.queryString, "status").map(s => OrderStatus.get(s.toInt).getOrElse(OrderStatus.Pending))
-      session.get("uid") match {
+      request.session.get("uid") match {
         case Some(uid) =>
           val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
           AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
@@ -57,7 +57,7 @@ object ApiController extends Controller with Json4s {
       val subject = market.substring(0, 3);
       val currency = market.substring(3);
       val data = request.body
-      session.get("uid") match {
+      request.session.get("uid") match {
         case Some(id) =>
           val orderType = getParam(data, "type", "")
           val price = getParam(data, "price").map(_.toDouble)
@@ -77,7 +77,7 @@ object ApiController extends Controller with Json4s {
 
   def cancelOrder(market: String, id: String) = Authenticated.async {
     implicit request =>
-      session.get("uid") match {
+      request.session.get("uid") match {
         case Some(uid) =>
           AccountService.cancelOrder(id.toLong, uid.toLong, market).map(result => Ok(result.toJson()))
         case None => Future(Unauthorized)
@@ -103,8 +103,8 @@ object ApiController extends Controller with Json4s {
   def deposit = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body
-      val username = session.get("username").getOrElse(null)
-      val uid = session.get("uid").getOrElse(null)
+      val username = request.session.get("username").getOrElse(null)
+      val uid = request.session.get("uid").getOrElse(null)
       if (username == null || uid == null) {
         Future(Unauthorized)
       } else {
@@ -119,8 +119,8 @@ object ApiController extends Controller with Json4s {
 //  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
 //    implicit request =>
 //      val data = request.body
-//      val username = session.get("username").getOrElse(null)
-//      val uid = session.get("uid").getOrElse(null)
+//      val username = request.session.get("username").getOrElse(null)
+//      val uid = request.session.get("uid").getOrElse(null)
 //      if (username == null || uid == null) {
 //        Future(Unauthorized)
 //      } else {
@@ -142,8 +142,8 @@ object ApiController extends Controller with Json4s {
 def withdrawal = Authenticated.async(parse.urlFormEncoded) {
   implicit request =>
     val data = request.body
-    val username = session.get("username").getOrElse(null)
-    val uid = session.get("uid").getOrElse(null)
+    val username = request.session.get("username").getOrElse(null)
+    val uid = request.session.get("uid").getOrElse(null)
     if (username == null || uid == null) {
       Future(Unauthorized)
     } else {

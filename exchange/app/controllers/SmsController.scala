@@ -82,7 +82,7 @@ object SmsController extends Controller with Json4s {
 
   def sendVerifySms2 = Authenticated.async {
     implicit request =>
-    val userId = session.get("uid").getOrElse("")
+    val userId = request.session.get("uid").getOrElse("")
     val (uuid, verifyCode) = generateVerifyCode
     val uid = userId.toLong
     UserService.getProfile(uid) flatMap {

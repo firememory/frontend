@@ -4,44 +4,98 @@
 <html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+@__common_css2()
+<link rel="stylesheet" href="stylesheets/open.css">
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/open.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.open">
-@__nojs()
-<div id="top-container">
-@__navbar(4)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper">
+@__navbar2(4)
 
-
-<div class="container">
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked" cp-nav>
-            <li route="#/about/@(lang.code)"><a href="#/about/@(lang.code)">@Messages("open.nav.about")</a></li>
-            <li route="#/opensource"><a href="#/opensource">@Messages("open.nav.opensource")</a></li>
-            <li route="#/opendata"><a href="#/opendata">@Messages("open.nav.opendata")</a></li>
-            <li route="#/reserve"><a href="#/reserve">@Messages("open.nav.reserve")</a></li>
-            <li route="#/connectivity"><a href="#/connectivity">@Messages("open.nav.connectivity")</a></li>
-        </ul>
+<section class="header-2-sub bg-midnight-blue">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2">
+                <div class="hero-unit">
+                    <h1>Takes transparency to the extreme!</h1>
+            </div>
+        </div>
     </div>
+</section>
+<section class="projects-4">
+    <div class="container">
+        <div class="projects row">
+            <div class="project-wrapper col-sm-3">
+                <div class="project">
+                    <div class="photo-wrapper bg-alizarin">
+                        <div class="photo"></div>
+                        <a route="#/opensource" href="#/opensource" class="overlay"><span class="fui-eye"></span></a>
+                    </div>
+                    <div class="info">
+                        <a route="#/opensource" href="#/opensource" class="name color-pomegranate">@Messages("open.nav.opensource")</a>
+                    </div>
+                </div>
+            </div>
 
-    <div class="col-md-10 data-container"  ng-view></div>
-</div>
+            <div class="project-wrapper col-sm-3">
+                <div class="project">
+                    <div class="photo-wrapper bg-sun-flower">
+                        <div class="photo"></div>
+                        <a route="#/opendata" href="#/opendata" class="overlay"><span class="fui-mic"></span></a>
+                    </div>
+                    <div class="info">
+                        <a route="#/opendata" href="#/opendata" class="name color-orange">@Messages("open.nav.opendata")</a>
+                    </div>
+                </div>
+            </div>
 
+            <div class="project-wrapper col-sm-3">
+                <div class="project">
+                    <div class="photo-wrapper bg-peter-river">
+                        <div class="photo"></div>
+                        <a route="#/reserve" href="#/reserve" class="overlay"><span class="fui-cmd"></span></a>
+                    </div>
+                    <div class="info">
+                        <a route="#/reserve" href="#/reserve" class="name color-belize-hole">@Messages("open.nav.reserve")</a>
+                    </div>
+                </div>
+            </div>
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
+            <div class="project-wrapper col-sm-3">
+                <div class="project">
+                    <div class="photo-wrapper bg-turquoise">
+                        <div class="photo"></div>
+                        <a route="#/connectivity" href="#/connectivity" class="overlay"><span class="fui-user"></span></a>
+                    </div>
+                    <div class="info">
+                        <a route="#/connectivity" href="#/connectivity" class="name color-green-sea">@Messages("open.nav.connectivity")</a href="#">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.container-->
+</section>
 
-@__common_js()
+<div ng-view></div>
+
+@__footer2()
+</div> <!-- page-wrapper -->
+@__common_js2()
+<<<<<<< HEAD
 @__js("/javascripts/open.min.js")
+@__js("/lib/repo.min.js")
+=======
+@__js("/javascripts/open.js")
+>>>>>>> ff0060e... fix minor bug
 @__tracking_js()
 </body>
 </html>

@@ -16,7 +16,7 @@ trait AuthenticateHelper {
   val timeoutMinutes: Int = sysConfig.getInt("session.timeout.minutes").getOrElse(60)
   val timeoutMillis: Long = timeoutMinutes * 60 * 1000
 
-  def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[SimpleResult] = {
+  def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[Result] = {
     val ajaxRequestHeader = request.headers.get(ajaxRequestHeaderKey).getOrElse("")
     if (ajaxRequestHeadervalue.equals(ajaxRequestHeader)) {
       Future(Unauthorized)
@@ -28,7 +28,7 @@ trait AuthenticateHelper {
 
 object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
 
-  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[SimpleResult]) = {
+  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
     // check login and session timeout here:
     request.session.get("uid").map { uid =>
       val currTs = System.currentTimeMillis

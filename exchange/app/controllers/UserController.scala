@@ -107,8 +107,8 @@ object UserController extends Controller with Json4s with AccessLogging {
   def updateSettings = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
     val data = request.body
-    val userId = session.get("uid").getOrElse("")
-    val email = session.get("username").getOrElse("")
+    val userId = request.session.get("uid").getOrElse("")
+    val email = request.session.get("username").getOrElse("")
     //val nationalId = getParam(data, "nationalId").getOrElse("")
     val realName = getParam(data, "realName").getOrElse("")
     val mobile = getParam(data, "mobile").getOrElse("")
@@ -151,7 +151,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def forgetPassword  = Action {
     implicit request =>
-    Ok(views.html.forgetPassword.render(session, lang))
+    Ok(views.html.forgetPassword.render(request.session, request.acceptLanguages(0)))
   }
 
   def requestPasswordReset(email: String) = Action.async {
@@ -175,7 +175,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       if (result.success) {
         val profile = result.data.get.asInstanceOf[UserProfile]
         logger.info(s"profile: $profile")
-        Ok(views.html.resetPassword.render(token, session, lang))
+        Ok(views.html.resetPassword.render(token, request.session, request.acceptLanguages(0)))
       } else {
         Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
       }
@@ -210,7 +210,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def accountSettingsView() = Authenticated.async {
     implicit request =>
-    val email = session.get("username").getOrElse("")
+    val email = request.session.get("username").getOrElse("")
     assert(email != null && email.trim.nonEmpty)
     UserService.queryUserProfileByEmail(email) map {
       result =>
@@ -225,7 +225,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         ("realName" -> profile.realName.getOrElse("")),
         ("mobile" -> profile.mobile.getOrElse(""))
       )
-      Ok(views.html.viewAccountSettings.render(profileMap, lang))
+      Ok(views.html.viewAccountSettings.render(profileMap, request.acceptLanguages(0)))
     }
   }
 

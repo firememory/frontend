@@ -42,7 +42,7 @@ Messages.timeDemension = {
 Messages.asset = {
    assetComposition: '资产结构',
    assetTrend: '资产趋势'
-}
+};
 
 Messages.trade = {
    lowerZero: '数量需要大于0',

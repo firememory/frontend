@@ -1,8 +1,40 @@
 @()(implicit lang: Lang)
 
-<div class="row">
-    <h1>源代码/Source Code</h1>
-    <p class="text-warning">我们的代码目前还未开源。我们正在努力整理代码中。预计七月份会开源出来。敬请期待。</p>
-    <br/>
-    <p class="text-warning">We are preparing our github repository. It will be opon-sourced in July, 2014. Stay tuned.</p>
-</div>
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aligment">
+                    <h3>Our Matching Engine (ME) will be fully open-sourced on Github.</h3>
+                    <p>We decided to open source our ME to achieve a greater level of openness, and to contribute to the Bitcoin community in the mean while. We are currently reviewing our repository and doing some refactoring and more commenting. The repository is hoste on github as a private repository, but will be openned to the public later this year. Stay tuned.
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="img">
+                        <img src="startup/common-files/img/content/ticket-green@@2x.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="delimiter">&nbsp;</div>
+        <div class="container">
+            <div class="row features">
+                <div class="col-sm-4">
+                    <h6>Event-sourced, in Scala</h6>
+                    <p>Coinport ME Keeps both system states and all historical events. This enable us and our clients to replay events to calculate system state for any historical moment.</p>
+
+                </div>
+                <div class="col-sm-4">
+                    <h6>Symmetric Modeling</h6>
+
+                    <p>Our innovative modeling treats any order a sell order and a buy order at the same time, and each market is symmetrically two markets. For example, BTC-CNY market and CNY-BTC market is the same market. </p>
+                </div>
+                <div class="col-sm-4">
+                    <h6>Automatic Data Publishing</h6>
+
+                    <p>Our ME publishes event and snapshot data on a rigid schedule - every 30 minutes. This is our main approach to achieve full openness and ultimate transparency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

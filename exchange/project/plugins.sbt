@@ -1,14 +1,18 @@
-// Comment to get more information during initialization
-logLevel := Level.Debug
+resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
-resolvers ++= Seq(
-  "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
-  "JMParsons Releases" at "http://jmparsons.github.io/releases/",
-  Resolver.sonatypeRepo("snapshots")
-)
-
-addSbtPlugin("com.jmparsons" % "play-lessc" % "0.1.2")
-
-// Use the Play sbt plugin for Play projects
+// The Play plugin
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3-SNAPSHOT")
 
+// web plugins
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-coffeescript" % "1.0.0")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-less" % "1.0.0")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-jshint" % "1.0.0")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-rjs" % "1.0.1")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.0.0")
+
+addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.0.0")
