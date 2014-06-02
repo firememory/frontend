@@ -1,7 +1,7 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
-<h2>@Messages("transaction.myTransactions")</h2>
+<h3>@Messages("transaction.myTransactions")</h3>
 <h5>filter by market
 <select ng-model="market" ng-change="changeMarket()">
     @for(market <- markets) {
