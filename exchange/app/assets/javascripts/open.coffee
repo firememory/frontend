@@ -3,7 +3,7 @@ app = angular.module('coinport.open', ['ui.bootstrap', 'ngResource', 'navbar', '
 app.config ($routeProvider) ->
 	$routeProvider.
 		when('/', {
-			redirectTo: '/about/en-US'
+			redirectTo: '/reserve'
 		}).
 		when('/about/en-US', {
 			templateUrl: 'views/openness.en-US.html'

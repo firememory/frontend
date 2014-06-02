@@ -1,3 +1,6 @@
+@(showNumOfUsers: Boolean = true)(implicit session: Session, lang: Lang)
+
+@if(showNumOfUsers) {
 <footer class="footer-11">
     <div class="additional-links">
         <div class="container">
@@ -5,6 +8,7 @@
         </div>
     </div>
 </footer>
+}
 <footer class="footer-6">
     <div class="container">
         <div class="row">

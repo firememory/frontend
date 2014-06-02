@@ -4,29 +4,31 @@
 <html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+@__common_css2()
+@__css("/stylesheets/main.css")
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/open.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.order">
-@__nojs()
-<div id="top-container">
-@__navbar(4)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper opendata-browser">
+@__navbar2(4)
 
+</footer>
+<footer class="footer-4 bg-midnight-blue">
+    <div class="container">
+        <div class="brand">@Messages("order.order"): @oid</div>
+    </div>
+</footer>
 
-<div class="container" ng-controller="OrderCtrl">
-    <div id="main-content">
+<div class="container opendata-data" ng-controller="OrderCtrl">
         <div class="row">
-            <div class="col-md-12">
-                <h1>@Messages("order.order"): @oid</h1>
-                <h1></h1>
-            </div>
             <div class="col-md-12">
                 <table class="table">
                     <thead>
@@ -118,16 +120,10 @@
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
 
-@__common_js()
+@__footer2()
+</div> <!-- page-wrapper -->
+@__common_js2()
 @__js("/javascripts/order.js")
-@__tracking_js()
 </body>
 </html>
-
-
-
