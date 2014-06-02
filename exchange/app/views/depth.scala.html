@@ -4,28 +4,31 @@
 <html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+@__common_css2()
+@__css("/stylesheets/main.css")
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/depth.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.depth">
-@__nojs()
-<div id="top-container">
-@__navbar(4)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper opendata-browser">
+@__navbar2(4)
 
-
-<div class="container" ng-controller="DepthCtrl">
-    <div class="row">
-        <div id="depth-graph"></div>
+</footer>
+<footer class="footer-4 bg-midnight-blue">
+    <div class="container">
+        <div class="brand">Order Book - @market</div>
     </div>
+</footer>
+
+<div class="container opendata-data" ng-controller="DepthCtrl">
     <div class="row">
-        <h1>Order Book - @market</h1>
         <div class="col-md-6">
             <h2>@(Messages("buy"))</h2>
             <table class="table table-striped">
@@ -66,12 +69,9 @@
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
-
-@__common_js()
+@__footer2()
+</div> <!-- page-wrapper -->
+@__common_js2()
 @__js("/lib/d3/d3.min.js")
 @__js("/js/depth.js")
 @__tracking_js()
