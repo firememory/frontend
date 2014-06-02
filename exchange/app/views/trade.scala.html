@@ -3,21 +3,13 @@
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@__head_commons()
+@__css("/stylesheets/main.css")
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/trade.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.trade">
-@__nojs()
-<div id="top-container">
-@__navbar(1)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
 
 @session.get("uid") match {
     case Some(id: String) => {
@@ -27,19 +19,16 @@
         <span ng-init="uid='0'" ng-show="false"></span>
     }
 }
-<div class="container" ng-view>
-</div>
 
+<div class="page-wrapper trade">
+@__navbar2(1)
+<div ng-view></div>
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
-
-@__common_js()
+@__footer2()
+</div> <!-- page-wrapper -->
+@__tail_commons()
 @__js("/lib/highstock.js")
 @__js("/js/trade.js")
 @__tracking_js()
 </body>
 </html>
-
