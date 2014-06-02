@@ -4,28 +4,28 @@
 <html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+@__common_css2()
+@__css("/stylesheets/main.css")
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/open.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.transaction">
-@__nojs()
-<div id="top-container">
-@__navbar(4)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper">
+@__navbar2(4)
 
 
 <div class="container" ng-controller="TxCtrl">
     <div id="main-content">
         <div class="row">
             <div class="col-md-12">
-                <h1>@Messages("transaction.transaction"): @tid</h1>
-                <h1></h1>
+                <h3>@Messages("transaction.transaction"): @tid</h3>
             </div>
         </div>
         <div class="row">
@@ -81,17 +81,13 @@
                 </table>
             </div>
         </div> <!-- row -->
-    </div> <!-- main-content -->
-</div> <!-- main-container -->
+    </div>
+</div>
 
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
-
-@__common_js()
+@__footer2()
+</div> <!-- page-wrapper -->
+@__common_js2()
 @__js("/javascripts/transaction.js")
-@__tracking_js()
 </body>
 </html>
