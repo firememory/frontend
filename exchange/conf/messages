@@ -178,6 +178,7 @@ transaction.maker=Maker
 transaction.myTransactions=My Transactions
 
 user.user=User
+user.assets=Assets
 user.account=Account
 user.coinType=Currency
 user.available=Available

@@ -171,6 +171,7 @@ transaction.maker=限价订单用户
 transaction.myTransactions=我的成交单
 
 user.user=用户
+user.assets=资产
 user.account=账户
 user.coinType=货币类型
 user.available=可用

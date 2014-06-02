@@ -4,125 +4,124 @@
 <html lang="@(lang.code)">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+@__common_css2()
+@__css("/stylesheets/main.css")
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/open.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.user">
-@__nojs()
-<div id="top-container">
-@__navbar(4)
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper opendata-browser">
+@__navbar2(4)
 
+</footer>
+<footer class="footer-4 bg-midnight-blue">
+    <div class="container">
+        <div class="brand">@Messages("user.user"): @target</div>
+    </div>
+</footer>
 
-<div class="container" ng-controller="UserCtrl">
-    <div id="main-content">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>@Messages("user.user"): @target</h1>
-                <h1></h1>
-            </div>
+<div class="container opendata-data" ng-controller="UserCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("user.assets")</h4>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table table-condensed table-striped">
-                    <thead>
-                        <tr>
-                            <th>@Messages("user.coinType")</th>
-                            <th>@Messages("user.available")</th>
-                            <th>@Messages("user.orderPending")</th>
-                            <th>@Messages("user.withdrawalPending")</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="account in accounts">
-                            <td>{{account.currency}}</td>
-                            <td>{{account.available.value | coin}}</td>
-                            <td>{{account.locked.value | coin}}</td>
-                            <td>{{account.pendingWithdrawal.value | coin}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4>@Messages("user.transactions")</h4>
-            </div>
-            <div class="col-md-12">
-                <table class="table">
-                    <thead>
+        <div class="col-md-6">
+            <table class="table table-condensed table-striped">
+                <thead>
                     <tr>
-                        <th>@Messages("transaction.tid")</th>
-                        <th>@Messages("transaction.timestamp")</th>
-                        <th>@Messages("transaction.price")</th>
-                        <th>@Messages("transaction.amount")</th>
-                        <th>@Messages("transaction.value")</th>
-                        <th>@Messages("transaction.taker")</th>
-                        <th>@Messages("transaction.type")</th>
-                        <th>@Messages("transaction.maker")</th>
+                        <th>@Messages("user.coinType")</th>
+                        <th>@Messages("user.available")</th>
+                        <th>@Messages("user.orderPending")</th>
+                        <th>@Messages("user.withdrawalPending")</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in transactions">
-                            <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
-                            <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                            <td>{{item.price.value | price}} {{item.price.currency}}</td>
-                            <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
-                            <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
-                            <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
-                            <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                            <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="account in accounts">
+                        <td>{{account.currency}}</td>
+                        <td>{{account.available.value | coin}}</td>
+                        <td>{{account.locked.value | coin}}</td>
+                        <td>{{account.pendingWithdrawal.value | coin}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h4>@Messages("user.Transfer")</h4>
-            </div>
-            <div class="col-md-12">
-            <table class="table table-condensed ">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("user.transactions")</h4>
+        </div>
+        <div class="col-md-12">
+            <table class="table">
                 <thead>
                 <tr>
-                    <th>@Messages("user.transfer.id")</th>
-                    <th>@Messages("user.transfer.timestamp")</th>
-                    <th>@Messages("user.transfer.operation")</th>
-                    <th>@Messages("user.transfer.currency")</th>
-                    <th style="text-align: right;">@Messages("user.transfer.amount")</th>
-                    <th>@Messages("user.transfer.status")</th>
+                    <th>@Messages("transaction.tid")</th>
+                    <th>@Messages("transaction.timestamp")</th>
+                    <th>@Messages("transaction.price")</th>
+                    <th>@Messages("transaction.amount")</th>
+                    <th>@Messages("transaction.value")</th>
+                    <th>@Messages("transaction.taker")</th>
+                    <th>@Messages("transaction.type")</th>
+                    <th>@Messages("transaction.maker")</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
-                    <td> {{item.id}} </td>
-                    <td> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
-                    <td> <span class="{{item.isDeposit | dwClass}}"><i class="fa {{item.isDeposit | dwIcon}}"></i> {{item.operation | dwText}}</span> </td>
-                    <td> {{item.amount.currency}} </td>
-                    <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.operation == 0 ? '' : '-'}} {{item.amount.display}} </td>
-                    <td>{{item.status | transferStatusText }}</td>
-                </tr>
+                    <tr ng-repeat="item in transactions">
+                        <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
+                        <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{item.price.value | price}} {{item.price.currency}}</td>
+                        <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
+                        <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
+                        <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '我' : (item.taker)}}</a></td>
+                        <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                        <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
+                    </tr>
                 </tbody>
             </table>
-            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("user.Transfer")</h4>
+        </div>
+        <div class="col-md-12">
+        <table class="table table-condensed ">
+            <thead>
+            <tr>
+                <th>@Messages("user.transfer.id")</th>
+                <th>@Messages("user.transfer.timestamp")</th>
+                <th>@Messages("user.transfer.operation")</th>
+                <th>@Messages("user.transfer.currency")</th>
+                <th style="text-align: right;">@Messages("user.transfer.amount")</th>
+                <th>@Messages("user.transfer.status")</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
+                <td> {{item.id}} </td>
+                <td> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
+                <td> <span class="{{item.isDeposit | dwClass}}"><i class="fa {{item.isDeposit | dwIcon}}"></i> {{item.operation | dwText}}</span> </td>
+                <td> {{item.amount.currency}} </td>
+                <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.operation == 0 ? '' : '-'}} {{item.amount.display}} </td>
+                <td>{{item.status | transferStatusText }}</td>
+            </tr>
+            </tbody>
+        </table>
         </div>
     </div>
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div>  <!-- id="body-container" -->
-@__footer()
-</div> <!-- id="top-container" -->
 
-@__common_js()
+@__footer2()
+</div> <!-- page-wrapper -->
+@__common_js2()
 @__js("/javascripts/user.js")
-@__tracking_js()
 </body>
 </html>
