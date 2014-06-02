@@ -4,7 +4,7 @@ import com.typesafe.sbt.less.Import.LessKeys._
 
 name := """coinport-frontend"""
 
-version := "1.1.0"
+version := "1.1.1"
 
 scalaVersion := "2.10.4"
 
@@ -12,7 +12,7 @@ lazy val root = (project in file("."))
     .enablePlugins(PlayScala)
     .enablePlugins(SbtTwirl)
 
-LessKeys.compress in Assets := true
+// LessKeys.compress in Assets := true
 
 LessKeys.verbose in Assets := true
 
@@ -48,9 +48,9 @@ libraryDependencies ++= {
     "com.github.tototoshi"        %% "play-json4s-test-native"          % "0.2.0" % "test",
     "com.coinport"                %% "coinex-client"                    % "1.1.18-SNAPSHOT",
     "com.octo.captcha"            %  "jcaptcha"                         % "1.0",
+    "org.webjars"                 %  "bootstrap"                        % "3.1.1",
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
-    "org.webjars"                 %  "bootstrap"                        % "3.1.1",
     "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1",
     "net.debasishg"               %% "redisclient"                      % "2.12"
   )
