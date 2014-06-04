@@ -149,7 +149,7 @@ open.network.height=高度
 open.network.lastblock=最后一个块
 open.network.neverseen=从未正常
 open.network.minutesago=分钟前
-open.network.checkNow=更新
+open.network.checkNow=查看
 
 transaction.tid=交易ID
 transaction.timestamp=时间
