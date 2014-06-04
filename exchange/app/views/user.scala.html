@@ -90,6 +90,7 @@
                 <th>@Messages("user.transfer.operation")</th>
                 <th>@Messages("user.transfer.currency")</th>
                 <th style="text-align: right;">@Messages("user.transfer.amount")</th>
+                <th>@Messages("user.transfer.address")</th>
                 <th>@Messages("user.transfer.status")</th>
             </tr>
             </thead>
@@ -97,10 +98,11 @@
             <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                 <td> {{item.id}} </td>
                 <td> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
-                <td> <span class="{{item.isDeposit | dwClass}}"><i class="fa {{item.isDeposit | dwIcon}}"></i> {{item.operation | dwText}}</span> </td>
+                <td> {{item.operation | transferOperationText }}</span> </td>
                 <td> {{item.amount.currency}} </td>
-                <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.operation == 0 ? '' : '-'}} {{item.amount.display}} </td>
-                <td>{{item.status | transferStatusText }}</td>
+                <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
+                <td> {{item.address}} </td>
+                <td> {{item.status | transferStatusText }}</td>
             </tr>
             </tbody>
         </table>

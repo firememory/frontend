@@ -208,6 +208,7 @@ transfer.updated=Updated
 transfer.amount=Amount
 transfer.status=Status
 transfer.confirm=Confirm
+transfer.address=Address
 transfer.pinpassword=Money Password
 transfer.phoneVerCode=Phone verification Code
 transfer.googleAuthCode=Google Authenticator Code

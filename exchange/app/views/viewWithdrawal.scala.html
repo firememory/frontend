@@ -63,6 +63,7 @@
             <th>@Messages("transfer.updated")</th>
             <th>@Messages("transfer.amount")</th>
             <th>@Messages("transfer.status")</th>
+            <th>@Messages("transfer.address")</th>
             <th>@Messages("transfer.confirm")</th>
         </tr>
         </thead>
@@ -82,6 +83,9 @@
             </td>
             <td>
                 <span class="badge">{{item.status  | transferStatusText}}</span>
+            </td>
+            <td>
+                {{item.address}}
             </td>
             <td>
                 {{item.confirm}}
