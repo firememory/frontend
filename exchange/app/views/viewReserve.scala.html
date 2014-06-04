@@ -43,10 +43,10 @@
                             </td>
                             <td>
                                 <span ng-repeat="wallet in hotWallets['@coin']">
-                                    <span class="label label-warning">{{wallet.amount.display_short}}</span>
+                                    <span class="label label-warning">{{wallet.amount.value | coin}}</span>
                                 </span>
                                 <span ng-repeat="wallet in coldWallets['@coin']">
-                                    <span class="label label-info">{{wallet.amount.display_short}}</span>
+                                    <span class="label label-info">{{wallet.amount.value | coin}}</span>
                                 </span>
                             </td>
                             <td>{{walletsBalance['@coin'] | coin}}</td>
