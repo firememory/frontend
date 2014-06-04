@@ -196,14 +196,23 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function () {
+        if (! $scope.withdrawalData.amount || $scope.withdrawalData.amount < 0) {
+            alert('Invalid amount');
+            return;
+        }
+        if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
+            alert('Withdrawal address needed');
+            return;
+        }
         console.log('withdrawal ' + $scope.withdrawalData.amount);
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
-                    alert(Messages.transfer.withdrawalSuccess + withdrawal.amount / 1000 + $scope.currency);
+                    alert('Withdrawal request submitted.');
+                    setTimeout($scope.loadWithdrawals, 1000);
                 } else {
-                    alert(data.message);
+                    alert('Withdrawal failed.');
                 }
             });
     };

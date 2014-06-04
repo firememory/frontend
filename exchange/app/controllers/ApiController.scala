@@ -150,9 +150,10 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       val amount = getParam(data, "amount", "0.0").toDouble
       val currency: Currency = getParam(data, "currency", "")
       val address = getParam(data, "address", "")
-      AccountService.withdrawal(uid.toLong, currency, amount, address)
       UserService.setWithdrawalAddress(uid.toLong, currency, address)
-      Future(Ok(ApiResult.toJson()))
+      AccountService.withdrawal(uid.toLong, currency, amount, address).map {
+        case result => Ok(result.toJson)
+      }
     }
 }
 
