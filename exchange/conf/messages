@@ -191,6 +191,7 @@ user.transfer.operation=Type
 user.transfer.currency=Currency
 user.transfer.amount=Amount
 user.transfer.status=Status
+user.transfer.address=Address
 user.transactions=Transactions
 
 transfer.withdrawal=Withdrawal
