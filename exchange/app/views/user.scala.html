@@ -76,6 +76,7 @@
                 </tbody>
             </table>
         </div>
+        <pagination boundary-links="true" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -107,6 +108,8 @@
             </tbody>
         </table>
         </div>
+
+        <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
     </div>
 </div>
 
