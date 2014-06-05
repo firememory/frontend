@@ -161,7 +161,10 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val query = request.queryString
       val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
-      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit))
+      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit)) match {
+        case Some(t) => Seq(t)
+        case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
+      }
       val pager = ControllerHelper.parsePagingParam()
 
       TransferService.getTransfers(Some(uid.toLong), Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
