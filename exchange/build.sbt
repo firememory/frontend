@@ -32,7 +32,7 @@ doc in Compile <<= target.map(_ / "none")
 //}}
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.2"
+  val akkaVersion = "2.3.3"
   Seq(
     anorm,
     cache,
