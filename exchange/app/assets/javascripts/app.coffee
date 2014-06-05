@@ -47,7 +47,7 @@ coinportApp.filter 'orderStatusText', () -> (input) ->
 coinportApp.filter 'transferStatusText', () -> (input) ->
 	Messages.transfer.status[input]
 
-coinportApp.filter 'transferStatusText', () -> (input) ->
+coinportApp.filter 'transferOperationText', () -> (input) ->
 	Messages.transfer.operation[input]
 
 coinportApp.filter 'currency', () -> (input) ->
