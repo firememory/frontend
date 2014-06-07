@@ -8,8 +8,8 @@
     <title>@Messages("title")</title>
 </head>
 
-<body>
-<div class="page-wrapper">
+<body ng-app="coinport.home">
+<div class="page-wrapper" ng-controller="HomeCtrl">
 
 <section class="content-16 v-center">
     <div>
@@ -96,6 +96,7 @@
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__tracking_js()
+@__js("/javascripts/index.js")
 </body>
 </html>
 
