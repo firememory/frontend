@@ -12,40 +12,35 @@
 <div class="page-wrapper login">
 @__navbar2("login")
 
-<div class="container head-up" ng-controller="LoginCtrl">
+<div class="container" ng-controller="LoginCtrl">
     @if(msg != null && msg.nonEmpty) {
-        <div class="row">
+        <div class="row head-up">
            <div class="col-md-12 text-center">
                 <h4 class="message">@Messages(msg)</h4>
             </div>
         </div>
     } else {
-        <div class="row padding">
+        <div class="row padding"></div>
     }
-</div>
 
-<div class="container" ng-controller="LoginCtrl">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4"><h4>@Messages("login.title")</h4></div>
+    </div>
+
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-
             <form class="form-horizontal" role="form" id="login-form" name="loginForm">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                       <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
-                    </div>
+                    <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
-                    </div>
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
                 </div>
                 <div class="form-group" ng-show="showError">
-                    <div class="col-sm-12 error text-center">{{errorMessage}}</div>
+                    <div class="error text-center">{{errorMessage}}</div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <button class="btn btn-lg btn-block btn-info" type="submit" ng-click="doLogin()">@Messages("login.doLogin")</button>
-                    </div>
+                    <button class="btn btn-lg btn-block btn-info" type="submit" ng-click="doLogin()">@Messages("login.doLogin")</button>
                 </div>
             </form>
         </div>
