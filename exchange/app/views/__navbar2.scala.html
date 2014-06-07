@@ -33,8 +33,6 @@
                         <li ng-show="isLogin" @if(index=="account") {class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
 
                         <li @if(index=="openness"){class="active"}> <a href="/open#/about/@(lang.code)">@Messages("nav.open")</a> </li>
-
-                        <li ng-show="isLogin"> <a class="user" href="/user/{{uid}}"><span><i class="fa fa-user"></i><span ng-bind="username"></span></span></a> </li>
                         <li ng-show="isLogin"> <a href="/account/logout" class="">@Messages("nav.logout")</a> </li>
                         <li ng-show="!isLogin"> <a href="/login">@Messages("nav.login")</a> </li>
                     </ul>
