@@ -40,7 +40,7 @@
             position: relative;
             .border-radius(6px);
             overflow: hidden;
-            background-color: #ecf0f1;
+            background-color: @clouds;
             .transition(background-color .4s);
         }
         .photo {
@@ -81,7 +81,7 @@
             margin-top: 36px;
         }
         .name {
-            color: #34495e;
+            color: @wet-asphalt;
             font-size: 18px;
             font-weight: 700;
             margin-bottom: 5px;
@@ -89,7 +89,7 @@
         }
         .member:hover {
             .photo-wrapper {
-                background-color: #1abc9c;
+                background-color: @turquoise;
             }
             .photo {
                 .opacity(40);
@@ -98,7 +98,7 @@
                 .opacity(100);
             }
             .name {
-                color: #1abc9c;
+                color: @turquoise;
             }
         }
         @media (max-width: 767px) {
