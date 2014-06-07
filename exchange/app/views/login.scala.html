@@ -12,57 +12,60 @@
 <div class="page-wrapper login">
 @__navbar2("login")
 
+<div class="container head-up" ng-controller="LoginCtrl">
+    @if(msg != null && msg.nonEmpty) {
+        <div class="row">
+           <div class="col-md-12 text-center">
+                <h4 class="message">@Messages(msg)</h4>
+            </div>
+        </div>
+    } else {
+        <div class="row padding">
+    }
+</div>
 
 <div class="container" ng-controller="LoginCtrl">
-
-    <div class="row">
-       <div class="col-md-4 col-md-offset-4 msg-container">
-        @if(msg.nonEmpty) {
-            <div id="login-msg" class="alert alert-warning">@Messages(msg)</div>
-        } else {
-            <div id="login-msg" class="alert">&nbsp;</div>
-        }
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <form id="login-form" class="form-horizontal" name="loginForm">
-                <div class="form-group has-feedback">
-                    <div class="input-group input-group-lg">
-                        <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
+
+            <form class="form-horizontal" role="form" id="login-form" name="loginForm">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                       <input type="email" name="email" class="form-control" placeholder="@Messages("email")" ng-model="login.username" required>
                     </div>
-                    <div class="input-group input-group-lg">
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
                         <input name="password" type="password" id="inputPassword" class="form-control" placeholder="@Messages("password")" ng-model="login.password" required>
                     </div>
                 </div>
-                <div class="form-group input-group-lg">
-                    <button class="btn btn-lg btn-block btn-primary" type="submit" ng-click="doLogin()" ng-disabled="!loginForm.$valid">@Messages("login.doLogin")</button>
+                <div class="form-group" ng-show="showError">
+                    <div class="col-sm-12 error text-center">{{errorMessage}}</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button class="btn btn-lg btn-block btn-info" type="submit" ng-click="doLogin()">@Messages("login.doLogin")</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4 col-md-offset-6">
-            <a href="/account/forgetpassword">@(Messages("forgotPassword"))</a>
-            &nbsp;&nbsp;
-            <a href="/account/resendVerifyEmail/{{login.username}}" ng-show="ifEmailNotVerified">@(Messages("resendVerifyEmail"))</a>
-        </div>
-        <div class="col-md-2 col-md-offset-8">
-
+        <div class="col-md-4 col-md-offset-4 text-right">
+            <a class="additional-link" href="/account/forgetpassword">@(Messages("forgotPassword"))</a>
+            <a class="additional-link" href="/account/resendVerifyEmail/{{login.username}}" ng-show="ifEmailNotVerified">@(Messages("resendVerifyEmail"))</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 col-md-offset-4 msg-container">
-            <div id="login-error" class="alert alert-danger" ng-show="showError">{{errorMessage}}</div>
+            
         </div>
     </div>
 </div>
 
 
-@__footer2()
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/javascripts/login.js")

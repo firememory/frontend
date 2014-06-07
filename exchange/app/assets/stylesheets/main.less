@@ -41,6 +41,19 @@ header.header-3 {
     }
 }
 
+div.site-notification {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    .bg-warning;
+
+    .notification-inner {
+        .text-danger;
+        width: 100%;
+        padding: 40px;
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
@@ -98,5 +111,34 @@ div.opendata-browser {
         }
 
         .has-sell-buy-color();
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for /login
+div.login {
+    div.head-up {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        h4.message {
+            padding: 30px;
+            color: white;
+            .bg-info;
+        }
+    }
+    div.padding {
+        height: 40px;
+    }
+
+    a.additional-link {
+        padding-left: 20px;
+    }
+
+    div.error {
+        .text-danger;
+        padding: 20px;
     }
 }

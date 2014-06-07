@@ -9,7 +9,9 @@
 </head>
 
 <body ng-app="coinport.home">
-<div class="page-wrapper" ng-controller="HomeCtrl">
+<div class="page-wrapper">
+
+@__site_notification()
 
 <section class="content-16 v-center">
     <div>
@@ -22,7 +24,7 @@
     <a class="control-btn fui-arrow-down" href="#"> </a>
 </section>
 
-@__navbar2("home")
+@__navbar2("home", includeSiteNotification = false)
 
 <section class="header-3-sub">
     <div class="background">&nbsp;</div>
@@ -85,12 +87,7 @@
         </div>
     </div>
 </section>
-<section class="content-11">
-    <div class="container">
-        <span>Trade with Coinport, trade with trust.</span>
-        <a class="btn btn-large btn-danger" href="#">Sign up, Today</a>
-    </div>
-</section>
+
 
 @__footer2()
 </div> <!-- page-wrapper -->

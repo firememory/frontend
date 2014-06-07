@@ -68,6 +68,6 @@
         </div>
     </div>
 </nav>
-<div class="container" ng-controller="AlertCtrl">
+<div class="container site-alert" ng-controller="NotificationCtrl">
     <alert ng-repeat="alert in alerts" type="{{alert.ntype.toLowerCase()}}" close="closeAlert($index)"><strong ng-bind="alert.title"></strong> <span ng-bind="alert.content"></span></alert>
 </div>

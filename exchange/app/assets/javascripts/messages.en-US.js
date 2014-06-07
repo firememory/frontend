@@ -69,18 +69,18 @@ Messages.connectivity = {
 // See enum ErrorCode in data.thrift
 // key = m + errorCode
 Messages.ErrorMessages = {
-    m1001: 'email already registered',
+    m1001: 'Hmmm..., this email has been registered already.',
     m1002: 'missing information',
-    m1003: 'user not exist',
-    m1004: 'password not match',
+    m1003: 'Hmmm..., there is no such user in our system :(',
+    m1004: 'Your password is incorrect.',
     m1005: 'token not match',
-    m1006: 'email not verified',
+    m1006: 'This account has not been verified yet, check your email to verify your registration first.',
 
     m9002: 'captcha text not match',
-    m9003: 'invalid email format',
-    m9004: 'invalid password format',
-    m9005: 'sms verify code not match',
-    m9006: 'your mobile phone number not verified yet'
+    m9003: 'Your provided email is invalid.',
+    m9004: 'Your password is not valid.',
+    m9005: 'SMS verification code is incorrect',
+    m9006: 'Sorry, but you have to verify your mobile phone number first.'
 };
 
 Messages.getMessage = function(code, msg) {

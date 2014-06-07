@@ -52,6 +52,7 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
   }
 }
 
+// TODO(kongliang): we need to return error code instead of text.
 object ControllerHelper {
   val emptyParamError = ApiResult(false, ErrorCode.ParamEmpty.value, "param can not emppty", None)
   val emailFormatError = ApiResult(false, ErrorCode.InvalidEmailFormat.value, "email format error", None)

@@ -31,8 +31,3 @@ class HomeCtrl
                     $scope.showError= true
 
 app.controller 'HomeCtrl', HomeCtrl
-
-
-$(window).load () ->
-    $('.flexslider').flexslider
-        animation: "slide"

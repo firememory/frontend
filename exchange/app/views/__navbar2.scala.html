@@ -1,6 +1,9 @@
-@(index: String = "")(implicit session: Session, lang: Lang)
+@(index: String = "", includeSiteNotification: Boolean = true)(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
+@if(includeSiteNotification) {
+    @__site_notification()
+}
 
 <header class="header-3" ng-controller="NaviCtrl">
     @session.get("uid") match {
@@ -34,11 +37,11 @@
 
                         <li ng-show="loggedIn" @if(index=="account"){class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
 
-                        <li @if(index=="openness"){class="active"}> <a href="/open#/reserve/@(lang.code)">@Messages("nav.open")</a> </li>
+                        <li @if(index=="openness"){class="active"}> <a href="/open#/reserve">@Messages("nav.open")</a> </li>
                         <li ng-show="loggedIn"> <a href="/account/logout" class="">@Messages("nav.logout")</a> </li>
                         <li ng-hide="loggedIn" @if(index=="login"){class="active"}> <a href="/login">@Messages("nav.login")</a> </li>
                     </ul>
-                     <form class="navbar-form pull-left" ng-hide="'loggedIn">
+                     <form class="navbar-form pull-left" ng-hide="loggedIn">
                         <a class="btn btn-primary" href="/register">@Messages("nav.register")</a>
                     </form>
                 </div>
@@ -47,8 +50,3 @@
     </div>
     <div class="header-background"></div>
 </header>
-<!--
-<div class="container" ng-controller="AlertCtrl">
-    <alert ng-repeat="alert in alerts" type="{{alert.ntype.toLowerCase()}}" close="closeAlert($index)"><strong ng-bind="alert.title"></strong> <span ng-bind="alert.content"></span></alert>
-</div>
--->
