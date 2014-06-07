@@ -1,4 +1,4 @@
-@(index: Int, fix: Boolean = false)(implicit session: Session, lang: Lang)
+@(index: String, fix: Boolean = false)(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
     @session.get("uid") match {
@@ -21,25 +21,18 @@
                 </div>
                 <div class="collapse navbar-collapse pull-right">
                     <ul class="nav pull-left">
-                        <li @if(index==0){class="active"}><a href="/">@Messages("nav.home")</a> </li>
+                        <li @if(index=="home"){class="active"}><a href="/">@Messages("nav.home")</a> </li>
 
-                        <li  ng-show="isLogin"  class="@if(index==1){active}">
+                        <li  ng-show="isLogin"  class="@if(index=="trade"){active}">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 @for(market <- markets) {<li><a href="/trade#/@market">@market</a></li> }
                             </ul>
                         </li>
 
-                        <li class="@if(index==3){active}">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                @for(market <- markets) {<li><a href="/market#/@market">@market</a></li> }
-                            </ul>
-                        </li>
+                        <li ng-show="isLogin" @if(index=="account") {class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
 
-                        <li ng-show="isLogin" @if(index==2) {class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
-
-                        <li @if(index==4){class="active"}> <a href="/open#/about/@(lang.code)">@Messages("nav.open")</a> </li>
+                        <li @if(index=="openness"){class="active"}> <a href="/open#/about/@(lang.code)">@Messages("nav.open")</a> </li>
 
                         <li ng-show="isLogin"> <a class="user" href="/user/{{uid}}"><span><i class="fa fa-user"></i><span ng-bind="username"></span></span></a> </li>
                         <li ng-show="isLogin"> <a href="/account/logout" class="">@Messages("nav.logout")</a> </li>
