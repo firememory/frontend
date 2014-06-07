@@ -1,4 +1,4 @@
-@(index: String)(implicit session: Session, lang: Lang)
+@(index: String = "")(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
 
@@ -36,9 +36,9 @@
 
                         <li @if(index=="openness"){class="active"}> <a href="/open#/reserve/@(lang.code)">@Messages("nav.open")</a> </li>
                         <li ng-show="loggedIn"> <a href="/account/logout" class="">@Messages("nav.logout")</a> </li>
-                        <li ng-show="!loggedIn"> <a href="/login">@Messages("nav.login")</a> </li>
+                        <li ng-hide="loggedIn" @if(index=="login"){class="active"}> <a href="/login">@Messages("nav.login")</a> </li>
                     </ul>
-                     <form class="navbar-form pull-left" ng-show="!loggedIn">
+                     <form class="navbar-form pull-left" ng-hide="'loggedIn">
                         <a class="btn btn-primary" href="/register">@Messages("nav.register")</a>
                     </form>
                 </div>
