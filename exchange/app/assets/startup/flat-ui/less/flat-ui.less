@@ -1,4 +1,6 @@
-// Flat UI main stylesheet that aggregates all modules
+//
+// Flat UI Pro main stylesheet that aggregates all modules
+// --------------------------------------------------
 
 // Loading custom fonts
 //@import url("https://fonts.googleapis.com/css?family=Lato:400,700,700italic,900,400italic,300");
@@ -7,9 +9,11 @@
 
 // Loading config with variables (changing them leads to changing a color scheme)
 @import "variables";
+@import "custom/variables";
 
 // Utility mixins for greater good
 @import "mixins";
+@import "custom/mixins";
 
 @import "modules/scaffolding";
 
@@ -24,27 +28,41 @@
 @import "modules/forms";
 @import "modules/input-icons";
 @import "modules/input-groups";
+@import "modules/file-input";
 @import "modules/checkbox-and-radio";
-@import "modules/navbar";
 @import "modules/tagsinput";
 @import "modules/typeahead";
 @import "modules/progress-bars";
 @import "modules/slider";
+@import "modules/spinner";
+@import "modules/datepicker";
 @import "modules/pager";
 @import "modules/pagination";
 @import "modules/tooltip";
 @import "modules/dropdown";
+@import "modules/tables";
+@import "modules/labels";
+@import "modules/badges";
+@import "modules/alerts";
+@import "modules/bottom";
+@import "modules/navs";
+@import "modules/navbar";
+@import "modules/iconbar";
+@import "modules/breadcrumbs";
+@import "modules/popover";
+@import "modules/dialog";
+@import "modules/modals";
 @import "modules/switch";
-@import "modules/share";
-
-// Examples
-@import "modules/palette";
-@import "modules/tile";
-@import "modules/todo";
+@import "modules/carousel";
 @import "modules/video";
-@import "modules/login";
-
-@import "modules/footer";
 
 // Spaces
 @import "spaces";
+
+// Custom less
+// Add customizations to the custom directory rather than editing the files 
+// directly to avoid changes being overwritten by future upgrades. These custom
+// files can be imported here to override values above. 
+//
+// Example:
+@import "custom/modules/forms";

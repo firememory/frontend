@@ -5,13 +5,13 @@ app.config ($routeProvider) ->
 		when('/', {
 			redirectTo: '/reserve'
 		}).
-		when('/about/en-US', {
+		when('/reserve/en-US', {
 			templateUrl: 'views/openness.en-US.html'
 		}).
-		when('/about/zh-CN', {
+		when('/reserve/zh-CN', {
 			templateUrl: 'views/openness.zh-CN.html'
 		}).
-		when('/about/zh-HK', {
+		when('/reserve/zh-HK', {
 			templateUrl: 'views/openness.zh-HK.html'
 		}).
 		when('/opendata', {

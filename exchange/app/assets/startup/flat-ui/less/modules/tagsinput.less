@@ -1,41 +1,58 @@
-@import "../mixins";
 //
 // Tags Input
 // --------------------------------------------------
 
 .tagsinput {
   background: white;
-  border: 2px solid @brand-secondary;
+  border: 2px solid mix(@inverse, @brand-primary, 90%);
   border-radius: @border-radius-large;
-  height: 100px;
   margin-bottom: 18px;
-  padding: 6px 1px 1px 6px;
+  padding: 6px 1px;
   overflow-y: auto;
   text-align: left;
 
-  .tag {
+  .tag {    
     border-radius: @border-radius-base;
-    background-color: @brand-secondary;
-    color: @inverse;
+    background-color: mix(@inverse, @brand-primary, 90%);
+    color: mix(@brand-primary, @inverse, 65%);
     font-size: ceil(@component-font-size-base * 0.933); // ~14px
     cursor: pointer;
     display: inline-block;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    overflow: hidden;
-    line-height: 15px;
-    padding: 6px 13px 8px 19px;
     position: relative;
     vertical-align: middle;
+    overflow: hidden;
+    margin: 0 5px;
+    line-height: 15px;
+    padding: 8px 10px 8px 22px;
     .transition(.25s linear);
+
+    span {
+      color: @inverse;
+      cursor: pointer;
+      font-size: 12px;
+      opacity: 0;
+      position: absolute;
+      right: 5px;
+      text-align: right;
+      text-decoration: none;
+      top: 8px;
+      z-index: 2;
+      // Opacity fallback for IE
+      display: none\9;
+
+      &:after {
+        color: @inverse;
+        content: "\e00b";
+        font-family: "Flat-UI-Icons";
+      }
+    }
 
     &:hover {
       background-color: mix(@brand-secondary, black, 85%);
       color: @inverse;
-      padding-left: 12px;
-      padding-right: 20px;
+      padding: 8px 22px 8px 10px;
 
-      .tagsinput-remove-link {
+      span {
         color: @inverse;
         opacity: 1;
         // Opacity fallback for IE
@@ -45,50 +62,24 @@
   }
 
   input {
-    background: transparent;
     border: none;
-    color: @brand-primary;
-    font-family: @font-family-base;
-    font-size: ceil(@component-font-size-base * 0.933); // ~14px
-    margin: 0px;
-    padding: 0 0 0 5px;
-    outline: none !important;
-    margin: 6px 5px 0 0;
-    vertical-align: top;
-    width: 12px;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    width: auto !important;
+    max-width: inherit;
   }
 }
-
-.tagsinput-remove-link {
-  bottom: 0;
-  color: @inverse;
-  cursor: pointer;
-  font-size: 12px;
-  opacity: 0;
-  padding: 7px 7px 5px 0;
-  position: absolute;
-  right: 0;
-  text-align: right;
-  text-decoration: none;
-  top: 0;
-  width: 100%;
-  z-index: 2;
-  // Opacity fallback for IE
-  display: none\9;
-
-  &:before {
-    color: @inverse;
-    content: "\e00b";
-    font-family: "Flat-UI-Icons";
-  }
-}
+/*
 
 .tagsinput-add-container {
   vertical-align: middle;
   display: inline-block;
 }
 
-.tagsinput-add {
+.tagsinput-add {  
   background-color: mix(@inverse, @brand-primary, 80%);
   border-radius: @border-radius-small;
   color: @inverse;
@@ -100,7 +91,7 @@
   padding: 7px 9px;
   vertical-align: top;
   .transition(.25s linear);
-
+  
   &:hover {
     background-color: @brand-secondary;
   }
@@ -108,7 +99,7 @@
     content: "\e009";
     font-family: "Flat-UI-Icons";
   }
-}
+}*/
 
 .tags_clear {
   clear: both;
@@ -119,4 +110,15 @@
   background: #fbd8db !important;
   color: #90111a !important;
   margin-left: 5px !important;
+}
+
+// Alternate Color
+// --------------------------------------------------
+.tagsinput-primary {
+  border-color: @brand-secondary;
+
+  .tag {
+    background-color: @brand-secondary;
+    color: @inverse;
+  }
 }
