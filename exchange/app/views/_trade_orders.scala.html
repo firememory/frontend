@@ -2,6 +2,7 @@
 
 <div class="recent-orders">
     <h3>My Orders</h3>
+
     <tabset>
         <tab heading='@(Messages("all"))' select="changeOrderStatus(-1)"></tab>
         <tab heading='@(Messages("order.status.pending"))' select="changeOrderStatus(0)"></tab>

@@ -9,7 +9,7 @@
 </head>
 
 <body ng-app="coinport.trade">
-
+<div class="page-wrapper trade">
 @session.get("uid") match {
     case Some(id: String) => {
         <span ng-init="uid='@id'" ng-show="false"></span>
@@ -19,7 +19,6 @@
     }
 }
 
-<div class="page-wrapper trade">
 @__navbar2("trade")
 <div ng-view></div>
 
