@@ -11,9 +11,6 @@ app.config ($routeProvider) ->
 		when('/reserve/zh-CN', {
 			templateUrl: 'views/openness.zh-CN.html'
 		}).
-		when('/reserve/zh-HK', {
-			templateUrl: 'views/openness.zh-HK.html'
-		}).
 		when('/opendata', {
 			controller: 'DownCtrl',
 			templateUrl: 'views/opendata.html'
