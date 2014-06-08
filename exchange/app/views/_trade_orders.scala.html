@@ -1,6 +1,6 @@
  @()(implicit lang: Lang)
 
-<div class="recent-orders">
+<div class="recent-orders box">
     <h3>My Orders</h3>
 
     <tabset>
@@ -61,6 +61,9 @@
             </tr>
             </tbody>
         </table>
-        <a style="float: right;" href="/account#/orders">@(Messages("more")) >></a>
     </div> <!-- user-order-box-->
+    
+    <div class="text-right">
+        <a style="float: right; margin-top: -10px;" href="/account#/orders">@(Messages("more")) >></a>
+    </div>
 </div>

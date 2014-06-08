@@ -1,34 +1,37 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
-<div class="row">
-    <div class="col-md-12">
-        <h3>@Messages("asset.transfer")</h3>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>@Messages("open.coinType")</th>
-                <th>Network Status</th>
-                <th>Available</th>
-                <th>Locked</th>
-                <th>@Messages("open.balance")</th>
-                <th>Deposit Address</th>
-                <th>Operation</th>
-            </tr>
-            </thead>
-            <tbody>
-            @for(coin <- coins) {
-            <tr ng-init="getCurrencyDetails('@coin')">
-                <td><strong>@coin</strong></td>
-                <td><span class="label label-{{timestamp - status['@coin'].timestamp | networkStatusClass}}">{{timestamp - status['@coin'].timestamp | networkStatusText}}</span></td>
-                <td>{{accounts['@coin'].available.value | coin}}</td>
-                <td>{{accounts['@coin'].locked.value | coin}}</td>
-                <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                <td>{{depositAddresses['@coin']}}</td>
-                <td><a href="#/deposit/@coin">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a></td>
-            </tr>
-            }
-            </tbody>
-        </table>
+
+<section class="header-3-sub">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("asset.transfer")</h4>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>@Messages("open.coinType")</th>
+                    <th>Network Status</th>
+                    <th>Available</th>
+                    <th>Locked</th>
+                    <th>@Messages("open.balance")</th>
+                    <th>Deposit Address</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(coin <- coins) {
+                <tr ng-init="getCurrencyDetails('@coin')">
+                    <td><strong>@coin</strong></td>
+                    <td><span class="label label-{{timestamp - status['@coin'].timestamp | networkStatusClass}}">{{timestamp - status['@coin'].timestamp | networkStatusText}}</span></td>
+                    <td>{{accounts['@coin'].available.value | coin}}</td>
+                    <td>{{accounts['@coin'].locked.value | coin}}</td>
+                    <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                    <td>{{depositAddresses['@coin']}}</td>
+                    <td><a href="#/deposit/@coin">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a></td>
+                </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</section>

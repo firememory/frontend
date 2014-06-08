@@ -10,6 +10,8 @@
 
 <body ng-app="coinport.trade">
 <div class="page-wrapper trade">
+@__navbar2("trade")
+
 @session.get("uid") match {
     case Some(id: String) => {
         <span ng-init="uid='@id'" ng-show="false"></span>
@@ -19,10 +21,23 @@
     }
 }
 
-@__navbar2("trade")
-<div ng-view></div>
+<div class="container container-main">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-stacked" cp-nav>
+                <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
+                <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
+                <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
+                <li route="#/transfer"><a href="#/transfer">@Messages("asset.transfer")</a></li>
+                <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li>
+            </ul>
+        </div>
 
-@__footer2(false)
+        <div class="content col-md-10" ng-view> </div>
+    </div>
+</div>
+
+@__footer3(false)
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/lib/highstock.js")

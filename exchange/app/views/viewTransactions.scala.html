@@ -1,41 +1,48 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
-<h3>@Messages("transaction.myTransactions")</h3>
-<h5>filter by market
-<select ng-model="market" ng-change="changeMarket()">
-    @for(market <- markets) {
-    <option>@market</option>
-    }
-</select>
-</h5>
-<div class="row">&nbsp;</div>
-<div class="row">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>@Messages("transaction.tid")</th>
-            <th>@Messages("transaction.timestamp")</th>
-            <th>@Messages("transaction.price")</th>
-            <th>@Messages("transaction.amount")</th>
-            <th>@Messages("transaction.value")</th>
-            <th>@Messages("transaction.taker")</th>
-            <th>@Messages("transaction.type")</th>
-            <th>@Messages("transaction.maker")</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in transactions.items">
-                <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
-                <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                <td>{{item.price.value | price}} {{item.price.currency}}</td>
-                <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
-                <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
-                <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '@Messages("me")' : (item.taker)}}</a></td>
-                <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
-                <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("me")' : (item.maker)}}</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-</div>
+<section class="header-3-sub">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("transaction.myTransactions")
+                <select ng-model="market" ng-change="changeMarket()">
+                    @for(market <- markets) {
+                    <option>@market</option>
+                    }
+                </select>
+            </h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>@Messages("transaction.tid")</th>
+                    <th>@Messages("transaction.timestamp")</th>
+                    <th>@Messages("transaction.price")</th>
+                    <th>@Messages("transaction.amount")</th>
+                    <th>@Messages("transaction.value")</th>
+                    <th>@Messages("transaction.taker")</th>
+                    <th>@Messages("transaction.type")</th>
+                    <th>@Messages("transaction.maker")</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in transactions.items">
+                        <td><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-retweet"></i> {{item.id}}</a></td>
+                        <td><i class="fa fa-clock-o"></i> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{item.price.value | price}} {{item.price.currency}}</td>
+                        <td>{{item.subjectAmount.value | coin}} {{item.subjectAmount.currency}}</td>
+                        <td>{{item.currencyAmount.value | coin}} {{item.currencyAmount.currency}}</td>
+                        <td><a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '@Messages("me")' : (item.taker)}}</a></td>
+                        <td class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                        <td><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("me")' : (item.maker)}}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+    </div>
+</section>

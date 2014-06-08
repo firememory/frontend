@@ -35,8 +35,13 @@ div.page-wrapper {
 }
 
 section.header-3-sub {
-    padding-top: 40px;
+    padding-top: 0;
     padding-bottom: 40px;
+}
+
+div.container-main {
+    padding-top: 40px;
+    padding-bottom: 300px;
 }
 
 header.header-3 {
@@ -75,19 +80,26 @@ ul.nav-stacked {
 // CSS for '/trade'
 
 div.trade {
+    .table > thead > tr > th {padding: 5px};
+    .table > tbody > tr > td {padding: 5px}
     tbody {color: @midnight-blue;}
     section.header-3-sub {
-        padding-top: 40px;
-        padding-bottom: 40px;
         .has-sell-buy-color();
 
-        &.alt { background-color: white;}
+
     }
 
+    .first {margin-top: -45px; }
+
     .depth-box, .candle-chart {min-height: 340px; }
-    .op-box .txs-box {min-height: 340px; }
+    .op-box, .txs-box {min-height: 340px; }
     .btn-xs {padding: 0 10px;}
     h4 {color: @silver;}
+    .box {
+        background-color: white;
+        padding: 10px;
+        .border-radius(4px);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -129,6 +141,9 @@ div.opendata-browser {
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 // CSS for /account
+
+div.account {
+}
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 @()(implicit lang: Lang)
 
-<div class="txs-box">
-    <h4>Recent Transactions</h4>
+<h4>Recent Transactions</h4>
+<div class="box txs-box">
     <table class="table table-condensed table-striped table-responsive">
         <thead>
             <th>@Messages("transaction.type")</th>
@@ -21,7 +21,7 @@
         </tbody>
     </table>
 
-    <div class="row">
-        <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more")) >></a></div>
+    <div class="text-right">
+        <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more"))>></a></div>
     </div>
 </div>

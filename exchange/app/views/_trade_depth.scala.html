@@ -2,11 +2,12 @@
 
 <div class="col-sm-8 candle-chart-wrap">
     <h4>&nbsp;</h4>
-    <div class="candle-chart" style="height: 250px;"></div>
+    <div class="candle-chart box" style="height: 250px;"></div>
 </div>
+
 <div class="col-sm-4">
     <h4>Depth</h4>
-    <div class="depth-box">
+    <div class="depth-box box">
         <table class="table table-condensed table-responsive">
             <tbody>
                 <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
@@ -24,6 +25,8 @@
                 </tr>
             </tbody>
         </table>
-        <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
+        <div class="text-right">
+            <a style="float: right; margin-top: -10px;" href="/depth/{{market}}">@(Messages("more")) >></a>
+        </div>
     </div>
 </div>
