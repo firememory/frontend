@@ -1,3 +1,4 @@
+
 var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'ngAnimate', 'coinport.app', 'navbar', 'timer']);
 
 function routeConfig($routeProvider) {
@@ -572,4 +573,4 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $('#ask_price').keyup(updateAskTotal);
     $('#ask_amount').keyup(updateAskTotal);
     $('#ask_total').keyup(updateAskAmount);
-}
+};

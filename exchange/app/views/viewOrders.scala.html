@@ -5,11 +5,10 @@
     <div class="row">
         <div class="col-md-12">
             <h4>@Messages("order.myOrders")
+
                 <select ng-model="market" ng-change="changeMarket()">
                     <option value="all">All</option>
-                    @for(market <- markets) {
-                    <option>@market</option>
-                    }
+                    @for(market <- markets) {<option>@market</option> }
                 </select>
             </h4>
 
