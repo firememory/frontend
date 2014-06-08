@@ -1,16 +1,19 @@
 @()(implicit lang: Lang)
 
-<!-- do not use CDN -->
-@__js("/lib/angular/angular.min.js")
-@__js("/lib/angular/angular-route.min.js")
-@__js("/lib/angular/angular-resource.min.js")
+@__js("/vendor/jquery/jquery.min.js")
+@__js("/vendor/bootstrap/dist/js/bootstrap.min.js")
+@__js("/vendor/BootstrapFormHelpers/dist/js/bootstrap-formhelpers.min.js")
+
+@__js("/vendor/angular/angular.min.js")
+@__js("/vendor/angular-route/angular-route.min.js")
+@__js("/vendor/angular-resource/angular-resource.min.js")
+@__js("/vendor/angular-flexslider/angular-flexslider.js")
+
 @__js("/lib/angular/angular-cookies.min.js")
 @__js("/lib/angular/angular-animate.min.js")
 @__js("/lib/angular/angular-timer.min.js") <!-- not available on CDN -->
 @__js("/lib/ui-bootstrap-tpls-0.11.0.js")
-@__js("/lib/jquery-2.1.1.min.js")
 
-@__js("/lib/bootstrap-3.1.1/js/bootstrap.min.js")
 @__js("/startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js")
 @__js("/startup/common-files/js/modernizr.custom.js")
 @__js("/startup/common-files/js/page-transitions.js")
@@ -20,10 +23,6 @@
 @__js("/startup/common-files/js/jquery.parallax.min.js")
 @__js("/startup/common-files/js/startup-kit.js")
 
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-countries.js")
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.js")
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-countries.%s.js".format(lang.code))
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.en-US.js")
 @__js("/lib/jquery.sha256.js")
 @__js("/javascripts/common.js")
 @__js("/javascripts/app.js")
