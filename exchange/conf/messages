@@ -228,8 +228,8 @@ asset.cnyDeposit=CNY Deposit
 asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal
 asset.btcWithdrawal=BTC Withdrawal
-asset.accountSettings=Account Settings
+asset.accountSettings=Profile
 
-accountsettings.view.title=Account Settings
+accountsettings.view.title=Profile
 accountsettings.view.namediv.title=Name Verification Information
 accountsettings.view.mobilediv.title=Mobile Verification Information
