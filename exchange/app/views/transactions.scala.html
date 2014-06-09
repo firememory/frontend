@@ -12,42 +12,39 @@
 <div class="page-wrapper opendata-browser">
 @__navbar2("openness")
 
-<footer class="footer-4 bg-light-green">
-    <div class="container">
-        <div class="brand">Recent Transactions - @market</div>
-    </div>
-</footer>
 
 <div class="container opendata-data" ng-controller="TransCtrl">
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>@Messages("transaction.tid")</th>
-                <th>@Messages("transaction.timestamp")</th>
-                <th>@Messages("transaction.price")</th>
-                <th>@Messages("transaction.amount")</th>
-                <th>@Messages("transaction.value")</th>
-                <th>@Messages("transaction.taker")</th>
-                <th>@Messages("transaction.type")</th>
-                <th>@Messages("transaction.maker")</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="transaction in transactions.items">
+        <div class="col-md-12"> <h3> Recent Transactions - @market </h3> </div>
+        <div class="col-md-12">
+            <table class="table">
+                <tr>
+                    <th nowrap>@Messages("transaction.tid")</th>
+                    <th nowrap>@Messages("transaction.timestamp")</th>
+                    <th nowrap class="text-right">@Messages("transaction.price")</th>
+                    <th nowrap class="text-right">@Messages("transaction.amount")</th>
+                    <th nowrap class="text-right">@Messages("transaction.value")</th>
+                    <th nowrap>@Messages("transaction.taker")</th>
+                    <th nowrap>@Messages("transaction.type")</th>
+                    <th nowrap>@Messages("transaction.maker")</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in transactions.items">
 
-                <td><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-retweet"></i> {{transaction.id}}</a></td>
-                <td><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
-                <td>{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
-                <td>{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
-                <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '@Messages("me")' : (transaction.taker)}}</a></td>
-                <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
-                <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '@Messages("me")' : (transaction.maker)}}</a></td>
-            </tr>
-            </tbody>
-        </table>
-        <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <td nowrap><a href="/transaction/{{transaction.id}}" class="title"><i class="fa fa-retweet"></i> {{transaction.id}}</a></td>
+                    <td nowrap><i class="fa fa-clock-o"></i> {{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td nowrap class="text-right">{{transaction.price.value | price}} {{transaction.price.currency}}</td>
+                    <td nowrap class="text-right">{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
+                    <td nowrap class="text-right">{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
+                    <td nowrap><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '@Messages("me")' : (transaction.taker)}}</a></td>
+                    <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
+                    <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '@Messages("me")' : (transaction.maker)}}</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
     </div>
 </div>
 

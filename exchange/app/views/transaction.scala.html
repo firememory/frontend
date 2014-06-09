@@ -20,49 +20,49 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>@Messages("transaction.tid")</th>
-                        <th>@Messages("transaction.timestamp")</th>
-                        <th>@Messages("transaction.price")</th>
-                        <th>@Messages("transaction.amount")</th>
-                        <th>@Messages("transaction.value")</th>
-                        <th>@Messages("transaction.type")</th>
+                        <th nowrap>@Messages("transaction.tid")</th>
+                        <th nowrap>@Messages("transaction.timestamp")</th>
+                        <th nowrap class="text-right">@Messages("transaction.price")</th>
+                        <th nowrap class="text-right">@Messages("transaction.amount")</th>
+                        <th nowrap class="text-right">@Messages("transaction.value")</th>
+                        <th nowrap>@Messages("transaction.type")</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
-                        <td><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                        <td>{{transaction.price.value | price}} {{transaction.price.currency}}</td>
-                        <td>{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
-                        <td>{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
-                        <td class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}}</td>
+                        <td nowrap><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
+                        <td nowrap><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td nowrap class="text-right">{{transaction.price.value | price}} {{transaction.price.currency}}</td>
+                        <td nowrap class="text-right">{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
+                        <td nowrap class="text-right">{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
+                        <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}}</td>
                     </tr>
                 </tbody>
             </table>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>@Messages("transaction.orderRole")</th>
-                        <th>@Messages("transaction.orderId")</th>
-                        <th>@Messages("transaction.beforeAmount")</th>
-                        <th>@Messages("transaction.afterAmount")</th>
-                        <th>@Messages("transaction.userId")</th>
+                        <th nowrap>@Messages("transaction.orderRole")</th>
+                        <th nowrap>@Messages("transaction.orderId")</th>
+                        <th nowrap class="text-right">@Messages("transaction.beforeAmount")</th>
+                        <th nowrap class="text-right">@Messages("transaction.afterAmount")</th>
+                        <th nowrap>@Messages("transaction.userId")</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@Messages("transaction.takeOrder")</td>
-                        <td><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
-                        <td> {{takeOrder.preAmount.value | coin}} {{takeOrder.preAmount.currency}}</td>
-                        <td> {{takeOrder.curAmount.value | coin}} {{takeOrder.curAmount.currency}}</td>
-                        <td><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '@Messages("me")' : (takeOrder.uid)}}</a></td>
+                        <td nowrap>@Messages("transaction.takeOrder")</td>
+                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
+                        <td nowrap class="text-right"> {{takeOrder.preAmount.value | coin}} {{takeOrder.preAmount.currency}}</td>
+                        <td nowrap class="text-right"> {{takeOrder.curAmount.value | coin}} {{takeOrder.curAmount.currency}}</td>
+                        <td nowrap><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '@Messages("me")' : (takeOrder.uid)}}</a></td>
                     </tr>
                     <tr>
-                        <td>@Messages("transaction.makeOrder")</td>
-                        <td><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
-                        <td>{{makeOrder.preAmount.value | coin}} {{makeOrder.preAmount.currency}}</td>
-                        <td>{{makeOrder.curAmount.value | coin}} {{makeOrder.curAmount.currency}}</td>
-                        <td><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? '@Messages("me")' : (makeOrder.uid)}}</a></td>
+                        <td nowrap>@Messages("transaction.makeOrder")</td>
+                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
+                        <td nowrap class="text-right">{{makeOrder.preAmount.value | coin}} {{makeOrder.preAmount.currency}}</td>
+                        <td nowrap class="text-right">{{makeOrder.curAmount.value | coin}} {{makeOrder.curAmount.currency}}</td>
+                        <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? '@Messages("me")' : (makeOrder.uid)}}</a></td>
                     </tr>
                 </tbody>
             </table>

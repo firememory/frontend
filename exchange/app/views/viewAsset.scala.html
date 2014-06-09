@@ -46,26 +46,26 @@
 			<table id="user-finance-table" class="table table-striped">
 				<thead>
 					<tr>
-						<th>@Messages("asset.category")</th>
-						<th>@Messages("asset.available")</th>
-						<th>@Messages("user.orderPending")</th>
-						<th>@Messages("user.withdrawalPending")</th>
-						<th>@Messages("asset.totalAmount")</th>
-						<th>@Messages("asset.price")</th>
-						<th>@Messages("asset.valueOnEstimate")</th>
-						<th>@Messages("asset.operation")</th>
+						<th nowrap>@Messages("asset.category")</th>
+						<th nowrap class="text-right">@Messages("asset.available")</th>
+						<th nowrap class="text-right">@Messages("user.orderPending")</th>
+						<th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+						<th nowrap class="text-right">@Messages("asset.totalAmount")</th>
+						<th nowrap class="text-right">@Messages("asset.price")</th>
+						<th nowrap class="text-right">@Messages("asset.valueOnEstimate")</th>
+						<th nowrap>@Messages("asset.operation")</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="account in accounts">
-						<td><strong>{{account.currency}}</strong></td>
-						<td>{{account.available.display}}</td>
-						<td>{{account.locked.display}}</td>
-						<td>{{account.pendingWithdrawal.display}}</td>
-						<td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
-						<td><i class="fa fa-btc"></i> {{account.price | price}}</td>
-						<td><i class="fa fa-btc"></i> {{account.asset | coin}}</td>
-						<td>
+						<td nowrap><strong>{{account.currency}}</strong></td>
+						<td nowrap class="text-right">{{account.available.display}}</td>
+						<td nowrap class="text-right">{{account.locked.display}}</td>
+						<td nowrap class="text-right">{{account.pendingWithdrawal.display}}</td>
+						<td nowrap class="text-right">{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.price | price}}</td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.asset | coin}}</td>
+						<td nowrap>
 		                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
 		                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
 		                </td>
