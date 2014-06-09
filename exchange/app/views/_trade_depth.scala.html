@@ -8,17 +8,19 @@
 <div class="col-sm-4">
     <h4>Depth</h4>
     <div class="depth-box box">
-        <table class="table table-condensed table-responsive">
+        <table class="table table-condensed table-responsive table-borderless">
             <tbody>
-                <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthAsks($index)">
+                <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " ng-click="clickDepthAsks($index)">
                     <td class="l title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</td>
                     <td class="price">{{item.price.display}}</td>
                     <td class="amount">{{item.amount.display}}</td>
                 </tr>
                 <tr>
-                    <td colspan="3"><div class="latest-price text-center"><strong>{{lastPrice.display}}</strong> {{lastPrice.currency}} per {{lastPrice.item}}</div></td>
+                    <td colspan="100%">
+                        <div class="latest-price text-center"><strong>{{lastPrice.display}}</strong> {{lastPrice.currency}}/{{lastPrice.item}}</div>
+                    </td>
                 </tr>
-                <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthBids($index)">
+                <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " ng-click="clickDepthBids($index)">
                     <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
                     <td class="price">{{item.price.display }}</td>
                     <td class="amount">{{item.amount.display}}</td>

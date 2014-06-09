@@ -12,60 +12,40 @@
             <tab heading='@(Messages("order.status.cancelled"))' select="changeOrderStatus(3)"></tab>
         </tabset>
         <div class="user-order-box">
-            <table class="table table-striped table-responsive">
+            <table class="table table-striped table-hover table-responsive">
                 <thead>
                 <tr>
-                    <th>@(Messages("order.oid"))</th>
-                    <th>@(Messages("order.time"))</th>
-                    <th>@(Messages("order.type"))</th>
-                    <th>@(Messages("order.price"))</th>
-                    <th>@(Messages("order.amount"))</th>
-                    <th>@(Messages("order.finishedAmount"))</th>
-                    <th>@(Messages("order.total"))</th>
-                    <th>@(Messages("order.finishedTotal"))</th>
-                    <th>@(Messages("order.status"))</th>
-                    <th>@(Messages("order.operation"))</th>
+                    <th nowrap>@(Messages("order.oid"))</th>
+                    <th nowrap>@(Messages("order.time"))</th>
+                    <th nowrap>@(Messages("order.type"))</th>
+                    <th nowrap class="text-right">@(Messages("order.price"))</th>
+                    <th nowrap class="text-right">@(Messages("order.amount"))</th>
+                    <th nowrap class="text-right">@(Messages("order.finishedAmount"))</th>
+                    <th nowrap class="text-right">@(Messages("order.total"))</th>
+                    <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
+                    <th nowrap>@(Messages("order.status"))</th>
+                    <th nowrap>@(Messages("order.operation"))</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr  ng-repeat="order in orders | orderBy: ['-date', '-id']" class="user-order-item">
-                    <td class="l">
-                        <a href="/order/{{order.id}}">{{order.id}}</a>
-                    </td>
-                    <td>
-                        {{order.submitTime | date:"MM-dd HH:mm:ss"}}
-                    </td>
-                    <td class="{{order.operation | orderTypeClass}}">
-                        {{order.operation | orderTypeText}}
-                    </td>
-                    <td class="{{order.operation | orderTypeClass}}">
-                        {{order.price | price}}
-                    </td>
-                    <td>
-                        {{order.amount | coin}}
-                    </td>
-                    <td>
-                        {{order.finishedQuantity | coin}}
-                    </td>
-                    <td>
-                        {{order.total | coin}}
-                    </td>
-                    <td>
-                        {{order.finishedAmount | coin}}
-                    </td>
-                    <td>
-                        <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
-                    </td>
-                    <td>
-                        <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</a>
-                    </td>
+                    <td nowrap class="l"> <a href="/order/{{order.id}}">{{order.id}}</a> </td>
+                    <td nowrap> {{order.submitTime | date:"MM-dd HH:mm:ss"}} </td>
+                    <td nowrap class="{{order.operation | orderTypeClass}}"> {{order.operation | orderTypeText}} </td>
+                    <td nowrap class="text-right {{order.operation | orderTypeClass}}"> {{order.price | price}} </td>
+                    <td nowrap class="text-right"> {{order.amount | coin}} </td>
+                    <td nowrap class="text-right"> {{order.finishedQuantity | coin}} </td>
+                    <td nowrap class="text-right"> {{order.total | coin}} </td>
+                    <td nowrap class="text-right"> {{order.finishedAmount | coin}} </td>
+                    <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                    <td nowrap> <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</a> </td>
                 </tr>
                 </tbody>
             </table>
         </div> <!-- user-order-box-->
         
         <div class="text-right">
-            <a style="float: right; margin-top: -10px;" href="/account#/orders">@(Messages("more")) >></a>
+            <a href="/account#/orders">@(Messages("more")) >></a>
         </div>
     </div>
 </div>

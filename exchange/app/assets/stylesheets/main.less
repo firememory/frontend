@@ -101,7 +101,8 @@ div.home {
 
 div.trade {
     .table > thead > tr > th {padding: 5px};
-    .table > tbody > tr > td {padding: 5px}
+    .table > tbody > tr > td {padding: 5px};
+    .table-borderless > tbody > tr > td {border: none; padding: 3px;};
     tbody {color: @midnight-blue;}
     section.header-3-sub {
         .has-sell-buy-color();
@@ -124,6 +125,11 @@ div.trade {
         border-radius: 0;
         margin-bottom: 0;
     }
+    .latest-price {
+        font-size: 20px;
+        font-weight: 40;
+    }
+    .badge {width: 60px; font-weight: bold;}
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -175,7 +181,7 @@ div.opendata-browser {
 div.account {
     .table > thead > tr > th {padding-right: 5px; padding-left: 5px;}
     .table > tbody > tr > td {padding-right: 5px; padding-left: 5px;}
-    .badge {width: 60px;}
+    .badge {width: 60px; font-weight: bold;}
     section.header-3-sub {
         .has-sell-buy-color();
         .silver-h4;
