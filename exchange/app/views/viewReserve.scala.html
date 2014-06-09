@@ -14,26 +14,26 @@
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>@Messages("open.coinType")</th>
-                            <th>@Messages("user.available")</th>
-                            <th>@Messages("user.orderPending")</th>
-                            <th>@Messages("user.withdrawalPending")</th>
-                            <th>Account</th>
-                            <th>@Messages("open.reserve.coinaddr")</th>
-                            <th>@Messages("open.reserve.balance")</th>
-                            <th>Total Reserve</th>
-                            <th>@Messages("open.reserve.ratio")</th>
+                            <th nowrap>@Messages("open.coinType")</th>
+                            <th nowrap class="text-right">@Messages("user.available")</th>
+                            <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                            <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+                            <th nowrap>Account</th>
+                            <th nowrap>@Messages("open.reserve.coinaddr")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
+                            <th nowrap class="text-right">Total Reserve</th>
+                            <th nowrap>@Messages("open.reserve.ratio")</th>
                         </tr>
                         </thead>
                         <tbody>
                         @for(coin <- coins) {
                         <tr ng-init="getWallets('@coin')">
-                            <td><strong>@coin</strong></td>
-                            <td>{{accounts['@coin'].available.value | coin}}</td>
-                            <td>{{accounts['@coin'].locked.value | coin}}</td>
-                            <td>{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                            <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                            <td>
+                            <td nowrap><strong>@coin</strong></td>
+                            <td nowrap class="text-right">{{accounts['@coin'].available.value | coin}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].locked.value | coin}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td nowrap>
                                 <span ng-repeat="wallet in hotWallets['@coin']">
                                     <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                                 </span>
@@ -41,7 +41,7 @@
                                     <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                                 </span>
                             </td>
-                            <td>
+                            <td nowrap class="text-right">
                                 <span ng-repeat="wallet in hotWallets['@coin']">
                                     <span class="label label-warning">{{wallet.amount.value | coin}}</span>
                                 </span>
@@ -49,8 +49,8 @@
                                     <span class="label label-info">{{wallet.amount.value | coin}}</span>
                                 </span>
                             </td>
-                            <td>{{walletsBalance['@coin'] | coin}}</td>
-                            <td><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
+                            <td nowrap class="text-right">{{walletsBalance['@coin'] | coin}}</td>
+                            <td nowrap><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
                         </tr>
                         }
                         </tbody>
