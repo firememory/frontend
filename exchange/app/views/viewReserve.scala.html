@@ -35,10 +35,10 @@
                             <td>{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
                             <td>
                                 <span ng-repeat="wallet in hotWallets['@coin']">
-                                    <span class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
+                                    <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                                 </span>
                                 <span ng-repeat="wallet in coldWallets['@coin']">
-                                    <span class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</span>
+                                    <a href="{{addressUrl['@coin']}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                                 </span>
                             </td>
                             <td>
