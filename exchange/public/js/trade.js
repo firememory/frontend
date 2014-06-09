@@ -418,6 +418,10 @@ function BidAskCtrl($scope, $http, $routeParams) {
     };
 
     $scope.addAskOrder = function() {
+        if (! $scope.account[$scope.subject]) {
+            $scope.alert('ask', Messages.trade.noEnough);
+            return;
+        }
         if($scope.ask.amount < 0) {
             $scope.alert('ask', Messages.trade.lowerZero);
             return;
