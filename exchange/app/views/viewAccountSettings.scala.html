@@ -80,13 +80,11 @@
                     <input name="mobile" id="mobile" type="text" class="form-control bfh-phone" data-country="countries_phone1" ng-model="account.mobile" required>
                 </div>
                 <div class="col-sm-3">
-                    <button ng-click="sendVerifySms()" ng-disabled="isTiming">
-                        {{verifyButton}}
-                    </button>
+                    <button ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
                 </div>
             </div>
 
-            <div class="form-group has-{{accountSettingsForm.verifyCode.$valid?'success':'error'}} has-feedback">
+            <div class="form-group has-{{'success'}} has-feedback">
                 <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
                 <div class="col-sm-4">
                     <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required>
@@ -95,7 +93,7 @@
             </div>
 
             <div style="height: 40px;">
-                <div class="alert alert-danger col-sm-offset-2 col-sm-6" ng-show="showUpdateAccountError">{{updateAccountErrorMessage}}</div>
+                <div class="alert alert-danger col-sm-offset-2 col-sm-6" ng-show="showUpdateAccountError" ng-bind="updateAccountErrorMessage"></div>
             </div>
         </form>
     </div>
