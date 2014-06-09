@@ -161,6 +161,11 @@ object MainController extends Controller with Json4s {
       Ok(views.html.viewDeposit.render(request.acceptLanguages(0)))
   }
 
+  def depositDebugView() = Action {
+    implicit request =>
+      Ok(views.html.viewDepositDebug.render(request.acceptLanguages(0)))
+  }
+
   def withdrawalView() = Action {
     implicit request =>
       Ok(views.html.viewWithdrawal.render(request.acceptLanguages(0)))

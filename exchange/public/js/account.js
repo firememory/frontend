@@ -13,6 +13,10 @@ function routeConfig($routeProvider) {
             controller: 'DepositCtrl',
             templateUrl: 'views/deposit.html'
         }).
+        when('/deposit/debug/:currency', {
+            controller: 'DepositCtrl',
+            templateUrl: 'debug/deposit.html'
+        }).
         when('/withdrawal/:currency', {
             controller: 'WithdrawalCtrl',
             templateUrl: 'views/withdrawal.html'

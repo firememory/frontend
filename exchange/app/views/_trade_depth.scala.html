@@ -20,8 +20,8 @@
                 </tr>
                 <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " class="depth-item" ng-click="clickDepthBids($index)">
                     <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
-                    <td class="price">{{item.price.display }}{{item.price.currency}}</td>
-                    <td class="amount">{{item.amount.display}}{{item.subjectAmount.currency}}</td>
+                    <td class="price">{{item.price.display }}</td>
+                    <td class="amount">{{item.amount.display}}</td>
                 </tr>
             </tbody>
         </table>

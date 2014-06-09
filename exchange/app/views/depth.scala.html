@@ -6,6 +6,39 @@
 @__head_commons()
 @__js_lang()
     <title>@Messages("title")</title>
+    <style>
+        .axis path,
+        .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+        }
+
+        .tick line {
+        stroke: lightgrey;
+        opacity: 0.7;
+        }
+
+        path.line-buy {
+        fill: none;
+        stroke: rgba(44, 137, 25, 0.9);
+        stroke-width: 2px;
+        }
+
+        path.line-sell {
+        fill: none;
+        stroke: rgba(137, 22, 22, 0.9);
+        stroke-width: 2px;
+        }
+
+        .area-buy {
+        fill: rgba(144, 237, 125, 0.6);
+        }
+
+        .area-sell {
+        fill: rgba(237, 122, 122, 0.6);
+        }
+    </style>
 </head>
 
 <body ng-app="coinport.depth">
@@ -16,7 +49,7 @@
 <div class="container opendata-data" ng-controller="DepthCtrl">
     <div class="row">
         <div class="col-md-12"><h3>Order Book - @market</h3> </div>
-
+        <div id="depth-graph"></div>
         <div class="col-md-6">
             <h2 class="text-center">@(Messages("buy"))</h2>
             <table class="table table-striped">
@@ -28,8 +61,8 @@
                 <tbody>
                 <tr ng-repeat="item in depth.bids">
                     <td>@(Messages("trade.buyShort")){{1+$index}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.amount}}</td>
+                    <td>{{item.price.display}}</td>
+                    <td>{{item.amount.display}}</td>
                     <td>{{item.accumulated}}</td>
                 </tr>
                 </tbody>
@@ -46,8 +79,8 @@
                 <tbody>
                 <tr ng-repeat="item in depth.asks">
                     <td>@(Messages("trade.sellShort")){{1+$index}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.amount}}</td>
+                    <td>{{item.price.display}}</td>
+                    <td>{{item.amount.display}}</td>
                     <td>{{item.accumulated}}</td>
                 </tr>
                 </tbody>
