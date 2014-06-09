@@ -12,18 +12,13 @@
 <div class="page-wrapper opendata-browser">
 @__navbar2("openness")
 
-<footer class="footer-4 bg-light-green">
-    <div class="container">
-        <div class="brand">@Messages("user.user"): @target</div>
-    </div>
-</footer>
 
 <div class="container opendata-data" ng-controller="UserCtrl">
     <div class="row">
-        <div class="col-md-12">
-            <h4>@Messages("user.assets")</h4>
-        </div>
+        <div class="col-md-6"><h3>@Messages("user.user"): @target</h3></div>
+
         <div class="col-md-6">
+            <h4>@Messages("user.assets")</h4>
             <table class="table table-condensed table-striped">
                 <thead>
                     <tr>
@@ -47,8 +42,6 @@
     <div class="row">
         <div class="col-md-12">
             <h4>@Messages("user.transactions")</h4>
-        </div>
-        <div class="col-md-12">
             <table class="table">
                 <thead>
                 <tr>
@@ -75,41 +68,39 @@
                     </tr>
                 </tbody>
             </table>
+            <pagination boundary-links="true" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
-        <pagination boundary-links="true" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
     </div>
     <div class="row">
         <div class="col-md-12">
             <h4>@Messages("user.Transfer")</h4>
-        </div>
-        <div class="col-md-12">
-        <table class="table table-condensed ">
-            <thead>
-            <tr>
-                <th>@Messages("user.transfer.id")</th>
-                <th>@Messages("user.transfer.timestamp")</th>
-                <th>@Messages("user.transfer.operation")</th>
-                <th>@Messages("user.transfer.currency")</th>
-                <th style="text-align: right;">@Messages("user.transfer.amount")</th>
-                <th>@Messages("user.transfer.address")</th>
-                <th>@Messages("user.transfer.status")</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
-                <td> {{item.id}} </td>
-                <td> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
-                <td> {{item.operation | transferOperationText }}</span> </td>
-                <td> {{item.amount.currency}} </td>
-                <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
-                <td> {{item.address}} </td>
-                <td> {{item.status | transferStatusText }}</td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
+            <table class="table table-condensed ">
+                <thead>
+                <tr>
+                    <th>@Messages("user.transfer.id")</th>
+                    <th>@Messages("user.transfer.timestamp")</th>
+                    <th>@Messages("user.transfer.operation")</th>
+                    <th>@Messages("user.transfer.currency")</th>
+                    <th style="text-align: right;">@Messages("user.transfer.amount")</th>
+                    <th>@Messages("user.transfer.address")</th>
+                    <th>@Messages("user.transfer.status")</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
+                    <td> {{item.id}} </td>
+                    <td> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
+                    <td> {{item.operation | transferOperationText }}</span> </td>
+                    <td> {{item.amount.currency}} </td>
+                    <td style="text-align: right;"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
+                    <td> {{item.address}} </td>
+                    <td> {{item.status | transferStatusText }}</td>
+                </tr>
+                </tbody>
+            </table>
 
-        <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
     </div>
 </div>
 

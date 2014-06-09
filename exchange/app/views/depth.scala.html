@@ -12,16 +12,13 @@
 <div class="page-wrapper opendata-browser">
 @__navbar2("openness")
 
-<footer class="footer-4 bg-light-green">
-    <div class="container">
-        <div class="brand">Order Book - @market</div>
-    </div>
-</footer>
 
 <div class="container opendata-data" ng-controller="DepthCtrl">
     <div class="row">
+        <div class="col-md-12"><h3>Order Book - @market</h3> </div>
+
         <div class="col-md-6">
-            <h2>@(Messages("buy"))</h2>
+            <h2 class="text-center">@(Messages("buy"))</h2>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -39,7 +36,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <h2>@(Messages("sell"))</h2>
+            <h2 class="text-center">@(Messages("sell"))</h2>
             <table class="table table-striped">
                 <thead>
                 <tr>

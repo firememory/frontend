@@ -12,14 +12,11 @@
 <div class="page-wrapper opendata-browser">
 @__navbar2("openness")
 
-<footer class="footer-4 bg-light-green">
-    <div class="container">
-        <div class="brand">@Messages("order.order"): @oid</div>
-    </div>
-</footer>
 
 <div class="container opendata-data" ng-controller="OrderCtrl">
         <div class="row">
+            <div class="col-md-12"><h3>@Messages("order.order"): @oid</h3> </div>
+
             <div class="col-md-12">
                 <table class="table">
                     <thead>
