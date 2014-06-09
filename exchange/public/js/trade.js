@@ -74,6 +74,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.updateTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
+            console.log('transactions', $scope.transactions);
             if(!$scope.transactions) {
                 $scope.transactions = data.data;
             } else {
@@ -106,9 +107,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $http.get('/api/' + $scope.market + '/depth')
             .success(function(data, status, headers, config) {
                 if (data.data.bids.length > 0 )
-                    $scope.ask.price = data.data.bids[0].price || 0;
+                    $scope.ask.price = data.data.bids[0].price.value || 0;
                 if (data.data.asks.length > 0 )
-                    $scope.bid.price = data.data.asks[0].price || 0;
+                    $scope.bid.price = data.data.asks[0].price.value || 0;
         });
     };
 
