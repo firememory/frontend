@@ -90,7 +90,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             }
 
             if ($scope.transactions.items.length > 0) {
-                $scope.lastPrice = $scope.transactions.items[0].price.value;
+                $scope.lastPrice = $scope.transactions.items[0].price;
             }
         });
     };

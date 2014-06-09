@@ -32,9 +32,9 @@
                     <tr>
                         <td nowrap><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
                         <td nowrap><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                        <td nowrap class="text-right">{{transaction.price.value | price}} {{transaction.price.currency}}</td>
-                        <td nowrap class="text-right">{{transaction.subjectAmount.value | coin}} {{transaction.subjectAmount.currency}}</td>
-                        <td nowrap class="text-right">{{transaction.currencyAmount.value | coin}} {{transaction.currencyAmount.currency}}</td>
+                        <td nowrap class="text-right">{{transaction.price.display}} {{transaction.price.currency}}</td>
+                        <td nowrap class="text-right">{{transaction.subjectAmount.display}} {{transaction.subjectAmount.currency}}</td>
+                        <td nowrap class="text-right">{{transaction.currencyAmount.display}} {{transaction.currencyAmount.currency}}</td>
                         <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}}</td>
                     </tr>
                 </tbody>
