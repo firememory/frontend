@@ -67,6 +67,7 @@
                         <td nowrap><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '我' : (item.maker)}}</a></td>
                     </tr>
                 </tbody>
+                 @__empty_table_indicator("transactions")  
             </table>
             <pagination boundary-links="true" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
@@ -97,6 +98,7 @@
                     <td nowrap> {{item.status | transferStatusText }}</td>
                 </tr>
                 </tbody>
+                 @__empty_table_indicator("transfers")  
             </table>
 
             <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>

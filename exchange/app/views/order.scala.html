@@ -97,6 +97,7 @@
                     <td nowrap><a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("me")' : (item.maker)}}</a></td>
                 </tr>
                 </tbody>
+                 @__empty_table_indicator("transactions.items")
             </table>
         </div>
     </div>

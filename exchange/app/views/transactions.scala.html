@@ -42,6 +42,7 @@
                     <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '@Messages("me")' : (transaction.maker)}}</a></td>
                 </tr>
                 </tbody>
+                   @__empty_table_indicator("transactions.items")  
             </table>
             <pagination boundary-links="true" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>

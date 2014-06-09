@@ -1,6 +1,7 @@
 @()(implicit lang: Lang)
 
 <section class="header-3-sub">
+<!-- TEMPORARILY DISABLE ASSET CHARTS
 	<div class="row">
 		<div class="col-md-8">
 	        <h4>Net Asset Value Trend (by Day)</h4>
@@ -40,9 +41,10 @@
 			</div>
 		</div>
 	</div>
-
+-->
 	<div class="row" id="user-finance-table-div" >
 		<div class="col-md-12">
+		 	<h4>My Asset</h4>
 			<table id="user-finance-table" class="table table-striped">
 				<thead>
 					<tr>
@@ -71,6 +73,7 @@
 		                </td>
 					</tr>
 				</tbody>
+				@__empty_table_indicator("accounts")	
 			</table>
 		</div>
 	</div>
