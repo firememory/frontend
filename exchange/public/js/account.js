@@ -221,6 +221,13 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             });
     };
 
+    $scope.cancelWithdrawal = function (tid) {
+        $http.post('/account/cancelWithdrawal/' + $scope.uid + '/' + tid, {})
+            .success(function (data, status, headers, config) {
+               $scope.loadWithdrawals();
+            });
+    };
+
     $scope.changeCurrency = function() {
         $location.path('/withdrawal/' + $scope.currency);
     };

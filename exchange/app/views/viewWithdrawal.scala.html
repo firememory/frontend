@@ -90,6 +90,9 @@
             <td>
                 {{item.confirm}}
             </td>
+            <td>
+                <button class="btn btn-block btn-success" ng-click="cancelWithdrawal(item.id)" ng-disabled="item.status | cancelWithdrawalFilter">@Messages("transfer.cancelWithdrawal")</button>
+            </td>
         </tr>
         </tbody>
     </table>

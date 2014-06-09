@@ -37,6 +37,7 @@ POST    /trade/*market/ask                 controllers.ApiController.submitOrder
 GET     /trade/*market/order/cancel/*oid   controllers.ApiController.cancelOrder(market, oid)
 POST    /account/deposit                   controllers.ApiController.deposit()
 POST    /account/withdrawal                controllers.ApiController.withdrawal()
+POST    /account/cancelWithdrawal/*uid/*tid     controllers.ApiController.cancelWithdrawal(uid, tid)
 
 GET     /profile/*uid               controllers.UserController.getUserProfile(uid)
 GET     /depoaddr/*currency/*uid    controllers.UserController.getDepositAddress(currency, uid)

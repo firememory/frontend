@@ -156,6 +156,13 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       }
     }
 }
+  def cancelWithdrawal(uid: String, tid: String) = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      println("uid"+uid)
+      println("tid"+tid)
+      TransferService.cancelWithdrawal(uid.toLong, tid.toLong)
+      Future(Ok(ApiResult.toJson))
+  }
 
   def transfers(currency: String, uid: String) = Action.async {
     implicit request =>

@@ -214,8 +214,7 @@ transfer.address=Address
 transfer.pinpassword=Money Password
 transfer.phoneVerCode=Phone verification Code
 transfer.googleAuthCode=Google Authenticator Code
-
-
+transfer.cancelWithdrawal=Cancel Withdrawal
 
 asset.category=Category
 asset.available=Available
