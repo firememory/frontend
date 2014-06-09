@@ -36,7 +36,7 @@
                         <td nowrap class="text-right"> {{order.finishedQuantity | coin}}{{order.subject}} </td>
                         <td nowrap class="text-right"> {{order.total | coin}}{{order.currency}} </td>
                         <td nowrap class="text-right"> {{order.finishedAmount | coin}}{{order.currency}} </td>
-                        <td nowrap> <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                        <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
                     </tr>
                 </tbody>
             </table>

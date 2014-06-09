@@ -21,43 +21,43 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <td nowrap>@Messages("order.submitTime")</td>
+                        <th nowrap>@Messages("order.submitTime")</th>
                         <td nowrap>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                        <td nowrap>@Messages("order.type")</td>
+                        <th nowrap>@Messages("order.type")</th>
                         <td nowrap><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}</span></td>
-                        <td nowrap>@Messages("order.status")</td>
-                        <td nowrap><span>{{order.status | orderStatusText}}</span></td>
+                        <th nowrap>@Messages("order.status")</th>
+                        <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
                     </tr>
                     <tr>
-                        <td nowrap>@Messages("order.baseCurrency")</td>
+                        <th nowrap>@Messages("order.baseCurrency")</th>
                         <td nowrap>{{order.subject}}</td>
-                        <td nowrap>@Messages("order.targetCurrency")</td>
+                        <th nowrap>@Messages("order.targetCurrency")</th>
                         <td nowrap>{{order.currency}}</td>
-                        <td nowrap></td>
+                        <th nowrap></th>
                         <td nowrap></td>
                     </tr>
                     <tr>
-                        <td nowrap>@Messages("order.orderPrice")</td>
+                        <th nowrap>@Messages("order.orderPrice")</th>
                         <td nowrap>{{order.price | price}} {{order.currency}}/{{order.subject}}</td>
-                        <td nowrap>@Messages("order.averagePrice")</td>
+                        <th nowrap>@Messages("order.averagePrice")</th>
                         <td nowrap>{{order.finishedAmount / order.finishedQuantity | price}} {{order.currency}}/{{order.subject}}</td>
-                        <td nowrap></td>
+                        <th nowrap></th>
                         <td nowrap></td>
                     </tr>
                     <tr>
-                        <td nowrap>@Messages("order.orderAmount")</td>
+                        <th nowrap>@Messages("order.orderAmount")</th>
                         <td nowrap>{{order.amount | coin}} {{order.subject}}</td>
-                        <td nowrap>@Messages("order.tradingAmount")</td>
+                        <th nowrap>@Messages("order.tradingAmount")</th>
                         <td nowrap>{{order.finishedQuantity | coin}} {{order.subject}}</td>
-                        <td nowrap></td>
+                        <th nowrap></th>
                         <td nowrap></td>
                     </tr>
                     <tr>
-                        <td nowrap>@Messages("order.orderValue")</td>
+                        <th nowrap>@Messages("order.orderValue")</th>
                         <td nowrap>{{order.total | coin}}  {{order.currency}}</td>
-                        <td nowrap>@Messages("order.tradingValue")</td>
+                        <th nowrap>@Messages("order.tradingValue")</th>
                         <td nowrap>{{order.finishedAmount | coin}}  {{order.currency}}</td>
-                        <td nowrap></td>
+                        <th nowrap></th>
                         <td nowrap></td>
                    </tr>
                    </tbody>
