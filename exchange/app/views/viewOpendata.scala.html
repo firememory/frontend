@@ -4,10 +4,8 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12"> <h3>@Messages("open.eventData")</h3> </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
+                <div class="col-md-6 col-sm-12">
+                    <h3>@Messages("open.eventData")</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -28,15 +26,9 @@
                     </table>
                     <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
-            </div>
-        </div>
-        <div class="delimiter">&nbsp;</div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12"> <h3>@Messages("open.snapshotData")</h3> </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="clearfix visible-xs"></div>
+                <div class="col-md-6 col-xs-12">
+                    <h3>@Messages("open.snapshotData")</h3>
                     <table class="table table-striped">
                         <thead>
                         <tr>

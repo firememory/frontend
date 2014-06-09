@@ -3,37 +3,31 @@
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@__head_commons()
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/user_common.css")
-    @__js_lang()
 </head>
 
-<body ng-app="coinport.verifyemail">
-@__nojs()
-<div id="top-container">
-<div id="body-container">
-<!-- CONTENT START ================================ -->
+<body ng-app="coinport.account">
+<div class="page-wrapper account">
+@__navbar2("account")
 
 
 <div class="container coontainer-main">
     <div class="row">
-        <div class="col-md-offset-1">
+        <div class="col-md-12 text-center">
             <h4>@Messages(messageKey)</h4>
-            <H4><a href="/">@Messages("prompt.backToHome")</a></h4>
         </div>
     </div>
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div> <!-- top-container -->
-</div> <!-- id="body-container" -->
 
-@__common_js()
+@__footer3()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/lib/d3/d3.min.js")
+@__js("/js/account.js")
 @__tracking_js()
 </body>
 </html>
