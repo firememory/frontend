@@ -13,76 +13,73 @@
 @__navbar2("register")
 
 
-<section class="header-3-sub">
-    <div class="background">&nbsp;</div>
-    <div class="container" ng-controller="RegisterCtrl">
+<div class="container container-main" ng-controller="RegisterCtrl">
+    <div class="row">
+        <div class="col-md-offset-2"><h3>@Messages("register.title")</h3></div>
+    </div>
+
+    <form id="register-form" class="form-horizontal" name="registerForm">
         <div class="row">
-            <div class="col-md-offset-2"><h3>@Messages("register.title")</h3></div>
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group {{registerForm.email.$valid?'has-success':''}} has-feedback">
+                    <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.email" required>
+                    <span class="glyphicon {{registerForm.email.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
+                </div>
+            </div>
         </div>
 
-        <form id="register-form" class="form-horizontal" name="registerForm">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="form-group {{registerForm.email.$valid?'has-success':''}} has-feedback">
-                        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" ng-model="register.email" required>
-                        <span class="glyphicon {{registerForm.email.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
-                    </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group {{registerForm.password.$valid?'has-success': ''}} has-feedback">
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="8" required>
+                    <span class="glyphicon {{registerForm.password.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="form-group {{registerForm.password.$valid?'has-success': ''}} has-feedback">
-                        <input name="password" type="password" id="inputPassword" class="form-control" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="8" required>
-                        <span class="glyphicon {{registerForm.password.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
-                    </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group {{registerForm.confirmPassword.$valid?'has-success':''}} has-feedback">
+                    <input name="confirmPassword" type="password" id="confirmPassword" class="form-control" placeholder='@(Messages("passwordConfirm"))' ng-model="register.confirmPassword" repeat-input="password" required="">
+                    <span class="glyphicon {{registerForm.confirmPassword.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="form-group {{registerForm.confirmPassword.$valid?'has-success':''}} has-feedback">
-                        <input name="confirmPassword" type="password" id="confirmPassword" class="form-control" placeholder='@(Messages("passwordConfirm"))' ng-model="register.confirmPassword" repeat-input="password" required="">
-                        <span class="glyphicon {{registerForm.confirmPassword.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
-                    </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group {{registerForm.captchaCode.$valid?'has-success':''}} has-feedback">
+                    <input name="captchaCode" id="inputCaptchaCode" class="form-control" placeholder='@(Messages("inputCaptcha"))' ng-model="captcha.text" required>
+                    <span class="glyphicon {{registerForm.captchaCode.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="form-group {{registerForm.captchaCode.$valid?'has-success':''}} has-feedback">
-                        <input name="captchaCode" id="inputCaptchaCode" class="form-control" placeholder='@(Messages("inputCaptcha"))' ng-model="captcha.text" required>
-                        <span class="glyphicon {{registerForm.captchaCode.$valid?'glyphicon-ok':''}} form-control-feedback"></span>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-4 captcha">
+                <img ng-src="{{captcha.imageSrc}}" ng-model="captcha.imageSrc" ng-click="newCaptcha()" />
             </div>
+            <div class="col-md-2 change-captcha">
+                <a href="#" ng-click="newCaptcha()">@(Messages("register.changeCaptcha"))</a>
+            </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-2 col-md-offset-4 captcha">
-                    <img ng-src="{{captcha.imageSrc}}" ng-model="captcha.imageSrc" ng-click="newCaptcha()" />
-                </div>
-                <div class="col-md-2 change-captcha">
-                    <a href="#" ng-click="newCaptcha()">@(Messages("register.changeCaptcha"))</a>
-                </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="alert alert-danger" ng-show="showError">{{errorMessage}}</div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="alert alert-danger" ng-show="showError">{{errorMessage}}</div>
-                </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <button class="btn btn-block btn-lg btn-primary" ng-click="doRegister()" ng-disabled="!registerForm.$valid">@(Messages("ok"))</button>
             </div>
-
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <button class="btn btn-block btn-lg btn-primary" ng-click="doRegister()" ng-disabled="!registerForm.$valid">@(Messages("ok"))</button>
-                </div>
-                <div class="col-md-2 cancel-btn">
-                    <a href="/">@(Messages("cancel"))</a>
-                </div>
+            <div class="col-md-2 cancel-btn">
+                <a href="/">@(Messages("cancel"))</a>
             </div>
-       </form>
-    </div>
-</section>
+        </div>
+   </form>
+</div>
 
 @__footer3(showNumOfUsers = false)
 </div> <!-- page-wrapper -->
