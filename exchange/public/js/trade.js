@@ -579,3 +579,5 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $('#ask_amount').keyup(updateAskTotal);
     $('#ask_total').keyup(updateAskAmount);
 };
+
+$(':checkbox').checkbox();
