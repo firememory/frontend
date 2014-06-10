@@ -1,3 +1,7 @@
 cd /coinport/frontend/exchange
 git fetch && git rebase origin/master
-nohup ./activator clean run &
+./activator clean dist
+cd target/universal/
+unzip coinport-frontend-*
+cd coinport-frontend-*/bin/
+nohup ./coinport-frontend &
