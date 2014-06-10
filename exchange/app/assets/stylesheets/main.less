@@ -179,15 +179,16 @@ div.trade {
                 }
 
                 .input-group-addon {
-                    border-color: @green-sea;
-                    background-color: @green-sea;
+                    border-color: @opbox-primary-color;
+                    background-color: @opbox-primary-color;
                 }
                 input {
-                    border-color: @green-sea;
-                    color: @green-sea;
+                    border-color: @opbox-primary-color;
+                    color: @opbox-primary-color;
 
                     &:focus {
-                        color: red;
+                        color: @opbox-primary-color;
+                        background-color: mix(@sun-flower, white, 20%);
                     }
                 }
             }
@@ -196,7 +197,7 @@ div.trade {
             .alert {
                 padding: 8px;
                 border: none;
-                .num {color: @green-sea;}
+                .num {color: @opbox-primary-color;}
                 .red {color: @brand-danger;}
             }
             button.btn-op {
