@@ -584,4 +584,4 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
 setTimeout(function() {
     $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
-}, 1000);
+}, 200);
