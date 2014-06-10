@@ -492,10 +492,10 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
         var amount = 0;
         for(var i = 0; i <= index; i++) {
-            amount += data[i].amount;
+            amount += data[i].amount.value;
         }
         var price = data[index].price;
-        $scope.ask.price = price;
+        $scope.ask.price = price.value;
         $scope.ask.amount = amount;
         updateAskTotal();
     }
@@ -506,10 +506,10 @@ function BidAskCtrl($scope, $http, $routeParams) {
 
             var amount = 0;
             for(var i = data.length - 1; i >= index; i--) {
-                amount += data[i].amount;
+                amount += data[i].amount.value;
             }
             var price = data[index].price;
-            $scope.bid.price = price;
+            $scope.bid.price = price.value;
             $scope.bid.amount = amount;
             updateBidTotal();
     }
