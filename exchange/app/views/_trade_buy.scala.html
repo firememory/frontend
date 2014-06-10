@@ -1,83 +1,85 @@
 @()(implicit lang: Lang)
 
-<div class="box_title">
-    <h4 class="buy">@(Messages("trade.buy")) {{subject}}</h4>
-    <i class="btn btn-sm fa fa-tags" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
-    <i class="btn btn-sm fa fa-tag" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
-</div>
-
-<div class="buy-box, op-box">
-    <div class="box_subtitle">
-        <!--冻结金额-->
-        <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
-        <!--可用余额-->
-        <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
-        <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}}</kbd> {{currency}} Available</span>
+<div class="op-box-wrapper, buy">
+    <div class="box_title">
+        <h4 class="buy">@(Messages("trade.buy")) {{subject}}</h4>
+        <i class="btn btn-sm fa fa-tags" ng-show="bidOptions.advanced" ng-click="bidOptions.advanced=false" data-toggle="tooltip" data-placement="top" title='click to return to standard mode'></i>
+        <i class="btn btn-sm fa fa-tag" ng-show="!bidOptions.advanced" ng-click="bidOptions.advanced=true" data-toggle="tooltip" data-placement="top" title='@(Messages("trade.advancedTip"))'></i>
     </div>
-    <div class="box clearfix">
-        <form name="bidForm" class="form-buy-sell" role="form">
-            <div class="row_100 clearfix buy-box">
-                <div class="input-group input-group-full">
-                    <span class="input-group-addon">@(Messages("trade.price"))</span>
-                    <input type="number" step="0.0001" id="bid_price" name="price" class="form-control " ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
-                  <span class="input-group-addon" ng-show="bidOptions.advanced">
-                    <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
-                    <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit price to a given number, DISABLE to buy AT ANY PRICE (market order)."></a>
-                  </span>
-                </div>
-                <div class="input-group input-group-full">
-                    <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                    <input type="number" step="0.0001" class="form-control" id="bid_amount" name="amount" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount">
-                    <span class="input-group-addon" ng-show="bidOptions.advanced">
-                        <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
-                        <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit amount to a given number, DISABLE to buy AS MUCH AS you can."></a>
-                    </span>
-                </div>
-                <div class="input-group input-group-full">
-                    <span class="input-group-addon">@(Messages("trade.total"))</span>
-                    <input id="bid_total" type="number" step="0.01" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu pull-right">
-                                  <li><a href="#">Action</a></li>
-                                  <li><a href="#">Another action</a></li>
-                                  <li><a href="#">Something else here</a></li>
-                                  <li class="divider"></li>
-                                  <li><a href="#">Separated link</a></li>
-                            </ul>
-                      </div><!-- /btn-group -->
+
+    <div class="buy-box, op-box">
+        <div class="box_subtitle">
+            <!--冻结金额-->
+            <!--<span class="badge badge-info">{{info.fundingLocked}}</span>-->
+            <!--可用余额-->
+            <!--<span class="badge badge-info link" ng-click="clickFunding(info.fundingRemaining)">{{info.fundingRemaining}}</span>-->
+            <span class="link" ng-click="clickFunding(account[currency].available.value)"><kbd>{{account[currency].available.value | coin}}</kbd> {{currency}} Available</span>
+        </div>
+        <div class="box clearfix">
+            <form name="bidForm" class="form-buy-sell" role="form">
+                <div class="row_100 clearfix buy-box">
+                    <div class="input-group input-group-full">
+                        <span class="input-group-addon">@(Messages("trade.price"))</span>
+                        <input type="number" step="0.0001" id="bid_price" name="price" class="form-control " ng-disabled="!bidOptions.limitPrice" ng-model="bid.price"/>
+                      <span class="input-group-addon" ng-show="bidOptions.advanced">
+                        <input type="checkbox" class="" ng-model="bidOptions.limitPrice" />
+                        <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit price to a given number, DISABLE to buy AT ANY PRICE (market order)."></a>
+                      </span>
+                    </div>
+                    <div class="input-group input-group-full">
+                        <span class="input-group-addon">@(Messages("trade.amount"))</span>
+                        <input type="number" step="0.0001" class="form-control" id="bid_amount" name="amount" ng-disabled="!bidOptions.limitAmount" ng-model="bid.amount">
+                        <span class="input-group-addon" ng-show="bidOptions.advanced">
+                            <input type="checkbox" class="" ng-model="bidOptions.limitAmount" ng-click="bid.amount=0"/>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit amount to a given number, DISABLE to buy AS MUCH AS you can."></a>
+                        </span>
+                    </div>
+                    <div class="input-group input-group-full">
+                        <span class="input-group-addon">@(Messages("trade.total"))</span>
+                        <input id="bid_total" type="number" step="0.01" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total" max="{{account.balance}}"/>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" disabled="disabled" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu pull-right">
+                                      <li><a href="#">Action</a></li>
+                                      <li><a href="#">Another action</a></li>
+                                      <li><a href="#">Something else here</a></li>
+                                      <li class="divider"></li>
+                                      <li><a href="#">Separated link</a></li>
+                                </ul>
+                          </div><!-- /btn-group -->
 
 
-                  <span class="input-group-addon" ng-show="bidOptions.advanced">
-                    <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
-                    <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total spending, DISABLE to buy without spending limited."></a>
-                  </span>
+                      <span class="input-group-addon" ng-show="bidOptions.advanced">
+                        <input type="checkbox" class="" ng-model="bidOptions.limitTotal"/>
+                        <a href="" data-toggle="tooltip" data-placement="top" title="ENABLE to limit the total spending, DISABLE to buy without spending limited."></a>
+                      </span>
+                    </div>
                 </div>
-            </div>
-            <div class="row_100 detail-info-box" ng-show="bidOptions.advanced">
-                    <span ng-show="!bidOptions.limitAmount">
-                        Buy as much as possible {{subject}}
-                    </span>
-                    <span ng-show="bidOptions.limitAmount">
-                        Buy <span class="badge badge-warning">{{bid.amount}}</span> {{subject}}
-                    </span>
-                    <span ng-show="!bidOptions.limitPrice">
-                        at <span class="badge badge-info">Any Price</span>
-                    </span>
-                    <span ng-show="bidOptions.limitPrice">
-                        at the price lower than <span class="badge badge-warning"> {{bid.price | price}}</span>
-                    </span>
-                    <span ng-show="bidOptions.limitTotal">
-                        spending <span class="badge badge-warning">{{bid.total | coin}}</span> {{currency}}
-                    </span>
-            </div>
-            <div class="info-box text-center">
-                <span class="info-label" ng-show="showMessage['bid']">{{info.message['bid']}}</span>
-            </div>
+                <div class="row_100 detail-info-box" ng-show="bidOptions.advanced">
+                        <span ng-show="!bidOptions.limitAmount">
+                            Buy as much as possible {{subject}}
+                        </span>
+                        <span ng-show="bidOptions.limitAmount">
+                            Buy <span class="badge badge-warning">{{bid.amount}}</span> {{subject}}
+                        </span>
+                        <span ng-show="!bidOptions.limitPrice">
+                            at <span class="badge badge-info">Any Price</span>
+                        </span>
+                        <span ng-show="bidOptions.limitPrice">
+                            at the price lower than <span class="badge badge-warning"> {{bid.price | price}}</span>
+                        </span>
+                        <span ng-show="bidOptions.limitTotal">
+                            spending <span class="badge badge-warning">{{bid.total | coin}}</span> {{currency}}
+                        </span>
+                </div>
+                <div class="info-box text-center">
+                    <span class="info-label" ng-show="showMessage['bid']">{{info.message['bid']}}</span>
+                </div>
 
-            <div class="row_100 clearfix" style="margin-top: 20px;">
-                <button class="btn btn-block btn-bid" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
-            </div>
-        </form>
+                <div class="row_100 clearfix" style="margin-top: 20px;">
+                    <button class="btn btn-block btn-bid" ng-click="addBidOrder()" ><i class="fa fa-shopping-cart"></i> {{info.bidButtonLabel}}</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
