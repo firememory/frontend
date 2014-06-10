@@ -29,8 +29,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.ask = {price: 0, amount: 0, total: 0};
     $scope.account = {};
     $scope.showMessage = {bid: false, ask: false};
-    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: true, advanced: false};
-    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: true, advanced: false};
+    $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: true, limitLImit: true};
+    $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: true, limitLImit: true};
     $scope.config = {
         bidButtonLabel: Messages.buy + ' (' + $scope.subject + '-' + $scope.currency + ')',
         askButtonLabel: Messages.sell + ' (' + $scope.currency + '-' + $scope.subject + ')'};
@@ -357,6 +357,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.bidOptions.limitAmount = true;
             $scope.bidOptions.limitPrice = true;
             $scope.bidOptions.limitTotal = true;
+            $scope.bidOptions.limitLimit = true;
         }
     }
 
@@ -365,6 +366,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.askOptions.limitAmount = true;
             $scope.askOptions.limitPrice = true;
             $scope.askOptions.limitTotal = true;
+            $scope.bidOptions.limitLimit = true;
         }
     }
 
@@ -580,4 +582,6 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $('#ask_total').keyup(updateAskAmount);
 };
 
-$(':checkbox').checkbox();
+setTimeout(function() {
+    $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+}, 1000);

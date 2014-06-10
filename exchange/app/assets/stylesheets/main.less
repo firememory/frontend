@@ -178,21 +178,38 @@ div.trade {
                     &:hover {background-color: @buy-color};
                 }
 
-                .input-group-addon {
-                    border-color: @opbox-primary-color;
-                    background-color: @opbox-primary-color;
-                }
-                input {
-                    border-color: @opbox-primary-color;
-                    color: @opbox-primary-color;
-
-                    &:focus {
+                .input-group {
+                    .input-group-addon {
+                        border-color: @opbox-primary-color;
+                        background-color: @opbox-primary-color;
+                    }
+                    input {
+                        border-color: @opbox-primary-color;
                         color: @opbox-primary-color;
-                        background-color: mix(@sun-flower, white, 20%);
+
+                        &:focus {
+                            color: @opbox-primary-color;
+                            background-color: mix(@sun-flower, white, 20%);
+                        }
+                    }
+                }
+
+                .input-group-advanced {
+                    .input-group-addon {
+                        border-color: @opbox-secondary-color;
+                        background-color: @opbox-secondary-color;
+                    }
+                    input {
+                        border-color: @opbox-secondary-color;
+                        color: @opbox-secondary-color;
+
+                        &:focus {
+                            color: @opbox-secondary-color;
+                            background-color: mix(@sun-flower, white, 20%);
+                        }
                     }
                 }
             }
-
 
             .alert {
                 padding: 8px;
