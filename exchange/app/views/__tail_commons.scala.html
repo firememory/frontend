@@ -1,45 +1,44 @@
 @()(implicit lang: Lang)
 
+@__js("/vendor/jquery/jquery.min.js")
+@__js("/vendor/jquery-ui/ui/jquery-ui.js")
+@__js("/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js")
+@__js("/vendor/jquery-tags-input/jquery.tagsinput.js")
+@__js("/vendor/jquery-placeholder/jquery.placeholder.js")
+@__js("/vendor/bootstrap/dist/js/bootstrap.min.js")
+@__js("/vendor/bootstrap-select/bootstrap-select.js")
+@__js("/vendor/bootstrap-switch/static/js/bootstrap-switch.js")
+@__js("/vendor/holderjs/holder.js")
+@__js("/vendor/typeahead.js/dist/typeahead.js")
 
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/jquery-ui/ui/jquery-ui.js"></script>
-<script src="/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-<script src="/vendor/jquery-tags-input/jquery.tagsinput.js"></script>
-<script src="/vendor/jquery-placeholder/jquery.placeholder.js"></script>
-<script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/vendor/bootstrap-select/bootstrap-select.js"></script>
-<script src="/vendor/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-<script src="/vendor/holderjs/holder.js"></script>
-<script src="/vendor/typeahead.js/dist/typeahead.js"></script>
+@__js("/vendor/angular/angular.min.js")
+@__js("/vendor/angular-route/angular-route.min.js")
+@__js("/vendor/angular-resource/angular-resource.min.js")
+@__js("/vendor/angular-flexslider/angular-flexslider.js")
 
-<script src="/vendor/angular/angular.min.js"></script>
-<script src="/vendor/angular-route/angular-route.min.js"></script>
-<script src="/vendor/angular-resource/angular-resource.min.js"></script>
-<script src="/vendor/angular-flexslider/angular-flexslider.js"></script>
+@__js("/lib/angular/angular-cookies.min.js")
+@__js("/lib/angular/angular-animate.min.js")
+@__js("/lib/angular/angular-timer.min.js") <!-- not available on CDN -->
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js")
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.%s.js".format(lang.code))
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js")
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.en-US.js")
+@__js("/lib/ui-bootstrap-tpls-0.11.0.js")
 
-<script src="/lib/angular/angular-cookies.min.js"></script>
-<script src="/lib/angular/angular-animate.min.js"></script>
-<script src="/lib/angular/angular-timer.min.js"></script> <!-- not available on CDN -->
-<script src="/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
-<script src="/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.@(lang.code).js"></script>
-<script src="/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
-<script src="/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.en-US.js"></script>
-<script src="/lib/ui-bootstrap-tpls-0.11.0.js"></script>
+@__js("/startup/flat-ui/js/flatui-checkbox.js")
+@__js("/startup/flat-ui/js/flatui-radio.js")
+@__js("/startup/flat-ui/js/flatui-fileinput.js")
 
-<script src="/startup/flat-ui/js/flatui-checkbox.js"></script>
-<script src="/startup/flat-ui/js/flatui-radio.js"></script>
-<script src="/startup/flat-ui/js/flatui-fileinput.js"></script>
+@__js("/startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js")
+@__js("/startup/common-files/js/modernizr.custom.js")
+@__js("/startup/common-files/js/page-transitions.js")
+@__js("/startup/common-files/js/easing.min.js")
+@__js("/startup/common-files/js/jquery.svg.js")
+@__js("/startup/common-files/js/jquery.svganim.js")
+@__js("/startup/common-files/js/jquery.parallax.min.js")
+@__js("/startup/common-files/js/startup-kit.js")
 
-<script src="/startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-<script src="/startup/common-files/js/modernizr.custom.js"></script>
-<script src="/startup/common-files/js/page-transitions.js"></script>
-<script src="/startup/common-files/js/easing.min.js"></script>
-<script src="/startup/common-files/js/jquery.svg.js"></script>
-<script src="/startup/common-files/js/jquery.svganim.js"></script>
-<script src="/startup/common-files/js/jquery.parallax.min.js"></script>
-<script src="/startup/common-files/js/startup-kit.js"></script>
-
-<script src="/lib/jquery.sha256.js"></script>
-<script src="/javascripts/common.js"></script>
-<script src="/javascripts/app.js"></script>
-<script src="/javascripts/navbar.js"></script>
+@__js("/lib/jquery.sha256.js")
+@__js("/javascripts/common.js")
+@__js("/javascripts/app.js")
+@__js("/javascripts/navbar.js")

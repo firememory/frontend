@@ -71,26 +71,29 @@ app.controller 'ReserveCtrl', ($scope, $http) ->
                     $scope.walletsBalance[w.currency] += w.amount.value
 
 
-app.controller 'ConnectCtrl', ($scope, $http) =>
+app.controller 'ConnectCtrl', ($scope, $http) ->
     $scope.currencies = {}
     $scope.status = {}
     $scope.timestamp = new Date().getTime()
     $scope.blockUrl = COINPORT.blockUrl
     $scope.xyz = "abc"
 
-    $scope.getNetworkStatus = (currency) =>
+    $scope.getNetworkStatus = (currency) ->
         $scope.currencies[currency] = true
         $http.get('/api/open/network/' + currency)
             .success (data, status, headers, config) -> $scope.status[currency] = data.data
 
-    $scope.check = () =>
+    $scope.check = () ->
         $scope.xyz = "xyz"
+        console.log $scope.xyz
         $scope.timestamp = new Date().getTime()
         $scope.getNetworkStatus(currency) for currency in $scope.currencies
 
-    setInterval (=> $scope.check), 1000
+    setInterval($scope.check, 5000)
 
 app.filter 'reserveRatioClass', () -> (input) ->
 	return 'label label-success' if input >= 1.0
 	return 'label label-warning' if input > 0.9
 	return 'label label-danger'
+
+app
