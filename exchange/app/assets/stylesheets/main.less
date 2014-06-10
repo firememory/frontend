@@ -186,6 +186,18 @@ div.trade {
                 border-radius: 0;
                 margin-top: 20px;
                 margin-bottom: 10px;
+                color: white;
+                font-weight: bold;
+                &:hover {color: white};
+            }
+
+            button.btn-sell {
+                background-color: @sell-color-light;
+                &:hover {background-color: @sell-color};
+            }
+            button.btn-buy {
+                background-color: @buy-color-light;
+                &:hover {background-color: @buy-color};
             }
             .form-control[disabled] {
                 border-color: red;
