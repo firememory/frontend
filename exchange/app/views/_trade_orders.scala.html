@@ -32,11 +32,11 @@
                     <td nowrap class="l"> <a href="/order/{{order.id}}">{{order.id}}</a> </td>
                     <td nowrap> {{order.submitTime | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap class="{{order.operation | orderTypeClass}}"> {{order.operation | orderTypeText}} </td>
-                    <td nowrap class="text-right {{order.operation | orderTypeClass}}"> {{order.price | price}} </td>
-                    <td nowrap class="text-right"> {{order.amount | coin}} </td>
-                    <td nowrap class="text-right"> {{order.finishedQuantity | coin}} </td>
-                    <td nowrap class="text-right"> {{order.total | coin}} </td>
-                    <td nowrap class="text-right"> {{order.finishedAmount | coin}} </td>
+                    <td nowrap class="text-right {{order.operation | orderTypeClass}}"> {{order.price.display}} </td>
+                    <td nowrap class="text-right"> {{order.amount.display}} </td>
+                    <td nowrap class="text-right"> {{order.finishedQuantity.display}} </td>
+                    <td nowrap class="text-right"> {{order.total.display}} </td>
+                    <td nowrap class="text-right"> {{order.finishedAmount.display}} </td>
                     <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
                     <td nowrap> <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</a> </td>
                 </tr>
