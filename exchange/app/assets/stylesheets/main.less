@@ -157,24 +157,41 @@ div.trade {
             }
             .input-group-addon {
                 border-width: 1px;
-                border-color: @green-sea;
-                background-color: @green-sea;
                 color: white;
                 width: 75px;
                 border-radius: 0;
             }
             input {
                 border-width: 1px;
-                border-color: @green-sea;
-                color: @green-sea;
                 text-align: right;
                 padding-right: 20px;
                 font-weight: bold;
+            }
 
-                &:focus {
-                    color: red;
+            &:hover {
+                button.btn-sell {
+                    background-color: @sell-color-light;
+                    &:hover {background-color: @sell-color};
+                }
+                button.btn-buy {
+                    background-color: @buy-color-light;
+                    &:hover {background-color: @buy-color};
+                }
+
+                .input-group-addon {
+                    border-color: @green-sea;
+                    background-color: @green-sea;
+                }
+                input {
+                    border-color: @green-sea;
+                    color: @green-sea;
+
+                    &:focus {
+                        color: red;
+                    }
                 }
             }
+
 
             .alert {
                 padding: 8px;
@@ -189,15 +206,6 @@ div.trade {
                 color: white;
                 font-weight: bold;
                 &:hover {color: white};
-            }
-
-            button.btn-sell {
-                background-color: @sell-color-light;
-                &:hover {background-color: @sell-color};
-            }
-            button.btn-buy {
-                background-color: @buy-color-light;
-                &:hover {background-color: @buy-color};
             }
             .form-control[disabled] {
                 border-color: red;
