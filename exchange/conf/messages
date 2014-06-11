@@ -16,8 +16,8 @@ forgotPassword=Forgot Password?
 resendVerifyEmail=Resend Verify Email
 inputCaptcha=Input the text in the picture below
 
-authenticateNotLogin=operation not permitted, please login first.
-authenticateTimeout=Session timeout, please re-login
+authenticateNotLogin=You must log in to proceed.
+authenticateTimeout=Session timed out, please log in again.
 
 nav.brand=coinport
 nav.home=Home
@@ -90,13 +90,13 @@ order.allMarkets=All Markets
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed.
-prompt.verifyEmailSent=We had sent you an email message, you can choose to activate your account
-prompt.resetPwdEmailSent=We had sent you an email message including a link, you can click the link to reset your password
+prompt.verifyEmailSent=Please check your email to activate your account before logging in.
+prompt.resetPwdEmailSent=Please check your email for reset your password.
 prompt.resetPwdFailed=Reset password failed.
-prompt.requestResetPwdFailed=reset password failed: email not registered
+prompt.requestResetPwdFailed=This email is not registered.
 prompt.doResetPwdFailed=Reset password failed.
-prompt.resendVerifyEmailSucceedded=Resend verify email succeeded, please check your mailbox to activate your account
-prompt.resendVerifyEmailFailed=Resend verify email failed.
+prompt.resendVerifyEmailSucceedded=Please check your email to activate your account before logging in.
+prompt.resendVerifyEmailFailed=Failed to verify your email.
 
 forgetpwd.title=Reset password
 forgetpwd.email=E-mail
