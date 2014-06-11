@@ -19,7 +19,7 @@ COINPORT = {
     blockUrl: {
         BTC: 'https://blockchain.info/block-index/',
         LTC: 'http://block-explorer.com/block/',
-        DOG: 'http://dogechain.info/'
+        DOG: 'http://dogechain.info/block/'
     },
 
     addressUrl: {

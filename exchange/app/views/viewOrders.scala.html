@@ -1,63 +1,47 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
-<h3>@Messages("order.myOrders")</h3>
-<h5>
-filter by market
-<select ng-model="market" ng-change="changeMarket()">
-    <option value="all">All</option>
-    @for(market <- markets) {
-    <option>@market</option>
-    }
-</select>
-</h5>
-<div class="row">&nbsp;</div>
-<div class="row">
-    <table class="table table-striped table-user-order">
-        <thead>
-        <tr>
-            <th>@(Messages("order.oid"))</th>
-            <th>@(Messages("order.time"))</th>
-            <th>@(Messages("order.type"))</th>
-            <th>@(Messages("order.price"))</th>
-            <th>@(Messages("order.amount"))</th>
-            <th>@(Messages("order.finishedAmount"))</th>
-            <th>@(Messages("order.total"))</th>
-            <th>@(Messages("order.finishedTotal"))</th>
-            <th>@(Messages("order.status"))</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr  ng-repeat="order in orders.items | orderBy: ['-date', '-tid']" class="">
-            <td>
-                <a href="/order/{{order.id}}">{{order.id}}</a>
-            </td>
-            <td>
-                {{order.submitTime | date:"MM-dd HH:mm:ss"}}
-            </td>
-            <td class="{{order.operation | orderTypeClass}}">
-                {{order.operation | orderTypeText}}
-            </td>
-            <td class="{{order.operation | orderTypeClass}}">
-                {{order.price | price}} {{order.currency}}
-            </td>
-            <td>
-                {{order.amount | coin}} {{order.subject}}
-            </td>
-            <td>
-                {{order.finishedQuantity | coin}} {{order.subject}}
-            </td>
-            <td>
-                {{order.total | coin}} {{order.currency}}
-            </td>
-            <td>
-                {{order.finishedAmount | coin}} {{order.currency}}
-            </td>
-            <td>
-                <span class="badge badge-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <pagination boundary-links="true" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-</div>
+<section class="header-3-sub">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("order.myOrders")
+
+                <select ng-model="market" ng-change="changeMarket()">
+                    <option value="all">All</option>
+                    @for(market <- markets) {<option>@market</option> }
+                </select>
+            </h4>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th nowrap>@(Messages("order.oid"))</th>
+                        <th nowrap>@(Messages("order.time"))</th>
+                        <th nowrap>@(Messages("order.type"))</th>
+                        <th nowrap class="text-right">@(Messages("order.price"))</th>
+                        <th nowrap class="text-right">@(Messages("order.amount"))</th>
+                        <th nowrap class="text-right">@(Messages("order.finishedAmount"))</th>
+                        <th nowrap class="text-right">@(Messages("order.total"))</th>
+                        <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
+                        <th nowrap>@(Messages("order.status"))</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  ng-repeat="order in orders.items | orderBy: ['-date', '-tid']" class="">
+                        <td nowrap> <a href="/order/{{order.id}}">{{order.id}}</a> </td>
+                        <td nowrap> {{order.submitTime | date:"MM-dd HH:mm:ss"}} </td>
+                        <td nowrap class="{{order.operation | orderTypeClass}}">{{order.operation | orderTypeText}} </td>
+                        <td nowrap class="text-right {{order.operation | orderTypeClass}}">{{order.price.display}} {{order.currency}} </td>
+                        <td nowrap class="text-right"> {{order.amount.display}} {{order.subject}}</td>
+                        <td nowrap class="text-right"> {{order.finishedQuantity.display}} {{order.subject}} </td>
+                        <td nowrap class="text-right"> {{order.total.display}} {{order.currency}} </td>
+                        <td nowrap class="text-right"> {{order.finishedAmount.display}} {{order.currency}} </td>
+                        <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                    </tr>
+                </tbody>
+                @__empty_table_indicator("orders.items")    
+            </table>
+            <pagination boundary-links="true" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+    </div>
+</section>

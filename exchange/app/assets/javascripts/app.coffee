@@ -43,9 +43,17 @@ coinportApp.filter 'orderStatusText', () -> (input) ->
 		when 4 then Messages.orderStatus.cancelled
 		when 5 then Messages.orderStatus.open
 		else Messages.unknown + input
+coinportApp.filter 'cancelWithdrawalFilter', () -> (input) ->
+  if input == 0
+    false;
+  else
+    true;
 
 coinportApp.filter 'transferStatusText', () -> (input) ->
 	Messages.transfer.status[input]
+
+coinportApp.filter 'transferOperationText', () -> (input) ->
+	Messages.transfer.operation[input]
 
 coinportApp.filter 'currency', () -> (input) ->
 	if input then input.toFixed(2) else '0'

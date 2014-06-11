@@ -17,7 +17,7 @@ lazy val root = (project in file("."))
 LessKeys.verbose in Assets := true
 
 resolvers ++= Seq(
-  // "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
+  "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
   "jahia org repository" at "http://maven.jahia.org/maven2/",
   Resolver.sonatypeRepo("snapshots")
 )
@@ -32,7 +32,7 @@ doc in Compile <<= target.map(_ / "none")
 //}}
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.2"
+  val akkaVersion = "2.3.3"
   Seq(
     anorm,
     cache,
@@ -46,7 +46,7 @@ libraryDependencies ++= {
     "org.json4s"                  %% "json4s-ext"                       % "3.2.8",
     "com.github.tototoshi"        %% "play-json4s-native"               % "0.2.0",
     "com.github.tototoshi"        %% "play-json4s-test-native"          % "0.2.0" % "test",
-    "com.coinport"                %% "coinex-client"                    % "1.1.18-SNAPSHOT",
+    "com.coinport"                %% "coinex-client"                    % "1.1.20-SNAPSHOT",
     "com.octo.captcha"            %  "jcaptcha"                         % "1.0",
     "org.webjars"                 %  "bootstrap"                        % "3.1.1",
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",

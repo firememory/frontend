@@ -38,7 +38,7 @@
         }
         .brand {
             padding-top: 33px !important;
-            .font(25px, #2c3e50);
+            .font(25px, @midnight-blue);
             font-weight: 800;
             letter-spacing: 0;
             position: relative;
@@ -99,14 +99,14 @@
         .box-sizing(border-box);
         padding: 15px 20px 16px;
         background: none;
-        border: 2px solid #16a085;
+        border: 2px solid @green-sea;
         &:hover, &:focus {
             border-color: #009c84;
             background: #009c84;
         }
         &:active, &.active {
-            border-color: mix(#16a085, black, 85%);
-            background: mix(#16a085, black, 85%);
+            border-color: mix(@green-sea, black, 85%);
+            background: mix(@green-sea, black, 85%);
             color: rgba(255, 255, 255, 0.75);
         }
         [class*="fui-"] {
@@ -162,7 +162,7 @@
         color: white;
     }
     .btn.btn-clear {
-        color: #1abc9c;
+        color: @turquoise;
         &:hover, &:focus {
             color: white;
         }
@@ -249,7 +249,7 @@
                     margin-left: 10px;
                 }
                 &.active {
-                    background-color: #1abc9c;
+                    background-color: @turquoise;
                 }
             }
         }

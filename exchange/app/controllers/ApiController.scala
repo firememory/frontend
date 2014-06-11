@@ -150,17 +150,28 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       val amount = getParam(data, "amount", "0.0").toDouble
       val currency: Currency = getParam(data, "currency", "")
       val address = getParam(data, "address", "")
-      AccountService.withdrawal(uid.toLong, currency, amount, address)
       UserService.setWithdrawalAddress(uid.toLong, currency, address)
-      Future(Ok(ApiResult.toJson()))
+      AccountService.withdrawal(uid.toLong, currency, amount, address).map {
+        case result => Ok(result.toJson)
+      }
     }
 }
+  def cancelWithdrawal(uid: String, tid: String) = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      println("uid"+uid)
+      println("tid"+tid)
+      TransferService.cancelWithdrawal(uid.toLong, tid.toLong)
+      Future(Ok(ApiResult.toJson))
+  }
 
   def transfers(currency: String, uid: String) = Action.async {
     implicit request =>
       val query = request.queryString
       val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
-      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit))
+      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit)) match {
+        case Some(t) => Seq(t)
+        case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
+      }
       val pager = ControllerHelper.parsePagingParam()
 
       TransferService.getTransfers(Some(uid.toLong), Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {

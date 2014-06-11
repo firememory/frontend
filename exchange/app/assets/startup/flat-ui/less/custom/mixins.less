@@ -1,0 +1,33 @@
+//
+// Mixins
+//
+// NOTE: Feel free to add your own here.
+// -----------------------------------------------------
+
+.has-sell-buy-color() {
+    .sell {color: @sell-color;}
+    .buy {color: @buy-color;}
+}
+
+.bg-light {background-color: #f2f3f4;}
+
+.silver-h4 {
+	h4 {
+		color: @silver;
+		text-transform: uppercase;
+	}
+}
+
+.tab-content {
+	border-width: 0;
+}
+
+.empty-table-indicator {
+	font-size: 40px;
+	font-weight: 400;
+	text-align: center;
+	color: white;
+	padding-top: 200px;
+	.user-select(none);
+}
+

@@ -25,11 +25,13 @@ class LoginCtrl
                         $scope.showError= false
                     else
                         $scope.errorMessage = Messages.getMessage(data.code, data.message)
-                        $scope.showError= true
+                        $scope.showError = true
+                        $scope.login.password = ''
                         if data.code == 1006
                             $scope.ifEmailNotVerified = true
                 .error (data, status, headers, config) ->
                     $scope.errorMessage = data.message
                     $scope.showError= true
+                    $scope.login.password = ''
 
 app.controller 'LoginCtrl', LoginCtrl

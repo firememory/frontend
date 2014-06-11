@@ -1,8 +1,8 @@
 @()(implicit lang: Lang)
 
-<div class="txs-box">
-    <h4>Recent Transactions</h4>
-    <table class="table table-condensed table-striped table-responsive">
+<h4>Recent Transactions</h4>
+<div class="box txs-box">
+    <table class="table table-condensed table-striped table-hover table-responsive">
         <thead>
             <th>@Messages("transaction.type")</th>
             <th>@Messages("transaction.price")</th>
@@ -13,15 +13,12 @@
         <tbody>
             <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item">
                 <td class="l {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
-                <td class="price">{{item.price.value | price}}</td>
-                <td class="amount">{{item.subjectAmount.value | coin}}</td>
+                <td class="price">{{item.price.display}}</td>
+                <td class="amount">{{item.subjectAmount.display}}</td>
                 <td class="timestamp">{{item.timestamp | date:"HH:mm:ss"}}</td>
-                <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-retweet"></i></a></td>
+                <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-link"></i></a></td>
             </tr>
         </tbody>
     </table>
-
-    <div class="row">
-        <div class="col-md-offset-10"><a href="/transactions/{{market}}">@(Messages("more")) >></a></div>
-    </div>
+    @__see_more("/transactions/{{market}}")
 </div>

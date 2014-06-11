@@ -1,43 +1,29 @@
 @()(implicit lang: Lang)
 
-<footer class="footer-4 bg-light-green">
-    <div class="container">
-        <div class="brand">Trade - {{market}}</div>
+<section class="header-3-sub first">
+    <div class="row">
+        @_trade_depth()
     </div>
-</footer>
+</section>
 
 <section class="header-3-sub">
-    <div class="background">&nbsp;</div>
-    <div class="container">
-        <div class="row">
-            @_trade_depth()
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            @_trade_buy()
+        </div>
+        <div class="col-md-4 col-sm-6">
+            @_trade_sell()
+        </div>
+        <div class="col-md-4 col-sm-12">
+            @_trade_transactions()
         </div>
     </div>
 </section>
 
-<section class="header-3-sub alt">
-    <div class="background">&nbsp;</div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-6">
-                @_trade_buy()
-            </div>
-            <div class="col-md-4 col-sm-6">
-                @_trade_sell()
-            <div class="col-md-4 col-sm-12">
-                @_trade_transactions()
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="header-3-sub alt">
-    <div class="background">&nbsp;</div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                @_trade_orders()
-            </div>
+<section class="header-3-sub">
+    <div class="row">
+        <div class="col-sm-12">
+            @_trade_orders()
         </div>
     </div>
 </section>

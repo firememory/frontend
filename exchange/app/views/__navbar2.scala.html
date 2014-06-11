@@ -1,17 +1,22 @@
-@(index: Int, fix: Boolean = false)(implicit session: Session, lang: Lang)
+@(index: String = "", includeSiteNotification: Boolean = true)(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
+@if(includeSiteNotification) {
+    @__site_notification()
+}
+
+<header class="header-3" ng-controller="NaviCtrl">
     @session.get("uid") match {
         case Some(uid: String) => {
-            <span ng-show="false" ng-init="isLogin=true"></span>
+            <span ng-show="false" ng-init="loggedIn=true"></span>
             <span ng-show="false" ng-init="uid=@uid"></span>
             <span ng-show="false" ng-init="username='@(session.get("username"))'"></span>
         }
         case None => {
-            <span ng-show="false" ng-init="isLogin=false"></span>
+            <span ng-show="false" ng-init="loggedIn=false"></span>
         }
     }
-    <header class="header-3">
+
     <div class="container">
         <div class="row">
             <nav class="navbar col-sm-12" role="navigation">
@@ -21,32 +26,15 @@
                 </div>
                 <div class="collapse navbar-collapse pull-right">
                     <ul class="nav pull-left">
-                        <li @if(index==0){class="active"}><a href="/">@Messages("nav.home")</a> </li>
+                        <li @if(index=="trade"){class="active"}> <a href="/trade">@Messages("nav.trade")</a> </li>
+                        <li ng-show="loggedIn" @if(index=="account"){class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
 
-                        <li  ng-show="isLogin"  class="@if(index==1){active}">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.trade") <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                @for(market <- markets) {<li><a href="/trade#/@market">@market</a></li> }
-                            </ul>
-                        </li>
-
-                        <li class="@if(index==3){active}">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">@Messages("nav.market") <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                @for(market <- markets) {<li><a href="/market#/@market">@market</a></li> }
-                            </ul>
-                        </li>
-
-                        <li ng-show="isLogin" @if(index==2) {class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
-
-                        <li @if(index==4){class="active"}> <a href="/open#/about/@(lang.code)">@Messages("nav.open")</a> </li>
-
-                        <li ng-show="isLogin"> <a class="user" href="/user/{{uid}}"><span><i class="fa fa-user"></i><span ng-bind="username"></span></span></a> </li>
-                        <li ng-show="isLogin"> <a href="/account/logout" class="">@Messages("nav.logout")</a> </li>
-                        <li ng-show="!isLogin"> <a href="/login">@Messages("nav.login")</a> </li>
+                        <li @if(index=="openness"){class="active"}> <a href="/open#/reserve">@Messages("nav.open")</a> </li>
+                        <li ng-show="loggedIn"> <a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a> </li>
+                        <li ng-hide="loggedIn" @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     </ul>
-                     <form class="navbar-form pull-left">
-                        <a ng-show="!isLogin" class="btn btn-primary" href="/register">@Messages("nav.register")</a>
+                     <form class="navbar-form pull-left" ng-hide="loggedIn">
+                        <a class="btn btn-primary" href="/register">@Messages("nav.register")</a>
                     </form>
                 </div>
             </nav>
@@ -54,8 +42,3 @@
     </div>
     <div class="header-background"></div>
 </header>
-<!--
-<div class="container" ng-controller="AlertCtrl">
-    <alert ng-repeat="alert in alerts" type="{{alert.ntype.toLowerCase()}}" close="closeAlert($index)"><strong ng-bind="alert.title"></strong> <span ng-bind="alert.content"></span></alert>
-</div>
--->

@@ -1,32 +1,50 @@
 @()(implicit lang: Lang)
 
+@__js("/vendor/jquery/jquery.min.js")
+@__js("/vendor/jquery-ui/ui/jquery-ui.js")
+@__js("/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js")
+@__js("/vendor/jquery-tags-input/jquery.tagsinput.js")
+@__js("/vendor/jquery-placeholder/jquery.placeholder.js")
+@__js("/vendor/bootstrap/dist/js/bootstrap.min.js")
+@__js("/vendor/bootstrap-select/bootstrap-select.js")
+@__js("/vendor/bootstrap-switch/static/js/bootstrap-switch.js")
+@__js("/vendor/holderjs/holder.js")
+@__js("/vendor/typeahead.js/dist/typeahead.js")
 
+@__js("/vendor/angular/angular.js")
+@__js("/vendor/angular-route/angular-route.min.js")
+@__js("/vendor/angular-resource/angular-resource.min.js")
+@__js("/vendor/angular-flexslider/angular-flexslider.js")
 
-@__js("//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js")
-@__js("//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-route.min.js")
-@__js("//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js")
-@__js("//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-cookies.min.js")
-@__js("//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-animate.min.js")
+@__js("/lib/angular/angular-cookies.min.js")
+@__js("/lib/angular/angular-animate.min.js")
 @__js("/lib/angular/angular-timer.min.js") <!-- not available on CDN -->
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js")
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.%s.js".format(lang.code))
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js")
+@__js("/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.en-US.js")
 @__js("/lib/ui-bootstrap-tpls-0.11.0.js")
 
+@__js("/startup/flat-ui/js/flatui-checkbox.js")
+@__js("/startup/flat-ui/js/flatui-radio.js")
+@__js("/startup/flat-ui/js/flatui-fileinput.js")
 
-<script src="/lib/jquery-2.1.1.min.js"></script>
-<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="/startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js"></script>
-<script src="/startup/common-files/js/modernizr.custom.js"></script>
-<script src="/startup/common-files/js/page-transitions.js"></script>
-<script src="/startup/common-files/js/easing.min.js"></script>
-<script src="/startup/common-files/js/jquery.svg.js"></script>
-<script src="/startup/common-files/js/jquery.svganim.js"></script>
-<script src="/startup/common-files/js/jquery.parallax.min.js"></script>
-<script src="/startup/common-files/js/startup-kit.js"></script>
 
-@__js("/lib/boststrapformhelpers/js/bootstrap-formhelpers-countries.js")
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.js")
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-countries.%s.js".format(lang.code))
-@__js("/lib/bootstrapformhelpers/js/bootstrap-formhelpers-phone.en-US.js")
+@__js("/startup/common-files/js/jquery.bxslider.min.js")
+@__js("/startup/common-files/js/jquery.scrollTo-1.4.3.1-min.js")
+@__js("/startup/common-files/js/jquery.sharrre.min.js")
+@__js("/startup/common-files/js/masonry.pkgd.min.js")
+@__js("/startup/common-files/js/modernizr.custom.js")
+@__js("/startup/common-files/js/page-transitions.js")
+@__js("/startup/common-files/js/easing.min.js")
+@__js("/startup/common-files/js/jquery.svg.js")
+@__js("/startup/common-files/js/jquery.svganim.js")
+@__js("/startup/common-files/js/jquery.backgroundvideo.min.js")
+@__js("/startup/common-files/js/froogaloop.min.js")
+@__js("/startup/common-files/js/jquery.parallax.min.js")
+@__js("/startup/common-files/js/startup-kit.js")
+
 @__js("/lib/jquery.sha256.js")
 @__js("/javascripts/common.js")
 @__js("/javascripts/app.js")
-@__js("/javascripts/navbar.js") <!-- min.js doesn't work -->
+@__js("/javascripts/navbar.js")

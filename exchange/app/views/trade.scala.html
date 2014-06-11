@@ -1,4 +1,5 @@
 @()(implicit session: Session, lang: Lang)
+@import utils.Constant._
 
 <!DOCTYPE html>
 <html lang="@(lang.code)">
@@ -9,6 +10,8 @@
 </head>
 
 <body ng-app="coinport.trade">
+<div class="page-wrapper trade">
+@__navbar2("trade")
 
 @session.get("uid") match {
     case Some(id: String) => {
@@ -19,11 +22,19 @@
     }
 }
 
-<div class="page-wrapper trade">
-@__navbar2(1)
-<div ng-view></div>
+<div class="container container-main">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-stacked" cp-nav>
+                 @for(market <- markets) {<li route="#/@market"><a href="#/@market">@market</a></li> }
+            </ul>
+        </div>
 
-@__footer2()
+        <div class="content col-md-10" ng-view> </div>
+    </div>
+</div>
+
+@__footer3(false)
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/lib/highstock.js")

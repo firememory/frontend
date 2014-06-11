@@ -21,44 +21,230 @@
 
 @import '../startup/ui-kit/ui-kit-projects/less/project-4.less';
 
+@import '../startup/ui-kit/ui-kit-crew/less/crew-4.less';
+
 @import '../startup/ui-kit/ui-kit-content/less/content-4.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-3.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-9.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-11.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-16.less';
 
-.has-sell-buy-color() {
-    .sell {color: red;}
-    .buy {color: green;}
-}
+@import '../startup/ui-kit/ui-kit-contacts/less/contact-3.less';
+
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 // NavBar
-header.header-3 {
-    ul.nav > li > a {
+
+div.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+div.page-wrapper {
+    .bg-light;
+    position: relative;
+}
+
+section.header-3-sub {
+    padding-top: 0;
+    padding-bottom: 40px;
+}
+
+div.container-main {
+    padding-top: 40px;
+    padding-bottom: 110px;
+}
+
+.header-3 {
+    .navbar .nav > li > a {
         text-transform: uppercase;
+        letter-spacing: 0;
+        font-weight: 500;
+        &.log-out-in {
+            font-weight: 200;
+            &:hover {color: @turquoise;}
+        }
     }
 }
 
 
+
+div.site-notification {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    .bg-warning;
+
+    .notification-inner {
+        .text-danger;
+        width: 100%;
+        padding: 40px;
+    }
+}
+
+ul.nav-stacked {
+    background-color: white;
+    > li {
+        &.active {
+            .bg-firm;
+           a {color: white};
+
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for '/index'
+
+div.home {
+    section.content-16 {.bg-white; }
+    section.header-3-sub {
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    section.content-4 {.bg-white; }
+    section.crew-4 {.bg-white; }
+}
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 // CSS for '/trade'
 
 div.trade {
+    .table > thead > tr > th {padding: 5px};
+    .table > tbody > tr > td {padding: 5px};
+    .table-borderless > tbody > tr > td {border: none; padding: 3px;};
     tbody {color: @midnight-blue;}
     section.header-3-sub {
-        padding-top: 40px;
-        padding-bottom: 40px;
         .has-sell-buy-color();
-
-        &.alt { background-color: white;}
+        .silver-h4;
+        padding-bottom: 10px;
     }
 
+    .first {margin-top: -45px; }
+
     .depth-box, .candle-chart {min-height: 340px; }
-    .op-box .txs-box {min-height: 340px; }
+    .op-box, .txs-box {min-height: 420px; }
     .btn-xs {padding: 0 10px;}
+    .box {
+        background-color: white;
+        padding: 10px;
+        .border-radius(4px);
+    }
+    .txs-box {
+        a {
+            color: @silver;
+            &:hover {color: @link-hover-color;}
+        }
+    }
+    .tab-content {
+        border-width: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+    .latest-price {
+        font-size: 20px;
+        font-weight: 40;
+    }
+    .badge {width: 60px; font-weight: bold;}
+    .bottom-right-more {
+        position: absolute;
+        bottom: 0;
+        padding-right: 40px;
+        width: 100%;
+        text-align: right;
+
+        a.icon {
+            padding: 10px;
+            color: @silver;
+            &:hover {color: @link-hover-color;}
+        }
+    }
+
+    // Op boxes
+    div.op-box-wrapper {
+        div.op-box {
+            .input-group {
+                margin-bottom: 2px;
+            }
+            .input-group-addon {
+                border-width: 1px;
+                color: white;
+                width: 75px;
+                border-radius: 0;
+            }
+            input {
+                border-width: 1px;
+                text-align: right;
+                padding-right: 20px;
+                font-weight: bold;
+            }
+
+            &:hover {
+                button.btn-sell {
+                    background-color: @sell-color-light;
+                    &:hover {background-color: @sell-color};
+                }
+                button.btn-buy {
+                    background-color: @buy-color-light;
+                    &:hover {background-color: @buy-color};
+                }
+
+                .input-group {
+                    .input-group-addon {
+                        border-color: @opbox-primary-color;
+                        background-color: @opbox-primary-color;
+                    }
+                    input {
+                        border-color: @opbox-primary-color;
+                        color: @opbox-primary-color;
+
+                        &:focus {
+                            color: @opbox-primary-color;
+                            background-color: mix(@sun-flower, white, 20%);
+                        }
+                    }
+                }
+
+                .input-group-advanced {
+                    .input-group-addon {
+                        border-color: @opbox-secondary-color;
+                        background-color: @opbox-secondary-color;
+                    }
+                    input {
+                        border-color: @opbox-secondary-color;
+                        color: @opbox-secondary-color;
+
+                        &:focus {
+                            color: @opbox-secondary-color;
+                            background-color: mix(@sun-flower, white, 20%);
+                        }
+                    }
+                }
+            }
+
+            .alert {
+                padding: 8px;
+                border: none;
+                .num {color: @opbox-primary-color;}
+                .red {color: @brand-danger;}
+            }
+            button.btn-op {
+                border-radius: 0;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                color: white;
+                font-weight: bold;
+                &:hover {color: white};
+            }
+            .form-control[disabled] {
+                border-color: red;
+            }
+        }
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -66,10 +252,8 @@ div.trade {
 // CSS for '/open'
 
 div.openness {
-    section.header-2-sub {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
+    //.table > thead > tr > th {padding: 5px};
+    //.table > tbody > tr > td {padding: 5px}
     section.content-3 {
         padding-top: 10px;
 
@@ -79,6 +263,7 @@ div.openness {
            padding: 0;
         }
     }
+    .label { padding-left: 10px; padding-right: 10px; }
 
     footer.footer-11 {
         padding-top: 0;
@@ -89,7 +274,12 @@ div.openness {
 ///////////////////////////////////////////////////////////////////
 // CSS for opendata browser views
 div.opendata-browser {
+    background-color: white;
     div.opendata-data {
+        .pagination {margin-left: 20px;}
+        h3 {padding-bottom: 60px; padding-left: 20px;}
+        .silver-h4;
+        h4 {color: grey; padding-left: 20px; padding-top: 40px;}
         tbody {color: @midnight-blue;}
         padding-top: 40px;
 
@@ -98,5 +288,55 @@ div.opendata-browser {
         }
 
         .has-sell-buy-color();
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for /account
+
+div.account {
+    .table > thead > tr > th {padding-right: 5px; padding-left: 5px;}
+    .table > tbody > tr > td {padding-right: 5px; padding-left: 5px;}
+    .badge {width: 60px; font-weight: bold;}
+    section.header-3-sub {
+        .has-sell-buy-color();
+        .silver-h4;
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for simple form page
+
+div.login-page, div.forget-password, div.register {
+    section.header-3-sub {
+        padding-top: 80px;
+    } 
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for /login
+
+div.login-page {
+    a.additional-link {
+        padding-left: 20px;
+    }
+
+    div.error {
+        .text-danger;
+        padding: 20px;
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for /prompt
+
+div.prompt {
+    .alert {
+        padding: 60px;
+        margin-top: 60px;
     }
 }

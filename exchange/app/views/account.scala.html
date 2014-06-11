@@ -9,6 +9,8 @@
 </head>
 
 <body ng-app="coinport.account">
+<div class="page-wrapper account">
+@__navbar2("account")
 
 @session.get("uid") match {
     case Some(id: String) => {
@@ -19,13 +21,10 @@
     }
 }
 
-<div class="page-wrapper trade">
-@__navbar2(2)
-
-<div class="container">
+<div class="container container-main">
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav nav-pills nav-stacked" cp-nav>
+            <ul class="nav nav-stacked" cp-nav>
                 <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
                 <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
                 <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
@@ -38,7 +37,7 @@
     </div>
 </div>
 
-@__footer2()
+@__footer3()
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/lib/d3/d3.min.js")

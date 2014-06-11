@@ -16,8 +16,8 @@ forgotPassword=Forgot Password?
 resendVerifyEmail=Resend Verify Email
 inputCaptcha=Input the text in the picture below
 
-authenticateNotLogin=operation not permitted, please login first.
-authenticateTimeout=Session timeout, please re-login
+authenticateNotLogin=You must log in to proceed.
+authenticateTimeout=Session timed out, please log in again.
 
 nav.brand=coinport
 nav.home=Home
@@ -54,6 +54,7 @@ trade.advancedTip=support for more customized orders
 trade.price=Price
 trade.amount=Amount
 trade.total=Total
+trade.limit=Limit
 trade.cancel=Cancel
 trade.availableAmount=Available
 trade.availableCurrency=Available
@@ -89,12 +90,13 @@ order.allMarkets=All Markets
 
 prompt.backToHome=Back to home
 prompt.verifyEmailFailed=verify email failed.
-prompt.verifyEmailSent=We had sent you an email message, you can choose to activate your account
-prompt.resetPwdEmailSent=We had sent you an email message including a link, you can click the link to reset your password
-prompt.resetPwdFailed=Reset password link out of date
+prompt.verifyEmailSent=Please check your email to activate your account before logging in.
+prompt.resetPwdEmailSent=Please check your email for reset your password.
+prompt.resetPwdFailed=Reset password failed.
+prompt.requestResetPwdFailed=This email is not registered.
 prompt.doResetPwdFailed=Reset password failed.
-prompt.resendVerifyEmailSucceedded=Resend verify email succeeded, please check your mailbox to activate your account
-prompt.resendVerifyEmailFailed=Resend verify email failed.
+prompt.resendVerifyEmailSucceedded=Please check your email to activate your account before logging in.
+prompt.resendVerifyEmailFailed=Failed to verify your email.
 
 forgetpwd.title=Reset password
 forgetpwd.email=E-mail
@@ -108,7 +110,7 @@ resetpwd.repeatPlaceHolder=Repeat your password
 resetpwd.submit=Submit
 
 accountsettings.title=Account Settings
-accountsettings.realName=Name
+accountsettings.realName=Real Name
 accountsettings.realNamePrompt=Once submited, can not be changed
 accountsettings.realNameAgain=Repeat Name
 accountsettings.country=Country
@@ -116,6 +118,10 @@ accountsettings.mobile=Mobile
 accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit
 accountsettings.cancel=Cancel
+
+accountsettings.view.title=Settings
+accountsettings.view.thead.item=Item
+accountsettings.view.thead.itemValue=Value
 
 footer.aboutUs=About Us
 footer.fq=F&Q
@@ -132,7 +138,7 @@ market.seconds=s
 open.nav.about=About
 open.nav.opensource=Open-Sourced
 open.nav.opendata=Open-Data
-open.nav.reserve=100% Reserve
+open.nav.reserve=Provable Reserve
 open.nav.connectivity=Network Connectivity
 open.totalAssets=Total Assets
 open.coinType=Currency
@@ -191,6 +197,7 @@ user.transfer.operation=Type
 user.transfer.currency=Currency
 user.transfer.amount=Amount
 user.transfer.status=Status
+user.transfer.address=Address
 user.transactions=Transactions
 
 transfer.withdrawal=Withdrawal
@@ -208,11 +215,11 @@ transfer.updated=Updated
 transfer.amount=Amount
 transfer.status=Status
 transfer.confirm=Confirm
+transfer.address=Address
 transfer.pinpassword=Money Password
 transfer.phoneVerCode=Phone verification Code
 transfer.googleAuthCode=Google Authenticator Code
-
-
+transfer.cancelWithdrawal=Cancel Withdrawal
 
 asset.category=Category
 asset.available=Available
@@ -226,8 +233,4 @@ asset.cnyDeposit=CNY Deposit
 asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal
 asset.btcWithdrawal=BTC Withdrawal
-asset.accountSettings=Account Settings
-
-accountsettings.view.title=Account Settings
-accountsettings.view.namediv.title=Name Verification Information
-accountsettings.view.mobilediv.title=Mobile Verification Information
+asset.accountSettings=Settings

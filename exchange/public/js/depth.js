@@ -4,9 +4,9 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/depth/", "");
 
     var accumulateDepth = function(items) {
-        items[0].accumulated = items[0].amount;
+        items[0].accumulated = items[0].amount.value;
         for(var i = 1; i < items.length; i++) {
-           items[i].accumulated = items[i].amount + items[i - 1].accumulated;
+           items[i].accumulated = items[i].amount.value + items[i - 1].accumulated;
         }
     };
 
@@ -43,12 +43,12 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
             .tickSize(-width, 0, 0);
 
         var area = d3.svg.area()
-            .x(function(d) { return x(d.price); })
+            .x(function(d) { return x(d.price.value); })
             .y0(height)
             .y1(function(d) { return y(d.accumulated); });
 
         var line = d3.svg.line()
-            .x(function(d) { return x(d.price); })
+            .x(function(d) { return x(d.price.value); })
             .y(function(d) { return y(d.accumulated); });
 
         var svg = d3.select("#depth-graph").append("svg")
@@ -59,7 +59,7 @@ app.controller('DepthCtrl', function ($scope, $http, $window) {
 
         var data = data1.concat(data2);
 
-        x.domain(d3.extent(data, function(d) { return d.price; }));
+        x.domain(d3.extent(data, function(d) { return d.price.value; }));
         y.domain([0, d3.max(data, function(d) { return d.accumulated; })]);
 
         svg.append("path")

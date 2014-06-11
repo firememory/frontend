@@ -1,73 +1,80 @@
 @()(implicit lang: Lang)
 
-<div class="row">
-	<div class="col-md-8">
-        <h3 class="chart--subHeadline">Net Asset Value Trend (by Day)</h3>
-        <form>
-            <label style="padding-left: 10px; padding-right: 10px;">Style </label>
-			<input type="radio" name="mode" value="grouped"> grouped
-			<input type="radio" name="mode" value="stacked" checked> stacked
-		</form>
-		<div>
-            <svg id="user-finance-chart-history"></svg>
+<section class="header-3-sub">
+<!-- TEMPORARILY ENABLE ASSET CHARTS FOR DEBUG-->
+	<div class="row">
+		<div class="col-md-8">
+	        <h4>Net Asset Value Trend (by Day)</h4>
+	        <form>
+	            <label style="padding-left: 10px; padding-right: 10px;">Style </label>
+				<input type="radio" name="mode" value="grouped"> grouped
+				<input type="radio" name="mode" value="stacked" checked> stacked
+			</form>
+			<div>
+	            <svg id="user-finance-chart-history"></svg>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<h4>{{pieTitle}}</h4>
+			<div id="user-finance-chart-pie">
+				<svg id="pieChartSVG">
+					<defs>
+						<filter id='pieChartInsetShadow'>
+							<feOffset dx='0' dy='0'/>
+							<feGaussianBlur stdDeviation='3' result='offset-blur' />
+							<feComposite operator='out' in='SourceGraphic' in2='offset-blur' result='inverse' />
+							<feFlood flood-color='black' flood-opacity='1' result='color' />
+							<feComposite operator='in' in='color' in2='inverse' result='shadow' />
+							<feComposite operator='over' in='shadow' in2='SourceGraphic' />
+						</filter>
+						<filter id="pieChartDropShadow">
+							<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+							<feOffset in="blur" dx="0" dy="3" result="offsetBlur" />
+							<feMerge>
+								<feMergeNode />
+								<feMergeNode in="SourceGraphic" />
+							</feMerge>
+						</filter>
+					</defs>
+				</svg>
+			</div>
 		</div>
 	</div>
 
-	<div class="col-md-4">
-		<h3 class="chart--subHeadline">{{pieTitle}}</h3>
-		<div id="user-finance-chart-pie">
-			<svg id="pieChartSVG">
-				<defs>
-					<filter id='pieChartInsetShadow'>
-						<feOffset dx='0' dy='0'/>
-						<feGaussianBlur stdDeviation='3' result='offset-blur' />
-						<feComposite operator='out' in='SourceGraphic' in2='offset-blur' result='inverse' />
-						<feFlood flood-color='black' flood-opacity='1' result='color' />
-						<feComposite operator='in' in='color' in2='inverse' result='shadow' />
-						<feComposite operator='over' in='shadow' in2='SourceGraphic' />
-					</filter>
-					<filter id="pieChartDropShadow">
-						<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
-						<feOffset in="blur" dx="0" dy="3" result="offsetBlur" />
-						<feMerge>
-							<feMergeNode />
-							<feMergeNode in="SourceGraphic" />
-						</feMerge>
-					</filter>
-				</defs>
-			</svg>
+	<div class="row" id="user-finance-table-div" >
+		<div class="col-md-12">
+		 	<h4>My Asset</h4>
+			<table id="user-finance-table" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th nowrap>@Messages("asset.category")</th>
+						<th nowrap class="text-right">@Messages("asset.available")</th>
+						<th nowrap class="text-right">@Messages("user.orderPending")</th>
+						<th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+						<th nowrap class="text-right">@Messages("asset.totalAmount")</th>
+						<th nowrap class="text-right">@Messages("asset.price")</th>
+						<th nowrap class="text-right">@Messages("asset.valueOnEstimate")</th>
+						<th nowrap>@Messages("asset.operation")</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="account in accounts">
+						<td nowrap><strong>{{account.currency}}</strong></td>
+						<td nowrap class="text-right">{{account.available.display}}</td>
+						<td nowrap class="text-right">{{account.locked.display}}</td>
+						<td nowrap class="text-right">{{account.pendingWithdrawal.display}}</td>
+						<td nowrap class="text-right">{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.price}} </td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.asset}} </td>
+						<td nowrap>
+		                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
+		                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
+		                </td>
+					</tr>
+				</tbody>
+				@__empty_table_indicator("accounts")	
+			</table>
 		</div>
 	</div>
-</div>
-
-<div id="user-finance-table-div" class="row">
-	<table id="user-finance-table" class="table table-condensed table-striped">
-		<thead>
-			<tr>
-				<th>@Messages("asset.category")</th>
-				<th>@Messages("asset.available")</th>
-				<th>@Messages("user.orderPending")</th>
-				<th>@Messages("user.withdrawalPending")</th>
-				<th>@Messages("asset.totalAmount")</th>
-				<th>@Messages("asset.price")</th>
-				<th>@Messages("asset.valueOnEstimate")</th>
-				<th>@Messages("asset.operation")</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="account in accounts">
-				<td><strong>{{account.currency}}</strong></td>
-				<td>{{account.available.display}}</td>
-				<td>{{account.locked.display}}</td>
-				<td>{{account.pendingWithdrawal.display}}</td>
-				<td>{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
-				<td><i class="fa fa-btc"></i> {{account.price | price}}</td>
-				<td><i class="fa fa-btc"></i> {{account.asset | coin}}</td>
-				<td>
-                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
-                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
-                </td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+</section>
