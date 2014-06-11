@@ -21,6 +21,8 @@
 
 @import '../startup/ui-kit/ui-kit-projects/less/project-4.less';
 
+@import '../startup/ui-kit/ui-kit-crew/less/crew-4.less';
+
 @import '../startup/ui-kit/ui-kit-content/less/content-4.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-3.less';
 @import '../startup/ui-kit/ui-kit-content/less/content-9.less';
@@ -104,8 +106,11 @@ div.home {
         margin-bottom: 100px;
     }
     section.content-4 {
-        .bg-light-green;
+        .bg-turquoise;
         p {color: white;}
+    }
+    section.crew-4 {
+        .bg-white;
     }
 }
 ///////////////////////////////////////////////////////////////////
@@ -120,12 +125,13 @@ div.trade {
     section.header-3-sub {
         .has-sell-buy-color();
         .silver-h4;
+        padding-bottom: 10px;
     }
 
     .first {margin-top: -45px; }
 
     .depth-box, .candle-chart {min-height: 340px; }
-    .op-box, .txs-box {min-height: 400px; }
+    .op-box, .txs-box {min-height: 420px; }
     .btn-xs {padding: 0 10px;}
     .box {
         background-color: white;
