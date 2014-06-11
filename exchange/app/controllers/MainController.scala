@@ -204,4 +204,9 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.viewConnectivity.render(request.acceptLanguages(0)))
   }
+
+  def opentransferView() = Action {
+    implicit request =>
+      Ok(views.html.viewOpentransfer.render(request.acceptLanguages(0)))
+  }
 }

@@ -63,6 +63,7 @@ GET     /views/opendata.html             controllers.MainController.opendataView
 GET     /views/reserve.html              controllers.MainController.reserveView()
 GET     /views/opensource.html           controllers.MainController.opensourceView()
 GET     /views/connectivity.html         controllers.MainController.connectivityView()
+GET     /views/opentransfer.html         controllers.MainController.opentransferView()
 
 # API routes
 GET     /api/order/*oid/transaction   controllers.ApiController.orderTransaction(oid)

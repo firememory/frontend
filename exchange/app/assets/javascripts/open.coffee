@@ -26,6 +26,10 @@ app.config ($routeProvider) ->
             controller: 'ConnectCtrl',
             templateUrl: 'views/connectivity.html'
         }).
+        when('/opentransfer/:coin', {
+            controller: 'TransferCtrl',
+            templateUrl: 'views/opentransfer.html'
+        }).
         otherwise({
             redirectTo: '/'
         })
@@ -44,6 +48,10 @@ app.controller 'DownCtrl', ($scope, $http) ->
 
     $scope.loadSnapshots()
     $scope.loadMessages()
+
+app.controller 'TransferCtrl', ($scope, $http) ->
+    $scope.currency = $routeParams.currency.toUpperCase();
+    console.log('$scope.currency', $scope.currency)
 
 
 app.controller 'ReserveCtrl', ($scope, $http) ->

@@ -29,7 +29,7 @@
                         <tbody>
                         @for(coin <- coins) {
                         <tr ng-init="getWallets('@coin')">
-                            <td nowrap><strong>@coin</strong></td>
+                            <td nowrap><strong><a href="#/opentransfer/@coin">@coin</a></strong></td>
                             <td nowrap class="text-right">{{accounts['@coin'].available.value | coin}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].locked.value | coin}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
