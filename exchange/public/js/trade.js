@@ -25,8 +25,8 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
-    $scope.bid = {price: 0, amount: 0, total: 0};
-    $scope.ask = {price: 0, amount: 0, total: 0};
+    $scope.bid = {price: 0, amount: 0, total: 0, limit: 0};
+    $scope.ask = {price: 0, amount: 0, total: 0, limit: 0};
     $scope.account = {};
     $scope.showMessage = {bid: false, ask: false};
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: true, limitLImit: true};
@@ -107,9 +107,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $http.get('/api/' + $scope.market + '/depth')
             .success(function(data, status, headers, config) {
                 if (data.data.bids.length > 0 )
-                    $scope.ask.price = data.data.bids[0].price.value || 0;
+                    $scope.ask.price = data.data.bids[0].price.display || 0;
                 if (data.data.asks.length > 0 )
-                    $scope.bid.price = data.data.asks[0].price.value || 0;
+                    $scope.bid.price = data.data.asks[0].price.display || 0;
         });
     };
 
@@ -319,37 +319,31 @@ function BidAskCtrl($scope, $http, $routeParams) {
     });
 
     var updateBidTotal = function() {
-        if($scope.bidOptions.advanced || $scope.bid.price == undefined || $scope.bid.amount == undefined)
+        if($scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
-        var total = +($scope.bid.price * $scope.bid.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
+        var total = +(+$scope.bid.price * +$scope.bid.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         $scope.bid.total = total;
-        console.log('update bid total', $scope.bid.price, $scope.bid.amount, $scope.bid.total);
     };
 
     var updateBidAmount = function() {
-        if ($scope.bidOptions.advanced)
-            return;
         if (!$scope.bid.price)
             $scope.bid.amount = 0;
         else
-            $scope.bid.amount = +($scope.bid.total / $scope.bid.price).toFixed(COINPORT.getAmountFixed($scope.subject));
+            $scope.bid.amount = +(+$scope.bid.total / +$scope.bid.price).toFixed(COINPORT.getAmountFixed($scope.subject));
     };
 
     var updateAskTotal = function() {
-        if($scope.askOptions.advanced || $scope.ask.price == undefined || $scope.ask.amount == undefined)
+        if($scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
-        var total = +($scope.ask.price * $scope.ask.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
-        console.log('update ask total', $scope.account, $scope.ask.price, $scope.ask.amount);
+        var total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
         $scope.ask.total = total;
     };
 
     var updateAskAmount = function() {
-        if ($scope.askOptions.advanced)
-            return;
         if (!$scope.ask.price)
             $scope.ask.amount = 0;
         else
-            $scope.ask.amount = +($scope.ask.total / $scope.ask.price).toFixed(COINPORT.getAmountFixed($scope.subject));
+            $scope.ask.amount = +(+$scope.ask.total / +$scope.ask.price).toFixed(COINPORT.getAmountFixed($scope.subject));
     };
 
     var toggleBidAdvanced = function(newValue, oldValue) {
@@ -379,23 +373,23 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.alert('bid', Messages.trade.noEnough);
             return;
         }
-        if ($scope.bidOptions.limitAmount && $scope.bid.amount <= 0) {
-            $scope.alert('bid', Messages.trade.inputAmount);
+        if (+$scope.bid.price < 0) {
+            $scope.alert('bid', Messages.trade.inputPrice);
             return;
         }
-        if ($scope.bidOptions.limitPrice && $scope.bid.price <= 0) {
-            $scope.alert('bid', Messages.trade.inputPrice);
+        if (+$scope.bid.total <= 0) {
+            $scope.alert('bid', Messages.trade.inputTotal);
             return;
         }
 
         $scope.info.bidButtonLabel = Messages.trade.submit;
         var payload = {type: 'bid'};
-        if (!$scope.bidOptions.advanced || $scope.bidOptions.limitPrice)
-            payload.price = $scope.bid.price;
-        if (!$scope.bidOptions.advanced || $scope.bidOptions.limitAmount)
-            payload.amount = $scope.bid.amount;
-        if ($scope.bidOptions.advanced && $scope.bidOptions.limitTotal)
-            payload.total = $scope.bid.total;
+        if (+$scope.bid.price > 0)
+            payload.price = +$scope.bid.price;
+        if (+$scope.bid.amount > 0)
+            payload.amount = +$scope.bid.amount;
+        if (+$scope.bid.total > 0)
+            payload.total = +$scope.bid.total;
 
         $http.post('/trade/' + $scope.market + '/bid', $.param(payload))
           .success(function(data, status, headers, config) {
@@ -403,7 +397,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
-                $scope.account[$scope.currency].available.value -= order.total;
+                $scope.account[$scope.currency].available.value -= order.total.value;
                 $scope.orders.push(order);
                 $scope.alert('bid', 'order submitted');
                 setTimeout($scope.loadOrders, 1000);
@@ -433,23 +427,19 @@ function BidAskCtrl($scope, $http, $routeParams) {
             $scope.alert('ask', Messages.trade.noEnough);
             return;
         }
-        if ($scope.askOptions.limitAmount && $scope.ask.amount <= 0) {
-            $scope.alert('ask', Messages.trade.inputAmount);
-            return;
-        }
-        if ($scope.askOptions.limitPrice && $scope.ask.price <= 0) {
+        if ($scope.askOptions.limitPrice && $scope.ask.price < 0) {
             $scope.alert('ask', Messages.trade.inputPrice);
             return;
         }
 
         $scope.info.askButtonLabel = Messages.trade.submit;
         var payload = {type: 'ask'};
-        if (!$scope.askOptions.advanced || $scope.askOptions.limitPrice)
-            payload.price = $scope.ask.price;
-        if (!$scope.askOptions.advanced || $scope.askOptions.limitAmount)
-            payload.amount = $scope.ask.amount;
-        if ($scope.askOptions.advanced && $scope.askOptions.limitTotal)
-            payload.total = $scope.ask.total;
+        if (+$scope.ask.price > 0)
+            payload.price = +$scope.ask.price;
+        if (+$scope.ask.amount > 0)
+            payload.amount = +$scope.ask.amount;
+        if (+$scope.ask.limit > 0)
+            payload.total = +$scope.ask.limit;
 
         $http.post('/trade/' + $scope.market + '/ask', $.param(payload))
           .success(function(data, status, headers, config) {
@@ -458,7 +448,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
-                $scope.account[$scope.subject].available.value -= order.amount;
+                $scope.account[$scope.subject].available.value -= order.amount.value;
                 $scope.alert('ask', 'order submitted');
                 setTimeout($scope.loadOrders, 1000);
             } else {
@@ -478,13 +468,11 @@ function BidAskCtrl($scope, $http, $routeParams) {
         if (!amount)
             return;
         $scope.bid.total = +amount;
-        $scope.bidOptions.limitTotal = true;
         updateBidAmount();
     }
 
     $scope.clickQuantity = function(quantity) {
         $scope.ask.amount = +quantity;
-        $scope.askOptions.limitAmount = true;
         updateAskTotal();
     }
 
@@ -497,7 +485,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
             amount += data[i].amount.value;
         }
         var price = data[index].price;
-        $scope.ask.price = price.value;
+        $scope.ask.price = price.display;
         $scope.ask.amount = amount;
         updateAskTotal();
     }
@@ -511,7 +499,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
                 amount += data[i].amount.value;
             }
             var price = data[index].price;
-            $scope.bid.price = price.value;
+            $scope.bid.price = price.display;
             $scope.bid.amount = amount;
             updateBidTotal();
     }

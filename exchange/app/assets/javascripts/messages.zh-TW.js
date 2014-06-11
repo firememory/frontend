@@ -49,6 +49,7 @@ Messages.trade = {
    noEnough: '账户余额不足',
    inputAmount: '请输入数据',
    inputPrice: '请输入价格',
+   inputTotal: '请输入金额',
    submit: '正在提交订单'
 };
 

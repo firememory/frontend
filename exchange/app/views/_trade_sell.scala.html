@@ -3,7 +3,7 @@
     <div class="text-center"><h4 class="sell">@(Messages("trade.sell")) {{subject}}</h4></div>
 
     <div class="op-box box">
-        <div class="text-right">
+        <div class="text-right" ng-show="false">
             <input type="checkbox" checked data-toggle="switch" />
         </div>
 
@@ -19,54 +19,54 @@
                 <div class="inputs">
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.price"))</span>
-                        <input type="number" step="0.0001" id="ask_price" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price" />
+                        <input type="text" id="ask_price" ng-disabled="!askOptions.limitPrice" class="form-control" ng-model="ask.price"/>
                     </div>
 
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                        <input type="number" step="0.0001" id="ask_amount" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount" min="0" />
+                        <input type="text" id="ask_amount" ng-disabled="!askOptions.limitAmount" class="form-control" ng-model="ask.amount"/>
                     </div>
 
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.total"))</span>
-                        <input type="number" step="0.01" id="ask_total" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
+                        <input type="text" id="ask_total" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                     </div>
 
-                    <div class="input-group input-group-full input-group-advanced" ng-show="true">
+                    <div class="input-group input-group-full input-group-advanced" ng-show="false">
                         <span class="input-group-addon">@(Messages("trade.limit"))</span>
-                        <input type="number" step="0.01" id="ask_limit" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.ask_total"/>
+                        <input type="text" id="ask_limit" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.limit"/>
                     </div>
                 </div>
 
                 <div class="alert alert-info" ng-show="!showMessage['ask']">
                         <b>About this order: </b>
-                        <span  ng-show="!askOptions.limitAmount">
+                        <span  ng-show="ask.amount == 0">
                             selling as much <span class="num">{{subject}}</span> as needed
                         </span>
-                        <span ng-show="askOptions.limitAmount">
+                        <span ng-show="ask.amount > 0">
                             selling <span class="num">{{ask.amount}}</span> {{subject}}
                         </span>
-                        <span ng-show="!askOptions.limitPrice">
+                        <span ng-show="ask.price == 0">
                             at <span class="red">market price</span>
                         </span>
-                        <span  ng-show="askOptions.limitPrice">
-                            at a price higher than or equal to  <span class="num">{{ask.price | price}}</span> {{currency}}/{{subject}}
+                        <span  ng-show="ask.price > 0">
+                            at a price higher than or equal to  <span class="num">{{ask.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="askOptions.limitTotal || askOptions.limitLimit">
                             to get 
-                            <span ng-show="askOptions.limitTotal">
-                            at least <span class="num">{{ask.total | coin}}</span>
+                            <span ng-show="ask.total > 0">
+                            at least <span class="num">{{ask.total}}</span>
                             </span>
-                                <span ng-show="askOptions.limitTotal && askOptions.limitLimit"> but </span>
-                            <span ng-show="askOptions.limitLimit">
-                                at most <span class="num">{{ask.total | coin}}</span> 
+                                <span ng-show="ask.total > 0 && ask.limit > 0"> but </span>
+                            <span ng-show="ask.limit > 0">
+                                at most <span class="num">{{ask.limit}}</span>
                             </span>
                             {{currency}}.
                         </span>
                 </div>
+                <div class="alert alert-danger" ng-show="showMessage['ask']"> {{info.message['ask']}} </div>
 
                 <button class="btn btn-block btn-op btn-sell" ng-click="addAskOrder()">{{info.askButtonLabel}}</button>
-                <div class="alert alert-danger" ng-show="showMessage['ask']"> {{info.message['ask']}} </div>
             </form>
         </div>
     </div>

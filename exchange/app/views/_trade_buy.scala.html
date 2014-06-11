@@ -3,7 +3,7 @@
     <div class="text-center"><h4 class="buy">@(Messages("trade.buy")) {{subject}}</h4></div>
 
     <div class="op-box box">
-        <div class="text-right">
+        <div class="text-right" ng-show="false">
             <input type="checkbox" checked data-toggle="switch" />
         </div>
 
@@ -19,54 +19,54 @@
                 <div class="inputs">
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.price"))</span>
-                        <input type="number" step="0.0001" id="bid_price" ng-disabled="!bidOptions.limitPrice" class="form-control" ng-model="bid.price" />
+                        <input type="text" id="bid_price" class="form-control" ng-model="bid.price" />
                     </div>
 
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.amount"))</span>
-                        <input type="number" step="0.0001" id="bid_amount" ng-disabled="!bidOptions.limitAmount" class="form-control" ng-model="bid.amount" min="0" />
+                        <input type="text" id="bid_amount" ng-disabled="!bidOptions.limitAmount" class="form-control" ng-model="bid.amount" min="0" />
                     </div>
 
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.total"))</span>
-                        <input type="number" step="0.01" id="bid_total" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total"/>
+                        <input type="text" id="bid_total" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.total"/>
                     </div>
 
                     <div class="input-group input-group-full input-group-advanced" ng-show="false">
                         <span class="input-group-addon">@(Messages("trade.limit"))</span>
-                        <input type="number" step="0.01" id="bid_limit" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.bid_total"/>
+                        <input type="text" id="bid_limit" ng-disabled="!bidOptions.limitTotal" class="form-control" ng-model="bid.bid_total"/>
                     </div>
                 </div>
 
                 <div class="alert alert-info" ng-show="!showMessage['bid']">
                         <b>About this order: </b>
-                        <span  ng-show="!bidOptions.limitAmount">
+                        <span  ng-show="bid.amount == 0">
                             buying as much <span class="num">{{subject}}</span> as needed
                         </span>
-                        <span ng-show="bidOptions.limitAmount">
+                        <span ng-show="bid.amount > 0">
                             buying <span class="num">{{bid.amount}}</span> {{subject}}
                         </span>
-                        <span ng-show="!bidOptions.limitPrice">
+                        <span ng-show="bid.price == 0">
                             at <span class="red">market price</span>
                         </span>
-                        <span  ng-show="bidOptions.limitPrice">
-                            at a price higher than or equal to  <span class="num">{{bid.price | price}}</span> {{currency}}/{{subject}}
+                        <span  ng-show="bid.price > 0">
+                            at a price higher than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="bidOptions.limitTotal || bidOptions.limitLimit">
                             to pay 
-                            <span ng-show="bidOptions.limitTotal">
-                            at least <span class="num">{{bid.total | coin}}</span>
+                            <span ng-show="bid.total > 0">
+                            at least <span class="num">{{bid.total}}</span>
                             </span>
                                 <span ng-show="bidOptions.limitTotal && bidOptions.limitLimit"> but </span>
                             <span ng-show="bidOptions.limitLimit">
-                                at most <span class="num">{{bid.total | coin}}</span> 
+                                at most <span class="num">{{bid.total}}</span>
                             </span>
                             {{currency}}.
                         </span>
                 </div>
-
-                <button class="btn btn-block btn-op btn-buy" ng-click="addbidOrder()">{{info.bidButtonLabel}}</button>
                 <div class="alert alert-danger" ng-show="showMessage['bid']"> {{info.message['bid']}} </div>
+
+                <button class="btn btn-block btn-op btn-buy" ng-click="addBidOrder()">{{info.bidButtonLabel}}</button>
             </form>
         </div>
     </div>

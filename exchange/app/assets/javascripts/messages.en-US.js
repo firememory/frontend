@@ -50,6 +50,7 @@ Messages.trade = {
     noEnough: 'account balance is not enough',
     inputAmount: 'please input amount',
     inputPrice: 'please input price',
+    inputTotal: 'please input total',
     submit: 'submitting the order'
 };
 
