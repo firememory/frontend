@@ -15,7 +15,7 @@
 
         <div class="box sell">
             <form name="askForm" class="form-horizontal op-form" role="form">
-            
+
                 <div class="inputs">
                     <div class="input-group input-group-full">
                         <span class="input-group-addon">@(Messages("trade.price"))</span>
@@ -32,7 +32,7 @@
                         <input type="number" step="0.01" id="ask_total" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.total"/>
                     </div>
 
-                    <div class="input-group input-group-full input-group-advanced" ng-show="false">
+                    <div class="input-group input-group-full input-group-advanced" ng-show="true">
                         <span class="input-group-addon">@(Messages("trade.limit"))</span>
                         <input type="number" step="0.01" id="ask_limit" ng-disabled="!askOptions.limitTotal" class="form-control" ng-model="ask.ask_total"/>
                     </div>

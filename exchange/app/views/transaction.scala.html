@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td nowrap><i class="fa fa-retweet"></i>{{transaction.id}} </a></td>
+                        <td nowrap><i class="fa fa-exchange"></i>{{transaction.id}} </a></td>
                         <td nowrap><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                         <td nowrap class="text-right">{{transaction.price.display}} {{transaction.price.currency}}</td>
                         <td nowrap class="text-right">{{transaction.subjectAmount.display}} {{transaction.subjectAmount.currency}}</td>
@@ -52,14 +52,14 @@
                 <tbody>
                     <tr>
                         <td nowrap>@Messages("transaction.takeOrder")</td>
-                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{takeOrder.oid}}</a></td>
+                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-bullhorn"></i> {{takeOrder.oid}}</a></td>
                         <td nowrap class="text-right"> {{takeOrder.preAmount.value | coin}} {{takeOrder.preAmount.currency}}</td>
                         <td nowrap class="text-right"> {{takeOrder.curAmount.value | coin}} {{takeOrder.curAmount.currency}}</td>
                         <td nowrap><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==takeOrder.uid ? '@Messages("me")' : (takeOrder.uid)}}</a></td>
                     </tr>
                     <tr>
                         <td nowrap>@Messages("transaction.makeOrder")</td>
-                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-file-text"></i> {{makeOrder.oid}}</a></td>
+                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-bullhorn"></i> {{makeOrder.oid}}</a></td>
                         <td nowrap class="text-right">{{makeOrder.preAmount.value | coin}} {{makeOrder.preAmount.currency}}</td>
                         <td nowrap class="text-right">{{makeOrder.curAmount.value | coin}} {{makeOrder.curAmount.currency}}</td>
                         <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==makeOrder.uid ? '@Messages("me")' : (makeOrder.uid)}}</a></td>
