@@ -1,7 +1,7 @@
 @()(implicit lang: Lang)
 
 <section class="header-3-sub">
-<!-- TEMPORARILY DISABLE ASSET CHARTS
+<!-- TEMPORARILY ENABLE ASSET CHARTS FOR DEBUG-->
 	<div class="row">
 		<div class="col-md-8">
 	        <h4>Net Asset Value Trend (by Day)</h4>
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 	</div>
--->
+
 	<div class="row" id="user-finance-table-div" >
 		<div class="col-md-12">
 		 	<h4>My Asset</h4>
@@ -65,8 +65,8 @@
 						<td nowrap class="text-right">{{account.locked.display}}</td>
 						<td nowrap class="text-right">{{account.pendingWithdrawal.display}}</td>
 						<td nowrap class="text-right">{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
-						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.price | price}}</td>
-						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.asset | coin}}</td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.price}} </td>
+						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.asset}} </td>
 						<td nowrap>
 		                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
 		                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>

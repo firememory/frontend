@@ -301,13 +301,13 @@ app.controller('AssetCtrl', function ($scope, $http) {
             $scope.pieData = [];
             var total = 0;
             for (asset in map) {
-                total += map[asset];
+                total += map[asset].value_int;
             }
 
             for (asset in map) {
-                $scope.pieData.push({title: asset, value: map[asset] / total});
+                $scope.pieData.push({title: asset, value: map[asset].value_int / total});
             }
-
+            console.log("pieData", $scope.pieData);
             drawPieChart($scope.pieData);
             $scope.updateAsset();
         });
@@ -477,7 +477,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             var layer = [];//{name: key, values: []};
             var x = 0;
             assets.forEach(function (d) {
-                layer.push({x: d.timestamp, y: d.amountMap[key]});
+                layer.push({x: d.timestamp, y: d.amountMap[key].value_int});
             });
             data.push(layer);
         }
@@ -636,13 +636,18 @@ app.controller('AssetCtrl', function ($scope, $http) {
         $http.get('/api/account/' + $scope.uid)
             .success(function (response, status, headers, config) {
                 $scope.accounts = response.data.accounts;
-                var map = $scope.assets[$scope.assets.length - 1].amountMap;
+                var amountMap = $scope.assets[$scope.assets.length - 1].amountMap;
+
+                var priceMap = $scope.assets[$scope.assets.length - 1].priceMap;
+
                 for (currency in $scope.accounts) {
                     var account = $scope.accounts[currency];
                     account.total = account.available.value + account.locked.value + account.pendingWithdrawal.value;
-                    account.asset = map[currency];
-                    account.price = (account.asset/account.total);
+                    account.asset = amountMap[currency].display;
+                    account.price = priceMap[currency].display;
+                    console.log('account', account);
                 }
+
             });
     };
 });
