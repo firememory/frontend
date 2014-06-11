@@ -110,7 +110,7 @@ resetpwd.repeatPlaceHolder=Repeat your password
 resetpwd.submit=Submit
 
 accountsettings.title=Account Settings
-accountsettings.realName=Name
+accountsettings.realName=Real Name
 accountsettings.realNamePrompt=Once submited, can not be changed
 accountsettings.realNameAgain=Repeat Name
 accountsettings.country=Country
@@ -118,6 +118,10 @@ accountsettings.mobile=Mobile
 accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit
 accountsettings.cancel=Cancel
+
+accountsettings.view.title=Settings
+accountsettings.view.thead.item=Item
+accountsettings.view.thead.itemValue=Value
 
 footer.aboutUs=About Us
 footer.fq=F&Q
@@ -229,8 +233,4 @@ asset.cnyDeposit=CNY Deposit
 asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal
 asset.btcWithdrawal=BTC Withdrawal
-asset.accountSettings=Profile
-
-accountsettings.view.title=Profile
-accountsettings.view.namediv.title=Name Verification Information
-accountsettings.view.mobilediv.title=Mobile Verification Information
+asset.accountSettings=Settings
