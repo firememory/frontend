@@ -53,12 +53,19 @@ div.container-main {
     padding-bottom: 110px;
 }
 
-header.header-3 {
-    .navbar ul.nav > li > a {
+.header-3 {
+    .navbar .nav > li > a {
         text-transform: uppercase;
-        letter-spacing: 0px;
+        letter-spacing: 0;
+        font-weight: 500;
+        &.log-out-in {
+            font-weight: 200;
+            &:hover {color: @turquoise;}
+        }
     }
 }
+
+
 
 div.site-notification {
     width: 100%;
