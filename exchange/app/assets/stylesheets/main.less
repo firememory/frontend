@@ -114,13 +114,27 @@ ul.nav-stacked {
 
 div.home {
     section.content-16 {.bg-white; }
+
     section.header-3-sub {
-        margin-top: 100px;
-        margin-bottom: 100px;
+        .bg-turquoise;
+        color: white;
+        padding-top: 100px;
+        padding-bottom: 140px;
+
+        h3 {color: white;}
+        p {color: @clouds;}
+
     }
     section.content-4 {.bg-white; }
-    section.crew-4 {.bg-white; }
+    section.crew-4 {
+        .bg-white; 
+        .members {
+            .name {color: @belize-hole;}
+            .member:hover .photo-wrapper {.bg-belize-hole;}
+        }
+    }
 }
+
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
 // CSS for '/trade'
