@@ -30,6 +30,7 @@
                         <li ng-show="loggedIn" @if(index=="account"){class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
 
                         <li @if(index=="openness"){class="active"}> <a href="/open#/reserve">@Messages("nav.open")</a> </li>
+                        <li @if(index=="blog"){class="active"}> <a href="http://blog.coinport.com">@Messages("nav.blog")</a> </li>
                         <li ng-show="loggedIn"> <a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a> </li>
                         <li ng-hide="loggedIn" @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     </ul>

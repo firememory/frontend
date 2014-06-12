@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <title>{Title}</title>
+
+
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="shortcut icon" href="https:/coinport.com//startup/flat-ui/images/favicon.ico">
+<link rel="stylesheet" href="https:/coinport.com/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https:/coinport.com/vendor/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="https:/coinport.com/startup/flat-ui/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="https:/coinport.com/startup/common-files/css/icon-font.css">
+<link rel="stylesheet" href="https:/coinport.com/startup/common-files/css/animations.css">
+<link rel="stylesheet" href="https:/coinport.com/stylesheets/main.css">
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+  <script src="https:/coinport.com/vendor/html5shiv/html5shiv.js"></script>
+  <script src="https:/coinport.com/vendor/respond/respond.min.js"></script>
+<![endif]-->
+
+
+
+<link rel="shortcut icon" href="{Favicon}">
+<link rel="alternate" type="application/rss+xml" href="{RSS}">{block:Description}
+<meta name="description" content="{MetaDescription}" />
+{/block:Description}
+</head>
+ 
+
+<body ng-app="coinport.blog">
+<div class="page-wrapper blog">
+<header class="header-3">
+    <span ng-show="false" ng-init="loggedIn=false"></span>
+    <div class="container">
+        <div class="row">
+            <nav class="navbar col-sm-12" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle"></button>
+                    <a class="brand" href="https://coinport.com/"><img src="https://coinport.com/image/logo.png" width="50" height="50" alt="">{Title}</a>
+                </div>
+                <div class="collapse navbar-collapse pull-right">
+                    <ul class="nav pull-left">
+                        <li > <a href="https://coinport.com/trade">Trade</a> </li>
+                        <li ng-show="loggedIn" > <a href="https://coinport.com/account">Account</a> </li>
+
+                        <li> <a href="https://coinport.com//open#/reserve">Openness</a> </li>
+                        <li class="active"> <a href="http://blog.coinport.com">Blog</a> </li>
+                        <li ng-show="loggedIn"> <a href="https://coinport.com/account/logout" class="log-out-in">Logout</a> </li>
+                        <li ng-hide="loggedIn" > <a href="https://coinport.com/login" class="log-out-in">Login</a> </li>
+                    </ul>
+                     <form class="navbar-form pull-left" ng-hide="loggedIn">
+                        <a class="btn btn-primary" href="https://coinport.com/register">Sign Up</a>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="header-background"></div>
+</header>
+
+        <ol id="posts">
+            {block:Posts}{block:Text}
+                    <li class="post text">
+                        {block:Title}
+                            <h3><a href="{Permalink}">{Title}</a></h3>
+                        {/block:Title}{Body}
+                    </li>
+                {/block:Text}{block:Photo}
+                    <li class="post photo">
+                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Photo}{block:Panorama}
+                    <li class="post panorama">
+                        {LinkOpenTag}
+                            <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}"/>
+                        {LinkCloseTag}{block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Panorama}{block:Photoset}
+                    <li class="post photoset">
+                        {Photoset-500}{block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Photoset}{block:Quote}
+                    <li class="post quote">
+                        "{Quote}"
+
+                        {block:Source}
+                            <div class="source">{Source}</div>
+                        {/block:Source}
+                    </li>
+                {/block:Quote}{block:Link}
+                    <li class="post link">
+                        <a href="{URL}" class="link" {Target}>{Name}</a>
+
+                        {block:Description}
+                            <div class="description">{Description}</div>
+                        {/block:Description}
+                    </li>
+                {/block:Link}{block:Chat}
+                    <li class="post chat">
+                        {block:Title}
+                            <h3><a href="{Permalink}">{Title}</a></h3>
+                        {/block:Title}
+
+                        <ul class="chat">
+                            {block:Lines}
+                                <li class="{Alt} user_{UserNumber}">
+                                    {block:Label}
+                                        <span class="label">{Label}</span>
+                                    {/block:Label}{Line}
+                                </li>
+                            {/block:Lines}
+                        </ul>
+                    </li>
+                {/block:Chat}{block:Video}
+                    <li class="post video">
+                        {Video-500}{block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Video}{block:Audio}
+                    <li class="post audio">
+                        {AudioEmbed}{block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                    </li>
+                {/block:Audio}{/block:Posts}
+        </ol>
+
+        <p id="footer">
+            {block:PreviousPage}
+                <a href="{PreviousPage}">&#171; Previous</a>
+            {/block:PreviousPage}{block:NextPage}
+                <a href="{NextPage}">Next &#187;</a>
+            {/block:NextPage}
+
+            <a href="/archive">Archive</a>
+        </p>
+
+
+<div class="footer bottom-menu bottom-menu-inverse">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2 navbar-brand">
+            <a href="/">coinport</a>
+          </div>
+
+          <div class="col-md-8">
+            <ul class="bottom-links">
+              <li><a href="#fakelink">About Us</a></li>
+              <li><a href="#fakelink">Store</a></li>
+              <li class="active"><a href="#fakelink">Jobs</a></li>
+              <li><a href="#fakelink">Privacy</a></li>
+              <li><a href="#fakelink">Terms</a></li>
+              <li><a href="#fakelink">Follow Us</a></li>
+              <li><a href="#fakelink">Support</a></li>
+              <li><a href="#fakelink">Links</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-2">
+            <ul class="bottom-icons">
+              <li><a href="#fakelink" class="fui-pinterest"></a></li>
+              <li><a href="#fakelink" class="fui-facebook"></a></li>
+              <li><a href="#fakelink" class="fui-twitter"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</div> <!-- page-wrapper -->
+
+
+<script type="text/javascript" src="https://coinport.com/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/jquery-ui/ui/jquery-ui.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/jquery-tags-input/jquery.tagsinput.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/bootstrap-select/bootstrap-select.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/bootstrap-switch/static/js/bootstrap-switch.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/holderjs/holder.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/typeahead.js/dist/typeahead.js"></script>
+
+<script type="text/javascript" src="https://coinport.com/vendor/angular/angular.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/vendor/angular-flexslider/angular-flexslider.js"></script>
+
+<script type="text/javascript" src="https://coinport.com/lib/angular/angular-cookies.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/angular/angular-animate.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/angular/angular-timer.min.js"></script> <!-- not available on CDN -->
+<script type="text/javascript" src="https://coinport.com/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.en-US.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/BootstrapFormHelpers/js/bootstrap-formhelpers-phone.en-US.js"></script>
+<script type="text/javascript" src="https://coinport.com/lib/ui-bootstrap-tpls-0.11.0.js"></script>
+
+<script type="text/javascript" src="https://coinport.com/startup/flat-ui/js/flatui-checkbox.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/flat-ui/js/flatui-radio.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/flat-ui/js/flatui-fileinput.js"></script>
+
+
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/easing.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/jquery.svg.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/jquery.svganim.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/jquery.backgroundvideo.min.js"></script>
+<script type="text/javascript" src="https://coinport.com/startup/common-files/js/startup-kit.js"></script>
+
+
+
+
+
+    </body>
+</html>
