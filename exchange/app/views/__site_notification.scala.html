@@ -1,8 +1,8 @@
 @()(implicit session: Session, lang: Lang)
 
-<div class="container site-notification" ng-controller="NotificationCtrl">
-    <div class="notification-inner text-center" ng-reapeat="alert in alerts" type="{{alert.ntype.toLowerCase()}}" close="closeAlert($index)">
+<div ng-controller="NotificationCtrl">
+    <alert ng-repeat="alert in alerts" type="{{alert.ntype}}" close="closeAlert($index)">
         <strong ng-bind="alert.title"></strong>
-        <span ng-band="alert.content"></span>
-    </div>
+        <span ng-bind="alert.content"></span>
+    </alert>
 </div>

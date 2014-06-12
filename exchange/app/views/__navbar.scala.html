@@ -5,7 +5,7 @@
     @__site_notification()
 }
 
-<header class="header-3" ng-controller="NaviCtrl">
+<header class="header-3">
     @session.get("uid") match {
         case Some(uid: String) => {
             <span ng-show="false" ng-init="loggedIn=true"></span>
