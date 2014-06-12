@@ -50,7 +50,7 @@
                             at <span class="red">market price</span>
                         </span>
                         <span  ng-show="bid.price > 0">
-                            at a price higher than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
+                            at a price lower than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="bidOptions.limitTotal || bidOptions.limitLimit">
                             to pay 
