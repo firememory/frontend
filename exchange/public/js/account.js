@@ -461,7 +461,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             infoContainer.data([ data.description ])
                 .append('foreignObject')
                 .attr('width', infoWidth)
-                .attr('height', 100)
+                .attr('height', 24)
                 .append('xhtml:body')
                 .attr(
                     'class',

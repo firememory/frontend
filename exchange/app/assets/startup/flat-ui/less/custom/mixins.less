@@ -22,12 +22,24 @@
 	border-width: 0;
 }
 
-.empty-table-indicator {
-	font-size: 40px;
-	font-weight: 400;
-	text-align: center;
-	color: white;
-	padding-top: 200px;
-	.user-select(none);
+
+
+.table-hover {
+  > tbody {
+    > tr.empty-table-indicator {
+      > td {
+		.user-select(none);
+		padding: 30px;
+
+		span {
+			font-size: 30px;
+			font-weight: lighter;
+			text-align: center;
+			color: #e2e3e4;
+		}
+      	&:hover {.bg-light;}
+      }
+    }
+  }
 }
 
