@@ -12,7 +12,8 @@
             <tab heading='@(Messages("order.status.cancelled"))' select="changeOrderStatus(3)"></tab>
         </tabset>
         <div class="user-order-box">
-            <table class="table table-striped table-hover table-responsive">
+            <div class="table-responsive">
+            <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th nowrap>@(Messages("order.oid"))</th>
@@ -42,6 +43,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div> <!-- user-order-box-->
         @__see_more("/account#/orders")
     </div>
