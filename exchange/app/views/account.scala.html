@@ -10,7 +10,7 @@
 
 <body ng-app="coinport.account">
 <div class="page-wrapper account">
-@__navbar2("account")
+@__navbar("account")
 
 @session.get("uid") match {
     case Some(id: String) => {
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-@__footer3()
+@__footer()
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/lib/d3/d3.min.js")

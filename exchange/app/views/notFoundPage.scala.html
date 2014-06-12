@@ -1,15 +1,15 @@
-@(msg: String)(implicit lang: Lang)
+@(msg: String = "")(implicit lang: Lang)
+
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@__head_commons()
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/ommon_error.css")
-    @__js_lang()
 </head>
+
+<body>
+<div class="page-wrapper notfound">
 
 <body ng-app="coinport.depth">
 
@@ -25,11 +25,8 @@
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div> <!-- id="body-container" -->
-</div> <!-- top-container -->
-@__common_js()
+</div> <!-- page-wrapper -->
+@__tail_commons()
 @__tracking_js()
 </body>
 </html>
-

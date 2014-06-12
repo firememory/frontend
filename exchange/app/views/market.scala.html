@@ -3,20 +3,15 @@
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@__head_commons()
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/market.css")
-    @__js_lang()
 </head>
 
 <body ng-app="coinport.market">
-@__nojs()
-<div id="top-container" ng-controller="MarketCtrl">
-@__navbar(3)
-<!-- CONTENT START ================================ -->
+<div class="page-wrapper market">
+@__navbar("trade")
+
 
 
 <div id="header_outer">
@@ -104,14 +99,11 @@
 </div>
 
 
-<!-- CONTENT END ================================ -->
-</div> <!-- top-container -->
-
-@__common_js()
-@__js("/lib/jquery.jqcandlestick.js")
-@__js("/js/market.js")
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/javascripts/market.js")
 @__tracking_js()
 </body>
 </html>
-
 

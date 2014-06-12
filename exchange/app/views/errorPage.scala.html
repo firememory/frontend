@@ -3,21 +3,13 @@
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@__head_commons()
+@__js_lang()
     <title>@Messages("title")</title>
-    @__common_css()
-    @__css("/css/common_error.css")
-    @__js_lang()
 </head>
 
 <body>
-@__nojs()
-<div id="top-container">
-<div id="body-container">
-<!-- CONTENT START ================================ -->
-
+<div class="page-wrapper errorPage">
 
 <div class="container container-main">
     <div class="row">
@@ -30,10 +22,8 @@
     </div>
 </div>
 
-
-<!-- CONTENT END ================================ -->
-</div> <!-- top-container -->
-</div> <!-- id="body-container" -->
+</div> <!-- page-wrapper -->
+@__tail_commons()
 @__tracking_js()
 </body>
 </html>

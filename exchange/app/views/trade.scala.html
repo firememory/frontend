@@ -11,7 +11,7 @@
 
 <body ng-app="coinport.trade">
 <div class="page-wrapper trade">
-@__navbar2("trade")
+@__navbar("trade")
 
 @session.get("uid") match {
     case Some(id: String) => {
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-@__footer3(false)
+@__footer(false)
 </div> <!-- page-wrapper -->
 @__tail_commons()
 @__js("/lib/highstock.js")
