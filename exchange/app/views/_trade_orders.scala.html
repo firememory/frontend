@@ -38,7 +38,7 @@
                     <td nowrap class="text-right"> {{order.finishedQuantity.display}} </td>
                     <td nowrap class="text-right"> {{order.total.display}} </td>
                     <td nowrap class="text-right"> {{order.finishedAmount.display}} </td>
-                    <td nowrap> <span class="badge text-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                    <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
                     <td nowrap> <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order.id)">@(Messages("trade.cancel"))</a> </td>
                 </tr>
                 </tbody>

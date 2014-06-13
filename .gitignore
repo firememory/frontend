@@ -9,3 +9,5 @@ exchange/app/assets/startup/flat-ui/less/*.css
 exchange/app/assets/startup/flat-ui/less/modules/*.css
 exchange/app/assets/startup/ui-kit/*/less/*.css
 exchange/app/assets/stylesheets/*.css
+*/*.log
+exchange/application.log
