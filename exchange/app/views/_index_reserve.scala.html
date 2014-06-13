@@ -1,0 +1,39 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+<div class="row" ng-controller="ReserveCtrl">
+    <div class="table-responsive col-md-8 col-md-offset-2">
+        <h4>Reserve</h4>
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th nowrap>@Messages("open.coinType")</th>
+                <th nowrap class="text-right">@Messages("user.available")</th>
+                <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+                <th nowrap class="text-right">Account</th>
+                <th nowrap class="text-right">Total Reserve</th>
+                <th nowrap>@Messages("open.reserve.ratio")</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(coin <- coins) {
+            <tr ng-init="getWallets('@coin')">
+                <td nowrap><strong>@coin</strong></td>
+                <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
+                <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
+                <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
+                <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin">@Messages("loading")</td>
+                <td nowrap class="text-right" ng-bind="walletsBalance['@coin'] | coin">@Messages("loading")</td>
+                <td nowrap>
+                    <span ng-bind="((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2) + '%'" class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">
+                        @Messages("loading")
+                    </span>
+                </td>
+                <td><div class="sparkline-@coin"></div></td>
+            </tr>
+            }
+            </tbody>
+        </table>
+        </div>
+</div>
+

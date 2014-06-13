@@ -95,6 +95,11 @@ coinportApp.filter 'networkStatusText', () -> (input) ->
 	return Messages.connectivity.status.delayed if (input < 60 * 60 * 1000)
 	return Messages.connectivity.status.blocked
 
+coinportApp.filter 'reserveRatioClass', () -> (input) ->
+    return 'label label-success' if input >= 1.0
+    return 'label label-warning' if input > 0.9
+    return 'label label-danger'
+
 # NavBar
 coinportApp.directive 'cpNav', ($window) ->
 	'use strict'

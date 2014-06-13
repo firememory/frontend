@@ -85,11 +85,3 @@ app.controller 'ConnectCtrl', ($scope, $http) ->
 
     $scope.check()
     setInterval($scope.check, 5000)
-
-
-app.filter 'reserveRatioClass', () -> (input) ->
-    return 'label label-success' if input >= 1.0
-    return 'label label-warning' if input > 0.9
-    return 'label label-danger'
-
-app

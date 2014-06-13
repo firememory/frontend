@@ -3,7 +3,8 @@ var Messages = {
     sell: 'Sell',
     buyShort: 'Buy',
     sellShort: 'Sell',
-    unknown: 'Unknown'
+    unknown: 'Unknown',
+    loading: 'Loading...'
 };
 
 Messages.orderStatus = {

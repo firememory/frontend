@@ -3,7 +3,8 @@ var Messages = {
     sell: '卖出',
     buyShort: '买',
     sellShort: '卖',
-    unknown: '未知'
+    unknown: '未知',
+    loading: '加载中...'
 };
 
 Messages.orderStatus = {

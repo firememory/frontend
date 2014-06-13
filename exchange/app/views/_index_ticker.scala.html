@@ -1,0 +1,32 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+<div class="row" ng-controller="TickerCtrl">
+    <div class="table-responsive col-md-8 col-md-offset-2">
+        <h4>Ticker</h4>
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th nowrap>@Messages("ticker.market")</th>
+                <th nowrap>@Messages("ticker.price")</th>
+                <th nowrap>@Messages("ticker.high")</th>
+                <th nowrap>@Messages("ticker.low")</th>
+                <th nowrap>@Messages("ticker.volume")</th>
+                <th nowrap>@Messages("ticker.gain")</th>
+                <th nowrap></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="ticker in tickers">
+                <td nowrap><strong ng-bind="ticker.market">@Messages("loading")</strong></td>
+                <td nowrap ng-bind="ticker.price.display + ' ' + ticker.price.currency">@Messages("loading")</td>
+                <td nowrap ng-bind="ticker.high.display + ' ' + ticker.high.currency">@Messages("loading")</td>
+                <td nowrap ng-bind="ticker.low.display + ' ' + ticker.low.currency">@Messages("loading")</td>
+                <td nowrap ng-bind="ticker.volume.display + ' ' + ticker.volume.currency">@Messages("loading")</td>
+                <td nowrap ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</td>
+                <td><div class="sparkline-@market"></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
