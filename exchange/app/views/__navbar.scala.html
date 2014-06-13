@@ -5,18 +5,15 @@
     @__site_notification()
 }
 
-<header class="header-3">
-    @session.get("uid") match {
-        case Some(uid: String) => {
-            <span ng-show="false" ng-init="loggedIn=true"></span>
-            <span ng-show="false" ng-init="uid=@uid"></span>
-            <span ng-show="false" ng-init="username='@(session.get("username"))'"></span>
-        }
-        case None => {
-            <span ng-show="false" ng-init="loggedIn=false"></span>
-        }
-    }
+@isLogin() = @{session.get("uid").isDefined}
 
+@menu(route: String, link: String, title: String, noLoginNeeded: Boolean = true, hide: Boolean = false) = {
+    @if(noLoginNeeded || session.get("uid").isDefined) {
+    <li @if(index==route){class="active"}> <a href=@link>@title</a> </li>
+    }
+}
+
+<header class="header-3">
     <div class="container">
         <div class="row">
             <nav class="navbar col-sm-12" role="navigation">
@@ -26,17 +23,22 @@
                 </div>
                 <div class="collapse navbar-collapse pull-right">
                     <ul class="nav pull-left">
-                        <li @if(index=="trade"){class="active"}> <a href="/trade">@Messages("nav.trade")</a> </li>
-                        <li ng-show="loggedIn" @if(index=="account"){class="active"}> <a href="/account">@Messages("nav.account")</a> </li>
-
-                        <li @if(index=="openness"){class="active"}> <a href="/open#/reserve">@Messages("nav.open")</a> </li>
-                        <li @if(index=="blog"){class="active"}> <a href="http://blog.coinport.com">@Messages("nav.blog")</a> </li>
-                        <li ng-show="loggedIn"> <a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a> </li>
-                        <li ng-hide="loggedIn" @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
+                        @menu("trade", "/trade", Messages("nav.trade"))
+                        @menu("account", "/account", Messages("nav.account"), false)
+                        @menu("openness", "/open#/reserve", Messages("nav.open"))
+                        @menu("blog", "http://blog.coinport.com", Messages("nav.blog"))
+                    @if(isLogin()) {
+                        <li> <a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a> </li>
+                    }
+                    @if(!isLogin()) {
+                        <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
+                    }
                     </ul>
-                     <form class="navbar-form pull-left" ng-hide="loggedIn">
+                    @if(!isLogin()) {
+                     <form class="navbar-form pull-left">
                         <a class="btn btn-primary" href="/register">@Messages("nav.register")</a>
                     </form>
+                    }
                 </div>
             </nav>
         </div>
