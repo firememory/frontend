@@ -60,7 +60,9 @@
             </div>
             </div> -->
 
-            <p class="alert alert-danger" ng-show="showError" ng-bind="errorMessage"></p>
+            <div class="form-group" ng-show="showError">
+                <p class="text-danger text-center" ng-bind="errorMessage"/>
+            </div>
 
             <button class="btn btn-block btn-lg btn-primary" type="submit" ng-click="doRegister()" >@(Messages("ok"))</button>
                     <!-- <div class=" cancel-btn">

@@ -16,13 +16,6 @@
 
 
 <div class="container container-main" ng-controller="LoginCtrl">
-    @if(msg != null && msg.nonEmpty) {
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <div class="alert"><b>@Messages(msg)</b></div>
-            </div>
-        </div>
-    }
 
     <div class="login col-md-offset-1 col-md-10">
         <div class="login-screen">
@@ -30,7 +23,11 @@
                 <img src="/image/logo.png" alt="Welcome to Coinport">
             </div>
 
+            @if(msg != null && msg.nonEmpty) {
+                <div class="text-center"><b>@Messages(msg)</b></div>
+            }
             <div class="login-form">
+
                 <form class="form" role="form" id="login-form" name="loginForm">
                 <div class="form-group">
                     <input type="email" class="form-control login-field" placeholder="@Messages("login.userNamePlaceHolder")" id="login-name" ng-model="login.username">
@@ -43,7 +40,7 @@
                 </div>
 
                 <div class="form-group" ng-show="showError">
-                    <p class="error text-center" ng-bind="errorMessage"/>
+                    <p class="text-danger text-center" ng-bind="errorMessage"/>
                 </div>
 
                 <button class="btn btn-primary btn-lg btn-block" type="submit" ng-click="doLogin()">@Messages("login.doLogin")</button>
