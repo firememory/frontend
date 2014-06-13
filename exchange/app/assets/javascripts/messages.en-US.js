@@ -42,7 +42,7 @@ Messages.timeDemension = {
 };
 
 Messages.asset = {
-    assetComposition: 'Composition of Assets',
+    assetComposition: 'Composition',
     assetTrend: 'Trend of Assets'
 };
 

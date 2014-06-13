@@ -4,7 +4,7 @@
     @if("true".equals(profile.get("mobileVerified").getOrElse("false")) && profile.get("realName").getOrElse("").trim.length > 0) {
     <div class="row" >
         <div class="col-md-12">
-        <h4>@Messages("accountsettings.view.title")</h4>
+        <h3>@Messages("accountsettings.view.title")</h3>
 
         <table class="table table-striped">
 
@@ -24,7 +24,7 @@
     } else {
     <div class="row">
     <div class="col-md-12">
-        <h4>@Messages("accountsettings.title")</h4>
+        <h3>@Messages("accountsettings.title")</h3>
         <br/><br/>
         <div>
             <form class="form-horizontal" name="accountSettingsForm">
