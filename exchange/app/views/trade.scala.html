@@ -9,8 +9,8 @@
     <title>@Messages("title")</title>
 </head>
 
-<body ng-app="coinport.trade">
-<div class="page-wrapper trade">
+<body ng-app="coinport.trade"  class="bg-turquoise">
+<div class="page-wrapper bg-transparent trade">
 @__navbar("trade")
 
 @session.get("uid") match {
@@ -22,7 +22,7 @@
     }
 }
 
-<div class="container container-main light-bordered">
+<div class="container container-main light-bordered bg-light">
     <div class="row">
         <div class="col-md-2">
             <ul class="nav nav-stacked" cp-nav>
