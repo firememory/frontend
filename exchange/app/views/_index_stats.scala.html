@@ -1,0 +1,73 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<section class="content-9">
+    <div class="container">
+        <div class="row" ng-controller="ReserveCtrl">
+        <div class="table-responsive col-md-10 col-md-offset-1">
+            <h4>Reserve Stats</h4>
+            <table class="table table-condensed table-hover">
+                <thead>
+                <tr>
+                    <th nowrap>@Messages("open.coinType")</th>
+                    <th nowrap class="text-right">@Messages("user.available")</th>
+                    <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                    <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+                    <th nowrap class="text-right">Account</th>
+                    <th nowrap class="text-right">Total Reserve</th>
+                    <th nowrap>@Messages("open.reserve.ratio")</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(coin <- coins) {
+                <tr ng-init="getWallets('@coin')">
+                    <td nowrap><strong>@coin</strong></td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="walletsBalance['@coin'] | coin">@Messages("loading")</td>
+                    <td nowrap>
+                        <span ng-bind="((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2) + '%'" class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">
+                            @Messages("loading")
+                        </span>
+                    </td>
+                    <td><div class="sparkline-@coin"></div></td>
+                </tr>
+                }
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="row" ng-controller="TickerCtrl">
+            <div class="table-responsive col-md-10 col-md-offset-1">
+                <h4>Market Stats</h4>
+                <table class="table table-condensed table-hover">
+                    <thead>
+                    <tr>
+                        <th nowrap>@Messages("ticker.market")</th>
+                        <th nowrap>@Messages("ticker.price")</th>
+                        <th nowrap>@Messages("ticker.high")</th>
+                        <th nowrap>@Messages("ticker.low")</th>
+                        <th nowrap>@Messages("ticker.volume")</th>
+                        <th nowrap>@Messages("ticker.gain")</th>
+                        <th nowrap></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="ticker in tickers">
+                        <td nowrap><strong ng-bind="ticker.market">@Messages("loading")</strong></td>
+                        <td nowrap ng-bind="ticker.price.display + ' ' + ticker.price.currency">@Messages("loading")</td>
+                        <td nowrap ng-bind="ticker.high.display + ' ' + ticker.high.currency">@Messages("loading")</td>
+                        <td nowrap ng-bind="ticker.low.display + ' ' + ticker.low.currency">@Messages("loading")</td>
+                        <td nowrap ng-bind="ticker.volume.display + ' ' + ticker.volume.currency">@Messages("loading")</td>
+                        <td nowrap ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</td>
+                        <td><div class="sparkline-@market"></div></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <div>
+</section>
