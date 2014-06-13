@@ -15,6 +15,7 @@ GET     /transactions/*market       controllers.MainController.transactions(mark
 GET     /depth/*market              controllers.MainController.depth(market)
 GET     /order/*oid                 controllers.MainController.order(oid)
 GET     /prompt/*msgKey             controllers.MainController.prompt(msgKey)
+GET     /company                    controllers.MainController.company()
 
 GET     /account/logout             controllers.UserController.logout()
 POST    /account/login              controllers.UserController.login()

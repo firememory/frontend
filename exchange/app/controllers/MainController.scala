@@ -91,6 +91,10 @@ object MainController extends Controller with Json4s {
     Ok(views.html.prompt.render(msgKey, request.session, request.acceptLanguages(0)))
   }
 
+  def company = Action {
+    implicit request =>
+      Ok(views.html.company.render(request.session, request.acceptLanguages(0)))
+  }
   def downloadFromHdfs(path: String, filename: String) = Action {
     val stream = HdfsAccess.getFileStream(path, filename)
     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)

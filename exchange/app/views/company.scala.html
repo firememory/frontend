@@ -1,0 +1,52 @@
+
+@()(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+@__head_commons()
+@__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body>
+<div class="page-wrapper company">
+@__navbar("openness")
+
+
+
+<section class="content-28 bg-clouds">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <h3>Coinport Technology Limited</h3>
+
+                <p>Registed in Hong Kong, China.</p>
+                </p>
+                <img src="/image/company/hk.png" width="390" height="148" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-28 bg-clouds">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <h3>Coinport Inc</h3>
+
+                <p>Coinport Inc is the parent company of Coinport Technology Limited. The company is registed in Cayman Islands.</p>
+                </p>
+                <img src="/image/company/cayman.png" width="390" height="148" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/javascripts/open.js")
+@__tracking_js()
+</body>
+</html>
