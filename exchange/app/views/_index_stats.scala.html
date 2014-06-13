@@ -21,7 +21,7 @@
                 <tbody>
                 @for(coin <- coins) {
                 <tr ng-init="getWallets('@coin')">
-                    <td nowrap><strong>@coin</strong></td>
+                    <td nowrap><a href="/open#/reserve"><strong>@coin</strong></a></td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="ticker in tickers">
-                        <td nowrap><strong ng-bind="ticker.market">@Messages("loading")</strong></td>
+                        <td nowrap><a href="/trade#/{{ticker.market}}"><strong ng-bind="ticker.market">@Messages("loading")</strong></a></td>
                         <td nowrap ng-bind="ticker.price.display + ' ' + ticker.price.currency">@Messages("loading")</td>
                         <td nowrap ng-bind="ticker.high.display + ' ' + ticker.high.currency">@Messages("loading")</td>
                         <td nowrap ng-bind="ticker.low.display + ' ' + ticker.low.currency">@Messages("loading")</td>
