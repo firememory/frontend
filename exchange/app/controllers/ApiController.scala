@@ -174,7 +174,8 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       }
       val pager = ControllerHelper.parsePagingParam()
 
-      TransferService.getTransfers(Some(uid.toLong), Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
+      val userId = if( uid.toLong > 0) Some(uid.toLong) else None
+      TransferService.getTransfers(userId, Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
         case result => Ok(result.toJson)
       }
   }

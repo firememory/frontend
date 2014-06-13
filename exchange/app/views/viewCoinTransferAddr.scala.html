@@ -1,0 +1,38 @@
+@()(implicit lang: Lang)
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <h4>@Messages("user.Transfer")</h4>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th nowrap>@Messages("user.transfer.id")</th>
+                            <th nowrap>@Messages("user.transfer.address")</th>
+                            <th nowrap>@Messages("user.transfer.timestamp")</th>
+                            <th nowrap>@Messages("user.transfer.operation")</th>
+                            <th nowrap class="text-right">@Messages("user.transfer.amount")</th>
+                            <th nowrap>@Messages("user.transfer.status")</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
+                            <td nowrap> {{item.id}} </td>
+                            <td nowrap> {{item.address}} </td>
+                            <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
+                            <td nowrap> {{item.operation | transferOperationText }}</span> </td>
+                            <td nowrap class="text-right"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
+                            <td nowrap> {{item.status | transferStatusText }}</td>
+                        </tr>
+                        </tbody>
+                        @__empty_table_indicator("transfers")
+                    </table>
+
+                    <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

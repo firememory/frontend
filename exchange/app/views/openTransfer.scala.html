@@ -1,0 +1,80 @@
+
+@(coin: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+    @__head_commons()
+    @__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.currency">
+<div>
+    @__navbar2("openness")
+
+    <!--
+    <section class="header-2-sub bg-light-green">
+        <div class="background">&nbsp;</div>
+        <div class="container">
+            <div class="col-sm-8 col-sm-offset-2">
+                    <div class="hero-unit">
+                        <h1>Takes transparency to the extreme!</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <section class="projects-4">
+        <div class="container">
+            <div class="projects row">
+                <div class="project-wrapper col-sm-3">
+                    <div class="project">
+                        <div class="photo-wrapper bg-alizarin">
+                            <div class="photo"></div>
+                            <a route="#/cointransferuser" href="#/cointransferuser" class="overlay"><i class="fa fa-github-alt fa-3x"></i></a>
+                        </div>
+                        <div class="info">
+                            <a route="#/cointransferuser" href="#/cointransferuser" class="text-center name color-pomegranate">@Messages("open.nav.cointransferuser")</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-wrapper col-sm-3">
+                    <div class="project">
+                        <div class="photo-wrapper bg-sun-flower">
+                            <div class="photo"></div>
+                            <a route="#/cointransferaddr" href="#/cointransferaddr" class="overlay"><i class="fa fa-cubes fa-3x"></i></a>
+                        </div>
+                        <div class="info">
+                            <a route="#/cointransferaddr" href="#/cointransferaddr" class="text-center name color-orange">@Messages("open.nav.cointransferaddr")</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-wrapper col-sm-3">
+                    <div class="project">
+                        <div class="photo-wrapper bg-peter-river">
+                            <div class="photo"></div>
+                            <a route="#/coinwallet" href="#/coinwallet" class="overlay"><i class="fa fa-anchor fa-3x"></i></a>
+                        </div>
+                        <div class="info">
+                            <a route="#/coinwallet" href="#/coinwallet" class="text-center name color-belize-hole">@Messages("open.nav.coinwallet")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.container-->
+    </section>
+
+    <div ng-view></div>
+
+    @__footer3()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/javascripts/coin.js")
+@__tracking_js()
+</body>
+</html>

@@ -16,6 +16,7 @@ GET     /depth/*market              controllers.MainController.depth(market)
 GET     /order/*oid                 controllers.MainController.order(oid)
 GET     /prompt/*msgKey             controllers.MainController.prompt(msgKey)
 GET     /company                    controllers.MainController.company()
+GET     /opentransfer/*coin         controllers.MainController.opentransferView(coin)
 
 GET     /account/logout             controllers.UserController.logout()
 POST    /account/login              controllers.UserController.login()
@@ -45,7 +46,6 @@ GET     /depoaddr/*currency/*uid    controllers.UserController.getDepositAddress
 GET     /withaddr/*currency/*uid    controllers.UserController.getWithdrawalAddress(currency, uid)
 GET     /withaddr/*currency/*uid/*addr    controllers.UserController.setWithdrawalAddress(currency, uid, addr)
 
-
 # html snippet
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()
@@ -63,7 +63,9 @@ GET     /views/opendata.html             controllers.MainController.opendataView
 GET     /views/reserve.html              controllers.MainController.reserveView()
 GET     /views/opensource.html           controllers.MainController.opensourceView()
 GET     /views/connectivity.html         controllers.MainController.connectivityView()
-GET     /views/opentransfer.html         controllers.MainController.opentransferView()
+GET     /views/cointransferuser.html     controllers.MainController.coinTransferUserView()
+GET     /views/cointransferaddr.html     controllers.MainController.coinTransferAddrView()
+GET     /views/coinwallet.html           controllers.MainController.coinWalletView()
 
 # API routes
 GET     /api/order/*oid/transaction   controllers.ApiController.orderTransaction(oid)

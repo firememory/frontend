@@ -169,6 +169,15 @@ open.network.neverseen=Never Seen
 open.network.minutesago= minutes ago
 open.network.checkNow=Check
 
+open.nav.cointransferuser=Transfer Records from User
+open.nav.cointransferaddr=Transfer Records from Cypto Netwrk
+open.nav.coinwallet=Cold Wallet & Hot Wallet Address
+
+coin.hotWallet=Hot Wallets
+coin.coldWallet=Cold Wallets
+coin.address=Address
+coin.amount=Amount
+
 transaction.tid=ID
 transaction.timestamp=Timestamp
 transaction.price=Price

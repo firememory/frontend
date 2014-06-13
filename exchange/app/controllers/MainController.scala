@@ -66,6 +66,11 @@ object MainController extends Controller with Json4s {
       Ok(views.html.transactions.render(market, request.session, request.acceptLanguages(0)))
   }
 
+  def opentransferView(coin: String) = Action {
+    implicit request =>
+      Ok(views.html.openTransfer.render(coin, request.session, request.acceptLanguages(0)))
+  }
+
   def depth(market: String) = Action {
     implicit request =>
       Ok(views.html.depth.render(market, request.session, request.acceptLanguages(0)))
@@ -205,8 +210,18 @@ object MainController extends Controller with Json4s {
       Ok(views.html.viewConnectivity.render(request.acceptLanguages(0)))
   }
 
-  def opentransferView() = Action {
+  def coinTransferUserView() = Action {
     implicit request =>
-      Ok(views.html.viewOpentransfer.render(request.acceptLanguages(0)))
+      Ok(views.html.viewCoinTransferUser.render(request.acceptLanguages(0)))
+  }
+
+  def coinTransferAddrView() = Action {
+    implicit request =>
+      Ok(views.html.viewCoinTransferAddr.render(request.acceptLanguages(0)))
+  }
+
+  def coinWalletView() = Action {
+    implicit request =>
+      Ok(views.html.viewCoinWallet.render(request.acceptLanguages(0)))
   }
 }
