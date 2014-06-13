@@ -319,9 +319,10 @@ function BidAskCtrl($scope, $http, $routeParams) {
     });
 
     var updateBidTotal = function() {
+        console.log($scope.bid)
         if($scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
-        var total = +(+$scope.bid.price * +$scope.bid.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
+        var total = +(+$scope.bid.price * +$scope.bid.amount).toFixed(6);
         $scope.bid.total = total;
     };
 
@@ -335,7 +336,7 @@ function BidAskCtrl($scope, $http, $routeParams) {
     var updateAskTotal = function() {
         if($scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
-        var total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(COINPORT.getAmountFixed($scope.currency));
+        var total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(6);
         $scope.ask.total = total;
     };
 
@@ -518,55 +519,12 @@ function BidAskCtrl($scope, $http, $routeParams) {
         $scope.refresh();
     });
 
-    // watch
-    var watchBidPrice = function(newValue) {
-        var fixed = COINPORT.getPriceFixed($scope.market);
-        if (newValue == null)
-            $scope.bid.price = 0;
-        else if (newValue < 0)
-            $scope.bid.price = -newValue;
-        else
-            $scope.bid.price = +newValue.toFixed(fixed);
-        updateBidTotal();
-    };
-    var watchBidAmount = function(newValue) {
-        if (newValue == null)
-            $scope.bid.amount = 0;
-        else if (newValue < 0)
-            $scope.bid.amount = -newValue;
-        else
-            $scope.bid.amount = +newValue.toFixed(COINPORT.getAmountFixed($scope.subject));
-        updateBidTotal();
-    };
-    var watchAskPrice = function(newValue) {
-        var fixed = COINPORT.getPriceFixed($scope.market);
-        if (newValue == null)
-            $scope.ask.price = 0;
-        else if (newValue < 0)
-            $scope.ask.price = -newValue;
-        else
-            $scope.ask.price = +newValue.toFixed(fixed);
-        updateAskTotal();
-    };
-    var watchAskAmount = function(newValue) {
-        if (newValue == null)
-            $scope.ask.amount = 0;
-        else if (newValue < 0)
-            $scope.ask.amount = -newValue;
-        else
-            $scope.ask.amount = +newValue.toFixed(COINPORT.getAmountFixed($scope.subject));
-        updateAskTotal();
-    };
+    $scope.$watch('bid.price', updateBidTotal);
+    $scope.$watch('bid.amount', updateBidTotal);
+    $scope.$watch('ask.price', updateAskTotal);
+    $scope.$watch('ask.amount', updateAskTotal);
 
-    $scope.$watch('bidOptions.advanced', toggleBidAdvanced);
-    $scope.$watch('askOptions.advanced', toggleAskAdvanced);
-
-    $('#bid_price').keyup(updateBidTotal);
-    $('#bid_amount').keyup(updateBidTotal);
     $('#bid_total').keyup(updateBidAmount);
-
-    $('#ask_price').keyup(updateAskTotal);
-    $('#ask_amount').keyup(updateAskTotal);
     $('#ask_total').keyup(updateAskAmount);
 };
 

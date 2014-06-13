@@ -8,7 +8,7 @@
         </div>
 
         <div class="available-fund text-center">
-            <span class="link" ng-click="clickQuantity(account[currency].available.value)">
+            <span class="link" ng-click="clickFunding(+account[currency].available.display)">
                 Available: <kbd>{{account[currency].available.value | coin}} {{currency}}</kbd>
             </span>
         </div>
