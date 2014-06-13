@@ -65,8 +65,8 @@
 						<td nowrap class="text-right">{{account.locked.display}}</td>
 						<td nowrap class="text-right">{{account.pendingWithdrawal.display}}</td>
 						<td nowrap class="text-right">{{account.available.value + account.locked.value + account.pendingWithdrawal.value | coin}}</td>
-						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.price}} </td>
-						<td nowrap class="text-right"><i class="fa fa-btc"></i> {{account.asset}} </td>
+						<td nowrap class="text-right">{{account.price}} BTC</td>
+						<td nowrap class="text-right">{{account.asset}} BTC</td>
 						<td nowrap>
 		                    <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>&nbsp;&nbsp;
 		                    <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
