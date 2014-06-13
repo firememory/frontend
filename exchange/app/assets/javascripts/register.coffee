@@ -34,9 +34,9 @@ app.controller 'RegisterCtrl', ($scope, $http, $window) ->
           $scope.showError = false
         else
           console.debug 'failed: ', data
-          $scope.newCaptcha()  
+          $scope.newCaptcha()
           $scope.register.password = ''
-          $scope.register.confirmPassword = '' 
+          $scope.register.confirmPassword = ''
           $scope.errorMessage = Messages.getMessage(data.code, data.message)
           $scope.showError = true
 

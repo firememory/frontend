@@ -25,8 +25,9 @@ object UserController extends Controller with Json4s with AccessLogging {
     val data = request.body
     val email = getParam(data, "username").getOrElse("")
     val password = getParam(data, "password").getOrElse("")
+    logger.info(s"email: $email, password: $password")
     validateParamsAndThen(
-      new StringNonemptyValidator(email, password),
+      new StringNonemptyValidator(password),
       new EmailFormatValidator(email),
       new PasswordFormetValidator(password)
     ) {
@@ -34,6 +35,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       UserService.login(user)
     } map {
       result =>
+      logger.info(s"login result: $result")
       if (result.success) {
         result.data.get match {
           case succeeded: LoginSucceeded =>

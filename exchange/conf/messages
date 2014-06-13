@@ -15,7 +15,7 @@ password=Password
 passwordConfirm=Confirm Password
 forgotPassword=Forgot Password?
 resendVerifyEmail=Resend Verify Email
-inputCaptcha=Input the text in the picture below
+inputCaptcha=Captcha text
 
 authenticateNotLogin=You must log in to proceed.
 authenticateTimeout=Session timed out, please log in again.
@@ -34,8 +34,10 @@ nav.register=Sign Up
 login.title=Log in
 login.verifyEmailSucceeded=email verify succeeded, please login
 login.resetPwdSucceeded=reset password succeeded, please login
-login.pwdPlaceHolder=Please enter password
-login.doLogin=Login
+login.userNamePlaceHolder=Enter your name
+login.pwdPlaceHolder=Password
+login.doLogin=Log in
+login.forgotPassword=Lost your password?
 register.title=Sign Up
 register.changeCaptcha=Try a different image
 
