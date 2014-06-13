@@ -57,7 +57,8 @@ div.page-wrapper {
     .bg-light;
     position: relative;
     &.bg-transparent {
-        background-color: transparent;
+        // If we don't like the  class="bg-turquoise" background in trade/account page, simple remove the next line.
+        background-color: transparent; 
     }
 }
 
@@ -365,6 +366,8 @@ div.account {
         .has-sell-buy-color();
         .silver-h4;
     }
+
+    .stretched {min-height: 600px;}
 }
 
 ///////////////////////////////////////////////////////////////////
