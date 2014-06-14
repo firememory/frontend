@@ -80,6 +80,7 @@ div.container-main {
         text-transform: uppercase;
         letter-spacing: 0;
         font-weight: bold;
+        color: @wet-asphalt;
         &.log-out-in {
             font-weight: 200;
             &:hover {color: @turquoise;}
@@ -108,13 +109,16 @@ div.site-notification {
     }
 }
 
-ul.nav-stacked {
-    background-color: white;
+#vertical-nav {
     > li {
         &.active {
             .bg-firm;
-           a {color: white};
-
+            a {color: white};
+            a:hover, a:focus {.bg-firm; }
+        }
+        a:hover, a:focus {
+            .bg-turquoise;
+            color: white;
         }
     }
 }
