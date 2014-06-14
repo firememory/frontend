@@ -34,12 +34,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="wallet in hotWallets">
+                        <tr ng-repeat="wallet in coldWallets">
                             <td>
                                 <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                             </td>
                             <td>
-                                <span class="label label-warning">{{wallet.amount.value | coin}}</span>
+                                <span class="label label-info">{{wallet.amount.value | coin}}</span>
                             </td>
                         </tr>
                         </tbody>

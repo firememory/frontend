@@ -4,47 +4,31 @@ app = angular.module('coinport.currency', ['ui.bootstrap', 'ngResource', 'navbar
 app.config ($routeProvider) ->
     $routeProvider.
         when('/', {
-            redirectTo: '/cointransferuser'
+            redirectTo: '/transfer'
         }).
-        when('/cointransferuser', {
+        when('/transfer', {
             controller: 'UserCtrl'
-            templateUrl: '/views/cointransferuser.html'
+            templateUrl: '/views/cointransfer.html'
         }).
-        when('/cointransferaddr', {
-            controller: 'AddrCtrl',
-            templateUrl: '/views/cointransferaddr.html'
-        }).
-        when('/coinwallet', {
+        when('/address', {
             controller: 'WalletCtrl',
-            templateUrl: '/views/coinwallet.html'
+            templateUrl: '/views/coinaddress.html'
         }).
         otherwise({
-          redirectTo: '/cointransferuser'
+          redirectTo: '/transfer'
         })
 
 app.controller 'UserCtrl', ($scope, $http, $window) ->
-    $scope.coin = $window.location.pathname.replace("/opentransfer/", "")
+    $scope.coin = $window.location.pathname.replace("/coin/", "")
 
     $scope.transferPage = 1
     $scope.reloadTransfers = $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: 15, page: $scope.transferPage}})
         .success (data, status, headers, config) ->
             $scope.transfers = data.data.items
             $scope.transferCount = data.data.count
-
-
-
-app.controller 'AddrCtrl', ($scope, $http, $window) ->
-    $scope.coin = $window.location.pathname.replace("/opentransfer/", "")
-
-    $scope.transferPage = 1
-    $scope.reloadTransfers = $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: 15, page: $scope.transferPage}})
-        .success (data, status, headers, config) ->
-            $scope.transfers = data.data.items
-            $scope.transferCount = data.data.count
-
 
 app.controller 'WalletCtrl', ($scope, $http, $window) ->
-    $scope.coin = $window.location.pathname.replace("/opentransfer/", "")
+    $scope.coin = $window.location.pathname.replace("/coin/", "")
 
     $scope.hotWallets = []
     $scope.coldWallets = []
