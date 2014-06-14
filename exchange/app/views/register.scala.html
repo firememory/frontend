@@ -51,6 +51,12 @@
                 </div>
             </div>
 
+            <div class="userAgreement">
+                <input id="userAgreement" type="checkbox" required="required">
+                @Messages("register.termsCheckboxTextHead") <a href="/userAgreement.html" target="_blank">"@Messages("register.termsCheckboxTextLink")"</a>
+                </input>
+            </div>
+
             <!-- <div class="row">
             <div class="col-md-2 col-md-offset-4 captcha">
             <img ng-src="{{captcha.imageSrc}}" ng-model="captcha.imageSrc" ng-click="newCaptcha()" />
@@ -65,9 +71,9 @@
             </div>
 
             <button class="btn btn-block btn-lg btn-primary" type="submit" ng-click="doRegister()" >@(Messages("ok"))</button>
-                    <!-- <div class=" cancel-btn">
-                    <a href="/" class="login-link">@(Messages("cancel"))</a>
-                    </div> -->
+            <!-- <div class=" cancel-btn">
+            <a href="/" class="login-link">@(Messages("cancel"))</a>
+            </div> -->
         </form>
     </div>
 </div>

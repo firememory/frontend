@@ -224,4 +224,9 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.viewCoinWallet.render(request.acceptLanguages(0)))
   }
+
+  def userAgreement() = Action {
+    implicit request =>
+      Ok(views.html.userAgreement.render(request.session, request.acceptLanguages(0)))
+  }
 }
