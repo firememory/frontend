@@ -21,7 +21,6 @@
             <table class="table stats-table">
                 <thead>
                     <tr>
-                        <th nowrap>@Messages("transaction.tid")</th>
                         <th nowrap>@Messages("transaction.timestamp")</th>
                         <th nowrap class="text-right">@Messages("transaction.price")</th>
                         <th nowrap class="text-right">@Messages("transaction.amount")</th>
@@ -31,12 +30,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td nowrap><i class="fa fa-exchange"></i>{{transaction.id}} </a></td>
                         <td nowrap><i class="fa fa-clock-o"></i>{{transaction.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
                         <td nowrap class="text-right">{{transaction.price.display}} {{transaction.price.currency}}</td>
                         <td nowrap class="text-right">{{transaction.subjectAmount.display}} {{transaction.subjectAmount.currency}}</td>
                         <td nowrap class="text-right">{{transaction.currencyAmount.display}} {{transaction.currencyAmount.currency}}</td>
-                        <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}}</td>
+                        <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}}<i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
                     </tr>
                 </tbody>
             </table>

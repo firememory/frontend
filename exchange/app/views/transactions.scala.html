@@ -37,9 +37,9 @@
                     <td nowrap class="text-right">{{transaction.price.display}} {{transaction.price.currency}}</td>
                     <td nowrap class="text-right">{{transaction.subjectAmount.display}} {{transaction.subjectAmount.currency}}</td>
                     <td nowrap class="text-right">{{transaction.currencyAmount.display}} {{transaction.currencyAmount.currency}}</td>
-                    <td nowrap><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '@Messages("me")' : (transaction.taker)}}</a></td>
+                    <td nowrap><a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.taker ? '@Messages("self")' : (transaction.taker)}}</a></td>
                     <td nowrap class="{{transaction.sell | txTypeClass}}">{{transaction.sell | txTypeText}} <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
-                    <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '@Messages("me")' : (transaction.maker)}}</a></td>
+                    <td nowrap><a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user"></i> {{uid==transaction.maker ? '@Messages("self")' : (transaction.maker)}}</a></td>
                 </tr>
                 </tbody>
                    @__empty_table_indicator("transactions.items")  

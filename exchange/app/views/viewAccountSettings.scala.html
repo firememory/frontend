@@ -10,12 +10,16 @@
 
             <tbody>
                 <tr>
-                    <th class="col-md-2">@Messages("accountsettings.realName")</th>
+                    <th class="col-md-3">@Messages("accountsettings.realName")</th>
                     <td>@profile.get("realName").getOrElse("")</td>
                 </tr>
                 <tr>
-                    <th class="col-md-2">@Messages("accountsettings.mobile")</th>
+                    <th class="col-md-3">@Messages("accountsettings.mobile")</th>
                     <td>@profile.get("mobile").getOrElse("")</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.publicUrl")</th>
+                    <td> <a href="/user/{{uid}}">https://www.coinport.com/user/{{uid}}</a> </td>
                 </tr>
             </tbody>
         </table>

@@ -10,7 +10,7 @@ login=登录
 register=注册
 captcha=验证码
 email=Email
-me=我
+self=自己
 password=密码
 passwordConfirm=重复密码
 forgotPassword=忘记密码了？
@@ -111,6 +111,7 @@ accountsettings.mobile=手机
 accountsettings.smsVerifyCode=短信验证码
 accountsettings.submit=确定
 accountsettings.cancel=取消
+accountsettings.publicUrl=公开数据URL
 
 accountsettings.view.title=设置
 accountsettings.view.thead.item=配置项

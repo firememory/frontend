@@ -10,7 +10,7 @@ login=Login
 register=Sign Up
 captcha=Captcha
 email=Email
-me=Me
+self=Self
 password=Password
 passwordConfirm=Confirm Password
 forgotPassword=Forgot Password?
@@ -123,6 +123,7 @@ accountsettings.mobile=Mobile
 accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit
 accountsettings.cancel=Cancel
+accountsettings.publicUrl=My Public Profile URL
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item
