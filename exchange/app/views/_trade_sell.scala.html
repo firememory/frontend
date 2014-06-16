@@ -9,7 +9,7 @@
 
         <div class="available-fund text-center">
             <span class="link" ng-click="clickQuantity(+account[subject].available.display)">
-                Available: <kbd>{{account[subject].available.value | coin}} {{subject}}</kbd>
+                @Messages("trade.availableAmount"): <kbd>{{account[subject].available.value | coin}} {{subject}}</kbd>
             </span>
         </div>
 
@@ -39,7 +39,30 @@
                 </div>
 
                 <div class="alert alert-info" ng-show="!showMessage['ask']">
-                        <b>About this order: </b>
+                        <b>@(Messages("trade.aboutOrder")): </b>
+@if(lang.code=="zh-CN") {
+                        <span ng-show="ask.price == 0">
+                            以 <span class="red">市场价</span>
+                        </span>
+                        <span  ng-show="ask.price > 0">
+                            以不低于 <span class="num">{{ask.price}}</span> {{currency}}/{{subject}} 的价格
+                        </span>
+                        <span  ng-show="ask.amount == 0">
+                            卖出尽可能多的 <span class="num">{{subject}}</span>
+                        </span>
+                        <span ng-show="ask.amount > 0">
+                            卖出 <span class="num">{{ask.amount}}</span> {{subject}}
+                        </span>
+                        <span ng-show="askOptions.limitTotal || askOptions.limitLimit">
+                            <span ng-show="ask.total > 0">
+                            ，至少获得 <span class="num">{{ask.total}} {{currency}}</span>
+                            </span>
+                                <span ng-show="ask.total > 0 && ask.limit > 0"> 但 </span>
+                            <span ng-show="ask.limit > 0">
+                                不超过 <span class="num">{{ask.limit}} {{currency}}</span>
+                            </span>
+                        </span>
+} else {
                         <span  ng-show="ask.amount == 0">
                             selling as much <span class="num">{{subject}}</span> as needed
                         </span>
@@ -53,16 +76,16 @@
                             at a price higher than or equal to  <span class="num">{{ask.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="askOptions.limitTotal || askOptions.limitLimit">
-                            to get 
+                            to get
                             <span ng-show="ask.total > 0">
-                            at least <span class="num">{{ask.total}}</span>
+                            at least <span class="num">{{ask.total}} {{currency}}.</span>
                             </span>
                                 <span ng-show="ask.total > 0 && ask.limit > 0"> but </span>
                             <span ng-show="ask.limit > 0">
-                                at most <span class="num">{{ask.limit}}</span>
+                                at most <span class="num">{{ask.limit}} {{currency}}.</span>
                             </span>
-                            {{currency}}.
                         </span>
+}
                 </div>
                 <div class="alert alert-danger" ng-show="showMessage['ask']"> {{info.message['ask']}} </div>
 

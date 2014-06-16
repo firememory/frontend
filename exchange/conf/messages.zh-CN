@@ -15,6 +15,7 @@ password=密码
 passwordConfirm=重复密码
 forgotPassword=忘记密码了？
 inputCaptcha=输入验证码
+depth=深度
 
 nav.brand=币丰港
 nav.home=首页
@@ -57,6 +58,9 @@ trade.total=金额
 trade.cancel=撤单
 trade.availableAmount=可用数量
 trade.availableCurrency=可用资金
+trade.recentTransactions=最新成交
+trade.myOrders=我的委托
+trade.aboutOrder=委托详情
 
 order.order=委托
 order.oid=委托ID

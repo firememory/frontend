@@ -1,4 +1,5 @@
  @()(implicit lang: Lang)
+
 <div class="op-box-wrapper">
     <div class="text-center"><h4 class="buy">@(Messages("trade.buy")) {{subject}}</h4></div>
 
@@ -9,7 +10,7 @@
 
         <div class="available-fund text-center">
             <span class="link" ng-click="clickFunding(+account[currency].available.display)">
-                Available: <kbd>{{account[currency].available.value | coin}} {{currency}}</kbd>
+                @Messages("trade.availableCurrency"): <kbd>{{account[currency].available.value | coin}} {{currency}}</kbd>
             </span>
         </div>
 
@@ -39,7 +40,30 @@
                 </div>
 
                 <div class="alert alert-info" ng-show="!showMessage['bid']">
-                        <b>About this order: </b>
+                        <b>@(Messages("trade.aboutOrder")): </b>
+@if(lang.code=="zh-CN") {
+                        <span ng-show="bid.price == 0">
+                            以 <span class="red">市场价</span>
+                        </span>
+                        <span  ng-show="bid.price > 0">
+                            以不高于  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}} 的价格
+                        </span>
+                        <span  ng-show="bid.amount == 0">
+                            购买尽可能多 <span class="num">{{subject}}</span>
+                        </span>
+                        <span ng-show="bid.amount > 0">
+                            购买 <span class="num">{{bid.amount}}</span> {{subject}}
+                        </span>
+                        <span ng-show="bidOptions.limitTotal || bidOptions.limitLimit">
+                            <span ng-show="bid.total > 0">
+                            ，最多花费 <span class="num">{{bid.total}} {{currency}}</span>
+                            </span>
+                                <span ng-show="bidOptions.limitTotal && bidOptions.limitLimit"> 但 </span>
+                            <span ng-show="bidOptions.limitLimit">
+                                不少于 <span class="num">{{bid.total}} {{currency}}</span>
+                            </span>
+                        </span>
+} else {
                         <span  ng-show="bid.amount == 0">
                             buying as much <span class="num">{{subject}}</span> as needed
                         </span>
@@ -53,16 +77,16 @@
                             at a price lower than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="bidOptions.limitTotal || bidOptions.limitLimit">
-                            to pay 
+                            to pay
                             <span ng-show="bid.total > 0">
-                            at least <span class="num">{{bid.total}}</span>
+                            at least <span class="num">{{bid.total}} {{currency}}.</span>
                             </span>
                                 <span ng-show="bidOptions.limitTotal && bidOptions.limitLimit"> but </span>
                             <span ng-show="bidOptions.limitLimit">
-                                at most <span class="num">{{bid.total}}</span>
+                                at most <span class="num">{{bid.total}} {{currency}}.</span>
                             </span>
-                            {{currency}}.
                         </span>
+}
                 </div>
                 <div class="alert alert-danger" ng-show="showMessage['bid']"> {{info.message['bid']}} </div>
 

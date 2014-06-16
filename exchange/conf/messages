@@ -16,6 +16,7 @@ passwordConfirm=Confirm Password
 forgotPassword=Forgot Password?
 resendVerifyEmail=Resend Verify Email
 inputCaptcha=Captcha text
+depth=Depth
 
 authenticateNotLogin=You must log in to proceed.
 authenticateTimeout=Session timed out, please log in again.
@@ -69,6 +70,9 @@ trade.limit=Limit
 trade.cancel=Cancel
 trade.availableAmount=Available
 trade.availableCurrency=Available
+trade.recentTransactions=Recent Transactions
+trade.myOrders=My Orders
+trade.aboutOrder=About this order
 
 order.order=Order
 order.oid=ID
