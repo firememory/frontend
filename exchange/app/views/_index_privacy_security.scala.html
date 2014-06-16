@@ -1,12 +1,43 @@
 @()(implicit session: Session, lang: Lang)
+@if(lang.code == "zh-CN") {
+<section class="content-9">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>隐私与安全</h3>
 
+                <p>
+                    在币丰港，保护用户隐私和数据安全永远是第一要务。隐私和开放并不矛盾，我们对开放性的追求，不会以损害用户隐私为代价。
+                </p>
+
+                <div class="row">
+                    <div class="col-sm-6 info">
+                        <h6>用户隐私</h6>
+                        所有能够识别用户真实身份的数据将以高度加密的形式表示和存储。
+                        在我们开放的数据中，用户信息只是一个匿名的ID，和比特币块链中的数据类似。
+                    </div>
+                    <div class="col-sm-6 info">
+                        <h6>安全性</h6>
+                        所有数据都使用AES算法进行加密。
+                        用户密码将在浏览器端散列后传输，在服务器端还会利用Bcrypt算法进行二次散列。我们不接触原始密码，即使数据泄露，也不会扩大用户的损失。
+                        系统所有数据都将定期备份，并妥善存储，避免数据丢失导致的事故发生。
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5 col-sm-offset-1 hidden-xs">
+                <img src="/startup/common-files/icons/Shield@@2x.png" width="300" height="300" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+} else {
 <section class="content-9">
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
                 <h3>Privacy and Security</h3>
 
-                <p>At Coinport, we take user privacy and data security very seriously; and we believe privacy and security can co-exist beautifully.
+                <p>At Coinport, we take user privacy and data security very seriously; and we believe privacy and transparency can co-exist beautifully.
                 </p>
 
                 <div class="row">
@@ -26,3 +57,4 @@
         </div>
     </div>
 </section>
+}

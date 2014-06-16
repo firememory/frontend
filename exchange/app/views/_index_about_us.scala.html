@@ -1,5 +1,75 @@
 @()(implicit session: Session, lang: Lang)
+@if(lang.code=="zh-CN") {
+<section class="crew-4">
+    <div class="container">
+        <h3 >来自Google的技术团队<br/>来自IDG的资本支持</h3>
 
+        <div class="members row">
+            <div class="member-wrapper col-md-3">
+                <div class="member">
+                    <div class="photo-wrapper">
+                        <div class="photo"><img src="/image/founders/daniel-w.png" alt=""></div>
+                        <div class="overlay">
+                            <a target="_blank" href="http://weibo.com/coinport"><i class="fa fa-weibo fa-3x"></i></a>
+                            <a href="#"><i class="fa fa-twitter fa-3x"></i></a>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="name">王东</div>
+                        联合创始人，CEO，毕业于中国科技大学，曾就职于<b>Google</b>,前京东<b>高级总监</b>。
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-wrapper col-md-3">
+                <div class="member">
+                    <div class="photo-wrapper">
+                        <div class="photo"><img src="/image/founders/hoss-m.png" alt=""></div>
+                        <div class="overlay">
+                            <a target="_blank" href="http://weibo.com/hosschao"><i class="fa fa-weibo fa-3x"></i></a>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="name">马超</div>
+                        联合创始人，CTO，毕业于上海交通大学，曾就职于<b>Google</b>，前真旅网<b>技术总监</b>。
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-wrapper col-md-3">
+                <div class="member">
+                    <div class="photo-wrapper">
+                        <div class="photo"><img src="/image/founders/chunming.jpg" alt=""></div>
+                        <div class="overlay">
+                            <a target="_blank" href="http://weibo.com/ghostself"><i class="fa fa-weibo fa-3x"></i></a>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="name">刘春明</div>
+                        联合创始人，毕业于中国科技大学，前京东<b>首席架构师</b>。
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-wrapper col-md-3">
+                <div class="member">
+                    <div class="photo-wrapper">
+                        <div class="photo"><img src="/image/founders/mr-mysterious.jpg" alt=""></div>
+                        <div class="overlay">
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="name">神秘人物</div>
+                        联合创始人，CMO<br>
+                        <i>“兄弟们，我来了！”</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.container-->
+</section>
+} else {
 <section class="crew-4">
     <div class="container">
         <h3 >We are xGooglers,<br/>backed by IDG Captical.</h3>
@@ -12,7 +82,6 @@
                         <div class="overlay">
                             <a target="_blank" href="http://weibo.com/coinport"><i class="fa fa-weibo fa-3x"></i></a>
                             <a href="#"><i class="fa fa-twitter fa-3x"></i></a>
-                            <!--a href="#"><i class="fa fa-wechat fa-3x"></i></a-->
                         </div>
                     </div>
                     <div class="info">
@@ -28,8 +97,6 @@
                         <div class="photo"><img src="/image/founders/hoss-m.png" alt=""></div>
                         <div class="overlay">
                             <a target="_blank" href="http://weibo.com/hosschao"><i class="fa fa-weibo fa-3x"></i></a>
-                            <!--a href="#"><i class="fa fa-twitter fa-3x"></i></a-->
-                            <!--a href="#"><i class="fa fa-wechat fa-3x"></i></a-->
                         </div>
                     </div>
                     <div class="info">
@@ -45,8 +112,6 @@
                         <div class="photo"><img src="/image/founders/chunming.jpg" alt=""></div>
                         <div class="overlay">
                             <a target="_blank" href="http://weibo.com/ghostself"><i class="fa fa-weibo fa-3x"></i></a>
-                            <!--a href="#"><i class="fa fa-twitter fa-3x"></i></a-->
-                            <!--a href="#"><i class="fa fa-wechat fa-3x"></i></a-->
                         </div>
                     </div>
                     <div class="info">
@@ -61,9 +126,6 @@
                     <div class="photo-wrapper">
                         <div class="photo"><img src="/image/founders/mr-mysterious.jpg" alt=""></div>
                         <div class="overlay">
-                            <!--a target="_blank" href="http://weibo.com/ghostself"><i class="fa fa-weibo fa-3x"></i></a-->
-                            <!--a href="#"><i class="fa fa-twitter fa-3x"></i></a-->
-                            <!--a href="#"><i class="fa fa-wechat fa-3x"></i></a-->
                         </div>
                     </div>
                     <div class="info">
@@ -77,3 +139,4 @@
     </div>
     <!--/.container-->
 </section>
+}

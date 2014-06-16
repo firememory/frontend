@@ -31,6 +31,9 @@ nav.login=Login
 nav.logout=Logout
 nav.register=Sign Up
 
+index.reserveStats=Reserve Stats
+index.marketStats=Market Stats
+
 login.title=Log in
 login.verifyEmailSucceeded=email verify succeeded, please login
 login.resetPwdSucceeded=reset password succeeded, please login
@@ -159,9 +162,10 @@ open.eventData=Events
 open.snapshotData=Snapshots
 open.Download=Download
 open.reserve.proof=Proof of 100% Reserve
+open.reserve.account=Total Account
 open.reserve.ratio=Reserve Ratio
 open.reserve.coinaddr=Coin Address
-open.reserve.balance=Balance
+open.reserve.balance=Balance in Wallets
 open.network.title=Network Status
 open.network.connectivity=Connectivity
 open.network.status=Status

@@ -1,5 +1,62 @@
 @()(implicit session: Session, lang: Lang)
 
+@if(lang.code == "zh-CN") {
+<section class="header-3-sub">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h3>全透明，源自全开放</h3>
+                <p>
+                    币丰港是全球首家“全透明”交易平台。完全的透明性来源于我们完全开放的政策。包括：代码开源、数据开放、准备金证明。
+                </p>
+             </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-4">
+    <div class="container">
+        <div class="row features">
+            <div class="col-sm-4 text-center">
+                <a href="/open#/opensource">
+                    <i class="fa fa-github-alt fa-5x color-pomegranate"></i>
+                    <h6 class="color-belize-hole">代码开源</h6>
+                </a>
+
+                <p class="text-left">
+                    我们的交易匹配引擎将托管在github上。
+                    您可以访问我们的代码库获取源代码，查看任何您感兴趣的部分。
+                    我们鼓励用户了解所有细节，并帮助我们不断完善交易系统。
+                </p>
+            </div>
+            <div class="col-sm-4 text-center">
+                 <a href="/open#/opendata">
+                    <i class="fa fa-cubes on fa-circle fa-5x color-orange"></i>
+                    <h6 class="color-belize-hole">数据开放</h6>
+                </a>
+
+                <p class="text-left">
+                    除用户隐私数据外，平台全部数据均可任意浏览下载。
+                    全部订单、交易、充值、提现、账户余额、冷热钱包地址等均对用户开放。
+                    您既可以掌控全局，也能够深入细节。
+                </p>
+            </div>
+            <div class="col-sm-4 text-center">
+                <a href="/open#/reserve">
+                    <i class="fa fa-anchor fa-5x color-belize-hole"></i>
+                    <h6 class="color-belize-hole">准备金证明</h6>
+                </a>
+                <p class="text-left">
+                    如何证明我们没有挪用您托管的资产？
+                    依靠晦涩难懂的Merkle-tree吗？
+                    不必那么麻烦。我们直接公开全部账户的余额，以及所有冷热钱包地址。准备金是否充足，您一目了然。
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+} else {
 <section class="header-3-sub">
     <div class="background">&nbsp;</div>
     <div class="container">
@@ -24,7 +81,7 @@
                 <p class="text-left">Our matching engine will be opensourced on github. Visit our public repository to verify our matching code, and feel free to clone it. Coinport Exchange allows clients to have insight to all the internals.</p>
             </div>
             <div class="col-sm-4 text-center">
-                 <a href="/open#/opendata">
+                <a href="/open#/opendata">
                     <i class="fa fa-cubes on fa-circle fa-5x color-orange"></i>
                     <h6 class="color-belize-hole">Open-Data</h6>
                 </a>
@@ -35,9 +92,10 @@
                 <a href="/open#/reserve">
                     <i class="fa fa-anchor fa-5x color-belize-hole"></i>
                     <h6 class="color-belize-hole">Provable 100% Reserve</h6>
-                <a>
+                </a>
                 <p class="text-left">We keep all your asset uninvested. Still wishing for a Merkle-tree based proof of reserve? We give you more - every 30 minutes we offer our clients all new events and system snapshots. You can verify our reserve claims yourself using simple maths.</p>
             </div>
         </div>
     </div>
 </section>
+}

@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row" ng-controller="ReserveCtrl">
         <div class="table-responsive col-md-10 col-md-offset-1">
-            <h4>Reserve Stats</h4>
+            <h4>@Messages("index.reserveStats")</h4>
             <table class="table table-condensed table-striped stats-table">
                 <thead>
                 <tr>
@@ -13,8 +13,8 @@
                     <th nowrap class="text-right">@Messages("user.available")</th>
                     <th nowrap class="text-right">@Messages("user.orderPending")</th>
                     <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
-                    <th nowrap class="text-right">Account</th>
-                    <th nowrap class="text-right">Total Reserve</th>
+                    <th nowrap class="text-right">@Messages("open.reserve.account")</th>
+                    <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
                     <th nowrap class="text-center">@Messages("open.reserve.ratio")</th>
                     <th/>
                 </tr>
@@ -43,7 +43,7 @@
 
         <div class="row" ng-controller="TickerCtrl">
             <div class="table-responsive col-md-10 col-md-offset-1">
-                <h4>Market Stats</h4>
+                <h4>@Messages("index.marketStats")</h4>
                 <table class="table table-condensed bt-striped stats-table">
                     <thead>
                     <tr>
