@@ -6,7 +6,7 @@ else
   git checkout $1
 fi
 ./activator clean dist
-rm -rf ~/coinport/coinport-front-*
+rm -rf ~/coinport/coinport-frontend-*
 cp target/universal/coinport-frontend-* ~/coinport/
 cd ~/coinport/
 unzip coinport-frontend-*
