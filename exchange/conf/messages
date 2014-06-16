@@ -173,12 +173,10 @@ open.network.neverseen=Never Seen
 open.network.minutesago= minutes ago
 open.network.checkNow=Check
 
-open.nav.transfer=Transfer Records from User
-open.nav.address=Cold Wallet & Hot Wallet Address
-
 coin.hotWallet=Hot Wallets
 coin.coldWallet=Cold Wallets
-coin.address=Address
+coin.address=Addresses
+coin.transfer=Transfers
 coin.amount=Amount
 
 transaction.tid=ID
