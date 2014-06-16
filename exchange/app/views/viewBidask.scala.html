@@ -1,4 +1,5 @@
-@()(implicit lang: Lang)
+@()(implicit session: Session, lang: Lang)
+@isLogin() = @{session.get("uid").isDefined}
 
 <section class="header-3-sub first">
     <div class="row">
@@ -19,7 +20,7 @@
         </div>
     </div>
 </section>
-
+@if(isLogin()) {
 <section class="header-3-sub">
     <div class="row">
         <div class="col-sm-12">
@@ -27,4 +28,5 @@
         </div>
     </div>
 </section>
+}
 <timer ng-show="false" interval="2000"/>

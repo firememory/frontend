@@ -1,6 +1,9 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
+@isLogin() = @{session.get("uid").isDefined}
+@uid = @{session.get("uid").get}
+
 <!DOCTYPE html>
 <html lang="@(lang.code)">
 <head>
@@ -13,13 +16,10 @@
 <div class="page-wrapper bg-transparent trade">
 @__navbar("trade")
 
-@session.get("uid") match {
-    case Some(id: String) => {
-        <span ng-init="uid='@id'" ng-show="false"></span>
-    }
-    case None => {
-        <span ng-init="uid='0'" ng-show="false"></span>
-    }
+@if(isLogin()) {
+    <span ng-init="uid='@uid'" ng-show="false"></span>
+} else {
+    <span ng-init="uid='0'" ng-show="false"></span>
 }
 
 <div class="container container-main light-bordered bg-light">

@@ -409,8 +409,12 @@ function BidAskCtrl($scope, $http, $routeParams) {
             // clear amount
             $scope.bid.amount = 0;
             $scope.bid.total = 0;
-        }).error(function() {
-            $scope.alert('bid', 'internal error occurs');
+        }).error(function(data, status, headers, config) {
+            if (status == 401) {
+                $scope.alert('bid', 'please LOGIN first');
+            } else {
+                $scope.alert('bid', 'internal error occurs');
+            }
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
         });
     };
@@ -459,8 +463,12 @@ function BidAskCtrl($scope, $http, $routeParams) {
             // clear amount
             $scope.ask.amount = 0;
             $scope.ask.total = 0;
-        }).error(function() {
-            $scope.alert('ask', 'internal error occurs');
+        }).error(function(data, status, headers, config) {
+            if (status == 401) {
+                $scope.alert('ask', 'please LOGIN first');
+            } else {
+                $scope.alert('ask', 'internal error occurs');
+            }
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;
         });
     };

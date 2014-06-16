@@ -26,14 +26,9 @@ object MainController extends Controller with Json4s {
       Ok(views.html.index.render(request.session, request.acceptLanguages(0)))
   }
 
-  def trade = Authenticated {
+  def trade = Action {
     implicit request =>
-      request.session.get("uid").map {
-        uid =>
-          Ok(views.html.trade.render(request.session, request.acceptLanguages(0)))
-      } getOrElse {
-        Redirect(routes.MainController.login())
-      }
+      Ok(views.html.trade.render(request.session, request.acceptLanguages(0)))
   }
 
   def account() = Authenticated {
@@ -147,7 +142,7 @@ object MainController extends Controller with Json4s {
 
   def bidaskView() = Action {
     implicit request =>
-      Ok(views.html.viewBidask.render(request.acceptLanguages(0)))
+      Ok(views.html.viewBidask.render(request.session, request.acceptLanguages(0)))
   }
 
   def registerView() = Action {
