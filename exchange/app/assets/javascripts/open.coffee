@@ -62,6 +62,7 @@ app.controller 'ReserveCtrl', ($scope, $http) ->
 
     $http.get('/api/account/-1')
         .success (data, status, headers, config) -> $scope.accounts = data.data.accounts
+    console.log('reserve', $scope.account)
 
     $scope.getWallets = (currency) ->
         $http.get('/api/open/wallet/' + currency + '/hot')
@@ -77,7 +78,6 @@ app.controller 'ReserveCtrl', ($scope, $http) ->
                 data.data.forEach (w) ->
                     $scope.walletsBalance[w.currency] = 0 if (!$scope.walletsBalance[w.currency])
                     $scope.walletsBalance[w.currency] += w.amount.value
-
 
 app.controller 'ConnectCtrl', ($scope, $http) ->
     $scope.currencies = ['BTC', 'LTC', 'DOG', 'PTS']

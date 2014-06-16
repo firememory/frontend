@@ -83,6 +83,7 @@ GET     /api/*currency/transfer/*uid        controllers.ApiController.transfers(
 GET     /api/open/data/*type                controllers.MainController.listFilesFromHdfs(type)
 GET     /api/open/network/*currency         controllers.ApiController.ccNetworkStatus(currency)
 GET     /api/open/wallet/*currency/*wtype   controllers.ApiController.wallets(currency, wtype)
+GET     /api/open/reserve/*currency         controllers.ApiController.currencyReserve(currency)
 
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()

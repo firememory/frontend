@@ -10,21 +10,13 @@ app.controller 'CoinCtrl', ($scope, $http, $window) ->
             $scope.transfers = data.data.items
             $scope.transferCount = data.data.count
 
-    $scope.hotWallets = []
-    $scope.coldWallets = []
+
+    $http.get('/api/account/-1')
+    .success (data, status, headers, config) -> $scope.accounts = data.data.accounts
+
     $scope.addressUrl = COINPORT.addressUrl[$scope.coin]
 
-    $http.get('/api/open/wallet/' + $scope.coin + '/hot')
+    $http.get('/api/open/reserve/' + $scope.coin )
         .success (data, status, headers, config) ->
-            $scope.hotWallets = data.data
-            console.log('hotWallets', $scope.hotWallets)
-            data.data.forEach (w)->
-            $scope.walletsBalance += w.amount.value
-
-
-    $http.get('/api/open/wallet/' + $scope.coin + '/cold')
-        .success (data, status, headers, config) ->
-            $scope.coldWallets = data.data;
-            console.log('hotWallets', $scope.coldWallets)
-            data.data.forEach (w) ->
-            $scope.walletsBalance += w.amount.value
+            $scope.reserveAmount = data.data.amount
+            console.log('reserveAmount', $scope.reserveAmount.display)

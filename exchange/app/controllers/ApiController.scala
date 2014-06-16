@@ -245,7 +245,14 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
 
   def wallets(currency: String, walletsType: String) = Action.async {
     implicit request =>
-      BitwayService.getWallets(currency, CryptoCurrencyAddressType.valueOf(walletsType).get).map(result => Ok(result.toJson))
+      BitwayService.getWallets(currency, CryptoCurrencyAddressType.valueOf(walletsType).get).map(result =>
+      Ok(result.toJson))
+  }
+
+  def currencyReserve(currency: String) = Action.async {
+    implicit request =>
+      OpenService.getCurrencyReserve(currency).map(result =>
+      Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

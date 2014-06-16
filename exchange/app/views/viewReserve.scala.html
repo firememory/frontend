@@ -22,8 +22,8 @@
                             <th nowrap class="text-right">Account</th>
                             <!--<th nowrap>@Messages("open.reserve.coinaddr")</th>-->
                             <!--<th nowrap class="text-right">@Messages("open.reserve.balance")</th>-->
-                            <!--<th nowrap class="text-right">Total Reserve</th>-->
-                            <!--<th nowrap>@Messages("open.reserve.ratio")</th>-->
+                            <th nowrap class="text-right">Total Reserve</th>
+                            <th nowrap>@Messages("open.reserve.ratio")</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,8 +50,8 @@
                                     <!--<span class="label label-info">{{wallet.amount.value | coin}}</span>-->
                                 <!--</span>-->
                             <!--</td>-->
-                            <!--<td nowrap class="text-right">{{walletsBalance['@coin'] | coin}}</td>-->
-                            <!--<td nowrap><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>-->
+                            <td nowrap class="text-right">{{walletsBalance['@coin'] | coin}}</td>
+                            <td nowrap><span class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
                         </tr>
                         }
                         </tbody>
