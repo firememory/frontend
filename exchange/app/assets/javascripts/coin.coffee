@@ -12,7 +12,9 @@ app.controller 'CoinCtrl', ($scope, $http, $window) ->
 
 
     $http.get('/api/account/-1')
-    .success (data, status, headers, config) -> $scope.accounts = data.data.accounts
+        .success (data, status, headers, config) ->
+            $scope.accounts = data.data.accounts
+
 
     $scope.addressUrl = COINPORT.addressUrl[$scope.coin]
 

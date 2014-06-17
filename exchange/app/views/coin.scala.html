@@ -27,8 +27,8 @@
                             <th nowrap class="text-right">@Messages("user.available")</th>
                             <th nowrap class="text-right">@Messages("user.orderPending")</th>
                             <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
-                            <th nowrap class="text-right">Account</th>
-                            <th nowrap class="text-right">Total Reserve</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.account")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
                             <th nowrap>@Messages("open.reserve.ratio")</th>
                         </tr>
                         </thead>
@@ -37,9 +37,9 @@
                             <td nowrap class="text-right">{{accounts['@coin'].available.value | coin}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].locked.value | coin}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
                             <td nowrap class="text-right">{{reserveAmount.display}}</td>
-                            <td nowrap><span class="{{reserveAmount.value / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2)}}%</span></td>
+                            <td nowrap><span class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">{{(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%</span></td>
                         </tr>
                         </tbody>
                     </table>
