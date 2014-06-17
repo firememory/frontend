@@ -191,14 +191,14 @@ coinportApp.directive('cpNav', function($window) {
        return $window.location.hash;
      }, function(newValue, oldValue) {
 
-       $('li[route]', element).each(function(k, li) {
-         var $li = angular.element(li),
-           pattern = $li.attr('route'),
+       $('[route]', element).each(function(k, elem) {
+         var $elem = angular.element(elem),
+           pattern = $elem.attr('route'),
            regexp = new RegExp('^' + pattern + '$', ['i']);
          if(regexp.test(newValue)) {
-           $li.addClass('active');
+           $elem.addClass('active');
          } else {
-           $li.removeClass('active');
+           $elem.removeClass('active');
          }
        });
      });
