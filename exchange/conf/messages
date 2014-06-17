@@ -22,6 +22,7 @@ status=Status
 address=Address
 amount=Amount
 coinType=Coin Type
+orderBook=Order Book
 
 authenticateNotLogin=You must log in to proceed.
 authenticateTimeout=Session timed out, please log in again.
@@ -67,7 +68,6 @@ trade.sellShort=Sell
 trade.simple=simple
 trade.advanced=advanced
 trade.advancedTip=support for more customized orders
-trade.position=Position
 trade.price=Price
 trade.amount=Amount
 trade.total=Total
@@ -78,6 +78,7 @@ trade.availableCurrency=Available
 trade.recentTransactions=Recent Transactions
 trade.myOrders=My Orders
 trade.aboutOrder=About this order
+trade.accumulated=Accumulated
 
 order.order=Order
 order.oid=ID

@@ -21,6 +21,7 @@ status=状态
 address=地址
 amount=数量
 coinType=币种
+orderBook=累积深度
 
 nav.brand=币丰港
 nav.home=首页
@@ -66,6 +67,7 @@ trade.availableCurrency=可用资金
 trade.recentTransactions=最新成交
 trade.myOrders=我的委托
 trade.aboutOrder=委托详情
+trade.accumulated=累积深度
 
 order.order=委托
 order.oid=委托ID
