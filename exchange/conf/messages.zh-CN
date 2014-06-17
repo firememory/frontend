@@ -159,12 +159,13 @@ open.reserve.balance=钱包总余额
 open.network.title=网络状态
 open.network.connectivity=连通性
 open.network.status=网络状态
+open.network.delayed=延迟
 open.network.lastcheck=上次检查时间
 open.network.lastactive=前一次正常状态时间
 open.network.height=高度
 open.network.lastblock=最后一个块
 open.network.neverseen=从未正常
-open.network.minutesago=分钟前
+open.network.minutes=分钟
 open.network.checkNow=查看
 
 transaction.tid=交易ID

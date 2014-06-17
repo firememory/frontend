@@ -174,12 +174,13 @@ open.reserve.balance=Balance in Wallets
 open.network.title=Network Status
 open.network.connectivity=Connectivity
 open.network.status=Status
+open.network.delayed=Delayed
 open.network.lastcheck=Last Checked
 open.network.lastactive=Last Active
 open.network.height=Height
 open.network.lastblock=Last Block
 open.network.neverseen=Never Seen
-open.network.minutesago= minutes ago
+open.network.minutes= minutes
 open.network.checkNow=Check
 
 coin.hotWallet=Hot Wallets

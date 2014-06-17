@@ -15,8 +15,8 @@
                         <thead>
                         <tr>
                             <th>@Messages("open.coinType")</th>
-                            <th>@Messages("open.network.connectivity")</th>
                             <th>@Messages("open.network.status")</th>
+                            <th>@Messages("open.network.delayed")</th>
                             <th>@Messages("open.network.lastcheck")</th>
                             <th>@Messages("open.network.lastactive")</th>
                             <th>@Messages("open.network.height")</th>
@@ -28,7 +28,7 @@
                         <tr ng-init="getNetworkStatus('@coin')">
                             <td><strong>@coin</strong></td>
                             <td><span class="label label-{{timestamp - status['@coin'].timestamp | networkStatusClass}}">{{timestamp - status['@coin'].timestamp | networkStatusText}}</span></td>
-                            <td>{{!status['@coin'].timestamp ? '@Messages("open.network.neverseen")' : ((timestamp - status['@coin'].timestamp) / 60000).toFixed(0)+' @Messages("open.network.minutesago")'}}</td>
+                            <td>{{!status['@coin'].timestamp ? '@Messages("open.network.neverseen")' : ((timestamp - status['@coin'].timestamp) / 60000).toFixed(0)+' @Messages("open.network.minutes")'}}</td>
                             <td>{{timestamp | date:'MM-dd HH:mm:ss'}}</td>
                             <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                             <td>{{status['@coin'].height}}</td>
