@@ -3,6 +3,23 @@ app = angular.module('coinport.register', ['ui.bootstrap', 'ngResource', 'navbar
 app.config ($httpProvider) ->
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
+# app.directive ('ngFocus', () ->
+#     FOCUS_CLASS = "ng-focused"
+#     {
+#         restrict: 'A',
+#         require: 'ngModel',
+#         link: (scope, element, attrs, ctrl) ->
+#             ctrl.$focused = false
+#             element.bind('focus', (evt) ->
+#                 element.addClass(FOCUS_CLASS)
+#                 scope.$apply(() -> ctrl.$focused = true)
+#             ).bind('blur', (evt) ->
+#                 element.removeClass(FOCUS_CLASS)
+#                 scope.$apply(() -> ctrl.$focused = false)
+#             )
+#     }
+# )
+
 app.controller 'RegisterCtrl', ($scope, $http, $window) ->
   $scope.register = {}
   $scope.errorMessage = ""
@@ -45,17 +62,3 @@ app.controller 'RegisterCtrl', ($scope, $http, $window) ->
         $scope.errorMessage = Messages.getMessage(data.code, data.message)
         console.debug 'errorMessage: ', $scope.errorMessage
         $scope.showError= true
-
-
-  # $scope.sendVerifySms = function () {
-  #   $http.post('/sendVerifySms', $.param({phoneNumber: $scope.register.phoneNumber}))
-  #     .success(function(data, status, headers, config) {
-  #       if (data.success) {
-  #         $scope.register.verifyCodeUuid = data.data.uuid;
-  #         console.log('uuid = ' + $scope.register.verifyCodeUuid);
-  #         #$window.location.href = '/login';
-  #       } else {
-  #         showMessage(data.message);
-  #       }
-  #     });
-  # };

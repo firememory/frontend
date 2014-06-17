@@ -44,8 +44,8 @@ login.doLogin=Log in
 login.forgotPassword=Lost your password?
 register.title=Sign Up
 register.changeCaptcha=Try a different image
-register.termsCheckboxTextHead=I have read and agree to                           
-register.termsCheckboxTextLink=our terms
+register.termsCheckboxTextHead=I have read and agree to the                          
+register.termsCheckboxTextLink=terms of service
 register.termsTitle=Terms of service
 
 ticker.market=Market
