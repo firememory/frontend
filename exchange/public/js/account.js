@@ -72,6 +72,19 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
                 $scope.depositAddresses[currency] = data.data;
         });
     };
+
+    $scope.page = 1;
+    $scope.loadTransfers = function () {
+        $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type': 0}})
+            .success(function (data, status, headers, config) {
+                console.log('transfers', data.data);
+                $scope.transfers = data.data.items;
+                $scope.count = data.data.count;
+            });
+    };
+
+    console.log('uid', $scope.uid);
+    $scope.loadTransfers();
 }]);
 
 app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {

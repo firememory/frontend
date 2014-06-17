@@ -94,7 +94,7 @@
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                     <td nowrap> {{item.id}} </td>
                     <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.operation | transferOperationText }}</span> </td>
+                    <td nowrap> {{item.operation | transferOperationText }} </td>
                     <td nowrap> {{item.amount.currency}} </td>
                     <td nowrap class="text-right"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
                     <td nowrap> {{item.address}} </td>

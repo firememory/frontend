@@ -245,6 +245,7 @@ transfer.googleAuthCode=Google Authenticator Code
 transfer.cancelWithdrawal=Cancel Withdrawal
 transfer.depositRecord=Deposit Records
 transfer.withdrawalRecord=Withdrawal Records
+transfer.transferRecord=Deposit/Withdrawal Records
 
 asset.category=Category
 asset.available=Available
