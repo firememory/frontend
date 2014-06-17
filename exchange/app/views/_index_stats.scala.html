@@ -26,10 +26,10 @@
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].total.value | coin">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="walletsBalance['@coin'] | coin">@Messages("loading")</td>
                     <td nowrap class="text-center">
-                        <span ng-bind="((walletsBalance['@coin']) * 100 / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0).toFixed(2) + '%'" class="{{walletsBalance['@coin'] / (accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value)  || 0 | reserveRatioClass}}">
+                        <span ng-bind="((walletsBalance['@coin']) * 100 / accounts['@coin'].total.value || 0).toFixed(2) + '%'" class="{{walletsBalance['@coin'] / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
                             @Messages("loading")
                         </span>
                     </td>

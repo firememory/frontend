@@ -300,13 +300,13 @@ app.controller('AssetCtrl', function ($scope, $http) {
             $scope.pieData = [];
             var total = 0;
             for (asset in map) {
-                total += map[asset].value_int;
+                total += map[asset].value;
             }
 
             for (asset in map) {
-                $scope.pieData.push({title: asset, value: map[asset].value_int / total});
+                $scope.pieData.push({title: asset, value: map[asset].value / total});
             }
-            console.log("pieData", $scope.pieData);
+
             drawPieChart($scope.pieData);
             $scope.updateAsset();
         });
@@ -641,7 +641,6 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
                 for (currency in $scope.accounts) {
                     var account = $scope.accounts[currency];
-                    account.total = account.available.value + account.locked.value + account.pendingWithdrawal.value;
                     account.asset = amountMap[currency].display;
                     account.price = priceMap[currency].display;
                     console.log('account', account);
