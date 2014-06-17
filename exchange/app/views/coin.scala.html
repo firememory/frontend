@@ -34,9 +34,9 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td nowrap class="text-right">{{accounts['@coin'].available.value | coin}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].locked.value | coin}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
+                            <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.display}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
                             <td nowrap class="text-right">{{reserveAmount.display}}</td>
                             <td nowrap><span class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">{{(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%</span></td>
@@ -100,7 +100,7 @@
                             <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                         </td>
                         <td>
-                            <span class="label label-warning">{{wallet.amount.value | coin}}</span>
+                            <span class="label label-warning">{{wallet.amount.display}}</span>
                         </td>
                     </tr>
                     </tbody>
@@ -121,7 +121,7 @@
                             <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
                         </td>
                         <td>
-                            <span class="label label-info">{{wallet.amount.value | coin}}</span>
+                            <span class="label label-info">{{wallet.amount.display}}</span>
                         </td>
                     </tr>
                     </tbody>
