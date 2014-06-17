@@ -16,10 +16,11 @@ Messages.orderStatus = {
 
 Messages.transfer = {
   status: ['等待处理', '处理中', '待确认', '已确认', '成功', '失败', '待确认'],
-  deposit: '存款',
-  withdrawal: '取款',
-  depositSuccess: '存款成功: ',
-  withdrawalSuccess: '取款成功: ',
+  operation: ['充值', '提现' , '用户转热钱包', '热钱包转冷钱包', '冷钱包转热钱包', '未知'],
+  deposit: '充值',
+  withdrawal: '提现',
+  depositSuccess: '充值成功: ',
+  withdrawalSuccess: '提现成功: ',
   cny: '人民币',
   btc: '比特币'
 };
