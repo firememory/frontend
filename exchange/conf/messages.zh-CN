@@ -17,6 +17,9 @@ forgotPassword=忘记密码了？
 inputCaptcha=输入验证码
 depth=深度
 operation=操作
+status=状态
+address=地址
+amount=数量
 
 nav.brand=币丰港
 nav.home=首页
@@ -168,6 +171,10 @@ open.network.neverseen=从未正常
 open.network.minutes=分钟
 open.network.checkNow=查看
 
+coin.hotWallet=热钱包
+coin.coldWallet=冷钱包
+coin.wallets=钱包地址
+
 transaction.tid=交易ID
 transaction.timestamp=时间
 transaction.price=价格
@@ -194,9 +201,8 @@ user.coinType=币种
 user.available=可用余额
 user.orderPending=挂单金额
 user.withdrawalPending=等待提现金额
-user.cnyTransfer=人民币存款/取款
-user.btcTransfer=比特币存款/取款
-user.transfer.id=存取款ID
+user.Transfer=充值提现记录
+user.transfer.id=充值提现ID
 user.transfer.timestamp=时间
 user.transfer.operation=操作
 user.transfer.amount=数量

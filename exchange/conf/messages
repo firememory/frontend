@@ -18,6 +18,9 @@ resendVerifyEmail=Resend Verify Email
 inputCaptcha=Captcha text
 depth=Depth
 operation=Operations
+status=Status
+address=Address
+amount=Amount
 
 authenticateNotLogin=You must log in to proceed.
 authenticateTimeout=Session timed out, please log in again.
@@ -185,9 +188,7 @@ open.network.checkNow=Check
 
 coin.hotWallet=Hot Wallets
 coin.coldWallet=Cold Wallets
-coin.address=Addresses
-coin.transfer=Transfers
-coin.amount=Amount
+coin.wallets=Addresses
 
 transaction.tid=ID
 transaction.timestamp=Timestamp
@@ -215,14 +216,12 @@ user.coinType=Currency
 user.available=Available
 user.orderPending=Frozen
 user.withdrawalPending=Pending Withdrawal
-user.Transfer=Deposit & Withdrawal
+user.Transfer=Transfer Records
 user.transfer.id=ID
 user.transfer.timestamp=Timestamp
 user.transfer.operation=Type
 user.transfer.currency=Currency
 user.transfer.amount=Amount
-user.transfer.status=Status
-user.transfer.address=Address
 user.transactions=Transactions
 
 transfer.withdrawal=Withdrawal
