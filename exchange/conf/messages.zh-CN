@@ -171,6 +171,8 @@ open.network.lastblock=最后一个块
 open.network.neverseen=N/A
 open.network.minutes=分钟
 open.network.checkNow=查看
+open.assetRank=资产排名
+open.transactionRank=交易量排名
 
 coin.hotWallet=热钱包
 coin.coldWallet=冷钱包

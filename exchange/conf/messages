@@ -187,6 +187,9 @@ open.network.neverseen=N/A
 open.network.minutes= minutes
 open.network.checkNow=Check
 
+open.assetRank=Asset Rank
+open.transactionRank=Transaction Rank
+
 coin.hotWallet=Hot Wallets
 coin.coldWallet=Cold Wallets
 coin.wallets=Addresses
