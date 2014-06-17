@@ -292,7 +292,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
-    $scope.pieTitle = Messages.asset.assetComposition;
     $http.get('/api/asset/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.assets = data.data;
