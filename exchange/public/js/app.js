@@ -151,23 +151,29 @@ coinportApp.filter('dwIcon', function() {
 
 coinportApp.filter('networkStatusClass', function() {
     return function(input) {
-        if (input < 30 * 60 * 1000)
+        if (+input < 30 * 60 * 1000)
             return 'success';
-        else if (input < 60 * 60 * 1000)
+        if (+input < 60 * 60 * 1000)
             return 'warning';
-        else
-            return 'danger';
+        return 'danger';
     }
 });
 
 coinportApp.filter('networkStatusText', function() {
     return function(input) {
-        if (input < 30 * 60 * 1000)
+        if (+input < 30 * 60 * 1000)
             return Messages.connectivity.status.normal;
-        else if (input < 60 * 60 * 1000)
+        if (+input < 60 * 60 * 1000)
             return Messages.connectivity.status.delayed;
-        else
-            return Messages.connectivity.status.blocked;
+        return Messages.connectivity.status.blocked;
+    }
+});
+
+coinportApp.filter('networkDelay', function() {
+    return function(input) {
+        if (input < 0)
+            return 'N/A';
+        return (input / (60 * 1000)).toFixed(0);
     }
 });
 

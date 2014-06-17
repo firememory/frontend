@@ -32,8 +32,8 @@
                             <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.display}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
-                            <td nowrap class="text-right">{{walletsBalance['@coin'] | coin}}</td>
-                            <td nowrap><span class="{{walletsBalance['@coin'] / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin']) * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%</span></td>
+                            <td nowrap class="text-right">{{walletsBalance['@coin'].display}}</td>
+                            <td nowrap><span class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">{{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%</span></td>
                         </tr>
                         }
                         </tbody>

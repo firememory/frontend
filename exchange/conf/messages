@@ -183,7 +183,7 @@ open.network.lastcheck=Last Checked
 open.network.lastactive=Last Active
 open.network.height=Height
 open.network.lastblock=Last Block
-open.network.neverseen=Never Seen
+open.network.neverseen=N/A
 open.network.minutes= minutes
 open.network.checkNow=Check
 
