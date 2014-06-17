@@ -10,7 +10,7 @@
 </head>
 
 <body ng-app="coinport.currency">
-
+<div class="page-wrapper openness">
     @__navbar("openness")
     <div class="container container-main" ng-controller="CoinCtrl">
         <div class="row">
@@ -79,7 +79,7 @@
                     @__empty_table_indicator("transfers")
                 </table>
 
-                <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
         </div>
     </tab>
@@ -133,6 +133,7 @@
     </tabset>
     </div>
 @__footer()
+    </div>
 @__tail_commons()
 @__js("/javascripts/coin.js")
 @__tracking_js()
