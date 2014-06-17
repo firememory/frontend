@@ -48,24 +48,9 @@ app.controller('ReserveCtrl', function ($scope, $http, $modal) {
         });
 
     $scope.getWallets = function(currency) {
-        $http.get('/api/open/wallet/' + currency + '/hot')
-            .success(function(response, status, headers, config) {
-                $scope.hotWallets[currency] = response.data
-                response.data.forEach(function(w) {
-                    if (!$scope.walletsBalance[w.currency])
-                        $scope.walletsBalance[w.currency] = 0;
-                    $scope.walletsBalance[w.currency] += w.amount.value;
-                });
-            });
-
-        $http.get('/api/open/wallet/' + currency + '/cold')
-            .success(function(response, status, headers, config) {
-                $scope.coldWallets[currency] = response.data;
-                response.data.forEach(function(w) {
-                    if (!$scope.walletsBalance[w.currency])
-                        $scope.walletsBalance[w.currency] = 0;
-                    $scope.walletsBalance[w.currency] += w.amount.value;
-                });
-            });
-        };
+        $http.get('/api/open/reserve/' + currency)
+            .success(function(data, status, headers, config) {
+                $scope.walletsBalance[currency] = data.data.amount;
+        });
+    };
 });

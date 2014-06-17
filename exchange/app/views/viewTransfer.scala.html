@@ -22,10 +22,10 @@
                     @for(coin <- coins) {
                     <tr ng-init="getCurrencyDetails('@coin')">
                         <td nowrap><strong>@coin</strong></td>
-                        <td nowrap><span class="label label-{{timestamp - status['@coin'].timestamp | networkStatusClass}}">{{timestamp - status['@coin'].timestamp | networkStatusText}}</span></td>
-                        <td nowrap class="text-right">{{accounts['@coin'].available.value | coin}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].locked.value | coin}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].available.value + accounts['@coin'].locked.value + accounts['@coin'].pendingWithdrawal.value | coin}}</td>
+                        <td nowrap><span class="label label-{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                        <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
                         <td nowrap>{{depositAddresses['@coin']}}</td>
                         <td nowrap><a href="#/deposit/@coin">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a></td>
                     </tr>
