@@ -22,3 +22,16 @@ app.controller 'CoinCtrl', ($scope, $http, $window) ->
         .success (data, status, headers, config) ->
             $scope.reserveAmount = data.data.amount
             console.log('reserveAmount', $scope.reserveAmount.display)
+
+    $scope.hotWallets = []
+    $scope.coldWallets = []
+    $scope.addressUrl = COINPORT.addressUrl[$scope.coin]
+
+    $http.get('/api/open/wallet/' + $scope.coin + '/hot')
+        .success (data, status, headers, config) ->
+            $scope.hotWallets = data.data
+
+
+    $http.get('/api/open/wallet/' + $scope.coin + '/cold')
+        .success (data, status, headers, config) ->
+            $scope.coldWallets = data.data;
