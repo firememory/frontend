@@ -36,12 +36,12 @@
                         <tbody>
                         <tr>
                             <td nowrap><strong>@coin</strong></td>
-                            <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.display}}</td>
-                            <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
-                            <td nowrap class="text-right">{{reserveAmount.display}}</td>
-                            <td nowrap><span class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">{{(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%</span></td>
+                            <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="accounts['@coin'].total.display">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="reserveAmount.display">@Messages("loading")</td>
+                            <td nowrap><span class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}" ng-bind="(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2) + '%'"></span></td>
                         </tr>
                         </tbody>
                     </table>
@@ -67,13 +67,13 @@
                     </thead>
                     <tbody>
                     <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
-                        <td nowrap> {{item.id}} </td>
-                        <td nowrap> {{item.uid}} </td>
-                        <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
-                        <td nowrap> {{item.operation | transferOperationText }}</span> </td>
-                        <td nowrap class="text-right"></i> {{item.amount.display}} </td>
-                        <td nowrap> {{item.address}} </td>
-                        <td nowrap> {{item.status | transferStatusText }}</td>
+                        <td nowrap ng-bind="item.id">@Messages("loading")</td>
+                        <td nowrap ng-bind="item.uid">@Messages("loading")</td>
+                        <td nowrap> <i class="fa fa-clock-o"></i> <span ng-bind="item.updated | date:'yyyy-MM-dd HH:mm:ss'">@Messages("loading")</span> </td>
+                        <td nowrap ng-bind="item.operation | transferOperationText">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
+                        <td nowrap ng-bind="item.address">@Messages("loading")</td>
+                        <td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>
                     </tr>
                     </tbody>
                     @__empty_table_indicator("transfers")
@@ -98,10 +98,10 @@
                     <tbody>
                     <tr ng-repeat="wallet in hotWallets">
                         <td>
-                            <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
+                            <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-warning" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}" ng-bind="wallet.address"></a>
                         </td>
                         <td>
-                            <span class="label label-warning">{{wallet.amount.display}}</span>
+                            <span class="label label-warning" ng-bind="wallet.amount.display"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -119,10 +119,10 @@
                     <tbody>
                     <tr ng-repeat="wallet in coldWallets">
                         <td>
-                            <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">{{wallet.address}}</a>
+                            <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="label label-info" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}" ng-bind="wallet.address"></a>
                         </td>
                         <td>
-                            <span class="label label-info">{{wallet.amount.display}}</span>
+                            <span class="label label-info" ng-bind="wallet.amount.display"></span>
                         </td>
                     </tr>
                     </tbody>
