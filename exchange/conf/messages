@@ -21,6 +21,7 @@ operation=Operations
 status=Status
 address=Address
 amount=Amount
+coinType=Coin Type
 
 authenticateNotLogin=You must log in to proceed.
 authenticateTimeout=Session timed out, please log in again.
