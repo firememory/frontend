@@ -78,12 +78,13 @@
                         <span ng-show="askOptions.limitTotal || askOptions.limitLimit">
                             to get
                             <span ng-show="ask.total > 0">
-                            at least <span class="num">{{ask.total}} {{currency}}.</span>
+                            at least <span class="num">{{ask.total}} </span>
                             </span>
                                 <span ng-show="ask.total > 0 && ask.limit > 0"> but </span>
                             <span ng-show="ask.limit > 0">
-                                at most <span class="num">{{ask.limit}} {{currency}}.</span>
+                                at most <span class="num">{{ask.limit}} </span>
                             </span>
+                            {{currency}}.
                         </span>
 }
                 </div>
