@@ -3,7 +3,9 @@
 <section class="content-3">
     <div>
         <div class="container">
-            <div class="row">
+            <tabset>
+                <tab heading='@Messages("open.Download")' style="cursor: pointer;" >
+                <div class="row">
                 <div class="col-md-12">
                     <h3>@Messages("open.eventData")</h3>
                     <table class="table table-striped table-hover stats-table">
@@ -26,31 +28,36 @@
                     </table>
                     <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>@Messages("open.snapshotData")</h3>
-                    <table class="table table-striped table-hover stats-table">
-                        <thead>
-                        <tr>
-                            <th nowrap>@Messages("open.file")</th>
-                            <th nowrap>@Messages("open.updatedTime")</th>
-                            <th nowrap class="text-right">@Messages("open.size")</th>
-                            <th nowrap></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="file in snapshots.items">
-                            <td nowrap><i class="fa fa-bullhorn-o"></i> {{file.name}}</td>
-                            <td nowrap><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-                            <td nowrap class="text-right">{{file.size}} Bytes</td>
-                            <td nowrap><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>@Messages("open.snapshotData")</h3>
+                        <table class="table table-striped table-hover stats-table">
+                            <thead>
+                            <tr>
+                                <th nowrap>@Messages("open.file")</th>
+                                <th nowrap>@Messages("open.updatedTime")</th>
+                                <th nowrap class="text-right">@Messages("open.size")</th>
+                                <th nowrap></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="file in snapshots.items">
+                                <td nowrap><i class="fa fa-bullhorn-o"></i> {{file.name}}</td>
+                                <td nowrap><i class="fa fa-clock-o"></i> {{file.updated | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                                <td nowrap class="text-right">{{file.size}} Bytes</td>
+                                <td nowrap><a href="/download/{{file.path}}/{{file.name}}" class=""><i class="fa fa-download"></i> @Messages("open.Download")</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    </div>
+                </div>
+                </tab>
+                <tab heading='@Messages("user.assets") (Fake)' style="cursor: pointer;" >
+
+                </tab>
+            </tabset>
         </div>
     </div>
 </section>
