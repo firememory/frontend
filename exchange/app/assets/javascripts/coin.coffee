@@ -5,7 +5,7 @@ app.controller 'CoinCtrl', ($scope, $http, $window) ->
     $scope.coin = $window.location.pathname.replace("/coin/", "")
 
     $scope.transferPage = 1
-    $scope.reloadTransfers = $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: 15, page: $scope.transferPage}})
+    $scope.reloadTransfers = $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: 10, page: $scope.transferPage}})
         .success (data, status, headers, config) ->
             $scope.transfers = data.data.items
             $scope.transferCount = data.data.count
