@@ -40,6 +40,7 @@
             </table>
             </div>
         </div>
+
         <div class="col-md-12">
             <h4>@Messages("user.transactions")</h4>
             <div class="table-responsive">
@@ -81,31 +82,33 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th nowrap>@Messages("user.transfer.id")</th>
-                    <th nowrap>@Messages("user.transfer.timestamp")</th>
-                    <th nowrap>@Messages("operation")</th>
-                    <th nowrap>@Messages("coinType")</th>
-                    <th nowrap class="text-right">@Messages("user.transfer.amount")</th>
-                    <th nowrap>@Messages("address")</th>
-                    <th nowrap>@Messages("status")</th>
+                    <th nowrap>@Messages("transfer.id")</th>
+                    <th nowrap>@Messages("user.transfer.operation")</th>
+                    <th nowrap>@Messages("user.coinType")</th>
+                    <th nowrap>@Messages("transfer.amount")</th>
+                    <th nowrap>@Messages("transfer.status")</th>
+                    <th nowrap>@Messages("transfer.created")</th>
+                    <th nowrap>@Messages("transfer.updated")</th>
+                    <th nowrap>@Messages("transfer.address")</th>
+                    <th nowrap class="text-right">@Messages("transfer.confirm")</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                     <td nowrap> {{item.id}} </td>
-                    <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.operation | transferOperationText }} </td>
                     <td nowrap> {{item.amount.currency}} </td>
-                    <td nowrap class="text-right"> <i class="fa fa-btc"></i> {{item.amount.display}} </td>
-                    <td nowrap> {{item.address}} </td>
+                    <td nowrap> {{item.amount.display}} </td>
                     <td nowrap> {{item.status | transferStatusText }}</td>
+                    <td nowrap> <i class="fa fa-clock-o"></i> {{item.created | date:"yyyy-MM-dd HH:mm:ss"}} </td>
+                    <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
+                    <td nowrap> {{item.address}} </td>
+                    <td nowrap class="text-right"> {{item.confirm}} </td>
                 </tr>
                 </tbody>
-                 @__empty_table_indicator("transfers")  
-            </table>
+                </table>
+                <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
-
-            <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
     </div>
 </div>
@@ -115,6 +118,6 @@
 @__footer()
 </div> <!-- page-wrapper -->
 @__tail_commons()
-@__js("/javascripts/user.js")
+@__js("/js/user.js")
 </body>
 </html>
