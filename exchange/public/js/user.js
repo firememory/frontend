@@ -16,12 +16,11 @@ app.controller('UserCtrl', function($scope, $http, $window) {
     $scope.reloadTransactions = function() {
         $http.get('/api/user/' + $scope.targetUid + '/transaction', {params: {limit: $scope.transactionLimit, page: $scope.transactionPage}})
             .success(function(data, status, headers, config) {
-            $scope.transactionCount = data.data.count;
-            $scope.transactions = data.data.items;
+                $scope.transactions = data.data.items;
+                $scope.transactionCount = data.data.count;
         });
     };
 
-    $scope.reloadTransactions();
 
     $scope.transferPage = 1;
     $scope.transactionLimit = 10;
@@ -33,6 +32,19 @@ app.controller('UserCtrl', function($scope, $http, $window) {
             });
     };
 
+    $scope.orderPage = 1;
+    $scope.orderLimit = 10;
+    $scope.reloadOrders = function() {
+        $http.get('/api/all/order', {params: {limit: $scope.orderLimit, page: $scope.orderPage, uid: $scope.targetUid}})
+            .success(function(data, status, headers, config) {
+                $scope.orders = data.data.items;
+                $scope.orderCount = data.data.count;
+            });
+    };
+
+
+    $scope.reloadTransactions();
     $scope.reloadTransfers();
+    $scope.reloadOrders();
 });
 

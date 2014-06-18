@@ -230,6 +230,7 @@ user.transfer.operation=Type
 user.transfer.currency=Currency
 user.transfer.amount=Amount
 user.transactions=Transactions
+user.orders=Orders
 
 transfer.withdrawal=Withdrawal
 transfer.deposit=Deposit
