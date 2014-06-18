@@ -194,10 +194,14 @@ div.trade {
             &:hover {color: @link-hover-color;}
         }
     }
+    .nav-tabs {
+        margin-bottom: 5px;
+    }
     .tab-content {
         border-width: 0;
         border-radius: 0;
         margin-bottom: 0;
+        padding: 0;
     }
     .latest-price {
         font-size: 20px;
@@ -286,9 +290,10 @@ div.trade {
             }
 
             .alert {
-                padding: 8px;
+                padding: 10px;
+                margin-top: 20px;
                 border: none;
-                min-height: 80px;
+                min-height: 130px;
                 .num {color: @opbox-primary-color;}
                 .red {color: @brand-danger;}
             }

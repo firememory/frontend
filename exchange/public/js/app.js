@@ -78,6 +78,8 @@ coinportApp.filter('orderStatusText', function() {
             return Messages.orderStatus.cancelled;
         if(input == 5)
             return Messages.orderStatus.open;
+        if(input == 100)
+            return Messages.orderStatus.cancelling;
         return Messages.unknown + input;
     }
     return filter;

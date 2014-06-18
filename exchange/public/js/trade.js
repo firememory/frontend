@@ -18,7 +18,7 @@ function httpConfig($httpProvider) {
 tradeApp.config(routeConfig);
 tradeApp.config(httpConfig);
 
-function BidAskCtrl($scope, $http, $routeParams) {
+function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.market = $routeParams.market.toUpperCase();
     $scope.historyPeriod = 1; // 1 - minute K
     $scope.historyUpdateTime = 5000; // polling period in milliseconds
@@ -47,12 +47,15 @@ function BidAskCtrl($scope, $http, $routeParams) {
     $scope.orderStatus = -1;
 
     $scope.alert = function(operation, message) {
-        console.log(operation, message)
         $scope.showMessage[operation] = true;
         $scope.info.message[operation] = message;
         setTimeout(function() {
             $scope.showMessage[operation] = false;
         }, 3000);
+    };
+
+    $scope.toLogin = function() {
+        $window.location = '/login';
     };
 
     $scope.loadOrders = function() {
@@ -513,8 +516,9 @@ function BidAskCtrl($scope, $http, $routeParams) {
             updateBidTotal();
     }
 
-    $scope.cancelOrder = function(id) {
-        $http.get('/trade/' + $scope.market + '/order/cancel/' + id)
+    $scope.cancelOrder = function(order) {
+        order.status = 100;
+        $http.get('/trade/' + $scope.market + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     setTimeout($scope.loadOrders, 1000);

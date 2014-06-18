@@ -24,7 +24,7 @@ amount=Amount
 coinType=Coin Type
 orderBook=Order Book
 
-authenticateNotLogin=You must log in to proceed.
+authenticateNotLogin=Must login to proceed
 authenticateTimeout=Session timed out, please log in again.
 
 nav.brand=coinport
@@ -65,6 +65,7 @@ trade.buy=Buy
 trade.sell=Sell
 trade.buyShort=Buy
 trade.sellShort=Sell
+trade.detail=Detail
 trade.simple=simple
 trade.advanced=advanced
 trade.advancedTip=support for more customized orders
@@ -86,6 +87,7 @@ order.uid=User
 order.time=Time
 order.type=Type
 order.price=Price
+order.averagePrice=Average Price
 order.amount=Amount
 order.finishedAmount=Amount Executed
 order.total=Total

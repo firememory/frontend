@@ -10,20 +10,44 @@
     <div class="depth-box box table-responsive">
         <table class="table table-condensed table-hover table-borderless">
             <tbody>
-                <tr ng-repeat="item in depth.asks" ng-animate=" 'animate' " ng-click="clickDepthAsks($index)">
-                    <td class="l title sell">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</td>
-                    <td class="price">{{item.price.display}}</td>
-                    <td class="amount">{{item.amount.display}}</td>
+                <tr ng-repeat="item in depth.asks" ng-click="clickDepthAsks($index)">
+                    <td class="l title sell">
+                        <b ng-show="$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</b>
+                        <span ng-show="!$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
+                    </td>
+                    <td class="price">
+                        <b ng-show="$last" ng-bind="item.price.display"></b>
+                        <span ng-show="!$last" ng-bind="item.price.display"></span>
+                    </td>
+                    <td class="amount">
+                        <b ng-show="$last" ng-bind="item.amount.display"></b>
+                        <span ng-show="!$last" ng-bind="item.amount.display"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="100%"></td>
                 </tr>
                 <tr>
                     <td colspan="100%">
-                        <div class="latest-price text-center"><strong>{{lastPrice.display}}</strong> {{lastPrice.currency}}/{{lastPrice.item}}</div>
+                        <div class="latest-price text-center"><span ng-bind="lastPrice.display"></span> <span ng-bind="lastPrice.currency"></span></div>
                     </td>
                 </tr>
-                <tr ng-repeat="item in depth.bids" ng-animate=" 'animate' " ng-click="clickDepthBids($index)">
-                    <td class="l title buy">@(Messages("trade.buyShort")){{1+$index}}</td>
-                    <td class="price">{{item.price.display }}</td>
-                    <td class="amount">{{item.amount.display}}</td>
+                <tr>
+                    <td colspan="100%"></td>
+                </tr>
+                <tr ng-repeat="item in depth.bids" ng-click="clickDepthBids($index)">
+                    <td class="l title buy">
+                        <b ng-show="$first">@(Messages("trade.buyShort")){{1+$index}}</b>
+                        <span ng-show="!$first">@(Messages("trade.buyShort")){{1+$index}}</span>
+                    </td>
+                    <td class="price">
+                        <b ng-show="$first" ng-bind="item.price.display"></b>
+                        <span ng-show="!$first" ng-bind="item.price.display"></span>
+                    </td>
+                    <td class="amount">
+                        <b ng-show="$first" ng-bind="item.amount.display"></b>
+                        <span ng-show="!$first" ng-bind="item.amount.display"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>

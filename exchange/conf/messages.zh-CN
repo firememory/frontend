@@ -23,6 +23,9 @@ amount=数量
 coinType=币种
 orderBook=累积深度
 
+authenticateNotLogin=请先登录本网站
+authenticateTimeout=登录状态已失效，请重新登录
+
 nav.brand=币丰港
 nav.home=首页
 nav.trade=交易中心
@@ -55,10 +58,12 @@ trade.buy=买入
 trade.sell=卖出
 trade.buyShort=买
 trade.sellShort=卖
+trade.detail=详情
 trade.simple=普通模式
 trade.advanced=高级模式
 trade.advancedTip=高级模式提供更多自定义下单方式
 trade.price=价格
+order.averagePrice=平均价格
 trade.amount=数量
 trade.total=金额
 trade.cancel=撤单

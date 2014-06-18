@@ -11,7 +11,8 @@ Messages.orderStatus = {
     pending: '挂单中',
     open: '部分成交',
     finished: '全部成交',
-    cancelled: '已撤销'
+    cancelled: '已撤单',
+    cancelling: '正在撤单'
 };
 
 Messages.transfer = {

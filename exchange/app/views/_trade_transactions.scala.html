@@ -12,10 +12,10 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item">
-                <td class="l {{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
-                <td class="price">{{item.price.display}}</td>
-                <td class="amount">{{item.subjectAmount.display}}</td>
-                <td class="timestamp">{{item.timestamp | date:"HH:mm:ss"}}</td>
+                <td class="l {{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span></td>
+                <td class="price" ng-bind="item.price.display"></td>
+                <td class="amount" ng-bind="item.subjectAmount.display"></td>
+                <td class="timestamp" ng-bind="item.timestamp | date:'HH:mm:ss'"></td>
                 <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-link"></i></a></td>
             </tr>
         </tbody>

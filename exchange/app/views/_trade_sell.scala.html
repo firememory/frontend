@@ -1,15 +1,13 @@
- @()(implicit lang: Lang)
+@()(implicit session: Session, lang: Lang)
+
+@isLogin() = @{session.get("uid").isDefined}
 <div class="op-box-wrapper">
-    <div class="text-center"><h4 class="sell">@(Messages("trade.sell")) {{subject}}</h4></div>
+    <div class="text-center"><h4 class="sell">@(Messages("trade.sell")) <b><span ng-bind="subject"></span></b></h4></div>
 
     <div class="op-box box">
-        <div class="text-right" ng-show="false">
-            <input type="checkbox" checked data-toggle="switch" />
-        </div>
-
         <div class="available-fund text-center">
             <span class="link" ng-click="clickQuantity(+account[subject].available.display)">
-                @Messages("trade.availableAmount"): <kbd>{{account[subject].available.value | coin}} {{subject}}</kbd>
+                @Messages("trade.availableAmount"): <kbd ng-bind="account[subject].available.display + subject"></kbd>
             </span>
         </div>
 
@@ -88,9 +86,12 @@
                         </span>
 }
                 </div>
-                <div class="alert alert-danger" ng-show="showMessage['ask']"> {{info.message['ask']}} </div>
-
+                <div class="alert alert-danger" ng-show="showMessage['ask']"> <b>{{info.message['ask']}}</b> </div>
+                @if(isLogin()) {
                 <button class="btn btn-block btn-op btn-sell" ng-click="addAskOrder()">{{info.askButtonLabel}}</button>
+                } else {
+                <button class="btn btn-block btn-op btn-sell" ng-click="toLogin()">@Messages("authenticateNotLogin")</button>
+                }
             </form>
         </div>
     </div>

@@ -11,7 +11,8 @@ Messages.orderStatus = {
     pending: 'Pending',
     open: 'Open',
     finished: 'Finished',
-    cancelled: 'Cancelled'
+    cancelled: 'Cancelled',
+    cancelling: 'Cancelling'
 };
 
 Messages.transfer = {
