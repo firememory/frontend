@@ -75,7 +75,7 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.page = 1;
     $scope.loadTransfers = function () {
-        $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page, 'type': 0}})
+        $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: 15, page: $scope.page}})
             .success(function (data, status, headers, config) {
                 console.log('transfers', data.data);
                 $scope.transfers = data.data.items;
