@@ -40,25 +40,21 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th nowrap>@Messages("transfer.id")</th>
-                    <th nowrap>@Messages("user.coinType")</th>
                     <th nowrap>@Messages("user.transfer.operation")</th>
-                    <th nowrap>@Messages("transfer.created")</th>
-                    <th nowrap>@Messages("transfer.updated")</th>
+                    <th nowrap>@Messages("user.coinType")</th>
                     <th nowrap>@Messages("transfer.amount")</th>
                     <th nowrap>@Messages("transfer.status")</th>
+                    <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("transfer.confirm")</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
-                    <td nowrap> {{item.id}} </td>
-                    <td nowrap> {{item.amount.currency}} </td>
-                    <td nowrap> {{item.operation | transferOperationText }} </td>
-                    <td nowrap> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.amount.display}} </td>
+                    <td nowrap> <strong>{{item.operation | transferOperationText }} </strong></td>
+                    <td nowrap> <strong>{{item.amount.currency}}</strong> </td>
+                    <td nowrap> <strong>{{item.amount.display}}</strong> </td>
                     <td nowrap> <span class="badge">{{item.status | transferStatusText}}</span> </td>
+                    <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.confirm}} </td>
                 </tr>
                 </tbody>
