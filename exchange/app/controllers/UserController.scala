@@ -5,20 +5,28 @@
 
 package controllers
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.io.Source
+import java.io.File
+import java.io.FileOutputStream
+import java.util.Properties
+
 import play.api.mvc._
 import play.api.Logger
 import play.api.libs.functional.syntax._
+import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 import com.coinport.coinex.api.service._
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.data.{LoginSucceeded, LoginFailed, UserProfile}
 import ControllerHelper._
 
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
+
+  val inviteCodeFile: String = "inviteCode.txt"
+  val usedInviteCodeFile: String = "usedInviteCode.properties"
 
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -48,6 +56,46 @@ object UserController extends Controller with Json4s with AccessLogging {
         }
       } else
         Ok(result.toJson)
+    }
+  }
+
+  def verifyInviteCode(inviteCode: String, email: String) = Action {
+    implicit request =>
+    def checkInviteCode: Boolean = {
+      if (inviteCode == null) false
+      else {
+        try {
+          val isValid = Source.fromFile(inviteCodeFile).getLines.exists(_.trim.equals(inviteCode.trim))
+          val isUsed = if(new File(usedInviteCodeFile).exists) Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email)) else false
+          isValid && !isUsed
+        } catch {
+          case e: Throwable =>
+            logger.error(e.getMessage, e)
+            false
+        }
+      }
+    }
+
+    def updateUsedInviteCodeFile() = {
+      val props = new Properties()
+      props.setProperty(inviteCode, email)
+      var output: FileOutputStream = null
+      try {
+        output = new FileOutputStream(usedInviteCodeFile, true)
+        props.store(output, "used invite code.")
+      } catch {
+        case e: Throwable => logger.error(e.getMessage, e)
+      } finally {
+        output.close()
+      }
+    }
+
+    if (checkInviteCode) {
+      updateUsedInviteCodeFile()
+      Ok(views.html.register.render(email, request.session, request.acceptLanguages(0)))
+      //MainController.register(email)
+    } else {
+      Redirect(routes.MainController.inviteCode("register.inviteCodeNoMatch"))
     }
   }
 

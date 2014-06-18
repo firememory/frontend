@@ -14,6 +14,7 @@ self=自己
 password=密码
 passwordConfirm=重复密码
 forgotPassword=忘记密码了？
+resendVerifyEmail=重发验证邮件
 inputCaptcha=输入验证码
 depth=深度
 operation=操作
@@ -25,6 +26,9 @@ orderBook=累积深度
 
 authenticateNotLogin=请先登录本网站
 authenticateTimeout=登录状态已失效，请重新登录
+
+authenticateNotLogin=请先登录
+authenticateTimeout=连接超时，请重新登录
 
 nav.brand=币丰港
 nav.home=首页
@@ -42,10 +46,26 @@ index.marketStats=市场信息
 login.title=登录
 login.verifyEmailSucceeded=注册邮箱已验证，请登录
 login.resetPwdSucceeded=密码重置成功，请登录
+login.userNamePlaceHolder=注册邮箱
 login.pwdPlaceHolder=请输入密码
 login.doLogin=登录
+login.forgotPassword=忘记密码？
+
 register.title=注册信息
 register.changeCaptcha=看不清，换一张
+register.termsCheckboxTextHead=我已经阅读并同意此
+register.termsCheckboxTextLink=服务条款
+register.termsTitle=服务条款
+register.email.error.required=注册邮箱未填
+register.email.error.format=注册邮箱格式错误
+register.password.error.minlength=密码长度最少6位
+register.password.error.maxlength=密码长度最多20位
+register.password.error.confirm=密码确认不符合
+register.inviteCode=邀请码
+register.inviteCodeNoMatch=无效的邀请码
+register.invite.error.required=邀请码未填
+register.invite.error.length=邀请码长度为8位
+
 
 ticker.market=市场
 ticker.price=最新成交价
@@ -62,10 +82,12 @@ trade.detail=详情
 trade.simple=普通模式
 trade.advanced=高级模式
 trade.advancedTip=高级模式提供更多自定义下单方式
+trade.position=Position
 trade.price=价格
 order.averagePrice=平均价格
 trade.amount=数量
 trade.total=金额
+trade.limit=Limit
 trade.cancel=撤单
 trade.availableAmount=可用数量
 trade.availableCurrency=可用资金
@@ -109,6 +131,9 @@ prompt.verifyEmailSent=验证邮件已发送到您的注册邮箱，请登录邮
 prompt.resetPwdEmailSent=密码重置邮件已发送到您的注册邮箱，请登录邮箱点击链接进行密码重置
 prompt.resetPwdFailed=密码重置链接已过期
 prompt.doResetPwdFailed=密码重置失败
+prompt.resendVerifyEmailSucceedded=验证邮件已发送到您的注册邮箱，请登录邮箱点击链接完成注册。
+prompt.resendVerifyEmailFailed=注册验证失败！
+
 
 forgetpwd.title=密码重置
 forgetpwd.email=Email
@@ -215,6 +240,7 @@ user.Transfer=充值提现记录
 user.transfer.id=充值提现ID
 user.transfer.timestamp=时间
 user.transfer.operation=操作
+user.transfer.currency=币种
 user.transfer.amount=数量
 user.transactions=成交
 user.orders=订单

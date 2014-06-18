@@ -76,9 +76,14 @@ object MainController extends Controller with Json4s {
       Ok(views.html.login.render(msg, request.session, request.acceptLanguages(0))).withNewSession
   }
 
-  def register = Action {
+  def register(email: String = "") = Action {
     implicit request =>
-      Ok(views.html.register.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.register.render(email, request.session, request.acceptLanguages(0)))
+  }
+
+  def inviteCode(msg: String = "") = Action {
+    implicit request =>
+      Ok(views.html.inviteCode.render(msg, request.session, request.acceptLanguages(0)))
   }
 
   def open = Action {

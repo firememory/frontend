@@ -1,4 +1,4 @@
-@()(implicit session: Session, lang: Lang)
+@(email: String = "")(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
 <html lang="@(lang.code)">
@@ -23,7 +23,7 @@
     <div class="register-form">
         <form id="register-form" class="form" name="registerForm" novalidate>
             <div class="form-group">
-                <input type="email" id="inputEmail" name="email" class="form-control register-field" placeholder="Email" ng-model="register.email" required="">
+                <input type="email" id="inputEmail" name="email" class="form-control register-field" placeholder="Email" ng-model="register.email" ng-init="register.email=@email" required="">
                 <label class="register-field-icon fui-user" for="inputEmail"></label>
             </div>
 
@@ -49,15 +49,15 @@
 
             <div class="error-container">
                 <div class="error" name="emailErrorMsg" ng-show="registerForm.email.$dirty && registerForm.email.$invalid && !registerForm.email.$focused">
-                    <small class="text-danger text-center" ng-show="registerForm.email.$error.required">email required </small>
-                    <small class="text-danger text-center" ng-show="!registerForm.email.$error.required && registerForm.email.$dirty && registerForm.email.$invalid">email format invalid! </small>
+                    <small class="text-danger text-center" ng-show="registerForm.email.$error.required">@Messages("register.email.error.required") </small>
+                    <small class="text-danger text-center" ng-show="!registerForm.email.$error.required && registerForm.email.$dirty && registerForm.email.$invalid">@Messages("register.email.error.format")</small>
                 </div>
                 <div class="error" name="pwdErrorMsg" ng-show="registerForm.password.$dirty && registerForm.password.$invalid && !registerForm.password.$focused">
-                    <small class="text-danger text-center" ng-show="registerForm.password.$error.minlength">password is required to be at least 6 characters </small>
-                    <small class="text-danger text-center" ng-show="registerForm.password.$error.maxlength">password cannot be longer than 20 characters</small>
+                    <small class="text-danger text-center" ng-show="registerForm.password.$error.minlength">@Messages("register.password.error.minlength")</small>
+                    <small class="text-danger text-center" ng-show="registerForm.password.$error.maxlength">@Messages("register.password.error.maxlength")</small>
                 </div>
                 <div class="error" name="confirmpwdErrorMsg" ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && !registerForm.confirmPassword.$focused">
-                    <small class="text-danger text-center">confirm password not match password </small>
+                    <small class="text-danger text-center">@Messages("register.password.error.confirm")</small>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
 @__footer(showNumOfUsers = false)
 </div> <!-- page-wrapper -->
 @__tail_commons()
-@__js("/javascripts/register.js")
+@__js("/js/register.js")
 @__tracking_js()
 </body>
 </html>

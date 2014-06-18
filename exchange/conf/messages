@@ -48,11 +48,21 @@ login.userNamePlaceHolder=Enter your name
 login.pwdPlaceHolder=Password
 login.doLogin=Log in
 login.forgotPassword=Lost your password?
+
 register.title=Sign Up
 register.changeCaptcha=Try a different image
 register.termsCheckboxTextHead=I have read and agree to the                          
 register.termsCheckboxTextLink=terms of service
 register.termsTitle=Terms of service
+register.email.error.required=email required 
+register.email.error.format=email format invalid! 
+register.password.error.minlength=password is required to be at least 6 characters 
+register.password.error.maxlength=password cannot be longer than 20 characters
+register.password.error.confirm=confirm password not match password 
+register.inviteCode=Invite code
+register.inviteCodeNoMatch=sorry, your invite code is invalid
+register.invite.error.required=invite code required 
+register.invite.error.length=invite code length must be 8 
 
 ticker.market=Market
 ticker.price=Price
