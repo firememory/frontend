@@ -214,6 +214,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     logger.info(s"reset password email: $email")
     UserService.requestPasswordReset(email) map {
       result =>
+      logger.info(s"result: $result")
       if (result.success) {
         Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
       } else {
