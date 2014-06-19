@@ -329,12 +329,12 @@ app.controller('AssetCtrl', function ($scope, $http) {
         });
 
     var drawPieChart = function (data) {
-        var DURATION = 1500;
-        var DELAY = 500;
+        var DURATION = 800;
+        var DELAY = 200;
 
         var containerEl = document.getElementById('user-finance-chart-pie'),
             width = containerEl.clientWidth,
-            height = width * 0.8,
+            height = width * 0.9,
             radius = Math.min(width, height) / 2,
             container = d3.select(containerEl),
             svg = container.select('svg')
@@ -362,7 +362,10 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
+            .range(["#aad", "#556"]);
+//            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
+
+        $scope.color = color;
 
         var pieChartPieces = pie.datum(data)
             .selectAll('path')
@@ -423,13 +426,14 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 anchor,
                 infoContainer,
                 position;
-
+            var x = width - infoWidth;
+            var y = bBox.height + bBox.y;
             if (( bBox.x + bBox.width / 2 ) > 0) {
                 infoContainer = detailedInfo.append('g')
                     .attr('width', infoWidth)
                     .attr(
                         'transform',
-                        'translate(' + ( width - infoWidth ) + ',' + ( bBox.height + bBox.y ) + ')'
+                        'translate(' + x + ',' + y + ')'
                     );
                 anchor = 'end';
                 position = 'right';
@@ -438,7 +442,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
                     .attr('width', infoWidth)
                     .attr(
                         'transform',
-                        'translate(' + 0 + ',' + ( bBox.height + bBox.y ) + ')'
+                        'translate(' + 0 + ',' + y + ')'
                     );
                 anchor = 'start';
                 position = 'left';
@@ -449,7 +453,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 .text('0 %')
                 .attr('class', 'pieChart--detail--percentage')
                 .attr('x', ( position === 'left' ? 0 : infoWidth ))
-                .attr('y', -10)
+                .attr('y', 20)
                 .attr('text-anchor', anchor)
                 .transition()
                 .duration(DURATION)
@@ -468,8 +472,8 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 .attr('class', 'pieChart--detail--divider')
                 .attr('x1', 0)
                 .attr('x2', 0)
-                .attr('y1', 0)
-                .attr('y2', 0)
+                .attr('y1', 30)
+                .attr('y2', 30)
                 .transition()
                 .duration(DURATION)
                 .attr('x2', infoWidth);
@@ -478,6 +482,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 .append('foreignObject')
                 .attr('width', infoWidth)
                 .attr('height', 24)
+                .attr('y', 30)
                 .append('xhtml:body')
                 .attr(
                     'class',
@@ -493,7 +498,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
             var layer = [];//{name: key, values: []};
             var x = 0;
             assets.forEach(function (d) {
-                layer.push({x: d.timestamp, y: d.amountMap[key].value_int});
+                layer.push({x: d.timestamp, y: d.amountMap[key].value});
             });
             data.push(layer);
         }
@@ -526,7 +531,8 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
+            .range(["#aad", "#556"]);
+//            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -540,7 +546,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .tickFormat(d3.format(".2s"));
+            .tickFormat(d3.format(".1s"));
 
         var svg = d3.select("#user-finance-chart-history")
             .attr("width", width + margin.left + margin.right)
@@ -660,7 +666,6 @@ app.controller('AssetCtrl', function ($scope, $http) {
                     var account = $scope.accounts[currency];
                     account.asset = amountMap[currency].display;
                     account.price = priceMap[currency].display;
-                    console.log('account', account);
                 }
 
             });

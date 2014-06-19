@@ -277,5 +277,5 @@ asset.btcDeposit=BTC Deposit
 asset.cnyWithdrawal=CNY Withdrawal
 asset.btcWithdrawal=BTC Withdrawal
 asset.accountSettings=Settings
-asset.trend=Net Asset Value Trend (by Day)
+asset.trend=Daily Net Change
 asset.pie=Asset Composition
