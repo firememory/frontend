@@ -6,6 +6,7 @@
 }
 
 @isLogin() = @{session.get("uid").isDefined}
+@username = @{session.get("username").getOrElse("")}
 
 @menu(route: String, link: String, title: String, noLoginNeeded: Boolean = true, hide: Boolean = false) = {
     @if(noLoginNeeded || session.get("uid").isDefined) {
@@ -22,13 +23,20 @@
                     <a class="brand" href="/"><img src="/image/logo.png" width="50" height="50" alt="">@Messages("nav.brand")<sup>private-beta</sup></a>
                 </div>
                 <div class="collapse navbar-collapse pull-right">
+                    @if(isLogin()) {
+                    <ul class="nav pull-left">
+                        <li><a href="/account" class="log-out-in"><i class="fa fa-user"></i> @username</a></li>
+                        <li><a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    }
                     <ul class="nav pull-left">
                         @menu("trade", "/trade", Messages("nav.trade"))
                         @menu("account", "/account", Messages("nav.account"), false)
                         @menu("openness", "/open#/reserve", Messages("nav.open"))
-                    @if(isLogin()) {
-                        <li> <a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a> </li>
-                    }
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     }
