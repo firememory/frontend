@@ -22,7 +22,7 @@
                     @for(coin <- coins) {
                     <tr ng-init="getCurrencyDetails('@coin')">
                         <td nowrap><strong>@coin</strong></td>
-                        <td nowrap><span class="label label-{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                        <td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
                         <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>

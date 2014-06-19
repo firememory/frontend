@@ -46,7 +46,9 @@
                             <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
                             <td nowrap class="text-right" ng-bind="accounts['@coin'].total.display">@Messages("loading")</td>
                             <td nowrap class="text-right" ng-bind="reserveAmount.display">@Messages("loading")</td>
-                            <td nowrap><span class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}" ng-bind="(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2) + '%'"></span></td>
+                            <td nowrap>
+                                <span ng-show="reserveAmount" class="{{reserveAmount.value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}" ng-bind="(reserveAmount.value * 100 / accounts['@coin'].total.value || 0).toFixed(2) + '%'"></span>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

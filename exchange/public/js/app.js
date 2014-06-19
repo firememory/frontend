@@ -154,10 +154,10 @@ coinportApp.filter('dwIcon', function() {
 coinportApp.filter('networkStatusClass', function() {
     return function(input) {
         if (+input < 30 * 60 * 1000)
-            return 'success';
+            return 'label label-success';
         if (+input < 60 * 60 * 1000)
-            return 'warning';
-        return 'danger';
+            return 'label label-warning';
+        return 'label label-danger';
     }
 });
 
@@ -181,6 +181,7 @@ coinportApp.filter('networkDelay', function() {
 
 coinportApp.filter('reserveRatioClass', function() {
     return function(input) {
+        if (input <= 0) return 'label label-default';
         if (input >= 1.0) return 'label label-success';
         if (input > 0.9) return 'label label-warning';
         return 'label label-danger';

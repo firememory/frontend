@@ -30,7 +30,7 @@
                             <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>
                             <td>{{status['@coin'].height}}</td>
                             <td><a target="_blank" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")</a></td>
-                            <td><span class="label label-{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                            <td><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
                         </tr>
                         }
                         </tbody>
