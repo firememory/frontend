@@ -1,2 +1,7 @@
 @()(implicit lang: Lang)
-<script type="text/javascript" src="/javascripts/messages.@(lang.code).js"></script>
+
+@if(lang.code == "zh-CN") {
+    <script type="text/javascript" src="/javascripts/messages.@(lang.code).js"></script>
+} else {
+    <script type="text/javascript" src="/javascripts/messages.js"></script>
+}
