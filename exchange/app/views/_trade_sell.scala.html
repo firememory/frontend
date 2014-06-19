@@ -5,12 +5,13 @@
     <div class="text-center"><h4 class="sell">@(Messages("trade.sell")) <b><span ng-bind="subject"></span></b></h4></div>
 
     <div class="op-box box">
+        @if(isLogin()) {
         <div class="available-fund text-center">
             <span class="link" ng-click="clickQuantity(+account[subject].available.display)">
                 @Messages("trade.availableAmount"): <kbd ng-bind="account[subject].available.display + subject"></kbd>
             </span>
         </div>
-
+        }
         <div class="box-inner sell">
             <form name="askForm" class="form-horizontal op-form" role="form">
 
