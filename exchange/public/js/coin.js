@@ -26,7 +26,7 @@ app.controller('CoinWalletCtrl', function ($scope, $http, $window) {
 
     $http.get('/api/open/reserve/' + $scope.coin )
         .success(function(data, status, headers, config) {
-            $scope.reserveAmount = data.data.amount;
+            $scope.reserveAmount = data.data.available;
             console.log('reserveAmount', $scope.reserveAmount.display);
         });
 
