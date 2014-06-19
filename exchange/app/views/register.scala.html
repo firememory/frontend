@@ -23,7 +23,8 @@
     <div class="register-form">
         <form id="register-form" class="form" name="registerForm" novalidate>
             <div class="form-group">
-                <input type="email" id="inputEmail" name="email" class="form-control register-field" placeholder="Email" ng-model="register.email" ng-init="register.email=@email" required="">
+                @println(s"email: $email")
+                <input type="email" id="inputEmail" name="email" class="form-control register-field" placeholder="Email" ng-model="register.email" ng-init="register.email='@email'" required="">
                 <label class="register-field-icon fui-user" for="inputEmail"></label>
             </div>
 
@@ -57,7 +58,7 @@
                     <small class="text-danger text-center" ng-show="registerForm.password.$error.maxlength">@Messages("register.password.error.maxlength")</small>
                 </div>
                 <div class="error" name="confirmpwdErrorMsg" ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && !registerForm.confirmPassword.$focused">
-                    <small class="text-danger text-center">@Messages("register.password.error.confirm")</small>
+                    <small class="text-danger text-center" ng-show="registerForm.confirmPassword.$error.repeat">@Messages("register.password.error.confirm")</small>
                 </div>
             </div>
 

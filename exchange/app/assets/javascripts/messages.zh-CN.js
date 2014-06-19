@@ -66,6 +66,30 @@ Messages.connectivity = {
   status: {normal: '正常', delayed: '延迟', blocked: '无法连通'}
 };
 
-var ErrorMessage = {
-  9002: '验证码错误'
+Messages.ErrorMessages = {
+    m1001: '额..., 此邮箱已被注册.',
+    m1002: '缺少信息',
+    m1003: '额..., 系统中查无此用户',
+    m1004: '密码错误.',
+    m1005: '验证失败',
+    m1006: '此账号尚未激活，请先检查你的注册邮箱激活账号.',
+
+    m9002: '验证码不匹配',
+    m9003: 'email 格式不正确.',
+    m9004: '密码格式不正确.',
+    m9005: '短信校验码不匹配',
+    m9006: '对不起，请先在账号－设置中绑定手机号.',
+    m9008: '对不起，注册邮箱与邀请页面填写的邮箱不一致.'
+};
+
+Messages.getMessage = function(code, msg) {
+    var key = "m" + code;
+    if (key in Messages.ErrorMessages) {
+        return Messages.ErrorMessages[key];
+    } else {
+        if (msg !== undefined && msg.trim().length > 0)
+            return msg;
+        else
+            return " 服务端错误. 错误码=" + code;
+    }
 };

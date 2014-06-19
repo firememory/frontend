@@ -2,6 +2,8 @@ package controllers
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import java.util.Properties
+import java.io.FileInputStream
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 import play.api.mvc._
@@ -57,6 +59,7 @@ object ControllerHelper {
   val emptyParamError = ApiResult(false, ErrorCode.ParamEmpty.value, "param can not emppty", None)
   val emailFormatError = ApiResult(false, ErrorCode.InvalidEmailFormat.value, "email format error", None)
   val passwordFormatError = ApiResult(false, ErrorCode.InvalidPasswordFormat.value, "password format error", None)
+  val inviteCodeError = ApiResult(false, ErrorCode.EmailNotBindWithInviteCode.value, "invalid invite code", None)
 
   class StringNonemptyValidator(stringParams: String*) extends GeneralValidator[String](stringParams: _*) {
     val result = emptyParamError
@@ -72,6 +75,26 @@ object ControllerHelper {
   class PasswordFormetValidator(passwords: String*) extends GeneralValidator[String](passwords: _*) {
     val result = passwordFormatError
     def isValid(param: String) = param.trim.length > 8
+  }
+
+  class EmailWithInviteCodeValidator(emails: String*) extends GeneralValidator[String](emails: _*) {
+    val result = inviteCodeError
+    def isValid(param: String): Boolean = {
+      val props = new Properties()
+      var input: FileInputStream = null
+      try {
+        input = new FileInputStream(UserController.usedInviteCodeFile)
+        props.load(input)
+        logger.info(s"email: $param, all emails: ${props.values}")
+        props.values.contains(param)
+      } catch {
+        case e: Exception =>
+          logger.error(e.getMessage, e)
+          false
+      } finally {
+        input.close()
+      }
+    }
   }
 
   def validateParamsAndThen(validators: Validator*)(f: => Future[ApiResult]): Future[ApiResult] =

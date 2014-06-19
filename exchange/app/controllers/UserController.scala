@@ -66,7 +66,10 @@ object UserController extends Controller with Json4s with AccessLogging {
       else {
         try {
           val isValid = Source.fromFile(inviteCodeFile).getLines.exists(_.trim.equals(inviteCode.trim))
-          val isUsed = if(new File(usedInviteCodeFile).exists) Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email)) else false
+          val isUsed = if(new File(usedInviteCodeFile).exists)
+            Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email))
+          else false
+
           isValid && !isUsed
         } catch {
           case e: Throwable =>
@@ -108,9 +111,11 @@ object UserController extends Controller with Json4s with AccessLogging {
     val password = getParam(data, "password").getOrElse("")
     val nationalId = getParam(data, "nationalId")
     val realName = getParam(data, "realName")
+    println(s"do register")
     validateParamsAndThen(
       new StringNonemptyValidator(uuid, text, email, password),
       new EmailFormatValidator(email),
+      new EmailWithInviteCodeValidator(email),
       new PasswordFormetValidator(password)
     ) {
       if(!CaptchaController.validate(uuid, text))

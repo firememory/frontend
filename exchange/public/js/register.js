@@ -32,14 +32,16 @@ app.controller('RegisterCtrl', function ($scope, $http, $window) {
                         nationalId: $scope.register.nationalId,
                         realName: $scope.register.realName}))
       .success(function(data, status, headers, config) {
+        console.log("data:", data)
         if (data.success) {
-          $scope.$parent.registerErrorMessage = Messages.account.registerSucceeded;
-          $scope.$parent.showRegisterError = true;
+          $scope.showError = false
           $window.location.href = '/prompt/prompt.verifyEmailSent';
         } else {
-          $scope.$parent.registerErrorMessage = data.message;
-          $scope.$parent.showRegisterError = true;
           $scope.newCaptcha();
+          $scope.register.password = ''
+          $scope.register.confirmPassword = ''
+          $scope.errorMessage = Messages.getMessage(data.code, data.message)
+          $scope.showError = true
         }
       });
   };
@@ -48,12 +50,5 @@ app.controller('RegisterCtrl', function ($scope, $http, $window) {
 
 app.controller('RegisterInviteCodeCtrl', function ($scope, $http, $window) {
     $scope.register = {};
-
-    // $scope.verifyInviteCode = function() {
-    //     $http.post('/account/verifyInviteCode', $.param($scope.register)
-    //         .success(function(data, status, headers, config) {
-
-    //         });
-    // };
 
 });
