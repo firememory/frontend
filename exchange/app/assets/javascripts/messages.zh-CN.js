@@ -53,7 +53,9 @@ Messages.trade = {
    inputAmount: '请输入正确的数量，暂不支持市场单功能',
    inputPrice: '请输入正确的价格，暂不支持市场单功能',
    inputTotal: '订单总金额未达到最低限制，请提高挂单价格或增加挂单数量',
-   submit: '正在提交订单'
+   submit: '正在提交订单',
+   submitted: '下单成功',
+   error: '下单失败'
 };
 
 Messages.account = {

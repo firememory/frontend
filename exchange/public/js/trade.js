@@ -330,7 +330,10 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         if($scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = +(+$scope.bid.price * +$scope.bid.amount).toFixed(6);
-        $scope.bid.total = total;
+        var available = 0;
+        if ($scope.account[$scope.currency])
+            available = +$scope.account[$scope.currency].available.display;
+        $scope.bid.total = Math.min(total, available);
     };
 
     var updateBidAmount = function() {
@@ -406,7 +409,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
-                $scope.alert('bid', 'order submitted');
+                $scope.alert('bid', Messages.trade.submitted);
                 setTimeout($scope.loadOrders, 1000);
                 setTimeout($scope.updateAccount, 1000);
                 // clear amount
@@ -414,13 +417,13 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                 $scope.bid.total = 0;
             } else {
                 // handle errors
-                $scope.alert('bid', 'order submission failed');
+                $scope.alert('bid', Messages.trade.error);
             }
         }).error(function(data, status, headers, config) {
             if (status == 401) {
                 $scope.alert('bid', 'please LOGIN first');
             } else {
-                $scope.alert('bid', 'internal error occurs');
+                $scope.alert('bid', Messages.trade.error);
             }
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
         });
@@ -456,20 +459,20 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
-                $scope.alert('ask', 'order submitted');
+                $scope.alert('ask', Messages.trade.submitted);
                 setTimeout($scope.loadOrders, 1000);
                 setTimeout($scope.updateAccount, 1000);
                 // clear amount
                 $scope.ask.amount = 0;
                 $scope.ask.total = 0;
             } else {
-                $scope.alert('ask', 'order submission failed');
+                $scope.alert('ask', Messages.trade.error);
             }
         }).error(function(data, status, headers, config) {
             if (status == 401) {
                 $scope.alert('ask', 'please LOGIN first');
             } else {
-                $scope.alert('ask', 'internal error occurs');
+                $scope.alert('ask', Messages.trade.error);
             }
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;
         });

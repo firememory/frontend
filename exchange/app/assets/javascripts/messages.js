@@ -53,7 +53,9 @@ Messages.trade = {
     inputAmount: 'Illegal amount, Market Order is not supported yet',
     inputPrice: 'Illegal price, Market Order is not supported yet',
     inputTotal: 'Illegal total, please increase price or amount',
-    submit: 'Order submitting'
+    submit: 'Order submitting',
+    submitted: 'Order submitted',
+    error: 'Fail to submit order'
 };
 
 Messages.account = {
