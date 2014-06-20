@@ -50,9 +50,9 @@ Messages.asset = {
 Messages.trade = {
    lowerZero: '数量需要大于0',
    noEnough: '账户余额不足',
-   inputAmount: '请输入数据',
-   inputPrice: '请输入价格',
-   inputTotal: '请输入金额',
+   inputAmount: '请输入正确的数量，暂不支持市场单功能',
+   inputPrice: '请输入正确的价格，暂不支持市场单功能',
+   inputTotal: '订单总金额未达到最低限制，请提高挂单价格或增加挂单数量',
    submit: '正在提交订单'
 };
 

@@ -121,15 +121,19 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         $scope.updateTransactions();
     };
 
+    $scope.updateAccount = function() {
+        $http.get('/api/account/' + $scope.uid)
+            .success(function(data, status, headers, config) {
+                console.log(data.data.accounts);
+                $scope.account = data.data.accounts;
+        });
+    };
+
     $scope.loadOrders();
     $scope.updateDepth();
     $scope.updateTransactions();
     $scope.updateBestPrice();
-
-    $http.get('/api/account/' + $scope.uid)
-        .success(function(data, status, headers, config) {
-            $scope.account = data.data.accounts;
-    });
+    $scope.updateAccount();
 
     $scope.updateHistory = function() {
          $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})
@@ -369,15 +373,15 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     }
 
     $scope.addBidOrder = function() {
-        if($scope.bid.amount < 0) {
-            $scope.alert('bid', Messages.trade.lowerZero);
+        if($scope.bid.amount <= 0) {
+            $scope.alert('bid', Messages.trade.inputAmount);
             return;
         }
-        if ($scope.bid.total > $scope.account[$scope.currency]) {
+        if ($scope.bid.total > $scope.account[$scope.currency].available.value) {
             $scope.alert('bid', Messages.trade.noEnough);
             return;
         }
-        if (+$scope.bid.price < 0) {
+        if (+$scope.bid.price <= 0) {
             $scope.alert('bid', Messages.trade.inputPrice);
             return;
         }
@@ -401,17 +405,17 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
-                $scope.account[$scope.currency].available.value -= order.total.value;
                 $scope.orders.push(order);
                 $scope.alert('bid', 'order submitted');
                 setTimeout($scope.loadOrders, 1000);
+                setTimeout($scope.updateAccount, 1000);
+                // clear amount
+                $scope.bid.amount = 0;
+                $scope.bid.total = 0;
             } else {
                 // handle errors
                 $scope.alert('bid', 'order submission failed');
             }
-            // clear amount
-            $scope.bid.amount = 0;
-            $scope.bid.total = 0;
         }).error(function(data, status, headers, config) {
             if (status == 401) {
                 $scope.alert('bid', 'please LOGIN first');
@@ -423,19 +427,15 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     };
 
     $scope.addAskOrder = function() {
-        if (! $scope.account[$scope.subject]) {
-            $scope.alert('ask', Messages.trade.noEnough);
-            return;
-        }
-        if($scope.ask.amount < 0) {
-            $scope.alert('ask', Messages.trade.lowerZero);
+        if($scope.ask.amount <= 0) {
+            $scope.alert('ask', Messages.trade.inputAmount);
             return;
         }
         if ($scope.ask.amount > $scope.account[$scope.subject].available.value) {
             $scope.alert('ask', Messages.trade.noEnough);
             return;
         }
-        if ($scope.askOptions.limitPrice && $scope.ask.price < 0) {
+        if ($scope.ask.price <= 0) {
             $scope.alert('ask', Messages.trade.inputPrice);
             return;
         }
@@ -456,16 +456,15 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             if (data.success) {
                 var order = data.data;
                 $scope.orders.push(order);
-                $scope.account[$scope.subject].available.value -= order.amount.value;
                 $scope.alert('ask', 'order submitted');
                 setTimeout($scope.loadOrders, 1000);
+                setTimeout($scope.updateAccount, 1000);
+                // clear amount
+                $scope.ask.amount = 0;
+                $scope.ask.total = 0;
             } else {
                 $scope.alert('ask', 'order submission failed');
             }
-
-            // clear amount
-            $scope.ask.amount = 0;
-            $scope.ask.total = 0;
         }).error(function(data, status, headers, config) {
             if (status == 401) {
                 $scope.alert('ask', 'please LOGIN first');
@@ -498,7 +497,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         }
         var price = data[index].price;
         $scope.ask.price = price.display;
-        $scope.ask.amount = amount;
+        $scope.ask.amount = Math.min(amount, +$scope.account[$scope.subject].available.display);
         updateAskTotal();
     }
 
@@ -522,6 +521,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     setTimeout($scope.loadOrders, 1000);
+                    setTimeout($scope.updateAccount, 1000);
                 }
             });
     };
@@ -531,15 +531,59 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         $scope.refresh();
     });
 
-    $scope.$watch('bid.price', updateBidTotal);
-    $scope.$watch('bid.amount', updateBidTotal);
-    $scope.$watch('ask.price', updateAskTotal);
-    $scope.$watch('ask.amount', updateAskTotal);
+    var watchBidPrice = function(newValue, oldValue) {
+        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
+        var value = (+newValue).toFixed(fixed);
+        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+            $scope.bid.price = oldValue;
+            return;
+        }
+
+        updateBidTotal();
+    };
+
+    var watchAskPrice = function(newValue, oldValue) {
+        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
+        var value = (+newValue).toFixed(fixed);
+        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+            $scope.ask.price = oldValue;
+            return;
+        }
+
+        updateAskTotal();
+    };
+
+    var watchBidAmount = function(newValue, oldValue) {
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = (+newValue).toFixed(fixed);
+        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+            $scope.bid.amount = oldValue;
+            return;
+        }
+
+        updateBidTotal();
+    };
+
+    var watchAskAmount = function(newValue, oldValue) {
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = (+newValue).toFixed(fixed);
+        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+            $scope.ask.amount = oldValue;
+            return;
+        }
+
+        updateAskTotal();
+    };
+
+    $scope.$watch('bid.price', watchBidPrice);
+    $scope.$watch('bid.amount', watchBidAmount);
+    $scope.$watch('ask.price', watchAskPrice);
+    $scope.$watch('ask.amount', watchAskAmount);
 
     $('#bid_total').keyup(updateBidAmount);
     $('#ask_total').keyup(updateAskAmount);
 };
 
-setTimeout(function() {
-    $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
-}, 200);
+//setTimeout(function() {
+//    $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+//}, 200);
