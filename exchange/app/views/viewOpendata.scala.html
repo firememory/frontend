@@ -4,7 +4,7 @@
     <div>
         <div class="container">
             <tabset>
-                <tab heading='@Messages("open.Download")' style="cursor: pointer;" >
+                <tab heading='@Messages("open.Download")' style="cursor: pointer;" ng-controller="DownCtrl">
                 <div class="row">
                 <div class="col-md-12">
                     <h3>@Messages("open.eventData")</h3>
@@ -26,7 +26,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination boundary-links="true" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" items-per-page="messagesLimit" total-items="messages.count" ng-model="messagesPage" class="pagination-sm" ng-change="loadMessages()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
                 </div>
                 <div class="row">
@@ -50,7 +50,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <pagination boundary-links="true" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                        <pagination boundary-links="true" items-per-page="snapshotsLimit" total-items="snapshots.count" ng-model="snapshotsPage" class="pagination-sm" ng-change="loadSnapshots()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                     </div>
                 </div>
                 </tab>
