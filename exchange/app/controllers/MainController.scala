@@ -13,6 +13,7 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import utils.HdfsAccess
 import com.coinport.coinex.api.service.NotificationService
 import models.PagingWrapper
+import com.coinport.coinex.data.Language
 
 object MainController extends Controller with Json4s {
   def backdoor = Action {
@@ -139,7 +140,11 @@ object MainController extends Controller with Json4s {
 
   def getNotifications() = Action.async {
     implicit  request =>
-      NotificationService.getNotifications() map {
+      val lang: Language =
+        if (request.acceptLanguages(0).language.contains("en")) Language.English
+        else Language.Chinese
+
+      NotificationService.getNotifications(lang) map {
         case result =>
         Ok(result.toJson)
       }
