@@ -77,7 +77,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination boundary-links="true" total-items="orderCount" ng-model="orderPage" class="pagination-sm" ng-change="reloadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pagination boundary-links="true" max-size="5" total-items="orderCount" ng-model="orderPage" class="pagination-sm" ng-change="reloadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@
                  @__empty_table_indicator("transactions")  
             </table>
             </div>
-            <pagination boundary-links="true" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            <pagination boundary-links="true" max-size="5" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
         </div>
 
@@ -156,7 +156,7 @@
                 </tr>
                 </tbody>
                 </table>
-                <pagination boundary-links="true" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pagination boundary-links="true" max-size="5" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
             </div>
         </div>

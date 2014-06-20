@@ -86,7 +86,7 @@
                     @__empty_table_indicator("transfers")
                 </table>
 
-                <pagination boundary-links="true" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
         </div>
     </tab>
