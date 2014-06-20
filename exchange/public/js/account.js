@@ -714,11 +714,13 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
         $location.path('/order');
     };
 
-    $scope.cancelOrder = function (order) {
-        var market = order.subject + order.currency;
-        $http.get('/trade/' + market + '/order/cancel/' + order.id)
-            .success(function (data, status, headers, config) {
-
+    $scope.cancelOrder = function(order) {
+        order.status = 100;
+        $http.get('/trade/' + order.subject + order.currency + '/order/cancel/' + order.id)
+            .success(function(data, status, headers, config) {
+                if (data.success) {
+                    setTimeout($scope.reload, 1000);
+                }
             });
     };
 

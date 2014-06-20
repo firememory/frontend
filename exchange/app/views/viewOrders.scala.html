@@ -24,6 +24,7 @@
                         <th nowrap class="text-right">@(Messages("order.total"))</th>
                         <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
                         <th nowrap>@(Messages("order.status"))</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,9 @@
                         <td nowrap class="text-right"> {{order.total.display}} {{order.currency}} </td>
                         <td nowrap class="text-right"> {{order.finishedAmount.display}} {{order.currency}} </td>
                         <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                        <td nowrap>
+                            <a class="badge text-white bg-danger" ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
+                        </td>
                     </tr>
                 </tbody>
                 @__empty_table_indicator("orders.items")    
