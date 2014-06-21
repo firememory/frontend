@@ -263,6 +263,7 @@ transfer.cancelWithdrawal=Cancel Withdrawal
 transfer.depositRecord=Deposit Records
 transfer.withdrawalRecord=Withdrawal Records
 transfer.transferRecord=Deposit/Withdrawal Records
+transfer.withdrawalHint=You have to pay 0.0001 to network to make sure withdrawal processed
 
 asset.category=Category
 asset.available=Available

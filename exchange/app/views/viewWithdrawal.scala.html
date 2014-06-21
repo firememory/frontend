@@ -2,17 +2,20 @@
 @import utils.Constant._
 
 <div class="row">
-    <h4>@Messages("transfer.withdrawal")
+    <h5>@Messages("transfer.withdrawal")
         <select ng-model="currency" ng-change="changeCurrency()">
             @for(coin <- coins) {
             <option>@coin</option>
             }
         </select>
-    </h4>
-    <h5>@Messages("transfer.account"): {{balance.available.display}} {{currency}}</h5>
+    </h5>
+    <alert>@Messages("transfer.account"): {{balance.available.display}} {{currency}} <br /> (@Messages("transfer.withdrawalHint"))</alert>
 </div>
 <div class="row">
     <form class="form-horizontal" name="withdrawalForm">
+        <div class="form-group">
+            <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAddress"))</label>
+        </div>
         <div class="form-group">
             <label class="control-label col-sm-3">{{currency}} @(Messages("transfer.withdrawalAmount"))</label>
             <div class="col-sm-6">
@@ -40,10 +43,9 @@
         <div style="height: 20px;">
             <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
         </div>
-
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-6">
-                <button class="btn btn-block btn-success" ng-click="withdrawal()"><i class="glyphicon glyphicon-ok"></i> Withdrawal</button>
+                <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount <= 0.01"><i class="glyphicon glyphicon-ok"></i> Withdrawal</button>
             </div>
         </div>
     </form>
