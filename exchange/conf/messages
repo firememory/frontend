@@ -24,7 +24,7 @@ amount=Amount
 coinType=Coin Type
 orderBook=Order Book
 
-authenticateNotLogin=Must login to proceed
+authenticateNotLogin=Login Required
 authenticateTimeout=Session timed out, please log in again.
 
 nav.brand=coinport
@@ -44,7 +44,7 @@ index.marketStats=Market Stats
 login.title=Log in
 login.verifyEmailSucceeded=email verify succeeded, please login
 login.resetPwdSucceeded=reset password succeeded, please login
-login.userNamePlaceHolder=Enter your name
+login.userNamePlaceHolder=Register Email
 login.pwdPlaceHolder=Password
 login.doLogin=Log in
 login.forgotPassword=Lost your password?
@@ -59,10 +59,10 @@ register.email.error.format=email format invalid!
 register.password.error.minlength=password is required to be at least 6 characters 
 register.password.error.maxlength=password cannot be longer than 20 characters
 register.password.error.confirm=confirm password not match password 
-register.inviteCode=Invite code
-register.inviteCodeNoMatch=sorry, your invite code is invalid
-register.invite.error.required=invite code required 
-register.invite.error.length=invite code length must be 8 
+register.inviteCode=Invitation Code
+register.inviteCodeNoMatch=sorry, your invitation code is invalid
+register.invite.error.required=invitation code required 
+register.invite.error.length=invitation code length must be 8 
 
 ticker.market=Market
 ticker.price=Price

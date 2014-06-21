@@ -15,8 +15,11 @@ object LoggingFilter extends Filter {
       val requestTime = endTime - startTime
       // Logger.info(s"${requestHeader.method} ${requestHeader.uri} " +
       //   s"took ${requestTime}ms and returned ${result.header.status}")
+      //Logger.info(s"############result: $result")
+      //Logger.info(s"%%%%%%%%%%%%%%%%%%%%%% ${requestHeader.session}, ${requestHeader.acceptLanguages}")
       result.withHeaders("Request-Time" -> requestTime.toString)
         .withCookies(Cookie(cookieNameTimestamp, endTime.toString))
     }
   }
+
 }

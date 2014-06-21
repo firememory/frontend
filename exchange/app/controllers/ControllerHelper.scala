@@ -8,6 +8,9 @@ import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 import play.api.mvc._
 import play.api.Logger
+import play.api.i18n.Lang
+import play.api.Play
+import play.api.Play.current
 import services.CacheService
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
@@ -128,4 +131,10 @@ object ControllerHelper {
     Pager(skip = skip, limit = limit, page = page)
   }
 
+  def langFromRequestCookie(request: Request[_]): Lang = {
+    request.cookies.get(Play.langCookieName) match {
+      case Some(langCookie) => Lang(langCookie.value)
+      case None => request.acceptLanguages(0)
+    }
+  }
 }

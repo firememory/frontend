@@ -95,7 +95,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
     if (checkInviteCode) {
       updateUsedInviteCodeFile()
-      Ok(views.html.register.render(email, request.session, request.acceptLanguages(0)))
+      Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
       //MainController.register(email)
     } else {
       Redirect(routes.MainController.inviteCode("register.inviteCodeNoMatch"))
@@ -206,7 +206,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def forgetPassword  = Action {
     implicit request =>
-    Ok(views.html.forgetPassword.render(request.session, request.acceptLanguages(0)))
+    Ok(views.html.forgetPassword.render(request.session, langFromRequestCookie(request)))
   }
 
   def requestPasswordReset(email: String) = Action.async {
@@ -231,7 +231,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       if (result.success) {
         val profile = result.data.get.asInstanceOf[UserProfile]
         logger.info(s"profile: $profile")
-        Ok(views.html.resetPassword.render(token, request.session, request.acceptLanguages(0)))
+        Ok(views.html.resetPassword.render(token, request.session, langFromRequestCookie(request)))
       } else {
         Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
       }
@@ -281,7 +281,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         ("realName" -> profile.realName.getOrElse("")),
         ("mobile" -> profile.mobile.getOrElse(""))
       )
-      Ok(views.html.viewAccountSettings.render(profileMap, request.acceptLanguages(0)))
+      Ok(views.html.viewAccountSettings.render(profileMap, langFromRequestCookie(request)))
     }
   }
 

@@ -6,6 +6,10 @@
 package controllers
 
 import play.api.mvc._
+import play.api.i18n.Lang
+import play.api.data._
+import play.api.Play
+import play.api.Play.current
 import play.api.libs.iteratee.Enumerator
 import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
@@ -14,92 +18,105 @@ import utils.HdfsAccess
 import com.coinport.coinex.api.service.NotificationService
 import models.PagingWrapper
 import com.coinport.coinex.data.Language
+import ControllerHelper._
 
 object MainController extends Controller with Json4s {
-  def backdoor = Action {
+  // def backdoor = Action {
+  //   implicit request =>
+  //     Redirect(routes.MainController.index())
+  //       .withSession("uid" -> "1001", "username" -> "developer@coinport.com")
+  // }
+  val supportedLocales = List("en-US", "zh-CN")
+
+  def changeLocale(locale: String) = Action {
     implicit request =>
-      Redirect(routes.MainController.index())
-        .withSession("uid" -> "1001", "username" -> "developer@coinport.com")
+    val referrer = request.headers.get(REFERER).getOrElse("/")
+    if (supportedLocales.contains(locale)) {
+      implicit val lang = Lang(locale)
+      Redirect(referrer).withLang(lang)
+    } else {
+      BadRequest(referrer)
+    }
   }
 
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.index.render(request.session, langFromRequestCookie(request)))
   }
 
   def trade = Action {
     implicit request =>
-      Ok(views.html.trade.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
   }
 
   def account() = Authenticated {
     implicit request =>
-      Ok(views.html.account.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.account.render(request.session, langFromRequestCookie(request)))
   }
 
   def market = Action {
     implicit request =>
-      Ok(views.html.market.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.market.render(request.session, langFromRequestCookie(request)))
   }
 
   def user(uid: String) = Action {
     implicit request =>
-      Ok(views.html.user.render(uid, request.session, request.acceptLanguages(0)))
+      Ok(views.html.user.render(uid, request.session, langFromRequestCookie(request)))
   }
 
   def order(oid: String) = Action {
     implicit request =>
-      Ok(views.html.order.render(oid, request.session, request.acceptLanguages(0)))
+      Ok(views.html.order.render(oid, request.session, langFromRequestCookie(request)))
   }
 
   def transaction(tid: String) = Action {
     implicit request =>
-      Ok(views.html.transaction.render(tid, request.session, request.acceptLanguages(0)))
+      Ok(views.html.transaction.render(tid, request.session, langFromRequestCookie(request)))
   }
 
   def transactions(market: String) = Action {
     implicit request =>
-      Ok(views.html.transactions.render(market, request.session, request.acceptLanguages(0)))
+      Ok(views.html.transactions.render(market, request.session, langFromRequestCookie(request)))
   }
 
   def coin(coin: String) = Action {
     implicit request =>
-      Ok(views.html.coin.render(coin, request.session, request.acceptLanguages(0)))
+      Ok(views.html.coin.render(coin, request.session, langFromRequestCookie(request)))
   }
 
   def depth(market: String) = Action {
     implicit request =>
-      Ok(views.html.depth.render(market, request.session, request.acceptLanguages(0)))
+      Ok(views.html.depth.render(market, request.session, langFromRequestCookie(request)))
   }
 
   def login(msg: String = "") = Action {
     implicit request =>
-      Ok(views.html.login.render(msg, request.session, request.acceptLanguages(0))).withNewSession
+      Ok(views.html.login.render(msg, request.session, langFromRequestCookie(request))).withNewSession
   }
 
   def register(email: String = "") = Action {
     implicit request =>
-      Ok(views.html.register.render(email, request.session, request.acceptLanguages(0)))
+      Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
   }
 
-  def inviteCode(msg: String = "") = Action {
+  def inviteCode(msg: String = "")(implicit lang: Lang) = Action {
     implicit request =>
-      Ok(views.html.inviteCode.render(msg, request.session, request.acceptLanguages(0)))
+      Ok(views.html.inviteCode.render(msg, request.session, langFromRequestCookie(request)))
   }
 
   def open = Action {
     implicit request =>
-      Ok(views.html.open.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.open.render(request.session, langFromRequestCookie(request)))
   }
 
   def prompt(msgKey: String) = Action {
     implicit request =>
-    Ok(views.html.prompt.render(msgKey, request.session, request.acceptLanguages(0)))
+    Ok(views.html.prompt.render(msgKey, request.session, langFromRequestCookie(request)))
   }
 
   def company = Action {
     implicit request =>
-      Ok(views.html.company.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.company.render(request.session, langFromRequestCookie(request)))
   }
   def downloadFromHdfs(path: String, filename: String) = Action {
     val stream = HdfsAccess.getFileStream(path, filename)
@@ -152,71 +169,71 @@ object MainController extends Controller with Json4s {
 
   def bidaskView() = Action {
     implicit request =>
-      Ok(views.html.viewBidask.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.viewBidask.render(request.session, langFromRequestCookie(request)))
   }
 
   def registerView() = Action {
     implicit request =>
-      Ok(views.html.viewRegister.render(request.acceptLanguages(0)))
+      Ok(views.html.viewRegister.render(langFromRequestCookie(request)))
   }
 
   def assetView() = Action {
     implicit request =>
-      Ok(views.html.viewAsset.render(request.acceptLanguages(0)))
+      Ok(views.html.viewAsset.render(langFromRequestCookie(request)))
   }
 
   def transferView() = Action {
     implicit request =>
-      Ok(views.html.viewTransfer.render(request.acceptLanguages(0)))
+      Ok(views.html.viewTransfer.render(langFromRequestCookie(request)))
   }
 
   def depositView() = Action {
     implicit request =>
-      Ok(views.html.viewDeposit.render(request.acceptLanguages(0)))
+      Ok(views.html.viewDeposit.render(langFromRequestCookie(request)))
   }
 
   def depositDebugView() = Action {
     implicit request =>
-      Ok(views.html.viewDepositDebug.render(request.acceptLanguages(0)))
+      Ok(views.html.viewDepositDebug.render(langFromRequestCookie(request)))
   }
 
   def withdrawalView() = Action {
     implicit request =>
-      Ok(views.html.viewWithdrawal.render(request.acceptLanguages(0)))
+      Ok(views.html.viewWithdrawal.render(langFromRequestCookie(request)))
   }
 
   def ordersView() = Action {
     implicit request =>
-      Ok(views.html.viewOrders.render(request.acceptLanguages(0)))
+      Ok(views.html.viewOrders.render(langFromRequestCookie(request)))
   }
 
   def transactionsView() = Action {
     implicit request =>
-      Ok(views.html.viewTransactions.render(request.acceptLanguages(0)))
+      Ok(views.html.viewTransactions.render(langFromRequestCookie(request)))
   }
 
   def opendataView() = Action {
     implicit request =>
-      Ok(views.html.viewOpendata.render(request.acceptLanguages(0)))
+      Ok(views.html.viewOpendata.render(langFromRequestCookie(request)))
   }
 
   def reserveView() = Action {
     implicit request =>
-      Ok(views.html.viewReserve.render(request.acceptLanguages(0)))
+      Ok(views.html.viewReserve.render(langFromRequestCookie(request)))
   }
 
   def opensourceView() = Action {
     implicit request =>
-      Ok(views.html.viewOpensource.render(request.acceptLanguages(0)))
+      Ok(views.html.viewOpensource.render(langFromRequestCookie(request)))
   }
 
   def connectivityView() = Action {
     implicit request =>
-      Ok(views.html.viewConnectivity.render(request.acceptLanguages(0)))
+      Ok(views.html.viewConnectivity.render(langFromRequestCookie(request)))
   }
 
   def userAgreement() = Action {
     implicit request =>
-      Ok(views.html.userAgreement.render(request.session, request.acceptLanguages(0)))
+      Ok(views.html.userAgreement.render(request.session, langFromRequestCookie(request)))
   }
 }
