@@ -20,13 +20,19 @@
         </div>
     </div>
 </section>
-@if(isLogin()) {
+
 <section class="header-3-sub">
+@if(isLogin()) {
     <div class="row">
         <div class="col-sm-12">
             @_trade_orders()
         </div>
     </div>
+    }
+    <div class="row">
+        <div class="col-sm-12">
+            @_trade_rencentorders()
+        </div>
+    </div>
 </section>
-}
 <timer ng-show="false" interval="2000"/>

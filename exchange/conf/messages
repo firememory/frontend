@@ -87,6 +87,7 @@ trade.cancel=Cancel
 trade.availableAmount=Available
 trade.availableCurrency=Available
 trade.recentTransactions=Recent Transactions
+trade.recentOrders=Recent Orders
 trade.myOrders=My Orders
 trade.aboutOrder=About this order
 trade.accumulated=Accumulated

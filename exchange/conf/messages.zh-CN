@@ -92,6 +92,7 @@ trade.cancel=撤单
 trade.availableAmount=可用数量
 trade.availableCurrency=可用资金
 trade.recentTransactions=最新成交
+trade.recentOrders=最新订单
 trade.myOrders=我的委托
 trade.aboutOrder=委托详情
 trade.accumulated=累积深度

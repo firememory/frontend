@@ -25,6 +25,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
+    $scope.recentOrders = [];
     $scope.bid = {price: 0, amount: 0, total: 0, limit: 0};
     $scope.ask = {price: 0, amount: 0, total: 0, limit: 0};
     $scope.account = {};
@@ -67,6 +68,15 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                 $scope.orders = data.data.items;
                 $scope.count = data.data.count;
         });
+    };
+
+    $scope.loadRecentOrders = function() {
+        var params = {limit: 10, skip: 0};
+        $http.get('/api/' + $scope.market + '/recentorder', {params: params})
+            .success(function(data, status, headers, config) {
+                $scope.recentOrders = data.data.items;
+//                $scope.count = data.data.count;
+            });
     };
 
     $scope.changeOrderStatus = function(status) {
@@ -119,6 +129,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.refresh = function() {
         $scope.updateDepth();
         $scope.updateTransactions();
+        $scope.loadRecentOrders();
     };
 
     $scope.updateAccount = function() {
@@ -130,6 +141,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     };
 
     $scope.loadOrders();
+    $scope.loadRecentOrders();
     $scope.updateDepth();
     $scope.updateTransactions();
     $scope.updateBestPrice();
