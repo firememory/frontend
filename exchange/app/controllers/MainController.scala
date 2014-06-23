@@ -69,6 +69,11 @@ object MainController extends Controller with Json4s {
       Ok(views.html.order.render(oid, request.session, langFromRequestCookie(request)))
   }
 
+  def orders(market: String) = Action {
+    implicit request =>
+      Ok(views.html.orders.render(market, request.session, langFromRequestCookie(request)))
+  }
+
   def transaction(tid: String) = Action {
     implicit request =>
       Ok(views.html.transaction.render(tid, request.session, langFromRequestCookie(request)))

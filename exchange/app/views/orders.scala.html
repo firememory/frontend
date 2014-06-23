@@ -1,0 +1,63 @@
+@(market: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+    @__head_commons()
+    @__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.orders">
+<div class="page-wrapper opendata-browser">
+    @__navbar("openness")
+
+    <div class="container container-main opendata-data" ng-controller="OrdersCtrl">
+        <div class="row">
+            <div class="col-md-12"><h3>@Messages("nav.market"): {{marketdisplay}}</h3> </div>
+
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped stats-table">
+                        <thead>
+                        <tr>
+                            <th nowrap>@Messages("order.oid")</th>
+                            <th nowrap>@Messages("order.uid")</th>
+                            <th nowrap>@Messages("order.submitTime")</th>
+                            <th nowrap>@Messages("order.type")</th>
+                            <th nowrap>@Messages("order.status")</th>
+                            <th nowrap>@Messages("order.orderPrice")</th>
+                            <th nowrap>@Messages("order.averagePrice")</th>
+                            <th nowrap>@Messages("order.orderAmount")</th>
+                            <th nowrap>@Messages("order.tradingAmount")</th>
+                            <th nowrap>@Messages("order.orderValue")</th>
+                            <th nowrap>@Messages("order.tradingValue")</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="order in orders">
+                            <td nowrap>{{order.id}}</td>
+                            <td nowrap>{{order.uid}}</td>
+                            <td nowrap>{{order.submitTime | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td nowrap><span class="{{order.operation.toLowerCase()}}">{{order.operation | orderTypeText}}<i class="fa fa-lg {{order.operation | txTypeIcon}}"></i></span></td>
+                            <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                            <td nowrap>{{order.price.display}} {{order.currency}}/{{order.subject}}</td>
+                            <td nowrap>{{order.finishedAmount.value / order.finishedQuantity.value | price}} {{order.currency}}/{{order.subject}}</td>
+                            <td nowrap>{{order.amount.display}} {{order.subject}}</td>
+                            <td nowrap>{{order.finishedQuantity.display}} {{order.subject}}</td>
+                            <td nowrap>{{order.total.display}}  {{order.currency}}</td>
+                            <td nowrap>{{order.finishedAmount.display}}  {{order.currency}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    @__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/orders.js")
+</body>
+</html>
