@@ -21,6 +21,7 @@ operation=Operations
 status=Status
 address=Address
 amount=Amount
+accumulated=Accumulated
 coinType=Coin Type
 orderBook=Order Book
 

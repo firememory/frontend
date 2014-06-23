@@ -100,6 +100,7 @@
                     <tr>
                         <th nowrap >@Messages("address")</th>
                         <th nowrap >@Messages("amount")</th>
+                        <th nowrap >@Messages("accumulated")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -109,6 +110,9 @@
                         </td>
                         <td>
                             <span class="label label-warning" ng-bind="wallet.amount.display"></span>
+                        </td>
+                        <td>
+                            <span class="label label-warning" ng-bind="wallet.accumulated.display"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -121,6 +125,7 @@
                     <tr>
                         <th nowrap >@Messages("address")</th>
                         <th nowrap >@Messages("amount")</th>
+                        <th nowrap >@Messages("accumulated")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -130,6 +135,9 @@
                         </td>
                         <td>
                             <span class="label label-info" ng-bind="wallet.amount.display"></span>
+                        </td>
+                        <td>
+                            <span class="label label-info" ng-bind="wallet.accumulated.display"></span>
                         </td>
                     </tr>
                     </tbody>
