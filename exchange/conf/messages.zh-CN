@@ -260,6 +260,7 @@ transfer.updated=更新时间
 transfer.amount=数量
 transfer.status=状态
 transfer.confirm=确认数
+transfer.txid=交易哈希值
 transfer.address=地址
 transfer.pinpassword=资金密码
 transfer.phoneVerCode=短信验证码

@@ -27,7 +27,7 @@
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("transfer.address")</th>
-                    <th nowrap class="text-right">@Messages("transfer.confirm")</th>
+                    <th nowrap class="text-right">@Messages("transfer.txid")</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                     <td nowrap> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.address}} </td>
-                    <td nowrap class="text-right"> {{item.confirm}} </td>
+                    <td nowrap class="text-right"> {{item.txid}} </td>
                 </tr>
             </tbody>
         </table>
