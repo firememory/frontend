@@ -62,7 +62,7 @@ app.controller('ReserveCtrl', function ($scope, $http) {
     $scope.walletsBalance = {};
     $scope.addressUrl = COINPORT.addressUrl;
 
-    $http.get('/api/account/-1')
+    $http.get('/api/account/-1000')
         .success(function(data, status, headers, config) {
             $scope.accounts = data.data.accounts;
     });

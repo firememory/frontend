@@ -19,7 +19,7 @@ app.controller('CoinTransferCtrl', function ($scope, $http, $window) {
 
 app.controller('CoinWalletCtrl', function ($scope, $http, $window) {
     $scope.coin = $window.location.pathname.replace("/coin/", "");
-    $http.get('/api/account/-1')
+    $http.get('/api/account/-1000')
         .success(function (data, status, headers, config) {
         $scope.accounts = data.data.accounts;
         });

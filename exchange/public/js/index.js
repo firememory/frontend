@@ -42,7 +42,7 @@ app.controller('ReserveCtrl', function ($scope, $http, $modal) {
     $scope.coldWallets = {};
     $scope.walletsBalance = {};
 
-    $http.get('/api/account/-1')
+    $http.get('/api/account/-1000')
         .success(function(data, status, headers, config) {
             $scope.accounts = data.data.accounts
         });
