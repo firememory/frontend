@@ -21,7 +21,7 @@ tradeApp.config(httpConfig);
 function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.market = $routeParams.market.toUpperCase();
     $scope.historyPeriod = 1; // 1 - minute K
-    $scope.historyUpdateTime = 5000; // polling period in milliseconds
+    $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
     $scope.orders = [];
@@ -87,20 +87,20 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.updateTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
         .success(function(data, status, headers, config) {
-            console.log('transactions', $scope.transactions);
-            if(!$scope.transactions) {
-                $scope.transactions = data.data;
-            } else {
-                for(var i = 0; i < data.data.items.length; i ++) {
-                    if ($scope.transactions.items[0].id == data.data.items[i].id)
-                        break;
-                }
-                for(var j = i - 1; j >= 0; j--) {
-                    $scope.transactions.items.unshift(data.data.items[j]);
-                    if ($scope.transactions.length > data.data.items.length)
-                        $scope.transactions.items.pop();
-                }
-            }
+            $scope.transactions = data.data;
+//            if(!$scope.transactions) {
+//                $scope.transactions = data.data;
+//            } else {
+//                for(var i = 0; i < data.data.items.length; i ++) {
+//                    if ($scope.transactions.items[0].id == data.data.items[i].id)
+//                        break;
+//                }
+//                for(var j = i - 1; j >= 0; j--) {
+//                    $scope.transactions.items.unshift(data.data.items[j]);
+//                    if ($scope.transactions.length > data.data.items.length)
+//                        $scope.transactions.items.pop();
+//                }
+//            }
 
             if ($scope.transactions.items.length > 0) {
                 $scope.lastPrice = $scope.transactions.items[0].price;
@@ -126,16 +126,20 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         });
     };
 
-    $scope.refresh = function() {
+    var refresh = function() {
         $scope.updateDepth();
         $scope.updateTransactions();
         $scope.loadRecentOrders();
+        setTimeout(refresh, 2000);
     };
 
+    refresh();
+
     $scope.updateAccount = function() {
+        if (!$scope.uid == 0)
+            return;
         $http.get('/api/account/' + $scope.uid)
             .success(function(data, status, headers, config) {
-                console.log(data.data.accounts);
                 $scope.account = data.data.accounts;
         });
     };
@@ -225,7 +229,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                         var ma7Series = this.series[2];
                         var ma30Series = this.series[3];
                         // polling new data
-                        setInterval(function() {
+                        var load = function() {
                             $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod, from: $scope.lastHistory[0]}})
                               .success(function(response, status, headers, config) {
                                     var data = response.data.candles;
@@ -253,7 +257,11 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                                     ma7Series.setData($scope.ma7, true, true, false);
                                     ma30Series.setData($scope.ma30, true, true, false);
                             });
-                        }, $scope.historyUpdateTime);
+
+                            setTimeout(load, $scope.historyUpdateTime);
+                        };
+
+                        load();
                     }
                 }
             },
@@ -540,11 +548,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                 }
             });
     };
-
-    // polling
-    $scope.$on('timer-tick', function (event, args) {
-        $scope.refresh();
-    });
 
     var watchBidPrice = function(newValue, oldValue) {
         var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
