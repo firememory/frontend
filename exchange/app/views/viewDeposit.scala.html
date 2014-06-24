@@ -38,8 +38,7 @@
                     <td nowrap> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.address}} </td>
-                    <!--<td nowrap class="text-right"> {{item.txid}} </td>-->
-                    <td><a target="_blank" href="http://blockchain.info/tx/{{item.txid}}"><i class="fa fa-link"></i></a></td>
+                    <td><a target="_blank" href="{{txUrl[item.amount.currency]}}{{item.txid}}"><i class="fa fa-link"></i></a></td>
                 </tr>
             </tbody>
         </table>

@@ -26,6 +26,12 @@ COINPORT = {
         BTC: 'https://blockchain.info/address/',
         LTC: 'http://block-explorer.com/address/',
         DOG: 'http://dogechain.info/address/'
+    },
+
+    txUrl: {
+        BTC: 'https://blockchain.info/tx/',
+        LTC: 'http://block-explorer.com/tx/',
+        DOG: 'http://dogechain.info/tx/'
     }
 };
 
