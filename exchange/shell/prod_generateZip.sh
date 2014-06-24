@@ -10,5 +10,3 @@ rm -rf /var/coinport/frontend/coinport-frontend-*
 cp target/universal/coinport-frontend-* /var/coinport/frontend
 cd /var/coinport/frontend
 unzip coinport-frontend-*
-cd coinport-frontend-*/bin/
-nohup ./coinport-frontend -Dakka.config=akka-prod.conf &
