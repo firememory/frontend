@@ -246,6 +246,7 @@ user.transfer.currency=币种
 user.transfer.amount=数量
 user.transactions=成交
 user.orders=订单
+user.profile=我的主页
 
 transfer.withdrawal=提现
 transfer.deposit=充值

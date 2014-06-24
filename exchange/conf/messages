@@ -243,6 +243,7 @@ user.transfer.currency=Currency
 user.transfer.amount=Amount
 user.transactions=Transactions
 user.orders=Orders
+user.profile=My Profile
 
 transfer.withdrawal=Withdrawal
 transfer.deposit=Deposit
