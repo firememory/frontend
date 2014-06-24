@@ -22,7 +22,7 @@
             <thead>
                 <tr>
                     <th nowrap>@Messages("transfer.id")</th>
-                    <th nowrap >@Messages("transfer.amount")</th>
+                    <th nowrap>@Messages("transfer.amount")</th>
                     <th nowrap>@Messages("transfer.status")</th>
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
@@ -38,7 +38,7 @@
                     <td nowrap> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.address}} </td>
-                    <td><a target="_blank" href="{{txUrl[item.amount.currency]}}/{{item.txid}}"><i class="fa fa-link"></i></a></td>
+                    <td><a target="_blank" href="{{item.txlink}}"><i class="fa fa-link"></i></a></td>
                 </tr>
             </tbody>
         </table>

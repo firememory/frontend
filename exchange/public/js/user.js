@@ -3,6 +3,7 @@ var app = angular.module('coinport.user', ['ui.bootstrap', 'ngResource', 'navbar
 app.controller('UserCtrl', function($scope, $http, $window) {
     $scope.dw = {};
     console.log('query account', $window.location);
+//    $scope.txUrl = COINPORT.txUrl[$scope.coin];
 
     $scope.targetUid = $window.location.pathname.replace("/user/", "");
 
@@ -28,6 +29,9 @@ app.controller('UserCtrl', function($scope, $http, $window) {
         $http.get('/api/ALL/transfer/' + $scope.targetUid, {params: {limit: $scope.transactionLimit, page: $scope.transferPage}})
             .success(function(data, status, headers, config) {
                 $scope.transfers = data.data.items;
+                $scope.transfers.forEach(function(transfer){
+                   transfer.txlink =  COINPORT.txUrl[transfer.amount.currency]+transfer.txid;
+                });
                 $scope.transferCount = data.data.count;
             });
     };

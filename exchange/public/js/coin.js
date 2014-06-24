@@ -10,6 +10,9 @@ app.controller('CoinTransferCtrl', function ($scope, $http, $window) {
         $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: $scope.limit, page: $scope.page}})
             .success(function (data, status, headers, config) {
                 $scope.transfers = data.data.items;
+                $scope.transfers.forEach(function(item){
+                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                });
                 $scope.count = data.data.count;
             });
     };

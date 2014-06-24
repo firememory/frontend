@@ -75,16 +75,18 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.page = 1;
     $scope.limit = 10;
+    $scope.transfers = {};
     $scope.loadTransfers = function () {
         $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page}})
             .success(function (data, status, headers, config) {
-                console.log('transfers', data.data);
                 $scope.transfers = data.data.items;
+                $scope.transfers.forEach(function(item){
+                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                });
                 $scope.count = data.data.count;
             });
     };
 
-    console.log('uid', $scope.uid);
     $scope.loadTransfers();
 }]);
 
@@ -168,6 +170,10 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
             .success(function (data, status, headers, config) {
                 $scope.deposits = data.data.items;
+                $scope.deposits.forEach(function(item){
+                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                });
+
                 $scope.count = data.data.count;
             });
     };
@@ -210,6 +216,10 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
                 $scope.withdrawals = data.data.items;
+                $scope.withdrawals.forEach(function(item){
+                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                });
+
                 $scope.count = data.data.count;
             });
     };

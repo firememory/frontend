@@ -152,7 +152,7 @@
                     <td nowrap> <i class="fa fa-clock-o"></i> {{item.created | date:"yyyy-MM-dd HH:mm:ss"}} </td>
                     <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.address}} </td>
-                    <td><a target="_blank" href="{{txUrl[item.amount.currency]}}/{{item.txid}}"><i class="fa fa-link"></i></a></td>
+                    <td><a target="_blank" href="{{item.txlink}}"><i class="fa fa-link"></i></a></td>
                 </tr>
                 </tbody>
                 </table>
