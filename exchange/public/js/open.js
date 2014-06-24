@@ -3,13 +3,7 @@ var app = angular.module('coinport.openness', ['ui.bootstrap', 'ngResource', 'na
 function routeConfig($routeProvider) {
     $routeProvider.
     when('/', {
-        redirectTo: '/about/en-US'
-    }).
-    when('/about/en-US', {
-        templateUrl: 'views/transparency.en-US.html'
-    }).
-    when('/about/zh-CN', {
-        templateUrl: 'views/transparency.zh-CN.html'
+        redirectTo: '/opendata'
     }).
     when('/opendata', {
         controller: 'DownCtrl',
@@ -21,10 +15,6 @@ function routeConfig($routeProvider) {
     }).
     when('/opensource', {
         templateUrl: 'views/opensource.html'
-    }).
-    when('/connectivity', {
-        controller: 'ConnectCtrl',
-        templateUrl: 'views/connectivity.html'
     }).
     otherwise({
         redirectTo: '/'
@@ -61,6 +51,9 @@ app.controller('ReserveCtrl', function ($scope, $http) {
     $scope.coldWallets = {};
     $scope.walletsBalance = {};
     $scope.addressUrl = COINPORT.addressUrl;
+    $scope.currencies = {};
+    $scope.status = {};
+    $scope.blockUrl = COINPORT.blockUrl;
 
     $http.get('/api/account/-1000')
         .success(function(data, status, headers, config) {
@@ -73,12 +66,6 @@ app.controller('ReserveCtrl', function ($scope, $http) {
                 $scope.walletsBalance[currency] = data.data.available;
         });
     };
-});
-
-app.controller('ConnectCtrl', function ($scope, $http) {
-    $scope.currencies = {};
-    $scope.status = {};
-    $scope.blockUrl = COINPORT.blockUrl;
 
     $scope.check = function() {
         for(currency in $scope.currencies) {

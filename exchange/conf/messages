@@ -173,9 +173,10 @@ market.seconds=s
 
 open.nav.about=About
 open.nav.opensource=Open-Sourced
-open.nav.opendata=Open-Data
+open.nav.opendata=Data Download
 open.nav.reserve=Provable 100% Reserve
 open.nav.connectivity=Network Connectivity
+open.nav.market=Market Data
 open.totalAssets=Total Assets
 open.coinType=Currency
 open.balance=Balance
