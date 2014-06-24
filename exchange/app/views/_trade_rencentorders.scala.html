@@ -11,6 +11,7 @@
                     <tr>
                         <th nowrap></th>
                         <th nowrap>@(Messages("order.time"))</th>
+                        <th nowrap>@(Messages("order.uid"))</th>
                         <th nowrap>@(Messages("order.type"))</th>
                         <th nowrap class="text-right">@(Messages("order.price"))</th>
                         <th nowrap class="text-right">@(Messages("order.averagePrice"))</th>
@@ -18,13 +19,13 @@
                         <th nowrap class="text-right">@(Messages("order.finishedAmount"))</th>
                         <!--<th nowrap class="text-right">@(Messages("order.total"))</th>-->
                         <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
-                        <th nowrap></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="order in recentOrders | orderBy: ['-date', '-id']" class="user-order-item">
                         <td nowrap><a href="/order/{{order.id}}"><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span></a></td>
                         <td nowrap><a href="/order/{{order.id}}"><i class="fa fa-clock-o"></i> <span ng-bind="order.submitTime | date:'MM-dd HH:mm:ss'"></span></a></td>
+                        <td nowrap ng-bind="order.uid"></td>
                         <td nowrap class="{{order.operation | orderTypeClass}}" ng-bind="order.operation | orderTypeText"></td>
                         <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display"></td>
                         <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.finishedAmount.value / order.finishedQuantity.value | price"></td>
@@ -32,9 +33,6 @@
                         <td nowrap class="text-right" ng-bind="order.finishedQuantity.display"></td>
                         <!--<td nowrap class="text-right" ng-bind="order.total.display"></td>-->
                         <td nowrap class="text-right" ng-bind="order.finishedAmount.display"></td>
-                        <td nowrap>
-                            <a class="badge text-white bg-danger" ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
