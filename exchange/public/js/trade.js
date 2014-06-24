@@ -136,7 +136,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     refresh();
 
     $scope.updateAccount = function() {
-        if (!$scope.uid == 0)
+        if ($scope.uid == 0)
             return;
         $http.get('/api/account/' + $scope.uid)
             .success(function(data, status, headers, config) {
