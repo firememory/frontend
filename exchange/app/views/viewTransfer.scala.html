@@ -45,7 +45,7 @@
                     <th nowrap>@Messages("transfer.amount")</th>
                     <th nowrap>@Messages("transfer.status")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
-                    <th nowrap>@Messages("transfer.txid")</th>
+                    <!--<th nowrap>@Messages("transfer.txid")</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,8 @@
                     <td nowrap> <strong>{{item.amount.display}}</strong> </td>
                     <td nowrap> <span class="badge">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.txid}} </td>
+                    <!--<td nowrap> {{item.txid}} </td>-->
+                    <td><a target="_blank" href="http://blockchain.info/tx/{{item.txid}}"><i class="fa fa-link"></i></a></td>
                 </tr>
                 </tbody>
             </table>

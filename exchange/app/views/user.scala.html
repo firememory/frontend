@@ -139,7 +139,7 @@
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("transfer.address")</th>
-                    <th nowrap class="text-right">@Messages("transfer.txid")</th>
+                    <!--<th nowrap class="text-right">@Messages("transfer.txid")</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -152,7 +152,8 @@
                     <td nowrap> <i class="fa fa-clock-o"></i> {{item.created | date:"yyyy-MM-dd HH:mm:ss"}} </td>
                     <td nowrap> <i class="fa fa-clock-o"></i> {{item.updated | date:"yyyy-MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.address}} </td>
-                    <td nowrap class="text-right"> {{item.txid}} </td>
+                    <!--<td nowrap class="text-right"> {{item.txid}} </td>-->
+                    <td><a target="_blank" href="http://blockchain.info/tx/{{item.txid}}"><i class="fa fa-link"></i></a></td>
                 </tr>
                 </tbody>
                 </table>

@@ -70,7 +70,7 @@
                         <th nowrap class="text-right">@Messages("user.transfer.amount")</th>
                         <th nowrap>@Messages("address")</th>
                         <th nowrap>@Messages("status")</th>
-                        <th nowrap>@Messages("transfer.txid")</th>
+                        <!--<th nowrap>@Messages("transfer.txid")</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -82,7 +82,7 @@
                         <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
                         <td nowrap ng-bind="item.address">@Messages("loading")</td>
                         <td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>
-                        <td nowrap ng-bind="item.txid">@Messages("loading")</td>
+                        <td><a target="_blank" href="http://blockchain.info/tx/{{item.txid}}"><i class="fa fa-link"></i></a></td>
                     </tr>
                     </tbody>
                     @__empty_table_indicator("transfers")

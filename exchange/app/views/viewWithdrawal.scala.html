@@ -66,7 +66,7 @@
             <th>@Messages("transfer.created")</th>
             <th>@Messages("transfer.updated")</th>
             <th>@Messages("transfer.address")</th>
-            <th class="text-right">@Messages("transfer.txid")</th>
+            <!--<th class="text-right">@Messages("transfer.txid")</th>-->
         </tr>
         </thead>
         <tbody>
@@ -77,7 +77,8 @@
             <td> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
             <td> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
             <td> {{item.address}} </td>
-            <td class="text-right"> {{item.txid}} </td>
+            <!--<td class="text-right"> {{item.txid}} </td>-->
+            <td><a target="_blank" href="http://blockchain.info/tx/{{item.txid}}"><i class="fa fa-link"></i></a></td>
             <td>
                 <button class="btn btn-block btn-success" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</button>
             </td>
