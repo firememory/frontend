@@ -399,10 +399,10 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 return function (t) {
                     return arc(interpolate(t));
                 };
-            })
-            .each('end', function handleAnimationEnd(d) {
-                drawDetailedInformation(d.data, this);
             });
+//            .each('end', function handleAnimationEnd(d) {
+//                drawDetailedInformation(d.data, this);
+//            });
 
         drawChartCenter();
 
