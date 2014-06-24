@@ -82,7 +82,7 @@ GET     /api/*market/history                controllers.ApiController.history(ma
 GET     /api/user/*uid/transaction/*market  controllers.ApiController.userTransactionByMarket(market, uid)
 GET     /api/user/*uid/transaction          controllers.ApiController.userTransaction(uid)
 GET     /api/*market/transaction            controllers.ApiController.transactions(market)
-GET     /api/*market/order                  controllers.ApiController.orders(market)
+GET     /api/*market/orders                 controllers.ApiController.orders(market)
 GET     /api/*market/recentorder            controllers.ApiController.recentOrders(market)
 GET     /api/transaction/*tid               controllers.ApiController.transaction(tid)
 GET     /api/*currency/transfer/*uid        controllers.ApiController.transfers(currency, uid)
