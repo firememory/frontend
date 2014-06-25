@@ -20,7 +20,7 @@ tradeApp.config(httpConfig);
 
 function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.market = $routeParams.market.toUpperCase();
-    $scope.historyPeriod = 1; // 1 - minute K
+    $scope.historyPeriod = 5; // 1 - minute K
     $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds
     $scope.subject = $scope.market.substr(0, 3);
     $scope.currency = $scope.market.substr(3);
@@ -130,7 +130,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         $scope.updateDepth();
         $scope.updateTransactions();
         $scope.loadRecentOrders();
-        setTimeout(refresh, 2000);
+        setTimeout(refresh, 5000);
     };
 
     refresh();
@@ -271,11 +271,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                 {
                     type : 'day',
                     count : 1,
-                    text : '1D'
-                },{
-                    type : 'hour',
-                    count : 1,
-                    text : '1h'
+                    text : 'Day'
                 },{
                     type : 'all',
                     count : 1,
