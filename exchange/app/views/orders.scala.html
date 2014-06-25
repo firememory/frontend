@@ -27,10 +27,10 @@
                             <th nowrap>@Messages("order.type")</br>&nbsp;</th>
                             <th nowrap>@Messages("order.status")</br>&nbsp;</th>
                             <th nowrap>@Messages("order.orderPrice")
-                                </br><span ng-bind="'('+marketdisplay+')'">&nbsp;</span>
+                                </br><span ng-bind="'(' + currency + '/' + subject + ')'">&nbsp;</span>
                             </th>
                             <th nowrap>@Messages("order.averagePrice")
-                                </br><span ng-bind="'('+marketdisplay+')'">&nbsp;</span>
+                                </br><span ng-bind="'('+currency + '/' + subject+')'">&nbsp;</span>
                             </th>
                             <th nowrap>@Messages("order.orderAmount")
                                 </br><span ng-bind="'('+subject+')'">&nbsp;</span>
@@ -39,15 +39,15 @@
                                 </br><span ng-bind="'('+subject+')'">&nbsp;</span>
                             </th>
                             <th nowrap>@Messages("order.orderValue")
-                                </br><span ng-bind="'('+currency2+')'">&nbsp;</span>
+                                </br><span ng-bind="'('+currency+')'">&nbsp;</span>
                             </th>
                             <th nowrap>@Messages("order.tradingValue")
-                                </br><span ng-bind="'('+currency2+')'">&nbsp;</span>
+                                </br><span ng-bind="'('+currency+')'">&nbsp;</span>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr  ng-repeat="order in orders">
+                        <tr  ng-repeat="order in orders.items">
                             <td nowrap><a href="/order/{{order.id}}" ng-bind="order.id">@Messages("loading")</a></td>
                             <td nowrap><a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' ' +  order.uid">@Messages("loading")</i></a> </td>
                             <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
@@ -63,7 +63,7 @@
                         </tbody>
                     </table>
                 </div>
-                <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pagination boundary-links="true" max-size="10" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
         </div>
     </div>

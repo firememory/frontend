@@ -72,7 +72,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
     $scope.loadRecentOrders = function() {
         var params = {limit: 10, skip: 0};
-        $http.get('/api/' + $scope.market + '/recentorder', {params: params})
+        $http.get('/api/' + $scope.market + '/orders', {params: params})
             .success(function(data, status, headers, config) {
                 $scope.recentOrders = data.data.items;
 //                $scope.count = data.data.count;

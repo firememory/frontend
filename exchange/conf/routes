@@ -84,7 +84,6 @@ GET     /api/user/*uid/transaction/*market  controllers.ApiController.userTransa
 GET     /api/user/*uid/transaction          controllers.ApiController.userTransaction(uid)
 GET     /api/*market/transaction            controllers.ApiController.transactions(market)
 GET     /api/*market/orders                 controllers.ApiController.orders(market)
-GET     /api/*market/recentorder            controllers.ApiController.recentOrders(market)
 GET     /api/transaction/*tid               controllers.ApiController.transaction(tid)
 GET     /api/*currency/transfer/*uid        controllers.ApiController.transfers(currency, uid)
 GET     /api/open/data/*type                controllers.MainController.listFilesFromHdfs(type)

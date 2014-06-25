@@ -52,17 +52,11 @@ object ApiController extends Controller with Json4s {
       AccountService.getOrders(None, None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
   }
 
-  def recentOrders(market: String) = Action.async {
-    implicit request =>
-      AccountService.getOrders(Some(market), None, None, None, 0, 15).map(result => Ok(result.toJson))
-  }
-
   def orders(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
       AccountService.getOrders(Some(market), None, None, None, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
-
 
   def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
