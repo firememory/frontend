@@ -36,29 +36,21 @@
 
 
                 <div class="collapse navbar-collapse pull-right">
-                    @if(isLogin()) {
-                    <ul class="nav pull-left">
-                        <li><a href="/account" class="log-out-in"><i class="fa fa-user"></i> @username</a></li>
-                        <li><a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                    }
                     <ul class="nav pull-left">
                         @menu("trade", "/trade", Messages("nav.trade"))
-                        @menu("account", "/account", Messages("nav.account"), false)
                         @menu("openness", "/open", Messages("nav.open"))
+                        @menu("account", "/account", Messages("nav.account"), false)
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
+                    } else {
+                        <li><a href="/account/logout" class="log-out-in">@Messages("nav.logout")</a></li>
                     }
                     </ul>
                     @if(!isLogin()) {
                      <form class="navbar-form pull-left">
                         <a class="btn btn-danger" href="/register">@Messages("nav.register")</a>
                     </form>
-                    }
+                    } 
                 </div>
 
             </nav>
