@@ -1,7 +1,8 @@
 cd /var/coinport/code/frontend/exchange
-releaseBranch=`git branch -a | grep $1`
+git fetch
+releaseBranch=`git branch | grep $1`
 if [ -z "$releaseBranch" ];then
-  git checkout -b $1 remotes/origin/$1
+  git checkout -b $1 origin/$1
 else
   git checkout $1
 fi
