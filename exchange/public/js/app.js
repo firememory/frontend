@@ -115,8 +115,9 @@ coinportApp.filter('price', function() {
     return function(input) {
         if (!input) return 0;
         var s = input.toPrecision(8);
-        for (i = s.length; i >= 0 && s.charAt(i - 1) == '0'; i--)
-        return s.slice(0, i + 1);
+        return s;
+//        for (i = s.length; i >= 0 && s.charAt(i - 1) == '0'; i--)
+//        return s.slice(0, i + 1);
     };
 });
 

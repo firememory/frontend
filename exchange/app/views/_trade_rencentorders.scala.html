@@ -17,21 +17,19 @@
                         <th nowrap class="text-right">@(Messages("order.averagePrice"))</th>
                         <th nowrap class="text-right">@(Messages("order.amount"))</th>
                         <th nowrap class="text-right">@(Messages("order.finishedAmount"))</th>
-                        <!--<th nowrap class="text-right">@(Messages("order.total"))</th>-->
                         <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="order in recentOrders | orderBy: ['-date', '-id']" class="user-order-item">
                         <td nowrap><a href="/order/{{order.id}}"><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span></a></td>
-                        <td nowrap><a href="/order/{{order.id}}"><i class="fa fa-clock-o"></i> <span ng-bind="order.submitTime | date:'MM-dd HH:mm:ss'"></span></a></td>
-                        <td nowrap ng-bind="order.uid"></td>
+                        <td nowrap><a href="/order/{{order.id}}"><i class="fa fa-clock-o" ng-bind="order.submitTime | date:' MM-dd HH:mm:ss'"></i></a></td>
+                        <td nowrap><a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' '+order.uid"></i></a></td>
                         <td nowrap class="{{order.operation | orderTypeClass}}" ng-bind="order.operation | orderTypeText"></td>
                         <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display"></td>
-                        <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.finishedAmount.value / order.finishedQuantity.value | price"></td>
+                        <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
                         <td nowrap class="text-right" ng-bind="order.amount.display"></td>
                         <td nowrap class="text-right" ng-bind="order.finishedQuantity.display"></td>
-                        <!--<td nowrap class="text-right" ng-bind="order.total.display"></td>-->
                         <td nowrap class="text-right" ng-bind="order.finishedAmount.display"></td>
                     </tr>
                     </tbody>
