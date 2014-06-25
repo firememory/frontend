@@ -713,7 +713,7 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
     };
 
     $scope.reload = function() {
-        $http.get('/api/' + $scope.market + '/order', {params: {limit: $scope.limit, page: $scope.page}})
+        $http.get('/api/user/' + $scope.uid + '/order/' + $scope.market, {params: {limit: $scope.limit, page: $scope.page}})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data;
             });

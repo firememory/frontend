@@ -63,7 +63,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         var params = {limit: 10};
         if ($scope.orderStatus >= 0)
             params.status = $scope.orderStatus;
-        $http.get('/api/' + $scope.market + '/order', {params: params})
+        $http.get('/api/user/' + $scope.uid + '/order/' + $scope.market, {params: params})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data.items;
                 $scope.count = data.data.count;

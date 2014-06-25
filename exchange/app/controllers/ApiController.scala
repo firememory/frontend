@@ -32,18 +32,15 @@ object ApiController extends Controller with Json4s {
       MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
-  def getUserOrders(market: String) = Action.async {
+  def userOrders(market: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
       val status = ControllerHelper.getParam(request.queryString, "status").map(s => OrderStatus.get(s.toInt).getOrElse(OrderStatus.Pending))
-      request.session.get("uid") match {
-        case Some(uid) =>
-          val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
-          AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
-            case result: ApiResult =>
-              Ok(result.toJson)
-          }
-        case None => Future(Unauthorized)
+
+      val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
+      AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
+        case result: ApiResult =>
+          Ok(result.toJson)
       }
   }
 
@@ -122,51 +119,52 @@ object ApiController extends Controller with Json4s {
       }
   }
 
-//  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
-//    implicit request =>
-//      val data = request.body
-//      val username = request.session.get("username").getOrElse(null)
-//      val uid = request.session.get("uid").getOrElse(null)
-//      if (username == null || uid == null) {
-//        Future(Unauthorized)
-//      } else {
-//        val amount = getParam(data, "amount", "0.0").toDouble
-//        val currency: Currency = getParam(data, "currency", "")
-//        val address = getParam(data, "address", "")
-//        val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
-//        val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
-//        validateParamsAndThen(
-//          new StringNonemptyValidator(uuid, verifyCode),
-//          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
-//        ) {
-//          AccountService.withdrawal(uid.toLong, currency, amount, address)} map {
-//            case result => Ok(result.toJson)
-//          }
-//        }
-//
-//  }
+  //  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
+  //    implicit request =>
+  //      val data = request.body
+  //      val username = request.session.get("username").getOrElse(null)
+  //      val uid = request.session.get("uid").getOrElse(null)
+  //      if (username == null || uid == null) {
+  //        Future(Unauthorized)
+  //      } else {
+  //        val amount = getParam(data, "amount", "0.0").toDouble
+  //        val currency: Currency = getParam(data, "currency", "")
+  //        val address = getParam(data, "address", "")
+  //        val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+  //        val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
+  //        validateParamsAndThen(
+  //          new StringNonemptyValidator(uuid, verifyCode),
+  //          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
+  //        ) {
+  //          AccountService.withdrawal(uid.toLong, currency, amount, address)} map {
+  //            case result => Ok(result.toJson)
+  //          }
+  //        }
+  //
+  //  }
 
-def withdrawal = Authenticated.async(parse.urlFormEncoded) {
-  implicit request =>
-    val data = request.body
-    val username = request.session.get("username").getOrElse(null)
-    val uid = request.session.get("uid").getOrElse(null)
-    if (username == null || uid == null) {
-      Future(Unauthorized)
-    } else {
-      val amount = getParam(data, "amount", "0.0").toDouble
-      val currency: Currency = getParam(data, "currency", "")
-      val address = getParam(data, "address", "")
-      UserService.setWithdrawalAddress(uid.toLong, currency, address)
-      AccountService.withdrawal(uid.toLong, currency, amount, address).map {
-        case result => Ok(result.toJson)
+  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      val data = request.body
+      val username = request.session.get("username").getOrElse(null)
+      val uid = request.session.get("uid").getOrElse(null)
+      if (username == null || uid == null) {
+        Future(Unauthorized)
+      } else {
+        val amount = getParam(data, "amount", "0.0").toDouble
+        val currency: Currency = getParam(data, "currency", "")
+        val address = getParam(data, "address", "")
+        UserService.setWithdrawalAddress(uid.toLong, currency, address)
+        AccountService.withdrawal(uid.toLong, currency, amount, address).map {
+          case result => Ok(result.toJson)
+        }
       }
-    }
-}
+  }
+
   def cancelWithdrawal(uid: String, tid: String) = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-      println("uid"+uid)
-      println("tid"+tid)
+      println("uid" + uid)
+      println("tid" + tid)
       TransferService.cancelWithdrawal(uid.toLong, tid.toLong)
       Future(Ok(ApiResult.toJson))
   }
@@ -181,7 +179,7 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       }
       val pager = ControllerHelper.parsePagingParam()
 
-      val userId = if( uid.toLong > 0) Some(uid.toLong) else None
+      val userId = if (uid.toLong > 0) Some(uid.toLong) else None
       TransferService.getTransfers(userId, Currency.valueOf(currency), status, None, types, Cursor(pager.skip, pager.limit)) map {
         case result => Ok(result.toJson)
       }
@@ -206,7 +204,7 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
   def transactions(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map (
+      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map(
         result => Ok(result.toJson))
   }
 
@@ -227,7 +225,7 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
       MarketService.getTransactionsByUser(Some(side), uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
-  def userTransaction(uid: String) = Action.async {
+  def userTransactions(uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
       MarketService.getTransactionsByUser(None, uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
@@ -253,13 +251,13 @@ def withdrawal = Authenticated.async(parse.urlFormEncoded) {
   def wallets(currency: String, walletsType: String) = Action.async {
     implicit request =>
       BitwayService.getWallets(currency, CryptoCurrencyAddressType.valueOf(walletsType).get).map(result =>
-      Ok(result.toJson))
+        Ok(result.toJson))
   }
 
   def currencyReserve(currency: String) = Action.async {
     implicit request =>
       OpenService.getCurrencyReserve(currency).map(result =>
-      Ok(result.toJson))
+        Ok(result.toJson))
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

@@ -39,7 +39,7 @@ app.controller('UserCtrl', function($scope, $http, $window) {
     $scope.orderPage = 1;
     $scope.orderLimit = 10;
     $scope.reloadOrders = function() {
-        $http.get('/api/all/order', {params: {limit: $scope.orderLimit, page: $scope.orderPage, uid: $scope.targetUid}})
+        $http.get('/api/user/' + $scope.targetUid + '/order/all' , {params: {limit: $scope.orderLimit, page: $scope.orderPage}})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data.items;
                 $scope.orderCount = data.data.count;
