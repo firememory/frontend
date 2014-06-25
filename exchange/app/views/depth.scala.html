@@ -64,10 +64,10 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.bids">
-                    <td nowrap>@(Messages("trade.buyShort")){{1+$index}}</td>
-                    <td nowrap class="text-right">{{item.price.display}}</td>
-                    <td nowrap class="text-right">{{item.amount.display}}</td>
-                    <td nowrap class="text-right">{{item.accumulated | coin}}</td>
+                    <td nowrap ng-bind="'@Messages("trade.buyShort")' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.accumulated | coin">@Messages("loading")</td>
                 </tr>
                 </tbody>
                 @__empty_table_indicator("depth.bids")    
@@ -88,10 +88,10 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.asks">
-                    <td nowrap>@(Messages("trade.sellShort")){{1+$index}}</td>
-                    <td nowrap class="text-right">{{item.price.display}}</td>
-                    <td nowrap class="text-right">{{item.amount.display}}</td>
-                    <td nowrap class="text-right">{{item.accumulated | coin}}</td>
+                    <td nowrap ng-bind="'@(Messages("trade.sellShort"))' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="item.accumulated | coin">@Messages("loading")</td>
                 </tr>
                 </tbody>
                 @__empty_table_indicator("depth.asks")    
