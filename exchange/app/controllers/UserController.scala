@@ -17,9 +17,8 @@ import play.api.Logger
 import play.api.libs.functional.syntax._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.api.model._
-import com.coinport.coinex.data.ErrorCode
+import com.coinport.coinex.data._
 import com.coinport.coinex.api.service._
-import com.coinport.coinex.data.{LoginSucceeded, LoginFailed, UserProfile}
 import ControllerHelper._
 
 object UserController extends Controller with Json4s with AccessLogging {

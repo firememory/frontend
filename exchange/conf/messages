@@ -290,3 +290,5 @@ asset.btcWithdrawal=BTC Withdrawal
 asset.accountSettings=Settings
 asset.trend=Daily Net Change
 asset.pie=Asset Composition
+
+btn.close=close

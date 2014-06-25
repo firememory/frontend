@@ -6,6 +6,9 @@ import play.api.mvc.Results._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import utils.Constant._
+import com.coinport.coinex.api.model.User
+import com.coinport.coinex.data.UserStatus
+import com.coinport.coinex.api.service.UserService
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
@@ -28,6 +31,23 @@ trait AuthenticateHelper {
 
 object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
 
+  private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
+    UserService.getProfile(uid) flatMap {
+      result =>
+      if (result.success) {
+        val user = result.data.get.asInstanceOf[User]
+        if (user.status == UserStatus.Suspended) {
+          Future(Unauthorized) // TODO notify user for account been suspended.
+        } else {
+          block(request).map(_.withCookies(
+            Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
+        }
+      } else {
+        Future(Unauthorized)
+      }
+    }
+  }
+
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
     // check login and session timeout here:
     request.session.get("uid").map { uid =>
@@ -41,8 +61,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
 //          responseOnRequestHeader(request, redirectUri)
           Future(Unauthorized)
         } else {
-          block(request).map(_.withCookies(
-            Cookie(cookieNameTimestamp, currTs.toString)))
+          checkUserSuspended(uid.toLong, request, block)
         }
       } getOrElse {
         block(request).map(_.withCookies(

@@ -294,3 +294,5 @@ asset.btcWithdrawal=比特币提现
 asset.accountSettings=账户设置
 asset.trend=日资产净值变动
 asset.pie=资产构成
+
+btn.close=关闭

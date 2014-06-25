@@ -206,6 +206,7 @@ div.trade {
         .border-radius(4px);
         box-shadow: 0 1px 1px 0 #cbcbcb;
     }
+    
     .depth-box { tr {cursor: pointer;}}
     .txs-box {
         a {
@@ -263,6 +264,47 @@ div.trade {
                 text-align: right;
                 padding-right: 20px;
                 font-weight: bold;
+            }
+
+            button.btn-sell {
+                background-color: @sell-color-light;
+                &:hover {background-color: @sell-color};
+            }
+            button.btn-buy {
+                background-color: @buy-color-light;
+                &:hover {background-color: @buy-color};
+            }
+
+            .input-group {
+                .input-group-addon {
+                    border-color: @opbox-primary-color;
+                    background-color: @opbox-primary-color;
+                }
+                input {
+                    border-color: @opbox-primary-color;
+                    color: @opbox-primary-color;
+
+                    &:focus {
+                        color: @opbox-primary-color;
+                        background-color: mix(@sun-flower, white, 20%);
+                    }
+                }
+            }
+
+            .input-group-advanced {
+                .input-group-addon {
+                    border-color: @opbox-secondary-color;
+                    background-color: @opbox-secondary-color;
+                }
+                input {
+                    border-color: @opbox-secondary-color;
+                    color: @opbox-secondary-color;
+
+                    &:focus {
+                        color: @opbox-secondary-color;
+                        background-color: mix(@sun-flower, white, 20%);
+                    }
+                }
             }
 
             &:hover {
@@ -655,6 +697,18 @@ div.prompt {
     .alert {
         padding: 60px;
         margin-top: 60px;
+    }
+}
+
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+// CSS for /userAgreement.html
+
+div.termofservice {
+    pre {
+        background-color: transparent;
+        font-size: 13px;
+        line-height: 1.4;
     }
 }
 
