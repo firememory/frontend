@@ -1,0 +1,38 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<section class="content-3">
+    <div>
+        <div class="container" ng-controller="MarketCtrl">
+            <h4>@Messages("index.marketStats")</h4>
+            <table class="table table-condensed bt-striped stats-table">
+                <thead>
+                <tr>
+                    <th nowrap>@Messages("ticker.market")</th>
+                    <th nowrap class="text-right">@Messages("ticker.price")</th>
+                    <th nowrap class="text-right">@Messages("ticker.high")</th>
+                    <th nowrap class="text-right">@Messages("ticker.low")</th>
+                    <th nowrap class="text-right">@Messages("ticker.volume")</th>
+                    <th nowrap class="text-right">@Messages("ticker.gain")</th>
+                    <th nowrap class="text-right"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="ticker in tickers">
+                    <td nowrap><a href="/trade#/{{ticker.market}}"><strong ng-bind="ticker.market">@Messages("loading")</strong></a></td>
+                    <td nowrap class="text-right" ng-bind="ticker.price.display + ' ' + ticker.price.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="ticker.high.display + ' ' + ticker.high.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="ticker.low.display + ' ' + ticker.low.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="ticker.volume.display + ' ' + ticker.volume.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</td>
+                    <td nowrap class="text-right">
+                        <a href="/depth/{{ticker.market}}">@Messages("open.market.depth") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
+                        <a href="/orders/{{ticker.market}}">@Messages("open.market.orders") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
+                        <a href="/transactions/{{ticker.market}}">@Messages("open.market.transactions") <i class="fa fa-share"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -49,7 +49,7 @@
                     <ul class="nav pull-left">
                         @menu("trade", "/trade", Messages("nav.trade"))
                         @menu("account", "/account", Messages("nav.account"), false)
-                        @menu("openness", "/open#/reserve", Messages("nav.open"))
+                        @menu("openness", "/open", Messages("nav.open"))
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     }

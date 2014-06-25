@@ -3,7 +3,11 @@ var app = angular.module('coinport.openness', ['ui.bootstrap', 'ngResource', 'na
 function routeConfig($routeProvider) {
     $routeProvider.
     when('/', {
-        redirectTo: '/opendata'
+        redirectTo: '/market'
+    }).
+    when('/market', {
+        controller: 'ReserveCtrl',
+        templateUrl: 'views/openmarket.html'
     }).
     when('/opendata', {
         controller: 'DownCtrl',
@@ -44,6 +48,18 @@ app.controller('DownCtrl', function ($scope, $http) {
 
     $scope.loadSnapshots();
     $scope.loadMessages();
+});
+
+app.controller('MarketCtrl', function ($scope, $http, $modal) {
+    var refresh = function() {
+      $http.get('/api/ticker')
+        .success(function(response, status, headers, config) {
+          $scope.tickers = response.data;
+          console.log(response)
+        });
+    };
+
+    refresh();
 });
 
 app.controller('ReserveCtrl', function ($scope, $http) {

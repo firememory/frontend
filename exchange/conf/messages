@@ -24,7 +24,8 @@ amount=Amount
 accumulated=Accumulated
 coinType=Coin Type
 orderBook=Order Book
-market=Market
+orders=Orders
+transactions=Transactions
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Session timed out, please log in again.
