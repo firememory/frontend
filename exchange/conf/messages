@@ -26,6 +26,7 @@ coinType=Coin Type
 orderBook=Order Book
 orders=Orders
 transactions=Transactions
+check=Check
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Session timed out, please log in again.

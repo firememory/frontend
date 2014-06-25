@@ -26,6 +26,7 @@ coinType=币种
 orderBook=累积深度
 orders=委托
 transactions=成交
+check=查看
 
 authenticateNotLogin=请先登录本网站
 authenticateTimeout=登录状态已失效，请重新登录
@@ -95,7 +96,7 @@ trade.cancel=撤单
 trade.availableAmount=可用数量
 trade.availableCurrency=可用资金
 trade.recentTransactions=最新成交
-trade.recentOrders=最新订单
+trade.recentOrders=最新委托
 trade.myOrders=我的委托
 trade.aboutOrder=委托详情
 trade.accumulated=累积深度
@@ -251,7 +252,7 @@ user.transfer.operation=操作
 user.transfer.currency=币种
 user.transfer.amount=数量
 user.transactions=成交
-user.orders=订单
+user.orders=委托
 user.profile=我的主页
 
 transfer.withdrawal=提现
