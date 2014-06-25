@@ -160,7 +160,7 @@ div.home {
     }
 
     section.header-3-sub {
-        .bg-turquoise;
+        background-color: @belize-hole;
         color: white;
         padding-top: 100px;
         padding-bottom: 140px;
@@ -180,12 +180,14 @@ div.home {
         .photo-wrapper {.bg-belize-hole;}
         .members {
             .name {color: @belize-hole;}
-            .member:hover .photo-wrapper {.bg-turquoise;}
+            .member:hover .photo-wrapper {background: @peter-river;}
         }
     }
     section.contacts-3 {
         color: @asbestos;
         .links {border-bottom: 0;}
+        a {color: @belize-hole;}
+        a:hover {color: @peter-river;}
     }
 
 }
@@ -237,7 +239,7 @@ div.trade {
         font-size: 20px;
         font-weight: 40;
     }
-    .badge {width: 60px;}
+    .badge {min-width: 60px;}
     .bottom-right-more {
         position: absolute;
         bottom: 0;
@@ -477,7 +479,7 @@ div.opendata-browser {
 div.account {
     .table > thead > tr > th {padding-right: 5px; padding-left: 5px;}
     .table > tbody > tr > td {padding-right: 5px; padding-left: 5px;}
-    .badge {width: 60px;}
+    .badge {min-width: 60px;}
     section.header-3-sub {
         .has-sell-buy-color();
         .silver-h4;
