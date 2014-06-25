@@ -24,6 +24,7 @@ amount=数量
 accumulated=累计数量
 coinType=币种
 orderBook=累积深度
+market=市场
 
 authenticateNotLogin=请先登录本网站
 authenticateTimeout=登录状态已失效，请重新登录
