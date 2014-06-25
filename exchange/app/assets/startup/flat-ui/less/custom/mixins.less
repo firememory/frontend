@@ -4,6 +4,12 @@
 // NOTE: Feel free to add your own here.
 // -----------------------------------------------------
 
+.has-grey-table-header {
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th  {
+    background-color: #f2f3f4;
+  }
+}
+
 .has-sell-buy-color() {
     .sell {color: @sell-color;}
     .buy {color: @buy-color;}
@@ -56,12 +62,9 @@ div.light-bordered {
 }
 
 .stats-table {
-    border-radius: 7px;
-    border-style: solid;
-    border-color: @clouds;
-    border-top-color: @turquoise;
-
-    tbody > tr > td {color: @turquoise;}
+    border-radius: 1px;
+    box-shadow: 0 1px 1px 0 #cbcbcb;
+    background-color: white;
 }
 /*
 PUT THIS AT THE VERY END OF THIS FILE!!!!!!!!

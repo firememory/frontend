@@ -18,7 +18,7 @@
 
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped stats-table">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <th nowrap>@Messages("order.oid")</br>&nbsp;</th>
@@ -62,8 +62,8 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
                 </div>
+                <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
             </div>
         </div>
     </div>

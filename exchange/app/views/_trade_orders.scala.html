@@ -13,7 +13,7 @@
         </tabset>
         <div class="user-order-box">
             <div class="table-responsive">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th nowrap></th>
@@ -39,8 +39,8 @@
                     <td nowrap class="text-right" ng-bind="order.finishedQuantity.display"></td>
                     <!--<td nowrap class="text-right" ng-bind="order.total.display"></td>-->
                     <td nowrap class="text-right" ng-bind="order.finishedAmount.display"></td>
-                    <td nowrap>
-                        <a class="badge text-white bg-danger" ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
+                    <td nowrap class="text-right">
+                        <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
                     </td>
                 </tr>
                 </tbody>

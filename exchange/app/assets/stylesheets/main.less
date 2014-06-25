@@ -45,6 +45,9 @@ fieldset[disabled] .btn {
   opacity: 0.7;
 }
 
+.table > thead > tr > th {padding: 5px};
+.table > tbody > tr > td {padding: 5px};
+
 div.footer {
     position: absolute;
     bottom: 0;
@@ -73,6 +76,10 @@ div.container-main {
     @media (max-width: 768px) {
       padding-bottom: 500px;
     }
+}
+
+.table-responsive {
+    overflow-x: scroll;
 }
 
 .header-3 {
@@ -171,7 +178,6 @@ div.home {
         .links {border-bottom: 0;}
     }
 
-    .stats-table;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -198,6 +204,7 @@ div.trade {
         background-color: white;
         padding: 10px;
         .border-radius(4px);
+        box-shadow: 0 1px 1px 0 #cbcbcb;
     }
     .depth-box { tr {cursor: pointer;}}
     .txs-box {
@@ -219,7 +226,7 @@ div.trade {
         font-size: 20px;
         font-weight: 40;
     }
-    .badge {width: 60px; font-weight: bold;}
+    .badge {width: 60px;}
     .bottom-right-more {
         position: absolute;
         bottom: 0;
@@ -330,6 +337,14 @@ div.trade {
 // CSS for '/open'
 
 div.openness {
+    .has-grey-table-header;
+    .tab-content {
+        border-width: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        padding: 0;
+    }
+
     background-color: white;
     .header-3 .header-background {.bg-light; }
     section.content-3 {
@@ -399,6 +414,8 @@ div.opendata-browser {
 
         .has-sell-buy-color();
     }
+
+    .has-grey-table-header;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -408,7 +425,7 @@ div.opendata-browser {
 div.account {
     .table > thead > tr > th {padding-right: 5px; padding-left: 5px;}
     .table > tbody > tr > td {padding-right: 5px; padding-left: 5px;}
-    .badge {width: 60px; font-weight: bold;}
+    .badge {width: 60px;}
     section.header-3-sub {
         .has-sell-buy-color();
         .silver-h4;

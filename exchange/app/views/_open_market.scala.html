@@ -5,7 +5,7 @@
     <div>
         <div class="container" ng-controller="MarketCtrl">
             <h4>@Messages("index.marketStats")</h4>
-            <table class="table table-condensed bt-striped stats-table">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th nowrap>@Messages("ticker.market")</th>
@@ -26,9 +26,9 @@
                     <td nowrap class="text-right" ng-bind="ticker.volume.display + ' ' + ticker.volume.currency">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</td>
                     <td nowrap class="text-right">
-                        <a href="/depth/{{ticker.market}}">@Messages("open.market.depth") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
-                        <a href="/orders/{{ticker.market}}">@Messages("open.market.orders") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
-                        <a href="/transactions/{{ticker.market}}">@Messages("open.market.transactions") <i class="fa fa-share"></i></a>
+                        <a href="/depth/{{ticker.market}}" target="_blank">@Messages("open.market.depth") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
+                        <a href="/orders/{{ticker.market}}" target="_blank">@Messages("open.market.orders") <i class="fa fa-share"></i></a>&nbsp;|&nbsp;
+                        <a href="/transactions/{{ticker.market}}" target="_blank">@Messages("open.market.transactions") <i class="fa fa-share"></i></a>
                     </td>
                 </tr>
                 </tbody>

@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                    <table class="table table-striped table-hover stats-table">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <th nowrap>@Messages("open.coinType")</th>
@@ -21,7 +21,7 @@
                             <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
                             <th nowrap class="text-right">@Messages("open.reserve.account")</th>
                             <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
-                            <th nowrap>@Messages("open.reserve.ratio")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.ratio")</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,7 @@
                             <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.display}}</td>
                             <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
                             <td nowrap class="text-right">{{walletsBalance['@coin'].display}}</td>
-                            <td nowrap>
+                            <td nowrap class="text-right">
                                 <span ng-show="walletsBalance['@coin']" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
                                     {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%
                                 </span>
@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover stats-table">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>@Messages("open.coinType")</th>
@@ -65,18 +65,18 @@
                                 <th>@Messages("open.network.delayed")</th>
                                 <th>@Messages("open.network.height")</th>
                                 <th>@Messages("open.network.lastblock")</th>
-                                <th>@Messages("open.network.status")</th>
+                                <th class="text-right">@Messages("open.network.status")</th>
                             </tr>
                             </thead>
                             <tbody>
                             @for(coin <- coins) {
                             <tr ng-init="getNetworkStatus('@coin')">
-                                <td><strong>@coin</strong></td>
+                                <td nowrap><strong><a href="/coin/@coin">@coin</a></strong></td>
                                 <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                                 <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>
                                 <td>{{status['@coin'].height}}</td>
                                 <td><a target="_blank" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")</a></td>
-                                <td><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                                <td class="text-right"><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
                             </tr>
                             }
                             </tbody>
