@@ -48,11 +48,11 @@
                         </thead>
                         <tbody>
                         <tr  ng-repeat="order in orders">
-                            <td nowrap ng-bind="order.id">@Messages("loading")</td>
-                            <td nowrap ng-bind="order.uid"></td>
+                            <td nowrap><a href="/order/{{order.id}}" ng-bind="order.id">@Messages("loading")</a></td>
+                            <td nowrap><a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' ' +  order.uid">@Messages("loading")</i></a> </td>
                             <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
                             <td nowrap><span class="{{order.operation.toLowerCase()}}" ng-bind="order.operation | orderTypeText"><i class="fa fa-lg {{order.operation | txTypeIcon}}"></i></span></td>
-                            <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
+                            <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
                             <td nowrap ng-bind="order.price.display"></td>
                             <td nowrap ng-bind="order.finishedAmount.value / order.finishedQuantity.value"></td>
                             <td nowrap ng-bind="order.amount.display"></td>
