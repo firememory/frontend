@@ -384,7 +384,7 @@
 .fa-pencil-square-o:before {
   content: "\f044";
 }
-.fa-share-square-o:before {
+.fa-external-link-square-o:before {
   content: "\f045";
 }
 .fa-check-square-o:before {
@@ -472,7 +472,7 @@
   content: "\f063";
 }
 .fa-mail-forward:before,
-.fa-share:before {
+.fa-external-link:before {
   content: "\f064";
 }
 .fa-expand:before {
@@ -1110,7 +1110,7 @@
 .fa-external-link-square:before {
   content: "\f14c";
 }
-.fa-share-square:before {
+.fa-external-link-square:before {
   content: "\f14d";
 }
 .fa-compass:before {
@@ -1555,10 +1555,10 @@
 .fa-sliders:before {
   content: "\f1de";
 }
-.fa-share-alt:before {
+.fa-external-link-alt:before {
   content: "\f1e0";
 }
-.fa-share-alt-square:before {
+.fa-external-link-alt-square:before {
   content: "\f1e1";
 }
 .fa-bomb:before {

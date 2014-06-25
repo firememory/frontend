@@ -83,22 +83,27 @@ div.container-main {
 }
 
 .header-3 {
-    .navbar .nav > li > a {
-        text-transform: uppercase;
-        letter-spacing: 0;
-        font-weight: bold;
-        color: mix(@wet-asphalt, white, 70%);
-        &.log-out-in {
-            font-weight: 200;
-            &:hover {color: @turquoise;}
+    .navbar {
+        .brand {
+            color: @peter-river;
+        }
+        .nav > li > a {
+            text-transform: uppercase;
+            letter-spacing: 0;
+            font-weight: bold;
+            color: mix(@wet-asphalt, white, 70%);
+            &.log-out-in {
+                font-weight: 200;
+                &:hover {color: @turquoise;}
+            }
         }
     }
-        sup {
-            .text-warning;
-            font-weight: 200;
-            font-size: 15px;
-            padding: 0px 3px;
-        }
+    sup {
+        .text-warning;
+        font-weight: 200;
+        font-size: 15px;
+        padding: 0px 3px;
+    }
 }
 
 .nav-lang-vertical {
@@ -148,7 +153,11 @@ div.site-notification {
 // CSS for '/index'
 
 div.home {
-    section.content-16 {.bg-white; }
+    section.content-16 {
+        .bg-white; 
+        h3 {color: @peter-river;}
+        .lead {color: @asbestos;}
+    }
 
     section.header-3-sub {
         .bg-turquoise;
@@ -175,6 +184,7 @@ div.home {
         }
     }
     section.contacts-3 {
+        color: @asbestos;
         .links {border-bottom: 0;}
     }
 
