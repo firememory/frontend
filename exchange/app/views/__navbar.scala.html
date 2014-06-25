@@ -23,6 +23,18 @@
                     <a class="brand" href="/"><img src="/image/logo.png" width="50" height="50" alt="">@Messages("nav.brand")<sup>private-beta</sup></a>
                 </div>
 
+                <div class="nav pull-left">
+                    <select class="nav-lang-select" onchange="if (this.value) window.location.href=this.value">
+                        <option @if(lang.code == "en-US") {selected="selected"} value="/changelocale/en-US">English</option>
+                        <option @if(lang.code == "zh-CN") {selected="selected"} value="/changelocale/zh-CN">简体中文</option>
+                    </select>
+                    <!-- <ul class="nav-lang-vertical">
+                    <li><a href="/changelocale/en-US">English</a></li>
+                    <li><a href="/changelocale/zh-CN">简体中文</a></li>
+                    </ul> -->
+                </div>
+
+
                 <div class="collapse navbar-collapse pull-right">
                     @if(isLogin()) {
                     <ul class="nav pull-left">
@@ -47,13 +59,6 @@
                         <a class="btn btn-danger" href="/register">@Messages("nav.register")</a>
                     </form>
                     }
-
-                    <div class="nav pull-left">
-                        <ul class="nav-lang-vertical">
-                            <li><a href="/changelocale/en-US">English</a></li>
-                            <li><a href="/changelocale/zh-CN">简体中文</a></li>
-                        </ul>
-                    </div>
                 </div>
 
             </nav>
