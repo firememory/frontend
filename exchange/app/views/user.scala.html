@@ -23,14 +23,16 @@
                 <thead>
                     <tr>
                         <th nowrap>@Messages("user.coinType")</th>
-                        <th nowrap>@Messages("user.available")</th>
-                        <th nowrap>@Messages("user.orderPending")</th>
-                        <th nowrap>@Messages("user.withdrawalPending")</th>
+                        <th nowrap class="text-right">@Messages("user.account.total")</th>
+                        <th nowrap class="text-right">@Messages("user.available")</th>
+                        <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                        <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="account in accounts">
-                        <td nowrap ng-bind="account.currency"></td>
+                        <td nowrap><b ng-bind="account.currency"></b></td>
+                        <td nowrap class="text-right"><b ng-bind="account.total.display"></b></td>
                         <td nowrap class="text-right" ng-bind="account.available.display"></td>
                         <td nowrap class="text-right" ng-bind="account.locked.display"></td>
                         <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.display"></td>
@@ -61,7 +63,7 @@
                         <tbody>
                         <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
                             <td nowrap> <a href="/order/{{order.id}}" ng-bind="order.id"></a></td>
-                            <td nowrap ng-bind="order.submitTime | date:'MM-dd HH:mm:ss'"></td>
+                            <td nowrap><i class="fa fa-clock-o" ng-bind="order.submitTime | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                             <td nowrap class="{{order.operation | orderTypeClass}}"><span ng-bind="order.operation | orderTypeText"></span> <span ng-bind="'(' + order.subject + '-' + order.currency + ')'"></span></td>
                             <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display + '' + order.currency"></td>
                             <td nowrap class="text-right" ng-bind="order.amount.display + ' ' + order.subject"></td>
@@ -133,7 +135,7 @@
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("transfer.address")</th>
-                    <!--<th nowrap class="text-right">@Messages("transfer.txid")</th>-->
+                    <th nowrap>@Messages("transfer.txid")</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,7 +148,7 @@
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap ng-bind="item.address"></td>
-                    <td><a target="_blank" href="{{item.txlink}}">@Messages("check") <i class="fa fa-link"></i></a></td>
+                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check") <i class="fa fa-link"></i></a></td>
                 </tr>
                 </tbody>
                 </table>
