@@ -8,9 +8,9 @@ var Messages = {
 };
 
 Messages.orderStatus = {
-    pending: 'Pending',
-    open: 'Open',
-    finished: 'Finished',
+    pending: 'Open',
+    open: 'Partial',
+    finished: 'Filled',
     cancelled: 'Cancelled',
     cancelling: 'Cancelling'
 };
