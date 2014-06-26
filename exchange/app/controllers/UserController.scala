@@ -24,8 +24,8 @@ import ControllerHelper._
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
 
-  val inviteCodeFile: String = "inviteCode.txt"
-  val usedInviteCodeFile: String = "usedInviteCode.properties"
+  val inviteCodeFile: String = "/var/coinport/private/inviteCode.txt"
+  val usedInviteCodeFile: String = "/var/coinport/private/usedInviteCode.properties"
 
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
