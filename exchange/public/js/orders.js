@@ -3,8 +3,8 @@ var app = angular.module('coinport.orders', ['ui.bootstrap', 'ngResource', 'navb
 app.controller('OrdersCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/orders/", "");
     $scope.limit = 15;
-    $scope.subject = $scope.market.substr(0,3);
-    $scope.currency = $scope.market.substr(3,3);
+    $scope.subject = $scope.market.split("-")[0];
+    $scope.currency = $scope.market.split("-")[1];
 
     $scope.loadOrders = function() {
         $http.get('/api/' + $scope.market + '/orders', {params: {limit: $scope.limit, page: $scope.page}})

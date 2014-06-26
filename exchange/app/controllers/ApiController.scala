@@ -16,6 +16,7 @@ import com.coinport.coinex.api.model._
 import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import controllers.ControllerHelper._
+import utils.Constant
 
 object ApiController extends Controller with Json4s {
 
@@ -37,7 +38,7 @@ object ApiController extends Controller with Json4s {
       val pager = ControllerHelper.parsePagingParam()
       val status = ControllerHelper.getParam(request.queryString, "status").map(s => OrderStatus.get(s.toInt).getOrElse(OrderStatus.Pending))
 
-      val marketSide: Option[MarketSide] = if (market.isEmpty || market == "all") None else Some(market)
+      val marketSide: Option[MarketSide] = if (market.isEmpty || market.toLowerCase() == "all") None else Some(market)
       AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
         case result: ApiResult =>
           Ok(result.toJson)
@@ -52,13 +53,14 @@ object ApiController extends Controller with Json4s {
   def orders(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
+    println(">>>>>>>>>" + market)
       AccountService.getOrders(Some(market), None, None, None, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-      val subject = market.substring(0, 3);
-      val currency = market.substring(3);
+      val subject = market.split("-")(0);
+      val currency = market.split("-")(1);
       val data = request.body
       request.session.get("uid") match {
         case Some(id) =>
@@ -163,8 +165,6 @@ object ApiController extends Controller with Json4s {
 
   def cancelWithdrawal(uid: String, tid: String) = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-      println("uid" + uid)
-      println("tid" + tid)
       TransferService.cancelWithdrawal(uid.toLong, tid.toLong)
       Future(Ok(ApiResult.toJson))
   }
@@ -239,7 +239,7 @@ object ApiController extends Controller with Json4s {
 
   def tickers() = Action.async {
     implicit request =>
-      val sides = Seq(Btc ~> Cny, Ltc ~> Btc, Pts ~> Btc, Dog ~> Btc)
+      val sides = Constant.marketSides
       MarketService.getTickers(sides).map(result => Ok(result.toJson))
   }
 

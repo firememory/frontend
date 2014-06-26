@@ -22,8 +22,8 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.market = $routeParams.market.toUpperCase();
     $scope.historyPeriod = 5; // 1 - minute K
     $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds
-    $scope.subject = $scope.market.substr(0, 3);
-    $scope.currency = $scope.market.substr(3);
+    $scope.subject = $scope.market.split("-")[0];
+    $scope.currency = $scope.market.split("-")[1];
     $scope.orders = [];
     $scope.recentOrders = [];
     $scope.bid = {price: 0, amount: 0, total: 0, limit: 0};

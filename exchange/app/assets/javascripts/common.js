@@ -2,16 +2,16 @@
 
 COINPORT = {
     priceFixed: {
-        btccny: 2,
-        ltcbtc: 4,
-        dogbtc: 8
+        'btc-cny': 2,
+        'ltc-btc': 4,
+        'doge-btc': 8
     },
 
     amountFixed: {
         cny: 4,
         btc: 4,
         ltc: 2,
-        dog: 2
+        doge: 2
     },
 
     defaultMarket: 'LTCBTC',
@@ -19,19 +19,19 @@ COINPORT = {
     blockUrl: {
         BTC: 'https://blockchain.info/block-index/',
         LTC: 'http://block-explorer.com/block/',
-        DOG: 'http://dogechain.info/block/'
+        DOGE: 'http://dogechain.info/block/'
     },
 
     addressUrl: {
         BTC: 'https://blockchain.info/address/',
         LTC: 'http://block-explorer.com/address/',
-        DOG: 'http://dogechain.info/address/'
+        DOGE: 'http://dogechain.info/address/'
     },
 
     txUrl: {
         BTC: 'https://blockchain.info/tx/',
         LTC: 'http://block-explorer.com/tx/',
-        DOG: 'http://dogechain.info/tx/'
+        DOGE: 'http://dogechain.info/tx/'
     }
 };
 
