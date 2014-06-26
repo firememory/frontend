@@ -62,7 +62,7 @@
                         <td nowrap class="text-right" ng-bind="ticker.high.display + ' ' + ticker.high.currency">@Messages("loading")</td>
                         <td nowrap class="text-right" ng-bind="ticker.low.display + ' ' + ticker.low.currency">@Messages("loading")</td>
                         <td nowrap class="text-right" ng-bind="ticker.volume.display + ' ' + ticker.volume.currency">@Messages("loading")</td>
-                        <td nowrap class="text-right" ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</td>
+                        <td nowrap class="text-right {{ticker.gain | gainClass}}"><span ng-bind="(ticker.gain * 100).toFixed(2) + ' %'">@Messages("loading")</span> <i class="{{ticker.gain | gainIcon}}"></i> </td>
                         <td nowrap class="text-right"><div class="sparkline-@market"></div></td>
                     </tr>
                     </tbody>

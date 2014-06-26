@@ -189,6 +189,21 @@ coinportApp.filter('reserveRatioClass', function() {
     }
 });
 
+coinportApp.filter('gainClass', function() {
+    return function(input) {
+        if (input < 0) return 'red';
+        if (input > 0) return 'green';
+        return '';
+    }
+});
+
+coinportApp.filter('gainIcon', function() {
+    return function(input) {
+        if (input < 0) return 'fa fa-long-arrow-down';
+        if (input > 0) return 'fa fa-long-arrow-up';
+        return '';
+    }
+});
 // Directives
 // nav bar
 coinportApp.directive('cpNav', function($window) {
