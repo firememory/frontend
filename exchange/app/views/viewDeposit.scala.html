@@ -2,21 +2,21 @@
 @import utils.Constant._
 
 <div class="row">
-    <h5>@Messages("transfer.deposit")
-    <select ng-model="currency" ng-change="changeCurrency()">
-    @for(coin <- coins) {
-    <option>@coin</option>
-    }
-    </select>
-    </h5>
-    <h5>@(Messages("transfer.account")): {{balance.available.display}} {{currency}}</h5>
-    <h5>@Messages("transfer.depositAddress")</h5>
+    <h6>
+        <b>@Messages("transfer.deposit")</b> / <a href="#/withdrawal/{{currency}}">@Messages("transfer.withdrawal")</a>
+        <select ng-model="currency" ng-change="changeCurrency()">
+        @for(coin <- coins) {
+        <option>@coin</option>
+        }
+        </select>
+    </h6>
+    <alert>@(Messages("transfer.account")): {{balance.available.display}} {{currency}}</alert>
+    <h6>@Messages("transfer.depositAddress")</h6>
     <div class="alert alert-success"><strong>{{depositAddress}}</strong></div>
 </div>
 
-<h5>@Messages("transfer.depositRecord")</h5>
-
 <div class="row">
+    <h6>@Messages("transfer.depositRecord")</h6>
     <div class="col-md-12">
         <table class="table table-striped">
             <thead>
