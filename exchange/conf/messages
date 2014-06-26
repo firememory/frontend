@@ -67,6 +67,8 @@ register.inviteCode=Invitation Code
 register.inviteCodeNoMatch=sorry, your invitation code is invalid
 register.invite.error.required=invitation code required 
 register.invite.error.length=invitation code length must be 8 
+privacyTitle=PRIVACY PRINCIPLES
+termsTitle=TERMS OF SERVICE
 
 ticker.market=Market
 ticker.price=Price

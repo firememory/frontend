@@ -246,4 +246,10 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.userAgreement.render(request.session, langFromRequestCookie(request)))
   }
+
+  def privacy() = Action {
+    implicit request =>
+      Ok(views.html.privacy.render(request.session, langFromRequestCookie(request)))
+  }
+
 }

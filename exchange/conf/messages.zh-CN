@@ -69,7 +69,8 @@ register.inviteCode=邀请码
 register.inviteCodeNoMatch=无效的邀请码
 register.invite.error.required=邀请码未填
 register.invite.error.length=邀请码长度为8位
-
+privacyTitle=隐私申明
+termsTitle=服务条款
 
 ticker.market=市场
 ticker.price=最新成交价

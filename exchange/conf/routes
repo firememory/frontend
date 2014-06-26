@@ -52,6 +52,7 @@ GET     /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdr
 
 # html snippet
 GET     /userAgreement.html              controllers.MainController.userAgreement()
+GET     /privacy.html                    controllers.MainController.privacy()
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()
 GET     /views/accountSettings.html      controllers.UserController.accountSettingsView()
