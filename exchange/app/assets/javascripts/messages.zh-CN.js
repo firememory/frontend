@@ -65,7 +65,7 @@ Messages.account = {
 };
 
 Messages.connectivity = {
-  status: {normal: '正常', delayed: '延迟', blocked: '无法连通'}
+  status: {normal: '正常', delayed: '延迟', blocked: '断开'}
 };
 
 Messages.ErrorMessages = {
