@@ -53,7 +53,6 @@ object ApiController extends Controller with Json4s {
   def orders(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-    println(">>>>>>>>>" + market)
       AccountService.getOrders(Some(market), None, None, None, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 

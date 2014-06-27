@@ -598,6 +598,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $('#ask_total').keyup(updateAskAmount);
 };
 
-//setTimeout(function() {
-//    $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
-//}, 200);
+// prevent app from memory leak, kind of hack
+setTimeout(function() {
+    window.location.reload();
+}, 1000 * 60 * 30);
