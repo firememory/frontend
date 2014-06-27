@@ -135,7 +135,7 @@
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("transfer.address")</th>
-                    <th nowrap>@Messages("transfer.txid")</th>
+                    <th nowrap></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -148,7 +148,7 @@
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap ng-bind="item.address"></td>
-                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check") <i class="fa fa-link"></i></a></td>
+                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check")</a></td>
                 </tr>
                 </tbody>
                 </table>
