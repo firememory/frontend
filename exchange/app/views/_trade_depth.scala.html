@@ -9,6 +9,13 @@
     <h4>@Messages("depth")</h4>
     <div class="depth-box box table-responsive">
         <table class="table table-condensed table-hover table-borderless">
+            <thead>
+                <tr>
+                    <th nowrap>@(Messages("order.type"))</th>
+                    <th nowrap class="text-right">@(Messages("order.price"))</th>
+                    <th nowrap class="text-right">@(Messages("order.amount"))</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr ng-repeat="item in depth.asks" ng-click="clickDepthAsks($index)">
                     <td class="l title sell">
