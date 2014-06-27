@@ -36,18 +36,6 @@
 
 ///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////
-// Common
-
-.red {
-    color: red;
-}
-
-.green {
-    color: green;
-}
-
-///////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
 // NavBar
 
 .btn.disabled,
@@ -55,6 +43,8 @@
 fieldset[disabled] .btn {
   opacity: 0.7;
 }
+
+.badge {min-width: 60px;}
 
 .table > thead > tr > th {padding: 5px};
 .table > tbody > tr > td {padding: 5px};
@@ -253,7 +243,6 @@ div.trade {
         font-size: 20px;
         font-weight: 40;
     }
-    .badge {min-width: 60px;}
     .bottom-right-more {
         position: absolute;
         bottom: 0;
@@ -493,7 +482,6 @@ div.opendata-browser {
 div.account {
     .table > thead > tr > th {padding-right: 5px; padding-left: 5px;}
     .table > tbody > tr > td {padding-right: 5px; padding-left: 5px;}
-    .badge {min-width: 60px;}
     section.header-3-sub {
         .has-sell-buy-color();
         .silver-h4;

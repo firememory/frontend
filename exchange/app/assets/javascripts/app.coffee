@@ -74,7 +74,7 @@ coinportApp.filter 'dwText', () -> (input) ->
 	if input == 0 then Messages.transfer.deposit else Messages.transfer.withdrawal
 
 coinportApp.filter 'dwClass', () -> (input) ->
-	if input == 0 then 'green' else 'red'
+	if input == 0 then 'buy' else 'sell'
 
 coinportApp.filter 'dwIcon', () -> (input) ->
 	if input == 0 then 'fa-sign-out fa-rotate-270' else 'fa-sign-in fa-rotate-90'

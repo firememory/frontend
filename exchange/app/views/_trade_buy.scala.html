@@ -40,7 +40,7 @@
                         <b>@(Messages("trade.aboutOrder")): </b>
 @if(lang.code=="zh-CN") {
                         <span ng-show="bid.price == 0">
-                            以 <span class="red">市场价</span>
+                            以 <span class="buy">市场价</span>
                         </span>
                         <span  ng-show="bid.price > 0">
                             以不高于  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}} 的价格
@@ -68,7 +68,7 @@
                             buying <span class="num">{{bid.amount}}</span> {{subject}}
                         </span>
                         <span ng-show="bid.price == 0">
-                            at <span class="red">market price</span>
+                            at <span class="buy">market price</span>
                         </span>
                         <span  ng-show="bid.price > 0">
                             at a price lower than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
