@@ -14,7 +14,7 @@ COINPORT = {
         doge: 2
     },
 
-    defaultMarket: 'LTCBTC',
+    defaultMarket: 'LTC-BTC',
 
     blockUrl: {
         BTC: 'https://blockchain.info/block-index/',
