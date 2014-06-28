@@ -87,7 +87,7 @@
                         </span>
 }
                 </div>
-                <div class="alert alert-danger" ng-show="showMessage['ask']"> <b>{{info.message['ask']}}</b> </div>
+                <div class="alert alert-danger bg-warning" ng-show="showMessage['ask']"> <b>{{info.message['ask']}}</b> </div>
                 @if(isLogin()) {
                 <button class="btn btn-block btn-op btn-sell" ng-click="addAskOrder()">{{info.askButtonLabel}}</button>
                 } else {

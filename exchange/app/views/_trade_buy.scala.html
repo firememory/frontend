@@ -86,7 +86,7 @@
                         </span>
 }
                 </div>
-                <div class="alert alert-danger" ng-show="showMessage['bid']"> <b>{{info.message['bid']}}</b> </div>
+                <div class="alert alert-danger bg-warning" ng-show="showMessage['bid']"> <b>{{info.message['bid']}}</b> </div>
                 @if(isLogin()) {
                 <button class="btn btn-block btn-op btn-buy" ng-click="addBidOrder()">{{info.bidButtonLabel}}</button>
                 } else {

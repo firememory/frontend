@@ -48,11 +48,11 @@ Messages.asset = {
 };
 
 Messages.trade = {
-    lowerZero: 'Amount should bigger than zero',
-    noEnough: 'Account balance is not enough',
-    inputAmount: 'Illegal amount, Market Order is not supported yet',
-    inputPrice: 'Illegal price, Market Order is not supported yet',
-    inputTotal: 'Illegal total, please increase price or amount',
+    lowerZero: 'Invalid quantity input - it must be greater than 0',
+    noEnough: 'Insufficient balance - you have not enough to trade.',
+    inputAmount: 'Invalid quantity input - it is required and must be greater than 0.',
+    inputPrice: 'Invalid price input - it is required and must be greater than 0.',
+    inputTotal: 'Invalid total input - it must be greater than 0. You can achieve this by increasing the price or quantity input.',
     submit: 'Order submitting',
     submitted: 'Order submitted',
     error: 'Fail to submit order'
