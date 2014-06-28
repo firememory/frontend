@@ -9,7 +9,7 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th nowrap>@(Messages("order.time"))</th>
+                        <th nowrap>@(Messages("order.oid"))</th>
                         <th nowrap>@(Messages("order.uid"))</th>
                         <th nowrap>@(Messages("order.type"))</th>
                         <th nowrap class="text-right">@(Messages("order.price"))</th>
@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="order in recentOrders | orderBy: ['-date', '-id']" class="user-order-item">
-                        <td nowrap><a href="/order/{{order.id}}"><i class="fa fa-clock-o" ng-bind="order.submitTime | date:' MM-dd HH:mm:ss'"></i></a></td>
+                        <td nowrap><a href="/order/{{order.id}}" ng-bind="order.id"></a></td>
                         <td nowrap><a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' '+order.uid"></i></a></td>
                         <td nowrap class="{{order.operation | orderTypeClass}}" ng-bind="order.operation | orderTypeText"></td>
                         <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display"></td>

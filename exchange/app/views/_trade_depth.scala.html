@@ -22,7 +22,7 @@
                         <b ng-show="$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</b>
                         <span ng-show="!$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                     </td>
-                    <td class="price">
+                    <td class="text-right price">
                         <b ng-show="$last" ng-bind="item.price.display"></b>
                         <span ng-show="!$last" ng-bind="item.price.display"></span>
                     </td>
@@ -47,7 +47,7 @@
                         <b ng-show="$first">@(Messages("trade.buyShort")){{1+$index}}</b>
                         <span ng-show="!$first">@(Messages("trade.buyShort")){{1+$index}}</span>
                     </td>
-                    <td class="price">
+                    <td class="text-right price">
                         <b ng-show="$first" ng-bind="item.price.display"></b>
                         <span ng-show="!$first" ng-bind="item.price.display"></span>
                     </td>
