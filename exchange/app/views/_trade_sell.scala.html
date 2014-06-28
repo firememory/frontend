@@ -75,15 +75,13 @@
                             at a price higher than or equal to  <span class="num">{{ask.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="askOptions.limitTotal || askOptions.limitLimit">
-                            to get
                             <span ng-show="ask.total > 0">
-                            at least <span class="num">{{ask.total}} </span>
+                            to get at least <span class="num">{{ask.total}} {{currency}}</span>
                             </span>
                                 <span ng-show="ask.total > 0 && ask.limit > 0"> but </span>
                             <span ng-show="ask.limit > 0">
-                                at most <span class="num">{{ask.limit}} </span>
+                                at most <span class="num">{{ask.limit}} {{currency}}</span>
                             </span>
-                            {{currency}}.
                         </span>
 }
                 </div>

@@ -74,15 +74,13 @@
                             at a price lower than or equal to  <span class="num">{{bid.price}}</span> {{currency}}/{{subject}}
                         </span>
                         <span ng-show="bidOptions.limitTotal || bidOptions.limitLimit">
-                            to pay
                             <span ng-show="bid.total > 0">
-                            at least <span class="num">{{bid.total}} </span>
+                            to pay at least <span class="num">{{bid.total}} {{currency}}</span>
                             </span>
-                                <span ng-show="bidOptions.limitTotal && bidOptions.limitLimit"> but </span>
+                            <span ng-show="bidOptions.limitTotal && bidOptions.limitLimit"> but </span>
                             <span ng-show="bidOptions.limitLimit">
-                                at most <span class="num">{{bid.total}} </span>
+                                at most <span class="num">{{bid.total}} {{currency}}</span>
                             </span>
-                            {{currency}}.
                         </span>
 }
                 </div>
