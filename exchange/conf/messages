@@ -295,3 +295,4 @@ asset.trend=Daily Net Change
 asset.pie=Asset Composition
 
 btn.close=close
+internalServerErrorKey=Internal server error. please retry later.

@@ -99,4 +99,17 @@ GET     /download/*path/*file       controllers.MainController.downloadFromHdfs(
 GET     /api/*file                  controllers.Assets.at(path="/public/data", file)
 
 # Default path to /public
-GET     /*file                      controllers.Assets.at(path="/public", file)
+GET     /image/*file              controllers.Assets.at(path="/public/image", file)
+GET     /fonts/*file              controllers.Assets.at(path="/public/fonts", file)
+GET     /js/*file                 controllers.Assets.at(path="/public/js", file)
+GET     /lib/*file                controllers.Assets.at(path="/public/lib", file)
+GET     /startup/*file            controllers.Assets.at(path="/public/startup", file)
+GET     /vendor/*file             controllers.Assets.at(path="/public/vendor", file)
+GET     /views/*file              controllers.Assets.at(path="/public/views", file)
+GET     /javascripts/*file        controllers.Assets.at(path="/public/javascripts", file)
+GET     /stylesheets/*file        controllers.Assets.at(path="/public/stylesheets", file)
+
+#GET     /api/*file                    controllers.Assets.at(path="/public/views", file)
+
+## error page
+GET      /onServerError          controllers.MainController.onServerError()

@@ -298,3 +298,4 @@ asset.trend=日资产净值变动
 asset.pie=资产构成
 
 btn.close=关闭
+internalServerErrorKey=服务端错误，请稍后尝试。

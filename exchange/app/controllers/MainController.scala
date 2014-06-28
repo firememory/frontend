@@ -252,4 +252,8 @@ object MainController extends Controller with Json4s {
       Ok(views.html.privacy.render(request.session, langFromRequestCookie(request)))
   }
 
+  def onServerError() = Action {
+    implicit request =>
+      Ok(views.html.errorPage.render("", langFromRequestCookie(request)))
+  }
 }

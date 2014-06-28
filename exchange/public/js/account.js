@@ -746,6 +746,8 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window) {
+    console.log("in accountSettings page ctrl...");
+
     $scope.showUpdateAccountError = false;
 
     $scope.account = {};
