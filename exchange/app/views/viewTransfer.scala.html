@@ -21,7 +21,10 @@
                 <tbody>
                     @for(coin <- coins) {
                     <tr ng-init="getCurrencyDetails('@coin')">
-                        <td nowrap><strong>@coin</strong></td>
+                        <td nowrap>
+                            <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                            <strong>@coin</strong>
+                        </td>
                         <td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
                         <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
@@ -51,7 +54,10 @@
                 <tbody>
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                     <td nowrap> <strong>{{item.operation | transferOperationText }} </strong></td>
-                    <td nowrap> <strong>{{item.amount.currency}}</strong> </td>
+                    <td nowrap>
+                        <img src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
+                        <strong>{{item.amount.currency}}</strong>
+                    </td>
                     <td nowrap> <strong>{{item.amount.display}}</strong> </td>
                     <td nowrap> <span class="badge">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>

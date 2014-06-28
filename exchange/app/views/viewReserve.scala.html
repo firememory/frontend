@@ -67,7 +67,10 @@
                         <tbody>
                         @for(coin <- coins) {
                         <tr ng-init="getWallets('@coin')">
-                            <td nowrap><strong><a href="/coin/@coin">@coin</a></strong></td>
+                            <td nowrap>
+                                <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                <strong><a href="/coin/@coin">@coin</a></strong>
+                            </td>
                             <td nowrap class="text-right"><span ng-bind="accounts['@coin'].available.display + ' @coin'"></span></td>
                             <td nowrap class="text-right"><span ng-bind="accounts['@coin'].locked.display + ' @coin'"></span></td>
                             <td nowrap class="text-right"><span ng-bind="accounts['@coin'].pendingWithdrawal.display + ' @coin'"></span></td>
@@ -128,7 +131,10 @@
                             <tbody>
                             @for(coin <- coins) {
                             <tr ng-init="getNetworkStatus('@coin')">
-                                <td nowrap><strong><a href="/coin/@coin">@coin</a></strong></td>
+                                <td nowrap>
+                                    <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                    <strong><a href="/coin/@coin">@coin</a></strong>
+                                </td>
                                 <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                                 <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>
                                 <td>{{status['@coin'].height}}</td>
