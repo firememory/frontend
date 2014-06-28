@@ -50,10 +50,10 @@ app.factory('myHttpInterceptor', function ($q) {
             // do something on error
             console.debug("*************** response: ", response.status);
             if (response.status == 500 ) {
-                location.href = '/onServerError';
+                //location.href = '/onServerError';
                 return;
             } else if (response.status == 404 ) {
-                location.href = '/onServerError';
+                //location.href = '/onServerError';
                 return;
             } else {
                 return $q.reject(response);

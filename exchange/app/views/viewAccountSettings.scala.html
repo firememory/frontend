@@ -37,7 +37,7 @@
                         <input name="realName" id="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required="" ng-maxlength="22">
                         <!-- <span class="glyphicon glyphicon-{{accountSettingsForm.realName.$valid?'ok':'remove'}} form-control-feedback"></span> -->
                     </div>
-                    <div class="col-sm-2">@Messages("accountsettings.realNamePrompt")</div>
+                    <div class="col-sm-2 right-element">@Messages("accountsettings.realNamePrompt")</div>
                 </div>
 
                 <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
@@ -75,7 +75,7 @@
                         <input name="mobile" id="mobile" type="text" class="form-control bfh-phone" data-country="countries_phone1" ng-model="account.mobile" ng-minlength="9" required="">
                     </div>
                     <div class="col-sm-3">
-                        <button class="btn-success sendSmsBtn" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+                        <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
                     </div>
                 </div>
 

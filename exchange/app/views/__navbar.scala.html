@@ -23,17 +23,16 @@
                     <a class="brand" href="/"><img src="/image/logo.png" width="50" height="50" alt="">@Messages("nav.brand")<sup>private-beta</sup></a>
                 </div>
 
-                <div class="nav pull-left">
-                    <select class="nav-lang-select" onchange="if (this.value) window.location.href=this.value">
-                        <option @if(lang.code == "en-US") {selected="selected"} value="/changelocale/en-US">English</option>
-                        <option @if(lang.code == "zh-CN") {selected="selected"} value="/changelocale/zh-CN">简体中文</option>
-                    </select>
-                    <!-- <ul class="nav-lang-vertical">
-                    <li><a href="/changelocale/en-US">English</a></li>
-                    <li><a href="/changelocale/zh-CN">简体中文</a></li>
-                    </ul> -->
+                <div class="navbar-header pull-right">
+                    <!-- <select class="nav-lang-select" onchange="if (this.value) window.location.href=this.value">
+                    <option @if(lang.code == "en-US") {selected="selected"} value="/changelocale/en-US">English</option>
+                    <option @if(lang.code == "zh-CN") {selected="selected"} value="/changelocale/zh-CN">简体中文</option>
+                    </select> -->
+                    <ul class="nav-lang-ul">
+                        <li><a href="/changelocale/zh-CN"><img src="/image/icons/cn.png" alt="简体中文"/></a></li>
+                        <li><a href="/changelocale/en-US"><img src="/image/icons/us.png" alt="English"/></a></li>
+                    </ul>
                 </div>
-
 
                 <div class="collapse navbar-collapse pull-right">
                     <ul class="nav pull-left">
@@ -50,7 +49,15 @@
                      <form class="navbar-form pull-left">
                         <a class="btn btn-danger" href="/register">@Messages("nav.register")</a>
                     </form>
-                    } 
+                    }
+
+                </div>
+
+                <div class="navbar-header pull-left nav-lang-select-div">
+                    <select class="nav-lang-select" onchange="if (this.value) window.location.href=this.value">
+                    <option @if(lang.code == "en-US") {selected="selected"} value="/changelocale/en-US">English</option>
+                    <option @if(lang.code == "zh-CN") {selected="selected"} value="/changelocale/zh-CN">简体中文</option>
+                    </select>
                 </div>
 
             </nav>
