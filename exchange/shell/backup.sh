@@ -5,13 +5,13 @@
 
 day=`date +%Y%m%d`
 
-count=`ls -l /var/coinport/backup | grep $day | wc -l`
+count=`ls -l /var/coinport/backup/frontend | grep $day | wc -l`
 if [ "$count" -eq "0" ];then
   dirname=$day
 else
   dirname=$day"-"$count
 fi
-mkdir -p /var/coinport/backup/$dirname
+mkdir -p /var/coinport/backup/frontend/$dirname
 echo "====================="
 echo "create backup folder : "$dirname
-cp /var/coinport/frontend/*.zip /var/coinport/backup/$dirname
+cp /var/coinport/frontend/*.zip /var/coinport/backup/frontend/$dirname
