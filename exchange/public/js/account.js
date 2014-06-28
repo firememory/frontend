@@ -53,6 +53,8 @@ app.config(routeConfig);
 app.config(httpConfig);
 
 app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.addressUrl = COINPORT.addressUrl;
+
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.accounts = data.data.accounts;
@@ -154,6 +156,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
 
 app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
     $scope.currency = $routeParams.currency.toUpperCase();
+
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.balance = data.data.accounts[$scope.currency];

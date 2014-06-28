@@ -11,11 +11,11 @@
                     <tr>
                         <th nowrap>@Messages("open.coinType")</th>
                         <th nowrap>@Messages("open.network.status")</th>
+                        <th nowrap class="text-right">@Messages("open.balance")</th>
                         <th nowrap class="text-right">@Messages("user.available")</th>
                         <th nowrap class="text-right">@Messages("user.orderPending")</th>
-                        <th nowrap class="text-right">@Messages("open.balance")</th>
                         <th nowrap>@Messages("transfer.depositAddress")</th>
-                        <th nowrap>@Messages("operation")</th>
+                        <th nowrap></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,11 +26,18 @@
                             <strong>@coin</strong>
                         </td>
                         <td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                        <td nowrap class="text-right"><b>{{accounts['@coin'].total.display}}</b></td>
                         <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].total.display}}</td>
-                        <td nowrap>{{depositAddresses['@coin']}}</td>
-                        <td nowrap><a href="#/deposit/@coin">@Messages("transfer.deposit")</a>&nbsp;&nbsp; <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a></td>
+                        <td nowrap>
+                            <b>{{depositAddresses['@coin']}}</b>
+                            <a target="_blank" href="{{addressUrl['@coin']}}"><i class="fa fa-external-link"></i></a>
+                        </td>
+                        <td nowrap>
+                            <a href="#/deposit/@coin">@Messages("transfer.deposit")</a>
+                            |
+                            <a href="#/withdrawal/@coin">@Messages("transfer.withdrawal")</a>
+                        </td>
                     </tr>
                 }
                 </tbody>

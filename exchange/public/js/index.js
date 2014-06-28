@@ -50,7 +50,7 @@ app.controller('ReserveCtrl', function ($scope, $http, $modal) {
     $scope.getWallets = function(currency) {
         $http.get('/api/open/reserve/' + currency)
             .success(function(data, status, headers, config) {
-                $scope.walletsBalance[currency] = data.data.available;
+                $scope.walletsBalance[currency] = data.data.total;
         });
     };
 });
