@@ -216,6 +216,7 @@ open.network.checkNow=查看
 open.assetRank=资产排名
 open.transactionRank=交易量排名
 
+coin.userWallet=用户钱包
 coin.hotWallet=热钱包
 coin.coldWallet=冷钱包
 coin.wallets=钱包地址
@@ -270,7 +271,7 @@ transfer.updated=更新时间
 transfer.amount=数量
 transfer.status=状态
 transfer.confirm=确认数
-transfer.txid=交易详情
+transfer.txid=交易
 transfer.address=地址
 transfer.pinpassword=资金密码
 transfer.phoneVerCode=短信验证码

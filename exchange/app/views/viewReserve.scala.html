@@ -74,9 +74,9 @@
                             <td nowrap class="text-right"><b ng-bind="accounts['@coin'].total.display + ' @coin'"></b></td>
                             <td nowrap class="text-right"><b ng-bind="walletsBalance['@coin'].display + ' @coin'"></b></td>
                             <td nowrap class="text-right">
-                                <span ng-show="walletsBalance['@coin']" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
+                                <a href="/coin/@coin" ng-show="walletsBalance['@coin']" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
                                     {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(2)}}%
-                                </span>
+                                </a>
                             </td>
                         </tr>
                         }

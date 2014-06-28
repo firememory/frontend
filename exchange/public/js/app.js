@@ -129,7 +129,9 @@ coinportApp.filter('coin', function() {
 
 coinportApp.filter('UID', function() {
     return function(input) {
-        return parseInt(input).toString(35).toUpperCase().replace('-','Z');
+        if (!input) return '';
+        return ' *' + input.substring(input.length - 3);
+//        return parseInt(input).toString(35).toUpperCase().replace('-','Z');
     }
 });
 
@@ -191,16 +193,16 @@ coinportApp.filter('reserveRatioClass', function() {
 
 coinportApp.filter('gainClass', function() {
     return function(input) {
-        if (input < 0) return 'red';
-        if (input > 0) return 'green';
+        if (input < 0) return 'down';
+        if (input > 0) return 'up';
         return '';
     }
 });
 
 coinportApp.filter('gainIcon', function() {
     return function(input) {
-        if (input < 0) return 'fa fa-long-arrow-down';
-        if (input > 0) return 'fa fa-long-arrow-up';
+        if (input < 0) return 'fa fa-caret-down';
+        if (input > 0) return 'fa fa-caret-up';
         return '';
     }
 });
