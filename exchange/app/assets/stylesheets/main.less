@@ -316,28 +316,18 @@ div.trade {
                 font-weight: bold;
             }
 
-            button.btn-sell {
-                background-color: @sell-color-light;
-                &:hover {background-color: @sell-color};
-            }
-            button.btn-buy {
-                background-color: @buy-color-light;
-                &:hover {background-color: @buy-color};
+            button.btn-sell, button.btn-buy {
+                background-color: @concrete;
             }
 
             .input-group {
                 .input-group-addon {
-                    border-color: @opbox-primary-color;
-                    background-color: @opbox-primary-color;
+                    border-color: @concrete;
+                    background-color: @concrete;
                 }
                 input {
-                    border-color: @opbox-primary-color;
-                    color: @opbox-primary-color;
-
-                    &:focus {
-                        color: @opbox-primary-color;
-                        background-color: mix(@sun-flower, white, 20%);
-                    }
+                    border-color: @concrete;
+                    color: @concrete;
                 }
             }
 
