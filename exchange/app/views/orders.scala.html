@@ -26,22 +26,22 @@
                             <th nowrap>@Messages("order.submitTime")</br>&nbsp;</th>
                             <th nowrap>@Messages("order.type")</br>&nbsp;</th>
                             <th nowrap>@Messages("order.status")</br>&nbsp;</th>
-                            <th nowrap>@Messages("order.orderPrice")
+                            <th nowrap class="text-right">@Messages("order.orderPrice")
                                 </br><span ng-bind="'(' + currency + '/' + subject + ')'">&nbsp;</span>
                             </th>
-                            <th nowrap>@Messages("order.averagePrice")
+                            <th nowrap class="text-right">@Messages("order.averagePrice")
                                 </br><span ng-bind="'('+currency + '/' + subject+')'">&nbsp;</span>
                             </th>
-                            <th nowrap>@Messages("order.orderAmount")
+                            <th nowrap class="text-right">@Messages("order.orderAmount")
                                 </br><span ng-bind="'('+subject+')'">&nbsp;</span>
                             </th>
-                            <th nowrap>@Messages("order.tradingAmount")
+                            <th nowrap class="text-right">@Messages("order.tradingAmount")
                                 </br><span ng-bind="'('+subject+')'">&nbsp;</span>
                             </th>
-                            <th nowrap>@Messages("order.orderValue")
+                            <th nowrap class="text-right">@Messages("order.orderValue")
                                 </br><span ng-bind="'('+currency+')'">&nbsp;</span>
                             </th>
-                            <th nowrap>@Messages("order.tradingValue")
+                            <th nowrap class="text-right">@Messages("order.tradingValue")
                                 </br><span ng-bind="'('+currency+')'">&nbsp;</span>
                             </th>
                         </tr>
@@ -53,12 +53,12 @@
                             <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
                             <td nowrap><span class="{{order.operation.toLowerCase()}}" ng-bind="order.operation | orderTypeText"><i class="fa fa-lg {{order.operation | txTypeIcon}}"></i></span></td>
                             <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
-                            <td nowrap ng-bind="order.price.display"></td>
-                            <td nowrap ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
-                            <td nowrap ng-bind="order.amount.display"></td>
-                            <td nowrap ng-bind="order.finishedQuantity.display"></td>
-                            <td nowrap ng-bind="order.total.display"></td>
-                            <td nowrap ng-bind="order.finishedAmount.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.price.display"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
+                            <td nowrap class="text-right" ng-bind="order.amount.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedQuantity.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.total.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedAmount.display"></td>
                         </tr>
                         </tbody>
                     </table>

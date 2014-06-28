@@ -91,8 +91,8 @@ coinportApp.filter 'networkStatusText', () -> (input) ->
 	return Messages.connectivity.status.blocked
 
 coinportApp.filter 'reserveRatioClass', () -> (input) ->
-    return 'label label-success' if input >= 1.0
-    return 'label label-warning' if input > 0.9
+    return 'label label-success' if input >= 0.99
+    return 'label label-warning' if input > 0.90
     return 'label label-danger'
 
 # NavBar

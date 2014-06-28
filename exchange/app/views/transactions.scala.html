@@ -41,7 +41,7 @@
                         <a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user" ng-bind="transaction.taker"> @Messages("loading")</i></a>
                         (<a href="/order/{{transaction.tOrder.oid}}" class="title">@Messages("order.order")</a>)
                     </td>
-                    <td nowrap class="{{transaction.sell | txTypeClass}}"><span ng-bind="transaction.sell | txTypeText">@Messages("loading")</span> <i class="fa fa-lg {{transaction.sell | txTypeIcon}}"></i></td>
+                    <td nowrap class="{{transaction.sell | txTypeClass}}"><span ng-bind="transaction.sell | txTypeText">@Messages("loading")</span></td>
                     <td nowrap>
                         <a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user" ng-bind="transaction.maker"> @Messages("loading")</i></a>
                         (<a href="/order/{{transaction.mOrder.oid}}" class="title">@Messages("order.order")</a>)

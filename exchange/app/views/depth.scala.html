@@ -64,7 +64,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.bids">
-                    <td nowrap ng-bind="'@Messages("trade.buyShort")' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="buy" ng-bind="'@Messages("trade.buyShort")' + (1+$index)">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.accumulated | coin">@Messages("loading")</td>
@@ -88,7 +88,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in depth.asks">
-                    <td nowrap ng-bind="'@(Messages("trade.sellShort"))' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="sell" ng-bind="'@(Messages("trade.sellShort"))' + (1+$index)">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="item.accumulated | coin">@Messages("loading")</td>

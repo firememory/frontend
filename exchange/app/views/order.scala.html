@@ -99,7 +99,7 @@
                                 <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker">@Messages("loading")</i></a>
                                 (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
                             </td>
-                            <td nowrap class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span> <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                            <td nowrap class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span></td>
                             <td nowrap>
                                 <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.maker">@Messages("loading")</i></a>
                                 (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)

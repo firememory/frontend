@@ -106,7 +106,7 @@
                             <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker"></i></a>
                             (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
                         </td>
-                        <td nowrap class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span> <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                        <td nowrap class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span></td>
                         <td nowrap>
                             <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.maker"></i></a>
                             (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)
@@ -130,7 +130,7 @@
                     <th nowrap>@Messages("transfer.id")</th>
                     <th nowrap>@Messages("user.transfer.operation")</th>
                     <th nowrap>@Messages("user.coinType")</th>
-                    <th nowrap>@Messages("transfer.amount")</th>
+                    <th nowrap class="text-right">@Messages("transfer.amount")</th>
                     <th nowrap>@Messages("transfer.status")</th>
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
@@ -143,12 +143,12 @@
                     <td nowrap ng-bind="item.id"></td>
                     <td nowrap ng-bind="item.operation | transferOperationText"></td>
                     <td nowrap ng-bind="item.amount.currency"></td>
-                    <td nowrap ng-bind="item.amount.display"></td>
+                    <td nowrap class="text-right" ng-bind="item.amount.display"></td>
                     <td nowrap ng-bind="item.status | transferStatusText"></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap ng-bind="item.address"></td>
-                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check")</a></td>
+                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check")<i class="fa fa-external-link"></i></a></td>
                 </tr>
                 </tbody>
                 </table>
