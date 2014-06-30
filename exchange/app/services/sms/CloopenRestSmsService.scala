@@ -31,7 +31,7 @@ object CloopenRestSmsService extends SmsService {
   }
 
   override def sendVerifySms(phoneNum: String, randCode: String): Future[ApiResult] = {
-    val result = restAPI.sendTemplateSMS(phoneNum, templateId, Array[String](randCode))
+    val result = restAPI.sendTemplateSMS(phoneNum, templateId, Array[String](randCode, "10"))
     val statusCode = result.get("statusCode").toString
     if (statusCode_Ok.equals(statusCode)) {
       result.asScala.foreach(kv => println(s"key: ${kv._1}, value: ${kv._2}"))
