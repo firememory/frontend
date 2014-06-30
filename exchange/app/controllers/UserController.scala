@@ -24,8 +24,8 @@ import ControllerHelper._
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
 
-  val inviteCodeFile: String = "/var/coinport/private/inviteCode.txt"
-  val usedInviteCodeFile: String = "/var/coinport/private/usedInviteCode.properties"
+  // val inviteCodeFile: String = "/var/coinport/private/inviteCode.txt"
+  // val usedInviteCodeFile: String = "/var/coinport/private/usedInviteCode.properties"
 
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -58,48 +58,48 @@ object UserController extends Controller with Json4s with AccessLogging {
     }
   }
 
-  def verifyInviteCode(inviteCode: String, email: String) = Action {
-    implicit request =>
-    def checkInviteCode: Boolean = {
-      if (inviteCode == null) false
-      else {
-        try {
-          val isValid = Source.fromFile(inviteCodeFile).getLines.exists(_.trim.equals(inviteCode.trim))
-          val isUsed = if(new File(usedInviteCodeFile).exists)
-            Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email))
-          else false
+  // def verifyInviteCode(inviteCode: String, email: String) = Action {
+  //   implicit request =>
+  //   def checkInviteCode: Boolean = {
+  //     if (inviteCode == null) false
+  //     else {
+  //       try {
+  //         val isValid = Source.fromFile(inviteCodeFile).getLines.exists(_.trim.equals(inviteCode.trim))
+  //         val isUsed = if(new File(usedInviteCodeFile).exists)
+  //           Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email))
+  //         else false
 
-          isValid && !isUsed
-        } catch {
-          case e: Throwable =>
-            logger.error(e.getMessage, e)
-            false
-        }
-      }
-    }
+  //         isValid && !isUsed
+  //       } catch {
+  //         case e: Throwable =>
+  //           logger.error(e.getMessage, e)
+  //           false
+  //       }
+  //     }
+  //   }
 
-    def updateUsedInviteCodeFile() = {
-      val props = new Properties()
-      props.setProperty(inviteCode, email)
-      var output: FileOutputStream = null
-      try {
-        output = new FileOutputStream(usedInviteCodeFile, true)
-        props.store(output, "used invite code.")
-      } catch {
-        case e: Throwable => logger.error(e.getMessage, e)
-      } finally {
-        output.close()
-      }
-    }
+  //   def updateUsedInviteCodeFile() = {
+  //     val props = new Properties()
+  //     props.setProperty(inviteCode, email)
+  //     var output: FileOutputStream = null
+  //     try {
+  //       output = new FileOutputStream(usedInviteCodeFile, true)
+  //       props.store(output, "used invite code.")
+  //     } catch {
+  //       case e: Throwable => logger.error(e.getMessage, e)
+  //     } finally {
+  //       output.close()
+  //     }
+  //   }
 
-    if (checkInviteCode) {
-      updateUsedInviteCodeFile()
-      Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
-      //MainController.register(email)
-    } else {
-      Redirect(routes.MainController.inviteCode("register.inviteCodeNoMatch"))
-    }
-  }
+  //   if (checkInviteCode) {
+  //     updateUsedInviteCodeFile()
+  //     Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
+  //     //MainController.register(email)
+  //   } else {
+  //     Redirect(routes.MainController.inviteCode("register.inviteCodeNoMatch"))
+  //   }
+  // }
 
   def register = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -114,7 +114,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     validateParamsAndThen(
       new StringNonemptyValidator(uuid, text, email, password),
       new EmailFormatValidator(email),
-      new EmailWithInviteCodeValidator(email),
+      //new EmailWithInviteCodeValidator(email),
       new PasswordFormetValidator(password)
     ) {
       if(!CaptchaController.validate(uuid, text))

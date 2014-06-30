@@ -20,6 +20,7 @@ object SmsController extends Controller with Json4s {
   val logger = Logger(this.getClass)
 
   val smsService = SmsService.getDefaultServiceImpl
+  val smsServiceInChina = SmsService.getNamedServiceImpl(SmsService.CLOOPEN_REST_SERVICE_IMPL)
   val cacheService = CacheService.getDefaultServiceImpl
 
   val allowedMinIntervalSeconds :Int = 110
@@ -71,7 +72,12 @@ object SmsController extends Controller with Json4s {
       Future(ApiResult(false, err.value, err.toString))
     } else {
       logger.info(s"send sms verify code: phoneNum=$phoneNum, verifyCode=$verifyCode")
-      smsService.sendVerifySms(phoneNum, verifyCode) map {
+      val sendRes = if (phoneNum.startsWith("+86") || phoneNum.startsWith("0086"))
+        smsServiceInChina.sendVerifySms(phoneNum, verifyCode)
+      else
+        smsService.sendVerifySms(phoneNum, verifyCode)
+
+      sendRes map {
         result =>
         if (result.success)
           ApiResult(true, 0, "", Some(uuid))

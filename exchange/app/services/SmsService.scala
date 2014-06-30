@@ -18,6 +18,7 @@ trait SmsService {
 
 object SmsService {
   val CLOOPEN_SERVICE_IMPL = "cloopen"
+  val CLOOPEN_REST_SERVICE_IMPL = "cloopen_rest"
   val TWILIO_SERVICE_IMPL = "twilio"
 
   def getDefaultServiceImpl = getNamedServiceImpl(TWILIO_SERVICE_IMPL)
@@ -26,6 +27,8 @@ object SmsService {
       TwilioSmsService
     else if (CLOOPEN_SERVICE_IMPL.equals(serviceName))
       CloopenSmsService
+    else if (CLOOPEN_REST_SERVICE_IMPL.equals(serviceName))
+      CloopenRestSmsService
     else
       throw new IllegalArgumentException(s"sms service: $serviceName not found.")
   }

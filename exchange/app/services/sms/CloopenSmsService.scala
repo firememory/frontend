@@ -1,4 +1,4 @@
-package services
+package services.sms
 
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,6 +32,7 @@ import com.typesafe.config.ConfigFactory
 import com.google.common.io.BaseEncoding
 import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.api.model._
+import services._
 
 // impl SMSService with service of www.yuntongxun.com(www.cloopen.com).
 object CloopenSmsService extends SmsService {

@@ -18,6 +18,7 @@ LessKeys.verbose in Assets := true
 
 resolvers ++= Seq(
   "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
+  "Nexus Thirdparty" at "http://192.168.0.105:8081/nexus/content/repositories/thirdparty/",
   "jahia org repository" at "http://maven.jahia.org/maven2/",
   Resolver.sonatypeRepo("snapshots")
 )
@@ -52,6 +53,7 @@ libraryDependencies ++= {
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
     "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1",
-    "net.debasishg"               %% "redisclient"                      % "2.12"
+    "net.debasishg"               %% "redisclient"                      % "2.12",
+    "com.cloopen"                 %  "restapi"                          % "2.6.1"
   )
 }

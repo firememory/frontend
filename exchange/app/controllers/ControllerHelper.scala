@@ -80,25 +80,25 @@ object ControllerHelper {
     def isValid(param: String) = param.trim.length > 8
   }
 
-  class EmailWithInviteCodeValidator(emails: String*) extends GeneralValidator[String](emails: _*) {
-    val result = inviteCodeError
-    def isValid(param: String): Boolean = {
-      val props = new Properties()
-      var input: FileInputStream = null
-      try {
-        input = new FileInputStream(UserController.usedInviteCodeFile)
-        props.load(input)
-        logger.info(s"email: $param, all emails: ${props.values}")
-        props.values.contains(param)
-      } catch {
-        case e: Exception =>
-          logger.error(e.getMessage, e)
-          false
-      } finally {
-        input.close()
-      }
-    }
-  }
+  // class EmailWithInviteCodeValidator(emails: String*) extends GeneralValidator[String](emails: _*) {
+  //   val result = inviteCodeError
+  //   def isValid(param: String): Boolean = {
+  //     val props = new Properties()
+  //     var input: FileInputStream = null
+  //     try {
+  //       input = new FileInputStream(UserController.usedInviteCodeFile)
+  //       props.load(input)
+  //       logger.info(s"email: $param, all emails: ${props.values}")
+  //       props.values.contains(param)
+  //     } catch {
+  //       case e: Exception =>
+  //         logger.error(e.getMessage, e)
+  //         false
+  //     } finally {
+  //       input.close()
+  //     }
+  //   }
+  // }
 
   def validateParamsAndThen(validators: Validator*)(f: => Future[ApiResult]): Future[ApiResult] =
     if (validators.isEmpty)
