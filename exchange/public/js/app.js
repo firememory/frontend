@@ -85,9 +85,18 @@ coinportApp.filter('orderStatusText', function() {
     return filter;
 });
 
+// status: ['Pending', 'Accepted', 'Confirming', 'Confirmed', 'Succeeded', 'Failed', 'Confirming'],
 coinportApp.filter('transferStatusText', function() {
     return function(input) {
         return Messages.transfer.status[input];
+    };
+});
+
+coinportApp.filter('transferStatusClass', function() {
+    return function(input) {
+        if (input == 4) return 'success';
+        if (input == 5) return 'danger';
+        return 'warning';
     };
 });
 

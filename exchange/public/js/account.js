@@ -201,6 +201,8 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
 app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', function ($scope, $http, $routeParams, $location, $interval) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $scope.withdrawalData = {};
+    $scope.txUrl = COINPORT.txUrl[$scope.currency];
+    $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
 
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
@@ -219,10 +221,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
                 $scope.withdrawals = data.data.items;
-                $scope.withdrawals.forEach(function(item){
-                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
-                });
-
                 $scope.count = data.data.count;
             });
     };

@@ -152,7 +152,7 @@
                             <th nowrap>@Messages("transfer.created")</th>
                             <th nowrap>@Messages("user.user")</th>
                             <th nowrap>@Messages("user.transfer.operation")</th>
-                            <th nowrap>@Messages("status")</th>
+                            <!--<th nowrap>@Messages("status")</th>-->
                             <th nowrap class="text-right">@Messages("user.transfer.amount")</th>
                             <th nowrap class="text-right">@Messages("accumulated")</th>
                             <th nowrap></th>
@@ -163,14 +163,14 @@
                             <td nowrap><i class="fa fa-clock-o"></i> <span ng-bind="item.created | date:'MM-dd HH:mm:ss'" data-toggle="tooltip" title="{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}">@Messages("loading")</span> </td>
                             <td nowrap><a href="/user/{{item.uid}}" data-toggle="tooltip" title='{{item.uid}}'><i class="fa fa-user" ng-bind="item.uid | UID ">@Messages("loading")</i></a></td>
                             <td nowrap ng-bind="item.operation | transferOperationText">@Messages("loading")</td>
-                            <td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>
+                            <!--<td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>-->
                             <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
                             <td nowrap class="text-right" ng-bind="">@Messages("loading")</td>
 
                             <td class="text-right">
-                                <a target="_blank" href="{{addressUrl}}{{item.address}}" data-toggle="tooltip" title='{{item.address}}'>@Messages("address")</a>
+                                <a target="_blank" href="{{addressUrl}}{{item.address}}" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
                                 |
-                                <a target="_blank" href="{{item.txlink}}" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid")</a>
+                                <a target="_blank" href="{{item.txlink}}" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
                             </td>
                         </tr>
                         </tbody>

@@ -22,10 +22,10 @@
             <thead>
                 <tr>
                     <th nowrap>@Messages("transfer.id")</th>
-                    <th nowrap>@Messages("transfer.amount")</th>
-                    <th nowrap>@Messages("transfer.status")</th>
                     <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
+                    <th nowrap>@Messages("transfer.amount")</th>
+                    <th nowrap>@Messages("transfer.status")</th>
                     <th nowrap>@Messages("transfer.address")</th>
                     <!--<th nowrap class="text-right">@Messages("transfer.txid")</th>-->
                 </tr>
@@ -33,12 +33,12 @@
             <tbody>
                 <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
                     <td nowrap> {{item.id}} </td>
+                    <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
+                    <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap> {{item.amount.display}} </td>
-                    <td nowrap> <span class="badge">{{item.status | transferStatusText}}</span> </td>
-                    <td nowrap> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
+                    <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.address}} </td>
-                    <td><a target="_blank" href="{{item.txlink}}"><i class="fa fa-link"></i></a></td>
+                    <td><a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>
                 </tr>
             </tbody>
         </table>
