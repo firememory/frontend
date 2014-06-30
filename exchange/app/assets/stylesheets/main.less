@@ -78,10 +78,10 @@ section.header-3-sub {
 
 div.container-main {
     padding-top: 40px;
-    padding-bottom: 150px;
+    padding-bottom: 45px;
 
     @media (max-width: 768px) {
-      padding-bottom: 500px;
+      padding-bottom: 200px;
     }
 }
 
@@ -228,6 +228,26 @@ div.home {
         .links {border-bottom: 0;}
         a {color: @belize-hole;}
         a:hover {color: @peter-river;}
+    }
+
+    section.promote {
+        .major {
+            display: block;
+            background-color: #35d0b5;
+            padding: 46px;
+            font-weight: 200;
+            font-size: 40px;
+            color: white;
+            text-decoration: none;
+            letter-spacing: -1px;
+            text-align: center;
+            &:hover {background-color: @alizarin;}
+            margin-bottom: 80px;
+            > a {
+                color: white;
+                &:hover {text-decoration: underline;}
+            }
+        }
     }
 
 }
@@ -446,7 +466,7 @@ div.openness {
     }
 
     section.projects-4 {
-        background-color: #f2f3f4;
+        background-color: #f2f2f1;
         padding-bottom: 40px;
         padding-top: 40px;
         .photo-wrapper {
