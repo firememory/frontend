@@ -61,6 +61,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
     $scope.loadOrders = function() {
         var params = {limit: 10};
+        console.log("$scope.orderStatus", $scope.orderStatus)
         if ($scope.orderStatus >= 0)
             params.status = $scope.orderStatus;
         $http.get('/api/user/' + $scope.uid + '/order/' + $scope.market, {params: params})

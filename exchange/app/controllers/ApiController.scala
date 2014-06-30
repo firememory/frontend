@@ -36,7 +36,13 @@ object ApiController extends Controller with Json4s {
   def userOrders(market: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      val status = ControllerHelper.getParam(request.queryString, "status").map(s => OrderStatus.get(s.toInt).getOrElse(OrderStatus.Pending))
+      val status = ControllerHelper.getParam(request.queryString, "status") match {
+        case None => Nil
+        case Some(s) =>
+          if (s == "1") Seq(OrderStatus.PartiallyExecuted, OrderStatus.Pending)
+          else if (s == "2") Seq(OrderStatus.Cancelled, OrderStatus.CancelledByMarket, OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket, OrderStatus.Unknown)
+          else Nil
+      }
 
       val marketSide: Option[MarketSide] = if (market.isEmpty || market.toLowerCase() == "all") None else Some(market)
       AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
@@ -47,13 +53,13 @@ object ApiController extends Controller with Json4s {
 
   def getOrder(oid: String) = Action.async {
     implicit request =>
-      AccountService.getOrders(None, None, Some(oid.toLong), None, 0, 1).map(result => Ok(result.toJson))
+      AccountService.getOrders(None, None, Some(oid.toLong), Nil, 0, 1).map(result => Ok(result.toJson))
   }
 
   def orders(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      AccountService.getOrders(Some(market), None, None, None, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      AccountService.getOrders(Some(market), None, None, Nil, pager.skip, pager.limit).map(result => Ok(result.toJson))
   }
 
   def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {

@@ -47,7 +47,7 @@ libraryDependencies ++= {
     "org.json4s"                  %% "json4s-ext"                       % "3.2.8",
     "com.github.tototoshi"        %% "play-json4s-native"               % "0.2.0",
     "com.github.tototoshi"        %% "play-json4s-test-native"          % "0.2.0" % "test",
-    "com.coinport"                %% "coinex-client"                    % "1.1.24-SNAPSHOT",
+    "com.coinport"                %% "coinex-client"                    % "1.1.25-SNAPSHOT",
     "com.octo.captcha"            %  "jcaptcha"                         % "1.0",
     "org.webjars"                 %  "bootstrap"                        % "3.1.1",
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
