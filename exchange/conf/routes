@@ -51,7 +51,7 @@ GET     /withaddr/*currency/*uid            controllers.UserController.getWithdr
 GET     /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdrawalAddress(currency, uid, addr)
 
 # html snippet
-GET     /userAgreement.html              controllers.MainController.userAgreement()
+GET     /terms.html              controllers.MainController.terms()
 GET     /privacy.html                    controllers.MainController.privacy()
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()

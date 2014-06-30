@@ -64,13 +64,13 @@
 
             <small class="text-danger text-center" ng-show="showError" ng-bind="errorMessage"></small>
 
-            <div class="userAgreement">
-                <input id="userAgreement" name="userAgreement" type="checkbox" ng-model="userAgreementChecked">
-                @Messages("register.termsCheckboxTextHead") <a href="/userAgreement.html" target="_blank">"@Messages("register.termsCheckboxTextLink")"</a>
+            <div class="terms">
+                <input id="terms" name="terms" type="checkbox" ng-model="termsChecked">
+                @Messages("register.termsCheckboxTextHead") <a href="/terms.html" target="_blank">"@Messages("register.termsCheckboxTextLink")"</a>
                 </input>
             </div>
 
-            <button class="btn btn-block btn-lg btn-primary" type="submit" ng-click="doRegister()" ng-disabled="registerForm.$invalid || !userAgreementChecked">@(Messages("ok"))</button>
+            <button class="btn btn-block btn-lg btn-primary" type="submit" ng-click="doRegister()" ng-disabled="registerForm.$invalid || !termsChecked">@(Messages("ok"))</button>
         </form>
     </div>
 </div>

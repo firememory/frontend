@@ -242,9 +242,9 @@ object MainController extends Controller with Json4s {
       Ok(views.html._open_market.render(langFromRequestCookie(request)))
   }
 
-  def userAgreement() = Action {
+  def terms() = Action {
     implicit request =>
-      Ok(views.html.userAgreement.render(request.session, langFromRequestCookie(request)))
+      Ok(views.html.terms.render(request.session, langFromRequestCookie(request)))
   }
 
   def privacy() = Action {
