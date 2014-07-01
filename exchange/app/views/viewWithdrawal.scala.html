@@ -23,7 +23,9 @@
         <div class="form-group">
             <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAddress"))</label>
             <div class="col-sm-6">
-                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address"  required>
+                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address" ng-pattern="/^[a-zA-Z1-9]{27,34}$/" required>
+                <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
+                <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
             </div>
         </div>
         <div class="form-group">
@@ -41,7 +43,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-6">
-                <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount <= 0.01"><i class="glyphicon glyphicon-ok"></i>@Messages("transfer.withdrawal")</button>
+                <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount <= 0.01">@Messages("transfer.withdraw")</button>
             </div>
         </div>
     </form>

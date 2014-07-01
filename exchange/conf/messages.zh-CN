@@ -265,6 +265,7 @@ user.orders=委托
 user.profile=我的主页
 
 transfer.withdrawal=提现
+transfer.withdraw=提现
 transfer.deposit=充值
 transfer.depositAddress=充值地址
 transfer.withdrawalAddress=提现地址
@@ -287,6 +288,7 @@ transfer.depositRecord=充值记录
 transfer.withdrawalRecord=提现记录
 transfer.transferRecord=充值/提现记录
 transfer.withdrawalHint=您需要支付0.0002给虚拟货币网络，以保证您的提现交易被处理
+transfer.withdrawalAddressNotMatch=您输入的提现地址不是有效的
 
 asset.category=资产种类
 asset.available=可用数量
