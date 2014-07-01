@@ -4,16 +4,16 @@
 <div class="box txs-box table-responsive">
     <table class="table table-condensed table-striped table-hover">
         <thead>
-            <th>@Messages("transaction.type")</th>
+            <th></th>
             <th class="text-right">@Messages("transaction.price")</th>
             <th class="text-right">@Messages("transaction.amount")</th>
             <th class="text-right">@Messages("transaction.timestamp")</th>
             <th></th>
         </thead>
         <tbody>
-            <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item">
-                <td class="l {{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span></td>
-                <td class="text-right price" ng-bind="item.price.display"></td>
+            <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item {{item.sell | txTypeClass}}">
+                <td class="l "><span ng-bind="item.sell | txTypeTextShort"></span></td>
+                <td class="text-right price " ng-bind="item.price.display"></td>
                 <td class="text-right amount" ng-bind="item.subjectAmount.display"></td>
                 <td class="text-right timestamp" ng-bind="item.timestamp | date:'HH:mm:ss'"></td>
                 <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-link"></i></a></td>

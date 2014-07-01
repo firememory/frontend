@@ -43,6 +43,12 @@ coinportApp.filter('txTypeText', function() {
     }
 });
 
+coinportApp.filter('txTypeTextShort', function() {
+    return function(input) {
+        return input ?  Messages.sellShort : Messages.buyShort;
+    }
+});
+
 coinportApp.filter('txTypeIcon', function() {
     return function(input) {
         return input ?  'fa-arrow-right' : 'fa-arrow-left';
