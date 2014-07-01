@@ -61,7 +61,10 @@ Messages.trade = {
 Messages.account = {
   registerSucceeded: '注册成功',
   updateAccountProfileSucceeded: '更新用户资料成功',
-  getVerifyCodeButtonText: '获取短信验证码'
+  getVerifyCodeButtonText: '获取短信验证码',
+  getVerifyCodeButtonTextPrefix: ' ',
+  getVerifyCodeButtonTextTail: '秒后重发'
+
 };
 
 Messages.connectivity = {
