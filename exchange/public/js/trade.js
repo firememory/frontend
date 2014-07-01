@@ -33,8 +33,8 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     $scope.bidOptions = {limitPrice: true, limitAmount: true, limitTotal: true, limitLImit: true};
     $scope.askOptions = {limitPrice: true, limitAmount: true, limitTotal: true, limitLImit: true};
     $scope.config = {
-        bidButtonLabel: Messages.buy + ' (' + $scope.subject + '-' + $scope.currency + ')',
-        askButtonLabel: Messages.sell + ' (' + $scope.currency + '-' + $scope.subject + ')'};
+        bidButtonLabel: Messages.buy + ' ' + $scope.subject,
+        askButtonLabel: Messages.sell + ' ' + $scope.subject};
     $scope.info = {
         fundingLocked: 0,
         fundingRemaining: 0,
