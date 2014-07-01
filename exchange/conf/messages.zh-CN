@@ -290,11 +290,11 @@ transfer.transferRecord=充值/提现记录
 transfer.withdrawalHint=您需要支付0.0002给虚拟货币网络，以保证您的提现交易被处理
 transfer.withdrawalAddressNotMatch=您输入的提现地址不是有效的
 
-asset.category=资产种类
+asset.currency=资产种类
 asset.available=可用数量
 asset.totalAmount=总资产
 asset.price=资产价格
-asset.valueOnEstimate=资产净值
+asset.value=资产净值
 asset.operation=操作
 asset.myAsset=我的资产
 asset.transfer=充值提现

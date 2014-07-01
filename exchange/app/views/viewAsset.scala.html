@@ -8,14 +8,14 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th nowrap>@Messages("asset.category")</th>
+                    <th nowrap>@Messages("open.coinType")</th>
                     <th nowrap class="text-right">@Messages("user.account.total")</th>
                     <th nowrap class="text-right">@Messages("user.available")</th>
                     <th nowrap class="text-right">@Messages("user.orderPending")</th>
                     <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
                     <th nowrap class="text-right">@Messages("asset.price")</th>
-                    <th nowrap class="text-right">@Messages("asset.valueOnEstimate")</th>
-                    <th nowrap>@Messages("asset.operation")</th>
+                    <th nowrap class="text-right">@Messages("asset.value")</th>
+                    <th nowrap class="text-right">@Messages("asset.operation")</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,7 +31,7 @@
                     <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.display">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.price + ' BTC'">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.asset + ' BTC'">@Messages("loading")</td>
-                    <td nowrap>
+                    <td nowrap class="text-right">
                         <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>
                         |
                         <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
