@@ -172,8 +172,8 @@ object UserController extends Controller with Json4s with AccessLogging {
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
     logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
     validateParamsAndThen(
-      new StringNonemptyValidator(userId, email, realName, mobile, uuid, verifyCode),
-      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
+      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
+      new StringNonemptyValidator(userId, email, realName, mobile)
     ) {
       val uid = userId.toLong
       UserService.getProfile(uid)

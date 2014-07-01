@@ -248,7 +248,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                     alert('Withdrawal request submitted.');
                     setTimeout($scope.loadWithdrawals, 1000);
                 } else {
-                    alert('Withdrawal failed.');
+                    alert('Withdrawal failed. reason: ' + data.message);
                 }
             });
     };

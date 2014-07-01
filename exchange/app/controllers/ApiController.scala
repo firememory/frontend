@@ -155,16 +155,19 @@ object ApiController extends Controller with Json4s {
       val data = request.body
       val username = request.session.get("username").getOrElse(null)
       val uid = request.session.get("uid").getOrElse(null)
-      if (username == null || uid == null) {
-        Future(Unauthorized)
-      } else {
+      val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+      val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
+        new StringNonemptyValidator(username, uid)
+      ) {
         val amount = getParam(data, "amount", "0.0").toDouble
         val currency: Currency = getParam(data, "currency", "")
         val address = getParam(data, "address", "")
         UserService.setWithdrawalAddress(uid.toLong, currency, address)
-        AccountService.withdrawal(uid.toLong, currency, amount, address).map {
-          case result => Ok(result.toJson)
-        }
+        AccountService.withdrawal(uid.toLong, currency, amount, address)
+      } map {
+        result => Ok(result.toJson)
       }
   }
 

@@ -51,9 +51,11 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
   val result = ApiResult(false, error.value, error.toString)
 
   def validate = {
-    val cachedValue = cacheService.get(uuid)
-    logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
-    if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+    if (uuid == null || uuid.trim.isEmpty || value == null || value.trim.isEmpty) Left(result) else {
+      val cachedValue = cacheService.get(uuid)
+      logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
+      if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+    }
   }
 }
 
