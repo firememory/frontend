@@ -16,7 +16,14 @@
 <div class="container coontainer-main">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 text-center">
-        	<div class="alert"><b>@Messages(messageKey)</b></div>
+            <div class="alert"><b>@Messages(messageKey)</b>
+            <br/>
+            @if("prompt.verifyEmailSent".equals(messageKey)) {
+              @Messages("prompt.resendVerifyEmailPrefix")
+              <a href="/login">@Messages("prompt.resendVerifyEmailLink")</a>
+              @Messages("prompt.resendVerifyEmailTail")
+            }
+            </div>
         </div>
     </div>
 </div>

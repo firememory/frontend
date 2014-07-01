@@ -139,7 +139,9 @@ prompt.resetPwdFailed=密码重置链接已过期
 prompt.doResetPwdFailed=密码重置失败
 prompt.resendVerifyEmailSucceedded=验证邮件已发送到您的注册邮箱，请登录邮箱点击链接完成注册。
 prompt.resendVerifyEmailFailed=注册验证失败！
-
+prompt.resendVerifyEmailPrefix=验证邮件没有收到？请直接
+prompt.resendVerifyEmailLink=登录
+prompt.resendVerifyEmailTail=然后可以重新发送验证邮件
 
 forgetpwd.title=密码重置
 forgetpwd.email=Email

@@ -137,6 +137,9 @@ prompt.requestResetPwdFailed=This email is not registered.
 prompt.doResetPwdFailed=Reset password failed.
 prompt.resendVerifyEmailSucceedded=Please check your email to activate your account before logging in.
 prompt.resendVerifyEmailFailed=Failed to verify your email.
+prompt.resendVerifyEmailPrefix=Verification email not received? 
+prompt.resendVerifyEmailLink=Login
+prompt.resendVerifyEmailTail=and you can resend verification email.
 
 forgetpwd.title=Reset password
 forgetpwd.email=E-mail
