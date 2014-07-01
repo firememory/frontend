@@ -8,7 +8,7 @@
         @if(isLogin()) {
         <div class="available-fund text-center">
             <span class="link" ng-click="clickQuantity(+account[subject].available.display)">
-                @Messages("trade.availableAmount"): <kbd ng-bind="account[subject].available.display + subject"></kbd>
+                @Messages("trade.availableAmount"): <kbd ng-bind="(account[subject].available.display || 0) + ' ' + subject"></kbd>
             </span>
         </div>
         }
