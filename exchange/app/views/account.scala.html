@@ -1,4 +1,4 @@
-@(profileMap: Map[String, String])(implicit session: Session, lang: Lang)
+@()(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
 <html lang="@(lang.code)">
@@ -112,7 +112,7 @@
                 <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
                 <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
                 <li route="#/transfer"><a href="#/transfer">@Messages("asset.transfer")</a></li>
-                @if(!"true".equals(profileMap("mobileVerified"))) {
+                @if(!"true".equals(session.get("COINPORT_COOKIE_MOBILE_VERIFIED").getOrElse(""))) {
                 <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li> }
                 <li route="#/accountprofiles"><a href="#/accountprofiles">@Messages("user.profile")</a></li>
             </ul>

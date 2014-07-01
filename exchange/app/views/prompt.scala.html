@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2 text-center">
             <div class="alert"><b>@Messages(messageKey)</b>
-            <br/>
+            <br/><br/>
             @if("prompt.verifyEmailSent".equals(messageKey)) {
               @Messages("prompt.resendVerifyEmailPrefix")
               <a href="/login">@Messages("prompt.resendVerifyEmailLink")</a>

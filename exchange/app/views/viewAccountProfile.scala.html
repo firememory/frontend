@@ -1,4 +1,4 @@
-@(profile: Map[String, String])(implicit lang: Lang)
+@()(implicit session: Session, lang: Lang)
 
 <section class="header-3-sub">
     <div class="row" >
@@ -9,20 +9,20 @@
             <tbody>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.userName")</th>
-                    <td>@profile.get("email").getOrElse("")</td>
+                    <td>@session.get("username").getOrElse("")</td>
                 </tr>
 
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.realName")</th>
-                    <td>@profile.get("realName").getOrElse("")</td>
+                    <td>@session.get("COINPORT_COOKIE_REAL_NAME").getOrElse("")</td>
                 </tr>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.mobile")</th>
-                    <td>@profile.get("mobile").getOrElse("")</td>
+                    <td>@session.get("COINPORT_COOKIE_MOBILE").getOrElse("")</td>
                 </tr>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.shareLink")</th>
-                    <td>@profile.get("shareLink").getOrElse("") </td>
+                    <td>https://coinport.com?rf=@session.get("referralToken").getOrElse("") </td>
                 </tr>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.publicUrl")</th>

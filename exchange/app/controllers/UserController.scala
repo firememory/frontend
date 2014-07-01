@@ -11,6 +11,7 @@ import scala.io.Source
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Properties
+import java.net.{URLDecoder, URLEncoder}
 
 import play.api.mvc._
 import play.api.Logger
@@ -24,9 +25,6 @@ import ControllerHelper._
 
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
-
-  // val inviteCodeFile: String = "/var/coinport/private/inviteCode.txt"
-  // val usedInviteCodeFile: String = "/var/coinport/private/usedInviteCode.properties"
 
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -59,49 +57,6 @@ object UserController extends Controller with Json4s with AccessLogging {
         Ok(result.toJson)
     }
   }
-
-  // def verifyInviteCode(inviteCode: String, email: String) = Action {
-  //   implicit request =>
-  //   def checkInviteCode: Boolean = {
-  //     if (inviteCode == null) false
-  //     else {
-  //       try {
-  //         val isValid = Source.fromFile(inviteCodeFile).getLines.exists(_.trim.equals(inviteCode.trim))
-  //         val isUsed = if(new File(usedInviteCodeFile).exists)
-  //           Source.fromFile(usedInviteCodeFile).getLines.exists(line => line.contains(inviteCode) && !line.contains(email))
-  //         else false
-
-  //         isValid && !isUsed
-  //       } catch {
-  //         case e: Throwable =>
-  //           logger.error(e.getMessage, e)
-  //           false
-  //       }
-  //     }
-  //   }
-
-  //   def updateUsedInviteCodeFile() = {
-  //     val props = new Properties()
-  //     props.setProperty(inviteCode, email)
-  //     var output: FileOutputStream = null
-  //     try {
-  //       output = new FileOutputStream(usedInviteCodeFile, true)
-  //       props.store(output, "used invite code.")
-  //     } catch {
-  //       case e: Throwable => logger.error(e.getMessage, e)
-  //     } finally {
-  //       output.close()
-  //     }
-  //   }
-
-  //   if (checkInviteCode) {
-  //     updateUsedInviteCodeFile()
-  //     Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
-  //     //MainController.register(email)
-  //   } else {
-  //     Redirect(routes.MainController.inviteCode("register.inviteCodeNoMatch"))
-  //   }
-  // }
 
   def register = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -184,11 +139,8 @@ object UserController extends Controller with Json4s with AccessLogging {
         val updatedUser = User(oldUser.id, oldUser.email, Some(realName), oldUser.password, None, Some(mobile), oldUser.depositAddress, oldUser.withdrawalAddress)
         UserService.updateProfile(updatedUser) map {
           updateRes =>
-          val mobileVerifiedCookie = Cookie(Constant.cookieNameMobileVerified, "true")
-          val mobileCookie = Cookie(Constant.cookieNameMobile, mobile)
-          val realNameCookie = Cookie(Constant.cookieNameRealName, realName)
-          Ok(updateRes.toJson).withCookies(mobileVerifiedCookie,
-            mobileCookie, realNameCookie)
+          val newSession = request.session + (Constant.cookieNameMobileVerified -> "true") + (Constant.cookieNameMobile -> mobile) + (Constant.cookieNameRealName -> realName)
+          Ok(updateRes.toJson).withSession(newSession)
         }
       } else {
         Future(Ok(result.toJson))
@@ -256,7 +208,6 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def resendVerifyEmail(email: String) = Action.async {
     implicit request =>
-    logger.info(s"resend verify email: $email")
     UserService.resendVerifyEmail(email) map {
       result =>
       logger.info(s"result: $result")
@@ -276,21 +227,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def accountProfiles() = Authenticated {
     implicit request =>
-    val email = request.session.get("username").getOrElse("")
-    val referralToken = request.session.get("referralToken").getOrElse("")
-    val mobileVerified = request.cookies.get(Constant.cookieNameMobileVerified).map(_.value.toString).getOrElse("")
-    val mobile = request.cookies.get(Constant.cookieNameMobile).map(_.value.toString).getOrElse("")
-    val realName = request.cookies.get(Constant.cookieNameRealName).map(_.value.toString).getOrElse("")
-    val profileMap = Map[String, String](
-      ("emailVerified" -> "true"),
-      ("email" -> email),
-      ("mobileVerified" -> mobileVerified),
-      ("realName" -> realName),
-      ("mobile" -> mobile),
-      ("shareLink" -> ("https://coinport.com?rf=" + referralToken))
-    )
-
-    Ok(views.html.viewAccountProfile.render(profileMap, langFromRequestCookie(request)))
+    Ok(views.html.viewAccountProfile.render(request.session, langFromRequestCookie(request)))
   }
 
   def logout = Action {

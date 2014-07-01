@@ -52,14 +52,7 @@ object MainController extends Controller with Json4s {
 
   def account() = Authenticated {
     implicit request =>
-    val mobileVerified = request.cookies.get(Constant.cookieNameMobileVerified).map(_.value.toString).getOrElse("")
-    val mobile = request.cookies.get(Constant.cookieNameMobile).map(_.value.toString).getOrElse("")
-    val profileMap = Map[String, String](
-      ("mobileVerified" -> mobileVerified),
-      ("mobile" -> mobile)
-    )
-
-    Ok(views.html.account.render(profileMap, request.session, langFromRequestCookie(request)))
+    Ok(views.html.account.render(request.session, langFromRequestCookie(request)))
   }
 
   def market = Action {
