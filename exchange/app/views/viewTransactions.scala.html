@@ -40,7 +40,7 @@
                             <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '@Messages("self")' : (item.taker)}}</a>
                             (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
                         </td>
-                        <td nowrap class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}} <i class="fa fa-lg {{item.sell | txTypeIcon}}"></i></td>
+                        <td nowrap class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
                         <td nowrap>
                             <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("self")' : (item.maker)}}</a>
                             (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)
