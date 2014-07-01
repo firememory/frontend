@@ -1,0 +1,36 @@
+@(profile: Map[String, String])(implicit lang: Lang)
+
+<section class="header-3-sub">
+    <div class="row" >
+        <div class="col-md-12">
+        <h3>@Messages("accountprofile.title")</h3>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.userName")</th>
+                    <td>@profile.get("email").getOrElse("")</td>
+                </tr>
+
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.realName")</th>
+                    <td>@profile.get("realName").getOrElse("")</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.mobile")</th>
+                    <td>@profile.get("mobile").getOrElse("")</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.shareLink")</th>
+                    <td>@profile.get("shareLink").getOrElse("") </td>
+                </tr>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.publicUrl")</th>
+                    <td> <a href="/user/{{uid}}">https://www.coinport.com/user/{{uid}}</a> </td>
+                </tr>
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+</section>

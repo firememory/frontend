@@ -41,6 +41,10 @@ function routeConfig($routeProvider) {
             controller: 'AccountSettingsCtrl',
             templateUrl: 'views/accountSettings.html'
         }).
+        when('/accountprofiles', {
+            controller: 'AccountProfilesCtrl',
+            templateUrl: 'views/accountProfiles.html'
+        }).
         otherwise({
             redirectTo: '/'
         });
@@ -849,8 +853,8 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
                 if (data.success) {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
-                    //$window.location.href = '/account#/accountsettings';
-                    $window.location.reload(true);
+                    $window.location.href = '/account#/accountprofiles';
+                    //$window.location.reload(true);
                 } else {
                     $scope.showUpdateAccountError = true;
                     var errorMsg = Messages.getMessage(data.code, data.message);
@@ -858,4 +862,9 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
                 }
             });
     };
+}]);
+
+//AccountProfilesCtrl
+app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
+
 }]);

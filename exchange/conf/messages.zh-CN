@@ -153,6 +153,7 @@ resetpwd.repeatPlaceHolder=重复密码
 resetpwd.submit=确定
 
 accountsettings.title=账号设置
+accountsettings.userName=用户名
 accountsettings.realName=真实姓名
 accountsettings.realNamePrompt=一旦提交，不可更改
 accountsettings.realNameAgain=重复姓名
@@ -162,10 +163,13 @@ accountsettings.smsVerifyCode=短信验证码
 accountsettings.submit=确定
 accountsettings.cancel=取消
 accountsettings.publicUrl=公开数据URL
+accountsettings.shareLink=分享链接
 
 accountsettings.view.title=设置
 accountsettings.view.thead.item=配置项
 accountsettings.view.thead.itemValue=值
+
+accountprofile.title=用户信息
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

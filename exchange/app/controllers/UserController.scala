@@ -19,6 +19,7 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data._
 import com.coinport.coinex.api.service._
+import utils.Constant
 import ControllerHelper._
 
 object UserController extends Controller with Json4s with AccessLogging {
@@ -48,7 +49,8 @@ object UserController extends Controller with Json4s with AccessLogging {
           case succeeded: LoginSucceeded =>
             Ok(result.toJson).withSession(
               "username" -> succeeded.email,
-              "uid" -> succeeded.id.toString
+              "uid" -> succeeded.id.toString,
+              "referralToken" -> succeeded.referralToken.getOrElse(0L).toString
             )
           case _ =>
             Ok(result.toJson)
@@ -110,7 +112,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     val password = getParam(data, "password").getOrElse("")
     val nationalId = getParam(data, "nationalId")
     val realName = getParam(data, "realName")
-    println(s"do register")
+    val rf =  getParam(data, "rf")
     validateParamsAndThen(
       new StringNonemptyValidator(uuid, text, email, password),
       new EmailFormatValidator(email),
@@ -120,7 +122,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       if(!CaptchaController.validate(uuid, text))
         Future { ApiResult(false, ErrorCode.CaptchaNotMatch.value, "") }
       else {
-        val user: User = User(id = -1, email = email, password = password)
+        val user: User = User(id = -1, email = email, password = password, referedToken = rf)
         UserService.register(user)
       }
     } map { result => Ok(result.toJson) }
@@ -182,7 +184,11 @@ object UserController extends Controller with Json4s with AccessLogging {
         val updatedUser = User(oldUser.id, oldUser.email, Some(realName), oldUser.password, None, Some(mobile), oldUser.depositAddress, oldUser.withdrawalAddress)
         UserService.updateProfile(updatedUser) map {
           updateRes =>
-          Ok(updateRes.toJson)
+          val mobileVerifiedCookie = Cookie(Constant.cookieNameMobileVerified, "true")
+          val mobileCookie = Cookie(Constant.cookieNameMobile, mobile)
+          val realNameCookie = Cookie(Constant.cookieNameRealName, realName)
+          Ok(updateRes.toJson).withCookies(mobileVerifiedCookie,
+            mobileCookie, realNameCookie)
         }
       } else {
         Future(Ok(result.toJson))
@@ -263,25 +269,28 @@ object UserController extends Controller with Json4s with AccessLogging {
     }
   }
 
-  def accountSettingsView() = Authenticated.async {
+  def accountSettingsView() = Authenticated {
+    implicit request =>
+      Ok(views.html.viewAccountSettings.render(langFromRequestCookie(request)))
+  }
+
+  def accountProfiles() = Authenticated {
     implicit request =>
     val email = request.session.get("username").getOrElse("")
-    assert(email != null && email.trim.nonEmpty)
-    UserService.queryUserProfileByEmail(email) map {
-      result =>
-      logger.info("query user profile result: " + result)
-      assert(result.success)
-      assert (result.data != None)
-      val profile = result.data.get.asInstanceOf[UserProfile]
-      assert(profile != null && email.equals(profile.email))
-      val profileMap = Map(
-        ("emailVerified" -> profile.emailVerified.toString),
-        ("mobileVerified" -> profile.mobileVerified.toString),
-        ("realName" -> profile.realName.getOrElse("")),
-        ("mobile" -> profile.mobile.getOrElse(""))
-      )
-      Ok(views.html.viewAccountSettings.render(profileMap, langFromRequestCookie(request)))
-    }
+    val referralToken = request.session.get("referralToken").getOrElse("")
+    val mobileVerified = request.cookies.get(Constant.cookieNameMobileVerified).map(_.value.toString).getOrElse("")
+    val mobile = request.cookies.get(Constant.cookieNameMobile).map(_.value.toString).getOrElse("")
+    val realName = request.cookies.get(Constant.cookieNameRealName).map(_.value.toString).getOrElse("")
+    val profileMap = Map[String, String](
+      ("emailVerified" -> "true"),
+      ("email" -> email),
+      ("mobileVerified" -> mobileVerified),
+      ("realName" -> realName),
+      ("mobile" -> mobile),
+      ("shareLink" -> ("https://coinport.com?rf=" + referralToken))
+    )
+
+    Ok(views.html.viewAccountProfile.render(profileMap, langFromRequestCookie(request)))
   }
 
   def logout = Action {

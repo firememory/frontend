@@ -57,12 +57,12 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
   }
 }
 
-// TODO(kongliang): we need to return error code instead of text.
 object ControllerHelper {
   val emptyParamError = ApiResult(false, ErrorCode.ParamEmpty.value, "param can not emppty", None)
   val emailFormatError = ApiResult(false, ErrorCode.InvalidEmailFormat.value, "email format error", None)
   val passwordFormatError = ApiResult(false, ErrorCode.InvalidPasswordFormat.value, "password format error", None)
   val inviteCodeError = ApiResult(false, ErrorCode.EmailNotBindWithInviteCode.value, "invalid invite code", None)
+  val phoneNumberFormatError = ApiResult(false, ErrorCode.InvalidPhoneNumberFormat.value, "invalid mobile phone number", None)
 
   class StringNonemptyValidator(stringParams: String*) extends GeneralValidator[String](stringParams: _*) {
     val result = emptyParamError
@@ -78,6 +78,15 @@ object ControllerHelper {
   class PasswordFormetValidator(passwords: String*) extends GeneralValidator[String](passwords: _*) {
     val result = passwordFormatError
     def isValid(param: String) = param.trim.length > 8
+  }
+
+  class phoneNumberValidator(phoneNum: String*) extends GeneralValidator[String](phoneNum: _*) {
+    val result = phoneNumberFormatError
+    def isValid(param: String) = {
+      val res1 = param != null && param.trim.length > 9
+      val res2 = if (param.startsWith("+86")) param.substring(3).trim.length == 11 else true
+      res1 && res2
+    }
   }
 
   // class EmailWithInviteCodeValidator(emails: String*) extends GeneralValidator[String](emails: _*) {

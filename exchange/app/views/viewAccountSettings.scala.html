@@ -1,30 +1,6 @@
-@(profile: Map[String, String])(implicit lang: Lang)
+@()(implicit lang: Lang)
 
 <section class="header-3-sub">
-    @if("true".equals(profile.get("mobileVerified").getOrElse("false")) && profile.get("realName").getOrElse("").trim.length > 0) {
-    <div class="row" >
-        <div class="col-md-12">
-        <h3>@Messages("accountsettings.view.title")</h3>
-
-        <table class="table table-striped">
-            <tbody>
-                <tr>
-                    <th class="col-md-3">@Messages("accountsettings.realName")</th>
-                    <td>@profile.get("realName").getOrElse("")</td>
-                </tr>
-                <tr>
-                    <th class="col-md-3">@Messages("accountsettings.mobile")</th>
-                    <td>@profile.get("mobile").getOrElse("")</td>
-                </tr>
-                <tr>
-                    <th class="col-md-3">@Messages("accountsettings.publicUrl")</th>
-                    <td> <a href="/user/{{uid}}">https://www.coinport.com/user/{{uid}}</a> </td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-    </div>
-    } else {
     <div class="row">
     <div class="col-md-12">
         <h3>@Messages("accountsettings.title")</h3>
@@ -105,6 +81,5 @@
         </div> -->
     </div>
     </div>
-    }
 
 </section>

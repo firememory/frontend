@@ -8,6 +8,9 @@ object Constant {
   private lazy val config = Play.current.configuration
 
   val cookieNameTimestamp = "COINPORT_COOKIE_TIMESTAMP"
+  val cookieNameMobile = "COINPORT_COOKIE_MOBILE"
+  val cookieNameMobileVerified = "COINPORT_COOKIE_MOBILE_VERIFIED"
+  val cookieNameRealName = "COINPORT_COOKIE_REAL_NAME"
 
   def markets = {
     config.getList("exchange.markets").get.unwrapped()

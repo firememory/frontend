@@ -150,6 +150,7 @@ resetpwd.repeatPlaceHolder=Repeat your password
 resetpwd.submit=Submit
 
 accountsettings.title=Account Settings
+accountsettings.userName=User Name
 accountsettings.realName=Real Name
 accountsettings.realNamePrompt=Once submited, can not be changed
 accountsettings.realNameAgain=Repeat Name
@@ -159,10 +160,13 @@ accountsettings.smsVerifyCode=Sms verify code
 accountsettings.submit=Submit
 accountsettings.cancel=Cancel
 accountsettings.publicUrl=My Public Profile URL
+accountsettings.shareLink=Share Link
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item
 accountsettings.view.thead.itemValue=Value
+
+accountprofile.title=User Profile
 
 footer.aboutUs=About Us
 footer.fq=F&Q

@@ -1,4 +1,4 @@
-@()(implicit session: Session, lang: Lang)
+@(profileMap: Map[String, String])(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
 <html lang="@(lang.code)">
@@ -112,8 +112,9 @@
                 <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
                 <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
                 <li route="#/transfer"><a href="#/transfer">@Messages("asset.transfer")</a></li>
-                <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li>
-                <li><a href="/user/{{uid}}">@Messages("user.profile")</a></li>
+                @if(!"true".equals(profileMap("mobileVerified"))) {
+                <li route="#/accountsettings"><a href="#/accountsettings">@Messages("asset.accountSettings")</a></li> }
+                <li route="#/accountprofiles"><a href="#/accountprofiles">@Messages("user.profile")</a></li>
             </ul>
         </div>
 
