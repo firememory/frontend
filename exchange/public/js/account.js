@@ -373,7 +373,8 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["#aad", "#556"]);
+            .range(["#2980b9", "#34495e"]);
+//            .range(["#aad", "#556"]);
 //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
         $scope.color = color;
@@ -411,14 +412,14 @@ app.controller('AssetCtrl', function ($scope, $http) {
             var centerContainer = pie.append('g')
                 .attr('class', 'pieChart--center');
 
-            centerContainer.append('circle')
-                .attr('class', 'pieChart--center--outerCircle')
-                .attr('r', 0)
-                .attr('filter', 'url(#pieChartDropShadow)')
-                .transition()
-                .duration(DURATION)
-                .delay(DELAY)
-                .attr('r', radius - 50);
+//            centerContainer.append('circle')
+//                .attr('class', 'pieChart--center--outerCircle')
+//                .attr('r', 0)
+//                .attr('filter', 'url(#pieChartDropShadow)')
+//                .transition()
+//                .duration(DURATION)
+//                .delay(DELAY)
+//                .attr('r', radius - 50);
 
             centerContainer.append('circle')
                 .attr('id', 'pieChart-clippy')
@@ -526,7 +527,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 });
             });
 
-        var margin = {top: 10, right: 10, bottom: 30, left: 40},
+        var margin = {top: 10, right: 10, bottom: 30, left: 80},
             width = 600 - margin.left - margin.right,
             height = 250 - margin.top - margin.bottom;
 
@@ -542,15 +543,19 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
         var color = d3.scale.linear()
             .domain([0, data.length - 1])
-            .range(["#aad", "#556"]);
+            .range(["#2980b9", "#34495e"]);
+//            .range(["#aad", "#556"]);
 //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
         var xAxis = d3.svg.axis()
             .scale(x)
-            .tickSize(0)
+            .tickSize(6)
             .tickPadding(6)
             .tickFormat(function (d) {
-                return new Date(d).getDate()
+                var date = new Date(d);
+                var day = date.getDate();
+                if (day % 5 == 1) return (date.getYear() - 100) + '-' + (date.getMonth() + 1) + '-' + day;
+                return '';
             })
             .orient("bottom");
 
