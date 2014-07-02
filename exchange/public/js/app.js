@@ -25,6 +25,14 @@ coinportApp.filter('orderRoleClass', function() {
     }
 });
 
+coinportApp.filter('filledAccountEmpty', function() {
+    return function(input) {
+        console.log("filled", input);
+        if (!input) return "0.0";
+        return input;
+    }
+});
+
 coinportApp.filter('txTypeClass', function() {
     return function(input) {
         return input ? 'sell' : 'buy';
