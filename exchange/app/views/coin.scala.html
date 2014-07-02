@@ -21,20 +21,20 @@
             <div class="col-md-6">
                 <h5>@Messages("open.reserve.balance")</h5>
                 <h4>
-                    <span ng-bind="reserve.total.display + ' @coin'"></span>
+                    <span ng-bind="reserve.total.value + ' @coin'"></span>
                 </h4>
                 <table class="table">
                     <tr>
                         <td>@Messages("coin.userWallet")</td>
-                        <td ng-bind="reserve.user.display + ' @coin'"></td>
+                        <td ng-bind="reserve.user.value + ' @coin'"></td>
                     </tr>
                     <tr>
                         <td>@Messages("coin.hotWallet")</td>
-                        <td ng-bind="reserve.hot.display + ' @coin'"></td>
+                        <td ng-bind="reserve.hot.value + ' @coin'"></td>
                     </tr>
                     <tr>
                         <td>@Messages("coin.coldWallet")</td>
-                        <td ng-bind="reserve.cold.display + ' @coin'"></td>
+                        <td ng-bind="reserve.cold.value + ' @coin'"></td>
                     </tr>
                 </table>
             </div>

@@ -200,8 +200,8 @@ coinportApp.filter('networkDelay', function() {
 coinportApp.filter('reserveRatioClass', function() {
     return function(input) {
         if (input <= 0) return 'label label-default';
-        if (input >= 1.0) return 'label label-success';
-        if (input > 0.9) return 'label label-warning';
+        if (input >= 0.99) return 'label label-success';
+        if (input > 0.75) return 'label label-warning';
         return 'label label-danger';
     }
 });
