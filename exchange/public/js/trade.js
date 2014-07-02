@@ -416,8 +416,9 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             payload.price = +$scope.bid.price;
         if (+$scope.bid.amount > 0)
             payload.amount = +$scope.bid.amount;
-        if (+$scope.bid.total > 0)
-            payload.total = +$scope.bid.total;
+        // TODO: market order is not supported
+//        if (+$scope.bid.total > 0)
+//            payload.total = +$scope.bid.total;
 
         $http.post('/trade/' + $scope.market + '/bid', $.param(payload))
           .success(function(data, status, headers, config) {
