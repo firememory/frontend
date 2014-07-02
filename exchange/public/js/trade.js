@@ -397,7 +397,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             $scope.alert('bid', Messages.trade.inputAmount);
             return;
         }
-        if ($scope.bid.total > $scope.account[$scope.currency].available.value) {
+        if ($scope.bid.total > +$scope.account[$scope.currency].available.display) {
             $scope.alert('bid', Messages.trade.noEnough);
             return;
         }
@@ -451,7 +451,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             $scope.alert('ask', Messages.trade.inputAmount);
             return;
         }
-        if ($scope.ask.amount > $scope.account[$scope.subject].available.value) {
+        if ($scope.ask.amount > +$scope.account[$scope.subject].available.display) {
             $scope.alert('ask', Messages.trade.noEnough);
             return;
         }
