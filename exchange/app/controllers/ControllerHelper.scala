@@ -82,7 +82,7 @@ object ControllerHelper {
     def isValid(param: String) = param.trim.length > 8
   }
 
-  class phoneNumberValidator(phoneNum: String*) extends GeneralValidator[String](phoneNum: _*) {
+  class PhoneNumberValidator(phoneNum: String*) extends GeneralValidator[String](phoneNum: _*) {
     val result = phoneNumberFormatError
     def isValid(param: String) = {
       val res1 = param != null && param.trim.length > 9

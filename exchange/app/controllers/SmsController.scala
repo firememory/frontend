@@ -9,12 +9,12 @@ import java.util.UUID
 import java.util.Random
 
 import com.github.tototoshi.play2.json4s.native.Json4s
-import ControllerHelper._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 import com.coinport.coinex.api.service.UserService
 import services._
 import models._
+import ControllerHelper._
 
 object SmsController extends Controller with Json4s {
   val logger = Logger(this.getClass)
@@ -42,7 +42,11 @@ object SmsController extends Controller with Json4s {
     val phoneNum = getParam(data, "phoneNumber").getOrElse("")
     logger.info(s"phoneNum: $phoneNum")
     val (uuid, verifyCode) = generateVerifyCode
-    sendSms(phoneNum, verifyCode, uuid) map {
+    validateParamsAndThen(
+      new PhoneNumberValidator(phoneNum)
+    ) {
+      sendSms(phoneNum, verifyCode, uuid)
+    } map {
       result =>
       Ok(result.toJson)
     }
@@ -56,7 +60,7 @@ object SmsController extends Controller with Json4s {
       true
     } else {
       val lastTs = lastTsStr.toLong
-      if (currTs - lastTs < allowedMinIntervalSeconds)
+      if (currTs - lastTs < allowedMinIntervalSeconds * 1000)
         false
       else {
         cacheService.putWithTimeout(phoneNum, currTs.toString, 120)

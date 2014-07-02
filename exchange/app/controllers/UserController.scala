@@ -31,7 +31,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     val data = request.body
     val email = getParam(data, "username").getOrElse("")
     val password = getParam(data, "password").getOrElse("")
-    logger.info(s"email: $email, password: $password")
+    //logger.info(s"email: $email, password: $password")
     validateParamsAndThen(
       new StringNonemptyValidator(password),
       new EmailFormatValidator(email),

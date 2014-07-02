@@ -832,14 +832,18 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
 
         $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function (data, status, headers, config) {
+                console.log("send sms result: ", data)
                 if (data.success) {
                     $scope.account.verifyCodeUuid = data.data;
                     //console.log('data = ' + data.data);
                     //console.log('uuid = ' + $scope.account.verifyCodeUuid);
                 } else {
                     $scope.showUpdateAccountError = true;
-                    $scope.updateAccountErrorMessage = data.message;
-                    $scope.stopTiming();
+                    var smsErrorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.updateAccountErrorMessage = smsErrorMsg;
+                    if (data.code == 9009) {
+                        $scope.stopTiming();
+                    }
                 }
             });
     };

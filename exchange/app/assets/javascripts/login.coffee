@@ -30,7 +30,7 @@ class LoginCtrl
                         if data.code == 1006
                             $scope.ifEmailNotVerified = true
                 .error (data, status, headers, config) ->
-                    $scope.errorMessage = data.message
+                    $scope.errorMessage = Messages.getMessage(status, 'request timeout.')
                     $scope.showError= true
                     $scope.login.password = ''
 

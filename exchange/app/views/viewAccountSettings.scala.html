@@ -13,15 +13,15 @@
                         <input name="realName" id="realName" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="account.realName" required="" ng-maxlength="22">
                         <!-- <span class="glyphicon glyphicon-{{accountSettingsForm.realName.$valid?'ok':'remove'}} form-control-feedback"></span> -->
                     </div>
-                    <div class="col-sm-2 right-element">@Messages("accountsettings.realNamePrompt")</div>
+                    <!-- <div class="col-sm-2 right-element">@Messages("accountsettings.realNamePrompt")</div> -->
                 </div>
 
-                <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
-                    <label class="control-label col-sm-2">@Messages("accountsettings.realNameAgain")</label>
-                    <div class="col-sm-4">
-                        <input name="confirmRealName" id="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" repeat-input="realName" required="">
-                    </div>
+                <!-- <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
+                <label class="control-label col-sm-2">@Messages("accountsettings.realNameAgain")</label>
+                <div class="col-sm-4">
+                <input name="confirmRealName" id="confirmRealName" class="form-control" placeholder="@Messages("accountsettings.realNameAgain")" ng-model="account.confirmRealName" repeat-input="realName" required="">
                 </div>
+                </div> -->
 
                 <!--
                 <div class="form-group">
@@ -56,7 +56,7 @@
                 </div>
 
 
-                <div class="form-group has-{{accountSettingsForm.confirmRealName.$valid?'success':'error'}} has-feedback">
+                <div class="form-group has-{{accountSettingsForm.verifyCode.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
                     <div class="col-sm-4">
                         <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">

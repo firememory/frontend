@@ -74,6 +74,7 @@ Messages.connectivity = {
 // See enum ErrorCode in data.thrift
 // key = m + errorCode
 Messages.ErrorMessages = {
+    m500:  'Request timeout, please retry later.',
     m1001: 'Hmmm..., this email has been registered already.',
     m1002: 'missing information',
     m1003: 'Hmmm..., there is no such user in our system :(',

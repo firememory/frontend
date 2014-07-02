@@ -72,6 +72,7 @@ Messages.connectivity = {
 };
 
 Messages.ErrorMessages = {
+    m500:  '请求超时，请重试.',
     m1001: '额..., 此邮箱已被注册.',
     m1002: '缺少信息',
     m1003: '额..., 系统中查无此用户',

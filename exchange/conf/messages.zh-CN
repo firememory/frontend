@@ -156,7 +156,7 @@ resetpwd.submit=确定
 
 accountsettings.title=账号设置
 accountsettings.userName=用户名
-accountsettings.realName=真实姓名
+accountsettings.realName=昵称
 accountsettings.realNamePrompt=一旦提交，不可更改
 accountsettings.realNameAgain=重复姓名
 accountsettings.country=国家

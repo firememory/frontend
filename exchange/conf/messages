@@ -154,7 +154,7 @@ resetpwd.submit=Submit
 
 accountsettings.title=Account Settings
 accountsettings.userName=User Name
-accountsettings.realName=Real Name
+accountsettings.realName=Nick Name
 accountsettings.realNamePrompt=Once submited, can not be changed
 accountsettings.realNameAgain=Repeat Name
 accountsettings.country=Country
