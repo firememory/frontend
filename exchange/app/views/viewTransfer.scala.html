@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th nowrap>@Messages("open.coinType")</th>
-                        <th nowrap>@Messages("open.network.status")</th>
+                        <!--<th nowrap>@Messages("open.network.status")</th>-->
                         <th nowrap class="text-right">@Messages("user.account.total")</th>
                         <th nowrap class="text-right">@Messages("user.available")</th>
                         <th nowrap class="text-right">@Messages("user.orderPending")</th>
@@ -26,7 +26,7 @@
                             <img src="/image/coins/@(coin.toString.toLowerCase()).png">
                             <strong>@coin</strong>
                         </td>
-                        <td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                        <!--<td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>-->
                         <td nowrap class="text-right"><b>{{accounts['@coin'].total.display}}</b></td>
                         <td nowrap class="text-right">{{accounts['@coin'].available.display}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].locked.display}}</td>

@@ -2,7 +2,8 @@ package utils
 
 import play.api.Play
 import com.coinport.coinex.data.Implicits._
-import com.coinport.coinex.data.MarketSide
+import com.coinport.coinex.data.{Currency, MarketSide}
+import com.coinport.coinex.api.model._
 
 object Constant {
   private lazy val config = Play.current.configuration
@@ -25,6 +26,14 @@ object Constant {
       case m: String =>
         val side: MarketSide = m
         side
+    }
+  }
+
+  def currencySeq = {
+    coins.toArray.toSeq.map {
+      case m: String =>
+        val c: Currency = m
+        c
     }
   }
 }

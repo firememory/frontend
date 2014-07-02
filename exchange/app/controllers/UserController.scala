@@ -91,14 +91,18 @@ object UserController extends Controller with Json4s with AccessLogging {
     }
   }
 
+  def getBatchDepositAddress(userId: String) = Action.async{
+    implicit  request =>
+      UserService.getDepositAddress(Constant.currencySeq, userId.toLong) map {
+        result =>
+          Ok(result.toJson)
+      }
+  }
+
   def getDepositAddress(currencyStr: String, userId: String) = Action.async {
     implicit  request =>
-      val currencySeq: Seq[Currency] = currencyStr.split(";").toSeq.map{
-        case s: String =>
-          val c:Currency = s
-        c
-      }
-      UserService.getDepositAddress(currencySeq, userId.toLong) map {
+      val cur: Currency = currencyStr
+      UserService.getDepositAddress(Seq(cur), userId.toLong) map {
         result =>
           Ok(result.toJson)
       }
