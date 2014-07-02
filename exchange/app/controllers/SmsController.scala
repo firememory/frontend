@@ -76,9 +76,12 @@ object SmsController extends Controller with Json4s {
         val shortPhoneNum = if (phoneNum.startsWith("+86")) phoneNum.substring(3).trim
         else phoneNum.substring(4).trim
         smsServiceInChina.sendVerifySms(shortPhoneNum, verifyCode)
-      }
-      else
+      } else if(!phoneNum.startsWith("+") && !phoneNum.startsWith("00") &&
+        phoneNum.trim.length == 11) {
+        smsServiceInChina.sendVerifySms(phoneNum, verifyCode)
+      } else {
         smsService.sendVerifySms(phoneNum, verifyCode)
+      }
 
       sendRes map {
         result =>

@@ -756,8 +756,6 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window) {
-    console.log("in accountSettings page ctrl...");
-
     $scope.showUpdateAccountError = false;
 
     $scope.account = {};
@@ -836,8 +834,8 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     $scope.account.verifyCodeUuid = data.data;
-                    console.log('data = ' + data.data);
-                    console.log('uuid = ' + $scope.account.verifyCodeUuid);
+                    //console.log('data = ' + data.data);
+                    //console.log('uuid = ' + $scope.account.verifyCodeUuid);
                 } else {
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = data.message;
@@ -854,7 +852,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
                     $scope.showUpdateAccountError = true;
                     $scope.updateAccountErrorMessage = Messages.account.updateAccountProfileSucceeded;
                     $window.location.href = '/account#/accountprofiles';
-                    //$window.location.reload(true);
+                    $window.location.reload();
                 } else {
                     $scope.showUpdateAccountError = true;
                     var errorMsg = Messages.getMessage(data.code, data.message);

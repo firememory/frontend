@@ -63,7 +63,7 @@ Messages.account = {
   updateAccountProfileSucceeded: '更新用户资料成功',
   getVerifyCodeButtonText: '获取短信验证码',
   getVerifyCodeButtonTextPrefix: ' ',
-  getVerifyCodeButtonTextTail: '秒后重发'
+  getVerifyCodeButtonTextTail: '秒后重新获取'
 
 };
 
