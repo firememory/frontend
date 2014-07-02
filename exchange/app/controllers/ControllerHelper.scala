@@ -145,7 +145,9 @@ object ControllerHelper {
   def langFromRequestCookie(request: Request[_]): Lang = {
     request.cookies.get(Play.langCookieName) match {
       case Some(langCookie) => Lang(langCookie.value)
-      case None => request.acceptLanguages(0)
+      case None =>
+        if(request.acceptLanguages.size > 0) request.acceptLanguages(0)
+        else Lang("zh-CN")
     }
   }
 }

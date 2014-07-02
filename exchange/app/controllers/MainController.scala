@@ -20,6 +20,8 @@ import models.PagingWrapper
 import com.coinport.coinex.data.Language
 import utils.Constant
 import ControllerHelper._
+import com.coinport.coinex.data
+import com.coinport.coinex.data.Language.Chinese
 
 object MainController extends Controller with Json4s {
   // def backdoor = Action {
@@ -163,9 +165,10 @@ object MainController extends Controller with Json4s {
 
   def getNotifications() = Action.async {
     implicit  request =>
-      val lang: Language =
-        if (request.acceptLanguages(0).language.contains("en")) Language.English
-        else Language.Chinese
+      val language = langFromRequestCookie(request)
+
+      val lang: Language = if (language.language == "zh-CN") Language.Chinese
+      else Language.English
 
       NotificationService.getNotifications(lang) map {
         case result =>
