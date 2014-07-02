@@ -602,4 +602,4 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 // prevent app from memory leak, kind of hack
 setTimeout(function() {
     window.location.reload();
-}, 1000 * 60 * 30);
+}, 1000 * 60 * 10);
