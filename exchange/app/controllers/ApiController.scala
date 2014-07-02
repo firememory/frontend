@@ -40,7 +40,7 @@ object ApiController extends Controller with Json4s {
         case None => Nil
         case Some(s) =>
           if (s == "1") Seq(OrderStatus.PartiallyExecuted, OrderStatus.Pending)
-          else if (s == "2") Seq(OrderStatus.Cancelled, OrderStatus.CancelledByMarket, OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket, OrderStatus.Unknown)
+          else if (s == "2") Seq(OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket)
           else Nil
       }
 
