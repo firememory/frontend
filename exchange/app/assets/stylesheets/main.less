@@ -185,7 +185,7 @@ div.site-notification {
 
 div.home {
     section.content-16 {
-        background: radial-gradient(circle farthest-side at right bottom,#fefdfe 5%,#f8cdda 25%,#1d2b64 80%,#0e153a 98%);
+        background: linear-gradient(45deg,#0084c5 0,#0489c3 36%,#30cabf 66%,#2fbcb2 100%);
         h3 {color: white;}
         .lead {color: @clouds;}
         padding: 0;
@@ -193,6 +193,13 @@ div.home {
         min-height: 500px;
         @media (min-width: 1200px) {
             height: 100vh;
+        }
+        a {
+            color: white;
+            &:hover {
+                color: white;
+                text-decoration: underline;
+            }
         }
     }
 
