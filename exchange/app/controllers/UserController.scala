@@ -198,8 +198,8 @@ object UserController extends Controller with Json4s with AccessLogging {
     UserService.validatePasswordResetToken(token) map {
       result =>
       if (result.success) {
-        val profile = result.data.get.asInstanceOf[UserProfile]
-        logger.info(s"profile: $profile")
+        //val profile = result.data.get.asInstanceOf[UserProfile]
+        //logger.info(s"profile: $profile")
         Ok(views.html.resetPassword.render(token, request.session, langFromRequestCookie(request)))
       } else {
         Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))

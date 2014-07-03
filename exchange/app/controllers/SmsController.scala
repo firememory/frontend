@@ -23,7 +23,7 @@ object SmsController extends Controller with Json4s {
   val smsServiceInChina = SmsService.getNamedServiceImpl(SmsService.CLOOPEN_REST_SERVICE_IMPL)
   val cacheService = CacheService.getDefaultServiceImpl
 
-  val allowedMinIntervalSeconds :Int = 110
+  val allowedMinIntervalSeconds :Int = 60
   val rand = new Random()
   val randMax = 999999
   val randMin = 100000
