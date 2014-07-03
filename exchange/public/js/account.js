@@ -872,27 +872,38 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
 }]);
 
 //ModalDemoCtrl
-app.controller('ModalDemoCtrl', function ($scope, $http, $modal) {
+app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
     $scope.hasGoogleAuthCode = false;
     $scope.googleAuthButton = Messages.account.getGoogleAuthCodeButtonText;
 
-    $scope.items = ['item1', 'item2', 'item3'];
-    $scope.getGoogleAuthCode = function (size) {
+    $scope. getGoogleAuthCode = function () {
         $modal.open({
-            templateUrl: 'myModalContent.html',
+            templateUrl: 'GoogleModal.html',
             controller: ModalInstanceCtrl,
-            size: size,
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
+            size: "sm",
+            resolve: {}
         });
     };
 
-    var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+    var ModalInstanceCtrl = function ($scope, $modalInstance) {
+        $http.get('/googleauth/'+$scope.uid)
+            .success(function(data, status, headers, config) {
+                if (data.success) {
+                    $scope.authUrl = data.data.authUrl;
+                    console.log($scope.authUrl);
+                    $scope.secureKey = data.data.secureKey;
+                }
+            });
+
+        $scope.bind = function () {
+            $http.post('/googleauth/bind/'+$scope.secureKey)
+                .success(function (data, status, headers, config) {
+                    $modalInstance.close();
+                });
+        };
+
         $scope.close = function () {
-            $modalInstance.close($scope.selected.item);
+            $modalInstance.close();
         };
     };
 });

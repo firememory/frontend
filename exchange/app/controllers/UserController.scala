@@ -22,6 +22,7 @@ import com.coinport.coinex.data._
 import com.coinport.coinex.api.service._
 import utils.Constant
 import ControllerHelper._
+import controllers.GoogleAuth.{GoogleAuthenticator, GoogleAuthenticatorKey}
 
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
@@ -245,5 +246,43 @@ object UserController extends Controller with Json4s with AccessLogging {
   def logout = Action {
     implicit request =>
       Redirect(routes.MainController.index()).withNewSession
+  }
+
+  def getGoogleAuth(uid: String) = Action {
+    implicit request =>
+      val userId = request.session.get("uid").getOrElse("")
+      val email = request.session.get("username").getOrElse("")
+      if (!userId.isEmpty && !email.isEmpty || uid != userId) {
+        val googleAuthenticator = new GoogleAuthenticator()
+        val key = googleAuthenticator.createCredentials(userId+"//"+email)
+
+        val secret = key.getKey()
+        val url = GoogleAuthenticatorKey.getQRBarcodeURL(
+          "COINPORT", uid, secret)
+
+        Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secureKey" -> secret))).toJson())
+      } else {
+        Ok(ApiResult(true, 1, "userId is empty or email is empty", None).toJson())
+      }
+  }
+
+  def bindGoogleAuth(key: String) = Action.async {
+    implicit request =>
+      val userId = request.session.get("uid").getOrElse("")
+
+      UserService.bindGoogleAuth(userId.toLong, key) map {
+        result =>
+          Ok(result.toJson)
+      }
+  }
+
+  def unbindGoogleAuth() = Action.async {
+    implicit request =>
+      val userId = request.session.get("uid").getOrElse("")
+
+      UserService.unbindGoogleAuth(userId.toLong) map {
+        result =>
+          Ok(result.toJson)
+      }
   }
 }

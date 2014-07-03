@@ -1,5 +1,6 @@
 package controllers.GoogleAuth;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public final class GoogleAuthenticatorKey {
      */
     private static final String QR_FORMAT =
             "https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&"
-                    + "chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s";
+                    + "chl=otpauth://totp/%s_%s%%3Fsecret%%3D%s";
 
     /**
      * The secret key in Base32 encoding.
@@ -66,8 +67,9 @@ public final class GoogleAuthenticatorKey {
      * @return the URL of a Google-provided QR barcode to be loaded into the
      * Google Authenticator application.
      */
-    public static String getQRBarcodeURL(String user, String host, String secret) {
-        return String.format(QR_FORMAT, user, host, secret);
+    public static String getQRBarcodeURL(String host, String user, String secret) throws UnsupportedEncodingException {
+        String urlencode = java.net.URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s", host, user, secret),"UTF-8");
+        return "https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl="+urlencode;
     }
 
     /**

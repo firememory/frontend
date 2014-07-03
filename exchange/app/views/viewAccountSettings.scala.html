@@ -68,19 +68,20 @@
                     <div class="col-sm-4">
                         <input name="googleAuthCode" class="form-control" ng-model="account.googleAuthCode" min-length="6">
                     </div>
-                    <div class="col-sm-3" ng-controller="ModalDemoCtrl">
-                        <script type="text/ng-template" id="myModalContent.html">
+                    <div class="col-sm-3" ng-controller="GoogleModalCtrl">
+                        <script type="text/ng-template" id="GoogleModal.html">
                             <div class="modal-header">
-                                <h3 class="modal-title">I'm a modal!</h3>
+                                <h3 class="modal-title">@Messages("accountsettings.googleauth.title")</h3>
                             </div>
                             <div class="modal-body">
-                                <h3 class="modal-title">BODY!</h3>
+                                <img src="{{authUrl}}">
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-primary" ng-click="close()">Close</button>
+                                <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                                <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
                             </div>
                         </script>
-                        <button class="btn-success sendSmsBtn right-element" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"> </button>
+                        <button class="btn-success sendSmsBtn right-element" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"></button>
                     </div>
                 </div>
 

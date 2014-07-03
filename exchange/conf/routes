@@ -49,7 +49,11 @@ GET     /profile/*uid                       controllers.UserController.getUserPr
 GET     /depoaddr/*currency/*uid            controllers.UserController.getDepositAddress(currency, uid)
 GET     /depoaddr/*uid                      controllers.UserController.getBatchDepositAddress(uid)
 GET     /withaddr/*currency/*uid            controllers.UserController.getWithdrawalAddress(currency, uid)
-GET     /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdrawalAddress(currency, uid, addr)
+POST    /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdrawalAddress(currency, uid, addr)
+
+GET     /googleauth/*uid                    controllers.UserController.getGoogleAuth(uid)
+POST    /googleauth/bind/*key               controllers.UserController.bindGoogleAuth(key)
+POST    /googleauth/unbind                  controllers.UserController.unbindGoogleAuth(key)
 
 # html snippet
 GET     /terms.html              controllers.MainController.terms()

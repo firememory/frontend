@@ -165,6 +165,9 @@ accountsettings.cancel=Cancel
 accountsettings.publicUrl=My Public Profile URL
 accountsettings.shareLink=Share Link
 accountsettings.googleAuth=Authenticator code
+accountsettings.googleauth.title=Your QR-chart at CoinPort
+accountsettings.googleauth.bind=Bind to Account
+accountsettings.googleauth.close=Close
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

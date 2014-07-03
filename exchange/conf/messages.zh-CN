@@ -173,6 +173,9 @@ accountsettings.view.thead.itemValue=值
 
 accountprofile.title=用户信息
 accountsettings.googleAuth=谷歌双重校验
+accountsettings.googleauth.title=您的双重校验二维码
+accountsettings.googleauth.bind=绑定到账号
+accountsettings.googleauth.close=关闭
 
 footer.aboutUs=关于我们
 footer.fq=常见问题
