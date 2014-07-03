@@ -89,7 +89,7 @@ GET     /api/*market/transaction            controllers.ApiController.transactio
 GET     /api/*market/orders                 controllers.ApiController.orders(market)
 GET     /api/transaction/*tid               controllers.ApiController.transaction(tid)
 GET     /api/*currency/transfer/*uid        controllers.ApiController.transfers(currency, uid)
-GET     /api/open/data/*type                controllers.MainController.listFilesFromHdfs(type)
+GET     /api/open/data/*path                controllers.MainController.listFilesFromHdfs(path)
 GET     /api/open/network/*currency         controllers.ApiController.ccNetworkStatus(currency)
 GET     /api/open/wallet/*currency/*wtype   controllers.ApiController.wallets(currency, wtype)
 GET     /api/open/reserve/*currency         controllers.ApiController.currencyReserve(currency)

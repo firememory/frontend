@@ -206,6 +206,7 @@ open.reserve.account=Total Balances
 open.reserve.ratio=Reserve Ratio
 open.reserve.coinaddr=Coin Address
 open.reserve.balance=Total Reserve
+open.reserve.accountFile=Account Data
 open.network.title=Network Status
 open.network.connectivity=Connectivity
 open.network.status=Status

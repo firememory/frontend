@@ -8,6 +8,8 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
 
     $scope.page = 1;
     $scope.limit = 10;
+    $scope.filesPage = 1;
+    $scope.filesLimit= 5;
 
     $http.get('/api/account/-1000')
         .success(function (data, status, headers, config) {
@@ -41,4 +43,13 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
     };
 
     $scope.reloadTransfers();
+
+    $scope.loadFiles = function() {
+        $http.get('/api/open/data/csv/asset/'+$scope.coin.toLowerCase(), {params: {limit: $scope.filesLimit, page: $scope.filesPage}})
+        .success(function(data, status, headers, config) {
+            $scope.files = data.data;
+        });
+    };
+
+    $scope.loadFiles();
 });

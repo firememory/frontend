@@ -208,6 +208,7 @@ open.reserve.account=用户账面总余额
 open.reserve.ratio=准备金率
 open.reserve.coinaddr=虚拟货币地址
 open.reserve.balance=准备金总额
+open.reserve.accountFile=全站账户数据下载
 open.network.title=网络状态
 open.network.connectivity=连通性
 open.network.status=网络状态
