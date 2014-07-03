@@ -1,7 +1,6 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
-
 <section class="header-3-sub">
     <div class="row">
         <div class="col-md-12"><h3>@Messages("asset.transfer")</h3> </div>
@@ -52,6 +51,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th nowrap>@Messages("transfer.created")</th>
                     <th nowrap>@Messages("transfer.updated")</th>
                     <th nowrap>@Messages("user.transfer.operation")</th>
                     <th nowrap>@Messages("user.coinType")</th>
@@ -63,14 +63,15 @@
                 </thead>
                 <tbody>
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
-                    <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
+                    <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
+                    <td nowrap><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
                     <td nowrap> <strong>{{item.operation | transferOperationText }} </strong></td>
                     <td nowrap>
                         <img src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
                         <strong>{{item.amount.currency}}</strong>
                     </td>
-                    <td nowrap> <strong>{{item.amount.display}}</strong> </td>
-                    <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
+                    <td nowrap><strong>{{item.amount.value}}</strong></td>
+                    <td nowrap><span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span></td>
                     <td>
                         <a target="_blank" href="{{item.txlink}}">
                             @Messages("transfer.txid") <i class="fa fa-external-link"></i>

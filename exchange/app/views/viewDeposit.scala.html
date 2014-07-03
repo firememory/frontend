@@ -3,18 +3,23 @@
 
 <div class="row">
     <h6>
-        <b>@Messages("transfer.deposit")</b> / <a href="#/withdrawal/{{currency}}">@Messages("transfer.withdrawal")</a>
+        <b>@Messages("transfer.deposit")</b> / <a href="#/withdrawal/{{currency}}">@Messages("transfer.withdrawal")</a>&nbsp;&nbsp;
         <select ng-model="currency" ng-change="changeCurrency()">
         @for(coin <- coins) {
         <option>@coin</option>
         }
         </select>
     </h6>
-    <alert>@(Messages("transfer.account")): {{balance.available.display}} {{currency}}</alert>
-    <h6>@Messages("transfer.depositAddress")</h6>
-    <div class="alert alert-success"><strong>{{depositAddress}}</strong></div>
 </div>
-
+<div class="row">
+    <h6>
+        @Messages("transfer.account") &nbsp; <b>{{balance.available.value || 0}}</b> {{currency}}
+    </h6>
+</div>
+<div class="row">
+    <h6>@Messages("transfer.depositAddress")</h6>
+    <div class="alert alert-success col-md-10"><strong>{{depositAddress}}</strong></div>
+</div>
 <div class="row">
     <h6>@Messages("transfer.depositRecord")</h6>
     <div class="col-md-12">
@@ -35,7 +40,7 @@
                     <td nowrap> {{item.id}} </td>
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.amount.display}} </td>
+                    <td nowrap> {{item.amount.value}} </td>
                     <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.address}} </td>
                     <td><a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>

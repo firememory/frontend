@@ -210,7 +210,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
-            console.log(data.data.accounts[$scope.currency]);
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
@@ -251,11 +250,11 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 if (data.success) {
                     var withdrawal = data.data.transfer;
                     alert(Messages.transfer.messages['ok']);
-                    setTimeout($scope.loadWithdrawals, 1000);
                 } else {
-                    alert(Messages.transfer.messages['error'] + ': ' + data.message);
-                    //alert(Messages.ErrorMessages[data.code]);
+                    console.log(data, Messages.ErrorMessages['m' + data.code]);
+                    alert(Messages.ErrorMessages['m' + data.code]);
                 }
+                setTimeout($scope.loadWithdrawals, 1000);
             });
     };
 

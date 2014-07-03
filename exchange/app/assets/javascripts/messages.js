@@ -89,6 +89,14 @@ Messages.ErrorMessages = {
     m1005: 'token not match',
     m1006: 'This account has not been verified yet, check your email to verify your registration first.',
 
+    m2001: 'Price is out of range',
+    m2002: 'Insufficient fund',
+    m2003: 'Invalid amount',
+    m2009: 'Cryptocurrency Gateway failed',
+    m2010: 'insufficient fund in hot wallets',
+    m2011: 'insufficient fund in cold wallets',
+    m2012: 'Invalid user',
+
     m9002: 'captcha text not match',
     m9003: 'Your provided email is invalid.',
     m9004: 'Your password is not valid.',
