@@ -81,7 +81,8 @@
                                 <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
                             </div>
                         </script>
-                        <button class="btn-success sendSmsBtn right-element" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"></button>
+                        <button class="btn-success sendSmsBtn right-element" ng-show="!showGoogleAuth" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"></button>
+                        <button class="btn-success sendSmsBtn right-element" ng-show="showGoogleAuth" ng-click="unbindGoogleAuthCode()" ng-bind="unbindGoogleAuthButton"></button>
                     </div>
                 </div>
 

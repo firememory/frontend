@@ -873,10 +873,28 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
 
 //ModalDemoCtrl
 app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
-    $scope.hasGoogleAuthCode = false;
     $scope.googleAuthButton = Messages.account.getGoogleAuthCodeButtonText;
+    $scope.unbindGoogleAuthButton = Messages.account.unbindGoogleAuthButtonText;
 
-    $scope. getGoogleAuthCode = function () {
+    $http.get('/googleauth/get')
+        .success(function(data, status, headers, config) {
+            if (data.success) {
+                if(data.data) {
+                    console.log("1111");
+                    $scope.showGoogleAuth = true;
+                    $scope.secretFromAccount = data.data;
+                } else {
+                    console.log("2222");
+                    $scope.showGoogleAuth = false;
+                    $scope.secretFromAccount = "";
+                }
+
+                console.log("$scope.secretFromAccount", $scope.secretFromAccount);
+                console.log("$scope.showGoogleAuth", $scope.showGoogleAuth);
+            }
+        });
+
+    $scope.getGoogleAuthCode = function () {
         $modal.open({
             templateUrl: 'GoogleModal.html',
             controller: ModalInstanceCtrl,
@@ -885,17 +903,27 @@ app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
         });
     };
 
+    $scope.unbindGoogleAuthCode = function () {
+        $http.post('/googleauth/unbind/')
+            .success(function (data, status, headers, config) {
+            });
+    };
+
     var ModalInstanceCtrl = function ($scope, $modalInstance) {
-        $http.get('/googleauth/'+$scope.uid)
+        $http.get('/googleauth/generate/'+$scope.uid)
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     $scope.authUrl = data.data.authUrl;
                     console.log($scope.authUrl);
                     $scope.secureKey = data.data.secureKey;
+                    console.log($scope.secureKey);
                 }
             });
 
+        console.log($scope.secureKey);
+
         $scope.bind = function () {
+            console.log($scope.secureKey);
             $http.post('/googleauth/bind/'+$scope.secureKey)
                 .success(function (data, status, headers, config) {
                     $modalInstance.close();

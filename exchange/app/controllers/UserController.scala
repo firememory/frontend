@@ -248,7 +248,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       Redirect(routes.MainController.index()).withNewSession
   }
 
-  def getGoogleAuth(uid: String) = Action {
+  def generateGoogleAuth(uid: String) = Action {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
       val email = request.session.get("username").getOrElse("")
@@ -266,17 +266,24 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def getGoogleAuth = Action.async {
+    implicit request =>
+      val userId = request.session.get("uid").getOrElse("")
+      UserService.getGoogleAuth(userId.toLong) map {
+        result => Ok(result.toJson)
+      }
+  }
+
   def bindGoogleAuth(key: String) = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
-
       UserService.bindGoogleAuth(userId.toLong, key) map {
         result =>
           Ok(result.toJson)
       }
   }
 
-  def unbindGoogleAuth() = Action.async {
+  def unbindGoogleAuth = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
 
