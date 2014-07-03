@@ -23,7 +23,14 @@ Messages.transfer = {
     depositSuccess: 'Deposit Succeed: ',
     withdrawalSuccess: 'Withdrawal Succeed: ',
     cny: 'CNY',
-    btc: 'BTC'
+    btc: 'BTC',
+    messages: {
+        invalidAmount: 'Invalid Amount',
+        invalidAddress: 'Invalid Address',
+        invalidSmsCode: 'Invalid SMS Code',
+        ok: 'Request Submitted',
+        error: 'Request failed'
+    }
 };
 
 Messages.timeDemension = {

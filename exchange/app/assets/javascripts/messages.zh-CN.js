@@ -23,7 +23,14 @@ Messages.transfer = {
   depositSuccess: '充值成功: ',
   withdrawalSuccess: '提现成功: ',
   cny: '人民币',
-  btc: '比特币'
+  btc: '比特币',
+  messages: {
+      invalidAmount: '请填写有效的提现数量',
+      invalidAddress: '请填写有效的提现地址',
+      invalidSmsCode: '请填写正确的短信验证码',
+      ok: '提现请求提交成功，请等待处理',
+      error: '提现请求提交失败，请与技术支持人员联系'
+  }
 };
 
 Messages.timeDemension = {

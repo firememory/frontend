@@ -214,10 +214,10 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-    $http.get('/withaddr/' +$scope.currency+ '/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.withdrawalData.address = data.data;
-        });
+//    $http.get('/withaddr/' +$scope.currency+ '/' + $scope.uid)
+//        .success(function (data, status, headers, config) {
+//            $scope.withdrawalData.address = data.data;
+//        });
 
     $scope.page = 1;
     $scope.limit = 10;
@@ -232,23 +232,29 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function () {
-        if (! $scope.withdrawalData.amount || $scope.withdrawalData.amount < 0) {
-            alert('Invalid amount');
+        if (! $scope.withdrawalData.amount || Number.isNaN(+$scope.withdrawalData.amount) ||+$scope.withdrawalData.amount < 0) {
+            alert(Messages.transfer.messages['invalidAmount']);
             return;
         }
         if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
-            alert('Withdrawal address needed');
+            alert(Messages.transfer.messages['invalidAddress']);
             return;
         }
-        console.log('withdrawal ' + $scope.withdrawalData.amount);
+
+        if (!$scope.withdrawalData.phoneVerCode || $scope.withdrawalData.phoneVerCode == '') {
+            alert(Messages.transfer.messages['invalidSmsCode']);
+            return;
+        }
+
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
-                    alert('Withdrawal request submitted.');
+                    alert(Messages.transfer.messages['ok']);
                     setTimeout($scope.loadWithdrawals, 1000);
                 } else {
-                    alert('Withdrawal failed. reason: ' + data.message);
+                    alert(Messages.transfer.messages['error'] + ': ' + data.message);
+                    //alert(Messages.ErrorMessages[data.code]);
                 }
             });
     };
