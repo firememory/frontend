@@ -22,6 +22,8 @@ import utils.Constant
 import ControllerHelper._
 import com.coinport.coinex.data
 import com.coinport.coinex.data.Language.Chinese
+import controllers.GoogleAuth.{CredentialRepositoryMock, GoogleAuthenticatorKey, GoogleAuthenticator}
+import scala.concurrent.Future
 
 object MainController extends Controller with Json4s {
   // def backdoor = Action {
@@ -260,4 +262,26 @@ object MainController extends Controller with Json4s {
     implicit request =>
       Ok(views.html.errorPage.render("", langFromRequestCookie(request)))
   }
+
+//  def googleAuthTest() = Action {
+//    implicit request =>
+//      Ok(views.html.googleauthPage.render(langFromRequestCookie(request)))
+//      val SECRET_KEY = "CBN54QPAB5LMWMQO"
+//
+//      System.setProperty(CredentialRepositoryMock.MOCK_SECRET_KEY_NAME, SECRET_KEY)
+
+//      val googleAuthenticator = new GoogleAuthenticator()
+//      val key = googleAuthenticator.createCredentials("testName")
+//      val secret = key.getKey()
+//      val scratchCodes = key.getScratchCodes()
+//
+//      val url = GoogleAuthenticatorKey.getQRBarcodeURL(
+//        "CoinPort", "chenxi@coinport.com", secret)
+//
+//      println("Please register " + url)
+//      println("Secret key is " + secret)
+//
+//
+//      Ok(ApiResult(true, 0, "lalalla", None).toJson())
+//  }
 }

@@ -70,7 +70,8 @@ Messages.account = {
     updateAccountProfileSucceeded: 'save profile succeeded',
     getVerifyCodeButtonText: 'Send sms code',
     getVerifyCodeButtonTextPrefix: 'Resend after ',
-    getVerifyCodeButtonTextTail: ' seconds'
+    getVerifyCodeButtonTextTail: ' seconds',
+    getGoogleAuthCodeButtonText: 'Get authenticator code'
 };
 
 Messages.connectivity = {

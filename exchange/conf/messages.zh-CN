@@ -172,6 +172,7 @@ accountsettings.view.thead.item=配置项
 accountsettings.view.thead.itemValue=值
 
 accountprofile.title=用户信息
+accountsettings.googleAuth=谷歌双重校验
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

@@ -1,4 +1,4 @@
-var app = angular.module('coinport.account', ['ui.bootstrap', 'ngResource', 'ngRoute', 'coinport.app', 'navbar', 'timer']);
+var app = angular.module('coinport.account', ['ui.bootstrap', 'ngResource', 'ngRoute', 'coinport.app', 'navbar', 'timer', ]);
 
 function routeConfig($routeProvider) {
     $routeProvider.
@@ -760,7 +760,7 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 }]);
 
-app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window) {
+app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window, $modal) {
     $scope.showUpdateAccountError = false;
 
     $scope.account = {};
@@ -871,7 +871,28 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
     };
 }]);
 
-//AccountProfilesCtrl
-app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
+//ModalDemoCtrl
+app.controller('ModalDemoCtrl', function ($scope, $http, $modal) {
+    $scope.hasGoogleAuthCode = false;
+    $scope.googleAuthButton = Messages.account.getGoogleAuthCodeButtonText;
 
-}]);
+    $scope.items = ['item1', 'item2', 'item3'];
+    $scope.getGoogleAuthCode = function (size) {
+        $modal.open({
+            templateUrl: 'myModalContent.html',
+            controller: ModalInstanceCtrl,
+            size: size,
+            resolve: {
+                items: function () {
+                    return $scope.items;
+                }
+            }
+        });
+    };
+
+    var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+        $scope.close = function () {
+            $modalInstance.close($scope.selected.item);
+        };
+    };
+});

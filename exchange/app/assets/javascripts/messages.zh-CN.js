@@ -70,8 +70,8 @@ Messages.account = {
   updateAccountProfileSucceeded: '更新用户资料成功',
   getVerifyCodeButtonText: '获取短信验证码',
   getVerifyCodeButtonTextPrefix: ' ',
-  getVerifyCodeButtonTextTail: '秒后重新获取'
-
+  getVerifyCodeButtonTextTail: '秒后重新获取',
+  getGoogleAuthCodeButtonText: '获取双重校验二维码'
 };
 
 Messages.connectivity = {

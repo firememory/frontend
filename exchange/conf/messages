@@ -164,6 +164,7 @@ accountsettings.submit=Submit
 accountsettings.cancel=Cancel
 accountsettings.publicUrl=My Public Profile URL
 accountsettings.shareLink=Share Link
+accountsettings.googleAuth=Authenticator code
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item
