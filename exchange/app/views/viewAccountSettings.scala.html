@@ -65,9 +65,9 @@
 
                 <div class="form-group has-{{accountSettingsForm.googleAuthCode.$valid?'success':'error'}} has-feedback">
                     <label class="control-label col-sm-2">@Messages("accountsettings.googleAuth")</label>
-                    <div class="col-sm-4">
-                        <input name="googleAuthCode" class="form-control" ng-model="account.googleAuthCode" min-length="6">
-                    </div>
+                    <!--<div class="col-sm-4">-->
+                        <!--<input name="googleAuthCode" class="form-control" ng-model="account.googleAuthCode" min-length="6">-->
+                    <!--</div>-->
                     <div class="col-sm-3" ng-controller="GoogleModalCtrl">
                         <script type="text/ng-template" id="bindGoogleModal.html">
                             <div class="modal-header">
@@ -105,7 +105,6 @@
                                 <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
                             </div>
                         </script>
-
 
                         <button class="btn-success sendSmsBtn right-element" ng-show="!showGoogleAuth" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"></button>
                         <button class="btn-success sendSmsBtn right-element" ng-show="showGoogleAuth" ng-click="unbindGoogleAuthCode()" ng-bind="unbindGoogleAuthButton"></button>

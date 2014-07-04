@@ -217,6 +217,17 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 //        .success(function (data, status, headers, config) {
 //            $scope.withdrawalData.address = data.data;
 //        });
+    $http.get('/googleauth/get')
+        .success(function(data, status, headers, config) {
+            if (data.success) {
+                if(data.data) {
+                    $scope.showGoogleAuth = true;
+                } else {
+                    $scope.showGoogleAuth = false;
+                }
+            }
+        });
+
 
     $scope.page = 1;
     $scope.limit = 10;
