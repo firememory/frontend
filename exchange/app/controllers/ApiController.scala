@@ -17,6 +17,7 @@ import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import controllers.ControllerHelper._
 import utils.Constant
+import controllers.GoogleAuth.GoogleAuthenticator
 
 object ApiController extends Controller with Json4s {
 
@@ -157,6 +158,27 @@ object ApiController extends Controller with Json4s {
       val uid = request.session.get("uid").getOrElse(null)
       val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
       val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
+      val googleVerCode = getParam(data, "googleVerCode").getOrElse("")
+
+      if (uid != null && googleVerCode != "") {
+        UserService.getGoogleAuth(uid.toLong) map {
+          rv =>
+            rv.data match {
+              case Some(secretFromDB) =>
+                val googleAuthenticator = new GoogleAuthenticator()
+                if (googleAuthenticator.authorize(secretFromDB.toString, googleVerCode.toInt)) {
+                  UserService.unbindGoogleAuth(uid.toLong)
+                } else {
+                  println("verify failed")
+                  Ok(ApiResult(false, 1, "", None).toJson())
+                }
+              case None =>
+                println("have no secret")
+                Ok(ApiResult(false, 1, "", None).toJson())
+            }
+        }
+      }
+
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
         new StringNonemptyValidator(username, uid)
