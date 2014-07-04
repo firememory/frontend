@@ -72,7 +72,8 @@ Messages.account = {
   getVerifyCodeButtonTextPrefix: ' ',
   getVerifyCodeButtonTextTail: '秒后重新获取',
   getGoogleAuthCodeButtonText: '获取双重校验二维码',
-  unbindGoogleAuthButtonText: '解除绑定双重校验'
+  unbindGoogleAuthButtonText: '解除绑定双重校验',
+  showGoogleAuthButtonText: '显示双重校验二维码'
 };
 
 Messages.connectivity = {

@@ -69,7 +69,20 @@
                         <input name="googleAuthCode" class="form-control" ng-model="account.googleAuthCode" min-length="6">
                     </div>
                     <div class="col-sm-3" ng-controller="GoogleModalCtrl">
-                        <script type="text/ng-template" id="GoogleModal.html">
+                        <script type="text/ng-template" id="bindGoogleModal.html">
+                            <div class="modal-header">
+                                <h3 class="modal-title">@Messages("accountsettings.googleauth.title")</h3>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{authUrl}}">
+                                <span ng-show="false" ng-model="secret">{{secret}}</span>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" ng-click="bind(secret)">@Messages("accountsettings.googleauth.bind")</button>
+                                <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
+                            </div>
+                        </script>
+                        <script type="text/ng-template" id="showGoogleModal.html">
                             <div class="modal-header">
                                 <h3 class="modal-title">@Messages("accountsettings.googleauth.title")</h3>
                             </div>
@@ -77,12 +90,26 @@
                                 <img src="{{authUrl}}">
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
                                 <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
                             </div>
                         </script>
+                        <script type="text/ng-template" id="unbindGoogleModal.html">
+                            <div class="modal-header">
+                                <h3 class="modal-title">@Messages("accountsettings.unbindgoogleauth.title")</h3>
+                            </div>
+                            <div class="modal-body">
+                                <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" ng-click="unbind(verifycode)">@Messages("accountsettings.googleauth.unbind")</button>
+                                <button class="btn btn-default" ng-click="close()">@Messages("accountsettings.googleauth.close")</button>
+                            </div>
+                        </script>
+
+
                         <button class="btn-success sendSmsBtn right-element" ng-show="!showGoogleAuth" ng-click="getGoogleAuthCode()" ng-bind="googleAuthButton"></button>
                         <button class="btn-success sendSmsBtn right-element" ng-show="showGoogleAuth" ng-click="unbindGoogleAuthCode()" ng-bind="unbindGoogleAuthButton"></button>
+                        <button class="btn-success sendSmsBtn right-element" ng-show="showGoogleAuth" ng-click="showGoogleAuthCode()" ng-bind="showGoogleAuthButton"></button>
                     </div>
                 </div>
 

@@ -71,8 +71,9 @@ Messages.account = {
     getVerifyCodeButtonText: 'Send sms code',
     getVerifyCodeButtonTextPrefix: 'Resend after ',
     getVerifyCodeButtonTextTail: ' seconds',
-    getGoogleAuthCodeButtonText: 'Get authenticator code',
-    unbindGoogleAuthButtonText: 'Unbind authenticator code'
+    getGoogleAuthCodeButtonText: 'Get authentication code',
+    unbindGoogleAuthButtonText: 'Unbind',
+    showGoogleAuthButtonText: 'Show'
 };
 
 Messages.connectivity = {

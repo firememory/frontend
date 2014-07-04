@@ -53,11 +53,11 @@ POST    /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdr
 
 GET     /googleauth/generate/*uid           controllers.UserController.generateGoogleAuth(uid)
 GET     /googleauth/get                     controllers.UserController.getGoogleAuth()
-POST    /googleauth/bind/*key               controllers.UserController.bindGoogleAuth(key)
-POST    /googleauth/unbind                  controllers.UserController.unbindGoogleAuth()
+POST    /googleauth/bind/*secure            controllers.UserController.bindGoogleAuth(secure)
+POST    /googleauth/unbind/*key             controllers.UserController.unbindGoogleAuth(key)
 
 # html snippet
-GET     /terms.html                     controllers.MainController.terms()
+GET     /terms.html                      controllers.MainController.terms()
 GET     /privacy.html                    controllers.MainController.privacy()
 GET     /views/bidask.html               controllers.MainController.bidaskView()
 GET     /views/register.html             controllers.MainController.registerView()

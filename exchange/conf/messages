@@ -168,6 +168,8 @@ accountsettings.googleAuth=Authenticator code
 accountsettings.googleauth.title=Your QR-chart at CoinPort
 accountsettings.googleauth.bind=Bind to Account
 accountsettings.googleauth.close=Close
+accountsettings.unbindgoogleauth.title=Please input verification code to unbind
+accountsettings.googleauth.unbind=Unbind from Account
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

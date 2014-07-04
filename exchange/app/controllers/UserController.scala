@@ -260,7 +260,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         val url = GoogleAuthenticatorKey.getQRBarcodeURL(
           "COINPORT", uid, secret)
 
-        Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secureKey" -> secret))).toJson())
+        Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
       } else {
         Ok(ApiResult(true, 1, "userId is empty or email is empty", None).toJson())
       }
@@ -270,7 +270,16 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
       UserService.getGoogleAuth(userId.toLong) map {
-        result => Ok(result.toJson)
+        result =>
+          result.data match {
+            case Some(secret) =>
+              val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", userId, secret.toString)
+              if (secret == "") {
+                Ok(ApiResult(false, 1, "failed", None).toJson())
+              } else Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
+            case None =>
+              Ok(ApiResult(false, 1, "failed", None).toJson())
+          }
       }
   }
 
@@ -283,13 +292,27 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def unbindGoogleAuth = Action.async {
+  def unbindGoogleAuth(verCode: String) = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
 
-      UserService.unbindGoogleAuth(userId.toLong) map {
-        result =>
-          Ok(result.toJson)
+      UserService.getGoogleAuth(userId.toLong) map {
+        rv =>
+          rv.data match {
+            case Some(secretFromDB) =>
+                val googleAuthenticator = new GoogleAuthenticator()
+                if (googleAuthenticator.authorize(secretFromDB.toString, verCode.toInt)) {
+                  UserService.unbindGoogleAuth(userId.toLong)
+                  println("success unbind")
+                  Ok(ApiResult(true, 0, "", Some(true)).toJson())
+                } else {
+                  println("verify failed")
+                  Ok(ApiResult(false, 1, "", None).toJson())
+                }
+            case None =>
+              println("have no secret")
+              Ok(ApiResult(false, 1, "", None).toJson())
+          }
       }
   }
 }
