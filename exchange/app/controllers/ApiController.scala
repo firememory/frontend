@@ -169,12 +169,10 @@ object ApiController extends Controller with Json4s {
                 if (googleAuthenticator.authorize(secretFromDB.toString, googleVerCode.toInt)) {
                   UserService.unbindGoogleAuth(uid.toLong)
                 } else {
-                  println("verify failed")
-                  Ok(ApiResult(false, 1, "", None).toJson())
+                  Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson())
                 }
               case None =>
-                println("have no secret")
-                Ok(ApiResult(false, 1, "", None).toJson())
+                Ok(ApiResult(false, ErrorCode.InvalidGoogleSecret.value, "secret invalid", None).toJson())
             }
         }
       }
