@@ -73,7 +73,8 @@ Messages.account = {
     getVerifyCodeButtonTextTail: ' seconds',
     getGoogleAuthCodeButtonText: 'Get authentication code',
     unbindGoogleAuthButtonText: 'Unbind',
-    showGoogleAuthButtonText: 'Show'
+    showGoogleAuthButtonText: 'Show',
+    unbindGoogleAuthOk: 'unbind google authenticator ok'
 };
 
 Messages.connectivity = {
@@ -107,7 +108,10 @@ Messages.ErrorMessages = {
     m9006: 'Sorry, but you have to verify your mobile phone number first.',
     m9007: 'Sorry, but you send sms too freguency, please wait for a minute.',
     m9008: 'Sorry, your email should be same with the one in invite code page.',
-    m9009: 'Sorry, your mobile phone is invalid.'
+    m9009: 'Sorry, your mobile phone is invalid.',
+
+    m9010: 'Sorry, your google verification code is invalid',
+    m9011: 'Sorry, your google secret key is invalid'
 };
 
 Messages.getMessage = function(code, msg) {

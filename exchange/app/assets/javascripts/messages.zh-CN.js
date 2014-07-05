@@ -73,7 +73,8 @@ Messages.account = {
   getVerifyCodeButtonTextTail: '秒后重新获取',
   getGoogleAuthCodeButtonText: '获取双重校验二维码',
   unbindGoogleAuthButtonText: '解除绑定',
-  showGoogleAuthButtonText: '显示'
+  showGoogleAuthButtonText: '显示',
+  unbindGoogleAuthOk: '解绑成功'
 };
 
 Messages.connectivity = {
@@ -104,7 +105,9 @@ Messages.ErrorMessages = {
     m9006: '对不起，请先在账号－设置中绑定手机号.',
     m9007: '对不起，发送短信太频繁，请等待一分钟后再发送',
     m9008: '对不起，注册邮箱与邀请页面填写的邮箱不一致.',
-    m9009: '手机号码格式错误.'
+    m9009: '对不起，手机号码格式错误.',
+    m9010: '对不起，谷歌验证码不正确',
+    m9011: '对不起，账户中谷歌密钥出错'
 };
 
 Messages.getMessage = function(code, msg) {

@@ -978,8 +978,11 @@ app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
         $scope.unbind = function (verifycode) {
             $http.post('/googleauth/unbind/'+verifycode)
                 .success(function (data, status, headers, config) {
-                    if (data.data == true) $modalInstance.close(true);
-                    else console.log("show something")
+                    if (data.success) {
+                        alert(Messages.account['unbindGoogleAuthOk']);
+                        $modalInstance.close(true);
+                    }
+                    else alert(Messages.ErrorMessages['m' + data.code]);
                 });
         };
 

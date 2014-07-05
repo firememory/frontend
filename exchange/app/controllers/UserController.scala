@@ -303,15 +303,12 @@ object UserController extends Controller with Json4s with AccessLogging {
                 val googleAuthenticator = new GoogleAuthenticator()
                 if (googleAuthenticator.authorize(secretFromDB.toString, verCode.toInt)) {
                   UserService.unbindGoogleAuth(userId.toLong)
-                  println("success unbind")
                   Ok(ApiResult(true, 0, "", Some(true)).toJson())
                 } else {
-                  println("verify failed")
-                  Ok(ApiResult(false, 1, "", None).toJson())
+                  Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson())
                 }
             case None =>
-              println("have no secret")
-              Ok(ApiResult(false, 1, "", None).toJson())
+              Ok(ApiResult(false, ErrorCode.InvalidGoogleSecret.value, "secret invalid", None).toJson())
           }
       }
   }
