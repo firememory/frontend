@@ -269,7 +269,7 @@ user.transfer.currency=币种
 user.transfer.amount=数量
 user.transactions=成交
 user.orders=委托
-user.profile=我的主页
+user.profile=用户中心
 
 transfer.withdrawal=提现
 transfer.withdraw=提现
