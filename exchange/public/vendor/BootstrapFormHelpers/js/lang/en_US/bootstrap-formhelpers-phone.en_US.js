@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
- 
+
 var BFHPhoneFormatList = {
   'AF': '+93 0dd ddd dddd',
   'AL': '+355 0dd ddd ddd',
@@ -116,7 +116,7 @@ var BFHPhoneFormatList = {
   'HK': '+852 ddddddddd',
   'HU': '+36 ddddddddd',
   'IS': '+354 ddddddddd',
-  'IN': '+91 ddddddddd',
+  'IN': '+91 dddddddddd',
   'ID': '+62 ddddddddd',
   'IR': '+98 ddddddddd',
   'IQ': '+964 ddddddddd',
