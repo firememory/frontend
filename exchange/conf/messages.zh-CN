@@ -178,6 +178,26 @@ accountsettings.googleauth.bind=绑定到账号
 accountsettings.googleauth.close=关闭
 accountsettings.unbindgoogleauth.title=请输入6位校验码
 accountsettings.googleauth.unbind=解除绑定
+accountsettings.googleauth.hint=当您申请提现时，可以使用双重校验来确认您的身份。(替代短信验证得方式)
+accountsettings.googleauth.followsteps=请您按照下面三步来绑定双重校验。
+
+accountsettings.googleAuth.stepOne=第一步
+accountsettings.googleAuth.stepTwo=第二步
+accountsettings.googleAuth.stepThree=最后一步
+
+accountsettings.googleAuth.stepOneGuide=请在您的智能手机上安装双重校验程序
+accountsettings.googleAuth.stepTwoGuide=请对您安装好的程序作如下配置
+accountsettings.googleAuth.stepThreeGuide=绑定双重校验到您的账号
+
+accountsettings.googleAuth.iphone=iPhones 手机
+accountsettings.googleAuth.android=Androids 手机
+accountsettings.googleAuth.windowsphone=Windows Phones 手机
+accountsettings.googleAuth.Nokias=Nokias 手机
+
+accountsettings.googleAuth.scanQRcode=1. 在“Google Authenticator (身份验证器)” 应用程序中，点击“添加新账户 (iOS 下是 + 号)”，然后选择“扫描条形码”。
+accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密匙:
+
+accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿从您的手机上删除
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

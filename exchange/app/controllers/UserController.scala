@@ -235,12 +235,17 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def accountSettingsView() = Authenticated {
     implicit request =>
-      Ok(views.html.viewAccountSettings.render(langFromRequestCookie(request)))
+      Ok(views.html.viewAccountSettings.render(request.session, langFromRequestCookie(request)))
   }
 
   def accountProfiles() = Authenticated {
     implicit request =>
-    Ok(views.html.viewAccountProfile.render(request.session, langFromRequestCookie(request)))
+      Ok(views.html.viewAccountProfile.render(request.session, langFromRequestCookie(request)))
+  }
+
+  def googleauthView() = Authenticated {
+    implicit request =>
+      Ok(views.html.viewGoogleAuth.render(request.session, langFromRequestCookie(request)))
   }
 
   def logout = Action {

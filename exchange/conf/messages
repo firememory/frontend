@@ -164,12 +164,32 @@ accountsettings.submit=Submit
 accountsettings.cancel=Cancel
 accountsettings.publicUrl=My Public Profile URL
 accountsettings.shareLink=Share Link
-accountsettings.googleAuth=Authenticator code
-accountsettings.googleauth.title=Your QR-chart at CoinPort
+accountsettings.googleAuth=Google Authenticator
+accountsettings.googleauth.title=Your QR Code at CoinPort
 accountsettings.googleauth.bind=Bind to Account
 accountsettings.googleauth.close=Close
 accountsettings.unbindgoogleauth.title=Please input verification code to unbind
+
 accountsettings.googleauth.unbind=Unbind from Account
+accountsettings.googleauth.hint=You can use Google authenticator When you apply withdrawal without SMS verification.
+accountsettings.googleauth.followsteps=Please follow these three steps to bind the google authentication with your account.
+
+accountsettings.googleAuth.stepOne=First Step
+accountsettings.googleAuth.stepTwo=Second Step
+accountsettings.googleAuth.stepThree=Last Step
+accountsettings.googleAuth.stepOneGuide=Please install Google authenticator on your smart phone
+accountsettings.googleAuth.stepTwoGuide=Please configure the Google authenticator as follows
+accountsettings.googleAuth.stepThreeGuide=Bind the Google authentication code to your account
+
+accountsettings.googleAuth.iphone=For iPhones
+accountsettings.googleAuth.android=For Androids
+accountsettings.googleAuth.windowsphone=For Windows Phones
+accountsettings.googleAuth.Nokias=For Nokias
+accountsettings.googleAuth.scanQRcode=1. Click to add a new account (For iOS is +), then select "Scan QR code"
+accountsettings.googleAuth.inputSecret=2. Try to add the an account manually if you cannot scan the QR code and enter the following keys
+
+accountsettings.googleAuth.dontdelete=Please do not delete it, once you bind the google authentication.
+accountsettings.googleAuth.verifycode=google authentication code
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

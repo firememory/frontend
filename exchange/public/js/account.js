@@ -45,6 +45,10 @@ function routeConfig($routeProvider) {
             controller: 'AccountProfilesCtrl',
             templateUrl: 'views/accountProfiles.html'
         }).
+        when('/googleauth', {
+            controller: 'GoogleAuthCtrl',
+            templateUrl: 'views/googleAuth.html'
+        }).
         otherwise({
             redirectTo: '/'
         });
@@ -771,6 +775,10 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 }]);
 
+app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
+
+}]);
+
 app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window, $modal) {
     $scope.showUpdateAccountError = false;
 
@@ -882,112 +890,117 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
     };
 }]);
 
-//ModalDemoCtrl
-app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
-    $scope.googleAuthButton = Messages.account.getGoogleAuthCodeButtonText;
-    $scope.unbindGoogleAuthButton = Messages.account.unbindGoogleAuthButtonText;
-    $scope.showGoogleAuthButton = Messages.account.showGoogleAuthButtonText;
+app.controller('GoogleAuthCtrl', function ($scope, $http, $modal) {
+    console.log('GoogleAuthCtrl');
 
-    $http.get('/googleauth/get')
-        .success(function(data, status, headers, config) {
-            if (data.success) {
-                if(data.data) {
-                    $scope.showGoogleAuth = true;
-                } else {
-                    $scope.showGoogleAuth = false;
-                }
-            }
-        });
-
-    $scope.showGoogleAuthCode = function () {
-        $modal.open({
-            templateUrl: 'showGoogleModal.html',
-            controller: ModalInstanceCtrl,
-            size: "sm",
-            resolve: {
-                showGoogleAuth: function () {
-                    return $scope.showGoogleAuth;
-                }
-            }
-        });
-    };
-
-    $scope.getGoogleAuthCode = function () {
-        var getcodemodal = $modal.open({
-            templateUrl: 'bindGoogleModal.html',
-            controller: ModalInstanceCtrl,
-            size: "sm",
-            resolve: {
-                showGoogleAuth: function () {
-                    return $scope.showGoogleAuth;
-                }
-            }
-        });
-
-        getcodemodal.result.then(function(bindrv){
-            console.log('$scope.showGoogleAuth', bindrv);
-            $scope.showGoogleAuth = bindrv;
-        });
-    };
-
-    $scope.unbindGoogleAuthCode = function () {
-        var unbindcodemodal = $modal.open({
-            templateUrl: 'unbindGoogleModal.html',
-            controller: ModalInstanceCtrl,
-            size: "sm",
-            resolve: {
-                showGoogleAuth: function () {
-                return $scope.showGoogleAuth;
-            }}
-        });
-
-        unbindcodemodal.result.then(function(unbindrv){
-            console.log('$scope.showGoogleAuth', unbindrv);
-            $scope.showGoogleAuth = !unbindrv;
-        })
-    };
-
-    var ModalInstanceCtrl = function ($scope, $modalInstance, showGoogleAuth) {
-        if(showGoogleAuth) {
-            $http.get('/googleauth/get')
-                .success(function(data, status, headers, config) {
-                    if (data.success) {
-                        $scope.authUrl = data.data.authUrl;
-                        $scope.secret = data.data.secret;
-                    }
-                });
-            console.log("get")
-        } else {
-            $http.get('/googleauth/generate/'+$scope.uid)
-                .success(function(data, status, headers, config) {
-                    if (data.success) {
-                        $scope.authUrl = data.data.authUrl;
-                        $scope.secret = data.data.secret;
-                    }
-            });
-            console.log("generate")
-        }
-
-        $scope.bind = function (secret) {
-            $http.post('/googleauth/bind/'+ secret)
-                .success(function (data, status, headers, config) {
-                    $modalInstance.close(true);
-                });
-        };
-
-        $scope.unbind = function (verifycode) {
-            $http.post('/googleauth/unbind/'+verifycode)
-                .success(function (data, status, headers, config) {
-                    if (data.success) {
-                        alert(Messages.account['unbindGoogleAuthOk']);
-                        $modalInstance.close(true);
-                    }
-                    else alert(Messages.ErrorMessages['m' + data.code]);
-                });
-        };
-
-        $scope.close = function () {
-            $modalInstance.close(false);
-        };
-    };
 });
+//
+////ModalDemoCtrl
+//app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
+//    $scope.googleAuthButton = Messages.account.getGoogleAuthCodeButtonText;
+//    $scope.unbindGoogleAuthButton = Messages.account.unbindGoogleAuthButtonText;
+//    $scope.showGoogleAuthButton = Messages.account.showGoogleAuthButtonText;
+//
+//    $http.get('/googleauth/get')
+//        .success(function(data, status, headers, config) {
+//            if (data.success) {
+//                if(data.data) {
+//                    $scope.showGoogleAuth = true;
+//                } else {
+//                    $scope.showGoogleAuth = false;
+//                }
+//            }
+//        });
+//
+//    $scope.showGoogleAuthCode = function () {
+//        $modal.open({
+//            templateUrl: 'showGoogleModal.html',
+//            controller: ModalInstanceCtrl,
+//            size: "sm",
+//            resolve: {
+//                showGoogleAuth: function () {
+//                    return $scope.showGoogleAuth;
+//                }
+//            }
+//        });
+//    };
+//
+//    $scope.getGoogleAuthCode = function () {
+//        var getcodemodal = $modal.open({
+//            templateUrl: 'bindGoogleModal.html',
+//            controller: ModalInstanceCtrl,
+//            size: "sm",
+//            resolve: {
+//                showGoogleAuth: function () {
+//                    return $scope.showGoogleAuth;
+//                }
+//            }
+//        });
+//
+//        getcodemodal.result.then(function(bindrv){
+//            console.log('$scope.showGoogleAuth', bindrv);
+//            $scope.showGoogleAuth = bindrv;
+//        });
+//    };
+//
+//    $scope.unbindGoogleAuthCode = function () {
+//        var unbindcodemodal = $modal.open({
+//            templateUrl: 'unbindGoogleModal.html',
+//            controller: ModalInstanceCtrl,
+//            size: "sm",
+//            resolve: {
+//                showGoogleAuth: function () {
+//                return $scope.showGoogleAuth;
+//            }}
+//        });
+//
+//        unbindcodemodal.result.then(function(unbindrv){
+//            console.log('$scope.showGoogleAuth', unbindrv);
+//            $scope.showGoogleAuth = !unbindrv;
+//        })
+//    };
+//
+//    var ModalInstanceCtrl = function ($scope, $modalInstance, showGoogleAuth) {
+//        if(showGoogleAuth) {
+//            $http.get('/googleauth/get')
+//                .success(function(data, status, headers, config) {
+//                    if (data.success) {
+//                        $scope.authUrl = data.data.authUrl;
+//                        $scope.secret = data.data.secret;
+//                    }
+//                });
+//            console.log("get")
+//        } else {
+//            $http.get('/googleauth/generate/'+$scope.uid)
+//                .success(function(data, status, headers, config) {
+//                    if (data.success) {
+//                        $scope.authUrl = data.data.authUrl;
+//                        $scope.secret = data.data.secret;
+//                    }
+//            });
+//            console.log("generate")
+//        }
+//
+//        $scope.bind = function (secret) {
+//            $http.post('/googleauth/bind/'+ secret)
+//                .success(function (data, status, headers, config) {
+//                    $modalInstance.close(true);
+//                });
+//        };
+//
+//        $scope.unbind = function (verifycode) {
+//            $http.post('/googleauth/unbind/'+verifycode)
+//                .success(function (data, status, headers, config) {
+//                    if (data.success) {
+//                        alert(Messages.account['unbindGoogleAuthOk']);
+//                        $modalInstance.close(true);
+//                    }
+//                    else alert(Messages.ErrorMessages['m' + data.code]);
+//                });
+//        };
+//
+//        $scope.close = function () {
+//            $modalInstance.close(false);
+//        };
+//    };
+//});

@@ -1,0 +1,79 @@
+@()(implicit session: Session, lang: Lang)
+@import utils.Constant._
+
+<section class="header-3-sub">
+    <div class="row" >
+        <div class="col-md-12">
+            <h3>@Messages("accountsettings.googleAuth")</h3>
+            <alert type="success">@Messages("accountsettings.googleauth.hint")</br>
+                @Messages("accountsettings.googleauth.followsteps")
+            </alert>
+
+            <div class="col-md-10">
+                <h5>@Messages("accountsettings.googleAuth.stepOne"): </h5>
+                <h5>@Messages("accountsettings.googleAuth.stepOneGuide") </h5>
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <td>
+                            <a target="_blank" href="http://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">
+                            @Messages("accountsettings.googleAuth.iphone")
+                            </a>
+                        </td>
+                        <td>
+                            <a target="_blank" href="http://apk.hiapk.com/html/2013/07/1643619.html">
+                            @Messages("accountsettings.googleAuth.android")
+                            </a>
+                        </td>
+                        <td>
+                            <a target="_blank" href="http://www.windowsphone.com/zh-cn/store/app/authenticatorg/4362996a-8528-4641-a983-57e63c74ce16">
+                            @Messages("accountsettings.googleAuth.windowsphone")
+                            </a>
+                        </td>
+                        <td>
+                            <a target="_blank" href="https://code.google.com/p/lwuitgauthj2me/">
+                                @Messages("accountsettings.googleAuth.Nokias")
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-10">
+                <h5>@Messages("accountsettings.googleAuth.stepTwo"): </h5>
+                <h5>@Messages("accountsettings.googleAuth.stepTwoGuide")</h5>
+                <div>
+                    @Messages("accountsettings.googleAuth.scanQRcode")
+                </div>
+                <div>
+                    @Messages("accountsettings.googleAuth.inputSecret")
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <h5>@Messages("accountsettings.googleAuth.stepThree"): </h5>
+                <h5>@Messages("accountsettings.googleAuth.stepThreeGuide")</h5>
+                <alert type="danger">@Messages("accountsettings.googleAuth.dontdelete")</alert>
+                <div>
+                    <div class="control-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
+                    <div class="col-sm-4" class="control">
+                        <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
+                        <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()"> </button>
+                    </div>
+                    </div>
+
+                    <div class="control-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.googleAuth.verifycode")</label>
+                    <div class="col-sm-4" class="control">
+                        <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
+                    </div>
+                    </div>
+
+                    <div class="control-group">
+                    <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
