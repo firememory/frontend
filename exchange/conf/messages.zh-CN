@@ -172,7 +172,7 @@ accountsettings.view.thead.item=配置项
 accountsettings.view.thead.itemValue=值
 
 accountprofile.title=用户信息
-accountsettings.googleAuth=谷歌双重校验
+accountsettings.googleAuth=双重校验
 accountsettings.googleauth.title=您的双重校验二维码
 accountsettings.googleauth.bind=绑定到账号
 accountsettings.googleauth.close=关闭
@@ -198,6 +198,7 @@ accountsettings.googleAuth.scanQRcode=1. 在“Google Authenticator (身份验�
 accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密匙:
 
 accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿从您的手机上删除
+accountsettings.googleAuth.verifycode=双重校验码
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

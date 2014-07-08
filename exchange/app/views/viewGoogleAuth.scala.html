@@ -3,7 +3,7 @@
 
 <section class="header-3-sub">
     <div class="row" >
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="showBind">
             <h3>@Messages("accountsettings.googleAuth")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.hint")</br>
                 @Messages("accountsettings.googleauth.followsteps")
@@ -41,36 +41,46 @@
             <div class="col-md-10">
                 <h5>@Messages("accountsettings.googleAuth.stepTwo"): </h5>
                 <h5>@Messages("accountsettings.googleAuth.stepTwoGuide")</h5>
-                <div>
-                    @Messages("accountsettings.googleAuth.scanQRcode")
+                <div class="row">
+                    <label>@Messages("accountsettings.googleAuth.scanQRcode")</label>
                 </div>
-                <div>
-                    @Messages("accountsettings.googleAuth.inputSecret")
-                </div>
+                 <div class="row">
+                     <img style="margin-left: 20px; margin-bottom: 20px" src="{{authUrl}}">
+                 </div>
+                 <div class="row">
+                     <label>@Messages("accountsettings.googleAuth.inputSecret")
+                            <span style="color:#000000;"> {{secret}}</span></label>
+                 </div>
+
             </div>
 
             <div class="col-md-10">
                 <h5>@Messages("accountsettings.googleAuth.stepThree"): </h5>
                 <h5>@Messages("accountsettings.googleAuth.stepThreeGuide")</h5>
                 <alert type="danger">@Messages("accountsettings.googleAuth.dontdelete")</alert>
-                <div>
-                    <div class="control-group">
-                    <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
-                    <div class="col-sm-4" class="control">
-                        <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
-                        <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()"> </button>
-                    </div>
-                    </div>
-
-                    <div class="control-group">
-                    <label class="control-label col-sm-2">@Messages("accountsettings.googleAuth.verifycode")</label>
-                    <div class="col-sm-4" class="control">
-                        <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
-                    </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
+                        <div class="col-sm-4">
+                            <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-success" ng-click="sendVerifySms()" ng-bind="verifyButton"></button>
+                        </div>
                     </div>
 
-                    <div class="control-group">
-                    <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">@Messages("accountsettings.googleAuth.verifycode")</label>
+                        <div class="col-sm-4">
+                            <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"></label>
+                        <div class="col-sm-2">
+                        <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                        </div>
                     </div>
                 </div>
             </div>

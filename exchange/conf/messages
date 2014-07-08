@@ -189,7 +189,7 @@ accountsettings.googleAuth.scanQRcode=1. Click to add a new account (For iOS is 
 accountsettings.googleAuth.inputSecret=2. Try to add the an account manually if you cannot scan the QR code and enter the following keys
 
 accountsettings.googleAuth.dontdelete=Please do not delete it, once you bind the google authentication.
-accountsettings.googleAuth.verifycode=google authentication code
+accountsettings.googleAuth.verifycode=Authentication code
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

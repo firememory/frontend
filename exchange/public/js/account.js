@@ -890,8 +890,36 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
     };
 }]);
 
-app.controller('GoogleAuthCtrl', function ($scope, $http, $modal) {
-    console.log('GoogleAuthCtrl');
+app.controller('GoogleAuthCtrl', function ($scope, $http) {
+    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+
+    $http.get('/googleauth/get')
+    .success(function(data, status, headers, config) {
+        if (data.success) {
+            if(data.data) {
+                $scope.showBind = false;
+                $scope.authUrl = data.data.authUrl;
+                $scope.secret = data.data.secret;
+            } else {
+                $scope.showBind = true;
+                generateAuth();
+            }
+        } else {
+            $scope.showBind = true;
+            generateAuth();
+        }
+    });
+
+    var generateAuth = function() {
+        $http.get('/googleauth/generate/'+$scope.uid)
+            .success(function(data, status, headers, config) {
+                if (data.success) {
+                    $scope.authUrl = data.data.authUrl;
+                    $scope.secret = data.data.secret;
+                }
+        });
+        console.log("generate")
+    };
 
 });
 //
