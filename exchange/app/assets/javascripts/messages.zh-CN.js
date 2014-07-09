@@ -27,7 +27,7 @@ Messages.transfer = {
   messages: {
       invalidAmount: '请填写有效的提现数量',
       invalidAddress: '请填写有效的提现地址',
-      invalidSmsCode: '请填写正确的短信验证码',
+      invalidEmailCode: '请填写正确的邮件验证码',
       ok: '提现请求提交成功，请等待处理',
       error: '提现请求提交失败，请与技术支持人员联系'
   }
@@ -109,7 +109,8 @@ Messages.ErrorMessages = {
     m9008: '对不起，注册邮箱与邀请页面填写的邮箱不一致.',
     m9009: '对不起，手机号码格式错误.',
     m9010: '对不起，谷歌验证码不正确',
-    m9011: '对不起，账户中谷歌密钥出错'
+    m9011: '对不起，账户中谷歌密钥出错',
+    m9012: '对不起，邮件验证码不正确'
 };
 
 Messages.getMessage = function(code, msg) {

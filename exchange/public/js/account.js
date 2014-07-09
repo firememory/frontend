@@ -228,7 +228,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             }
         });
 
-
     $scope.page = 1;
     $scope.limit = 25;
     $scope.loadWithdrawals = function () {
@@ -251,8 +250,8 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             return;
         }
 
-        if (!$scope.withdrawalData.phoneVerCode || $scope.withdrawalData.phoneVerCode == '') {
-            alert(Messages.transfer.messages['invalidSmsCode']);
+        if (!$scope.withdrawalData.emailcode || $scope.withdrawalData.emailcode == '') {
+            alert(Messages.transfer.messages['invalidEmailCode']);
             return;
         }
 
@@ -262,7 +261,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                     var withdrawal = data.data.transfer;
                     alert(Messages.transfer.messages['ok']);
                 } else {
-                    console.log(data, Messages.ErrorMessages['m' + data.code]);
                     alert(Messages.ErrorMessages['m' + data.code]);
                 }
                 setTimeout($scope.loadWithdrawals, 1000);
@@ -282,7 +280,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     // sms verification code and button timer:
     $scope.showWithdrawalError = false;
-    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    $scope.verifyButton = Messages.account.getEmailVerificationCode;
     var _stop;
     $scope.isTiming = false;
 
@@ -321,11 +319,11 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         $scope.stopTiming();
     });
 
-    $scope.sendVerifySms = function () {
+    $scope.sendVerifyEmail = function () {
         $scope.showWithdrawalError = false;
         $scope.disableButton();
 
-        $http.get('/smsverification2')
+        $http.get('/emailverification')
             .success(function (data, status, headers, config) {
                 console.log('data in withdrawal: ', data);
                 if (data.success) {
@@ -959,7 +957,7 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) 
                 if (data.success) {
                     $location.path('#/googleauth');
                 } else {
-
+                    alert(Messages.ErrorMessages['m' + data.code]);
                 }
             });
     };
@@ -974,6 +972,7 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) 
                 $location.path('#/googleauth');
             }
             else {
+                alert(Messages.ErrorMessages['m' + data.code]);
             }
         });
     };

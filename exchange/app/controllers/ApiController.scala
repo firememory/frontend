@@ -127,58 +127,20 @@ object ApiController extends Controller with Json4s {
       }
   }
 
-  //  def withdrawal = Authenticated.async(parse.urlFormEncoded) {
-  //    implicit request =>
-  //      val data = request.body
-  //      val username = request.session.get("username").getOrElse(null)
-  //      val uid = request.session.get("uid").getOrElse(null)
-  //      if (username == null || uid == null) {
-  //        Future(Unauthorized)
-  //      } else {
-  //        val amount = getParam(data, "amount", "0.0").toDouble
-  //        val currency: Currency = getParam(data, "currency", "")
-  //        val address = getParam(data, "address", "")
-  //        val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
-  //        val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
-  //        validateParamsAndThen(
-  //          new StringNonemptyValidator(uuid, verifyCode),
-  //          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode)
-  //        ) {
-  //          AccountService.withdrawal(uid.toLong, currency, amount, address)} map {
-  //            case result => Ok(result.toJson)
-  //          }
-  //        }
-  //
-  //  }
-
   def withdrawal = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body
       val username = request.session.get("username").getOrElse(null)
       val uid = request.session.get("uid").getOrElse(null)
-      val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
-      val verifyCode = getParam(data, "phoneVerCode").getOrElse("")
-      val googleVerCode = getParam(data, "googleVerCode").getOrElse("")
+      val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
 
-      if (uid != null && googleVerCode != "") {
-        UserService.getGoogleAuth(uid.toLong) map {
-          rv =>
-            rv.data match {
-              case Some(secretFromDB) =>
-                val googleAuthenticator = new GoogleAuthenticator()
-                if (googleAuthenticator.authorize(secretFromDB.toString, googleVerCode.toInt)) {
-                  UserService.unbindGoogleAuth(uid.toLong)
-                } else {
-                  Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson())
-                }
-              case None =>
-                Ok(ApiResult(false, ErrorCode.InvalidGoogleSecret.value, "secret invalid", None).toJson())
-            }
-        }
-      }
+      val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+      val emailCode = getParam(data, "emailcode").getOrElse("")
+      val googleCode = getParam(data, "googlecode").getOrElse("")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode),
         new StringNonemptyValidator(username, uid)
       ) {
         val amount = getParam(data, "amount", "0.0").toDouble

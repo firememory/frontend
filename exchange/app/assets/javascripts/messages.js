@@ -27,7 +27,7 @@ Messages.transfer = {
     messages: {
         invalidAmount: 'Invalid Amount',
         invalidAddress: 'Invalid Address',
-        invalidSmsCode: 'Invalid SMS Code',
+        invalidEmailCode: 'Invalid Email Code',
         ok: 'Request Submitted',
         error: 'Request failed'
     }
@@ -113,7 +113,8 @@ Messages.ErrorMessages = {
     m9009: 'Sorry, your mobile phone is invalid.',
 
     m9010: 'Sorry, your google verification code is invalid',
-    m9011: 'Sorry, your google secret key is invalid'
+    m9011: 'Sorry, your google secret key is invalid',
+    m9012: 'Sorry, your email verification code is invalid'
 };
 
 Messages.getMessage = function(code, msg) {

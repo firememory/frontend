@@ -309,13 +309,9 @@ object UserController extends Controller with Json4s with AccessLogging {
       val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
       val googleSecret = getParam(data, "googlesecret").getOrElse("")
-      println(uuid)
-      println(emailCode)
-      println(googleCode)
-      println(googleSecret)
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, emailCode),
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.bindGoogleAuth(userId.toLong, googleSecret)
@@ -339,7 +335,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val googleCode = getParam(data, "googlecode").getOrElse("")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, emailCode),
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.unbindGoogleAuth(userId.toLong)
