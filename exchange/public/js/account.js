@@ -773,7 +773,7 @@ app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $htt
 
 }]);
 
-app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout', '$window', function ($scope, $http, $interval, $window, $modal) {
+app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $modal, $timeout) {
     //$scope.showMainDiv = true;
 
     $scope.showUpdateAccountError = false;
@@ -899,11 +899,12 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
                 $scope.changePwdErrorMessage = Messages.account.changePwdSucceeded;
                 if (data.success) {
                     $timeout(function() {
+                        //$window.location.href = '/account#/accountsettings';
+                        //$window.location.reload();
                         $scope.showMainDiv = true;
                         $scope.showChangePwdDiv = false;
-                        $scope.reload();
                         console.debug("show main div");
-                    }, 3000);
+                    }, 2000);
                 } else {
                     var errorMsg = Messages.getMessage(data.code, data.message);
                     $scope.changePwdErrorMessage = errorMsg;
@@ -911,7 +912,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
             });
     };
 
-}]);
+});
 
 app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
