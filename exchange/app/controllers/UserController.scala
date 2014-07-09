@@ -43,6 +43,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     } map {
       result =>
       logger.info(s"login result: $result")
+      //todo(kongliang): refactor return user profile
       if (result.success) {
         result.data.get match {
           case succeeded: LoginSucceeded =>
@@ -288,33 +289,35 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def bindGoogleAuth(key: String) = Action.async {
+  def bindGoogleAuth(verifycode: String, secret: String) = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
-      UserService.bindGoogleAuth(userId.toLong, key) map {
-        result =>
-          Ok(result.toJson)
-      }
+      val googleAuthenticator = new GoogleAuthenticator()
+      if (googleAuthenticator.authorize(secret.toString, verifycode.toInt)) {
+        UserService.bindGoogleAuth(userId.toLong, secret) map {
+          result =>
+            if (result.success) {
+              val newSession = request.session + (Constant.cookieGoogleAuthSecret -> secret)
+              Ok(result.toJson).withSession(newSession)
+            } else Ok(result.toJson())
+        }
+      } else Future(Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson()))
   }
 
   def unbindGoogleAuth(verCode: String) = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
+      val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
 
-      UserService.getGoogleAuth(userId.toLong) map {
-        rv =>
-          rv.data match {
-            case Some(secretFromDB) =>
-                val googleAuthenticator = new GoogleAuthenticator()
-                if (googleAuthenticator.authorize(secretFromDB.toString, verCode.toInt)) {
-                  UserService.unbindGoogleAuth(userId.toLong)
-                  Ok(ApiResult(true, 0, "", Some(true)).toJson())
-                } else {
-                  Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson())
-                }
-            case None =>
-              Ok(ApiResult(false, ErrorCode.InvalidGoogleSecret.value, "secret invalid", None).toJson())
-          }
-      }
+      val googleAuthenticator = new GoogleAuthenticator()
+      if (googleAuthenticator.authorize(googleSecret, verCode.toInt)) {
+        UserService.unbindGoogleAuth(userId.toLong) map {
+          result =>
+            if(result.success) {
+              val newSession = request.session - Constant.cookieGoogleAuthSecret
+              Ok(result.toJson()).withSession(newSession)
+            } else Ok(result.toJson())
+        }
+      } else Future(Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson()))
   }
 }

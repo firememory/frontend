@@ -177,7 +177,7 @@ accountsettings.googleauth.title=您的双重校验二维码
 accountsettings.googleauth.bind=绑定到账号
 accountsettings.googleauth.close=关闭
 accountsettings.unbindgoogleauth.title=请输入6位校验码
-accountsettings.googleauth.unbind=解除绑定
+accountsettings.googleauth.unbind=解除双重校验绑定
 accountsettings.googleauth.hint=当您申请提现时，可以使用双重校验来确认您的身份。(替代短信验证得方式)
 accountsettings.googleauth.followsteps=请您按照下面三步来绑定双重校验。
 
@@ -199,6 +199,9 @@ accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的�
 
 accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿从您的手机上删除
 accountsettings.googleAuth.verifycode=双重校验码
+
+accountsettings.googleauth.unbindButton=解除绑定
+accountsettings.googleauth.unbindHint=在您解除绑定双重校验以后，您可以随时进入双重校验绑定页面重新进行绑定。
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

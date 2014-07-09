@@ -54,33 +54,62 @@
 
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <h5>@Messages("accountsettings.googleAuth.stepThree"): </h5>
                 <h5>@Messages("accountsettings.googleAuth.stepThreeGuide")</h5>
                 <alert type="danger">@Messages("accountsettings.googleAuth.dontdelete")</alert>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
-                        <div class="col-sm-4">
+                        <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
+                        <div class="col-sm-3">
                             <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <button class="btn btn-success" ng-click="sendVerifySms()" ng-bind="verifyButton"></button>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2">@Messages("accountsettings.googleAuth.verifycode")</label>
-                        <div class="col-sm-4">
+                        <label class="control-label col-sm-3">@Messages("accountsettings.googleAuth.verifycode")</label>
+                        <div class="col-sm-3">
                             <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2"></label>
-                        <div class="col-sm-2">
-                        <button class="btn btn-success" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                        <label class="control-label col-sm-3"></label>
+                        <div class="col-sm-3">
+                        <button class="btn btn-block btn-lg btn-primary" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="!showBind">
+            <h3>@Messages("accountsettings.googleauth.unbind")</h3>
+            <alert type="success">@Messages("accountsettings.googleauth.unbindHint")</alert>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
+                    <div class="col-sm-3">
+                        <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-success" ng-click="sendVerifySms()" ng-bind="verifyButton"></button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">@Messages("accountsettings.googleAuth.verifycode")</label>
+                    <div class="col-sm-3">
+                        <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3"></label>
+                    <div class="col-sm-3">
+                        <button class="btn btn-block btn-lg btn-primary" ng-click="unbind()">@Messages("accountsettings.googleauth.unbindButton")</button>
                     </div>
                 </div>
             </div>

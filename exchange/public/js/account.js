@@ -917,8 +917,32 @@ app.controller('GoogleAuthCtrl', function ($scope, $http) {
                     $scope.authUrl = data.data.authUrl;
                     $scope.secret = data.data.secret;
                 }
-        });
-        console.log("generate")
+            });
+    };
+
+    $scope.bind = function () {
+        $http.post('/googleauth/bind/'+ $scope.verifycode +'/'+$scope.secret)
+            .success(function (data, status, headers, config) {
+                if (data.success) {
+                    $scope.showBind = !$scope.showBind;
+                    $scope.verifycode = "";
+                } else {
+
+                }
+            });
+    };
+
+    $scope.unbind = function () {
+        $http.post('/googleauth/unbind/'+$scope.verifycode)
+            .success(function (data, status, headers, config) {
+                if (data.success) {
+                    $scope.showBind = !$scope.showBind;
+                    $scope.verifycode = "";
+                }
+                else {
+
+                }
+            });
     };
 
 });
