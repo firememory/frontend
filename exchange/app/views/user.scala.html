@@ -161,7 +161,7 @@
                     <td nowrap ng-bind="item.status | transferStatusText"></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
-                    <td nowrap ng-bind="item.address"></td>
+                    <td nowrap><caddr ng-bind="item.address"></caddr></td>
                     <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check")<i class="fa fa-external-link"></i></a></td>
                 </tr>
                 </tbody>
