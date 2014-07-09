@@ -53,3 +53,15 @@ COINPORT.getPriceFixed = function(market) {
 COINPORT.getAmountFixed = function(currency) {
     return COINPORT.amountFixed[currency.toLowerCase()];
 };
+
+COINPORT.floor = function(value, precision) {
+    if (Number.isNaN(+value))
+        return value;
+
+    var s = '' + value;
+    var offset = s.indexOf('.');
+    if (offset < 0)
+        return value;
+    offset += precision;
+    return +s.substring(0, offset + 1);
+};

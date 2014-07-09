@@ -27,8 +27,7 @@ coinportApp.filter('orderRoleClass', function() {
 
 coinportApp.filter('filledAccountEmpty', function() {
     return function(input) {
-        console.log("filled", input);
-        if (!input) return "0.0";
+        if (!input) return "0";
         return input;
     }
 });
@@ -137,7 +136,7 @@ coinportApp.filter('quantity', function() {
 coinportApp.filter('price', function() {
     return function(input) {
         if (!input) return 0;
-        var s = input.toPrecision(8);
+        var s = input.toFixed(8);
         return s;
 //        for (i = s.length; i >= 0 && s.charAt(i - 1) == '0'; i--)
 //        return s.slice(0, i + 1);

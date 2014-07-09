@@ -61,7 +61,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
     $scope.loadOrders = function() {
         var params = {limit: 10};
-        console.log("$scope.orderStatus", $scope.orderStatus)
         if ($scope.orderStatus >= 0)
             params.status = $scope.orderStatus;
         $http.get('/api/user/' + $scope.uid + '/order/' + $scope.market, {params: params})
@@ -343,21 +342,21 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     });
 
     var updateBidTotal = function() {
-        console.log($scope.bid)
         if($scope.bid.price == undefined || $scope.bid.amount == undefined)
             return;
         var total = +(+$scope.bid.price * +$scope.bid.amount).toFixed(6);
-        var available = 0;
-        if ($scope.account[$scope.currency])
-            available = +$scope.account[$scope.currency].available.display;
-        $scope.bid.total = Math.min(total, available);
+//        var available = 0;
+//        if ($scope.account[$scope.currency])
+//            available = +$scope.account[$scope.currency].available.display;
+//        $scope.bid.total = Math.min(total, available);
+        $scope.bid.total = total;
     };
 
     var updateBidAmount = function() {
         if (!$scope.bid.price)
             $scope.bid.amount = 0;
         else
-            $scope.bid.amount = +(+$scope.bid.total / +$scope.bid.price).toFixed(COINPORT.getAmountFixed($scope.subject));
+            $scope.bid.amount = COINPORT.floor(+$scope.bid.total / +$scope.bid.price, COINPORT.getAmountFixed($scope.subject));
     };
 
     var updateAskTotal = function() {
@@ -371,7 +370,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         if (!$scope.ask.price)
             $scope.ask.amount = 0;
         else
-            $scope.ask.amount = +(+$scope.ask.total / +$scope.ask.price).toFixed(COINPORT.getAmountFixed($scope.subject));
+            $scope.ask.amount = COINPORT.floor(+$scope.bid.total / +$scope.bid.price, COINPORT.getAmountFixed($scope.subject));
     };
 
     var toggleBidAdvanced = function(newValue, oldValue) {
@@ -422,7 +421,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
         $http.post('/trade/' + $scope.market + '/bid', $.param(payload))
           .success(function(data, status, headers, config) {
-            console.log('bid order sent, request:', payload, ' response:', data);
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
             if (data.success) {
                 var order = data.data;
@@ -473,7 +471,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
         $http.post('/trade/' + $scope.market + '/ask', $.param(payload))
           .success(function(data, status, headers, config) {
-            console.log('ask order sent, request:', payload, ' response:', data);
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;
             if (data.success) {
                 var order = data.data;
@@ -506,7 +503,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
     $scope.clickQuantity = function(quantity) {
         $scope.ask.amount = +quantity;
-        updateAskTotal();
     }
 
     $scope.clickDepthBids = function(index) {
@@ -572,22 +568,26 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
     var watchBidAmount = function(newValue, oldValue) {
         var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
-        var value = (+newValue).toFixed(fixed);
-        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+        var value = COINPORT.floor(+newValue, fixed);
+        if (isNaN(newValue) || +value < 0) {
             $scope.bid.amount = oldValue;
             return;
         }
+
+        $scope.bid.amount = value;
 
         updateBidTotal();
     };
 
     var watchAskAmount = function(newValue, oldValue) {
         var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
-        var value = (+newValue).toFixed(fixed);
-        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+        var value = COINPORT.floor(+newValue, fixed);
+        if (isNaN(newValue) || +value < 0 ) {
             $scope.ask.amount = oldValue;
             return;
         }
+
+        $scope.ask.amount = value;
 
         updateAskTotal();
     };

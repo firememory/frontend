@@ -25,10 +25,10 @@
                         <img src="/image/coins/{{account.currency.toLowerCase()}}.png">
                         <b ng-bind="account.currency">@Messages("loading")</b>
                     </td>
-                    <td nowrap class="text-right"><b ng-bind="account.total.display">@Messages("loading")</b></td>
-                    <td nowrap class="text-right" ng-bind="account.available.display">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="account.locked.display">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.display">@Messages("loading")</td>
+                    <td nowrap class="text-right"><b ng-bind="account.total.value">@Messages("loading")</b></td>
+                    <td nowrap class="text-right" ng-bind="account.available.value">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="account.locked.value">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.price + ' BTC'">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.asset + ' BTC'">@Messages("loading")</td>
                     <td nowrap class="text-right">

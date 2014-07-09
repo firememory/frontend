@@ -26,10 +26,10 @@
                             <strong>@coin</strong>
                         </td>
                         <!--<td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>-->
-                        <td nowrap class="text-right"><b>{{accounts['@coin'].total.display | filledAccountEmpty}}</b></td>
-                        <td nowrap class="text-right">{{accounts['@coin'].available.display | filledAccountEmpty}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].locked.display | filledAccountEmpty}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.display | filledAccountEmpty}}</td>
+                        <td nowrap class="text-right"><b>{{accounts['@coin'].total.value | filledAccountEmpty}}</b></td>
+                        <td nowrap class="text-right">{{accounts['@coin'].available.value | filledAccountEmpty}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].locked.value | filledAccountEmpty}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | filledAccountEmpty}}</td>
                         <td nowrap class="text-right">
                             <b>{{depositAddresses['@coin']}}</b>
                             <a target="_blank" href="{{addressUrl['@coin']}}"><i class="fa fa-external-link"></i></a>

@@ -58,9 +58,9 @@
                         <img src="/image/coins/@(coin.toString.toLowerCase()).png">
                         <strong>@coin</strong></a>
                     </td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.display">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.display">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.display">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.value">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.value">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].total.value">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="walletsBalance['@coin'].value">@Messages("loading")</td>
                     <td nowrap class="text-center">
