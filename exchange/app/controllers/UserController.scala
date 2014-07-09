@@ -272,20 +272,18 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def getGoogleAuth = Action.async {
+  def getGoogleAuth = Action {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
-      UserService.getGoogleAuth(userId.toLong) map {
-        result =>
-          result.data match {
-            case Some(secret) =>
-              val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", userId, secret.toString)
-              if (secret == "") {
-                Ok(ApiResult(false, 1, "failed", None).toJson())
-              } else Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
-            case None =>
-              Ok(ApiResult(false, 1, "failed", None).toJson())
+      request.session.get(Constant.cookieGoogleAuthSecret) match {
+        case Some(secret) =>
+          if (secret == "")  Ok(ApiResult(false, 1, "failed", None).toJson())
+          else {
+            val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", userId, secret.toString)
+            Ok(ApiResult(true, 0, "ok", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
           }
+        case None =>
+          Ok(ApiResult(false, 1, "failed", None).toJson())
       }
   }
 
