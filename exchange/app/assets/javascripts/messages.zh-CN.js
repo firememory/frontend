@@ -66,18 +66,6 @@ Messages.trade = {
 };
 
 Messages.account = {
-<<<<<<< HEAD
-    registerSucceeded: '注册成功',
-    updateAccountProfileSucceeded: '更新用户资料成功',
-    getVerifyCodeButtonText: '获取短信验证码',
-    getVerifyCodeButtonTextPrefix: ' ',
-    getVerifyCodeButtonTextTail: '秒后重新获取',
-    getGoogleAuthCodeButtonText: '获取双重校验二维码',
-    unbindGoogleAuthButtonText: '解除绑定',
-    showGoogleAuthButtonText: '显示',
-    unbindGoogleAuthOk: '解绑成功',
-    changePwdSucceeded: '修改登录密码成功！'
-=======
   registerSucceeded: '注册成功',
   updateAccountProfileSucceeded: '更新用户资料成功',
   getVerifyCodeButtonText: '获取短信验证码',
@@ -87,8 +75,8 @@ Messages.account = {
   unbindGoogleAuthButtonText: '解除绑定',
   showGoogleAuthButtonText: '显示',
   unbindGoogleAuthOk: '解绑成功',
+  changePwdSucceeded: '修改登录密码成功！',
   getEmailVerificationCode: '获取邮件验证码'
->>>>>>> add send email
 };
 
 Messages.connectivity = {

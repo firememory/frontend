@@ -198,7 +198,6 @@ accountsettings.googleAuth.verifycode=双重校验码
 accountsettings.googleauth.unbindButton=解除绑定
 accountsettings.googleauth.unbindHint=在您解除绑定双重校验以后，您可以随时进入双重校验绑定页面重新进行绑定。
 
-<<<<<<< HEAD
 accountsettings.sub.userprofile=用户信息
 accountsettings.sub.secure=账号安全
 accountsettings.sub.doubleauth=双重认证
@@ -223,9 +222,7 @@ accountsettings.view.thead.item=配置项
 accountsettings.view.thead.itemValue=值
 
 accountprofile.title=用户信息
-=======
 accountsettings.emailVerifyCode=Email验证码
->>>>>>> add send email
 
 footer.aboutUs=关于我们
 footer.fq=常见问题
