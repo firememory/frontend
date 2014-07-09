@@ -191,7 +191,7 @@ accountsettings.googleAuth.windowsphone=Windows Phones 手机
 accountsettings.googleAuth.Nokias=Nokias 手机
 
 accountsettings.googleAuth.scanQRcode=1. 在“Google Authenticator (身份验证器)” 应用程序中，点击“添加新账户 (iOS 下是 + 号)”，然后选择“扫描条形码”。
-accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密匙:
+accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密钥:
 
 accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿从您的手机上删除
 accountsettings.googleAuth.verifycode=双重校验码
