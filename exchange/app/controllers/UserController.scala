@@ -301,7 +301,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def bindGoogleAuth(verifycode: String, secret: String) = Action.async {
+  def bindGoogleAuth(verifycode: String, secret: String, emailcode: String) = Action.async {
     implicit request =>
       val userId = request.session.get("uid").getOrElse("")
       val googleAuthenticator = new GoogleAuthenticator()
@@ -316,20 +316,27 @@ object UserController extends Controller with Json4s with AccessLogging {
       } else Future(Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson()))
   }
 
-  def unbindGoogleAuth(verCode: String) = Action.async {
+  def unbindGoogleAuth = Action.async(parse.urlFormEncoded) {
     implicit request =>
+      val data = request.body
       val userId = request.session.get("uid").getOrElse("")
       val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
 
-      val googleAuthenticator = new GoogleAuthenticator()
-      if (googleAuthenticator.authorize(googleSecret, verCode.toInt)) {
-        UserService.unbindGoogleAuth(userId.toLong) map {
-          result =>
-            if(result.success) {
-              val newSession = request.session - Constant.cookieGoogleAuthSecret
-              Ok(result.toJson()).withSession(newSession)
-            } else Ok(result.toJson())
-        }
-      } else Future(Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson()))
+      val uuid = getParam(data, "uuid").getOrElse("")
+      val emailCode = getParam(data, "emailcode").getOrElse("")
+      val googleCode = getParam(data, "googlecode").getOrElse("")
+
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, emailCode),
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
+      ) {
+        UserService.unbindGoogleAuth(userId.toLong)
+      } map {
+        result =>
+          if (result.success) {
+            val newSession = request.session - Constant.cookieGoogleAuthSecret
+            Ok(result.toJson()).withSession(newSession)
+          } else Ok(result.toJson())
+      }
   }
 }

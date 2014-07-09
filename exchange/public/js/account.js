@@ -962,16 +962,18 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
     };
 
     $scope.unbind = function () {
-        $http.post('/googleauth/unbind/'+$scope.verifycode)
+        $http.post('/googleauth/unbind/',
+            $.param({uuid: $scope.verifyCodeUuid,
+            emailcode: $scope.emailVerifyCode,
+            googlecode: $scope.verifycode}))
             .success(function (data, status, headers, config) {
-                if (data.success) {
-                    $scope.showBind = !$scope.showBind;
-                    $scope.verifycode = "";
-                }
-                else {
-
-                }
-            });
+            if (data.success) {
+                $scope.showBind = !$scope.showBind;
+                $scope.verifycode = "";
+            }
+            else {
+            }
+        });
     };
 
     // sms verification code and button timer:

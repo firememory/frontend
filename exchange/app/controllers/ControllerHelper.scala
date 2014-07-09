@@ -12,6 +12,7 @@ import play.api.i18n.Lang
 import play.api.Play
 import play.api.Play.current
 import services.CacheService
+import controllers.GoogleAuth.GoogleAuthenticator
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
 
@@ -55,6 +56,19 @@ class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extend
       val cachedValue = cacheService.get(uuid)
       logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
       if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+    }
+  }
+}
+
+class GoogleAuthValidator(error: ErrorCode, secret: String, code: String) extends Validator {
+  val result = ApiResult(false, error.value, error.toString)
+
+  val codeInt = try{code.toInt} catch {case e: Exception => 0}
+  val googleAuthenticator = new GoogleAuthenticator()
+
+  def validate = {
+    if (secret == null || secret.trim.isEmpty || codeInt == 0) Left(result) else {
+      if (googleAuthenticator.authorize(secret.toString, codeInt)) Right(true) else Left(result)
     }
   }
 }

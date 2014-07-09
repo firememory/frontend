@@ -53,10 +53,10 @@ GET     /depoaddr/*uid                      controllers.UserController.getBatchD
 GET     /withaddr/*currency/*uid            controllers.UserController.getWithdrawalAddress(currency, uid)
 POST    /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdrawalAddress(currency, uid, addr)
 
-GET     /googleauth/generate/*uid               controllers.UserController.generateGoogleAuth(uid)
-GET     /googleauth/get                         controllers.UserController.getGoogleAuth()
-POST    /googleauth/bind/*verifycode/*secure    controllers.UserController.bindGoogleAuth(verifycode, secure)
-POST    /googleauth/unbind/*key                 controllers.UserController.unbindGoogleAuth(key)
+GET     /googleauth/generate/*uid                   controllers.UserController.generateGoogleAuth(uid)
+GET     /googleauth/get                             controllers.UserController.getGoogleAuth()
+POST    /googleauth/bind/*verifycode/*secret/*emailcode         controllers.UserController.bindGoogleAuth(verifycode, secret, emailcode)
+POST    /googleauth/unbind/              controllers.UserController.unbindGoogleAuth()
 
 # html snippet
 GET     /terms.html                      controllers.MainController.terms()
