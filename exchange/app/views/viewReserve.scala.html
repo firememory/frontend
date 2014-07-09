@@ -18,7 +18,7 @@
                             <br>例如，全部用户资产加起来为100BTC，平台冷热钱包中可支付的余额为90BTC，准备金率就是90%。
                         </alert>
 
-                        
+
                     </p>
                 </div>
                 <div class="col-sm-6 aligment">
@@ -59,7 +59,7 @@
                             reserve ratio is 90.00%。
                         </alert>
 
-                        
+
                     </p>
                 </div>
                 <div class="col-sm-6 aligment">
@@ -139,6 +139,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="delimiter">&nbsp;</div>
@@ -164,7 +165,7 @@
 } else {
                     <p>
                         This section shows the network connectivity for each crypto-currency.
-                        Based on the time our system received the latest data from respective crypto-currency networks, you can get a clue whether your 
+                        Based on the time our system received the latest data from respective crypto-currency networks, you can get a clue whether your
                         deposit/withdrawal request may have been handled in a timely manner.
                         <alert>
                             <b>@Messages("open.network.status"):</b><br>
@@ -210,6 +211,63 @@
                                 <td>{{status['@coin'].height}}</td>
                                 <td><a target="_blank" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a></td>
                                 <td class="text-right"><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                            </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>@Messages("open.fee.title")</h3>
+@if(lang.code=="zh-CN") {
+                    <p>
+                        这里展示的是平台的收费政策。<br/>
+                        对于前一千名注册的用户，交易不收手续费。对于一千名之后的注册用户，每笔交易仅仅收取0.0002个所交易的币种。<br/>
+                    </p>
+} else {
+                    <p>
+                        This section shows the charging policy.
+                        For the first thousand registered user, transactions are totally free.
+                    </p>
+}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>@Messages("open.coinType")</th>
+                                <th>@Messages("open.fee.transaction")</th>
+                                <th>@Messages("open.fee.withdrawal")</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for(coin <- coins) {
+                            <tr>
+                                <td nowrap>
+                                    <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                    <strong><a href="/coin/@coin">@coin</a></strong>
+                                </td>
+                                <td>0.0002@coin</td>
+                                <td>0.1%</td>
                             </tr>
                             }
                             </tbody>

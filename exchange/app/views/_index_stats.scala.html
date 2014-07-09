@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="row" ng-controller="ReserveCtrl">
-        <div class="table-responsive col-md-12">
+            <div class="table-responsive col-md-12">
             <h4>@Messages("index.reserveStats")</h4>
             <table class="table table-condensed stats-table">
                 <thead>
@@ -74,5 +74,33 @@
             </table>
             </div>
         </div>
+
+        <div class="row" ng-controller="TickerCtrl">
+            <div class="table-responsive col-md-12">
+                <h4>@Messages("open.fee.title")</h4>
+                <table class="table table-condensed stats-table">
+                    <thead>
+                    <tr>
+                        <th>@Messages("open.coinType")</th>
+                        <th>@Messages("open.fee.transaction")</th>
+                        <th>@Messages("open.fee.withdrawal")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @for(coin <- coins) {
+                        <tr>
+                            <td nowrap>
+                                <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                <strong><a href="/coin/@coin">@coin</a></strong>
+                            </td>
+                            <td>0.0002@coin</td>
+                            <td>0.1%</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </section>
