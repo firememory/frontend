@@ -63,7 +63,7 @@ COINPORT.getAmountFixed = function(currency) {
 };
 
 COINPORT.floor = function(value, precision) {
-    if (Number.isNaN(+value))
+    if (isNaN(value))
         return value;
 
     var s = '' + value;
@@ -71,5 +71,7 @@ COINPORT.floor = function(value, precision) {
     if (offset < 0)
         return value;
     offset += precision;
-    return +s.substring(0, offset + 1);
+    return s.substring(0, offset + 1);
 };
+
+COINPORT.numberRegExp =  /^\d*(\.)?(\d+)*$/;

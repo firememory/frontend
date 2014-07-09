@@ -545,34 +545,41 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     };
 
     var watchBidPrice = function(newValue, oldValue) {
-        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
-        var value = (+newValue).toFixed(fixed);
-        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+        if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.bid.price = oldValue;
             return;
         }
+
+        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
+
+        $scope.bid.price = value;
 
         updateBidTotal();
     };
 
     var watchAskPrice = function(newValue, oldValue) {
-        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
-        var value = (+newValue).toFixed(fixed);
-        if (isNaN(newValue) || +value < 0 || +value != +newValue) {
+        if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.price = oldValue;
             return;
         }
+
+        var fixed = COINPORT.priceFixed[$scope.market.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
+
+        $scope.ask.price = value;
 
         updateAskTotal();
     };
 
     var watchBidAmount = function(newValue, oldValue) {
-        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
-        var value = COINPORT.floor(+newValue, fixed);
-        if (isNaN(newValue) || +value < 0) {
+        if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.bid.amount = oldValue;
             return;
         }
+
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
 
         $scope.bid.amount = value;
 
@@ -580,12 +587,14 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     };
 
     var watchAskAmount = function(newValue, oldValue) {
-        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
-        var value = COINPORT.floor(+newValue, fixed);
-        if (isNaN(newValue) || +value < 0 ) {
+        console.log(oldValue, newValue)
+        if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.amount = oldValue;
             return;
         }
+
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
 
         $scope.ask.amount = value;
 
