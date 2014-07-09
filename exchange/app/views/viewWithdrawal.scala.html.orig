@@ -1,0 +1,105 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<div class="row">
+    <h6>
+        <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
+        <select ng-model="currency" ng-change="changeCurrency()">
+            @for(coin <- coins) {
+            <option>@coin</option>
+            }
+        </select>
+    </h6>
+</div>
+<div class="row">
+    <h6>
+        @Messages("transfer.account") &nbsp; <a href="" ng-click="withdrawalData.amount=balance.available.value"><b>{{balance.available.value || 0}}</b></a> {{currency}}
+    </h6>
+    <alert class="col-md-10">
+        @Messages("transfer.withdrawalHint")
+    </alert>
+</div>
+<div class="row">
+    <form class="form-horizontal" name="withdrawalForm">
+        <div class="form-group">
+            <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAmount"))</label>
+            <div class="col-sm-6">
+                <input type="text" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAddress"))</label>
+            <div class="col-sm-6">
+                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address" ng-pattern="/^[a-zA-Z1-9]{27,34}$/">
+                <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
+                <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
+            </div>
+        </div>
+        <div class="form-group">
+<<<<<<< HEAD
+            <label class="control-label col-sm-3"> @(Messages("transfer.emailVerCode"))</label>
+            <div class="col-sm-6">
+                <input name="phoneVerCode" class="form-control" placeholder='@Messages("transfer.emailVerCode")' ng-model="withdrawalData.phoneVerCode">
+=======
+            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))</label>
+            <div class="col-sm-6">
+                <input name="phoneVerCode" class="form-control" placeholder='@Messages("accountsettings.emailVerifyCode")' ng-model="withdrawalData.emailcode">
+>>>>>>> add withdrawal google auth
+            </div>
+            <div class="col-sm-3">
+                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+            </div>
+        </div>
+        <div class="form-group" ng-show="showGoogleAuth">
+            <label class="control-label col-sm-3"> @(Messages("accountsettings.googleAuth"))</label>
+            <div class="col-sm-6">
+                <input name="googleVerCode" class="form-control" placeholder='@Messages("accountsettings.googleAuth")' ng-model="withdrawalData.googlecode">
+            </div>
+        </div>
+        <div style="height: 20px;">
+            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount < 0.01">@Messages("transfer.withdraw")</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+
+</div>
+
+<div class="row">
+    <h6>@Messages("transfer.withdrawalRecord")</h6>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>@Messages("transfer.id")</th>
+            <th>@Messages("transfer.created")</th>
+            <th>@Messages("transfer.updated")</th>
+            <th>@Messages("transfer.amount")</th>
+            <th>@Messages("transfer.status")</th>
+            <th>@Messages("transfer.address")</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
+            <td>{{item.id}}</td>
+            <td><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
+            <td><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
+            <td><b>-{{item.amount.value}}</b></td>
+            <td><span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
+            <td>
+                {{item.address}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
+            </td>
+            <!--<td class="text-right"> {{item.txid}} </td>-->
+            <td><a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>
+            <td>
+                <a href="" class="" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadWithdrawals()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+</div>
