@@ -171,7 +171,7 @@ accountsettings.googleauth.close=Close
 accountsettings.unbindgoogleauth.title=Please input verification code to unbind
 
 accountsettings.googleauth.unbind=Unbind Google Authentication
-accountsettings.googleauth.hint=You can use Google authenticator When you apply withdrawal without SMS verification.
+accountsettings.googleauth.hint=You have not bound Google Authentication.
 accountsettings.googleauth.followsteps=Please follow these three steps to bind the google authentication with your account.
 
 accountsettings.googleAuth.stepOne=First Step
@@ -188,11 +188,11 @@ accountsettings.googleAuth.Nokias=For Nokias
 accountsettings.googleAuth.scanQRcode=1. Click to add a new account (For iOS is +), then select "Scan QR code"
 accountsettings.googleAuth.inputSecret=2. Try to add the an account manually if you cannot scan the QR code and enter the following keys
 
-accountsettings.googleAuth.dontdelete=Please do not delete it, once you bind the google authentication.
+accountsettings.googleAuth.dontdelete=Please do not delete it from your cell phone, once you bind the Google Authentication.
 accountsettings.googleAuth.verifycode=Authentication code
 
 accountsettings.googleauth.unbindButton=Unbind
-accountsettings.googleauth.unbindHint=Once you unbind google authentication form your account, you can re-bind it at any time by accessing Google authenticator page.
+accountsettings.googleauth.unbindHint=You have bound Google Authentication. Once unbound Google Authentication, you can re-bind it at any time by accessing Google Authentication page.
 
 
 accountsettings.sub.userprofile=User Profile

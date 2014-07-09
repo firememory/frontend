@@ -301,19 +301,31 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def bindGoogleAuth(verifycode: String, secret: String, emailcode: String) = Action.async {
+  def bindGoogleAuth = Action.async(parse.urlFormEncoded) {
     implicit request =>
+      val data = request.body
       val userId = request.session.get("uid").getOrElse("")
-      val googleAuthenticator = new GoogleAuthenticator()
-      if (googleAuthenticator.authorize(secret.toString, verifycode.toInt)) {
-        UserService.bindGoogleAuth(userId.toLong, secret) map {
-          result =>
-            if (result.success) {
-              val newSession = request.session + (Constant.cookieGoogleAuthSecret -> secret)
-              Ok(result.toJson).withSession(newSession)
-            } else Ok(result.toJson())
-        }
-      } else Future(Ok(ApiResult(false, ErrorCode.InvalidGoogleVerifyCode.value, "verify failed", None).toJson()))
+      val uuid = getParam(data, "uuid").getOrElse("")
+      val emailCode = getParam(data, "emailcode").getOrElse("")
+      val googleCode = getParam(data, "googlecode").getOrElse("")
+      val googleSecret = getParam(data, "googlesecret").getOrElse("")
+      println(uuid)
+      println(emailCode)
+      println(googleCode)
+      println(googleSecret)
+
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, emailCode),
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
+      ) {
+        UserService.bindGoogleAuth(userId.toLong, googleSecret)
+      } map {
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.cookieGoogleAuthSecret -> googleSecret)
+            Ok(result.toJson).withSession(newSession)
+          } else Ok(result.toJson())
+      }
   }
 
   def unbindGoogleAuth = Action.async(parse.urlFormEncoded) {

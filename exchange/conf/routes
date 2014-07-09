@@ -55,7 +55,7 @@ POST    /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdr
 
 GET     /googleauth/generate/*uid                   controllers.UserController.generateGoogleAuth(uid)
 GET     /googleauth/get                             controllers.UserController.getGoogleAuth()
-POST    /googleauth/bind/*verifycode/*secret/*emailcode         controllers.UserController.bindGoogleAuth(verifycode, secret, emailcode)
+POST    /googleauth/bind/                controllers.UserController.bindGoogleAuth()
 POST    /googleauth/unbind/              controllers.UserController.unbindGoogleAuth()
 
 # html snippet

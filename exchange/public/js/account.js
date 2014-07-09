@@ -919,7 +919,7 @@ app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $htt
 
 }]);
 
-app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
+app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
 
     $http.get('/googleauth/get')
@@ -950,11 +950,14 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
     };
 
     $scope.bind = function () {
-        $http.post('/googleauth/bind/'+ $scope.verifycode +'/'+$scope.secret)
+        $http.post('/googleauth/bind/',
+            $.param({uuid: $scope.verifyCodeUuid,
+                emailcode: $scope.emailVerifyCode,
+                googlesecret: $scope.secret,
+                googlecode: $scope.verifycode}))
             .success(function (data, status, headers, config) {
                 if (data.success) {
-                    $scope.showBind = !$scope.showBind;
-                    $scope.verifycode = "";
+                    $location.path('#/googleauth');
                 } else {
 
                 }
@@ -968,8 +971,7 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
             googlecode: $scope.verifycode}))
             .success(function (data, status, headers, config) {
             if (data.success) {
-                $scope.showBind = !$scope.showBind;
-                $scope.verifycode = "";
+                $location.path('#/googleauth');
             }
             else {
             }
@@ -1024,7 +1026,6 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     $scope.verifyCodeUuid = data.data;
-                    console.log('verifyCodeUuid', $scope.verifyCodeUuid);
                 } else {
                     $scope.stopTiming();
                     $scope.showWithdrawalError = true;
