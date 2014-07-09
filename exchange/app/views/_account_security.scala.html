@@ -6,11 +6,22 @@
     <div class="col-md-8">
         <h3>@Messages("accountsettings.sub.secure")</h3>
 
-        <alert class="col-md-12">
+        <div class="row" style="margin-left: 0px; margin-right: 0px;">
+        @if(lang.code == "zh-CN") {
+            <alert class="col-md-12">
+            币丰港提供邮箱验证，双重认证，为确保您的资金安全，建议开通双重认证。 <br/>
+            有鉴于手机短信接收的不稳定性，我们采取邮件的形式发送验证码。<br/>
+            请在完成安全设置后再充值或提现资金
+            </alert>
+        } else {
+            <alert class="col-md-12">
+             Coinport send verification code via your register Email.<br/>
+             For additional security, please enable Google authenticator.
+            </alert>
+        }
+        </div>
 
-        </alert>
-
-        <div class="row" style="height: 30px;"> </div>
+        <div class="row" style="height: 10px;"> </div>
 
         <div class="row sec-ok">
             <div class="col-md-4 content-div"><img src="image/icons/ok.png" />&nbsp;<strong>@Messages("accountsettings.sec.loginpassword")</strong></div>
