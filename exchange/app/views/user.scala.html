@@ -32,7 +32,7 @@
                 <tbody>
                     <tr ng-repeat="account in accounts">
                         <td nowrap>
-                            <img src="/image/coins/{{account.currency.toLowerCase()}}.png">
+                            <img ng-src="/image/coins/{{account.currency.toLowerCase()}}.png">
                             <b ng-bind="account.currency"></b>
                         </td>
                         <td nowrap class="text-right"><b ng-bind="account.total.value"></b></td>
@@ -69,7 +69,7 @@
                             <td nowrap><i class="fa fa-clock-o" ng-bind="order.submitTime | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                             <td nowrap class="{{order.operation | orderTypeClass}}">
                                 <span ng-bind="order.operation | orderTypeText"></span>
-                                <img src="/image/coins/{{order.subject.toLowerCase()}}.png">
+                                <img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">
                                 <span ng-bind="'(' + order.subject + '-' + order.currency + ')'"></span>
                             </td>
                             <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display + '' + order.currency"></td>
@@ -108,7 +108,7 @@
                         <td nowrap><i class="fa fa-clock-o" ng-bind="item.timestamp | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                         <td nowrap class="{{item.sell | txTypeClass}}">
                             <span ng-bind="item.sell | txTypeText"></span>
-                            <img src="/image/coins/{{item.price.item.toLowerCase()}}.png">
+                            <img ng-src="/image/coins/{{item.price.item.toLowerCase()}}.png">
                             <span ng-bind="'(' + item.price.item + '-' + item.price.currency + ')'"></span>
                         </td>
                         <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency"></td>
@@ -154,7 +154,7 @@
                     <td nowrap ng-bind="item.id"></td>
                     <td nowrap ng-bind="item.operation | transferOperationText"></td>
                     <td nowrap>
-                        <img src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
+                        <img ng-src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
                         <span ng-bind="item.amount.currency"></span>
                     </td>
                     <td nowrap class="text-right" ng-bind="item.amount.display"></td>

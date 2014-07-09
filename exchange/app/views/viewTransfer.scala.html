@@ -22,7 +22,7 @@
                     @for(coin <- coins) {
                     <tr ng-init="getCurrencyDetails('@coin')">
                         <td nowrap>
-                            <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                            <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                             <strong>@coin</strong>
                         </td>
                         <!--<td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>-->
@@ -67,7 +67,7 @@
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
                     <td nowrap> <strong>{{item.operation | transferOperationText }} </strong></td>
                     <td nowrap>
-                        <img src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
+                        <img ng-src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
                         <strong>{{item.amount.currency}}</strong>
                     </td>
                     <td nowrap><strong>{{item.amount.value}}</strong></td>

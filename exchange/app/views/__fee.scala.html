@@ -17,7 +17,7 @@
         @for(coin <- coins) {
         <tr>
             <td nowrap>
-                <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                 <strong><a href="/coin/@coin">@coin</a></strong>
             </td>
             <td>0.1%</td>

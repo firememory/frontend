@@ -113,7 +113,7 @@
                         @for(coin <- coins) {
                         <tr ng-init="getWallets('@coin')">
                             <td nowrap>
-                                <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                                 <strong><a href="/coin/@coin">@coin</a></strong>
                             </td>
                             <td nowrap class="text-right"><span ng-bind="accounts['@coin'].available.value + ' @coin'"></span></td>
@@ -203,7 +203,7 @@
                             @for(coin <- coins) {
                             <tr ng-init="getNetworkStatus('@coin')">
                                 <td nowrap>
-                                    <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                                    <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                                     <strong><a href="/coin/@coin">@coin</a></strong>
                                 </td>
                                 <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>

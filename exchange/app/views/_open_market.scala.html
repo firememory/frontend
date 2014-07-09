@@ -20,7 +20,7 @@
                 <tbody>
                 <tr ng-repeat="ticker in tickers">
                     <td nowrap><a href="/trade#/{{ticker.market}}">
-                        <img src="/image/coins/{{ticker.market.split('-')[0].toLowerCase()}}.png">
+                        <img ng-src="/image/coins/{{ticker.market.split('-')[0].toLowerCase()}}.png">
                         <strong ng-bind="ticker.market">@Messages("loading")</strong></a>
                     </td>
                     <td nowrap class="text-right {{ticker.trend}}"><span ng-bind="ticker.price.display + ' ' + ticker.price.currency">@Messages("loading")</span> <i class="fa fa-caret-{{ticker.trend}}"></i></td>

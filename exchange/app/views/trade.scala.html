@@ -29,7 +29,7 @@
                  @for(market <- markets) {
                 <li route="#/@market">
                     <a href="#/@market">
-                        <img src="/image/coins/@(market.toString.split('-')(0).toLowerCase()).png">
+                        <img ng-src="/image/coins/@(market.toString.split('-')(0).toLowerCase()).png">
                         @market
                     </a>
                 </li>

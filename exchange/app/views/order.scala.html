@@ -32,12 +32,12 @@
                         <tr>
                             <th nowrap>@Messages("order.baseCurrency")</th>
                             <td nowrap>
-                                <img src="/image/coins/{{order.subject.toLowerCase()}}.png">
+                                <img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">
                                 <span ng-bind="order.subject">@Messages("loading")</span>
                             </td>
                             <th nowrap>@Messages("order.targetCurrency")</th>
                             <td nowrap>
-                                <img src="/image/coins/{{order.currency.toLowerCase()}}.png">
+                                <img ng-src="/image/coins/{{order.currency.toLowerCase()}}.png">
                                 <span ng-bind="order.currency">@Messages("loading")</span>
                             </td>
                             <th nowrap>@Messages("order.uid")</th>
@@ -53,7 +53,7 @@
                             <th nowrap>@Messages("market")</th>
                             <td nowrap>
                                 <a href="/trade#/{{order.subject}}-{{order.currency}}">
-                                    <img src="/image/coins/{{order.subject.toLowerCase()}}.png">
+                                    <img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">
                                     <span ng-bind="order.subject+'-'+order.currency"></span>
                                 </a>
                             </td>

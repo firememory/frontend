@@ -22,7 +22,7 @@
                 <tr ng-repeat="account in accounts">
                     <td><span style="background-color: {{color($index)}}">&nbsp;&nbsp;</span></td>
                     <td nowrap>
-                        <img src="/image/coins/{{account.currency.toLowerCase()}}.png">
+                        <img ng-src="/image/coins/{{account.currency.toLowerCase()}}.png">
                         <b ng-bind="account.currency">@Messages("loading")</b>
                     </td>
                     <td nowrap class="text-right"><b ng-bind="account.total.value">@Messages("loading")</b></td>
