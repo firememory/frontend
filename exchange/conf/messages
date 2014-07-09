@@ -27,6 +27,7 @@ orderBook=Order Book
 orders=Orders
 transactions=Trading History
 check=Details
+market=Market
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Session timed out, please log in again.
