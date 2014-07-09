@@ -917,7 +917,7 @@ app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $htt
 
 }]);
 
-app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) {
+app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, $interval, $location) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
 
     $http.get('/googleauth/get')
@@ -970,7 +970,8 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) 
             googlecode: $scope.verifycode}))
             .success(function (data, status, headers, config) {
             if (data.success) {
-                $location.path('#/googleauth');
+                $window.location.href = '/account#/accountsettings';
+                $window.location.reload();
             }
             else {
                 alert(Messages.ErrorMessages['m' + data.code]);
@@ -1033,7 +1034,7 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) 
                 }
             });
     };
-});
+}]);
 //
 ////ModalDemoCtrl
 //app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
