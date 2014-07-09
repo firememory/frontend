@@ -275,8 +275,8 @@ open.transactionRank=Trading Rank
 fee.title=Fees
 fee.table=Fee Table
 fee.transaction=Per Transaction
-fee.buy=Buyer's Fee
-fee.sell=Seller's Fee
+fee.buy=Buyer Fee
+fee.sell=Seller Fee
 fee.deposit=Deposit Fee
 fee.withdrawal=Withdrawal Fee
 
