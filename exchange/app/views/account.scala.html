@@ -89,7 +89,7 @@
         font-size: 20px;
         }
 
-        small {
+        small.sidebartag {
         font-size: 9px;
         font-weight: 600;
         vertical-align: middle;
@@ -119,11 +119,11 @@
                 <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
                 <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
                 <li route="#/transfer"><a href="#/transfer">@Messages("asset.transfer")</a></li>
-                <li><a ng-click="usShow = !usShow">@Messages("user.profile")<small> &gt;</small></a>
+                <li><a ng-click="usShow = !usShow">@Messages("user.profile")<small class="sidebartag"> &gt;</small></a>
                     <ul class="nav nav-stacked" cp-nav id="usersettings-nav" ng-show="usShow">
-                        <li route="#/accountprofiles"><a href="#/accountprofiles">&nbsp;<small> &gt;</small>&nbsp;用户信息 </a> </li>
-                        <li route=""><a href="">&nbsp;<small> &gt;</small>&nbsp;账号安全 </a> </li>
-                        <li route="#/googleauth"><a href="#/googleauth">&nbsp;<small> &gt;</small>&nbsp;双重认证 </a> </li>
+                        <li route="#/accountprofiles"><a href="#/accountprofiles">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp;@Messages("accountsettings.sub.userprofile") </a> </li>
+                        <li route="#/accountsettings"><a href="#/accountsettings">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp; @Messages("accountsettings.sub.secure")</a> </li>
+                        <li route=""><a href="">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp;@Messages("accountsettings.sub.doubleauth") </a> </li>
                     </ul>
                 </li>
             </ul>

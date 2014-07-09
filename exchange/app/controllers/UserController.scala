@@ -221,6 +221,19 @@ object UserController extends Controller with Json4s with AccessLogging {
     }
   }
 
+  def doChangePassword() = Action.async(parse.urlFormEncoded) {
+    implicit request =>
+    val data = request.body
+    val email = request.session.get("username").getOrElse("")
+    val oldPassword = getParam(data, "oldPassword").getOrElse("")
+    val newPassword = getParam(data, "newPassword").getOrElse("")
+    logger.info(s"change password: email: $email, old: $oldPassword, new: $newPassword")
+    UserService.changePassword(email, oldPassword, newPassword) map {
+      result =>
+      Ok(result.toJson)
+    }
+  }
+
   def resendVerifyEmail(email: String) = Action.async {
     implicit request =>
     UserService.resendVerifyEmail(email) map {

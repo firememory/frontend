@@ -779,9 +779,10 @@ app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $htt
 
 }]);
 
-app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window', function ($scope, $http, $interval, $window, $modal) {
-    $scope.showUpdateAccountError = false;
+app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout', '$window', function ($scope, $http, $interval, $window, $modal) {
+    //$scope.showMainDiv = true;
 
+    $scope.showUpdateAccountError = false;
     $scope.account = {};
     // $scope.credentialItems = [
     //     {"name": "身份证", "value": "1"},
@@ -809,6 +810,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
 
     });
 
+//---------------------------- button timer --------------------------
     var stop;
     $scope.isTiming = false;
 
@@ -849,7 +851,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
     });
 
     //$scope.disableButton();
-
+// ---------------------- send verification sms -----------------------
     $scope.sendVerifySms = function () {
         $scope.showUpdateAccountError = false;
         $scope.disableButton();
@@ -872,6 +874,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
             });
     };
 
+// --------------------- updateaccountsettings ----------------
     $scope.updateAccountSettings = function () {
         $scope.showUpdateAccountError = false;
         $http.post('/account/settings', $.param($scope.account))
@@ -888,6 +891,36 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$window'
                 }
             });
     };
+
+// ----------------------- changepwd ---------------------
+    $scope.changepwd = {};
+    $scope.doChangePassword = function () {
+        $scope.showChangePwdError = false;
+        var oldPwd = $.sha256b64($scope.changepwd.oldPassword);
+        var newPwd = $.sha256b64($scope.changepwd.newPassword);
+        $http.post('/account/dochangepwd', $.param({'oldPassword': oldPwd, 'newPassword': newPwd}))
+            .success(function (data, status, headers, config) {
+                console.debug("changepwd result: ", data)
+                $scope.showChangePwdError = true;
+                $scope.changePwdErrorMessage = Messages.account.changePwdSucceeded;
+                if (data.success) {
+                    $timeout(function() {
+                        $scope.showMainDiv = true;
+                        $scope.showChangePwdDiv = false;
+                        $scope.reload();
+                        console.debug("show main div");
+                    }, 3000);
+                } else {
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.changePwdErrorMessage = errorMsg;
+                }
+            });
+    };
+
+}]);
+
+app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
+
 }]);
 
 app.controller('GoogleAuthCtrl', function ($scope, $http) {

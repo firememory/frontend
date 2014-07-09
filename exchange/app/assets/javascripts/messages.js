@@ -74,7 +74,8 @@ Messages.account = {
     getGoogleAuthCodeButtonText: 'Get authentication code',
     unbindGoogleAuthButtonText: 'Unbind',
     showGoogleAuthButtonText: 'Show',
-    unbindGoogleAuthOk: 'unbind google authenticator ok'
+    unbindGoogleAuthOk: 'unbind google authenticator ok',
+    changePwdSucceeded: 'change login password succeeded!'
 };
 
 Messages.connectivity = {

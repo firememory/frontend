@@ -30,6 +30,7 @@ GET     /account/forgetpassword     controllers.UserController.forgetPassword()
 GET     /account/resendVerifyEmail/*email  controllers.UserController.resendVerifyEmail(email)
 GET     /account/requestpwdreset/*email    controllers.UserController.requestPasswordReset(email)
 POST    /account/dopwdreset         controllers.UserController.doPasswordReset()
+POST    /account/dochangepwd        controllers.UserController.doChangePassword()
 
 GET     /passwdreset/*token         controllers.UserController.validatePasswordReset(token)
 GET     /verification/:token        controllers.UserController.verifyEmail(token)
