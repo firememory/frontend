@@ -25,7 +25,7 @@ accumulated=Accumulated
 coinType=Coin Type
 orderBook=Order Book
 orders=Orders
-transactions=Transactions
+transactions=Trading History
 check=Details
 
 authenticateNotLogin=Login Required
@@ -287,7 +287,7 @@ coin.hotWallet=Hot Wallets
 coin.coldWallet=Cold Wallets
 coin.wallets=Addresses
 
-transaction.tid=ID
+transaction.tid=Transaction ID
 transaction.timestamp=Timestamp
 transaction.price=Price
 transaction.amount=Quantity
