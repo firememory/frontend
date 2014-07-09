@@ -6,7 +6,9 @@ COINPORT = {
         'ltc-btc': 4,
         'doge-btc': 8,
         'bc-btc': 8,
-        'drk-btc': 6
+        'drk-btc': 6,
+        'vrc-btc': 8,
+        'zet-btc': 8
     },
 
     amountFixed: {
@@ -16,7 +18,9 @@ COINPORT = {
         doge: 4,
 //        doge: 2,
         bc: 3,
-        drk: 2
+        drk: 2,
+        vrc: 3,
+        zet: 3
     },
 
     defaultMarket: 'LTC-BTC',
@@ -33,16 +37,20 @@ COINPORT = {
         BTC: 'https://blockchain.info/address/',
         LTC: 'http://block-explorer.com/address/',
         DOGE: 'http://dogechain.info/address/',
-        BC: '#',
-        DRK: '#'
+        BC: 'http://blackcha.in/address/',
+        DRK: 'http://explorer.darkcoin.io/address/',
+        VRC: 'http://blocks.vericoin.info/address/',
+        ZET: 'http://bitinfocharts.com/zetacoin/address/'
     },
 
     txUrl: {
         BTC: 'https://blockchain.info/tx/',
         LTC: 'http://block-explorer.com/tx/',
         DOGE: 'http://dogechain.info/tx/',
-        BC: '#',
-        DRK: '#'
+        BC: 'http://blackcha.in/tx/',
+        DRK: 'http://explorer.darkcoin.io/tx/',
+        VRC: 'http://blocks.vericoin.info/tx/',
+        ZET: 'http://bitinfocharts.com/zetacoin/tx/'
     }
 };
 
