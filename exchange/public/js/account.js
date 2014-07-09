@@ -955,7 +955,8 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location) 
                 googlecode: $scope.verifycode}))
             .success(function (data, status, headers, config) {
                 if (data.success) {
-                    $location.path('#/googleauth');
+                    $window.location.href = '/account#/accountsettings';
+                    $window.location.reload();
                 } else {
                     alert(Messages.ErrorMessages['m' + data.code]);
                 }
