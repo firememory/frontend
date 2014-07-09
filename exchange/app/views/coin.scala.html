@@ -100,10 +100,10 @@
                                         </a>
                                     </td>
                                     <td class="text-right">
-                                        <span ng-bind="wallet.amount.display"></span>
+                                        <span ng-bind="wallet.amount.value"></span>
                                     </td>
                                     <td class="text-right">
-                                        <span ng-bind="wallet.accumulated.display"></span>
+                                        <span ng-bind="wallet.accumulated.value"></span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -126,10 +126,10 @@
                                         </a>
                                     </td>
                                     <td class="text-right">
-                                        <span ng-bind="wallet.amount.display"></span>
+                                        <span ng-bind="wallet.amount.value"></span>
                                     </td>
                                     <td class="text-right">
-                                        <span ng-bind="wallet.accumulated.display"></span>
+                                        <span ng-bind="wallet.accumulated.value"></span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -183,7 +183,7 @@
                             <td nowrap><a href="/user/{{item.uid}}" data-toggle="tooltip" title='{{item.uid}}'><i class="fa fa-user" ng-bind="item.uid | UID ">@Messages("loading")</i></a></td>
                             <td nowrap ng-bind="item.operation | transferOperationText">@Messages("loading")</td>
                             <!--<td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>-->
-                            <td nowrap class="text-right" ng-bind="item.amount.display">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="item.amount.value">@Messages("loading")</td>
                             <!--<td nowrap class="text-right" ng-bind="">@Messages("loading")</td>-->
 
                             <td class="text-right">
