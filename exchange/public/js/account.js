@@ -300,7 +300,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             }
             else {
                 $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+                $scope.verifyButton = Messages.account.getEmailVerificationCode;
             }
         }, 1000);
     };
@@ -312,7 +312,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         }
         $scope.isTiming = false;
         $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+        $scope.verifyButton = Messages.account.getEmailVerificationCode;
     };
 
     $scope.$on('destroy', function () {
@@ -824,7 +824,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
             }
             else {
                 $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+                $scope.verifyButton = Messages.account.getEmailVerificationCode;
                 $scope.isTiming = false;
             }
         }, 1000);
@@ -837,7 +837,7 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
         }
         $scope.isTiming = false;
         $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+        $scope.verifyButton = Messages.account.getEmailVerificationCode;
     };
 
     $scope.$on('destroy', function () {
@@ -1000,7 +1000,7 @@ app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, 
             }
             else {
                 $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+                $scope.verifyButton = Messages.account.getEmailVerificationCode;
             }
         }, 1000);
     };
@@ -1012,7 +1012,7 @@ app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, 
         }
         $scope.isTiming = false;
         $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+        $scope.verifyButton = Messages.account.getEmailVerificationCode;
     };
 
     $scope.$on('destroy', function () {
