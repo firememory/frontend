@@ -230,13 +230,21 @@
                     <h3>@Messages("open.fee.title")</h3>
 @if(lang.code=="zh-CN") {
                     <p>
-                        这里展示的是平台的收费政策。<br/>
-                        对于前一千名注册的用户，交易不收手续费。对于一千名之后的注册用户，每笔交易仅仅收取0.0002个所交易的币种。<br/>
+                        这里展示的是平台的收费政策。我们目前有交易费和提现费两种费用。<br/>
+
+                        前2000个注册用户（ID小于等于1000002000）将享受交易永久免费。2000名之后的用户每笔交易按照收入的百分比收费。假设我们收费比例为0.1%，如果用户甲用2个X币通过一笔交易成功换取了用户乙的100个Y币，那么我们会收取用户乙0.002个X币；收取用户甲0.1个Y币。<br/>
+
+                        我们对每笔提现收取固定的费率。
                     </p>
 } else {
                     <p>
-                        This section shows the charging policy.
-                        For the first thousand registered user, transactions are totally free.
+                        The following table shows our fee structure. We have two types of fees, trading fees and withdrawal fees.
+
+                        The first 2000 users (id less than or equal to 1000002000) will enjoy lifetime 0 trading fee; other users will
+                        pay a percentage of each trading income. For example, if we charge 0.1% trading fee, and if user A pays user B
+                         2 XCOIN for 100 YCOIN, we will charge user B 0.002 XCOIN and charge user A 0.1 YCOIN. <br/>
+
+                        For each successful withdrawal, we charge a constant fee.
                     </p>
 }
                 </div>
