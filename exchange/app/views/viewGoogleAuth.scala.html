@@ -65,7 +65,7 @@
                             <input name="verifyCode" class="form-control" ng-model="emailVerifyCode" min-length="5" required="">
                         </div>
                         <div class="col-sm-2">
-                            <button class="btn btn-success" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
+                            <button class="btn btn-success" ng-disabled="isTiming" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
                         <input name="verifyCode" class="form-control" ng-model="emailVerifyCode" min-length="5" required="">
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-success" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
+                        <button class="btn btn-success" ng-disabled="isTiming" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
                     </div>
                 </div>
 
