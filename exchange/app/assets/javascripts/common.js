@@ -29,8 +29,10 @@ COINPORT = {
         BTC: 'https://blockchain.info/block-index/',
         LTC: 'http://block-explorer.com/block/',
         DOGE: 'http://dogechain.info/block/',
-        BC: '#',
-        DRK: '#'
+        BC: 'http://blackcha.in/block/',
+        DRK: 'http://explorer.darkcoin.io/block/',
+        VRC: 'http://blocks.vericoin.info/block/',
+        ZET: 'https://coinplorer.com/ZET/Blocks/'
     },
 
     addressUrl: {
@@ -40,7 +42,7 @@ COINPORT = {
         BC: 'http://blackcha.in/address/',
         DRK: 'http://explorer.darkcoin.io/address/',
         VRC: 'http://blocks.vericoin.info/address/',
-        ZET: 'http://bitinfocharts.com/zetacoin/address/'
+        ZET: 'https://coinplorer.com/ZET/Addresses/'
     },
 
     txUrl: {
@@ -50,7 +52,7 @@ COINPORT = {
         BC: 'http://blackcha.in/tx/',
         DRK: 'http://explorer.darkcoin.io/tx/',
         VRC: 'http://blocks.vericoin.info/tx/',
-        ZET: 'http://bitinfocharts.com/zetacoin/tx/'
+        ZET: 'https://coinplorer.com/ZET/Transactions/'
     }
 };
 
