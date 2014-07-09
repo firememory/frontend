@@ -53,7 +53,8 @@ object UserController extends Controller with Json4s with AccessLogging {
               "referralToken" -> succeeded.referralToken.getOrElse(0L).toString,
               Constant.cookieNameMobileVerified -> succeeded.mobile.isDefined.toString,
               Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
-              Constant.cookieNameRealName -> succeeded.realName.getOrElse("")
+              Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
+              Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse("")
             )
           case _ =>
             Ok(result.toJson)
