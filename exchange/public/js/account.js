@@ -913,11 +913,12 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
 
 }]);
 
-app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, $interval, $location) {
+app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
 
     $http.get('/googleauth/get')
     .success(function(data, status, headers, config) {
+            console.log(data)
         if (data.success) {
             if(data.data) {
                 $scope.showBind = false;
@@ -1030,7 +1031,7 @@ app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, 
                 }
             });
     };
-}]);
+});
 //
 ////ModalDemoCtrl
 //app.controller('GoogleModalCtrl', function ($scope, $http, $modal) {
