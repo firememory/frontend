@@ -29,7 +29,7 @@ app.config(routeConfig);
 
 app.controller('DownCtrl', function ($scope, $http) {
     $scope.messagesPage = 1;
-    $scope.messagesLimit=10;
+    $scope.messagesLimit = 30;
     $scope.loadSnapshots = function() {
         $http.get('/api/open/data/snapshot', {params: {limit: $scope.messagesLimit, page: $scope.snapshotsPage}})
         .success(function(data, status, headers, config) {
@@ -38,7 +38,7 @@ app.controller('DownCtrl', function ($scope, $http) {
     };
 
     $scope.snapshotsPage = 1;
-    $scope.snapshotsLimit=10;
+    $scope.snapshotsLimit = 30;
     $scope.loadMessages = function() {
         $http.get('/api/open/data/messages', {params: {limit: $scope.snapshotsLimit, page: $scope.messagesPage}})
         .success(function(data, status, headers, config) {

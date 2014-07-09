@@ -84,7 +84,7 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
     };
 
     $scope.page = 1;
-    $scope.limit = 10;
+    $scope.limit = 25;
     $scope.transfers = {};
     $scope.loadTransfers = function () {
         $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page}})
@@ -135,7 +135,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
         });
 
     $scope.page = 1;
-    $scope.limit = 10;
+    $scope.limit = 25;
     $scope.loadWithdrawals = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
@@ -176,7 +176,7 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
         });
 
     $scope.page = 1;
-    $scope.limit = 10;
+    $scope.limit = 25;
     $scope.loadDeposits = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
             .success(function (data, status, headers, config) {
@@ -230,7 +230,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
 
     $scope.page = 1;
-    $scope.limit = 10;
+    $scope.limit = 25;
     $scope.loadWithdrawals = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
@@ -711,7 +711,7 @@ app.controller('AssetCtrl', function ($scope, $http) {
 app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.market = COINPORT.defaultMarket;
     $scope.page = 1;
-    $scope.limit = 15;
+    $scope.limit = 25;
 
     $scope.changeMarket = function() {
         $scope.page = 1;
@@ -731,7 +731,7 @@ app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
 app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.market = 'all';
     $scope.page = 1;
-    $scope.limit = 15;
+    $scope.limit = 25;
 
     $scope.changeMarket = function() {
         $scope.page = 1;
