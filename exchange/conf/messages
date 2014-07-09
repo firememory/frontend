@@ -26,7 +26,7 @@ coinType=Coin Type
 orderBook=Order Book
 orders=Orders
 transactions=Transactions
-check=Check
+check=Details
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Session timed out, please log in again.
@@ -267,13 +267,14 @@ open.network.neverseen=N/A
 open.network.minutes= minutes
 open.network.checkNow=Check
 open.assetRank=Asset Rank
-open.transactionRank=Transaction Rank
+open.transactionRank=Trading Rank
 
 
 fee.title=Fees
+fee.table=Fee Table
 fee.transaction=Per Transaction
-fee.buy=Buy Fee
-fee.sell=Sell Fee
+fee.buy=Buyer's Fee
+fee.sell=Seller's Fee
 fee.deposit=Deposit Fee
 fee.withdrawal=Withdrawal Fee
 

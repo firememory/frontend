@@ -48,7 +48,6 @@
                     <th nowrap class="text-right">@Messages("open.reserve.account")</th>
                     <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
                     <th nowrap class="text-center">@Messages("open.reserve.ratio")</th>
-                    <th/>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,7 +66,7 @@
                         <a href="/coin/@coin" ng-show="walletsBalance['@coin']" ng-bind="((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4) + '%'" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value || 0 | reserveRatioClass}}">
                         </a>
                     </td>
-                    <td><div class="sparkline-@coin"></div></td>
+                    <!--td><div class="sparkline-@coin"></div></td-->
                 </tr>
                 }
                 </tbody>

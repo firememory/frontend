@@ -275,6 +275,7 @@ open.assetRank=资产排名
 open.transactionRank=交易量排名
 
 fee.title=收费政策
+fee.table=费用表格
 fee.transaction=每笔交易手续费
 fee.buy=买入手续费
 fee.sell=卖出手续费
