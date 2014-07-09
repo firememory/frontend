@@ -217,10 +217,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-//    $http.get('/withaddr/' +$scope.currency+ '/' + $scope.uid)
-//        .success(function (data, status, headers, config) {
-//            $scope.withdrawalData.address = data.data;
-//        });
     $http.get('/googleauth/get')
         .success(function(data, status, headers, config) {
             if (data.success) {
@@ -923,8 +919,8 @@ app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $htt
 
 }]);
 
-app.controller('GoogleAuthCtrl', function ($scope, $http) {
-    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+app.controller('GoogleAuthCtrl', function ($scope, $http, $interval) {
+    $scope.verifyButton = Messages.account.getEmailVerificationCode;
 
     $http.get('/googleauth/get')
     .success(function(data, status, headers, config) {
@@ -978,6 +974,62 @@ app.controller('GoogleAuthCtrl', function ($scope, $http) {
             });
     };
 
+    // sms verification code and button timer:
+    $scope.showWithdrawalError = false;
+    var _stop;
+    $scope.isTiming = false;
+
+    $scope.disableButton = function () {
+        if (angular.isDefined(_stop)) {
+            $scope.isTiming = true;
+            return;
+        }
+
+        $scope.seconds = 120;
+
+        _stop = $interval(function () {
+            if ($scope.seconds > 0) {
+                $scope.seconds = $scope.seconds - 1;
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTiming = true;
+            }
+            else {
+                $scope.stopTiming();
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTiming = function () {
+        if (angular.isDefined(_stop)) {
+            $interval.cancel(_stop);
+            _stop = undefined;
+        }
+        $scope.isTiming = false;
+        $scope.seconds = 0;
+        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    };
+
+    $scope.$on('destroy', function () {
+        $scope.stopTiming();
+    });
+
+    $scope.sendVerifyEmail = function () {
+        $scope.showWithdrawalError = false;
+        $scope.disableButton();
+
+        $http.get('/emailverification')
+            .success(function (data, status, headers, config) {
+                if (data.success) {
+                    $scope.verifyCodeUuid = data.data;
+                    console.log('verifyCodeUuid', $scope.verifyCodeUuid);
+                } else {
+                    $scope.stopTiming();
+                    $scope.showWithdrawalError = true;
+                    $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
+                }
+            });
+    };
 });
 //
 ////ModalDemoCtrl

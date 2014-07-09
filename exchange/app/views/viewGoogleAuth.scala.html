@@ -62,10 +62,10 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
                         <div class="col-sm-3">
-                            <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
+                            <input name="verifyCode" class="form-control" ng-model="emailVerifyCode" min-length="5" required="">
                         </div>
                         <div class="col-sm-2">
-                            <button class="btn btn-success" ng-click="sendVerifySms()" ng-bind="verifyButton"></button>
+                            <button class="btn btn-success" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
                         </div>
                     </div>
 
@@ -90,12 +90,12 @@
             <alert type="success">@Messages("accountsettings.googleauth.unbindHint")</alert>
             <div class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
+                    <label class="control-label col-sm-3">@Messages("accountsettings.emailVerifyCode")</label>
                     <div class="col-sm-3">
-                        <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="account.verifyCode" min-length="5" required="">
+                        <input name="verifyCode" class="form-control" ng-model="emailVerifyCode" min-length="5" required="">
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-success" ng-click="sendVerifySms()" ng-bind="verifyButton"></button>
+                        <button class="btn btn-success" ng-click="sendVerifyEmail()" ng-bind="verifyButton"></button>
                     </div>
                 </div>
 

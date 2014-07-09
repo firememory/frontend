@@ -96,6 +96,15 @@ object SmsController extends Controller with Json4s {
       }
     }
 
+  def sendVerificationEmail = Authenticated.async {
+    implicit request =>
+      val userEmail = request.session.get("username").getOrElse("")
+      val (uuid, verifyCode) = generateVerifyCode
+      UserService.sendVerificationCodeEmail(userEmail, verifyCode.toString) map {
+        rv => Ok(ApiResult(true, 0, "", Some(uuid)).toJson)
+      }
+  }
+
   def sendVerifySms2 = Authenticated.async {
     implicit request =>
     val userId = request.session.get("uid").getOrElse("")

@@ -194,6 +194,7 @@ accountsettings.googleAuth.verifycode=Authentication code
 accountsettings.googleauth.unbindButton=Unbind
 accountsettings.googleauth.unbindHint=Once you unbind google authentication form your account, you can re-bind it at any time by accessing Google authenticator page.
 
+<<<<<<< HEAD
 accountsettings.sub.userprofile=User Profile
 accountsettings.sub.secure=Security Settings
 accountsettings.sub.doubleauth=Google Authen
@@ -212,6 +213,9 @@ accountsettings.changepwd.title=Change Password
 accountsettings.changepwd.currPwd=Current Password
 accountsettings.changepwd.newPwd=New Password
 accountsettings.changepwd.repeat=Repeat New Password
+=======
+accountsettings.emailVerifyCode=Email Verification Code
+>>>>>>> add send email
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item
