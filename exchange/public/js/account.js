@@ -913,10 +913,6 @@ app.controller('AccountSettingsCtrl', ['$scope', '$http', '$interval', '$timeout
 
 }]);
 
-app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
-
-}]);
-
 app.controller('GoogleAuthCtrl', ['$scope', '$window', function ($scope, $http, $interval, $location) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
 
