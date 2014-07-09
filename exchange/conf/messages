@@ -269,7 +269,7 @@ open.network.height=Height
 open.network.lastblock=Last Block
 open.network.neverseen=N/A
 open.network.minutes= minutes
-open.network.checkNow=Check
+open.network.checkNow=Details
 open.assetRank=Asset Rank
 open.transactionRank=Trading Rank
 
