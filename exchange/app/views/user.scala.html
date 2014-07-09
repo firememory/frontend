@@ -35,10 +35,10 @@
                             <img src="/image/coins/{{account.currency.toLowerCase()}}.png">
                             <b ng-bind="account.currency"></b>
                         </td>
-                        <td nowrap class="text-right"><b ng-bind="account.total.display"></b></td>
-                        <td nowrap class="text-right" ng-bind="account.available.display"></td>
-                        <td nowrap class="text-right" ng-bind="account.locked.display"></td>
-                        <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.display"></td>
+                        <td nowrap class="text-right"><b ng-bind="account.total.value"></b></td>
+                        <td nowrap class="text-right" ng-bind="account.available.value"></td>
+                        <td nowrap class="text-right" ng-bind="account.locked.value"></td>
+                        <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value"></td>
                     </tr>
                 </tbody>
             </table>
