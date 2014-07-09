@@ -1,0 +1,31 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<div class="table-responsive col-md-12">
+    <h4>@Messages("fee.title")</h4>
+    <table class="table table-condensed stats-table">
+        <thead>
+        <tr>
+            <th>@Messages("open.coinType")</th>
+            <th>@Messages("fee.buy")</th>
+            <th>@Messages("fee.sell")</th>
+            <th>@Messages("fee.deposit")</th>
+            <th>@Messages("fee.withdrawal")</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(coin <- coins) {
+        <tr>
+            <td nowrap>
+                <img src="/image/coins/@(coin.toString.toLowerCase()).png">
+                <strong><a href="/coin/@coin">@coin</a></strong>
+            </td>
+            <td>0.1%</td>
+            <td>0.1%</td>
+            <td>0</td>
+            <td>0.0002 @coin</td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>

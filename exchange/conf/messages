@@ -247,12 +247,17 @@ open.network.lastblock=Last Block
 open.network.neverseen=N/A
 open.network.minutes= minutes
 open.network.checkNow=Check
-open.fee.title=Fees
-open.fee.transaction=Per Transaction
-open.fee.withdrawal=Withdrawal
-
 open.assetRank=Asset Rank
 open.transactionRank=Transaction Rank
+
+
+fee.title=Fees
+fee.transaction=Per Transaction
+fee.buy=Buy Fee
+fee.sell=Sell Fee
+fee.deposit=Deposit Fee
+fee.withdrawal=Withdrawal Fee
+
 
 coin.userWallet=User Wallets
 coin.hotWallet=Hot Wallets
