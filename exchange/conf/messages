@@ -97,6 +97,7 @@ trade.recentTransactions=Recent Transactions
 trade.recentOrders=Recent Orders
 trade.myOrders=My Orders
 trade.aboutOrder=About this order
+trade.aboutFee=Fee
 trade.accumulated=Accumulated
 
 order.order=Order
@@ -154,6 +155,8 @@ resetpwd.repeatPlaceHolder=Repeat your password
 resetpwd.submit=Submit
 
 accountsettings.title=Account Settings
+accountsettings.label=Rewards
+accountsettings.uid=UID
 accountsettings.userName=User Name
 accountsettings.realName=Nick Name
 accountsettings.realNamePrompt=These information cannot be updated once submitted.
@@ -369,4 +372,6 @@ asset.trend=Daily Net Change
 asset.pie=Asset Composition
 
 btn.close=close
-internalServerErrorKey=Internal server error. please retry later.
+internalServerErrorKey=Internal server error. please try it later.
+
+user.label.free=0 Trading Fee

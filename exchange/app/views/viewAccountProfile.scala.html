@@ -5,8 +5,22 @@
         <div class="col-md-12">
         <h3>@Messages("accountprofile.title")</h3>
 
-        <table class="table table-striped">
+        <table class="table">
             <tbody>
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.label")</th>
+                    <td>
+                        @if(session.get("uid").getOrElse("").toLong <= 1000002000L) {
+                        <a href="" data-toggle="tooltip" data-placement="top" title='@Messages("user.label.free")'><img src="/image/icons/user_vip.png"></a>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="col-md-3">@Messages("accountsettings.uid")</th>
+                    <td>@session.get("uid").getOrElse("")</td>
+                </tr>
+
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.userName")</th>
                     <td>@session.get("username").getOrElse("")</td>
