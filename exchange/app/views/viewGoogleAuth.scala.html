@@ -1,9 +1,11 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
+@isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined}
 <section class="header-3-sub">
     <div class="row" >
-        <div class="col-md-12" ng-show="showBind">
+        @if(!isSetGoogleAuth()) {
+        <div class="col-md-12">
             <h3>@Messages("accountsettings.googleAuth")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.hint")</br>
                 @Messages("accountsettings.googleauth.followsteps")
@@ -85,7 +87,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12" ng-show="!showBind">
+        } else {
+        <div class="col-md-12">
             <h3>@Messages("accountsettings.googleauth.unbind")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.unbindHint")</alert>
             <div class="form-horizontal">
@@ -114,5 +117,6 @@
                 </div>
             </div>
         </div>
+        }
     </div>
 </section>

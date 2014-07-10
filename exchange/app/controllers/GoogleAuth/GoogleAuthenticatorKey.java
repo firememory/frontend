@@ -69,7 +69,8 @@ public final class GoogleAuthenticatorKey {
      */
     public static String getQRBarcodeURL(String host, String user, String secret) throws UnsupportedEncodingException {
         String urlencode = java.net.URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s", host, user, secret),"UTF-8");
-        return "https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl="+urlencode;
+        return String.format("otpauth://totp/%s:%s?secret=%s", host, user, secret);
+//        return "https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl="+urlencode;
     }
 
     /**

@@ -925,33 +925,24 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
 app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                            width : 200,
+                            height : 200
+                        });
 
     $http.get('/googleauth/get')
     .success(function(data, status, headers, config) {
         if (data.success) {
-            if(data.data) {
                 $scope.showBind = false;
                 $scope.authUrl = data.data.authUrl;
                 $scope.secret = data.data.secret;
-            } else {
-                $scope.showBind = true;
-                generateAuth();
-            }
+
+                qrcode.makeCode($scope.authUrl);
         } else {
-            $scope.showBind = true;
-            generateAuth();
+            // TODO: handle error & show error messages
+            console.log('error', data);
         }
     });
-
-    var generateAuth = function() {
-        $http.get('/googleauth/generate/'+$scope.uid)
-            .success(function(data, status, headers, config) {
-                if (data.success) {
-                    $scope.authUrl = data.data.authUrl;
-                    $scope.secret = data.data.secret;
-                }
-            });
-    };
 
     $scope.bind = function () {
         $http.post('/googleauth/bind/',
