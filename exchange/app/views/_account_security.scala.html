@@ -9,14 +9,18 @@
         <div class="row" style="margin-left: 0px; margin-right: 0px;">
         @if(lang.code == "zh-CN") {
             <alert class="col-md-12">
-            币丰港提供邮箱验证，双重认证，为确保您的资金安全，建议开通双重认证。 <br/>
-            有鉴于手机短信接收的不稳定性，我们采取邮件的形式发送验证码。<br/>
-            请在完成安全设置后再充值或提现资金
+            对于特定的账户操作，币丰港将要求您提供验证码。我们将通过邮件方式发送验证码，验证码的过期时间为30分钟。
+            我们同时提供基于谷歌Authenticator的双重验证。鉴于邮件的安全级别较低，我们建议所有用户开通双重验证。
+            开通双重验证后，对于同样地账户操作，我们在要求邮件验证的同时，将额外要求您提供谷歌Authenticator的二次验证。<br/>
+            我们强烈建议您请尽可能在完成安全设置后再充值或提现资金。
             </alert>
         } else {
             <alert class="col-md-12">
-             Coinport send verification code via your register Email.<br/>
-             For additional security, please enable Google authenticator.
+             For certain account operations, Coinport Exchange requires you to provide a verification code to proceed.
+             We will send you a one-time verificaiton code using registration email, the verfication code will be valid for 30 minutes.
+             Coinport also supports Google Authenticator. After you enable this feature, for the same account operations,
+             we will additionally require you to provide a dynamic code from your Google Authenticator for better security.<br/>
+             We strongly suggest you to enable Google Authenticator and other security features before any account operation.
             </alert>
         }
         </div>
