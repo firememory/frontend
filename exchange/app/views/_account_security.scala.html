@@ -36,7 +36,15 @@
         <div class="row sec-ok">
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.emailTip")&nbsp; @PageUtil.encryptEmail(session.get("username"))</div>
-            <div class="col-md-2 content-div"></div>
+            <div class="col-md-2 content-div">
+                @if("1".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim)) {
+                <div ng-show="emailVerOn" ng-init="emailVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="emailVerOn = !emailVerOn" /></div>
+                <div ng-show="!emailVerOn"><img src="/image/icons/switch-off.png" ng-click="emailVerOn = !emailVerOn"/></div>
+                } else {
+                <div ng-show="!emailVerOn" ng-init="emailVerOn = false;"><img src="/image/icons/switch-off.png" ng-click="emailVerOn = !emailVerOn"/></div>
+                <div ng-show="emailVerOn"><img src="/image/icons/switch-on.png" ng-click="emailVerOn = !emailVerOn" /></div>
+                }
+            </div>
         </div>
 
         <!-- <div class="row sec-ok">
@@ -49,7 +57,15 @@
         <div class="row sec-ok">
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i>&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.mobileSetHint")&nbsp; @PageUtil.encryptMobile(session.get(Constant.cookieNameMobile)) &nbsp; &nbsp;<a ng-click="gotoMobileBind()">@Messages("accountsettings.sec.btn.modify")</a></div>
-            <div class="col-md-2 content-div"></div>
+            <div class="col-md-2 content-div">
+                @if("10".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim)) {
+                <div ng-show="mobileVerOn" ng-init="mobileVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="mobileVerOn = !mobileVerOn" /></div>
+                <div ng-show="!mobileVerOn"><img src="/image/icons/switch-off.png" ng-click="mobileVerOn = !mobileVerOn"/></div>
+                } else {
+                <div ng-show="!mobileVerOn" ng-init="mobileVerOn = false;"><img src="/image/icons/switch-off.png" ng-click="mobileVerOn = !mobileVerOn"/></div>
+                <div ng-show="mobileVerOn"><img src="/image/icons/switch-on.png" ng-click="mobileVerOn = !mobileVerOn" /></div>
+                }
+            </div>
         </div>
         } else {
         <div class="row sec-warn">
