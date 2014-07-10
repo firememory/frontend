@@ -305,13 +305,13 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       val data = request.body
       val userId = request.session.get("uid").getOrElse("")
-      val uuid = getParam(data, "uuid").getOrElse("")
-      val emailCode = getParam(data, "emailcode").getOrElse("")
+//      val uuid = getParam(data, "uuid").getOrElse("")
+//      val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
       val googleSecret = getParam(data, "googlesecret").getOrElse("")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+//        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.bindGoogleAuth(userId.toLong, googleSecret)
@@ -330,12 +330,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       val userId = request.session.get("uid").getOrElse("")
       val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
 
-      val uuid = getParam(data, "uuid").getOrElse("")
-      val emailCode = getParam(data, "emailcode").getOrElse("")
+//      val uuid = getParam(data, "uuid").getOrElse("")
+//      val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+//        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.unbindGoogleAuth(userId.toLong)
