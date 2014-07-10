@@ -218,6 +218,7 @@ accountsettings.changepwd.title=修改密码
 accountsettings.changepwd.currPwd=当前密码
 accountsettings.changepwd.newPwd=新密码
 accountsettings.changepwd.repeat=确认新密码
+accountsettings.changepwd.oldpwd.required=请输入当前密码
 
 accountsettings.view.title=设置
 accountsettings.view.thead.item=配置项

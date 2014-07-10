@@ -216,6 +216,7 @@ accountsettings.changepwd.currPwd=Current Password
 accountsettings.changepwd.newPwd=New Password
 accountsettings.changepwd.repeat=Repeat New Password
 accountsettings.emailVerifyCode=Email Verification Code
+accountsettings.changepwd.oldpwd.required=Please input current password
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

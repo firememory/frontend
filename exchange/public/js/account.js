@@ -888,6 +888,15 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
 // ----------------------- changepwd ---------------------
     $scope.changepwd = {};
+
+    $scope.gotoChangePwd = function() {
+        $scope.showMainDiv = false;
+        $scope.showChangePwdDiv = true;
+        $scope.changepwd = {};
+        $scope.showChangePwdError = false;
+        $scope.changePwdForm.$setPristine(true);
+    };
+
     $scope.doChangePassword = function () {
         $scope.showChangePwdError = false;
         var oldPwd = $.sha256b64($scope.changepwd.oldPassword);
@@ -903,8 +912,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
                         //$window.location.reload();
                         $scope.showMainDiv = true;
                         $scope.showChangePwdDiv = false;
-                        console.debug("show main div");
-                    }, 2000);
+                        //console.debug("show main div");
+                    }, 1000);
                 } else {
                     var errorMsg = Messages.getMessage(data.code, data.message);
                     $scope.changePwdErrorMessage = errorMsg;
