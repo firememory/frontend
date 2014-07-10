@@ -198,13 +198,13 @@ accountsettings.googleauth.unbindHint=You have bound Google Authentication. Once
 
 accountsettings.sub.userprofile=User Profile
 accountsettings.sub.secure=Security Settings
-accountsettings.sub.doubleauth=Google Authen
+accountsettings.sub.doubleauth=Google Auth
 
 accountsettings.sec.loginpassword=Login Password
 accountsettings.sec.loginpwdTips=Login password had been set
 accountsettings.sec.emailVerify=Email Verification
 accountsettings.sec.emailTip=Your Email address: 
-accountsettings.sec.doubleauth=Google Authen
+accountsettings.sec.doubleauth=Google Auth
 accountsettings.sec.doubleAuthInfoNotSet=You have not set up Google anthenticator yet
 accountsettings.sec.doubleAuthInfoSet=Google anthenticator had been set
 accountsettings.sec.doubleauth.modify=Modify
