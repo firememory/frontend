@@ -1,9 +1,9 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
-@isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined}
+@isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 <section class="header-3-sub">
-    <div class="row" >
+    <div class="row">
         <div class="col-md-12" ng-hide="@isSetGoogleAuth()">
             <h3>@Messages("accountsettings.googleAuth")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.hint")</br>

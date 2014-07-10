@@ -277,28 +277,18 @@ object UserController extends Controller with Json4s with AccessLogging {
       val session = request.session
       session.get("uid") match {
         case Some(uid) =>
-          session.get(Constant.cookieGoogleAuthSecret) match {
-            case Some(secret) =>
-              if (secret.isEmpty) {
-                Ok(ApiResult(false, 1, "empty serect found", None).toJson())
-              } else {
-                val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", uid, secret)
-
-                Ok(ApiResult(true, 0, "get one", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
-              }
-            case None => // no secret in session, generate one
-              val email = request.session.get("username").getOrElse("")
-              if (!email.isEmpty) {
-                val googleAuthenticator = new GoogleAuthenticator()
-                val key = googleAuthenticator.createCredentials(uid + "//" + email)
-                val secret = key.getKey()
-                val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", uid, secret)
-
-                Ok(ApiResult(true, 0, "generate one", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
-              } else {
-                Ok(ApiResult(false, 2, "Email is empty", None).toJson())
-              }
+          var secret = session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
+          if (secret.isEmpty) {
+            val email = request.session.get("username").getOrElse("")
+            val googleAuthenticator = new GoogleAuthenticator()
+            val key = googleAuthenticator.createCredentials(uid + "//" + email)
+            secret = key.getKey()
           }
+
+          val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", uid, secret)
+
+          Ok(ApiResult(true, 0, "secret", Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
+
         case None => Unauthorized
       }
   }
@@ -307,13 +297,13 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       val data = request.body
       val userId = request.session.get("uid").getOrElse("")
-//      val uuid = getParam(data, "uuid").getOrElse("")
-//      val emailCode = getParam(data, "emailcode").getOrElse("")
+      //      val uuid = getParam(data, "uuid").getOrElse("")
+      //      val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
       val googleSecret = getParam(data, "googlesecret").getOrElse("")
 
       validateParamsAndThen(
-//        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+        //        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.bindGoogleAuth(userId.toLong, googleSecret)
@@ -332,12 +322,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       val userId = request.session.get("uid").getOrElse("")
       val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
 
-//      val uuid = getParam(data, "uuid").getOrElse("")
-//      val emailCode = getParam(data, "emailcode").getOrElse("")
+      //      val uuid = getParam(data, "uuid").getOrElse("")
+      //      val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
 
       validateParamsAndThen(
-//        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+        //        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
         new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
       ) {
         UserService.unbindGoogleAuth(userId.toLong)
