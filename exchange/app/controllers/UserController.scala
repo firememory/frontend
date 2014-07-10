@@ -168,6 +168,37 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def doBindOrUpdateMobile = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+    val data = request.body
+    val userId = request.session.get("uid").getOrElse("")
+    val email = request.session.get("username").getOrElse("")
+    val oldMobile = request.session.get("mobile").getOrElse("")
+
+    val newMobile = getParam(data, "mobile").getOrElse("")
+    val uuidOld = getParam(data, "verifyCodeUuidOld").getOrElse("")
+    val verifyCodeOld = getParam(data, "verifyCodeOld").getOrElse("")
+    val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+    val verifyCode = getParam(data, "verifyCode").getOrElse("")
+
+    logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
+    val validators = if (oldMobile != null && oldMobile.trim.nonEmpty)
+      Seq(new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuidOld, verifyCodeOld),
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuidOld, verifyCodeOld),
+        new StringNonemptyValidator(userId, email, newMobile))
+    else
+      Seq(new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
+        new StringNonemptyValidator(userId, email, newMobile))
+
+    validateParamsAndThen( validators: _* ) {
+      UserService.bindOrUpdateMobile(email, newMobile)
+    } map {
+      updateRes =>
+      val newSession = request.session + (Constant.cookieNameMobile -> newMobile) +  (Constant.cookieNameMobileVerified -> "true")
+      Ok(updateRes.toJson).withSession(newSession)
+    }
+  }
+
   def verifyEmail(token: String) = Action.async {
     implicit request =>
       logger.info(s"verify email token: $token")

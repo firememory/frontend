@@ -31,6 +31,7 @@ GET     /account/resendVerifyEmail/*email  controllers.UserController.resendVeri
 GET     /account/requestpwdreset/*email    controllers.UserController.requestPasswordReset(email)
 POST    /account/dopwdreset         controllers.UserController.doPasswordReset()
 POST    /account/dochangepwd        controllers.UserController.doChangePassword()
+POST    /account/bindmobile         controllers.UserController.doBindOrUpdateMobile()
 
 GET     /passwdreset/*token         controllers.UserController.validatePasswordReset(token)
 GET     /verification/:token        controllers.UserController.verifyEmail(token)

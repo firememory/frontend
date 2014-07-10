@@ -932,7 +932,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         $scope.showBindMobileError = false;
         $scope.disableButton();
 
-        $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
+        $http.post('/smsverification', $.param({phoneNumber: $scope.bindMobile.mobile}))
             .success(function (data, status, headers, config) {
                 console.log("send sms result: ", data)
                 if (data.success) {
@@ -984,11 +984,11 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
     $scope.doBindMobile = function() {
         $scope.showBindMobileError = false;
-        $http.post('/account/bindMobile', $.param($scope.account))
+        $http.post('/account/bindmobile', $.param($scope.bindMobile))
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     $scope.showBindMobileError = true;
-                    $scope.bindMobileError = Messages.account.updateAccountProfileSucceeded;
+                    $scope.bindMobileError = Messages.account.bindMobileSucceeded;
                     $window.location.href = '/account#/accountsettings';
                     $window.location.reload();
                 } else {

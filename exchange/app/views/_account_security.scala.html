@@ -47,13 +47,13 @@
 
         @if(session.get(Constant.cookieNameMobile).getOrElse("").trim.nonEmpty) {
         <div class="row sec-ok">
-            <div class="col-md-4 content-div"><img src="image/icons/ok.png" />&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
+            <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i>&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.mobileSetHint")&nbsp; @PageUtil.encryptMobile(session.get(Constant.cookieNameMobile)) &nbsp; &nbsp;<a ng-click="gotoMobileBind()">@Messages("accountsettings.sec.btn.modify")</a></div>
             <div class="col-md-2 content-div"></div>
         </div>
         } else {
         <div class="row sec-warn">
-            <div class="col-md-4 content-div"><img src="image/icons/warn.png" />&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
+            <div class="col-md-4 content-div"><i class="fa fa-warning fa-2x     ">&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.mobileNoeSetHint")</div>
             <div class="col-md-2 content-div"><a ng-click="gotoMobileBind()">@Messages("accountsettings.sec.btn.set")</a></div>
         </div>

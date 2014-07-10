@@ -76,7 +76,8 @@ Messages.account = {
   showGoogleAuthButtonText: '显示',
   unbindGoogleAuthOk: '解绑成功',
   changePwdSucceeded: '修改登录密码成功！',
-  getEmailVerificationCode: '获取邮件验证码'
+  getEmailVerificationCode: '获取邮件验证码',
+  bindMobileSucceeded: '绑定手机号码成功'
 };
 
 Messages.connectivity = {
