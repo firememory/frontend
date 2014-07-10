@@ -28,13 +28,13 @@
         <div class="row" style="height: 10px;"> </div>
 
         <div class="row sec-ok">
-            <div class="col-md-4 content-div"><img src="image/icons/ok.png" />&nbsp;<strong>@Messages("accountsettings.sec.loginpassword")</strong></div>
+            <div class="col-md-4 content-div"><<i class="fa fa-check-square-o"></i><strong>@Messages("accountsettings.sec.loginpassword")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.loginpwdTips")</div>
             <div class="col-md-2 content-div"><a ng-click="gotoChangePwd()">@Messages("accountsettings.sec.btn.change")</a></div>
         </div>
 
         <div class="row sec-ok">
-            <div class="col-md-4 content-div"><img src="image/icons/ok.png" />&nbsp;<strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
+            <div class="col-md-4 content-div"><i class="fa fa-check-square-o"></i><strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.emailTip")&nbsp; @PageUtil.encryptEmail(session.get("username"))</div>
             <div class="col-md-2 content-div"></div>
         </div>
@@ -47,13 +47,13 @@
 
         @if(session.get(Constant.cookieGoogleAuthSecret).getOrElse("").trim.nonEmpty) {
         <div class="row sec-ok">
-            <div class="col-md-4 content-div"><img src="image/icons/ok.png" />&nbsp;<strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
+            <div class="col-md-4 content-div"><i class="fa fa-check-square-o"></i><strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.doubleAuthInfoSet")</div>
             <div class="col-md-2 content-div"><a href="#/googleauth">@Messages("accountsettings.sec.doubleauth.modify")</a></div>
         </div>
         } else {
         <div class="row sec-warn">
-            <div class="col-md-4 content-div"><img src="image/icons/warn.png" />&nbsp;<strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
+            <div class="col-md-4 content-div"><i class="fa fa-warning"></i><strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.doubleAuthInfoNotSet")</div>
             <div class="col-md-2 content-div"><a href="#/googleauth">@Messages("accountsettings.sec.btn.set")</a></div>
         </div>
