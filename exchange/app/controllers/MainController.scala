@@ -169,7 +169,7 @@ object MainController extends Controller with Json4s {
     implicit  request =>
       val language = langFromRequestCookie(request)
 
-      val lang: Language = if (language.language == "zh-CN") Language.Chinese
+      val lang: Language = if (language.language.startsWith("zh")) Language.Chinese
       else Language.English
 
       NotificationService.getNotifications(lang) map {
