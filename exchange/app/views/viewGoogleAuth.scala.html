@@ -4,8 +4,7 @@
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined}
 <section class="header-3-sub">
     <div class="row" >
-        @if(!isSetGoogleAuth()) {
-        <div class="col-md-12">
+        <div class="col-md-12" ng-hide="@isSetGoogleAuth()">
             <h3>@Messages("accountsettings.googleAuth")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.hint")</br>
                 @Messages("accountsettings.googleauth.followsteps")
@@ -40,16 +39,17 @@
                 </table>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <h5>@Messages("accountsettings.googleAuth.stepTwo"): </h5>
                 <h5>@Messages("accountsettings.googleAuth.stepTwoGuide")</h5>
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <label>@Messages("accountsettings.googleAuth.scanQRcode")</label>
                 </div>
-                 <div class="col-md-10">
-                     <img style="margin-left: 20px; margin-bottom: 20px" src="{{authUrl}}">
+                 <div class="col-md-12">
+                     <!--<img style="margin-left: 20px; margin-bottom: 20px" src="{{authUrl}}">-->
+                     <div id="qrcode" style="width:200px; height:200px; margin-top:20px; margin-left: 50px; margin-bottom: 20px"></div>
                  </div>
-                 <div class="col-md-10">
+                 <div class="col-md-12">
                      <label>@Messages("accountsettings.googleAuth.inputSecret")
                             <span style="color:#000000;"> {{secret}}</span></label>
                  </div>
@@ -87,8 +87,8 @@
                 </div>
             </div>
         </div>
-        } else {
-        <div class="col-md-12">
+
+        <div class="col-md-12" ng-show="@isSetGoogleAuth()">
             <h3>@Messages("accountsettings.googleauth.unbind")</h3>
             <alert type="success">@Messages("accountsettings.googleauth.unbindHint")</alert>
             <div class="form-horizontal">
@@ -117,6 +117,6 @@
                 </div>
             </div>
         </div>
-        }
+
     </div>
 </section>
