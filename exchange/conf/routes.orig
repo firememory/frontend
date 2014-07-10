@@ -53,6 +53,10 @@ GET     /depoaddr/*uid                      controllers.UserController.getBatchD
 GET     /withaddr/*currency/*uid            controllers.UserController.getWithdrawalAddress(currency, uid)
 POST    /withaddr/*currency/*uid/*addr      controllers.UserController.setWithdrawalAddress(currency, uid, addr)
 
+<<<<<<< HEAD
+=======
+GET     /googleauth/generate/*uid        controllers.UserController.generateGoogleAuth(uid)
+>>>>>>> add setUserSecurityPreference
 GET     /googleauth/get                  controllers.UserController.getGoogleAuth()
 POST    /googleauth/bind/                controllers.UserController.bindGoogleAuth()
 POST    /googleauth/unbind/              controllers.UserController.unbindGoogleAuth()

@@ -54,7 +54,8 @@ object UserController extends Controller with Json4s with AccessLogging {
                   Constant.cookieNameMobileVerified -> succeeded.mobile.isDefined.toString,
                   Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
                   Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
-                  Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse("")
+                  Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
+			      Constant.securityPreference -> succeeded.googleSecret.getOrElse("")
                 )
               case _ =>
                 Ok(result.toJson)
@@ -180,9 +181,9 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def forgetPassword = Action {
+  def forgetPassword  = Action {
     implicit request =>
-      Ok(views.html.forgetPassword.render(request.session, langFromRequestCookie(request)))
+    Ok(views.html.forgetPassword.render(request.session, langFromRequestCookie(request)))
   }
 
   def requestPasswordReset(email: String) = Action.async {
@@ -335,6 +336,52 @@ object UserController extends Controller with Json4s with AccessLogging {
         result =>
           if (result.success) {
             val newSession = request.session - Constant.cookieGoogleAuthSecret
+            Ok(result.toJson()).withSession(newSession)
+          } else Ok(result.toJson())
+      }
+  }
+
+  def setPreferencePhone = Action.async(parse.urlFormEncoded) {
+    implicit request =>
+      val data = request.body
+      val uuid = getParam(data, "uuid").getOrElse("")
+      val userId = request.session.get("uid").getOrElse("")
+      val phoneCode = getParam(data, "phonecode").getOrElse("")
+      val preference = request.session.get(Constant.securityPreference).getOrElse("1")
+
+      val prefer = "1" + preference.last
+
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, phoneCode)
+      ) {
+        UserService.setUserSecurityPreference(userId.toLong, prefer)
+      } map {
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.securityPreference -> prefer)
+            Ok(result.toJson()).withSession(newSession)
+          } else Ok(result.toJson())
+      }
+  }
+
+  def setPreferenceEmail = Action.async(parse.urlFormEncoded) {
+    implicit request =>
+      val data = request.body
+      val uuid = getParam(data, "uuid").getOrElse("")
+      val userId = request.session.get("uid").getOrElse("")
+      val emailCode = getParam(data, "emailcode").getOrElse("")
+      val preference = request.session.get(Constant.securityPreference).getOrElse("1")
+
+      val prefer = preference.head + "1"
+
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode)
+      ) {
+        UserService.setUserSecurityPreference(userId.toLong, prefer)
+      } map {
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.securityPreference -> prefer)
             Ok(result.toJson()).withSession(newSession)
           } else Ok(result.toJson())
       }

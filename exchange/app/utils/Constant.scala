@@ -13,6 +13,7 @@ object Constant {
   val cookieNameMobileVerified = "COINPORT_COOKIE_MOBILE_VERIFIED"
   val cookieNameRealName = "COINPORT_COOKIE_REAL_NAME"
   val cookieGoogleAuthSecret = "CP_GAS"
+  val securityPreference = "CP_SP"
 
   def markets = {
     config.getList("exchange.markets").get.unwrapped()
