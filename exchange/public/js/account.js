@@ -826,7 +826,6 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     // ];
     // $scope.credentialType = $scope.credentialItems[0];
 
-    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
 
     angular.element(document).ready( function () {
         $('form select.bfh-countries, span.bfh-countries, div.bfh-countries').each(function () {
@@ -846,6 +845,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
     });
 
+//========================== bind/modify mobile phone number ==================
 //---------------------------- button timer --------------------------
     var stop;
     $scope.isTiming = false;
@@ -866,7 +866,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             }
             else {
                 $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getEmailVerificationCode;
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
                 $scope.isTiming = false;
             }
         }, 1000);
@@ -879,36 +879,126 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         }
         $scope.isTiming = false;
         $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getEmailVerificationCode;
+        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
     };
 
     $scope.$on('destroy', function () {
         $scope.stopTiming();
     });
 
+    var stop2;
+    $scope.isTiming2 = false;
+
+    $scope.disableButton2 = function () {
+        if (angular.isDefined(stop2)) {
+            $scope.isTiming2 = true;
+            return;
+        }
+
+        $scope.seconds = 120;
+
+        stop2 = $interval(function () {
+            if ($scope.seconds > 0) {
+                $scope.seconds = $scope.seconds - 1;
+                $scope.verifyButton2 = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTiming2 = true;
+            }
+            else {
+                $scope.stopTiming2();
+                $scope.verifyButton2 = Messages.account.getVerifyCodeButtonText;
+                $scope.isTiming2 = false;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTiming2 = function () {
+        if (angular.isDefined(stop2)) {
+            $interval.cancel(stop2);
+            stop2 = undefined;
+        }
+        $scope.isTiming2 = false;
+        $scope.seconds = 0;
+        $scope.verifyButton2 = Messages.account.getVerifyCodeButtonText;
+    };
+
+    $scope.$on('destroy', function () {
+        $scope.stopTiming2();
+    });
+
     //$scope.disableButton();
+    $scope.bindMobile = {};
 // ---------------------- send verification sms -----------------------
     $scope.sendVerifySms = function () {
-        $scope.showUpdateAccountError = false;
+        $scope.showBindMobileError = false;
         $scope.disableButton();
 
         $http.post('/smsverification', $.param({phoneNumber: $scope.account.mobile}))
             .success(function (data, status, headers, config) {
                 console.log("send sms result: ", data)
                 if (data.success) {
-                    $scope.account.verifyCodeUuid = data.data;
+                    $scope.bindMobile.verifyCodeUuid = data.data;
                     //console.log('data = ' + data.data);
                     //console.log('uuid = ' + $scope.account.verifyCodeUuid);
                 } else {
-                    $scope.showUpdateAccountError = true;
+                    $scope.showBindMobileError = true;
                     var smsErrorMsg = Messages.getMessage(data.code, data.message);
-                    $scope.updateAccountErrorMessage = smsErrorMsg;
+                    $scope.bindMobileError = smsErrorMsg;
                     if (data.code == 9009) {
                         $scope.stopTiming();
                     }
                 }
             });
     };
+
+    $scope.sendVerifySms2 = function () {
+        $scope.showBindMobileError = false;
+        $scope.disableButton2();
+
+        $http.get('/smsverification2')
+            .success(function (data, status, headers, config) {
+                console.log('data in withdrawal: ', data);
+                if (data.success) {
+                    $scope.bindMobile.verifyCodeUuidOld = data.data;
+                } else {
+                    $scope.stopTiming2();
+                    $scope.showBindMobileError = true;
+                    $scope.bindMobileError = Messages.getMessage(data.code, data.message)
+                    if (data.code == 9009) {
+                        $scope.stopTiming2();
+                    }
+                }
+            });
+    };
+
+// ----------------------- bindMobile ---------------------
+    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    $scope.verifyButton2 = Messages.account.getVerifyCodeButtonText;
+
+    $scope.gotoMobileBind = function() {
+        $scope.showMainDiv = false;
+        $scope.showBindMobileDiv = true;
+        $scope.showBindMobileError = false;
+        $scope.bindMobile = {};
+        $scope.bindMobileForm.$setPristine(true);
+    };
+
+    $scope.doBindMobile = function() {
+        $scope.showBindMobileError = false;
+        $http.post('/account/bindMobile', $.param($scope.account))
+            .success(function (data, status, headers, config) {
+                if (data.success) {
+                    $scope.showBindMobileError = true;
+                    $scope.bindMobileError = Messages.account.updateAccountProfileSucceeded;
+                    $window.location.href = '/account#/accountsettings';
+                    $window.location.reload();
+                } else {
+                    $scope.showBindMobileError = true;
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.bindMobileError = errorMsg;
+                }
+            });
+    };
+//========================== bind/modify mobile phone number end ==================
 
 // --------------------- updateaccountsettings ----------------
     $scope.updateAccountSettings = function () {

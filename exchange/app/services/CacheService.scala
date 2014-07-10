@@ -7,7 +7,7 @@ import com.typesafe.config.ConfigFactory
 import com.redis._
 
 trait CacheService {
-  val defaultTimeoutSecs: Int = 24 * 3600  // 24 hours.
+  val defaultTimeoutSecs: Int = 30 * 60  // 30 minutes.
 
   def maximumSize: Int
   def put(key: String, value: String) = putWithTimeout(key, value, defaultTimeoutSecs)

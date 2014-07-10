@@ -1,0 +1,64 @@
+@()(implicit session: Session, lang: Lang)
+@import utils.Constant
+
+<section class="header-3-sub">
+    <div class="row" ng-show="showBindMobileDiv" ng-init="showBindMobileDiv = false;">
+    <div class="col-md-12">
+        <h3>@Messages("accountsettings.bindmobile.title")</h3>
+        <br/>
+        <div class="account-settings">
+            <form class="form-horizontal" name="bindMobileForm">
+                @if(session.get(Constant.cookieNameMobile).getOrElse("").trim.nonEmpty) {
+                <div class="form-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.bindmobile.old")</label>
+                    <div class="col-sm-4">
+                        <input name="verifyCode2" class="form-control" placeholder="@Messages("accountsettings.bindmobile.old")" ng-model="bindMobile.verifyCodeOld" min-length="5" required="">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms2()" ng-disabled="isTiming2" ng-bind="verifyButton2"> </button>
+                    </div>
+                </div>
+                }
+                <div class="form-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.country")</label>
+                    <div class="col-sm-4">
+                        <select name="country" id="countries_phone1" class="form-control bfh-countries" data-country="CN" data-flags="false"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.mobile")</label>
+                    <div class="col-sm-4">
+                        <input name="mobile" id="mobile" type="text" class="form-control bfh-phone" data-country="countries_phone1" ng-model="bindMobile.mobile" ng-minlength="9" required="">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">@Messages("accountsettings.smsVerifyCode")</label>
+                    <div class="col-sm-4">
+                        <input name="verifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="bindMobile.verifyCode" min-length="5" required="">
+                    </div>
+                </div>
+
+                <div class="row" style="height: 40px;">
+                    <div class="alert-danger col-sm-offset-2 col-sm-6" ng-show="showBindMobileError" ng-bind="bindMobileError"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-offset-2 col-sm-2">
+                <button class="btn btn-block btn-success btn-account-settings" ng-click="doBindMobile()" ng-disabled="!accountSettingsForm.$valid"><i class="glyphicon glyphicon-ok"></i>@Messages("accountsettings.submit")</button>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-block btn-success btn-account-settings" ng-click="showBindMobileDiv = false; showMainDiv = true;"><i class="glyphicon glyphicon-remove"></i>@Messages("accountsettings.cancel")</Button>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

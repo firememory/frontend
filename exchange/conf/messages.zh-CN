@@ -218,12 +218,19 @@ accountsettings.sec.doubleAuthInfoSet=双重验证已设置
 accountsettings.sec.doubleauth.modify=修改
 accountsettings.sec.btn.change=修改
 accountsettings.sec.btn.set=设置
+accountsettings.sec.btn.modify=修改
+accountsettings.sec.mobile=手机绑定
+accountsettings.sec.mobileSetHint=您绑定的手机：
+accountsettings.sec.mobileNotSetHint=您尚未绑定手机
 
 accountsettings.changepwd.title=修改密码
 accountsettings.changepwd.currPwd=当前密码
 accountsettings.changepwd.newPwd=新密码
 accountsettings.changepwd.repeat=确认新密码
 accountsettings.changepwd.oldpwd.required=请输入当前密码
+
+accountsettings.bindmobile.title=手机绑定
+accountsettings.bindmobile.old=旧手机验证码
 
 accountsettings.view.title=设置
 accountsettings.view.thead.item=配置项
