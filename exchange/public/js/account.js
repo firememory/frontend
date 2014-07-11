@@ -337,7 +337,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         _stop = $interval(function () {
             if ($scope.secondsSms > 0) {
                 $scope.secondsSms = $scope.secondsSms - 1;
-                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonTextPrefix + $scope.secondsSms + Messages.account.getVerifyCodeButtonTextTail;
                 $scope.isTimingSms = true;
             }
             else {
