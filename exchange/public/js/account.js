@@ -999,11 +999,96 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             });
     };
 
-//------------------- change email security preference ----------------
+
+    var ModalInstanceCtrlMobile = function ($scope, $modalInstance, mobileStatus) {
+        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+        $scope.showChangeMobileSecPreferError = false;
+        var stop;
+        $scope.isTiming = false;
+
+        $scope.disableButton = function () {
+            if (angular.isDefined(stop)) {
+                $scope.isTiming = true;
+                return;
+            }
+
+            $scope.seconds = 120;
+
+            stop = $interval(function () {
+                if ($scope.seconds > 0) {
+                    $scope.seconds = $scope.seconds - 1;
+                    $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                    $scope.isTiming = true;
+                }
+                else {
+                    $scope.stopTiming();
+                    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+                    $scope.isTiming = false;
+                }
+            }, 1000);
+        };
+
+        $scope.stopTiming = function () {
+            if (angular.isDefined(stop)) {
+                $interval.cancel(stop);
+                stop = undefined;
+            }
+            $scope.isTiming = false;
+            $scope.seconds = 0;
+            $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+        };
+
+        $scope.$on('destroy', function () {
+            $scope.stopTiming();
+        });
+
+        $scope.sendVerifySms = function () {
+            $scope.showChangeMobileSecPreferError = false;
+            $scope.disableButton();
+
+            $http.get('/smsverification2')
+                .success(function (data, status, headers, config) {
+                    $scope.showChangeMobileSecPreferError = true;
+                    console.log("send sms result: ", data)
+                    if (data.success) {
+                        $scope.verifyCodeUuidMobile = data.data;
+                        //console.log('data = ' + data.data);
+                        //console.log('uuid = ' + $scope.account.verifyCodeUuid);
+                    } else {
+                        var smsErrorMsg = Messages.getMessage(data.code, data.message);
+                        $scope.changeMobileSecPreferError = smsErrorMsg;
+                        if (data.code == 9009) {
+                            $scope.stopTiming();
+                        }
+                    }
+                });
+        };
+
+        $scope.ok = function () {
+            $http.post('/preference/phone', $.param({'uuid': $scope.verifyCodeUuidMobile, 'phonecode': $scope.changeSecPreferMobileCode, 'phoneprefer': mobileStatus}))
+                .success(function (data, status, headers, config) {
+                    $scope.showChangeMobileSecPreferError = true;
+                    if (data.success) {
+                        $scope.changeMobileSecPreferError = Messages.account.changMobileSecPreferSucceeded;
+                        $modalInstance.close();
+                    } else {
+                        var errorMsg = Messages.getMessage(data.code, data.message);
+                        $scope.changeMobileSecPreferError = errorMsg;
+                    }
+                });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
 
     var ModalInstanceCtrlEmail = function ($scope, $modalInstance, emailStatus) {
         $scope.showChangeEmailSecPreferError = false;
         $scope.verifyButton = Messages.account.getEmailVerificationCode;
+        $scope.emailStatus = emailStatus;
+        $scope.changeSecPrefer = {};
+
         var _stop;
         $scope.isTiming = false;
 
@@ -1060,7 +1145,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         };
 
         $scope.ok = function () {
-            $http.post('/preference/email', $.param({'uuid': $scope.verifyCodeUuidEmail, 'emailcode': $scope.changeSecPreferEmailCode}))
+            console.debug('params', $scope.verifyCodeUuidEmail, $scope.changeSecPrefer.emailCode);
+            $http.post('/preference/email', $.param({'uuid': $scope.verifyCodeUuidEmail, 'emailcode': $scope.changeSecPrefer.emailCode, 'emailprefer': $scope.emailStatus}))
                 .success(function (data, status, headers, config) {
                     $scope.showChangeEmailSecPreferError = true;
                     if (data.success) {
@@ -1096,7 +1182,26 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         }, function () {
             console.info('Modal dismissed at: ' + new Date());
         });
+    };
 
+    $scope.changeMobileSecPrefer = function(size) {
+        var modalInstance = $modal.open({
+            templateUrl: 'ModalContentMobileVer.html',
+            controller: ModalInstanceCtrlMobile,
+            size: size,
+            resolve: {
+                mobileStatus: function() {
+                if ($scope.mobileVerOn) return "1";
+                else return "0";
+                }
+            }
+        });
+
+        modalInstance.result.then(function (setRes) {
+            $scope.mobileVerOn = ! $scope.mobileVerOn;
+        }, function () {
+            console.info('Modal dismissed at: ' + new Date());
+        });
     };
 
 //========================== bind/modify mobile phone number end ==================
@@ -1155,6 +1260,16 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     };
 
 });
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//------------------- change email security preference ----------------
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;

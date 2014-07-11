@@ -223,6 +223,11 @@ accountsettings.sec.mobile=手机绑定
 accountsettings.sec.mobileSetHint=您绑定的手机：
 accountsettings.sec.mobileNotSetHint=您尚未绑定手机
 
+accountsettings.sec.modal.email.title=修改邮箱验证设置
+accountsettings.sec.modal.mobile.title=修改手机短信验证设置
+accountsettings.sec.modal.ok=确定
+accountsettings.sec.modal.cancel=取消
+
 accountsettings.changepwd.title=修改密码
 accountsettings.changepwd.currPwd=当前密码
 accountsettings.changepwd.newPwd=新密码

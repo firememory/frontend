@@ -55,7 +55,7 @@ object UserController extends Controller with Json4s with AccessLogging {
                   Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
                   Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
                   Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
-			            Constant.securityPreference -> succeeded.googleSecret.getOrElse("01")
+                        Constant.securityPreference -> succeeded.googleSecret.getOrElse("01")
                 )
               case _ =>
                 Ok(result.toJson)
@@ -182,15 +182,20 @@ object UserController extends Controller with Json4s with AccessLogging {
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
 
     logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
-    val validators = if (oldMobile != null && oldMobile.trim.nonEmpty)
-      Seq(new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuidOld, verifyCodeOld),
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuidOld, verifyCodeOld),
-        new StringNonemptyValidator(userId, email, newMobile))
-    else
-      Seq(new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
-        new StringNonemptyValidator(userId, email, newMobile))
+    // val validators = if (oldMobile != null && oldMobile.trim.nonEmpty)
+    //   Seq[Validator](new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuidOld, verifyCodeOld),
+    //     new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuidOld, verifyCodeOld),
+    //     new StringNonemptyValidator(userId, email, newMobile))
+    // else
+    //   Seq[Validator](new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
+    //     new StringNonemptyValidator(userId, email, newMobile))
 
-    validateParamsAndThen( validators: _* ) {
+    val needCheckOld = oldMobile.trim.nonEmpty
+    validateParamsAndThen(
+      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, needCheckOld, uuidOld, verifyCodeOld),
+      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
+      new StringNonemptyValidator(userId, email, newMobile)
+    ) {
       UserService.bindOrUpdateMobile(email, newMobile)
     } map {
       updateRes =>
@@ -380,6 +385,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val phoneCode = getParam(data, "phonecode").getOrElse("")
       val preference = request.session.get(Constant.securityPreference).getOrElse("01")
       val phonePrefer = getParam(data, "phoneprefer").getOrElse("1")
+      logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, preference: $preference")
 
       val prefer = phonePrefer + preference.last
 
@@ -404,6 +410,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val emailCode = getParam(data, "emailcode").getOrElse("")
       val preference = request.session.get(Constant.securityPreference).getOrElse("01")
       val emailPrefer = getParam(data, "emailprefer").getOrElse("1")
+      logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, preference: $preference")
 
       val prefer = preference.head + emailPrefer
 
