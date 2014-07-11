@@ -245,7 +245,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                     var withdrawal = data.data.transfer;
                     alert(Messages.transfer.messages['ok']);
                 } else {
-                    alert(Messages.ErrorMessages['m' + data.code]);
+                    alert(Messages.getMessage(data.code));
                 }
                 setTimeout($scope.loadWithdrawals, 1000);
             });
