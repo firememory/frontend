@@ -13,6 +13,7 @@ trait CacheService {
   def put(key: String, value: String) = putWithTimeout(key, value, defaultTimeoutSecs)
   def putWithTimeout(key: String, value: String, timeoutSecs: Int): Unit
   def get(key: String): String // return null if not present
+  def pop(key: String): String
 }
 
 object CacheService {
@@ -41,6 +42,11 @@ object GoogleGuavaCacheService extends CacheService {
   def putWithTimeout(key: String, value: String, timeoutSecs: Int): Unit = cache.put(key, value)
 
   def get(key: String): String = cache.getIfPresent(key)
+  def pop(key: String): String = {
+    val value = cache.getIfPresent(key)
+    cache.put(key, null)
+    value
+  }
 }
 
 object RedisCacheService extends CacheService {
@@ -60,4 +66,12 @@ object RedisCacheService extends CacheService {
     case Some(value) => value
     case _ => null
   }
+
+  def pop(key: String): String = redisClient.get(key) match {
+    case Some(value) =>
+      put(key, null)
+      value
+    case _ => null
+  }
+
 }

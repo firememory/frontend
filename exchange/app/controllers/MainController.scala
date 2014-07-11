@@ -54,7 +54,7 @@ object MainController extends Controller with Json4s {
       Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
   }
 
-  def account() = Authenticated {
+  def account() = AuthenticatedOrRedirect {
     implicit request =>
     Ok(views.html.account.render(request.session, langFromRequestCookie(request)))
   }

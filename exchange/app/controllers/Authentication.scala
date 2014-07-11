@@ -74,3 +74,53 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
     }
   }
 }
+
+
+object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
+
+  private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
+    UserService.getProfile(uid) flatMap {
+      result =>
+      if (result.success) {
+        val user = result.data.get.asInstanceOf[User]
+        if (user.status == UserStatus.Suspended) {
+          val redirectUri = "/login?msg=authenticateUserSuspended"
+          responseOnRequestHeader(request, redirectUri)
+          // TODO notify user for account been suspended.
+        } else {
+          block(request).map(_.withCookies(
+            Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
+        }
+      } else {
+        val redirectUri = "/login?msg=authenticateNotLogin"
+        responseOnRequestHeader(request, redirectUri)
+      }
+    }
+  }
+
+  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
+    // check login and session timeout here:
+    request.session.get("uid").map { uid =>
+      val currTs = System.currentTimeMillis
+      request.cookies.get(cookieNameTimestamp).map {
+        tsCookie =>
+        logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        val ts = tsCookie.value.toLong
+        if (currTs - ts > timeoutMillis) {
+          val redirectUri = "/login?msg=authenticateTimeout"
+          responseOnRequestHeader(request, redirectUri)
+          //Future(Unauthorized)
+        } else {
+          checkUserSuspended(uid.toLong, request, block)
+        }
+      } getOrElse {
+        block(request).map(_.withCookies(
+          Cookie(cookieNameTimestamp, currTs.toString)))
+      }
+    } getOrElse {
+      val redirectUri = "/login?msg=authenticateNotLogin"
+      responseOnRequestHeader(request, redirectUri)
+      //Future(Unauthorized)
+    }
+  }
+}

@@ -154,6 +154,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
+                    $scope.withdrawalData = {};
                     alert(Messages.transfer.withdrawalSuccess + withdrawal.amount / 100 + Messages.cny);
                 } else {
                     alert(data.message);
@@ -243,6 +244,9 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             .success(function (data, status, headers, config) {
                 if (data.success) {
                     var withdrawal = data.data.transfer;
+                    var wd_address = $scope.withdrawalData.address;
+                    $scope.withdrawalData = {};
+                    $scope.withdrawalData.address = wd_address;
                     alert(Messages.transfer.messages['ok']);
                 } else {
                     alert(Messages.getMessage(data.code));

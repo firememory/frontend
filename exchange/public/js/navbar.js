@@ -41,7 +41,7 @@ app.directive("repeatInput", function() {
   };
 });
 
-//app.factory('myHttpInterceptor', function ($q) {
+// app.factory('myHttpInterceptor', function ($q) {
 //    return {
 //        response: function (response) {
 //            return response;
@@ -49,19 +49,27 @@ app.directive("repeatInput", function() {
 //        responseError: function (response) {
 //            // do something on error
 //            console.debug("*************** response: ", response.status);
-//            if (response.status == 500 ) {
-//                location.href = '/onServerError';
-//                return;
-//            } else if (response.status == 404 ) {
-//                location.href = '/onServerError';
+//            // if (response.status == 500 ) {
+//            //     location.href = '/onServerError';
+//            //     return;
+//            // } else if (response.status == 404 ) {
+//            //     location.href = '/onServerError';
+//            //     return;
+//            // } else {
+//            //     return $q.reject(response);
+//            // }
+
+//            if (response.status == 401 ) {
+//                location.href = '/login';
 //                return;
 //            } else {
-//                return $q.reject(response);
+//                return response;
 //            }
+
 //        }
 //    };
-//});
-//
-//app.config(function ($httpProvider) {
+// });
+
+// app.config(function ($httpProvider) {
 //    $httpProvider.interceptors.push('myHttpInterceptor');
-//});
+// });

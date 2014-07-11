@@ -33,6 +33,7 @@ market=Market
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Your session has timed out, please log in again.
+authenticateUserSuspended=Your account has been suspended. please contact with coinport custom service
 
 nav.brand=coinport
 nav.home=Home
