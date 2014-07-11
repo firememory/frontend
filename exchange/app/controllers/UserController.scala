@@ -55,7 +55,7 @@ object UserController extends Controller with Json4s with AccessLogging {
                   Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
                   Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
                   Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
-			      Constant.securityPreference -> succeeded.googleSecret.getOrElse("")
+			            Constant.securityPreference -> succeeded.googleSecret.getOrElse("01")
                 )
               case _ =>
                 Ok(result.toJson)
@@ -147,7 +147,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val verifyCode = getParam(data, "verifyCode").getOrElse("")
       logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, verifyCode),
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
         new StringNonemptyValidator(userId, email, realName, mobile)
       ) {
         val uid = userId.toLong
@@ -347,12 +347,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       val uuid = getParam(data, "uuid").getOrElse("")
       val userId = request.session.get("uid").getOrElse("")
       val phoneCode = getParam(data, "phonecode").getOrElse("")
-      val preference = request.session.get(Constant.securityPreference).getOrElse("1")
+      val preference = request.session.get(Constant.securityPreference).getOrElse("01")
 
       val prefer = "1" + preference.last
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, uuid, phoneCode)
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)
       ) {
         UserService.setUserSecurityPreference(userId.toLong, prefer)
       } map {
@@ -370,12 +370,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       val uuid = getParam(data, "uuid").getOrElse("")
       val userId = request.session.get("uid").getOrElse("")
       val emailCode = getParam(data, "emailcode").getOrElse("")
-      val preference = request.session.get(Constant.securityPreference).getOrElse("1")
+      val preference = request.session.get(Constant.securityPreference).getOrElse("01")
 
       val prefer = preference.head + "1"
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode)
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
       ) {
         UserService.setUserSecurityPreference(userId.toLong, prefer)
       } map {

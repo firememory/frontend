@@ -133,13 +133,20 @@ object ApiController extends Controller with Json4s {
       val username = request.session.get("username").getOrElse(null)
       val uid = request.session.get("uid").getOrElse(null)
       val googleSecret = request.session.get(Constant.cookieGoogleAuthSecret).getOrElse("")
+      val preference = request.session.get(Constant.securityPreference).getOrElse("01")
 
-      val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+      val phoneUuid = getParam(data, "phoneuuid").getOrElse("")
+      val phoneCode = getParam(data, "phonecode").getOrElse("")
+      val emailUuid = getParam(data, "emailuuid").getOrElse("")
       val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
 
+      val checkEmail = preference.last == "1"
+      val checkPhone = preference.head == "1"
+
       validateParamsAndThen(
-          new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
+          new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, checkEmail, emailUuid, emailCode),
+          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, checkPhone, phoneUuid, phoneCode),
           new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode),
           new StringNonemptyValidator(username, uid))
       {

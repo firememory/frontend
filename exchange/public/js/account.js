@@ -217,17 +217,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-    $http.get('/googleauth/get')
-        .success(function(data, status, headers, config) {
-            if (data.success) {
-                if(data.data) {
-                    $scope.showGoogleAuth = true;
-                } else {
-                    $scope.showGoogleAuth = false;
-                }
-            }
-        });
-
     $scope.page = 1;
     $scope.limit = 25;
     $scope.loadWithdrawals = function () {
@@ -247,11 +236,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         }
         if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
             alert(Messages.transfer.messages['invalidAddress']);
-            return;
-        }
-
-        if (!$scope.withdrawalData.emailcode || $scope.withdrawalData.emailcode == '') {
-            alert(Messages.transfer.messages['invalidEmailCode']);
             return;
         }
 
@@ -278,56 +262,114 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         $location.path('/withdrawal/' + $scope.currency);
     };
 
-    // sms verification code and button timer:
+    // email verification code and button timer:
     $scope.showWithdrawalError = false;
-    $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
     var _stop;
-    $scope.isTiming = false;
+    $scope.isTimingEmail = false;
 
-    $scope.disableButton = function () {
+    $scope.disableButtonEmail = function () {
         if (angular.isDefined(_stop)) {
-            $scope.isTiming = true;
+            $scope.isTimingEmail = true;
             return;
         }
 
-        $scope.seconds = 120;
+        $scope.secondsEmail = 120;
 
         _stop = $interval(function () {
-            if ($scope.seconds > 0) {
-                $scope.seconds = $scope.seconds - 1;
-                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
-                $scope.isTiming = true;
+            if ($scope.secondsEmail > 0) {
+                $scope.secondsEmail = $scope.secondsEmail - 1;
+                $scope.verifyButtonEmail = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTimingEmail = true;
             }
             else {
-                $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getEmailVerificationCode;
+                $scope.stopTimingEmail();
+                $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
             }
         }, 1000);
     };
 
-    $scope.stopTiming = function () {
+    $scope.stopTimingEmail = function () {
         if (angular.isDefined(_stop)) {
             $interval.cancel(_stop);
             _stop = undefined;
         }
-        $scope.isTiming = false;
-        $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getEmailVerificationCode;
+        $scope.isTimingEmail = false;
+        $scope.secondsEmail = 0;
+        $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
     };
 
     $scope.$on('destroy', function () {
-        $scope.stopTiming();
+        $scope.stopTimingEmail();
     });
 
     $scope.sendVerifyEmail = function () {
         $scope.showWithdrawalError = false;
-        $scope.disableButton();
+        $scope.disableButtonEmail();
 
         $http.get('/emailverification')
             .success(function (data, status, headers, config) {
                 console.log('data in withdrawal: ', data);
                 if (data.success) {
-                    $scope.withdrawalData.verifyCodeUuid = data.data;
+                    $scope.withdrawalData.emailcode = data.data;
+                } else {
+                    $scope.stopTiming();
+                    $scope.showWithdrawalError = true;
+                    $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
+                }
+            });
+    };
+
+    // sms verification code and button timer:
+    $scope.showWithdrawalError = false;
+    $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
+    var _stop;
+    $scope.isTimingSms = false;
+
+    $scope.disableButtonSms = function () {
+        if (angular.isDefined(_stop)) {
+            $scope.isTimingSms = true;
+            return;
+        }
+
+        $scope.secondsSms = 120;
+
+        _stop = $interval(function () {
+            if ($scope.secondsSms > 0) {
+                $scope.secondsSms = $scope.secondsSms - 1;
+                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTimingSms = true;
+            }
+            else {
+                $scope.stopTimingSms();
+                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTimingSms = function () {
+        if (angular.isDefined(_stop)) {
+            $interval.cancel(_stop);
+            _stop = undefined;
+        }
+        $scope.isTimingSms = false;
+        $scope.secondsSms = 0;
+        $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
+    };
+
+    $scope.$on('destroy', function () {
+        $scope.stopTimingSms();
+    });
+
+    $scope.sendVerifySms = function () {
+        $scope.showWithdrawalError = false;
+        $scope.disableButtonSms();
+
+        $http.get('/smsverification')
+            .success(function (data, status, headers, config) {
+                console.log('data in withdrawal: ', data);
+                if (data.success) {
+                    $scope.withdrawalData.phonecode = data.data;
                 } else {
                     $scope.stopTiming();
                     $scope.showWithdrawalError = true;

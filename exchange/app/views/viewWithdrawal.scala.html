@@ -1,6 +1,10 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
 
+@isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
+@isSetEmailPreference() = @{session.get(securityPreference).get.last == "1"}
+@isSetPhonePreference() = @{session.get(securityPreference).get.head == "1"}
+
 <div class="row">
     <h6>
         <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
@@ -35,16 +39,25 @@
                 <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="@isSetEmailPreference()" >
             <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))</label>
             <div class="col-sm-6">
-                <input name="emailVerCode" class="form-control" placeholder='@Messages("accountsettings.emailVerifyCode")' ng-model="withdrawalData.emailcode">
+                <input name="emailVerCode" class="form-control" ng-model="withdrawalData.emailcode">
             </div>
             <div class="col-sm-3">
-                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail" ng-bind="verifyButtonEmail"> </button>
             </div>
         </div>
-        <div class="form-group" ng-show="showGoogleAuth">
+        <div class="form-group" ng-show="@isSetPhonePreference()" >
+            <label class="control-label col-sm-3"> @(Messages("accountsettings.smsVerifyCode"))</label>
+            <div class="col-sm-6">
+                <input name="PhoneVerCode" class="form-control" ng-model="withdrawalData.phonecode">
+            </div>
+            <div class="col-sm-3">
+                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifySms()" ng-disabled="isTimingSms" ng-bind="verifyButtonSms"> </button>
+            </div>
+        </div>
+        <div class="form-group" ng-show="@isSetGoogleAuth()">
             <label class="control-label col-sm-3"> @(Messages("accountsettings.googleAuth"))</label>
             <div class="col-sm-6">
                 <input name="googleVerCode" class="form-control" placeholder='@Messages("accountsettings.googleAuth")' ng-model="withdrawalData.googlecode">

@@ -47,15 +47,18 @@ abstract class GeneralValidator[T](params: T*) extends Validator {
     }
 }
 
-class CachedValueValidator(error: ErrorCode, uuid: String, value: String) extends Validator {
+class CachedValueValidator(error: ErrorCode, check: Boolean, uuid: String, value: String) extends Validator {
   val cacheService = CacheService.getDefaultServiceImpl
   val result = ApiResult(false, error.value, error.toString)
 
   def validate = {
-    if (uuid == null || uuid.trim.isEmpty || value == null || value.trim.isEmpty) Left(result) else {
-      val cachedValue = cacheService.get(uuid)
-      logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
-      if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+    if (!check) Right(true)
+    else {
+      if (uuid == null || uuid.trim.isEmpty || value == null || value.trim.isEmpty) Left(result) else {
+        val cachedValue = cacheService.get(uuid)
+        logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
+        if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
+      }
     }
   }
 }
