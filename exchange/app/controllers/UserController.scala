@@ -55,7 +55,7 @@ object UserController extends Controller with Json4s with AccessLogging {
                   Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
                   Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
                   Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
-                        Constant.securityPreference -> succeeded.googleSecret.getOrElse("01")
+                  Constant.securityPreference -> succeeded.perference.getOrElse("01")
                 )
               case _ =>
                 Ok(result.toJson)
