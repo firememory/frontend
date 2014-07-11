@@ -1003,6 +1003,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     var ModalInstanceCtrlMobile = function ($scope, $modalInstance, mobileStatus) {
         $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
         $scope.showChangeMobileSecPreferError = false;
+        $scope.changeMobileSec = {};
+
         var stop;
         $scope.isTiming = false;
 
@@ -1065,7 +1067,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         };
 
         $scope.ok = function () {
-            $http.post('/preference/phone', $.param({'uuid': $scope.verifyCodeUuidMobile, 'phonecode': $scope.changeSecPreferMobileCode, 'phoneprefer': mobileStatus}))
+            console.debug("params: ", $scope.verifyCodeUuidMobile, $scope.changeMobileSec.verifycode, mobileStatus);
+            $http.post('/preference/phone', $.param({'uuid': $scope.verifyCodeUuidMobile, 'phonecode': $scope.changeMobileSec.verifycode, 'phoneprefer': mobileStatus}))
                 .success(function (data, status, headers, config) {
                     $scope.showChangeMobileSecPreferError = true;
                     if (data.success) {
@@ -1171,14 +1174,17 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             size: size,
             resolve: {
                 emailStatus: function() {
-                if ($scope.emailVerOn) return "1";
-                else return "0";
+                if ($scope.emailVerOn) return "0";
+                else return "1";
                 }
             }
         });
 
         modalInstance.result.then(function (setRes) {
-            $scope.emailVerOn = ! $scope.emailVerOn;
+            $window.location.href = '/account#/accountsettings';
+            $window.location.reload();
+
+            //$scope.emailVerOn = ! $scope.emailVerOn;
         }, function () {
             console.info('Modal dismissed at: ' + new Date());
         });
@@ -1191,14 +1197,17 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             size: size,
             resolve: {
                 mobileStatus: function() {
-                if ($scope.mobileVerOn) return "1";
-                else return "0";
+                if ($scope.mobileVerOn) return "0";
+                else return "1";
                 }
             }
         });
 
         modalInstance.result.then(function (setRes) {
-            $scope.mobileVerOn = ! $scope.mobileVerOn;
+            $window.location.href = '/account#/accountsettings';
+            $window.location.reload();
+
+            //$scope.mobileVerOn = ! $scope.mobileVerOn;
         }, function () {
             console.info('Modal dismissed at: ' + new Date());
         });

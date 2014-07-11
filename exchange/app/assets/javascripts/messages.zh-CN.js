@@ -78,7 +78,8 @@ Messages.account = {
   changePwdSucceeded: '修改登录密码成功！',
   getEmailVerificationCode: '获取邮件验证码',
   bindMobileSucceeded: '绑定手机号码成功',
-  changeMailSecPreferSucceeded: '更新设置成功！'
+  changeMailSecPreferSucceeded: '更新邮件验证设置成功！',
+  changMobileSecPreferSucceeded: '更新短信验证设置成功！'
 };
 
 Messages.connectivity = {

@@ -26,6 +26,7 @@
         </div>
 
         <div class="row" style="height: 10px;"> </div>
+        @println(s"securityPreference: ${session.get(Constant.securityPreference).getOrElse("")}")
 
         <div class="row sec-ok">
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.loginpassword")</strong></div>
@@ -37,7 +38,7 @@
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.emailTip")&nbsp; @PageUtil.encryptEmail(session.get("username"))</div>
             <div class="col-md-2 content-div">
-                @if("1".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim) || session.get(Constant.securityPreference).getOrElse("").isEmpty) {
+                @if("01".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim) || session.get(Constant.securityPreference).getOrElse("").isEmpty) {
                 <div ng-show="emailVerOn" ng-init="emailVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="changeEmailSecPrefer()" /></div>
                 <div ng-show="!emailVerOn"><img src="/image/icons/switch-off.png" ng-click="changeEmailSecPrefer()"/></div>
                 } else {
@@ -85,10 +86,10 @@
               <div class="form-horizontal">
                 <div class="form-group">
                   <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
-                  <div class="col-sm-3">
-                    <input name="smsVerifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="verifycode" max-length="6" min-length="6">
+                  <div class="col-sm-5">
+                    <input name="smsVerifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="changeMobileSec.verifycode" max-length="6" min-length="6">
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
                   </div>
                 </div>
@@ -110,11 +111,11 @@
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.mobileSetHint")&nbsp; @PageUtil.encryptMobile(session.get(Constant.cookieNameMobile)) &nbsp; &nbsp;<a ng-click="gotoMobileBind()">@Messages("accountsettings.sec.btn.modify")</a></div>
             <div class="col-md-2 content-div">
                 @if("10".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim)) {
-                <div ng-show="mobileVerOn" ng-init="mobileVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="mobileVerOn = !mobileVerOn" /></div>
-                <div ng-show="!mobileVerOn"><img src="/image/icons/switch-off.png" ng-click="mobileVerOn = !mobileVerOn"/></div>
+                <div ng-show="mobileVerOn" ng-init="mobileVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="changeMobileSecPrefer()" /></div>
+                <div ng-show="!mobileVerOn"><img src="/image/icons/switch-off.png" ng-click="changeMobileSecPrefer()"/></div>
                 } else {
-                <div ng-show="!mobileVerOn" ng-init="mobileVerOn = false;"><img src="/image/icons/switch-off.png" ng-click="mobileVerOn = !mobileVerOn"/></div>
-                <div ng-show="mobileVerOn"><img src="/image/icons/switch-on.png" ng-click="mobileVerOn = !mobileVerOn" /></div>
+                <div ng-show="!mobileVerOn" ng-init="mobileVerOn = false;"><img src="/image/icons/switch-off.png" ng-click="changeMobileSecPrefer()"/></div>
+                <div ng-show="mobileVerOn"><img src="/image/icons/switch-on.png" ng-click="changeMobileSecPrefer()" /></div>
                 }
             </div>
         </div>

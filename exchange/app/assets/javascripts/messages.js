@@ -78,7 +78,8 @@ Messages.account = {
     changePwdSucceeded: 'change login password succeeded!',
     getEmailVerificationCode: 'Send Email code',
     bindMobileSucceeded: 'verify and bind mobile succeeded!',
-    changeMailSecPreferSucceeded: 'change email security preference succeeded.'
+    changeMailSecPreferSucceeded: 'change email verification setting succeeded.',
+    changMobileSecPreferSucceeded: 'change mobile verification setting succeeded.'
 };
 
 Messages.connectivity = {
