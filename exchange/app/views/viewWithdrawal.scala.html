@@ -1,9 +1,9 @@
-@()(implicit lang: Lang)
+@()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
-@isSetEmailPreference() = @{session.get(securityPreference).get.last == "1"}
-@isSetPhonePreference() = @{session.get(securityPreference).get.head == "1"}
+@isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
+@isSetPhonePreference() = @{session.get(securityPreference).get.head.toString.contentEquals("1")}
 
 <div class="row">
     <h6>

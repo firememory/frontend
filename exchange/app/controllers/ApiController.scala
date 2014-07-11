@@ -141,8 +141,8 @@ object ApiController extends Controller with Json4s {
       val emailCode = getParam(data, "emailcode").getOrElse("")
       val googleCode = getParam(data, "googlecode").getOrElse("")
 
-      val checkEmail = preference.last == "1"
-      val checkPhone = preference.head == "1"
+      val checkEmail = preference.last.toString.contentEquals("1")
+      val checkPhone = preference.head.toString.contentEquals("1")
 
       validateParamsAndThen(
           new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, checkEmail, emailUuid, emailCode),

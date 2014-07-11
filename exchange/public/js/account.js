@@ -279,7 +279,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         _stop = $interval(function () {
             if ($scope.secondsEmail > 0) {
                 $scope.secondsEmail = $scope.secondsEmail - 1;
-                $scope.verifyButtonEmail = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.verifyButtonEmail = Messages.account.getVerifyCodeButtonTextPrefix + $scope.secondsEmail + Messages.account.getVerifyCodeButtonTextTail;
                 $scope.isTimingEmail = true;
             }
             else {
@@ -311,7 +311,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             .success(function (data, status, headers, config) {
                 console.log('data in withdrawal: ', data);
                 if (data.success) {
-                    $scope.withdrawalData.emailcode = data.data;
+                    $scope.withdrawalData.emailuuid = data.data;
                 } else {
                     $scope.stopTiming();
                     $scope.showWithdrawalError = true;

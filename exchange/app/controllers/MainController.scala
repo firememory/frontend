@@ -210,7 +210,7 @@ object MainController extends Controller with Json4s {
 
   def withdrawalView() = Action {
     implicit request =>
-      Ok(views.html.viewWithdrawal.render(langFromRequestCookie(request)))
+      Ok(views.html.viewWithdrawal.render(request.session, langFromRequestCookie(request)))
   }
 
   def ordersView() = Action {
