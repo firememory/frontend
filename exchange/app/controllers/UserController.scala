@@ -182,13 +182,6 @@ object UserController extends Controller with Json4s with AccessLogging {
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
 
     logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
-    // val validators = if (oldMobile != null && oldMobile.trim.nonEmpty)
-    //   Seq[Validator](new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuidOld, verifyCodeOld),
-    //     new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuidOld, verifyCodeOld),
-    //     new StringNonemptyValidator(userId, email, newMobile))
-    // else
-    //   Seq[Validator](new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
-    //     new StringNonemptyValidator(userId, email, newMobile))
 
     val needCheckOld = oldMobile.trim.nonEmpty
     validateParamsAndThen(
@@ -302,11 +295,6 @@ object UserController extends Controller with Json4s with AccessLogging {
   def googleauthView() = Authenticated {
     implicit request =>
       Ok(views.html.viewGoogleAuth.render(request.session, langFromRequestCookie(request)))
-  }
-
-  def logout = Action {
-    implicit request =>
-      Redirect(routes.MainController.index()).withNewSession
   }
 
   def getGoogleAuth = Action {
@@ -426,4 +414,10 @@ object UserController extends Controller with Json4s with AccessLogging {
           } else Ok(result.toJson())
       }
   }
+
+  def logout = Action {
+    implicit request =>
+      Redirect(routes.MainController.index()).withNewSession
+  }
+
 }
