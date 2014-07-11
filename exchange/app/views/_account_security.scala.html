@@ -37,21 +37,76 @@
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.emailTip")&nbsp; @PageUtil.encryptEmail(session.get("username"))</div>
             <div class="col-md-2 content-div">
-                @if("1".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim)) {
-                <div ng-show="emailVerOn" ng-init="emailVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="emailVerOn = !emailVerOn" /></div>
+                @if("1".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim) || session.get(Constant.securityPreference).getOrElse("").isEmpty) {
+                <div ng-show="emailVerOn" ng-init="emailVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="changeEmailSecPrefer()" /></div>
                 <div ng-show="!emailVerOn"><img src="/image/icons/switch-off.png" ng-click="emailVerOn = !emailVerOn"/></div>
                 } else {
                 <div ng-show="!emailVerOn" ng-init="emailVerOn = false;"><img src="/image/icons/switch-off.png" ng-click="emailVerOn = !emailVerOn"/></div>
                 <div ng-show="emailVerOn"><img src="/image/icons/switch-on.png" ng-click="emailVerOn = !emailVerOn" /></div>
                 }
+
             </div>
         </div>
 
-        <!-- <div class="row sec-ok">
-        <div class="col-md-3 content-div">@Messages("accountsettings.sec.mobileBind")</div>
-        <div class="col-md-7 content-div">@Messages("accountsettings.sec.mobile")</div>
-        <div class="col-md-2 content-div"><a ng-click="showMainDiv = false; showChangePwdDiv = true;">Modify</a></div>
-        </div> -->
+        <div class="row" ng-show="false" ng-controller="AccountSettingsCtrl">
+            <script type="text/ng-template" id="ModalContentGoogleAuth.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">google auth</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">@Messages("accountsettings.googleAuth.verifycode")</label>
+                            <div class="col-sm-3">
+                                <input name="GoogleAuthVerifyCode" class="form-control" ng-model="verifycode" max-length="6" min-length="6">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-3"></label>
+                            <div class="col-sm-3">
+                                <button class="btn btn-block btn-lg btn-primary" ng-click="bind()">@Messages("accountsettings.googleauth.bind")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+
+            <script type="text/ng-template" id="ModalContentEmailVer.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">google auth</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))</label>
+                            <div class="col-sm-6">
+                                <input name="emailVerCode" class="form-control" placeholder='@Messages("accountsettings.emailVerifyCode")' ng-model="changeSecPreferEmailCode">
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+                            </div>
+                            <div class="row col-md-9" style="margin-bottom: 10px;">
+                                <span class="text-danger text-center" ng-show="showChangeEmailSecPreferError" ng-bind="changeEmailSecPreferError"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </script>
+
+            <!-- <button class="btn btn-default" ng-click="open()">Open me!</button>
+            <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+            <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+            <div ng-show="selected">Selection from a modal: {{ selected }}</div> -->
+        </div>
 
         @if(session.get(Constant.cookieNameMobile).getOrElse("").trim.nonEmpty) {
         <div class="row sec-ok">

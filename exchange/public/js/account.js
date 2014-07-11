@@ -998,6 +998,107 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
                 }
             });
     };
+
+//------------------- change email security preference ----------------
+
+    var ModalInstanceCtrlEmail = function ($scope, $modalInstance, emailStatus) {
+        $scope.showChangeEmailSecPreferError = false;
+        $scope.verifyButton = Messages.account.getEmailVerificationCode;
+        var _stop;
+        $scope.isTiming = false;
+
+        $scope.disableButton = function () {
+            if (angular.isDefined(_stop)) {
+                $scope.isTiming = true;
+                return;
+            }
+
+            $scope.seconds = 120;
+
+            _stop = $interval(function () {
+                if ($scope.seconds > 0) {
+                    $scope.seconds = $scope.seconds - 1;
+                    $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                    $scope.isTiming = true;
+                }
+                else {
+                    $scope.stopTiming();
+                    $scope.verifyButton = Messages.account.getEmailVerificationCode;
+                }
+            }, 1000);
+        };
+
+        $scope.stopTiming = function () {
+            if (angular.isDefined(_stop)) {
+                $interval.cancel(_stop);
+                _stop = undefined;
+            }
+            $scope.isTiming = false;
+            $scope.seconds = 0;
+            $scope.verifyButton = Messages.account.getEmailVerificationCode;
+        };
+
+        $scope.$on('destroy', function () {
+            $scope.stopTiming();
+        });
+
+        $scope.sendVerifyEmail = function () {
+            $scope.showChangeEmailSecPreferError = false;
+            $scope.disableButton();
+
+            $http.get('/emailverification')
+                .success(function (data, status, headers, config) {
+                    console.debug('data: ', data);
+                    if (data.success) {
+                        $scope.verifyCodeUuidEmail = data.data;
+                    } else {
+                        $scope.stopTiming();
+                        $scope.showChangeEmailSecPreferError = true;
+                        $scope.changeEmailSecPreferError = Messages.getMessage(data.code, data.message);
+                    }
+                });
+        };
+
+        $scope.ok = function () {
+            $http.post('/preference/email', $.param({'uuid': $scope.verifyCodeUuidEmail, 'emailcode': $scope.changeSecPreferEmailCode}))
+                .success(function (data, status, headers, config) {
+                    $scope.showChangeEmailSecPreferError = true;
+                    if (data.success) {
+                        $scope.changeEmailSecPreferError = Messages.account.changeMailSecPreferSucceeded;
+                        $modalInstance.close();
+                    } else {
+                        var errorMsg = Messages.getMessage(data.code, data.message);
+                        $scope.changeEmailSecPreferError = errorMsg;
+                    }
+                });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+
+    $scope.changeEmailSecPrefer = function(size) {
+        var modalInstance = $modal.open({
+            templateUrl: 'ModalContentEmailVer.html',
+            controller: ModalInstanceCtrlEmail,
+            size: size,
+            resolve: {
+                emailStatus: function() {
+                if ($scope.emailVerOn) return "1";
+                else return "0";
+                }
+            }
+        });
+
+        modalInstance.result.then(function (setRes) {
+            $scope.emailVerOn = ! $scope.emailVerOn;
+        }, function () {
+            console.info('Modal dismissed at: ' + new Date());
+        });
+
+    };
+
 //========================== bind/modify mobile phone number end ==================
 
 // --------------------- updateaccountsettings ----------------

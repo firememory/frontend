@@ -77,7 +77,8 @@ Messages.account = {
   unbindGoogleAuthOk: '解绑成功',
   changePwdSucceeded: '修改登录密码成功！',
   getEmailVerificationCode: '获取邮件验证码',
-  bindMobileSucceeded: '绑定手机号码成功'
+  bindMobileSucceeded: '绑定手机号码成功',
+  changeMailSecPreferSucceeded: '更新设置成功！'
 };
 
 Messages.connectivity = {

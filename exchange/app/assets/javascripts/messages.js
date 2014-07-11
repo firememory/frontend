@@ -77,7 +77,8 @@ Messages.account = {
     unbindGoogleAuthOk: 'unbind google authenticator ok',
     changePwdSucceeded: 'change login password succeeded!',
     getEmailVerificationCode: 'Send Email code',
-    bindMobileSucceeded: 'verify and bind mobile succeeded!'
+    bindMobileSucceeded: 'verify and bind mobile succeeded!',
+    changeMailSecPreferSucceeded: 'change email security preference succeeded.'
 };
 
 Messages.connectivity = {
