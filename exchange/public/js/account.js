@@ -365,11 +365,11 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         $scope.showWithdrawalError = false;
         $scope.disableButtonSms();
 
-        $http.get('/smsverification')
+        $http.get('/smsverification2')
             .success(function (data, status, headers, config) {
                 console.log('data in withdrawal: ', data);
                 if (data.success) {
-                    $scope.withdrawalData.phonecode = data.data;
+                    $scope.withdrawalData.phoneuuid = data.data;
                 } else {
                     $scope.stopTiming();
                     $scope.showWithdrawalError = true;
