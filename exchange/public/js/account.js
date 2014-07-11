@@ -1168,49 +1168,68 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     };
 
     $scope.changeEmailSecPrefer = function(size) {
-        var modalInstance = $modal.open({
-            templateUrl: 'ModalContentEmailVer.html',
-            controller: ModalInstanceCtrlEmail,
-            size: size,
-            resolve: {
-                emailStatus: function() {
-                if ($scope.emailVerOn) return "0";
-                else return "1";
+        if (!$scope.mobileVerOn && !$scope.googleAuthOn && $scope.emailVerOn) {
+            alert(Messages.account.canNotDisableEmailVerify);
+            return;
+        } else {
+            var modalInstance = $modal.open({
+                templateUrl: 'ModalContentEmailVer.html',
+                controller: ModalInstanceCtrlEmail,
+                size: size,
+                resolve: {
+                    emailStatus: function() {
+                        if ($scope.emailVerOn) return "0";
+                        else return "1";
+                    }
                 }
-            }
-        });
+            });
 
-        modalInstance.result.then(function (setRes) {
-            $window.location.href = '/account#/accountsettings';
-            $window.location.reload();
+            modalInstance.result.then(function (setRes) {
+                $window.location.href = '/account#/accountsettings';
+                $window.location.reload();
 
-            //$scope.emailVerOn = ! $scope.emailVerOn;
-        }, function () {
-            console.info('Modal dismissed at: ' + new Date());
-        });
+                //$scope.emailVerOn = ! $scope.emailVerOn;
+            }, function () {
+                console.info('Modal dismissed at: ' + new Date());
+            });
+        }
     };
 
     $scope.changeMobileSecPrefer = function(size) {
-        var modalInstance = $modal.open({
-            templateUrl: 'ModalContentMobileVer.html',
-            controller: ModalInstanceCtrlMobile,
-            size: size,
-            resolve: {
-                mobileStatus: function() {
-                if ($scope.mobileVerOn) return "0";
-                else return "1";
+        if (!$scope.emailVerOn && !$scope.googleAuthOn && $scope.mobileVerOn) {
+            alert(Messages.account.canNotDisableMobileVerify);
+            return;
+        } else {
+            var modalInstance = $modal.open({
+                templateUrl: 'ModalContentMobileVer.html',
+                controller: ModalInstanceCtrlMobile,
+                size: size,
+                resolve: {
+                    mobileStatus: function() {
+                        if ($scope.mobileVerOn) return "0";
+                        else return "1";
+                    }
                 }
-            }
-        });
+            });
 
-        modalInstance.result.then(function (setRes) {
-            $window.location.href = '/account#/accountsettings';
-            $window.location.reload();
+            modalInstance.result.then(function (setRes) {
+                $window.location.href = '/account#/accountsettings';
+                $window.location.reload();
 
-            //$scope.mobileVerOn = ! $scope.mobileVerOn;
-        }, function () {
-            console.info('Modal dismissed at: ' + new Date());
-        });
+                //$scope.mobileVerOn = ! $scope.mobileVerOn;
+            }, function () {
+                console.info('Modal dismissed at: ' + new Date());
+            });
+        }
+    };
+
+    $scope.unBindGoogleAuth = function() {
+        if (!$scope.emailVerOn && !$scope.mobileVerOn && $scope.googleAuthOn) {
+            alert(Messages.account.canNotDisableGoogleAuth);
+            return;
+        } else {
+            $window.location.href = '/account#/googleauth';
+        }
     };
 
 //========================== bind/modify mobile phone number end ==================

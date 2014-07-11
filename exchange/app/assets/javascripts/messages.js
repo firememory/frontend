@@ -79,7 +79,10 @@ Messages.account = {
     getEmailVerificationCode: 'Send Email code',
     bindMobileSucceeded: 'verify and bind mobile succeeded!',
     changeMailSecPreferSucceeded: 'change email verification setting succeeded.',
-    changMobileSecPreferSucceeded: 'change mobile verification setting succeeded.'
+    changMobileSecPreferSucceeded: 'change mobile verification setting succeeded.',
+    canNotDisableGoogleAuth: 'can not unbind google authenticator when email verification and mobile verification both off',
+    canNotDisableMobileVerify: 'can not turn off mobile verification when email verification and google authenticator both off',
+    canNotDisableEmailVerify: 'can not turn off email verification when mobile verification and google authenticator both off'
 };
 
 Messages.connectivity = {

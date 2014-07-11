@@ -79,7 +79,10 @@ Messages.account = {
   getEmailVerificationCode: '获取邮件验证码',
   bindMobileSucceeded: '绑定手机号码成功',
   changeMailSecPreferSucceeded: '更新邮件验证设置成功！',
-  changMobileSecPreferSucceeded: '更新短信验证设置成功！'
+  changMobileSecPreferSucceeded: '更新短信验证设置成功！',
+  canNotDisableGoogleAuth: '当邮箱验证和短信验证同时关闭时，不能关闭双重验证',
+  canNotDisableMobileVerify: '当邮箱验证和双重验证同时关闭时，不能关闭短信验证',
+  canNotDisableEmailVerify: '当短信验证和双重验证同时关闭时，不能关闭邮箱验证'
 };
 
 Messages.connectivity = {

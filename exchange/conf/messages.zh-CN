@@ -216,6 +216,7 @@ accountsettings.sec.doubleauth=双重校验
 accountsettings.sec.doubleAuthInfoNotSet=尚未设置双重验证
 accountsettings.sec.doubleAuthInfoSet=双重验证已设置
 accountsettings.sec.doubleauth.modify=修改
+accountsettings.sec.doubleauth.unbind=解除
 accountsettings.sec.btn.change=修改
 accountsettings.sec.btn.set=设置
 accountsettings.sec.btn.modify=修改

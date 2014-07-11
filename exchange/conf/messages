@@ -213,12 +213,18 @@ accountsettings.sec.doubleauth=Google Auth
 accountsettings.sec.doubleAuthInfoNotSet=You have not set up Google anthenticator yet
 accountsettings.sec.doubleAuthInfoSet=Google anthenticator had been set
 accountsettings.sec.doubleauth.modify=Modify
+accountsettings.sec.doubleauth.unbind=Unset
 accountsettings.sec.btn.change=Change
 accountsettings.sec.btn.set=Set
 accountsettings.sec.btn.modify=Modify
 accountsettings.sec.mobile=Mobile Verification
 accountsettings.sec.mobileSetHint=Your verified mobile is:
 accountsettings.sec.mobileNotSetHint=You have no verified mobile
+
+accountsettings.sec.modal.email.title=Modify Email verification setting
+accountsettings.sec.modal.mobile.title=Modify mobile verification setting
+accountsettings.sec.modal.ok=Ok
+accountsettings.sec.modal.cancel=Cancel
 
 accountsettings.changepwd.title=Change Password
 accountsettings.changepwd.currPwd=Current Password
@@ -228,6 +234,7 @@ accountsettings.emailVerifyCode=Email Verification Code
 accountsettings.changepwd.oldpwd.required=Please input current password
 
 accountsettings.bindmobile.title=Mobile Verification
+accountsettings.bindmobile.old=Old Verification code
 
 accountsettings.view.title=Settings
 accountsettings.view.thead.item=Item

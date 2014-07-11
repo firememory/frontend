@@ -3,7 +3,7 @@
 @import utils.Constant
 
 <div class="row account-sec-settings" ng-show="showMainDiv" ng-init="showMainDiv = true;">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <h3>@Messages("accountsettings.sub.secure")</h3>
 
         <div class="row" style="margin-left: 0px; margin-right: 0px;">
@@ -57,11 +57,11 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))</label>
-                            <div class="col-sm-6">
+                            <label class="control-label col-sm-4"> @(Messages("accountsettings.emailVerifyCode"))</label>
+                            <div class="col-sm-4">
                                 <input name="emailVerCode" class="form-control" placeholder='@Messages("accountsettings.emailVerifyCode")' ng-model="changeSecPrefer.emailCode">
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
                             </div>
                         </div>
@@ -85,12 +85,12 @@
             <div class="modal-body">
               <div class="form-horizontal">
                 <div class="form-group">
-                  <label class="control-label col-sm-3">@Messages("accountsettings.smsVerifyCode")</label>
-                  <div class="col-sm-5">
+                  <label class="control-label col-sm-4">@Messages("accountsettings.smsVerifyCode")</label>
+                  <div class="col-sm-4">
                     <input name="smsVerifyCode" class="form-control" placeholder="@Messages("accountsettings.smsVerifyCode")" ng-model="changeMobileSec.verifycode" max-length="6" min-length="6">
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn-success sendSmsBtn right-element" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
+                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifySms()" ng-disabled="isTiming" ng-bind="verifyButton"> </button>
                   </div>
                 </div>
                 <div class="row col-md-9" style="margin-bottom: 10px;">
@@ -128,13 +128,13 @@
         }
 
         @if(session.get(Constant.cookieGoogleAuthSecret).getOrElse("").trim.nonEmpty) {
-        <div class="row sec-ok">
+        <div class="row sec-ok" ng-init="googleAuthOn = true;">
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.doubleAuthInfoSet")</div>
-            <div class="col-md-2 content-div"><a href="#/googleauth">@Messages("accountsettings.sec.doubleauth.modify")</a></div>
+            <div class="col-md-2 content-div"><a ng-click="unBindGoogleAuth()">@Messages("accountsettings.sec.doubleauth.unbind")</a></div>
         </div>
         } else {
-        <div class="row sec-warn">
+        <div class="row sec-warn" ng-init="googleAuthOn = false;">
             <div class="col-md-4 content-div"><i class="fa fa-warning fa-2x     "></i><strong>@Messages("accountsettings.sec.doubleauth")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.doubleAuthInfoNotSet")</div>
             <div class="col-md-2 content-div"><a href="#/googleauth">@Messages("accountsettings.sec.btn.set")</a></div>
