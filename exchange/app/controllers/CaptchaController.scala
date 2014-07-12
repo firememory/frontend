@@ -63,7 +63,7 @@ object CaptchaController extends Controller with Json4s {
     // http://stackoverflow.com/questions/8305853/how-to-render-a-binary-with-play-2-0
     // http://d.hatena.ne.jp/kaiseh/20090502/1241286415
     val uuid = UUID.randomUUID().toString()
-    println(s"captcha: uuid: $uuid")
+    //println(s"captcha: uuid: $uuid")
     val baos = new ByteArrayOutputStream
     ImageIO.write(captchaService.getImageChallengeForID(uuid, Locale.getDefault()), "jpg", baos)
     val imageBase64 = BaseEncoding.base64.encode(baos.toByteArray())

@@ -1,5 +1,6 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.PageUtil
+@import utils.SecurityPreferenceUtil._
 @import utils.Constant
 
 <div class="row account-sec-settings" ng-show="showMainDiv" ng-init="showMainDiv = true;">
@@ -38,7 +39,7 @@
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.emailVerify")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.emailTip")&nbsp; @PageUtil.encryptEmail(session.get("username"))</div>
             <div class="col-md-2 content-div">
-                @if("01".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim) || session.get(Constant.securityPreference).getOrElse("").isEmpty) {
+                @if(isEmailVerificationOn(session.get(Constant.securityPreference))) {
                 <div ng-show="emailVerOn" ng-init="emailVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="changeEmailSecPrefer()" /></div>
                 <div ng-show="!emailVerOn"><img src="/image/icons/switch-off.png" ng-click="changeEmailSecPrefer()"/></div>
                 } else {
@@ -110,7 +111,7 @@
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i>&nbsp;<strong>@Messages("accountsettings.sec.mobile")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.mobileSetHint")&nbsp; @PageUtil.encryptMobile(session.get(Constant.cookieNameMobile)) &nbsp; &nbsp;<a ng-click="gotoMobileBind()">@Messages("accountsettings.sec.btn.modify")</a></div>
             <div class="col-md-2 content-div">
-                @if("10".equals(session.get(Constant.securityPreference).getOrElse("").trim) || "11".equals(session.get(Constant.securityPreference).getOrElse("").trim)) {
+                @if(isMobileVerificationOn(session.get(Constant.securityPreference))) {
                 <div ng-show="mobileVerOn" ng-init="mobileVerOn = true;"><img src="/image/icons/switch-on.png" ng-click="changeMobileSecPrefer()" /></div>
                 <div ng-show="!mobileVerOn"><img src="/image/icons/switch-off.png" ng-click="changeMobileSecPrefer()"/></div>
                 } else {

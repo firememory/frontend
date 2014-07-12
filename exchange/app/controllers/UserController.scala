@@ -21,6 +21,7 @@ import com.coinport.coinex.api.model._
 import com.coinport.coinex.data._
 import com.coinport.coinex.api.service._
 import utils.Constant
+import utils.SecurityPreferenceUtil
 import ControllerHelper._
 import controllers.GoogleAuth.{GoogleAuthenticator, GoogleAuthenticatorKey}
 
@@ -235,8 +236,6 @@ object UserController extends Controller with Json4s with AccessLogging {
       UserService.validatePasswordResetToken(token) map {
         result =>
           if (result.success) {
-            //val profile = result.data.get.asInstanceOf[UserProfile]
-            //logger.info(s"profile: $profile")
             Ok(views.html.resetPassword.render(token, request.session, langFromRequestCookie(request)))
           } else {
             Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
@@ -371,11 +370,10 @@ object UserController extends Controller with Json4s with AccessLogging {
       val uuid = getParam(data, "uuid").getOrElse("")
       val userId = request.session.get("uid").getOrElse("")
       val phoneCode = getParam(data, "phonecode").getOrElse("")
-      val preference = request.session.get(Constant.securityPreference).getOrElse("01")
       val phonePrefer = getParam(data, "phoneprefer").getOrElse("1")
-      logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, preference: $preference")
-
-      val prefer = phonePrefer + preference.last
+      val prefer = SecurityPreferenceUtil.updateMobileVerification(
+        request.session.get(Constant.securityPreference), phonePrefer)
+      logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, prefer: $prefer")
 
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)
@@ -396,11 +394,10 @@ object UserController extends Controller with Json4s with AccessLogging {
       val uuid = getParam(data, "uuid").getOrElse("")
       val userId = request.session.get("uid").getOrElse("")
       val emailCode = getParam(data, "emailcode").getOrElse("")
-      val preference = request.session.get(Constant.securityPreference).getOrElse("01")
       val emailPrefer = getParam(data, "emailprefer").getOrElse("1")
-      logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, preference: $preference")
-
-      val prefer = preference.head + emailPrefer
+      val prefer = SecurityPreferenceUtil.updateEmailVerification(
+        request.session.get(Constant.securityPreference), emailPrefer)
+      logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, prefer: $prefer")
 
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)

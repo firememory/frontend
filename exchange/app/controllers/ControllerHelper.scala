@@ -55,7 +55,7 @@ class CachedValueValidator(error: ErrorCode, check: Boolean, uuid: String, value
     if (!check) Right(true)
     else {
       if (uuid == null || uuid.trim.isEmpty || value == null || value.trim.isEmpty) Left(result) else {
-        val cachedValue = cacheService.get(uuid)
+        val cachedValue = cacheService.pop(uuid)
         logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
         if (cachedValue != null && cachedValue.equals(value)) Right(true) else Left(result)
       }

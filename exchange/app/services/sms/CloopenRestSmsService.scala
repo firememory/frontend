@@ -34,7 +34,7 @@ object CloopenRestSmsService extends SmsService {
     val result = restAPI.sendTemplateSMS(phoneNum, templateId, Array[String](randCode, "30"))
     val statusCode = result.get("statusCode").toString
     if (statusCode_Ok.equals(statusCode)) {
-      result.asScala.foreach(kv => println(s"key: ${kv._1}, value: ${kv._2}"))
+      //result.asScala.foreach(kv => println(s"key: ${kv._1}, value: ${kv._2}"))
       Future{ApiResult(true, 0, "")}
     } else {
       Future{ApiResult(false, statusCode.toInt, result.get("statusMsg").toString)}

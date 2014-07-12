@@ -54,7 +54,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
         tsCookie =>
-        logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
         val ts = tsCookie.value.toLong
         if (currTs - ts > timeoutMillis) {
 //          val redirectUri = "/login?msg=authenticateTimeout"
@@ -104,7 +104,7 @@ object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateH
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
         tsCookie =>
-        logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
         val ts = tsCookie.value.toLong
         if (currTs - ts > timeoutMillis) {
           val redirectUri = "/login?msg=authenticateTimeout"

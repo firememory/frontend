@@ -44,7 +44,7 @@ object GoogleGuavaCacheService extends CacheService {
   def get(key: String): String = cache.getIfPresent(key)
   def pop(key: String): String = {
     val value = cache.getIfPresent(key)
-    cache.put(key, null)
+    cache.put(key, "")
     value
   }
 }
@@ -69,7 +69,7 @@ object RedisCacheService extends CacheService {
 
   def pop(key: String): String = redisClient.get(key) match {
     case Some(value) =>
-      put(key, null)
+      put(key, "")
       value
     case _ => null
   }

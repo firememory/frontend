@@ -60,6 +60,7 @@ object SmsController extends Controller with Json4s {
       true
     } else {
       val lastTs = lastTsStr.toLong
+      logger.debug(s"lastTsStr: $lastTsStr, currTs: $currTs")
       if (currTs - lastTs < allowedMinIntervalSeconds * 1000)
         false
       else {
