@@ -231,7 +231,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function () {
-        if (! $scope.withdrawalData.amount || Number.isNaN(+$scope.withdrawalData.amount) ||+$scope.withdrawalData.amount < 0) {
+        if (! $scope.withdrawalData.amount || Number.isNaN(+$scope.withdrawalData.amount) ||+$scope.withdrawalData.amount < $scope.balance) {
             alert(Messages.transfer.messages['invalidAmount']);
             return;
         }
