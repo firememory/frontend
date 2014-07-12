@@ -114,7 +114,7 @@ Messages.ErrorMessages = {
     m9004: 'Your password is not valid.',
     m9005: 'SMS verification code is incorrect',
     m9006: 'Sorry, but you have to verify your mobile phone number first.',
-    m9007: 'Sorry, but you send sms too freguency, please wait for a minute.',
+    m9007: 'Sorry, but you send sms too frequency, please wait for a minute.',
     m9008: 'Sorry, your email should be same with the one in invite code page.',
     m9009: 'Sorry, your mobile phone is invalid.',
 
