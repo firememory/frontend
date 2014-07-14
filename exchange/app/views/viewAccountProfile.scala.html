@@ -11,7 +11,9 @@
                     <th class="col-md-3">@Messages("accountsettings.label")</th>
                     <td>
                         @if(session.get("uid").getOrElse("").toLong <= 1000002000L) {
-                        <a href="" data-toggle="tooltip" data-placement="top" title='@Messages("user.label.free")'><img src="/image/icons/user_vip.png"></a>
+                        <b style="cursor: pointer; color: darkgoldenrod;" data-toggle="tooltip" data-placement="top" title='@Messages("user.label.free")'>
+                            <i class="icon-award">@Messages("user.label.free")</i>
+                        </b>
                         }
                     </td>
                 </tr>

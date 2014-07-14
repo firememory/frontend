@@ -86,7 +86,10 @@
                     <br><br>
                     <b>@(Messages("trade.aboutFee")):&nbsp;&nbsp;</b>
                     @if(session.get("uid").isDefined && session.get("uid").get.toLong  <= 1000002000L) {
-                        <b>0.0%</b> <a href="" data-toggle="tooltip" data-placement="top" title='@Messages("user.label.free")'><img src="/image/icons/user_vip.png"></a>
+                        <b>0.0%</b>
+                        <b style="cursor: pointer; color: darkgoldenrod;" data-toggle="tooltip" data-placement="top" title='@Messages("user.label.free")'>
+                            <i class="icon-award"></i>
+                        </b>
                     } else {
                         0.1%
                     }
