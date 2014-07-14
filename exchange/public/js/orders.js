@@ -2,7 +2,7 @@ var app = angular.module('coinport.orders', ['ui.bootstrap', 'ngResource', 'navb
 
 app.controller('OrdersCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/orders/", "");
-    $scope.limit = 15;
+    $scope.limit = 25;
     $scope.subject = $scope.market.split("-")[0];
     $scope.currency = $scope.market.split("-")[1];
 
