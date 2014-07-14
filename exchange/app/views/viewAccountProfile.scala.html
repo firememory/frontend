@@ -1,9 +1,31 @@
 @()(implicit session: Session, lang: Lang)
+@import utils.Constant
 
 <section class="header-3-sub">
-    <div class="row" >
+    <div class="row account-profile-div" >
         <div class="col-md-12">
         <h3>@Messages("accountprofile.title")</h3>
+
+        <div class="row" ng-show="false" ng-controller="AccountProfilesCtrl">
+          <script type="text/ng-template" id="ModalContentNickname.html">
+            <div class="modal-body">
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-6">
+                   <input name="smsVerifyCode" class="form-control" placeholder="@Messages("accountsettings.realName")" ng-model="modal.nickname" />
+                  </div>
+                  <div class="col-sm-6">
+                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="ok()" >@Messages("accountsettings.sec.modal.ok") </button>
+                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="cancel()" >@Messages("accountsettings.sec.modal.cancel") </button>
+                  </div>
+                </div>
+                <div class="row col-md-9" style="margin-bottom: 10px;">
+                  <span class="text-danger text-center" ng-show="showNicknameError" ng-bind="nicknameError"></span>
+                </div>
+              </div>
+            </div>
+          </script>
+        </div>
 
         <table class="table">
             <tbody>
@@ -30,11 +52,15 @@
 
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.realName")</th>
-                    <td>@session.get("COINPORT_COOKIE_REAL_NAME").getOrElse("")</td>
+                    @if(session.get(Constant.cookieNameRealName).getOrElse("").trim.isEmpty) {
+                    <td><a ng-click="setNickName()">@Messages("accountsettings.sec.btn.set")</a></td>
+                    } else {
+                    <td>@session.get(Constant.cookieNameRealName).getOrElse("") &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="setNickName('sm')">@Messages("accountsettings.sec.btn.modify")</a></td>
+                    }
                 </tr>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.mobile")</th>
-                    <td>@session.get("COINPORT_COOKIE_MOBILE").getOrElse("")</td>
+                    <td>@session.get(Constant.cookieNameMobile).getOrElse("")</td>
                 </tr>
                 <tr>
                     <th class="col-md-3">@Messages("accountsettings.shareLink")</th>

@@ -815,9 +815,45 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 }]);
 
-app.controller('AccountProfilesCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('AccountProfilesCtrl', function ($scope, $window, $http, $modal) {
+    var ModalInstanceCtrlNickname = function ($scope, $modalInstance) {
+        $scope.modal = {};
 
-}]);
+        $scope.ok = function () {
+            console.debug('params', $scope.modal.nickname);
+            $http.post('/account/updatenickname', $.param({'nickname': $scope.modal.nickname}))
+                .success(function (data, status, headers, config) {
+                    $scope.showNicknameError = true;
+                    if (data.success) {
+                        $modalInstance.close();
+                    } else {
+                        var errorMsg = Messages.getMessage(data.code, data.message);
+                        $scope.nicknameError = errorMsg;
+                    }
+                });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+
+    $scope.setNickName = function(size) {
+        var modalInstance = $modal.open({
+            templateUrl: 'ModalContentNickname.html',
+            controller: ModalInstanceCtrlNickname,
+            size: size,
+            resolve: { }
+        });
+
+        modalInstance.result.then(function (setRes) {
+            $window.location.href = '/account#/accountprofiles';
+            $window.location.reload();
+        }, function () {
+            console.info('Modal dismissed at: ' + new Date());
+        });
+    };
+});
 
 app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $modal, $timeout) {
     //$scope.showMainDiv = true;

@@ -20,7 +20,7 @@ object CacheService {
   val GOOGLE_GUAVA_IMPL = "google-guava-impl"
   val REDIS_IMPL = "redis-impl"
 
-  def getDefaultServiceImpl = getNamedServiceImpl(GOOGLE_GUAVA_IMPL)
+  def getDefaultServiceImpl = getNamedServiceImpl(REDIS_IMPL)
   def getNamedServiceImpl(serviceName: String): CacheService = {
     if (GOOGLE_GUAVA_IMPL.equals(serviceName))
       GoogleGuavaCacheService

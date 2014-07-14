@@ -412,6 +412,21 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def updateNickName() = Action.async(parse.urlFormEncoded) {
+    implicit request =>
+    val data = request.body
+    val userId = request.session.get("uid").get.toLong
+    val nickname = getParam(data, "nickname").getOrElse("")
+    println(s"updateNickname: $nickname")
+    UserService.updateNickName(userId, nickname).map {
+      result =>
+      if (result.success) {
+        val newSession = request.session + (Constant.cookieNameRealName -> nickname)
+        Ok(result.toJson()).withSession(newSession)
+      } else Ok(result.toJson())
+    }
+  }
+
   def logout = Action {
     implicit request =>
       Redirect(routes.MainController.index()).withNewSession
