@@ -53,12 +53,12 @@
                             <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
                             <td nowrap><span class="{{order.operation.toLowerCase()}}" ng-bind="order.operation | orderTypeText"><i class="fa fa-lg {{order.operation | txTypeIcon}}"></i></span></td>
                             <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
-                            <td nowrap class="text-right" ng-bind="order.price.display"></td>
-                            <td nowrap class="text-right" ng-bind="order.amount.display"></td>
-                            <td nowrap class="text-right" ng-bind="order.total.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.price.value|price"></td>
+                            <td nowrap class="text-right" ng-bind="order.amount.value|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="order.total.value|quantity"></td>
                             <td nowrap class="text-right" ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
-                            <td nowrap class="text-right" ng-bind="order.finishedQuantity.display"></td>
-                            <td nowrap class="text-right" ng-bind="order.finishedAmount.display"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedQuantity.value|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedAmount.value|quantity"></td>
                         </tr>
                         </tbody>
                     </table>

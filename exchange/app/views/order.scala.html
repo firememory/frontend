@@ -47,7 +47,7 @@
                         </tr>
                         <tr>
                             <th nowrap>@Messages("order.orderPrice")</th>
-                            <td nowrap ng-bind="order.price.display+' '+order.currency+'/'+order.subject">@Messages("loading")</td>
+                            <td nowrap ng-bind="(order.price.value|price) +' '+order.currency+'/'+order.subject">@Messages("loading")</td>
                             <th nowrap>@Messages("order.averagePrice")</th>
                             <td nowrap><span ng-bind="order.finishedAmount.value / order.finishedQuantity.value | price"></span> <span ng-bind="order.currency+'/'+order.subject"></span></td>
                             <th nowrap>@Messages("market")</th>
@@ -60,17 +60,17 @@
                         </tr>
                         <tr>
                             <th nowrap>@Messages("order.orderAmount")</th>
-                            <td nowrap ng-bind="order.amount.display+' '+order.subject">@Messages("loading")</td>
+                            <td nowrap ng-bind="(order.amount.value|quantity) +' '+order.subject">@Messages("loading")</td>
                             <th nowrap>@Messages("order.tradingAmount")</th>
-                            <td nowrap ng-bind="order.finishedQuantity.display+' '+order.subject">@Messages("loading")</td>
+                            <td nowrap ng-bind="(order.finishedQuantity.value|quantity) +' '+order.subject">@Messages("loading")</td>
                             <th nowrap></th>
                             <td nowrap></td>
                         </tr>
                         <tr>
                             <th nowrap>@Messages("order.orderValue")</th>
-                            <td nowrap ng-bind="order.total.display+' '+order.currency">@Messages("loading")</td>
+                            <td nowrap ng-bind="(order.total.value|quantity) +' '+order.currency">@Messages("loading")</td>
                             <th nowrap>@Messages("order.tradingValue")</th>
-                            <td nowrap ng-bind="order.finishedAmount.display+' '+order.currency">@Messages("loading")</td>
+                            <td nowrap ng-bind="(order.finishedAmount.value|quantity) +' '+order.currency">@Messages("loading")</td>
                             <th nowrap></th>
                             <td nowrap></td>
                         </tr>
@@ -93,9 +93,9 @@
                         <tr>
                             <th>@Messages("transaction.tid")</th>
                             <th>@Messages("transaction.timestamp")</th>
-                            <th>@Messages("transaction.price")</th>
-                            <th>@Messages("transaction.amount")</th>
-                            <th>@Messages("transaction.value")</th>
+                            <th class="text-right">@Messages("transaction.price")</th>
+                            <th class="text-right">@Messages("transaction.amount")</th>
+                            <th class="text-right">@Messages("transaction.value")</th>
                             <th>@Messages("transaction.taker")</th>
                             <th>@Messages("transaction.type")</th>
                             <th>@Messages("transaction.maker")</th>
@@ -105,9 +105,9 @@
                         <tr ng-repeat="item in transactions.items">
                             <td nowrap><a href="/transaction/{{item.id}}" class="title" ng-bind="item.id">@Messages("loading")</a></td>
                             <td nowrap><i class="fa fa-clock-o" ng-bind="item.timestamp | date:' yyyy-MM-dd HH:mm:ss'">@Messages("loading")</i></td>
-                            <td nowrap class="text-right" ng-bind="item.price.display+' '+item.price.currency">@Messages("loading")</td>
-                            <td nowrap class="text-right" ng-bind="item.subjectAmount.display+' '+item.subjectAmount.currency">@Messages("loading")</td>
-                            <td nowrap class="text-right" ng-bind="item.currencyAmount.display+' '+item.currencyAmount.currency">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="(item.price.value|price)+' '+item.price.currency">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="(item.subjectAmount.value|quantity) +' '+item.subjectAmount.currency">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="(item.currencyAmount.value|quantity) +' '+item.currencyAmount.currency">@Messages("loading")</td>
                             <td nowrap>
                                 <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker">@Messages("loading")</i></a>
                                 (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)

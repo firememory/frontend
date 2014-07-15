@@ -181,9 +181,12 @@
                         <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                             <td nowrap><i class="fa fa-clock-o"></i> <span ng-bind="item.created | date:'MM-dd HH:mm:ss'" data-toggle="tooltip" title="{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}">@Messages("loading")</span> </td>
                             <td nowrap><a href="/user/{{item.uid}}" data-toggle="tooltip" title='{{item.uid}}'><i class="fa fa-user" ng-bind="item.uid | UID ">@Messages("loading")</i></a></td>
-                            <td nowrap ng-bind="item.operation | transferOperationText">@Messages("loading")</td>
+                            <td nowrap>
+                                <span ng-bind="(item.operation|transferOperationText)" class="{{item.operation | transferOperationClass}}">@Messages("loading")</span>
+                                <span ng-bind="'('+(item.status|transferStatusText)+')'"></span>
+                            </td>
                             <!--<td nowrap ng-bind="item.status | transferStatusText">@Messages("loading")</td>-->
-                            <td nowrap class="text-right" ng-bind="item.amount.value">@Messages("loading")</td>
+                            <td nowrap class="text-right"><span ng-bind="(item.operation|transferSign) + '' +(item.amount.value|quantity)" class="{{item.operation | transferOperationClass}}">@Messages("loading")</span></td>
                             <!--<td nowrap class="text-right" ng-bind="">@Messages("loading")</td>-->
 
                             <td class="text-right">

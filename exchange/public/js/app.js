@@ -170,7 +170,7 @@ coinportApp.filter('coin', function() {
 coinportApp.filter('UID', function() {
     return function(input) {
         if (!input) return '';
-        return ' *' + input.substring(input.length - 3);
+        return ' *' + input.substring(input.length - 5);
 //        return parseInt(input).toString(35).toUpperCase().replace('-','Z');
     }
 });

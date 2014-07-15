@@ -31,46 +31,44 @@
                 <tbody>
                     <tr>
                         <td nowrap><i class="fa fa-clock-o" ng-bind="transaction.timestamp | date:' yyyy-MM-dd HH:mm:ss'"> @Messages("loading")</i></td>
-                        <td nowrap class="text-right" ng-bind="transaction.price.display+' '+transaction.price.currency">@Messages("loading")</td>
-                        <td nowrap class="text-right" ng-bind="transaction.subjectAmount.display+' '+transaction.subjectAmount.currency">@Messages("loading")</td>
-                        <td nowrap class="text-right" ng-bind="transaction.currencyAmount.display+' '+transaction.currencyAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(transaction.price.value|price) +' '+transaction.price.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(transaction.subjectAmount.value|quantity) +' '+transaction.subjectAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(transaction.currencyAmount.value|quantity) +' '+transaction.currencyAmount.currency">@Messages("loading")</td>
                         <td nowrap class="{{transaction.sell | txTypeClass}}" ng-bind="transaction.sell | txTypeText"></td>
                     </tr>
                 </tbody>
             </table>
             </div>
-
+            <br>
             <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th nowrap>@Messages("transaction.orderRole")</th>
+                        <th nowrap></th>
                         <th nowrap>@Messages("transaction.orderId")</th>
+                        <th nowrap>@Messages("transaction.userId")</th>
                         <th nowrap class="text-right">@Messages("transaction.beforeAmount")</th>
                         <th nowrap class="text-right">@Messages("transaction.afterAmount")</th>
-                        <th nowrap>@Messages("transaction.userId")</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td nowrap>@Messages("transaction.takeOrder")</td>
-                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><i class="fa fa-bullhorn" ng-bind="' '+takeOrder.oid"> @Messages("loading")</i></a></td>
-                        <td nowrap class="text-right" ng-bind="takeOrder.preAmount.display+' '+takeOrder.preAmount.currency">@Messages("loading")</td>
-                        <td nowrap class="text-right" ng-bind="takeOrder.curAmount.display+' '+takeOrder.curAmount.currency">@Messages("loading")</td>
+                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><span ng-bind="' '+takeOrder.oid"> @Messages("loading")</span></a></td>
                         <td nowrap>
                             <a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user" ng-bind="' '+takeOrder.uid"> @Messages("loading")</i></a>
-                            (<a href="/order/{{transaction.tOrder.oid}}" class="title">@Messages("order.order")</a>)
                         </td>
-                    </tr>
+                        <td nowrap class="text-right" ng-bind="(takeOrder.preAmount.value|quantity) +' '+takeOrder.preAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(takeOrder.curAmount.value|quantity) +' '+takeOrder.curAmount.currency">@Messages("loading")</td>
+                     </tr>
                     <tr>
                         <td nowrap>@Messages("transaction.makeOrder")</td>
-                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><i class="fa fa-bullhorn" ng-bind="' '+makeOrder.oid"> @Messages("loading")</i></a></td>
-                        <td nowrap class="text-right" ng-bind="makeOrder.preAmount.display+' '+makeOrder.preAmount.currency">@Messages("loading")</td>
-                        <td nowrap class="text-right" ng-bind="makeOrder.curAmount.display+' '+makeOrder.curAmount.currency">@Messages("loading")</td>
+                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><span ng-bind="' '+makeOrder.oid"> @Messages("loading")</span></a></td>
                         <td nowrap>
                             <a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user" ng-bind="' '+makeOrder.uid"> @Messages("loading")</i></a>
-                            (<a href="/order/{{transaction.mOrder.oid}}" class="title">@Messages("order.order")</a>)
                         </td>
+                        <td nowrap class="text-right" ng-bind="(makeOrder.preAmount.value|quantity) +' '+makeOrder.preAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(makeOrder.curAmount.value|quantity) +' '+makeOrder.curAmount.currency">@Messages("loading")</td>
                     </tr>
                 </tbody>
             </table>

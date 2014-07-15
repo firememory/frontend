@@ -9,7 +9,7 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
     $scope.page = 1;
     $scope.limit = 10;
     $scope.filesPage = 1;
-    $scope.filesLimit= 5;
+    $scope.filesLimit= 10;
 
     $http.get('/api/account/-1000')
         .success(function (data, status, headers, config) {
