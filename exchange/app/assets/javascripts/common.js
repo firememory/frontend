@@ -12,16 +12,26 @@ COINPORT = {
     },
 
     amountFixed: {
-        cny: 4,
-        btc: 4,
-        ltc: 4,
-        doge: 4,
-//        doge: 2,
-        bc: 3,
-        drk: 2,
-        vrc: 3,
-        zet: 3
+        cny: 8,
+        btc: 8,
+        ltc: 8,
+        doge: 8,
+        bc: 8,
+        drk: 8,
+        vrc: 8,
+        zet: 8
     },
+
+//    amountFixed: {
+//        cny: 4,
+//        btc: 4,
+//        ltc: 4,
+//        doge: 4,
+//        bc: 3,
+//        drk: 2,
+//        vrc: 3,
+//        zet: 3
+//    },
 
     defaultMarket: 'LTC-BTC',
 

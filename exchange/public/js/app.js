@@ -119,6 +119,20 @@ coinportApp.filter('transferOperationText', function() {
     };
 });
 
+coinportApp.filter('transferSign', function() {
+    return function(input) {
+        return input == 0 ? '+' : '-';
+    };
+});
+
+coinportApp.filter('transferOperationClass', function() {
+    return function(input) {
+        if (input == 0) return 'green';
+        if (input == 1) return 'red';
+        return '';
+    };
+});
+
 coinportApp.filter('currency', function() {
     var filter = function(input) {
         return input ? input.toFixed(2) : '0';
@@ -128,7 +142,10 @@ coinportApp.filter('currency', function() {
 
 coinportApp.filter('quantity', function() {
     var filter = function(input) {
-        return input ? input.toFixed(3) : '0';
+        if (!input) return 0;
+        if (input > 1e-6) return +input.toFixed(8);
+        var s = input.toFixed(8);
+        return s;
     }
     return filter;
 });
@@ -136,6 +153,7 @@ coinportApp.filter('quantity', function() {
 coinportApp.filter('price', function() {
     return function(input) {
         if (!input) return 0;
+        if (input > 1e-6) return +input.toFixed(8);
         var s = input.toFixed(8);
         return s;
 //        for (i = s.length; i >= 0 && s.charAt(i - 1) == '0'; i--)

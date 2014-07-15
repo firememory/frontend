@@ -35,10 +35,10 @@
                             <img ng-src="/image/coins/{{account.currency.toLowerCase()}}.png">
                             <b ng-bind="account.currency"></b>
                         </td>
-                        <td nowrap class="text-right"><b ng-bind="account.total.value"></b></td>
-                        <td nowrap class="text-right" ng-bind="account.available.value"></td>
-                        <td nowrap class="text-right" ng-bind="account.locked.value"></td>
-                        <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value"></td>
+                        <td nowrap class="text-right"><b ng-bind="account.total.value | quantity"></b></td>
+                        <td nowrap class="text-right" ng-bind="account.available.value | quantity"></td>
+                        <td nowrap class="text-right" ng-bind="account.locked.value | quantity"></td>
+                        <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value | quantity"></td>
                     </tr>
                 </tbody>
             </table>
@@ -72,10 +72,10 @@
                                 <img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">
                                 <span ng-bind="'(' + order.subject + '-' + order.currency + ')'"></span>
                             </td>
-                            <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="order.price.display + '' + order.currency"></td>
-                            <td nowrap class="text-right" ng-bind="order.amount.display + ' ' + order.subject"></td>
-                            <td nowrap class="text-right" ng-bind="order.finishedQuantity.display + ' ' + order.subject"></td>
-                            <td nowrap class="text-right" ng-bind="order.finishedAmount.display + ' ' + order.currency"></td>
+                            <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="(order.price.value|price) + ' ' + order.currency"></td>
+                            <td nowrap class="text-right" ng-bind="(order.amount.value|quantity) + ' ' + order.subject"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedQuantity.value|quantity) + ' ' + order.subject"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedAmount.value|quantity) + ' ' + order.currency"></td>
                             <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
                         </tr>
                         </tbody>
@@ -111,9 +111,9 @@
                             <img ng-src="/image/coins/{{item.price.item.toLowerCase()}}.png">
                             <span ng-bind="'(' + item.price.item + '-' + item.price.currency + ')'"></span>
                         </td>
-                        <td nowrap class="text-right" ng-bind="item.price.display + ' ' + item.price.currency"></td>
-                        <td nowrap class="text-right" ng-bind="item.subjectAmount.display + ' ' + item.subjectAmount.currency"></td>
-                        <td nowrap class="text-right" ng-bind="item.currencyAmount.display + ' ' + item.currencyAmount.currency"></td>
+                        <td nowrap class="text-right" ng-bind="(item.price.value|price) + ' ' + item.price.currency"></td>
+                        <td nowrap class="text-right" ng-bind="(item.subjectAmount.value|quantity) + ' ' + item.subjectAmount.currency"></td>
+                        <td nowrap class="text-right" ng-bind="(item.currencyAmount.value|quantity) + ' ' + item.currencyAmount.currency"></td>
                         <td nowrap>
                             <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker"></i></a>
                             (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
@@ -152,12 +152,14 @@
                 <tbody>
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                     <td nowrap ng-bind="item.id"></td>
-                    <td nowrap ng-bind="item.operation | transferOperationText"></td>
+                    <td nowrap class="{{item.operation | transferOperationClass}}" ng-bind="item.operation | transferOperationText"></td>
                     <td nowrap>
                         <img ng-src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
                         <span ng-bind="item.amount.currency"></span>
                     </td>
-                    <td nowrap class="text-right" ng-bind="item.amount.display"></td>
+                    <td nowrap class="text-right">
+                        <span class="{{item.operation | transferOperationClass}}" ng-bind="(item.operation | transferSign) + (item.amount.value | quantity)"></span>
+                    </td>
                     <td nowrap ng-bind="item.status | transferStatusText"></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
                     <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>

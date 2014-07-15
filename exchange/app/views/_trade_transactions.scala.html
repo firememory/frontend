@@ -13,8 +13,8 @@
         <tbody>
             <tr ng-repeat="item in transactions.items" ng-animate="'animate'" class="transaction-item scalable-item {{item.sell | txTypeClass}}">
                 <td class="l "><span ng-bind="item.sell | txTypeTextShort"></span></td>
-                <td class="text-right price " ng-bind="item.price.display"></td>
-                <td class="text-right amount" ng-bind="item.subjectAmount.display"></td>
+                <td class="text-right price " ng-bind="item.price.value | price"></td>
+                <td class="text-right amount" ng-bind="item.subjectAmount.value | quantity"></td>
                 <td class="text-right timestamp" ng-bind="item.timestamp | date:'HH:mm:ss'"></td>
                 <td><a target="_blank" href="/transaction/{{item.id}}"><i class="fa fa-link"></i></a></td>
             </tr>

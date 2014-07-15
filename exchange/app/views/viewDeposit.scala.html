@@ -40,7 +40,7 @@
                     <td nowrap> {{item.id}} </td>
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
-                    <td nowrap> {{item.amount.value}} </td>
+                    <td nowrap> <span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span> </td>
                     <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.address}} </td>
                     <td><a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>

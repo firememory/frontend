@@ -26,10 +26,10 @@
                             <strong>@coin</strong>
                         </td>
                         <!--<td nowrap><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>-->
-                        <td nowrap class="text-right"><b>{{accounts['@coin'].total.value | filledAccountEmpty}}</b></td>
-                        <td nowrap class="text-right">{{accounts['@coin'].available.value | filledAccountEmpty}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].locked.value | filledAccountEmpty}}</td>
-                        <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | filledAccountEmpty}}</td>
+                        <td nowrap class="text-right"><b>{{accounts['@coin'].total.value | quantity}}</b></td>
+                        <td nowrap class="text-right">{{accounts['@coin'].available.value | quantity}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].locked.value | quantity}}</td>
+                        <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | quantity}}</td>
                         <td nowrap class="text-right">
                             <caddr>{{depositAddresses['@coin']}}</caddr>
                             <a target="_blank" href="{{addressUrl['@coin']}}"><i class="fa fa-external-link"></i></a>
@@ -65,12 +65,12 @@
                 <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
                     <td nowrap><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
-                    <td nowrap> <strong>{{item.operation | transferOperationText }} </strong></td>
+                    <td nowrap> <span class="{{item.operation | transferOperationClass}}">{{item.operation | transferOperationText }} </span></td>
                     <td nowrap>
                         <img ng-src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">
                         <strong>{{item.amount.currency}}</strong>
                     </td>
-                    <td nowrap><strong>{{item.amount.value}}</strong></td>
+                    <td nowrap><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
                     <td nowrap><span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span></td>
                     <td>
                         <a target="_blank" href="{{item.txlink}}">

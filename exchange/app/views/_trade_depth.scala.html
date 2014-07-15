@@ -23,12 +23,12 @@
                         <span ng-show="!$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                     </td>
                     <td class="text-right price">
-                        <b ng-show="$last" ng-bind="item.price.display"></b>
-                        <span ng-show="!$last" ng-bind="item.price.display"></span>
+                        <b ng-show="$last" ng-bind="item.price.value | price"></b>
+                        <span ng-show="!$last" ng-bind="item.price.value | price"></span>
                     </td>
                     <td class="text-right">
-                        <b ng-show="$last" ng-bind="item.amount.display"></b>
-                        <span ng-show="!$last" ng-bind="item.amount.display"></span>
+                        <b ng-show="$last" ng-bind="item.amount.value | quantity"></b>
+                        <span ng-show="!$last" ng-bind="item.amount.value | quantity"></span>
                     </td>
                 </tr>
                 <tr>
@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td colspan="100%">
-                        <div class="latest-price text-center"><span ng-bind="lastPrice.display"></span> <span ng-bind="lastPrice.currency"></span></div>
+                        <div class="latest-price text-center"><span ng-bind="lastPrice.value | price"></span> <span ng-bind="lastPrice.currency"></span></div>
                     </td>
                 </tr>
                 <tr>
@@ -48,12 +48,12 @@
                         <span ng-show="!$first">@(Messages("trade.buyShort")){{1+$index}}</span>
                     </td>
                     <td class="text-right price">
-                        <b ng-show="$first" ng-bind="item.price.display"></b>
-                        <span ng-show="!$first" ng-bind="item.price.display"></span>
+                        <b ng-show="$first" ng-bind="item.price.value | price"></b>
+                        <span ng-show="!$first" ng-bind="item.price.value | price"></span>
                     </td>
                     <td class="text-right">
-                        <b ng-show="$first" ng-bind="item.amount.display"></b>
-                        <span ng-show="!$first" ng-bind="item.amount.display"></span>
+                        <b ng-show="$first" ng-bind="item.amount.value | quantity"></b>
+                        <span ng-show="!$first" ng-bind="item.amount.value | quantity"></span>
                     </td>
                 </tr>
             </tbody>

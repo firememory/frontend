@@ -796,7 +796,7 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
 
     $scope.cancelOrder = function(order) {
         order.status = 100;
-        $http.get('/trade/' + order.subject + order.currency + '/order/cancel/' + order.id)
+        $http.get('/trade/' + order.subject + '-' + order.currency + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     setTimeout($scope.reload, 1000);
