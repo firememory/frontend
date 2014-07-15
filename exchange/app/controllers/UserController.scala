@@ -43,7 +43,6 @@ object UserController extends Controller with Json4s with AccessLogging {
         UserService.login(user)
       } map {
         result =>
-          logger.info(s"login result: $result")
           //todo(kongliang): refactor return user profile
           if (result.success) {
             result.data.get match {
@@ -77,19 +76,13 @@ object UserController extends Controller with Json4s with AccessLogging {
       val realName = getParam(data, "realName")
       val rf = getParam(data, "rf")
       validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.CaptchaNotMatch, true, uuid, text),
         new StringNonemptyValidator(uuid, text, email, password),
         new EmailFormatValidator(email),
-        //new EmailWithInviteCodeValidator(email),
         new PasswordFormetValidator(password)
       ) {
-        if (!CaptchaController.validate(uuid, text))
-          Future {
-            ApiResult(false, ErrorCode.CaptchaNotMatch.value, "")
-          }
-        else {
-          val user: User = User(id = -1, email = email, password = password, referedToken = rf)
-          UserService.register(user)
-        }
+        val user: User = User(id = -1, email = email, password = password, referedToken = rf)
+        UserService.register(user)
       } map {
         result => Ok(result.toJson)
       }
@@ -146,7 +139,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val mobile = getParam(data, "mobile").getOrElse("")
       val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
       val verifyCode = getParam(data, "verifyCode").getOrElse("")
-      logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
+      //logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
         new StringNonemptyValidator(userId, email, realName, mobile)
@@ -182,7 +175,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
 
-    logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
+    //logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
 
     val needCheckOld = oldMobile.trim.nonEmpty
     validateParamsAndThen(
@@ -221,7 +214,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       logger.info(s"reset password email: $email")
       UserService.requestPasswordReset(email) map {
         result =>
-          logger.info(s"result: $result")
+          //logger.info(s"result: $result")
           if (result.success) {
             Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
           } else {
@@ -260,7 +253,6 @@ object UserController extends Controller with Json4s with AccessLogging {
       val email = request.session.get("username").getOrElse("")
       val oldPassword = getParam(data, "oldPassword").getOrElse("")
       val newPassword = getParam(data, "newPassword").getOrElse("")
-      logger.info(s"change password: email: $email, old: $oldPassword, new: $newPassword")
       UserService.changePassword(email, oldPassword, newPassword) map {
         result =>
           Ok(result.toJson)
@@ -271,7 +263,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       UserService.resendVerifyEmail(email) map {
         result =>
-          logger.info(s"result: $result")
+          //logger.info(s"result: $result")
           if (result.success) {
             Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
           } else {
