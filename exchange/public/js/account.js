@@ -1093,7 +1093,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
                     $scope.showChangeMobileSecPreferError = true;
                     console.log("send sms result: ", data)
                     if (data.success) {
-                        $scope.verifyCodeUuidMobile = data.data;
+                        $scope.changeMobileSec.verifyCodeUuidMobile = data.data;
                         //console.log('data = ' + data.data);
                         //console.log('uuid = ' + $scope.account.verifyCodeUuid);
                     } else {
@@ -1107,8 +1107,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         };
 
         $scope.ok = function () {
-            console.debug("params: ", $scope.verifyCodeUuidMobile, $scope.changeMobileSec.verifycode, mobileStatus);
-            $http.post('/preference/phone', $.param({'uuid': $scope.verifyCodeUuidMobile, 'phonecode': $scope.changeMobileSec.verifycode, 'phoneprefer': mobileStatus}))
+            console.debug("params: ", $scope.changeMobileSec.verifyCodeUuidMobile, $scope.changeMobileSec.verifycode, mobileStatus);
+            $http.post('/preference/phone', $.param({'uuid': $scope.changeMobileSec.verifyCodeUuidMobile, 'phonecode': $scope.changeMobileSec.verifycode, 'phoneprefer': mobileStatus}))
                 .success(function (data, status, headers, config) {
                     $scope.showChangeMobileSecPreferError = true;
                     if (data.success) {

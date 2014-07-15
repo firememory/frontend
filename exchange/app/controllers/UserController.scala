@@ -373,7 +373,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val phonePrefer = getParam(data, "phoneprefer").getOrElse("1")
       val prefer = SecurityPreferenceUtil.updateMobileVerification(
         request.session.get(Constant.securityPreference), phonePrefer)
-      logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, prefer: $prefer")
+      logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, prefer: $prefer, uuid=$uuid")
 
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)
@@ -397,7 +397,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val emailPrefer = getParam(data, "emailprefer").getOrElse("1")
       val prefer = SecurityPreferenceUtil.updateEmailVerification(
         request.session.get(Constant.securityPreference), emailPrefer)
-      logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, prefer: $prefer")
+      logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, prefer: $prefer, uuid= $uuid")
 
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
