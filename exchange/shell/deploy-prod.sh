@@ -4,6 +4,8 @@ if [ -z "$releaseBranch" ];then
   git checkout -b $1 remotes/origin/$1
 else
   git checkout $1
+  git stash
+  git fetch && git rebase origin/$1
 fi
 ./activator clean dist
 rm -rf /var/coinport/frontend/coinport-frontend-*
