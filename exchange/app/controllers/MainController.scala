@@ -35,13 +35,13 @@ object MainController extends Controller with Json4s {
 
   def changeLocale(locale: String) = Action {
     implicit request =>
-    val referrer = request.headers.get(REFERER).getOrElse("/")
-    if (supportedLocales.contains(locale)) {
-      implicit val lang = Lang(locale)
-      Redirect(referrer).withLang(lang)
-    } else {
-      BadRequest(referrer)
-    }
+      val referrer = request.headers.get(REFERER).getOrElse("/")
+      if (supportedLocales.contains(locale)) {
+        implicit val lang = Lang(locale)
+        Redirect(referrer).withLang(lang)
+      } else {
+        BadRequest(referrer)
+      }
   }
 
   def index = Action {
@@ -56,7 +56,7 @@ object MainController extends Controller with Json4s {
 
   def account() = AuthenticatedOrRedirect {
     implicit request =>
-    Ok(views.html.account.render(request.session, langFromRequestCookie(request)))
+      Ok(views.html.account.render(request.session, langFromRequestCookie(request)))
   }
 
   def market = Action {
@@ -121,13 +121,14 @@ object MainController extends Controller with Json4s {
 
   def prompt(msgKey: String) = Action {
     implicit request =>
-    Ok(views.html.prompt.render(msgKey, request.session, langFromRequestCookie(request)))
+      Ok(views.html.prompt.render(msgKey, request.session, langFromRequestCookie(request)))
   }
 
   def company = Action {
     implicit request =>
       Ok(views.html.company.render(request.session, langFromRequestCookie(request)))
   }
+
   def downloadFromHdfs(path: String, filename: String) = Action {
     val stream = HdfsAccess.getFileStream(path, filename)
     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
@@ -166,7 +167,7 @@ object MainController extends Controller with Json4s {
   }
 
   def getNotifications() = Action.async {
-    implicit  request =>
+    implicit request =>
       val language = langFromRequestCookie(request)
 
       val lang: Language = if (language.language.startsWith("zh")) Language.Chinese
@@ -174,7 +175,7 @@ object MainController extends Controller with Json4s {
 
       NotificationService.getNotifications(lang) map {
         case result =>
-        Ok(result.toJson)
+          Ok(result.toJson)
       }
   }
 
@@ -205,7 +206,10 @@ object MainController extends Controller with Json4s {
 
   def depositDebugView() = Action {
     implicit request =>
-      Ok(views.html.viewDepositDebug.render(langFromRequestCookie(request)))
+      if (request.session.get("uid").getOrElse("0").toLong != 1000000027L)
+        Forbidden
+      else
+        Ok(views.html.viewDepositDebug.render(langFromRequestCookie(request)))
   }
 
   def withdrawalView() = Action {
