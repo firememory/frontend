@@ -2,7 +2,11 @@
 
 @isLogin() = @{session.get("uid").isDefined}
 <div class="op-box-wrapper">
-    <div class="text-center"><h4 class="sell">@(Messages("trade.sell")) <b><span ng-bind="subject"></span></b></h4></div>
+    <div class="text-center">
+        <h4 class="sell">@(Messages("trade.sell")) <b><span ng-bind="subject"></span></b>
+            <a href="http://blog.coinport.com/?p=53" target="_blank" ng-show="subject.toUpperCase()=='BTSX'"><i class="fa fa-question-circle"></i> </a>
+        </h4>
+    </div>
 
     <div class="op-box box">
         @if(isLogin()) {
