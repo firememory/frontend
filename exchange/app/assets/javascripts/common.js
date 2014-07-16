@@ -8,7 +8,9 @@ COINPORT = {
         'bc-btc': 8,
         'drk-btc': 6,
         'vrc-btc': 8,
-        'zet-btc': 8
+        'zet-btc': 8,
+        'btsx-btc': 8,
+        'nxt-btc': 8
     },
 
     amountFixed: {
@@ -19,7 +21,9 @@ COINPORT = {
         bc: 8,
         drk: 8,
         vrc: 8,
-        zet: 8
+        zet: 8,
+        btsx: 8,
+        nxt: 8
     },
 
 //    amountFixed: {
@@ -42,7 +46,9 @@ COINPORT = {
         BC: 'http://blackcha.in/block/',
         DRK: 'http://explorer.darkcoin.io/block/',
         VRC: 'http://blocks.vericoin.info/block/',
-        ZET: 'https://coinplorer.com/ZET/Blocks/'
+        ZET: 'https://coinplorer.com/ZET/Blocks/',
+        BTSX: '',
+        NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=1000&blk='
     },
 
     addressUrl: {
@@ -52,7 +58,9 @@ COINPORT = {
         BC: 'http://blackcha.in/address/',
         DRK: 'http://explorer.darkcoin.io/address/',
         VRC: 'http://blocks.vericoin.info/address/',
-        ZET: 'https://coinplorer.com/ZET/Addresses/'
+        ZET: 'https://coinplorer.com/ZET/Addresses/',
+        BTSX: '',
+        NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=3000&acc='
     },
 
     txUrl: {
@@ -62,7 +70,9 @@ COINPORT = {
         BC: 'http://blackcha.in/tx/',
         DRK: 'http://explorer.darkcoin.io/tx/',
         VRC: 'http://blocks.vericoin.info/tx/',
-        ZET: 'https://coinplorer.com/ZET/Transactions/'
+        ZET: 'https://coinplorer.com/ZET/Transactions/',
+        BTSX: '',
+        NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=2000&tra='
     }
 };
 
