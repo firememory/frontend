@@ -12,7 +12,7 @@
         @if(isLogin()) {
         <div class="available-fund text-center">
             <span class="link" ng-click="clickQuantity(account[subject].available.value)">
-                @Messages("trade.availableAmount"): <a ng-bind="(account[subject].available.value || 0) + ' ' + subject"></a>
+                @Messages("trade.availableAmount"): <a ng-bind="(account[subject].available.value || 0 | quantity) + ' ' + subject"></a>
             </span>
         </div>
         }
