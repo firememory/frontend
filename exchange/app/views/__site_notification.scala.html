@@ -1,8 +1,14 @@
 @()(implicit session: Session, lang: Lang)
 
-<div class="site-notification" ng-controller="NotificationCtrl">
-    <alert  ng-repeat="alert in alerts" type="{{alert.ntype}}" close="closeAlert($index)">
-        <strong ng-bind="alert.title"></strong>
-        <span ng-bind="alert.content"></span>
-    </alert>
+<div ng-controller="NotificationCtrl">
+    <div class="site-notification bg-{{alert.ntype.toLowerCase()}}" ng-repeat="alert in alerts">
+        <div style="padding-top: 18px; padding-left: 30px; color: black;">
+        <b ng-bind="alert.title"></b>
+        <span class="{{alert.ntype.toLowerCase()}}" ng-bind="alert.content"></span>
+        </div>
+    </div>
+    <!--<alert ng-repeat="alert in alerts" type="{{alert.ntype}}" close="closeAlert($index)">-->
+        <!--<strong ng-bind="alert.title"></strong>-->
+        <!--<span ng-bind="alert.content"></span>-->
+    <!--</alert>-->
 </div>
