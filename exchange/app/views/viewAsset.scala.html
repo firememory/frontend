@@ -15,7 +15,7 @@
                     <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
                     <th nowrap class="text-right">@Messages("asset.price")</th>
                     <th nowrap class="text-right">@Messages("asset.value")</th>
-                    <th nowrap class="text-right">@Messages("asset.operation")</th>
+                    <!--<th nowrap class="text-right">@Messages("asset.operation")</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -31,11 +31,11 @@
                     <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value | quantity">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.price + ' BTC'">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="account.asset + ' BTC'">@Messages("loading")</td>
-                    <td nowrap class="text-right">
-                        <a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>
-                        |
-                        <a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>
-                    </td>
+                    <!--<td nowrap class="text-right">-->
+                        <!--<a href="#/deposit/{{account.currency}}">@Messages("transfer.deposit")</a>-->
+                        <!--|-->
+                        <!--<a href="#/withdrawal/{{account.currency}}">@Messages("transfer.withdrawal")</a>-->
+                    <!--</td>-->
                 </tr>
                 </tbody>
                 <!--@__empty_table_indicator("accounts")	-->
