@@ -14,7 +14,7 @@
                         <th nowrap class="text-right">@Messages("user.available")</th>
                         <th nowrap class="text-right">@Messages("user.orderPending")</th>
                         <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
-                        <th nowrap class="text-right">@Messages("transfer.depositAddress")</th>
+                        <!--<th nowrap class="text-right">@Messages("transfer.depositAddress")</th>-->
                         <th nowrap></th>
                     </tr>
                 </thead>
@@ -30,10 +30,10 @@
                         <td nowrap class="text-right">{{accounts['@coin'].available.value | quantity}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].locked.value | quantity}}</td>
                         <td nowrap class="text-right">{{accounts['@coin'].pendingWithdrawal.value | quantity}}</td>
-                        <td nowrap class="text-right">
-                            <caddr>{{depositAddresses['@coin']}}</caddr>
-                            <a target="_blank" href="{{addressUrl['@coin']}}"><i class="fa fa-external-link"></i></a>
-                        </td>
+                        <!--<td nowrap class="text-right">-->
+                            <!--<caddr>{{depositAddresses['@coin']}}</caddr>-->
+                            <!--<a target="_blank" href="{{addressUrl['@coin']}}{{depositAddresses['@coin']}}"><i class="fa fa-external-link"></i></a>-->
+                        <!--</td>-->
                         <td nowrap>
                             <a href="#/deposit/@coin">@Messages("transfer.deposit")</a>
                             |

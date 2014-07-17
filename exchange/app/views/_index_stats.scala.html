@@ -57,11 +57,11 @@
                         <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                         <strong>@coin</strong></a>
                     </td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.value">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.value">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="accounts['@coin'].total.value">@Messages("loading")</td>
-                    <td nowrap class="text-right" ng-bind="walletsBalance['@coin'].value">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value | quantity">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.value | quantity">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].pendingWithdrawal.value | quantity">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="accounts['@coin'].total.value | quantity">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="walletsBalance['@coin'].value | quantity">@Messages("loading")</td>
                     <td nowrap class="text-center">
                         <a href="/coin/@coin" ng-show="walletsBalance['@coin']" ng-bind="((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4) + '%'" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value || 0 | reserveRatioClass}}">
                         </a>

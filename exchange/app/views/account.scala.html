@@ -116,15 +116,36 @@
     <div class="row">
         <div class="col-md-2">
             <ul class="nav nav-stacked" id="vertical-nav" cp-nav>
-                <li route="#/asset"><a href="#/asset">@Messages("asset.myAsset")</a></li>
-                <li route="#/orders"><a href="#/orders">@Messages("order.myOrders")</a></li>
-                <li route="#/transaction"><a href="#/transaction">@Messages("transaction.myTransactions")</a></li>
-                <li route="#/transfer"><a href="#/transfer">@Messages("asset.transfer")</a></li>
-                <li><a ng-click="usShow = !usShow">@Messages("user.profile")<small class="sidebartag"> &gt;</small></a>
+                <li route="#/asset">
+                    <a href="#/asset">
+                        <!--<i class="fa fa-database"></i> -->
+                        @Messages("asset.myAsset")</a>
+                </li>
+                <li route="#/transfer">
+                    <a href="#/transfer">
+                        <!--<i class="fa fa-btc"></i>-->
+                        @Messages("account.transfer")
+                    </a>
+                </li>
+                <li>
+                    <a href="" ng-click="recShow = !recShow">
+                        <!--<i class="fa fa-list"></i>-->
+                        @Messages("account.record") <i class="fa fa-angle-double-right"></i>
+                    </a>
+                    <ul class="nav nav-stacked" ng-show="recShow">
+                        <li route="#/orders"><a href="#/orders">&nbsp;&nbsp;&nbsp;&nbsp;@Messages("order.myOrders")</a></li>
+                        <li route="#/transaction"><a href="#/transaction">&nbsp;&nbsp;&nbsp;&nbsp;@Messages("transaction.myTransactions")</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="" ng-click="usShow = !usShow">
+                        <!--<i class="fa fa-user"></i>-->
+                        @Messages("account.profile") <i class="fa fa-angle-double-right"></i>
+                    </a>
                     <ul class="nav nav-stacked" cp-nav id="usersettings-nav" ng-show="usShow">
-                        <li route="#/accountprofiles"><a href="#/accountprofiles">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp;@Messages("accountsettings.sub.userprofile") </a> </li>
-                        <li route="#/accountsettings"><a href="#/accountsettings">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp;@Messages("accountsettings.sub.secure")</a> </li>
-                        <li route="#/googleauth"><a href="#/googleauth">&nbsp;<small class="sidebartag"> &gt;</small>&nbsp;@Messages("accountsettings.sub.doubleauth")</a> </li>
+                        <li route="#/accountprofiles"><a href="#/accountprofiles">&nbsp;&nbsp;&nbsp;&nbsp;@Messages("accountsettings.sub.userprofile") </a> </li>
+                        <li route="#/accountsettings"><a href="#/accountsettings">&nbsp;&nbsp;&nbsp;&nbsp;@Messages("accountsettings.sub.secure")</a> </li>
+                        <li route="#/googleauth"><a href="#/googleauth">&nbsp;&nbsp;&nbsp;&nbsp;@Messages("accountsettings.sub.doubleauth")</a> </li>
                     </ul>
                 </li>
             </ul>

@@ -116,11 +116,11 @@
                                 <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
                                 <strong><a href="/coin/@coin">@coin</a></strong>
                             </td>
-                            <td nowrap class="text-right"><span ng-bind="accounts['@coin'].available.value + ' @coin'"></span></td>
-                            <td nowrap class="text-right"><span ng-bind="accounts['@coin'].locked.value + ' @coin'"></span></td>
-                            <td nowrap class="text-right"><span ng-bind="accounts['@coin'].pendingWithdrawal.value + ' @coin'"></span></td>
-                            <td nowrap class="text-right"><b ng-bind="accounts['@coin'].total.value + ' @coin'"></b></td>
-                            <td nowrap class="text-right"><b ng-bind="walletsBalance['@coin'].value + ' @coin'"></b></td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].available.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].locked.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].pendingWithdrawal.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><b ng-bind="(accounts['@coin'].total.value | quantity) + ' @coin'"></b></td>
+                            <td nowrap class="text-right"><b ng-bind="(walletsBalance['@coin'].value | quantity) + ' @coin'"></b></td>
                             <td nowrap class="text-right">
                                 <a href="/coin/@coin" ng-show="walletsBalance['@coin']" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
                                     {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4)}}%
