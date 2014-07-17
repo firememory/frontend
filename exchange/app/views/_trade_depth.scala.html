@@ -7,12 +7,12 @@
 
 <div class="col-sm-4">
     <h4>@Messages("depth")</h4>
-    <div class="depth-box box table-responsive">
+    <div class="depth-box box">
         <table class="table table-condensed table-hover table-borderless">
             <thead>
                 <tr>
-                    <th nowrap>@(Messages("order.type"))</th>
-                    <th nowrap class="text-right">@(Messages("order.price"))</th>
+                    <th nowrap></th>
+                    <th nowrap class="text-left">@(Messages("order.price"))</th>
                     <th nowrap class="text-right">@(Messages("order.amount"))</th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@
                         <b ng-show="$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</b>
                         <span ng-show="!$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
                     </td>
-                    <td class="text-right price">
+                    <td class="text-left price">
                         <b ng-show="$last" ng-bind="item.price.value | price"></b>
                         <span ng-show="!$last" ng-bind="item.price.value | price"></span>
                     </td>
@@ -47,7 +47,7 @@
                         <b ng-show="$first">@(Messages("trade.buyShort")){{1+$index}}</b>
                         <span ng-show="!$first">@(Messages("trade.buyShort")){{1+$index}}</span>
                     </td>
-                    <td class="text-right price">
+                    <td class="text-left price">
                         <b ng-show="$first" ng-bind="item.price.value | price"></b>
                         <span ng-show="!$first" ng-bind="item.price.value | price"></span>
                     </td>
