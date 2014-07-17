@@ -35,7 +35,9 @@
                         @menu("trade", "/trade", Messages("nav.trade"))
                         @menu("openness", "/open", Messages("nav.open"))
                         @menu("account", "/account", Messages("nav.account"), false)
+                    @if(lang.code == "zh-CN") {
                         @menu("blog", "http://blog.coinport.com", Messages("nav.blog"))
+                    }
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     } else {
