@@ -35,6 +35,7 @@
                         @menu("trade", "/trade", Messages("nav.trade"))
                         @menu("openness", "/open", Messages("nav.open"))
                         @menu("account", "/account", Messages("nav.account"), false)
+                        @menu("blog", "http://blog.coinport.com", Messages("nav.blog"))
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
                     } else {
@@ -42,7 +43,7 @@
                     }
                     </ul>
                     @if(!isLogin()) {
-                     <form class="navbar-form pull-left">
+                    <form class="navbar-form pull-left">
                         <a class="btn btn-danger" href="/register">@Messages("nav.register")</a>
                     </form>
                     }
