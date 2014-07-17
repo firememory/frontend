@@ -52,6 +52,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
 
         updateNav();
         reload();
+        $scope.updateHistory();
     };
 
     $scope.alert = function(operation, message) {
@@ -161,12 +162,12 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     reload();
     setTimeout(refresh, 3000);
 
-    $scope.updateHistory = function() {
-         $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})
-              .success(function(response, status, headers, config) {
-                    var data = response.data;
-              });
-    };
+//    $scope.updateHistory = function() {
+//         $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})
+//              .success(function(response, status, headers, config) {
+//                    var data = response.data;
+//              });
+//    };
 
     var splitHistoryData = function(data) {
         // split the data set into ohlc and volume
@@ -208,148 +209,152 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         return ma;
     };
 
-    $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
-      .success(function(response, status, headers, config) {
-        $scope.history = response.data.candles;
-        $scope.ma7 = getMA($scope.history, 7);
-        $scope.ma30 = getMA($scope.history, 30);
-        $scope.lastHistory = $scope.history[$scope.history.length - 1];
+    $scope.updateHistory = function() {
+        $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod}})
+          .success(function(response, status, headers, config) {
+            $scope.history = response.data.candles;
+            $scope.ma7 = getMA($scope.history, 7);
+            $scope.ma30 = getMA($scope.history, 30);
+            $scope.lastHistory = $scope.history[$scope.history.length - 1];
 
-        // set the allowed units for data grouping
-        var groupingUnits = [[
-            'minute', // unit name
-            [1, 3, 5, 15, 30] // allowed multiples
-        ], [
-            'hour',
-            [1]
-        ]];
+            // set the allowed units for data grouping
+            var groupingUnits = [[
+                'minute', // unit name
+                [1, 3, 5, 15, 30] // allowed multiples
+            ], [
+                'hour',
+                [1]
+            ]];
 
-        // create the chart
-        Highcharts.setOptions({
-            global: {
-                useUTC: false
-            }
-        });
-        $('.candle-chart').highcharts('StockChart', {
-            chart : {
-                events : {
-                    load : function() {
-                        var candleSeries = this.series[0];
-                        var volumeSeries = this.series[1];
-                        var ma7Series = this.series[2];
-                        var ma30Series = this.series[3];
-                        // polling new data
-                        var load = function() {
-                            $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod, from: $scope.lastHistory[0]}})
-                              .success(function(response, status, headers, config) {
-                                    var data = response.data.candles;
-                                    if (!data || data.length == 0)
-                                        return;
-                                    // merge candle data
-                                    var last = $scope.history.pop();
-                                    data.forEach(function(item){
-                                        if (item[1] == 0){
-                                            item[1] = last[1];
-                                            item[2] = last[2];
-                                            item[3] = last[3];
-                                            item[4] = last[4];
-                                        }
-                                    });
-                                    $scope.history = $scope.history.concat(data);
-                                    $scope.lastHistory = data[data.length - 1];
-                                    // update MA data
-                                    $scope.ma7 = getMA($scope.history, 7);
-                                    $scope.ma30 = getMA($scope.history, 30);
+            // create the chart
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+            $('.candle-chart').highcharts('StockChart', {
+                chart : {
+                    events : {
+                        load : function() {
+                            var candleSeries = this.series[0];
+                            var volumeSeries = this.series[1];
+                            var ma7Series = this.series[2];
+                            var ma30Series = this.series[3];
+                            // polling new data
+                            var load = function() {
+                                $http.get('/api/' + $scope.market + '/history', {params: {period: $scope.historyPeriod, from: $scope.lastHistory[0]}})
+                                  .success(function(response, status, headers, config) {
+                                        var data = response.data.candles;
+                                        if (!data || data.length == 0)
+                                            return;
+                                        // merge candle data
+                                        var last = $scope.history.pop();
+                                        data.forEach(function(item){
+                                            if (item[1] == 0){
+                                                item[1] = last[1];
+                                                item[2] = last[2];
+                                                item[3] = last[3];
+                                                item[4] = last[4];
+                                            }
+                                        });
+                                        $scope.history = $scope.history.concat(data);
+                                        $scope.lastHistory = data[data.length - 1];
+                                        // update MA data
+                                        $scope.ma7 = getMA($scope.history, 7);
+                                        $scope.ma30 = getMA($scope.history, 30);
 
-                                    // set data
-                                    candleSeries.setData(splitHistoryData($scope.history).ohlc, true, true, false);
-                                    volumeSeries.setData(splitHistoryData($scope.history).volume, true, true, false);
-                                    ma7Series.setData($scope.ma7, true, true, false);
-                                    ma30Series.setData($scope.ma30, true, true, false);
-                            });
+                                        // set data
+                                        candleSeries.setData(splitHistoryData($scope.history).ohlc, true, true, false);
+                                        volumeSeries.setData(splitHistoryData($scope.history).volume, true, true, false);
+                                        ma7Series.setData($scope.ma7, true, true, false);
+                                        ma30Series.setData($scope.ma30, true, true, false);
+                                });
 
-                            setTimeout(load, $scope.historyUpdateTime);
-                        };
+                                setTimeout(load, $scope.historyUpdateTime);
+                            };
 
-                        load();
+                            load();
+                        }
                     }
-                }
-            },
-            rangeSelector : {
-                enabled: true,
-                buttons : [
-                {
-                    type : 'day',
-                    count : 1,
-                    text : 'Day'
+                },
+                rangeSelector : {
+                    enabled: true,
+                    buttons : [
+                    {
+                        type : 'day',
+                        count : 1,
+                        text : 'Day'
+                    },{
+                        type : 'all',
+                        count : 1,
+                        text : 'All'
+                    }],
+                    selected : 1,
+                    inputEnabled : false
+                },
+                navigator: {
+                    enabled: true,
+                    height: 20,
+                    margin: 5
+                },
+                scrollbar: {
+                    enabled: false,
+                },
+                yAxis: [{
+                    height: '75%'
                 },{
-                    type : 'all',
-                    count : 1,
-                    text : 'All'
+                    top: '80%',
+                    height: '20%'
                 }],
-                selected : 1,
-                inputEnabled : false
-            },
-            navigator: {
-                enabled: true,
-                height: 20,
-                margin: 5
-            },
-            scrollbar: {
-                enabled: false,
-            },
-            yAxis: [{
-                height: '75%'
-            },{
-                top: '80%',
-                height: '20%'
-            }],
-            series: [{
-                type: 'candlestick',
-                name: $scope.subject + '-' + $scope.currency,
-                data: splitHistoryData($scope.history).ohlc,
-                dataGrouping: {
-                    units: groupingUnits
-                }
-            },{
-                type: 'column',
-                name: 'Volume',
-                data: splitHistoryData($scope.history).volume,
-                yAxis: 1,
-                dataGrouping: {
-                    units: groupingUnits
-                }
-            },{
-                type: 'spline',
-                name: 'MA7',
-                data: $scope.ma7,
-                color: '#660033',
-                lineWidth: 1,
-                yAxis: 0,
-                threshold: null,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                dataGrouping: {
-                    units: groupingUnits
-                }
-            },{
-                type: 'spline',
-                name: 'MA30',
-                data: $scope.ma30,
-                color: '#666633',
-                lineWidth: 1,
-                yAxis: 0,
-                threshold: null,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                dataGrouping: {
-                    units: groupingUnits
-                }
-            }]
+                series: [{
+                    type: 'candlestick',
+                    name: $scope.subject + '-' + $scope.currency,
+                    data: splitHistoryData($scope.history).ohlc,
+                    dataGrouping: {
+                        units: groupingUnits
+                    }
+                },{
+                    type: 'column',
+                    name: 'Volume',
+                    data: splitHistoryData($scope.history).volume,
+                    yAxis: 1,
+                    dataGrouping: {
+                        units: groupingUnits
+                    }
+                },{
+                    type: 'spline',
+                    name: 'MA7',
+                    data: $scope.ma7,
+                    color: '#660033',
+                    lineWidth: 1,
+                    yAxis: 0,
+                    threshold: null,
+                    tooltip: {
+                        valueDecimals: 2
+                    },
+                    dataGrouping: {
+                        units: groupingUnits
+                    }
+                },{
+                    type: 'spline',
+                    name: 'MA30',
+                    data: $scope.ma30,
+                    color: '#666633',
+                    lineWidth: 1,
+                    yAxis: 0,
+                    threshold: null,
+                    tooltip: {
+                        valueDecimals: 2
+                    },
+                    dataGrouping: {
+                        units: groupingUnits
+                    }
+                }]
+            });
         });
-    });
+    };
+
+    $scope.updateHistory();
 
     var updateBidTotal = function() {
         if($scope.bid.price == undefined || $scope.bid.amount == undefined)
