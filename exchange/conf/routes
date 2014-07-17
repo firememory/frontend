@@ -62,10 +62,10 @@ POST    /googleauth/unbind/              controllers.UserController.unbindGoogle
 POST    /preference/phone                controllers.UserController.setPreferencePhone()
 POST    /preference/email                controllers.UserController.setPreferenceEmail()
 
-# html snippet
 GET     /terms.html                      controllers.MainController.terms()
 GET     /privacy.html                    controllers.MainController.privacy()
-GET     /views/bidask.html               controllers.MainController.bidaskView()
+
+# html snippet
 GET     /views/register.html             controllers.MainController.registerView()
 GET     /views/accountSettings.html      controllers.UserController.accountSettingsView()
 GET     /views/accountProfiles.html      controllers.UserController.accountProfiles()

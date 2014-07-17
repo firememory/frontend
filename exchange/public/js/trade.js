@@ -1,25 +1,16 @@
-
 var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'ngAnimate', 'coinport.app', 'navbar', 'timer']);
 
-function routeConfig($routeProvider) {
-    $routeProvider.
-    when('/:market', {
-        controller: 'BidAskCtrl',
-        templateUrl: 'views/bidask.html'
-    })
-    .otherwise({
-        redirectTo: '/' + COINPORT.defaultMarket
-    });
-}
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
 
-tradeApp.config(routeConfig);
 tradeApp.config(httpConfig);
 
 function BidAskCtrl($scope, $http, $routeParams, $window) {
-    $scope.market = $routeParams.market.toUpperCase();
+
+    if (!$window.location.hash) $window.location.hash = '#/' + COINPORT.defaultMarket;
+
+    $scope.market = $window.location.hash.replace('#/', '').toUpperCase();
     $scope.historyPeriod = 5; // 1 - minute K
     $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds
     $scope.subject = $scope.market.split("-")[0];
@@ -46,6 +37,22 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         askButtonLabel: $scope.config.askButtonLabel};
 
     $scope.orderStatus = -1;
+
+    var updateNav = function() {
+        $('li').removeClass('active');
+        $('#nav-' + $scope.market).addClass('active');
+    };
+
+    updateNav();
+
+    $scope.changeMarket = function(market) {
+        $scope.market = market;
+        $scope.subject = $scope.market.split("-")[0];
+        $scope.currency = $scope.market.split("-")[1];
+
+        updateNav();
+        reload();
+    };
 
     $scope.alert = function(operation, message) {
         $scope.showMessage[operation] = true;
@@ -126,15 +133,6 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         });
     };
 
-    var refresh = function() {
-        $scope.updateDepth();
-        $scope.updateTransactions();
-        $scope.loadRecentOrders();
-        setTimeout(refresh, 5000);
-    };
-
-    refresh();
-
     $scope.updateAccount = function() {
         if ($scope.uid == 0)
             return;
@@ -144,12 +142,24 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         });
     };
 
-    $scope.loadOrders();
-    $scope.loadRecentOrders();
-    $scope.updateDepth();
-    $scope.updateTransactions();
-    $scope.updateBestPrice();
-    $scope.updateAccount();
+    var reload = function() {
+        $scope.loadOrders();
+        $scope.loadRecentOrders();
+        $scope.updateDepth();
+        $scope.updateTransactions();
+        $scope.updateBestPrice();
+        $scope.updateAccount();
+    };
+
+    var refresh = function() {
+        $scope.updateDepth();
+        $scope.updateTransactions();
+        $scope.loadRecentOrders();
+        setTimeout(refresh, 3000);
+    };
+
+    reload();
+    setTimeout(refresh, 3000);
 
     $scope.updateHistory = function() {
          $http.get('/api/' + $scope.market + '/history', {params: {period: 5}})

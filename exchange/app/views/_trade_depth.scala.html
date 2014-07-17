@@ -19,8 +19,8 @@
             <tbody>
                 <tr ng-repeat="item in depth.asks" ng-click="clickDepthAsks($index)">
                     <td class="l title sell">
-                        <b ng-show="$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</b>
-                        <span ng-show="!$last">@(Messages("trade.sellShort")){{depth.asks.length-$index}}</span>
+                        <b ng-show="$last"><span ng-bind="'@(Messages("trade.sellShort"))' + (depth.asks.length-$index)"></span></b>
+                        <span ng-show="!$last"><span ng-bind="'@(Messages("trade.sellShort"))' + (depth.asks.length-$index)"></span></span>
                     </td>
                     <td class="text-left price">
                         <b ng-show="$last" ng-bind="item.price.value | price"></b>
@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td colspan="100%">
-                        <div class="latest-price text-center"><span ng-bind="lastPrice.value | price"></span> <span ng-bind="lastPrice.currency"></span></div>
+                        <div class="latest-price text-center"><span ng-bind="lastPrice.value | price">@Messages("loading")</span> <span ng-bind="lastPrice.currency"></span></div>
                     </td>
                 </tr>
                 <tr>
@@ -44,8 +44,8 @@
                 </tr>
                 <tr ng-repeat="item in depth.bids" ng-click="clickDepthBids($index)">
                     <td class="l title buy">
-                        <b ng-show="$first">@(Messages("trade.buyShort")){{1+$index}}</b>
-                        <span ng-show="!$first">@(Messages("trade.buyShort")){{1+$index}}</span>
+                        <b ng-show="$first"><span ng-bind="'@(Messages("trade.buyShort"))' + (1+$index)"></span></b>
+                        <span ng-show="!$first"><span ng-bind="'@(Messages("trade.buyShort"))' + (1+$index)"></span></span>
                     </td>
                     <td class="text-left price">
                         <b ng-show="$first" ng-bind="item.price.value | price"></b>

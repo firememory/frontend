@@ -23,13 +23,13 @@
     <span ng-init="uid='0'" ng-show="false"></span>
 }
 
-<div class="container container-main light-bordered bg-light">
+<div class="container container-main light-bordered bg-light" ng-controller="BidAskCtrl">
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav nav-stacked" id="vertical-nav" cp-nav>
+            <ul class="nav nav-stacked" id="vertical-nav">
                  @for(market <- markets) {
-                <li route="#/@market">
-                    <a href="#/@market">
+                <li id="nav-@market">
+                    <a href="#/@market" ng-click="changeMarket('@market')">
                         <img ng-src="/image/coins/@(market.toString.split('-')(0).toLowerCase()).png">
                         @market
                     </a>
@@ -38,7 +38,9 @@
             </ul>
         </div>
 
-        <div class="content col-md-10" ng-view> </div>
+        <div class="content col-md-10">
+            @_trade_bidask()
+        </div>
     </div>
 </div>
 

@@ -179,11 +179,6 @@ object MainController extends Controller with Json4s {
       }
   }
 
-  def bidaskView() = Action {
-    implicit request =>
-      Ok(views.html.viewBidask.render(request.session, langFromRequestCookie(request)))
-  }
-
   def registerView() = Action {
     implicit request =>
       Ok(views.html.viewRegister.render(langFromRequestCookie(request)))
