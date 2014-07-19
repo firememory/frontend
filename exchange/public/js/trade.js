@@ -337,7 +337,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     type: 'spline',
                     name: 'MA7',
                     data: $scope.ma7,
-                    color: '#8e44ad', #wisteria
+                    color: '#8e44ad',
                     lineWidth: 1,
                     yAxis: 0,
                     threshold: null,
@@ -352,7 +352,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     type: 'spline',
                     name: 'MA30',
                     data: $scope.ma30,
-                    color: '#2980b9', #belize-hole
+                    color: '#2980b9',
                     lineWidth: 1,
                     yAxis: 0,
                     threshold: null,
