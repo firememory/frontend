@@ -57,3 +57,5 @@ libraryDependencies ++= {
     "com.cloopen"                 %  "restsdk"                          % "2.6.1"
   )
 }
+
+libraryDependencies += filters
