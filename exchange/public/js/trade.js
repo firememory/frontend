@@ -277,6 +277,9 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                         }
                     }
                 },
+                tooltip: {
+                    borderColor: 'gray'
+                },
                 rangeSelector : {
                     enabled: true,
                     buttons : [
@@ -308,8 +311,14 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                 }],
                 series: [{
                     type: 'candlestick',
-                    name: $scope.subject + '-' + $scope.currency,
+                    upColor: '#40a040',
+                    color: '#ff4040',
+                    name: $scope.subject,
                     data: splitHistoryData($scope.history).ohlc,
+                    tooltip: {
+                        valueDecimals: 8,
+                        valueSuffix: ' ' + $scope.currency
+                    },
                     dataGrouping: {
                         units: groupingUnits
                     }
@@ -318,6 +327,9 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     name: 'Volume',
                     data: splitHistoryData($scope.history).volume,
                     yAxis: 1,
+                    tooltip: {
+                        valueSuffix: ' ' + $scope.subject
+                    },
                     dataGrouping: {
                         units: groupingUnits
                     }
@@ -330,7 +342,8 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     yAxis: 0,
                     threshold: null,
                     tooltip: {
-                        valueDecimals: 2
+                        valueDecimals: 8,
+                        valueSuffix: ' ' + $scope.currency
                     },
                     dataGrouping: {
                         units: groupingUnits
@@ -344,7 +357,8 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     yAxis: 0,
                     threshold: null,
                     tooltip: {
-                        valueDecimals: 2
+                        valueDecimals: 8,
+                        valueSuffix: ' ' + $scope.currency
                     },
                     dataGrouping: {
                         units: groupingUnits
