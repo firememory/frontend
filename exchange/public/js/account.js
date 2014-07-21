@@ -53,6 +53,7 @@ function routeConfig($routeProvider) {
             redirectTo: '/'
         });
 }
+
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
@@ -1328,16 +1329,6 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     };
 
 });
-
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-//------------------- change email security preference ----------------
-
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 
 app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
     $scope.verifyButton = Messages.account.getEmailVerificationCode;

@@ -62,6 +62,10 @@ POST    /googleauth/unbind/              controllers.UserController.unbindGoogle
 POST    /preference/phone                controllers.UserController.setPreferencePhone()
 POST    /preference/email                controllers.UserController.setPreferenceEmail()
 
+# user actions
+GET     /useraction/loginhistory/*uid    controllers.UserActionController.getUserLoginHistory(uid: Long)
+
+# html snippet
 GET     /terms.html                      controllers.MainController.terms()
 GET     /privacy.html                    controllers.MainController.privacy()
 
