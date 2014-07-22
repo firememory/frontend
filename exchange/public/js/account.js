@@ -172,10 +172,15 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
             $scope.balance = data.data.accounts[$scope.currency];
         });
 
-    $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.depositAddress = data.data[$scope.currency];
-        });
+    // hack BTSX
+    if ($scope.currency.toUpperCase() == 'BTSX') {
+        $scope.depositAddress = 'cpdeposit' + (+$scope.uid - 1000000000);
+    } else {
+        $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
+            .success(function (data, status, headers, config) {
+                $scope.depositAddress = data.data[$scope.currency];
+            });
+    }
 
     $scope.page = 1;
     $scope.limit = 25;

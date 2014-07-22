@@ -34,7 +34,7 @@
         <div class="form-group">
             <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAddress"))</label>
             <div class="col-sm-6">
-                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address" ng-pattern="/^[a-zA-Z1-9]{27,34}$/">
+                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address">
                 <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
                 <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
             </div>

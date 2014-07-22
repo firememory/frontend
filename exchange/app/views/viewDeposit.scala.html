@@ -18,7 +18,11 @@
 </div>
 <div class="row">
     <h6>@Messages("transfer.depositAddress")</h6>
-    <div class="alert alert-success col-md-10"><strong>{{depositAddress}}</strong></div>
+    <div class="alert alert-success col-md-10">
+        <span ng-show="currency.toUpperCase() == 'BTSX'">@Messages("transfer.btsx.hint") : </span>
+        <strong>{{depositAddress}}</strong>
+    </div>
+
 </div>
 <div class="row">
     <h6>@Messages("transfer.depositRecord")</h6>
