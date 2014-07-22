@@ -19,8 +19,15 @@
 <div class="row">
     <h6>@Messages("transfer.depositAddress")</h6>
     <div class="alert alert-success col-md-10">
-        <span ng-show="currency.toUpperCase() == 'BTSX'">@Messages("transfer.btsx.hint") : </span>
-        <strong>{{depositAddress}}</strong>
+        <b>{{depositAddress}}</b>
+        <span ng-show="currency.toUpperCase() == 'BTSX'">
+            <br>
+            @Messages("transfer.btsx.hint1"): <b>coinport-deposit</b>
+            <br>
+            @Messages("transfer.btsx.hint2"): <br>
+            <b class="red">{{uid}}</b>
+        </span>
+
     </div>
 
 </div>

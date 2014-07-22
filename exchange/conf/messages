@@ -374,7 +374,8 @@ transfer.transferRecord=All Records
 transfer.withdrawalHint=The minimum amount of withdrawal should equal or greater than 0.01, and you have to pay 0.0002 to network (Miner Fee). Any withdrawal request will be processed in 24 hours. Our working hours are between 12:00 and 24:00 in HongKong Time.
 transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
 
-transfer.btsx.hint=Please send BTSX to Account
+transfer.btsx.hint1=or BTSX Account
+transfer.btsx.hint2=with Memo (very important)
 
 asset.category=Category
 asset.available=Available
