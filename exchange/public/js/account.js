@@ -323,7 +323,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 if (data.success) {
                     $scope.withdrawalData.emailuuid = data.data;
                 } else {
-                    $scope.stopTiming();
+                    $scope.stopTimingEmail();
                     $scope.showWithdrawalError = true;
                     $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
                 }
@@ -333,18 +333,18 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
     // sms verification code and button timer:
     $scope.showWithdrawalError = false;
     $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
-    var _stop;
+    var _stop2;
     $scope.isTimingSms = false;
 
     $scope.disableButtonSms = function () {
-        if (angular.isDefined(_stop)) {
+        if (angular.isDefined(_stop2)) {
             $scope.isTimingSms = true;
             return;
         }
 
         $scope.secondsSms = 120;
 
-        _stop = $interval(function () {
+        _stop2 = $interval(function () {
             if ($scope.secondsSms > 0) {
                 $scope.secondsSms = $scope.secondsSms - 1;
                 $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonTextPrefix + $scope.secondsSms + Messages.account.getVerifyCodeButtonTextTail;
@@ -358,9 +358,9 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
     };
 
     $scope.stopTimingSms = function () {
-        if (angular.isDefined(_stop)) {
-            $interval.cancel(_stop);
-            _stop = undefined;
+        if (angular.isDefined(_stop2)) {
+            $interval.cancel(_stop2);
+            _stop2 = undefined;
         }
         $scope.isTimingSms = false;
         $scope.secondsSms = 0;
@@ -381,7 +381,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 if (data.success) {
                     $scope.withdrawalData.phoneuuid = data.data;
                 } else {
-                    $scope.stopTiming();
+                    $scope.stopTimingSms();
                     $scope.showWithdrawalError = true;
                     $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
                 }
