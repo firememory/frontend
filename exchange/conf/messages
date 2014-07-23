@@ -242,6 +242,10 @@ accountsettings.view.thead.item=Item
 accountsettings.view.thead.itemValue=Value
 
 accountprofile.title=User Profile
+accountprofile.loginhistory.title=Login History
+accountprofile.loginhistory.logTime=Login Time
+accountprofile.loginhistory.ip=Login IP
+accountprofile.loginhistory.location=Address
 
 footer.aboutUs=About Us
 footer.fq=F&Q

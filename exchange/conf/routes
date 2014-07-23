@@ -63,7 +63,7 @@ POST    /preference/phone                controllers.UserController.setPreferenc
 POST    /preference/email                controllers.UserController.setPreferenceEmail()
 
 # user actions
-GET     /useraction/loginhistory/*uid    controllers.UserActionController.getUserLoginHistory(uid: Long)
+GET     /useraction/loginhistory        controllers.UserActionController.getUserLoginHistory
 
 # html snippet
 GET     /terms.html                      controllers.MainController.terms()

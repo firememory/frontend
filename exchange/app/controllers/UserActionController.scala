@@ -18,8 +18,9 @@ import com.coinport.coinex.api.service._
 object UserActionController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
 
-  def getUserLoginHistory(userId: Long) = Action.async {
+  def getUserLoginHistory = Action.async {
     implicit request =>
+      val userId = request.session.get("uid").getOrElse("")
       UserActionService.getLoginHistory(userId.toLong) map {
         result =>
           Ok(result.toJson)

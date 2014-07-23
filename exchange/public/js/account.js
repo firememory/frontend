@@ -859,6 +859,16 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http, $modal) 
             console.info('Modal dismissed at: ' + new Date());
         });
     };
+
+    $scope.loginhistorys = [];
+    $http.get('/useraction/loginhistory')
+        .success(function(data, status, headers, config) {
+            console.debug('data: ', data);
+            if (data.success) {
+                $scope.loginhistorys = data.data;
+            }
+        });
+
 });
 
 app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $modal, $timeout) {

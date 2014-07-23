@@ -246,6 +246,10 @@ accountsettings.view.thead.itemValue=值
 
 accountprofile.title=用户信息
 accountsettings.emailVerifyCode=Email验证码
+accountprofile.loginhistory.title=登录历史
+accountprofile.loginhistory.logTime=登录时间
+accountprofile.loginhistory.ip=登录IP
+accountprofile.loginhistory.location=登录地点
 
 footer.aboutUs=关于我们
 footer.fq=常见问题
