@@ -9,7 +9,7 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
     $scope.errorMessage = '';
     $scope.ifEmailNotVerified = false;
 
-    $.get("http://ipinfo.io", function (response) {
+    $.get("https://ipinfo.io", function (response) {
         console.debug('response: ', response);
         $scope.login.ip = response.ip;
         $scope.login.location = response.city + ' ' + response.country;
