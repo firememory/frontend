@@ -17,7 +17,7 @@ Messages.orderStatus = {
 
 Messages.transfer = {
     status: ['Pending', 'Accepted', 'Confirming', 'Confirmed', 'Succeeded', 'Failed', 'Reorging', 'Reorg Succeeded', 'Cancelled', 'Rejected'],
-    operation: ['Deposit', 'Withdrawal' , 'User to Hot', 'Hot to cold', 'Cold to hot', 'Unknown'],
+    operation: ['Deposit', 'Withdrawal' , 'User to Hot', 'Hot to cold', 'Cold to hot', 'Unknown', 'Deposit'],
     deposit: 'Deposit',
     withdrawal: 'Withdrawal',
     depositSuccess: 'Deposit Succeed: ',

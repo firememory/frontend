@@ -17,7 +17,7 @@ Messages.orderStatus = {
 
 Messages.transfer = {
   status: ['等待处理', '处理中', '确认中', '已确认', '成功', '失败', '重组中', '重组成功', '已取消', '被驳回'],
-  operation: ['充值', '提现' , '用户转热钱包', '热钱包转冷钱包', '冷钱包转热钱包', '未知'],
+  operation: ['充值', '提现' , '用户转热钱包', '热钱包转冷钱包', '冷钱包转热钱包', '未知', '充值'],
   deposit: '充值',
   withdrawal: '提现',
   depositSuccess: '充值成功: ',
