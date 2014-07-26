@@ -121,7 +121,11 @@ coinportApp.filter('transferOperationText', function() {
 
 coinportApp.filter('transferSign', function() {
     return function(input) {
-        return if (input == 0 || input == 6) '+' else '-';
+        if (input == 0 || input == 6) {
+          return '+';
+        } else {
+          return '-';
+        }
     };
 });
 
