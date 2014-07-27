@@ -131,7 +131,7 @@ coinportApp.filter('transferSign', function() {
 
 coinportApp.filter('transferOperationClass', function() {
     return function(input) {
-        if (input == 0) return 'green';
+        if (input == 0 || input == 6) return 'green';
         if (input == 1) return 'red';
         return '';
     };
