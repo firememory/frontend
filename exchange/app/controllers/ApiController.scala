@@ -176,7 +176,7 @@ object ApiController extends Controller with Json4s {
       }
       val pager = ControllerHelper.parsePagingParam()
 
-      val typeList = if (types.size == 1 && types(0) == TransferType.Deposit) types :+ TransferType.DepositHot else types
+      val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
       val userId = if (uid.toLong > 0) Some(uid.toLong) else None
       TransferService.getTransfers(userId, Currency.valueOf(currency), status, None, typeList, Cursor(pager.skip, pager.limit)) map {
