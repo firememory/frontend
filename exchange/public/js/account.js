@@ -178,7 +178,9 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
     } else {
         $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
             .success(function (data, status, headers, config) {
-                $scope.depositAddress = data.data[$scope.currency];
+                if ($scope.currency.toUpperCase() == "NXT") {
+                    data.data[$scope.currency].replace("//", Messages.transfer.nxtOr)
+                } else $scope.depositAddress = data.data[$scope.currency];
             });
     }
 
