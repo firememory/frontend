@@ -98,7 +98,7 @@
             <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
             <td><span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
             <td>
-                {{item.address}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
+                {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
             </td>
             <!--<td class="text-right"> {{item.txid}} </td>-->
             <td><a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>

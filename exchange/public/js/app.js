@@ -113,6 +113,13 @@ coinportApp.filter('transferStatusClass', function() {
     };
 });
 
+coinportApp.filter('displayNxtRsAddress', function() {
+    return function(input) {
+        if (input) return '<br> input';
+        else return '';
+    };
+});
+
 coinportApp.filter('transferOperationText', function() {
     return function(input) {
         return Messages.transfer.operation[input];
