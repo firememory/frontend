@@ -24,6 +24,7 @@ Messages.transfer = {
     withdrawalSuccess: 'Withdrawal Succeed: ',
     cny: 'CNY',
     btc: 'BTC',
+    nxtOr: '  OR  ',
     messages: {
         invalidAmount: 'Invalid Amount',
         invalidAddress: 'Invalid Address',

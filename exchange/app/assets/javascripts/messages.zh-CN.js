@@ -24,6 +24,7 @@ Messages.transfer = {
   withdrawalSuccess: '提现成功: ',
   cny: '人民币',
   btc: '比特币',
+  nxtOr: '  或者  ',
   messages: {
       invalidAmount: '请填写有效的提现数量',
       invalidAddress: '请填写有效的提现地址',
