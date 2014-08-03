@@ -73,10 +73,17 @@ class GoogleAuthValidator(error: ErrorCode, secret: String, code: String) extend
   val googleAuthenticator = new GoogleAuthenticator()
 
   def validate = {
+    logger.info(s"google auth validator: secret: $secret, code: $code")
     if (secret == null || secret.trim.isEmpty) Right(true)
     else if(codeInt == 0) Left(result)
     else {
-      if (googleAuthenticator.authorize(secret.toString, codeInt)) Right(true) else Left(result)
+      if (googleAuthenticator.authorize(secret.toString, codeInt)) {
+        logger.info(s"google authentication success")
+        Right(true)
+      } else {
+        logger.info(s"google authentication failed")
+        Left(result)
+      }
     }
   }
 }
