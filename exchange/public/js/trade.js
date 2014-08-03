@@ -301,7 +301,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
                     margin: 5
                 },
                 scrollbar: {
-                    enabled: false,
+                    enabled: false
                 },
                 yAxis: [{
                     height: '75%'
@@ -437,6 +437,10 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
             $scope.alert('bid', Messages.trade.inputTotal);
             return;
         }
+        if (+$scope.bid.total < 0.0001) {
+            $scope.alert('bid', Messages.trade.tooSmall);
+            return;
+        }
 
         $scope.info.bidButtonLabel = Messages.trade.submit;
         var payload = {type: 'bid'};
@@ -485,6 +489,10 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
         }
         if ($scope.ask.price <= 0) {
             $scope.alert('ask', Messages.trade.inputPrice);
+            return;
+        }
+        if (+$scope.ask.total < 0.0001) {
+            $scope.alert('ask', Messages.trade.tooSmall);
             return;
         }
 

@@ -61,6 +61,7 @@ Messages.trade = {
     inputAmount: 'Invalid quantity input - it is required and must be greater than 0.',
     inputPrice: 'Invalid price input - it is required and must be greater than 0.',
     inputTotal: 'Invalid total input - it must be greater than 0. You can achieve this by increasing the price or quantity input.',
+    tooSmall: 'Too small amount to trade.',
     submit: 'Order submitting',
     submitted: 'Order submitted',
     error: 'Fail to submit order'
