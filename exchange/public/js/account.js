@@ -45,7 +45,7 @@ function routeConfig($routeProvider) {
             controller: 'AccountProfilesCtrl',
             templateUrl: 'views/accountProfiles.html'
         }).
-        when('/googleauth', {
+        when('/googleauth/:prior', {
             controller: 'GoogleAuthCtrl',
             templateUrl: 'views/googleAuth.html'
         }).
@@ -1286,7 +1286,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             alert(Messages.account.canNotDisableGoogleAuth);
             return;
         } else {
-            $window.location.href = '/account#/googleauth';
+            $window.location.href = '/account#/googleauth/1';
         }
     };
 
@@ -1347,7 +1347,10 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
 });
 
-app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window) {
+app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window, $routeParams) {
+    var priorId = $routeParams.prior;
+    $scope.fromLeftMenu = priorId == '0';
+
     $scope.verifyButton = Messages.account.getEmailVerificationCode;
     var qrcode = new QRCode(document.getElementById("qrcode"), {
                             width : 200,

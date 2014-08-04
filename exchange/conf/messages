@@ -200,6 +200,7 @@ accountsettings.googleAuth.verifycode=Authentication Code
 
 accountsettings.googleauth.unbindButton=Unbind
 accountsettings.googleauth.unbindHint=You have bound Google Authentication. Once unbound Google Authentication, you can re-bind it at any time by accessing Google Authentication page.
+accountsettings.googleauth.unbindHint0=You have bound Google Authentication. you can unbound Google Authentication in Security Settings page.
 
 
 accountsettings.sub.userprofile=User Profile

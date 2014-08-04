@@ -90,8 +90,9 @@
 
         <div class="col-md-12" ng-show="@isSetGoogleAuth()">
             <h3>@Messages("accountsettings.googleauth.unbind")</h3>
-            <alert type="success">@Messages("accountsettings.googleauth.unbindHint")</alert>
-            <div class="form-horizontal">
+            <alert type="success" ng-show="fromLeftMenu">@Messages("accountsettings.googleauth.unbindHint0")</alert>
+            <alert type="success" ng-show="!fromLeftMenu">@Messages("accountsettings.googleauth.unbindHint")</alert>
+            <div class="form-horizontal" ng-show="!fromLeftMenu">
                 <!--<div class="form-group">-->
                     <!--<label class="control-label col-sm-3">@Messages("accountsettings.emailVerifyCode")</label>-->
                     <!--<div class="col-sm-3">-->

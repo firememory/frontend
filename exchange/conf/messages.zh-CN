@@ -205,6 +205,7 @@ accountsettings.googleAuth.verifycode=双重校验码
 
 accountsettings.googleauth.unbindButton=解除绑定
 accountsettings.googleauth.unbindHint=您已绑定双重校验。在解除绑定以后，您可以随时进入双重校验绑定页面重新进行绑定。
+accountsettings.googleauth.unbindHint0=您已绑定双重校验。您可以随时进入账号安全定页面解除绑定。
 
 accountsettings.sub.userprofile=用户信息
 accountsettings.sub.secure=账号安全
