@@ -23,10 +23,10 @@
             <td>0.1%</td>
             <td>0.1%</td>
             <td>0</td>
-            @if(coin == "NXT") {
-            <td>2 @coin</td>
-            } else {
-            <td>0.0002 @coin</td>
+            @coin match {
+            case "NXT" => {<td>2 @coin</td>}
+            case "BTSX" => {<td>0.5 @coin</td>}
+            case x => {<td>0.0002 @coin</td>}
             }
         </tr>
         }
