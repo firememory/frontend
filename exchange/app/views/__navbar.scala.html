@@ -36,7 +36,7 @@
                         @menu("openness", "/open", Messages("nav.open"))
                         @menu("account", "/account", Messages("nav.account"), false)
                     @if(lang.code == "zh-CN") {
-                        @menu("blog", "http://blog.coinport.com", Messages("nav.blog"))
+                        <li @if(index=="blog"){class="active"}> <a href="http://blog.coinport.com" target="_blank">@Messages("nav.blog")</a> </li>
                     }
                     @if(!isLogin()) {
                         <li @if(index=="login"){class="active"}> <a href="/login" class="log-out-in">@Messages("nav.login")</a> </li>
