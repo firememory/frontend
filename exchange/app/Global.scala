@@ -16,7 +16,7 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
   }
 
   override def doFilter(next: EssentialAction): EssentialAction = {
-    Filters(super.doFilter(next), LoggingFilter)
+    Filters(super.doFilter(next), CoinportFilter)
   }
 
    override def onHandlerNotFound(request: RequestHeader) = {
