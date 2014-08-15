@@ -11,6 +11,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window) {
     if (!$window.location.hash) $window.location.hash = '#/' + COINPORT.defaultMarket;
 
     $scope.market = $window.location.hash.replace('#/', '').toUpperCase();
+    $scope.coinName = Messages.coinName;
     $scope.historyPeriod = 5; // 1 - minute K
     $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds
     $scope.subject = $scope.market.split("-")[0];

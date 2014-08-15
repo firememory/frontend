@@ -132,3 +132,15 @@ Messages.getMessage = function(code, msg) {
             return " 服务端错误. 错误码=" + code;
     }
 };
+
+Messages.coinName = {
+    BTC: '比特币(BTC)',
+    LTC: '莱特币(LTC)',
+    DOGE: '狗狗币(DOGE)',
+    BC: '黑币(BC)',
+    DRK: '暗黑币(DRK)',
+    VRC: '维理币(VRC)',
+    ZET: '泽塔币(ZET)',
+    BTSX: '比特股(BTSX)',
+    NXT: '未来币(NXT)'
+};

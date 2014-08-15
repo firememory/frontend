@@ -136,3 +136,15 @@ Messages.getMessage = function(code, msg) {
             return "internal error. errorCode=" + code;
     }
 };
+
+Messages.coinName = {
+    BTC: 'Bitcoin',
+    LTC: 'Litecoin',
+    DOGE: 'Dogecoin',
+    BC: 'BlackCoin',
+    DRK: 'DarkCoin',
+    VRC: 'VeriCoin',
+    ZET: 'Zetacoin',
+    BTSX: 'BitSharesX',
+    NXT: 'Nextcoin'
+};
