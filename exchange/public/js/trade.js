@@ -1,12 +1,13 @@
-var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'ngAnimate', 'coinport.app', 'navbar', 'timer']);
+var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'ngResource', 'ngRoute', 'ngAnimate', 'ngCookies', 'coinport.app', 'navbar', 'timer']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+//    $httpProvider.defaults.xsrfCookieName = 'XSRF-TOKEN';
 }
 
 tradeApp.config(httpConfig);
 
-function BidAskCtrl($scope, $http, $routeParams, $window) {
+function BidAskCtrl($scope, $http, $routeParams, $window, $cookies) {
 
     if (!$window.location.hash) $window.location.hash = '#/' + COINPORT.defaultMarket;
 

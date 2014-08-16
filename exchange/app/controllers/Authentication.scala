@@ -9,6 +9,7 @@ import utils.Constant._
 import com.coinport.coinex.api.model.User
 import com.coinport.coinex.data.UserStatus
 import com.coinport.coinex.api.service.UserService
+import services.CacheService
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
@@ -30,6 +31,7 @@ trait AuthenticateHelper {
 }
 
 object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
+  val cache = CacheService.getDefaultServiceImpl
 
   private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
     UserService.getProfile(uid) flatMap {
@@ -56,9 +58,11 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         tsCookie =>
         //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
         val ts = tsCookie.value.toLong
+        val csrfToken = cache.get("csrf-" + uid)
+
         if (currTs - ts > timeoutMillis) {
-//          val redirectUri = "/login?msg=authenticateTimeout"
-//          responseOnRequestHeader(request, redirectUri)
+          Future(Unauthorized)
+        } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
           Future(Unauthorized)
         } else {
           checkUserSuspended(uid.toLong, request, block)
@@ -68,8 +72,6 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-//      val redirectUri = "/login?msg=authenticateNotLogin"
-//      responseOnRequestHeader(request, redirectUri)
       Future(Unauthorized)
     }
   }

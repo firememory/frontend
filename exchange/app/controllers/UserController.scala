@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.Source
 import java.io.File
 import java.io.FileOutputStream
-import java.util.Properties
+import java.util.{UUID, Properties}
 import java.net.{URLDecoder, URLEncoder}
 
 import play.api.mvc._
@@ -24,9 +24,11 @@ import utils.Constant
 import utils.SecurityPreferenceUtil
 import ControllerHelper._
 import controllers.GoogleAuth.{GoogleAuthenticator, GoogleAuthenticatorKey}
+import services.CacheService
 
 object UserController extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
+  val cache = CacheService.getDefaultServiceImpl
 
   def login = Action.async(parse.urlFormEncoded) {
     implicit request =>
@@ -49,18 +51,24 @@ object UserController extends Controller with Json4s with AccessLogging {
           if (result.success) {
             result.data.get match {
               case succeeded: LoginSucceeded =>
+                val uid = succeeded.id.toString
                 val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
                 UserActionService.saveUserAction(userAction)
 
+                val csrfToken = UUID.randomUUID().toString
+                cache.put("csrf-" + uid, csrfToken)
+
                 Ok(result.toJson).withSession(
                   "username" -> succeeded.email,
-                  "uid" -> succeeded.id.toString,
+                  "uid" -> uid,
                   "referralToken" -> succeeded.referralToken.getOrElse(0L).toString,
                   Constant.cookieNameMobileVerified -> succeeded.mobile.isDefined.toString,
                   Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
                   Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
                   Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
                   Constant.securityPreference -> succeeded.perference.getOrElse("01")
+                ).withCookies(
+                    Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
                 )
               case _ =>
                 Ok(result.toJson)
