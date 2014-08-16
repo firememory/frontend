@@ -23,6 +23,13 @@
         @Messages("transfer.withdrawalHint")
         {{withdrawalFee}} {{currency}}
         @Messages("transfer.withdrawalHint2")
+
+        <br>
+        <span ng-show="currency.toUpperCase() == 'BTSX'">
+            <br>
+
+            @Messages("transfer.btsx.hint3")
+        </span>
     </alert>
 </div>
 <div class="row">

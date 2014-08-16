@@ -382,6 +382,7 @@ transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
 
 transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)
+transfer.btsx.hint3=Use OwnerKey (eg. BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ) as withdrawal address instead of Registered Account.
 
 asset.category=Category
 asset.available=Available
