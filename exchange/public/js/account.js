@@ -876,13 +876,13 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http, $modal) 
     };
 
     $scope.loginhistorys = [];
-    // $http.get('/useraction/loginhistory')
-    //     .success(function(data, status, headers, config) {
-    //         console.debug('data: ', data);
-    //         if (data.success) {
-    //             $scope.loginhistorys = data.data;
-    //         }
-    //     });
+    $http.get('/useraction/loginhistory')
+        .success(function(data, status, headers, config) {
+            console.debug('data: ', data);
+            if (data.success) {
+                $scope.loginhistorys = data.data;
+            }
+        });
 
     $scope.apiToken = "";
     $scope.getApiToken = function() {

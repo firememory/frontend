@@ -52,8 +52,8 @@ object UserController extends Controller with Json4s with AccessLogging {
             result.data.get match {
               case succeeded: LoginSucceeded =>
                 val uid = succeeded.id.toString
-                val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
-                UserActionService.saveUserAction(userAction)
+                //val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
+                //UserActionService.saveUserAction(userAction)
                 val csrfToken = UUID.randomUUID().toString
                 cache.put("csrf-" + uid, csrfToken)
 
@@ -285,12 +285,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def accountSettingsView() = Authenticated {
+  def accountSettingsView() = Action {
     implicit request =>
       Ok(views.html.viewAccountSettings.render(request.session, langFromRequestCookie(request)))
   }
 
-  def accountProfiles() = Authenticated.async {
+  def accountProfiles() = Action.async {
     implicit request =>
       UserService.getApiSecret(request.session.get("uid").get.toLong) map {
         result =>
@@ -317,7 +317,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def googleauthView() = Authenticated {
+  def googleauthView() = Action {
     implicit request =>
       Ok(views.html.viewGoogleAuth.render(request.session, langFromRequestCookie(request)))
   }
