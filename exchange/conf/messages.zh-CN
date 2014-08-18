@@ -385,7 +385,7 @@ transfer.withdrawalAddressNotMatch=您输入的提现地址不是有效的
 
 transfer.btsx.hint1=或者BTSX账户
 transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写)
-transfer.btsx.hint3=请使用OwnerKey作为提现地址(例如：BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ)。暂不支持账户名称。
+transfer.btsx.hint3=BTSX目前只支持使用已注册的帐号提币（比如coinport-deposit）。
 
 asset.currency=资产种类
 asset.available=可用数量
