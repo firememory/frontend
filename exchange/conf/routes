@@ -98,6 +98,7 @@ GET     /api/order/*oid                     controllers.ApiController.getOrder(o
 GET     /api/account/*uid                   controllers.ApiController.account(uid)
 GET     /api/asset/*uid                     controllers.ApiController.asset(uid)
 GET     /api/*market/history                controllers.ApiController.history(market)
+GET     /api/user/*uid/address/*currency    controllers.UserController.getDepositAddress(currency, uid)
 GET     /api/user/*uid/order/*market        controllers.ApiController.userOrders(market, uid)
 GET     /api/user/*uid/transaction/*market  controllers.ApiController.userTransactionByMarket(market, uid)
 GET     /api/user/*uid/transaction          controllers.ApiController.userTransactions(uid)
