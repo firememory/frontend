@@ -1,4 +1,4 @@
-@()(implicit session: Session, lang: Lang)
+@(apiToken: String)(implicit session: Session, lang: Lang)
 @import utils.Constant
 
 <script type="text/javascript">
@@ -85,6 +85,16 @@
                     <tr>
                         <th class="col-md-3">@Messages("accountsettings.publicUrl")</th>
                         <td> <a href="/user/{{uid}}">https://www.coinport.com/user/{{uid}}</a> </td>
+                    </tr>
+
+                    <tr>
+                        <th class="col-md-3">@Messages("accountsettings.apiToken")</th>
+                        @if(apiToken != null && apiToken.trim.length > 0) {
+                        <td>@apiToken </td>
+                        } else {
+                        <td ng-show="!apiToken"><a ng-click="getApiToken()">@Messages("accountsettings.apiToken.create") </a></td>
+                        <td ng-show="apiToken">{{apiToken}}</td>
+                        }
                     </tr>
 
                 </tbody>

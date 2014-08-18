@@ -248,6 +248,9 @@ accountprofile.loginhistory.logTime=Login Time
 accountprofile.loginhistory.ip=Login IP
 accountprofile.loginhistory.location=Address
 
+accountsettings.apiToken=API Token
+accountsettings.apiToken.create=Create
+
 footer.aboutUs=About Us
 footer.fq=F&Q
 footer.fee=Fee Instrument

@@ -36,6 +36,7 @@ POST    /account/updatenickname     controllers.UserController.updateNickName()
 
 GET     /passwdreset/*token         controllers.UserController.validatePasswordReset(token)
 GET     /verification/:token        controllers.UserController.verifyEmail(token)
+GET     /generateapitoken           controllers.UserController.generateApiToken()
 
 GET     /captcha                    controllers.CaptchaController.captcha()
 POST    /smsverification            controllers.SmsController.sendVerifySms()

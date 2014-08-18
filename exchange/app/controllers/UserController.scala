@@ -35,9 +35,9 @@ object UserController extends Controller with Json4s with AccessLogging {
       val data = request.body
       val email = getParam(data, "username").getOrElse("")
       val password = getParam(data, "password").getOrElse("")
-      val ip = getParam(data, "ip").getOrElse("")
-      val location = getParam(data, "location").getOrElse("")
-      logger.info(s"ip: $ip, location: $location")
+      //val ip = getParam(data, "ip").getOrElse("")
+      //val location = getParam(data, "location").getOrElse("")
+      //logger.info(s"ip: $ip, location: $location")
       validateParamsAndThen(
         new StringNonemptyValidator(password),
         new EmailFormatValidator(email),
@@ -54,7 +54,6 @@ object UserController extends Controller with Json4s with AccessLogging {
                 val uid = succeeded.id.toString
                 val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
                 UserActionService.saveUserAction(userAction)
-
                 val csrfToken = UUID.randomUUID().toString
                 cache.put("csrf-" + uid, csrfToken)
 
@@ -291,9 +290,31 @@ object UserController extends Controller with Json4s with AccessLogging {
       Ok(views.html.viewAccountSettings.render(request.session, langFromRequestCookie(request)))
   }
 
-  def accountProfiles() = Authenticated {
+  def accountProfiles() = Authenticated.async {
     implicit request =>
-      Ok(views.html.viewAccountProfile.render(request.session, langFromRequestCookie(request)))
+      UserService.getApiSecret(request.session.get("uid").get.toLong) map {
+        result =>
+        if (result.success) {
+          val apiToken = result.data.getOrElse("").asInstanceOf[String]
+          Ok(views.html.viewAccountProfile.render(apiToken, request.session, langFromRequestCookie(request)))
+        } else {
+          Ok(views.html.viewAccountProfile.render("", request.session, langFromRequestCookie(request)))
+        }
+      }
+  }
+
+  def generateApiToken = Authenticated.async {
+    implicit request =>
+      UserService.generateApiSecret(request.session.get("uid").get.toLong) map {
+        result =>
+        Ok(result.toJson)
+        // if (result.success) {
+        //   val apiToken = result.data.getOrElse("").asInstanceOf[String]
+        //   //Ok(views.html.viewAccountProfile.render(apiToken, request.session, langFromRequestCookie(request)))
+        // } else {
+        //   //Ok(views.html.viewAccountProfile.render("", request.session, langFromRequestCookie(request)))
+        // }
+      }
   }
 
   def googleauthView() = Authenticated {
@@ -417,7 +438,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def updateNickName() = Action.async(parse.urlFormEncoded) {
+  def updateNickName() = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
     val data = request.body
     val userId = request.session.get("uid").get.toLong

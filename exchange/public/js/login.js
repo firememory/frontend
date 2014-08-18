@@ -21,13 +21,13 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
     //         console.debug("data: ", data)
     //     });
 
-    $http({
-        method: 'JSONP',
-        url: 'http://ipinfo.io?callback=JSON_CALLBACK',
-        headers: {'Access-Control-Allow-Origin': 'http://ipinfo.io'}
-    }).success(function(data, status, headers, config) {
-        console.debug("data: ", data)
-    });
+    // $http({
+    //     method: 'JSONP',
+    //     url: 'http://ipinfo.io?callback=JSON_CALLBACK',
+    //     headers: {'Access-Control-Allow-Origin': 'http://ipinfo.io'}
+    // }).success(function(data, status, headers, config) {
+    //     console.debug("data: ", data)
+    // });
 
 
     $scope.doLogin = function () {

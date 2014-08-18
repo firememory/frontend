@@ -252,6 +252,9 @@ accountprofile.loginhistory.logTime=登录时间
 accountprofile.loginhistory.ip=登录IP
 accountprofile.loginhistory.location=登录地点
 
+accountsettings.apiToken=API密钥
+accountsettings.apiToken.create=生成
+
 footer.aboutUs=关于我们
 footer.fq=常见问题
 footer.fee=费用说明
