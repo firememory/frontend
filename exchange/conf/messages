@@ -358,6 +358,7 @@ transfer.withdraw=Withdraw
 transfer.deposit=Deposit
 transfer.depositAddress=Deposit Address
 transfer.withdrawalAddress=Withdrawal Address
+transfer.withdrawalAccount=Withdrawal Account
 transfer.account=Account
 transfer.withdrawalAmount=Withdrawal Quantity
 transfer.depositAmount=Deposit Quantity

@@ -41,7 +41,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAddress"))</label>
+            <label class="control-label col-sm-3">
+            <span ng-show="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAccount"))</span>
+            <span ng-hide="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAddress"))</span>
+            </label>
             <div class="col-sm-6">
                 <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address">
                 <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
@@ -49,7 +52,9 @@
             </div>
         </div>
         <div class="form-group" ng-show="@isSetEmailPreference()" >
-            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))</label>
+            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))
+
+            </label>
             <div class="col-sm-6">
                 <input name="emailVerCode" class="form-control" ng-model="withdrawalData.emailcode">
             </div>
