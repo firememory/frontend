@@ -32,7 +32,7 @@ object SmsController extends Controller with Json4s {
     val uuid = UUID.randomUUID().toString
     val verifyNum = rand.nextInt(randMax - randMin) + randMin
     val verifyCode = verifyNum.toString
-    cacheService.put(uuid, verifyCode)
+    cacheService.putWithTimeout(uuid, verifyCode, 30 * 60)
     (uuid, verifyCode)
   }
 

@@ -285,12 +285,12 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def accountSettingsView() = Action {
+  def accountSettingsView() = Authenticated {
     implicit request =>
       Ok(views.html.viewAccountSettings.render(request.session, langFromRequestCookie(request)))
   }
 
-  def accountProfiles() = Action.async {
+  def accountProfiles() = Authenticated.async {
     implicit request =>
       UserService.getApiSecret(request.session.get("uid").get.toLong) map {
         result =>

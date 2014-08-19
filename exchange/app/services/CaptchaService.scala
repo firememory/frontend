@@ -32,7 +32,7 @@ object CaptchaService {
     //println(s"captchaObj class: ${captchaObj.getClass}")
     val myGimpy = captchaObj.asInstanceOf[MyGimpy]
     //println(s"myGimpy class: ${myGimpy.getResponse}")
-    cacheService.put(uuid, myGimpy.getResponse)
+    cacheService.putWithTimeout(uuid, myGimpy.getResponse, 30 * 60)
 
     Captcha(imageSrc, uuid)
   }
