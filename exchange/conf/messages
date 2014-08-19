@@ -188,10 +188,10 @@ accountsettings.googleAuth.stepOneGuide=Please install Google authenticator on y
 accountsettings.googleAuth.stepTwoGuide=Please configure the Google authenticator as follows
 accountsettings.googleAuth.stepThreeGuide=Bind the Google authentication code to your account
 
-accountsettings.googleAuth.iphone=For iPhones
-accountsettings.googleAuth.android=For Androids
-accountsettings.googleAuth.windowsphone=For Windows Phones
-accountsettings.googleAuth.Nokias=For Nokias
+accountsettings.googleAuth.iphone=For iPhone
+accountsettings.googleAuth.android=For Android
+accountsettings.googleAuth.windowsphone=For Windows Phone
+accountsettings.googleAuth.Nokias=For Nokia
 accountsettings.googleAuth.scanQRcode=1. Click to add a new account (For iOS is +), then select "Scan QR code"
 accountsettings.googleAuth.inputSecret=2. Try to add the an account manually if you cannot scan the QR code by entering the following keys:
 
