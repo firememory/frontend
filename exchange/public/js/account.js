@@ -266,7 +266,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 if (data.success) {
                     var withdrawal = data.data.transfer;
                     var wd_address = $scope.withdrawalData.address;
-                    $scope.withdrawalData = {};
+                    $scope.withdrawalData = {currency: $scope.currency};
                     $scope.withdrawalData.address = wd_address;
                     alert(Messages.transfer.messages['ok']);
                 } else {
