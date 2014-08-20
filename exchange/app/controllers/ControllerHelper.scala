@@ -58,7 +58,7 @@ class CachedValueValidator(error: ErrorCode, check: Boolean, uuid: String, value
         val cachedValue = cacheService.get(uuid)
         logger.info(s" validate cached value. uuid: $uuid, cachedValue: $cachedValue")
         if (cachedValue != null && cachedValue.equals(value)) {
-          cacheService.pop(uuid)
+          //cacheService.pop(uuid)
           Right(true)
         } else Left(result)
       }
@@ -118,6 +118,11 @@ object ControllerHelper {
       val res2 = if (param.startsWith("+86")) param.substring(3).trim.length == 11 else true
       res1 && res2
     }
+  }
+
+  def popCachedValue(uuids: String*): Unit = {
+    val cacheService = CacheService.getDefaultServiceImpl
+    uuids.foreach { uuid => cacheService.pop(uuid) }
   }
 
   // class EmailWithInviteCodeValidator(emails: String*) extends GeneralValidator[String](emails: _*) {

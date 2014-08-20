@@ -76,7 +76,7 @@ object SmsController extends Controller with Json4s {
       val err = ErrorCode.SendSmsFrequencyTooHigh
       Future(ApiResult(false, err.value, err.toString))
     } else {
-      logger.info(s"send sms verify code: phoneNum=$phoneNum, verifyCode=$verifyCode")
+      //logger.info(s"send sms verify code: phoneNum=$phoneNum, verifyCode=$verifyCode")
       val sendRes = if (phoneNum.startsWith("+86") || phoneNum.startsWith("0086")) {
         val shortPhoneNum = if (phoneNum.startsWith("+86")) phoneNum.substring(3).trim
         else phoneNum.substring(4).trim

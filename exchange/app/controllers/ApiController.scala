@@ -150,6 +150,7 @@ object ApiController extends Controller with Json4s {
           new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode),
           new StringNonemptyValidator(username, uid))
       {
+        popCachedValue(emailUuid, phoneUuid)
         val amount = getParam(data, "amount", "0.0").toDouble
         val currency: Currency = getParam(data, "currency", "")
         val address = getParam(data, "address", "")

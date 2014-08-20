@@ -93,6 +93,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         new EmailFormatValidator(email),
         new PasswordFormetValidator(password)
       ) {
+        popCachedValue(uuid)
         val user: User = User(id = -1, email = email, password = password, referedToken = rf)
         UserService.register(user)
       } map {
@@ -156,6 +157,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
         new StringNonemptyValidator(userId, email, realName, mobile)
       ) {
+        popCachedValue(uuid)
         val uid = userId.toLong
         UserService.getProfile(uid)
       } flatMap {
@@ -195,6 +197,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
       new StringNonemptyValidator(userId, email, newMobile)
     ) {
+      popCachedValue(uuidOld, uuid)
       UserService.bindOrUpdateMobile(email, newMobile)
     } map {
       updateRes =>
@@ -404,6 +407,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)
       ) {
+        popCachedValue(uuid)
         UserService.setUserSecurityPreference(userId.toLong, prefer)
       } map {
         result =>
@@ -428,6 +432,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
       ) {
+        popCachedValue(uuid)
         UserService.setUserSecurityPreference(userId.toLong, prefer)
       } map {
         result =>
