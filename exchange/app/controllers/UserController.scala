@@ -258,6 +258,9 @@ object UserController extends Controller with Json4s with AccessLogging {
       val token = getParam(data, "token").getOrElse("")
       UserService.resetPassword(newPassword, token) map {
         result =>
+        if(result.success)
+          Ok(result.toJson).withNewSession
+        else
           Ok(result.toJson)
       }
   }

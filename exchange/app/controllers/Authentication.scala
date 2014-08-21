@@ -25,7 +25,7 @@ trait AuthenticateHelper {
     if (ajaxRequestHeadervalue.equals(ajaxRequestHeader)) {
       Future(Unauthorized)
     } else {
-      Future(Redirect(redirectUri))
+      Future(Redirect(redirectUri).withNewSession)
     }
   }
 }
@@ -61,9 +61,9 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         val csrfToken = cache.get("csrf-" + uid)
 
         if (currTs - ts > timeoutMillis) {
-          Future(Unauthorized)
+          Future(Unauthorized.withNewSession)
         } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
-          Future(Unauthorized)
+          Future(Unauthorized.withNewSession)
         } else {
           checkUserSuspended(uid.toLong, request, block)
         }
