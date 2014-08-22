@@ -171,7 +171,7 @@ object ControllerHelper {
   def parsePagingParam()(implicit request: Request[_]): Pager = {
     val query = request.queryString
     val limit = getParam(query, "limit", "10").toInt min 200
-    val page = getParam(query, "page", "1").toInt
+    val page = getParam(query, "page", "1").toInt max 0
     val skip = (page - 1) * limit
     Pager(skip = skip, limit = limit, page = page)
   }
