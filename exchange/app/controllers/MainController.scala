@@ -101,7 +101,9 @@ object MainController extends Controller with Json4s {
 
   def login(msg: String = "") = Action {
     implicit request =>
-      Ok(views.html.login.render(msg, request.session, langFromRequestCookie(request))).withNewSession
+      val regex = """^[-0-9a-zA-Z._]+$"""
+      val safeMsg = if (msg.matches(regex)) msg else ""
+      Ok(views.html.login.render(safeMsg, request.session, langFromRequestCookie(request))).withNewSession
   }
 
   def register(email: String = "") = Action {
