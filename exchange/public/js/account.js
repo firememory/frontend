@@ -221,16 +221,16 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.txUrl = COINPORT.txUrl[$scope.currency];
     $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
 
-    $scope.withdrawalFee = 0.0002;
+    $scope.withdrawalFee = 0.0005;
     switch ($scope.currency) {
         case "NXT":
             $scope.withdrawalFee = 2;
             break;
         case "BTSX":
-            $scope.withdrawalFee = 0.5;
+            $scope.withdrawalFee = 2;
             break;
         default :
-            $scope.withdrawalFee = 0.0002;
+            $scope.withdrawalFee = 0.0005;
             break;
     }
 
