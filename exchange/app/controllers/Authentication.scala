@@ -45,7 +45,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
             Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
         }
       } else {
-        Future(Unauthorized)
+        Future(Unauthorized.withNewSession)
       }
     }
   }
