@@ -88,6 +88,7 @@
                                 <thead>
                                 <tr>
                                     <th nowrap class="text-right">@Messages("address")</th>
+                                    <th nowrap class="text-right">@Messages("sign")</th>
                                     <th nowrap class="text-right">@Messages("amount")</th>
                                     <th nowrap class="text-right">@Messages("accumulated")</th>
                                 </tr>
@@ -104,6 +105,11 @@
                                         }
                                     </td>
                                     <td class="text-right">
+                                        <a href="" ng-click="openSign(wallet)">
+                                            @Messages("details") <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td class="text-right">
                                         <span ng-bind="wallet.amount.value"></span>
                                     </td>
                                     <td class="text-right">
@@ -118,6 +124,7 @@
                                 <thead>
                                 <tr>
                                     <th nowrap class="text-right">@Messages("address")</th>
+                                    <th nowrap class="text-right">@Messages("sign")</th>
                                     <th nowrap class="text-right">@Messages("amount")</th>
                                     <th nowrap class="text-right">@Messages("accumulated")</th>
                                 </tr>
@@ -130,6 +137,10 @@
                                         </a>
                                     </td>
                                     <td class="text-right">
+                                        <a href="" ng-click="openSign(wallet)">
+                                            @Messages("details") <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>                                    <td class="text-right">
                                         <span ng-bind="wallet.amount.value"></span>
                                     </td>
                                     <td class="text-right">
@@ -140,7 +151,6 @@
                             </table>
                         </div>
                     </div>
-
         </div>
             <div class="col-md-6">
                 <div class="row">
@@ -210,6 +220,9 @@
 @__footer()
 </div>
 @__tail_commons()
+@__js("/lib/simplemodal/mootools-core-1.3.1.js")
+@__js("/lib/simplemodal/mootools-more-1.3.1.1.js")
+@__js("/lib/simplemodal/simple-modal.js")
 @__js("/js/coin.js")
 @__tracking_js()
 </body>

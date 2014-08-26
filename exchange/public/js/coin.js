@@ -1,6 +1,6 @@
 var app = angular.module('coinport.coin', ['ui.bootstrap', 'ngResource', 'navbar', 'coinport.app']);
 
-app.controller('CoinCtrl', function ($scope, $http, $window) {
+app.controller('CoinCtrl', function ($scope, $http, $window, $modal) {
     $scope.coin = $window.location.pathname.replace("/coin/", "");
     $scope.addressUrl = COINPORT.addressUrl[$scope.coin];
     $scope.hotWallets = [];
@@ -52,4 +52,8 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
     };
 
     $scope.loadFiles();
+
+    $scope.openSign = function(wallet) {
+        alert('message: ' + wallet.message + '\nsignature:\n' + wallet.signature);
+    };
 });
