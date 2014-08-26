@@ -10,10 +10,10 @@ check_service(){
   isOk=`echo $res | grep '"success":true,"code":0' | wc -l`
   
   if [ "$isOk" -eq "1" ];then
-    echo "all service is ok now"
+    echo "coinport service is ok now"
     return 0
   else
-    echo "some service is not ok"
+    echo "coinport service is not ok"
     return 1
   fi
 }
@@ -39,14 +39,14 @@ try() {
 try $retry
 if [ $? -eq 1 ];then
   sh /var/coinport/code/frontend/exchange/shell/stop.sh
-  isRunning=`ps -ef | grep 'coinport-frontend1' | grep -v 'grep' | wc -l`
+  isRunning=`ps -ef | grep 'coinport-frontend' | grep -v 'grep' | wc -l`
   if [ $isRunning -eq 0 ];then
     echo "frontend has been stopped"
   fi
   sh /var/coinport/code/frontend/exchange/shell/prod_start.sh
-  isRunning=`ps -ef | grep 'coinport-frontend1' | grep -v 'grep' | wc -l`
+  isRunning=`ps -ef | grep 'coinport-frontend' | grep -v 'grep' | wc -l`
   if [ $isRunning -eq 1 ];then
     echo "frontend has been started"
-    exit(0)
+    exit 0
   fi
 fi
