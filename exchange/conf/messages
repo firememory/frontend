@@ -31,6 +31,7 @@ transactions=Trading History
 check=Details
 market=Market
 sign=Sign message
+close=Close
 
 authenticateNotLogin=Login Required
 authenticateTimeout=Your session has timed out, please log in again.

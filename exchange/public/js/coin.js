@@ -53,7 +53,7 @@ app.controller('CoinCtrl', function ($scope, $http, $window, $modal) {
 
     $scope.loadFiles();
 
-    $scope.openSign = function(wallet) {
-        alert('message: ' + wallet.message + '\nsignature:\n' + wallet.signature);
+    $scope.toggleSignMessage = function(wallet) {
+        wallet.showSign = !wallet.showSign;
     };
 });

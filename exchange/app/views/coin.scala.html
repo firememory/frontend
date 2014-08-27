@@ -110,8 +110,10 @@
                                         }
                                     </td>
                                     <td class="text-right">
-                                        <a href="" ng-show="wallet.message" popover-title='message: {{wallet.message}}' popover='signature: {{wallet.signature}}' popover-placement="bottom" >
-                                            @Messages("details") <i class="fa fa-edit"></i>
+                                        <a href="" ng-click="toggleSignMessage(wallet)" ng-show="wallet.message" popover-title='message: {{wallet.message}}' popover='signature: {{wallet.signature}}' popover-placement="bottom" >
+                                            <span ng-show="wallet.showSign">@Messages("close")</span>
+                                            <span ng-hide="wallet.showSign">@Messages("details")</span>
+                                            <i class="fa fa-edit"></i>
                                         </a>
                                     </td>
                                     <td class="text-right">
@@ -142,10 +144,13 @@
                                         </a>
                                     </td>
                                     <td class="text-right">
-                                        <a href="" ng-show="wallet.message" ng-click="openSign(wallet)">
-                                            @Messages("details") <i class="fa fa-edit"></i>
+                                        <a href="" ng-click="toggleSignMessage(wallet)" ng-show="wallet.message" popover-title='message: {{wallet.message}}' popover='signature: {{wallet.signature}}' popover-placement="bottom" >
+                                            <span ng-show="wallet.showSign">@Messages("close")</span>
+                                            <span ng-hide="wallet.showSign">@Messages("details")</span>
+                                            <i class="fa fa-edit"></i>
                                         </a>
-                                    </td>                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
                                         <span ng-bind="wallet.amount.value"></span>
                                     </td>
                                     <td class="text-right">
