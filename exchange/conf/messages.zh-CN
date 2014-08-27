@@ -30,7 +30,7 @@ orders=委托
 transactions=成交
 check=查看
 market=市场
-sign=签名
+sign=消息签名
 
 authenticateNotLogin=请先登录本网站
 authenticateTimeout=登录状态已失效，请重新登录
