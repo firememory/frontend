@@ -30,7 +30,7 @@ orders=Orders
 transactions=Trading History
 check=Details
 market=Market
-sign=Sign message
+sign=Signature
 close=Close
 
 authenticateNotLogin=Login Required
