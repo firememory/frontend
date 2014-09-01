@@ -385,8 +385,9 @@ transfer.cancelWithdrawal=取消
 transfer.depositRecord=充值记录
 transfer.withdrawalRecord=提现记录
 transfer.transferRecord=充值/提现记录
-transfer.withdrawalHint=最小提现不能小于0.01，无最大数量限制。您需要支付
-transfer.withdrawalHint2=手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。
+transfer.withdrawalHint=最小提现不能小于
+transfer.withdrawalHint1=，无最大数量限制。 我们会从提现数目中扣除
+transfer.withdrawalHint2=作为手续费。提现请求会在24小时内处理完成。我们的工作时间是香港时间12:00-24:00，周末无休。如有其他问题，请联系客服人员。
 transfer.withdrawalAddressNotMatch=您输入的提现地址不是有效的
 
 transfer.btsx.hint1=或者BTSX账户
