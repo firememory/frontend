@@ -191,12 +191,12 @@ object ApiController extends Controller with Json4s {
       val timeDimension = ChartTimeDimension(getParam(query, "period", "1").toInt)
       val defaultTo = System.currentTimeMillis()
       // return 90 items by default
-      val defaultFrom = defaultTo - timeDimension * 180
+      val defaultFrom = defaultTo - timeDimension * 90
       val fromParam = getParam(query, "from", defaultFrom.toString)
       val toParam = getParam(query, "to", defaultTo.toString)
 
-      val from = fromParam.toLong
       val to = toParam.toLong
+      val from = fromParam.toLong max (to - timeDimension * 180)
 
       MarketService.getHistory(market, timeDimension, from, to).map(result => Ok(result.toJson))
   }
