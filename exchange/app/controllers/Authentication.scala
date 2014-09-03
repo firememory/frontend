@@ -6,7 +6,7 @@ import play.api.mvc.Results._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import utils.Constant._
-import com.coinport.coinex.api.model.User
+import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.UserStatus
 import com.coinport.coinex.api.service.UserService
 import services.CacheService
@@ -51,7 +51,6 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
   }
 
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
-    // check login and session timeout here:
     request.session.get("uid").map { uid =>
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
@@ -72,10 +71,22 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-      Future(Unauthorized)
+      //Future(Unauthorized)
+      val userId = request.headers.get("USERID").getOrElse("-1").toLong
+      val apiToken = request.headers.get("API-TOKEN")
+      logger.info(s"authenticate for api request, apiToken: $apiToken, userId: $userId")
+      UserService.getApiSecret(userId) flatMap {
+        case ApiResult(success, _, _, secretOpt) if success &&
+            secretOpt.isDefined && secretOpt == apiToken =>
+          block(request)
+        case _ => Future(Unauthorized)
+      }
     }
   }
+
 }
+
+
 
 
 object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
