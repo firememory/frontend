@@ -72,21 +72,34 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       }
     } getOrElse {
       //Future(Unauthorized)
-      val userId = request.headers.get("USERID").getOrElse("-1").toLong
-      val apiToken = request.headers.get("API-TOKEN")
-      logger.info(s"authenticate for api request, apiToken: $apiToken, userId: $userId")
-      UserService.getApiSecret(userId) flatMap {
-        case ApiResult(success, _, _, secretOpt) if success &&
-            secretOpt.isDefined && secretOpt == apiToken =>
-          block(request)
-        case _ => Future(Unauthorized)
+      val userIdOpt = request.headers.get("USERID")
+      val apiTokenOpt = request.headers.get("API-TOKEN")
+      logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
+      if (accessControl(userIdOpt, apiTokenOpt)) {
+        UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
+          case ApiResult(success, _, _, secretOpt) if success &&
+              secretOpt.isDefined && secretOpt == apiTokenOpt =>
+            block(request)
+          case _ => Future(Unauthorized)
+        }
+      } else {
+        logger.info(s"accessControl error: request too frequency.")
+        Future(Unauthorized)
       }
     }
   }
 
+  private def accessControl(uidOpt: Option[String], tokenOpt: Option[String]) =
+    if (uidOpt.isDefined && tokenOpt.isDefined) {
+      val minInvokeIntervalMillis = 1000L
+      val key = uidOpt.get + "-" + tokenOpt.get
+      val currTs = System.currentTimeMillis
+      val cachedTsStr = cache.get(key)
+      val cachedTs = if (cachedTsStr == null) currTs else cachedTsStr.toLong
+      (currTs - cachedTs) > minInvokeIntervalMillis
+    } else false
+
 }
-
-
 
 
 object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
