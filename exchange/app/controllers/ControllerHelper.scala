@@ -88,6 +88,72 @@ class GoogleAuthValidator(error: ErrorCode, secret: String, code: String) extend
   }
 }
 
+class LoginFailedFrequencyValidator(email: String, ip: String) extends Validator {
+  import LoginFailedFrequencyValidator._
+  val result = ApiResult(false, ErrorCode.LoginFailedAndLocked.value, "", None)
+
+  def validate = {
+    val count = getLoginFailedCount(email, ip)
+    if (count >= 4){
+      val unlockMinutes = getUnLockMinutes(email, ip)
+      if (unlockMinutes < 120) {
+        val res = ApiResult(false, ErrorCode.LoginFailedAndLocked.value, s"login failed more than 5 times, please re-login after ${120 - unlockMinutes} minutes", Some(120 - unlockMinutes))
+        Left(res)
+      } else {
+        cleanLoginFailedRecord(email, ip)
+        Right(true)
+      }
+    }
+    else {
+      Right(true)
+    }
+  }
+}
+
+object LoginFailedFrequencyValidator {
+  val cacheService = CacheService.getDefaultServiceImpl
+
+  private def generateCountKey(email: String, ip: String): String =
+    email.trim + ip.trim + "LOGINFAILED"
+
+  private def generateTsKey(email: String, ip: String): String =
+    email.trim + ip.trim + "LOGINFAILEDLASTTIME"
+
+  def getLoginFailedCount(email: String, ip: String): Int = {
+    val key = generateCountKey(email, ip)
+    val value = cacheService.get(key)
+    if ( value != null) value.toInt else 0
+  }
+
+  def getUnLockMinutes(email: String, ip: String): Int = {
+    val key = generateTsKey(email, ip)
+    val value = cacheService.get(key)
+    if (value != null) {
+      ((System.currentTimeMillis - value.toLong) / (1000 * 60)).toInt
+    }
+    else {
+      cacheService.put(key, System.currentTimeMillis.toString)
+      0
+    }
+  }
+
+  def putLoginFailedRecord(email: String, ip: String) {
+    val countKey = generateCountKey(email, ip)
+    val tsKey = generateTsKey(email, ip)
+    val countVal = cacheService.get(countKey)
+    if (countVal != null) {
+      cacheService.put(countKey, (countVal.toInt + 1).toString)
+    } else cacheService.put(countKey, "1")
+    cacheService.put(tsKey, System.currentTimeMillis.toString)
+  }
+
+  def cleanLoginFailedRecord(email: String, ip: String) {
+    val countKey = generateCountKey(email, ip)
+    val tsKey = generateTsKey(email, ip)
+    cacheService.put(countKey, "0")
+  }
+}
+
 object ControllerHelper {
   val emptyParamError = ApiResult(false, ErrorCode.ParamEmpty.value, "param can not emppty", None)
   val emailFormatError = ApiResult(false, ErrorCode.InvalidEmailFormat.value, "email format error", None)

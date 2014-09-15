@@ -9,6 +9,7 @@ import play.api.mvc._
 import play.api.i18n.Lang
 import play.api.data._
 import play.api.Play
+import play.api.Logger
 import play.api.Play.current
 import play.api.libs.iteratee.Enumerator
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,6 +27,7 @@ import controllers.GoogleAuth.{CredentialRepositoryMock, GoogleAuthenticatorKey,
 import scala.concurrent.Future
 
 object MainController extends Controller with Json4s {
+  val logger = Logger(this.getClass)
   // def backdoor = Action {
   //   implicit request =>
   //     Redirect(routes.MainController.index())
@@ -132,16 +134,22 @@ object MainController extends Controller with Json4s {
   }
 
   def downloadFromHdfs(path: String, filename: String) = Action {
-    val stream = HdfsAccess.getFileStream(path, filename)
-    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
-      .onDoneEnumerating {
-      stream.close()
-    }
+    try {
+      val stream = HdfsAccess.getFileStream(path, filename)
+      val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
+        .onDoneEnumerating {
+        stream.close()
+      }
 
-    Result(
-      header = ResponseHeader(200),
-      body = fileContent
-    ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
+      Result(
+        header = ResponseHeader(200),
+        body = fileContent
+      ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
+    } catch {
+      case e: Exception =>
+        logger.error(s"downloadFromHdfs error: file not found. path=$path, filename=$filename")
+        NotFound
+    }
   }
 
   def listFilesFromHdfs(path: String) = Action {

@@ -35,13 +35,14 @@ object UserController extends Controller with Json4s with AccessLogging {
       val data = request.body
       val email = getParam(data, "username").getOrElse("")
       val password = getParam(data, "password").getOrElse("")
-      //val ip = getParam(data, "ip").getOrElse("")
+      val ip = request.remoteAddress //getParam(data, "ip").getOrElse("")
       //val location = getParam(data, "location").getOrElse("")
-      //logger.info(s"ip: $ip, location: $location")
+      logger.info(s"login ip: $ip")
       validateParamsAndThen(
         new StringNonemptyValidator(password),
         new EmailFormatValidator(email),
-        new PasswordFormetValidator(password)
+        new PasswordFormetValidator(password),
+        new LoginFailedFrequencyValidator(email, ip)
       ) {
         val user: User = User(id = -1, email = email, password = password)
         UserService.login(user)
@@ -56,6 +57,7 @@ object UserController extends Controller with Json4s with AccessLogging {
                 //UserActionService.saveUserAction(userAction)
                 val csrfToken = UUID.randomUUID().toString
                 cache.put("csrf-" + uid, csrfToken)
+                LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
 
                 Ok(result.toJson).withSession(
                   "username" -> succeeded.email,
@@ -70,10 +72,15 @@ object UserController extends Controller with Json4s with AccessLogging {
                     Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
                 )
               case _ =>
+                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
                 Ok(result.toJson)
             }
-          } else
+          } else {
+            if (result.code != ErrorCode.LoginFailedAndLocked.value) {
+              LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+            }
             Ok(result.toJson)
+          }
       }
   }
 

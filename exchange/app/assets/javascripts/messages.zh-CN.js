@@ -133,6 +133,10 @@ Messages.getMessage = function(code, msg) {
     }
 };
 
+Messages.getLoginErrorMessage = function(minutes) {
+    return "账号已锁定，请在" + minutes + "分钟后再重试！";
+};
+
 Messages.coinName = {
     BTC: '比特币(BTC)',
     LTC: '莱特币(LTC)',

@@ -40,7 +40,11 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
                     $window.location.href = '/trade';
                     $scope.showError= false;
                 } else {
-                    $scope.errorMessage = Messages.getMessage(data.code, data.message);
+                    if (data.code == 9013) {
+                        $scope.errorMessage = Messages.getLoginErrorMessage(data.data);
+                    } else {
+                        $scope.errorMessage = Messages.getMessage(data.code, data.message);
+                    }
                     $scope.showError = true;
                     $scope.login.password = '';
                     if (data.code == 1006)
