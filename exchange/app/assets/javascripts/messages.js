@@ -141,6 +141,10 @@ Messages.getLoginErrorMessage = function(minutes) {
     return "account locked, please retry after " + minutes + " munites";
 };
 
+Messages.getLoginRemainingAttempts = function(count) {
+    return "You have " + count + " attempts remaining";
+};
+
 Messages.coinName = {
     BTC: 'Bitcoin',
     LTC: 'Litecoin',

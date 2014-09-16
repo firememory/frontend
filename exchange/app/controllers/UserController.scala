@@ -76,10 +76,14 @@ object UserController extends Controller with Json4s with AccessLogging {
                 Ok(result.toJson)
             }
           } else {
+            val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
             if (result.code != ErrorCode.LoginFailedAndLocked.value) {
               LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+              val newRes = ApiResult(result.success, result.code, result.message, Some(4 - count))
+              Ok(newRes.toJson)
+            } else {
+              Ok(result.toJson)
             }
-            Ok(result.toJson)
           }
       }
   }
