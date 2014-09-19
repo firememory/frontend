@@ -3,6 +3,7 @@
 logs/
 target/
 **.swp
+**.DS_Store
 
 exchange/app/assets/startup/common-files/less/*.css
 exchange/app/assets/startup/flat-ui/less/*.css
