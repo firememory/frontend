@@ -42,8 +42,10 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
                 } else {
                     if (data.code == 9013) {
                         $scope.errorMessage = Messages.getLoginErrorMessage(data.data);
-                    } else {
+                    } else if (data.code > 100){
                         $scope.errorMessage = Messages.getMessage(data.code, data.message) + " " + Messages.getLoginRemainingAttempts(data.data);
+                    } else {
+                        $scope.errorMessage = Messages.getMessage(data.code, data.message);
                     }
                     $scope.showError = true;
                     $scope.login.password = '';

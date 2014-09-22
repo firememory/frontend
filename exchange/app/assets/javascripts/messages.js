@@ -132,8 +132,12 @@ Messages.getMessage = function(code, msg) {
     } else {
         if (msg !== undefined && msg.trim().length > 0)
             return msg;
-        else
-            return "internal error. errorCode=" + code;
+        else {
+            if (typeof code === "undefined")
+                return "internal error. errorCode=-1";
+            else
+                return "internal error. errorCode=" + code;
+        }
     }
 };
 
