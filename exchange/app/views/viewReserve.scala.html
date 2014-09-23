@@ -114,12 +114,7 @@
                         <tr ng-init="getWallets('@coin')">
                             <td nowrap>
                                 <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
-                                @if("btsx".equals(coin.toString.toLowerCase()) ||
-                                    "xrp".equals(coin.toString.toLowerCase())) {
-                                <strong>@coin</strong>
-                                } else {
                                 <strong> <a href="/coin/@coin">@coin</a> </strong>
-                                }
                             </td>
                             <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].available.value | quantity) + ' @coin'"></span></td>
                             <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].locked.value | quantity) + ' @coin'"></span></td>
@@ -127,25 +122,13 @@
                             <td nowrap class="text-right"><b ng-bind="(accounts['@coin'].total.value | quantity) + ' @coin'"></b></td>
                             <td nowrap class="text-right"><b ng-bind="(walletsBalance['@coin'].value | quantity) + ' @coin'"></b></td>
                             <td nowrap class="text-right">
-                                @if("btsx".equals(coin.toString.toLowerCase()) ||
-                                    "xrp".equals(coin.toString.toLowerCase())) {
-                                <a href="javascript: void(0);" ng-show="walletsBalance['@coin']"  class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
+                              <a href="/coin/@coin" ng-show="walletsBalance['@coin']"  class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
                                     {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4)}}%
-                                </a>
-                                } else {
-                                <a href="/coin/@coin" ng-show="walletsBalance['@coin']"  class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
-                                    {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4)}}%
-                                </a>
-                                }
+                              </a>
                             </td>
                             <td nowrap class="text-right">
-                              @if("btsx".equals(coin.toString.toLowerCase()) ||
-                              "xrp".equals(coin.toString.toLowerCase())) {
-                                    @Messages("check")
-                                } else {
                                 <a href="/coin/@coin" ng-show="walletsBalance['@coin']" class="">
                                     @Messages("check")
-                                </a>
                                 }
                             </td>
                         </tr>
@@ -221,12 +204,7 @@
                             <tr ng-init="getNetworkStatus('@coin')">
                                 <td nowrap>
                                     <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
-                                @if("btsx".equals(coin.toString.toLowerCase()) ||
-                                    "xrp".equals(coin.toString.toLowerCase())) {
-                                    <strong>@coin</strong>
-                                } else {
                                     <strong><a href="/coin/@coin">@coin</a></strong>
-                                }
                                 </td>
                                 <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
                                 <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>

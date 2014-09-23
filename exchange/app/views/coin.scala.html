@@ -101,7 +101,7 @@
                                 <tbody>
                                 <tr ng-repeat="wallet in hotWallets">
                                     <td class="text-right">
-                                        @if(coin == "BTSX") {
+                                        @if(coin == "BTSX" || coin == "XRP") {
                                             <span ng-bind="wallet.address"></span>
                                         } else {
                                             <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">
@@ -139,9 +139,13 @@
                                 <tbody>
                                 <tr ng-repeat="wallet in coldWallets">
                                     <td class="text-right">
-                                        <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">
-                                            <span ng-bind="wallet.address"></span> <i class="fa fa-external-link"></i>
-                                        </a>
+                                      @if(coin == "BTSX" || coin == "XRP") {
+                                      <span ng-bind="wallet.address"></span> <i class="fa fa-external-link"></i>
+                                      } else {
+                                      <a href="{{addressUrl}}{{wallet.address}}" target="_blank" class="" data-toggle="tooltip" data-placement="top" title="{{wallet.address}}">
+                                        <span ng-bind="wallet.address"></span> <i class="fa fa-external-link"></i>
+                                      </a>
+                                      }
                                     </td>
                                     <td class="text-right">
                                         <a href="" ng-click="toggleSignMessage(wallet)" ng-show="wallet.message" popover-title='message: {{wallet.message}}' popover='signature: {{wallet.signature}}' popover-placement="bottom" >
@@ -214,9 +218,15 @@
                             <!--<td nowrap class="text-right" ng-bind="">@Messages("loading")</td>-->
 
                             <td class="text-right">
+                              @if(coin == "BTSX" || coin == "XRP") {
+                              @Messages("address") <i class="fa fa-external-link"></i>
+                              |
+                              @Messages("transfer.txid") <i class="fa fa-external-link"></i>
+                              } else {
                                 <a target="_blank" href="{{addressUrl}}{{item.address}}" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
                                 |
                                 <a target="_blank" href="{{item.txlink}}" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+                                }
                             </td>
                         </tr>
                         </tbody>
