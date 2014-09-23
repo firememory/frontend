@@ -10,7 +10,8 @@ COINPORT = {
         'vrc-btc': 8,
         'zet-btc': 8,
         'btsx-btc': 8,
-        'nxt-btc': 8
+        'nxt-btc': 8,
+        'xrp-btc': 8
     },
 
     amountFixed: {
@@ -23,7 +24,8 @@ COINPORT = {
         vrc: 8,
         zet: 8,
         btsx: 8,
-        nxt: 8
+        nxt: 8,
+        xrp: 8
     },
 
 //    amountFixed: {
