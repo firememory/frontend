@@ -150,5 +150,6 @@ Messages.coinName = {
     VRC: '维理币(VRC)',
     ZET: '泽塔币(ZET)',
     BTSX: '比特股(BTSX)',
-    NXT: '未来币(NXT)'
+    NXT: '未来币(NXT)',
+    XRP: '瑞波币(XRP)'
 };

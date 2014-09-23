@@ -18,7 +18,12 @@
         <tr>
             <td nowrap>
                 <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
+                @if("btsx".equals(coin.toString.toLowerCase()) ||
+                "xrp".equals(coin.toString.toLowerCase())) {
+                <strong>@coin</strong>
+                } else {
                 <strong><a href="/coin/@coin">@coin</a></strong>
+                }
             </td>
             <td>0.1%</td>
             <td>0.1%</td>

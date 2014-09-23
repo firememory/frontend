@@ -158,5 +158,6 @@ Messages.coinName = {
     VRC: 'VeriCoin',
     ZET: 'Zetacoin',
     BTSX: 'BitSharesX',
-    NXT: 'Nextcoin'
+    NXT: 'Nextcoin',
+    XRP: 'Ripple'
 };

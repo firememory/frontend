@@ -53,9 +53,17 @@
                 <tbody>
                 @for(coin <- coins) {
                 <tr ng-init="getWallets('@coin')">
-                    <td nowrap><a href="/coin/@coin">
+                    <td nowrap>
+                      @if("btsx".equals(coin.toString.toLowerCase()) ||
+                      "xrp".equals(coin.toString.toLowerCase())) {
                         <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
-                        <strong>@coin</strong></a>
+                        <strong>@coin</strong>
+                      } else {
+                        <a href="/coin/@coin">
+                          <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">
+                          <strong>@coin</strong>
+                        </a>
+                      }
                     </td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].available.value | quantity">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].locked.value | quantity">@Messages("loading")</td>
@@ -63,8 +71,14 @@
                     <td nowrap class="text-right" ng-bind="accounts['@coin'].total.value | quantity">@Messages("loading")</td>
                     <td nowrap class="text-right" ng-bind="walletsBalance['@coin'].value | quantity">@Messages("loading")</td>
                     <td nowrap class="text-center">
+                      @if("btsx".equals(coin.toString.toLowerCase()) ||
+                      "xrp".equals(coin.toString.toLowerCase())) {
+                        <a href="javascript: void(0);" ng-show="walletsBalance['@coin']" ng-bind="((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4) + '%'" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value || 0 | reserveRatioClass}}">
+                        </a>
+                      } else {
                         <a href="/coin/@coin" ng-show="walletsBalance['@coin']" ng-bind="((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4) + '%'" class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value || 0 | reserveRatioClass}}">
                         </a>
+                      }
                     </td>
                     <!--td><div class="sparkline-@coin"></div></td-->
                 </tr>
