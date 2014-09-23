@@ -117,7 +117,14 @@
                 {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
             </td>
             <!--<td class="text-right"> {{item.txid}} </td>-->
-            <td><a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>
+            <td>
+              @if("btsx".equals(coin.toString.toLowerCase()) ||
+              "xrp".equals(coin.toString.toLowerCase())) {
+              @Messages("transfer.txid") <i class="fa fa-external-link"></i>
+              } else {
+              <a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+              }
+            </td>
             <td>
                 <a href="" class="" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</a>
             </td>

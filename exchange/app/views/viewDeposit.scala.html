@@ -54,7 +54,14 @@
                     <td nowrap> <span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span> </td>
                     <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
                     <td nowrap> {{item.address}} <br> {{item.NxtRsString}} </td>
-                    <td><a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a></td>
+                    <td>
+                      @if("btsx".equals(coin.toString.toLowerCase()) ||
+                      "xrp".equals(coin.toString.toLowerCase())) {
+                      @Messages("transfer.txid") <i class="fa fa-external-link"></i>
+                      } else {
+                      <a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+                      }
+                    </td>
                 </tr>
             </tbody>
         </table>
