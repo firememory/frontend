@@ -175,6 +175,8 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
     // hack BTSX
     if ($scope.currency.toUpperCase() == 'BTSX') {
         $scope.depositAddress = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
+    } else if ($scope.currency.toUpperCase() == 'XRP') {
+        $scope.depositAddress = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
     } else {
         $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
             .success(function (data, status, headers, config) {

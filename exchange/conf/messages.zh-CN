@@ -394,6 +394,10 @@ transfer.btsx.hint1=或者BTSX账户
 transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写)
 transfer.btsx.hint3=BTSX目前只支持使用已注册的帐号提币（比如coinport-deposit）。
 
+transfer.xrp.hint1=或者XRP账户
+transfer.xrp.hint2=并且填写Destination tag (非常重要，请千万不要忘记填写)
+transfer.xrp.hint3=XRP目前只支持使用已注册的帐号提币（比如coinportXrpDeposit）。
+
 asset.currency=资产种类
 asset.available=可用数量
 asset.totalAmount=总资产

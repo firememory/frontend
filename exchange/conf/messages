@@ -391,6 +391,9 @@ transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)
 transfer.btsx.hint3=Due to BTSX's API, now only support registered ID(Eg. coinport-deposit) to withdraw.
 
+transfer.xrp.hint1=or XRP Account
+transfer.xrp.hint2=with Destination tag (very important)
+transfer.xrp.hint3=Due to XRP's API, now only support registered ID(Eg. coinportXrpDeposit) to withdraw.
 
 asset.category=Category
 asset.available=Available
