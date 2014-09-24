@@ -366,6 +366,7 @@ transfer.deposit=充值
 transfer.depositAddress=充值地址
 transfer.withdrawalAddress=提现地址
 transfer.withdrawalAccount=提现账户
+transfer.withdrawalMemo=备忘录
 transfer.account=账户余额
 transfer.withdrawalAmount=提现数量
 transfer.depositAmount=充值数量

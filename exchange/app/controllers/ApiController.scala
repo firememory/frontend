@@ -154,8 +154,9 @@ object ApiController extends Controller with Json4s {
         val amount = getParam(data, "amount", "0.0").toDouble
         val currency: Currency = getParam(data, "currency", "")
         val address = getParam(data, "address", "")
+        val memo = getParam(data, "memo", "")
         UserService.setWithdrawalAddress(uid.toLong, currency, address)
-        AccountService.withdrawal(uid.toLong, currency, amount, address)
+        AccountService.withdrawal(uid.toLong, currency, amount, address, memo)
       } map {
         result => Ok(result.toJson)
       }

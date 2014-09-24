@@ -50,6 +50,7 @@ COINPORT = {
         VRC: 'http://blocks.vericoin.info/block/',
         ZET: 'https://coinplorer.com/ZET/Blocks/',
         BTSX: '',
+        XRP: 'https://ripple.com/developers/',
         NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=1000&blk='
     },
 
