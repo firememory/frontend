@@ -210,8 +210,12 @@
                                 <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>
                                 <td>{{status['@coin'].height}}</td>
                                 <td>
-                                  <a target="_blank" ng-show="blockUrl['@coin'].length > 0" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a>
-                                  <span ng-show="blockUrl['@coin'] === ''">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></span>
+                                  @if("btsx".equals(coin.toString.toLowerCase()) ||
+                                  "xrp".equals(coin.toString.toLowerCase())) {
+                                  <a target="_blank" href="{{blockUrl['@coin']}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a>
+                                  } else {
+                                  <a target="_blank" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a>
+                                  }
                                 </td>
                                 <td class="text-right"><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
                             </tr>
