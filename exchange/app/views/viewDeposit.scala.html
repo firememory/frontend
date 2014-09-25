@@ -20,6 +20,9 @@
     <h6>@Messages("transfer.depositAddress")</h6>
     <div class="alert alert-success col-md-10">
         <b>{{depositAddress}}</b>
+        <span ng-show="currency.toUpperCase() == 'NXT'">
+          public key: {{nxtPublicKey}}
+        </span>
         <span ng-show="currency.toUpperCase() == 'BTSX'">
             <br>
             @Messages("transfer.btsx.hint1"): <b>coinport-deposit</b>
