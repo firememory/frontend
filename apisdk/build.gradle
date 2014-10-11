@@ -1,0 +1,13 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+mainClassName = "com.coinport.sdk.CPRestSDK"
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+}
+
+dependencies {
+  compile 'org.apache.httpcomponents:httpclient:4.3.5'
+}
