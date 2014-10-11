@@ -236,6 +236,9 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         case "XRP":
             $scope.withdrawalLimit = 10;
             break;
+        case "DOGE":
+            $scope.withdrawalLimit = 5;
+            break;
         default :
             $scope.withdrawalLimit = 0.01;
             break;
@@ -251,6 +254,9 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             break;
         case "XRP":
             $scope.withdrawalFee = 1;
+            break;
+        case "DOGE":
+            $scope.withdrawalFee = 2;
             break;
         default :
             $scope.withdrawalFee = 0.0005;

@@ -21,6 +21,7 @@
     <div class="alert alert-success col-md-10">
         <b>{{depositAddress}}</b>
         <span ng-show="currency.toUpperCase() == 'NXT'">
+          <b class="red">@Messages("transfer.nxt.newaddr.hint") </b>
           <br/>
           <b>Public Key: {{nxtPublicKey}}</b>
         </span>

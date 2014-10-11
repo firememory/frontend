@@ -71,7 +71,6 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-      //Future(Unauthorized)
       val userIdOpt = request.headers.get("USERID")
       val apiTokenOpt = request.headers.get("API-TOKEN")
       logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
@@ -80,10 +79,12 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           case ApiResult(success, _, _, secretOpt) if success &&
               secretOpt.isDefined && secretOpt == apiTokenOpt =>
             block(request)
-          case _ => Future(Unauthorized)
+          case e =>
+            logger.error(s"apiToken invalid. res=$e")
+            Future(Unauthorized)
         }
       } else {
-        logger.info(s"accessControl error: request too frequency.")
+        logger.info(s"accessControl failed.")
         Future(Unauthorized)
       }
     }
@@ -95,12 +96,18 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       val key = uidOpt.get + "-" + tokenOpt.get
       val currTs = System.currentTimeMillis
       val cachedTsStr = cache.get(key)
-      val cachedTs = if (cachedTsStr == null) currTs else cachedTsStr.toLong
+      val cachedTs = if (cachedTsStr == null) 0L else cachedTsStr.toLong
+      logger.info(s"accessControl: Key = $key, currTs = $currTs, cachedTs = $cachedTs, interval = ${currTs - cachedTs}")
+
+      cache.putWithTimeout(key, currTs.toString(), 60)
+
       (currTs - cachedTs) > minInvokeIntervalMillis
-    } else false
+    } else {
+      logger.info("accessControl error: USERID and APT-TOKEN not found.")
+      false
+    }
 
 }
-
 
 object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
 

@@ -68,7 +68,10 @@ object ApiController extends Controller with Json4s {
       val subject = market.split("-")(0);
       val currency = market.split("-")(1);
       val data = request.body
-      request.session.get("uid") match {
+      val uidInSessionOpt = request.session.get("uid")
+      val uidInHeaderOpt = request.headers.get("USERID")
+      val uidOpt = if (uidInSessionOpt.isDefined) uidInSessionOpt else uidInHeaderOpt
+      uidOpt match {
         case Some(id) =>
           val orderType = getParam(data, "type", "")
           val price = getParam(data, "price").map(_.toDouble)
@@ -88,7 +91,10 @@ object ApiController extends Controller with Json4s {
 
   def cancelOrder(market: String, id: String) = Authenticated.async {
     implicit request =>
-      request.session.get("uid") match {
+      val uidInSessionOpt = request.session.get("uid")
+      val uidInHeaderOpt = request.headers.get("USERID")
+      val uidOpt = if (uidInSessionOpt.isDefined) uidInSessionOpt else uidInHeaderOpt
+      uidOpt match {
         case Some(uid) =>
           AccountService.cancelOrder(id.toLong, uid.toLong, market).map(result => Ok(result.toJson()))
         case None => Future(Unauthorized)
