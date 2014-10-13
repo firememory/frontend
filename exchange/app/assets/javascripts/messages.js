@@ -98,8 +98,8 @@ Messages.ErrorMessages = {
     m500:  'Request timeout, please retry later.',
     m1001: 'Hmmm..., this email has been registered already.',
     m1002: 'missing information',
-    m1003: 'Hmmm..., there is no such user in our system :(',
-    m1004: 'Your password is incorrect.',
+    m1003: 'Invalid username or password.',
+    m1004: 'Invalid username or password.',
     m1005: 'token not match',
     m1006: 'This account has not been verified yet, check your email to verify your registration first.',
 

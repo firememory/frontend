@@ -244,7 +244,8 @@ object UserController extends Controller with Json4s with AccessLogging {
           if (result.success) {
             Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
           } else {
-            Redirect(routes.MainController.prompt("prompt.requestResetPwdFailed"))
+            Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
+            //Redirect(routes.MainController.prompt("prompt.requestResetPwdFailed"))
           }
       }
   }
