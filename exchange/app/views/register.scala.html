@@ -23,13 +23,12 @@
     <div class="register-form">
         <form id="register-form" class="form" name="registerForm" novalidate>
             <div class="form-group">
-                @println(s"email: $email")
                 <input type="email" id="inputEmail" name="email" class="form-control register-field" placeholder="Email" ng-model="register.email" ng-init="register.email='@email'" required="">
                 <label class="register-field-icon fui-user" for="inputEmail"></label>
             </div>
 
             <div class="form-group">
-                <input name="password" type="password" id="inputPassword" class="form-control register-field" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="6" ng-maxlength="30" required="">
+                <input name="password" type="password" id="inputPassword" class="form-control register-field" placeholder='@(Messages("password"))' ng-model="register.password" ng-minlength="6" ng-maxlength="60" required="">
                 <label class="register-field-icon fui-lock" for="inputPassword"></label>
             </div>
 

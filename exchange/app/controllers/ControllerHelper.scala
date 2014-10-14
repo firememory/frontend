@@ -174,7 +174,7 @@ object ControllerHelper {
 
   class PasswordFormetValidator(passwords: String*) extends GeneralValidator[String](passwords: _*) {
     val result = passwordFormatError
-    def isValid(param: String) = param.trim.length > 8
+    def isValid(param: String) = param.trim.length > 6
   }
 
   class PhoneNumberValidator(phoneNum: String*) extends GeneralValidator[String](phoneNum: _*) {
