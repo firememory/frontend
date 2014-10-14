@@ -125,7 +125,9 @@ object MainController extends Controller with Json4s {
 
   def prompt(msgKey: String) = Action {
     implicit request =>
-      Ok(views.html.prompt.render(msgKey, request.session, langFromRequestCookie(request)))
+      val regex = """^[-0-9a-zA-Z._]+$"""
+      val safeMsg = if (msgKey.matches(regex)) msgKey else ""
+      Ok(views.html.prompt.render(safeMsg, request.session, langFromRequestCookie(request)))
   }
 
   def company = Action {
