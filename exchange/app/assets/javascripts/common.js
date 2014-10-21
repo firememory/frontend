@@ -62,7 +62,7 @@ COINPORT = {
         DRK: 'http://explorer.darkcoin.io/address/',
         VRC: 'http://blocks.vericoin.info/address/',
         ZET: 'https://coinplorer.com/ZET/Addresses/',
-        BTSX: '',
+        BTSX: 'http://blockchain.bitsuperlab.com',
         NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=3000&acc='
     },
 
@@ -74,7 +74,7 @@ COINPORT = {
         DRK: 'http://explorer.darkcoin.io/tx/',
         VRC: 'http://blocks.vericoin.info/tx/',
         ZET: 'https://coinplorer.com/ZET/Transactions/',
-        BTSX: '',
+        BTSX: 'http://blockchain.bitsuperlab.com',
         NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=2000&tra='
     }
 };

@@ -218,15 +218,21 @@
                             <!--<td nowrap class="text-right" ng-bind="">@Messages("loading")</td>-->
 
                             <td class="text-right">
-                              @if(coin == "BTSX" || coin == "XRP") {
-                                <a href="javascript: void(0);" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
+                              @if(coin == "BTSX") {
+                                <a target="_blank" href="{{addressUrl}}" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
                                 |
-                                <a href="javascript: void(0);" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+                                <a target="_blank" href="{{addressUrl}}" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
                               } else {
+                                @if(coin == "XRP") {
+                                <a href="javascript: void(0);" disabled="disabled" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
+                                |
+                                <a href="javascript: void(0);" disabled="disabled" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+                                } else {
                                 <a target="_blank" href="{{addressUrl}}{{item.address}}" data-toggle="tooltip" title='{{item.address}}'>@Messages("address") <i class="fa fa-external-link"></i></a>
                                 |
                                 <a target="_blank" href="{{item.txlink}}" data-toggle="tooltip" title='{{item.txid}}'>@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
                                 }
+                              }
                             </td>
                         </tr>
                         </tbody>
