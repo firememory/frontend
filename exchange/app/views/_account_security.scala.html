@@ -28,6 +28,19 @@
 
         <div class="row" style="height: 10px;"> </div>
 
+            @if(session.get(Constant.userRealName).isDefined && session.get(Constant.userRealName).get.nonEmpty) {
+        <div class="row sec-ok">
+            <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.realnameverify")</strong></div>
+            <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.realnameverifytips.verified")</div>
+        </div>
+            } else {
+        <div class="row sec-warn">
+            <div class="col-md-4 content-div"><i class="fa fa-warning fa-2x"/>&nbsp;<strong>@Messages("accountsettings.sec.realnameverify")</strong></div>
+            <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.realnameverifytips.notverified")</div>
+            <div class="col-md-2 content-div"><a ng-click="gotoRealNameVerifyPage()">@Messages("accountsettings.sec.btn.realnameverify")</a></div>
+        </div>
+            }
+
         <div class="row sec-ok">
             <div class="col-md-4 content-div"><i class="fa fa-check-square-o fa-2x"></i><strong>@Messages("accountsettings.sec.loginpassword")</strong></div>
             <div class="col-md-6 content-div content-div-middle">@Messages("accountsettings.sec.loginpwdTips")</div>

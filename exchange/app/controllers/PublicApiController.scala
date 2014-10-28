@@ -23,10 +23,9 @@ object PublicApiController extends Controller with Json4s {
       val depth = getParam(query, "depth", "5").toInt
 
       MarketService.getDepth(market, depth).map {
-        case res: ApiResult =>
-          val simpleRes = ApiResult(data = res.data.map(d => ApiMarketDepth2Simple(d.asInstanceOf[ApiMarketDepth])))
-          Ok(simpleRes.toJson)
-        case e: Any => Ok(e.toJson)
+        res =>
+        val simpleRes = ApiResult(data = res.data.map(d => ApiMarketDepth2Simple(d.asInstanceOf[ApiMarketDepth])))
+        Ok(simpleRes.toJson)
       }
   }
 

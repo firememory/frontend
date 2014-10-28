@@ -230,6 +230,23 @@ accountsettings.sec.modal.mobile.title=Modify mobile verification setting
 accountsettings.sec.modal.ok=Ok
 accountsettings.sec.modal.cancel=Cancel
 
+accountsettings.sec.realnameverify=Real-name authentication
+accountsettings.sec.realnameverifytips.verified=Real-name authentication finished
+accountsettings.sec.realnameverifytips.notverified=Unfinished account verification
+accountsettings.sec.btn.realnameverify=Real-name authentication
+
+accountsettings.realNameVerify.title=Real-name authentication
+accountsettings.realNameVerify.realName=Real Name
+accountsettings.realNameVerify.realName.hint=Real-name authentication cannot be modified, please make sure all the information is real. The payment can only be withdrawn into the verified same-name account.
+accountsettings.realNameVerify.location=Location
+accountsettings.realNameVerify.identiType=Identification Type
+accountsettings.realNameVerify.identiType.opt.idCard=ID Card
+accountsettings.realNameVerify.identiType.opt.passport=Passport
+accountsettings.realNameVerify.idNumber=ID Number
+accountsettings.realNameVerify.idNumber.hint=The code cannot be modified after submission, please check all the information is absolutely right before submit.
+accountsettings.realNameVerify.idNumberConfirm=Confirm
+accountsettings.realNameVerify.error.confirm=the two id number you provided don't match
+
 accountsettings.changepwd.title=Change Password
 accountsettings.changepwd.currPwd=Current Password
 accountsettings.changepwd.newPwd=New Password

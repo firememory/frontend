@@ -33,6 +33,7 @@ POST    /account/dopwdreset         controllers.UserController.doPasswordReset()
 POST    /account/dochangepwd        controllers.UserController.doChangePassword()
 POST    /account/bindmobile         controllers.UserController.doBindOrUpdateMobile()
 POST    /account/updatenickname     controllers.UserController.updateNickName()
+POST    /account/realnameverify     controllers.UserController.verifyRealName()
 
 GET     /passwdreset/$token<[a-zA-Z0-9._-]+>        controllers.UserController.validatePasswordReset(token)
 GET     /verification/$token<[a-zA-Z0-9._-]+>       controllers.UserController.verifyEmail(token)

@@ -1403,6 +1403,34 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             });
     };
 
+    $scope.realNameVerify = {};
+    $scope.gotoRealNameVerifyPage = function() {
+        $scope.showMainDiv = false;
+        $scope.showRealNameVerifyDiv = true;
+        $scope.realNameVerify = {};
+        $scope.showRealNameVerifyError = false;
+        $scope.realNameVerifyForm.$setPristine(true);
+    };
+
+    $scope.doRealNameVerify = function() {
+        $http.post('/account/realnameverify', $.param($scope.realNameVerify))
+            .success(function (data, status, headers, config) {
+                console.debug("changepwd result: ", data)
+                if (data.success) {
+                    $timeout(function() {
+                        //$scope.showMainDiv = true;
+                        //$scope.showRealNameVerifyDiv = false;
+                        $window.location.href = '/account#/accountsettings';
+                        $window.location.reload();
+                    }, 1000);
+                } else {
+                    $scope.showRealNameVerifyError = true;
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.realNameVerifyErrorMessage = errorMsg;
+                }
+            });
+    };
+
 });
 
 app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, $window, $routeParams) {

@@ -51,8 +51,8 @@ object UserController extends Controller with Json4s with AccessLogging {
           //todo(kongliang): refactor return user profile
           if (result.success) {
             result.data.get match {
-              case succeeded: LoginSucceeded =>
-                val uid = succeeded.id.toString
+              case profile: User =>
+                val uid = profile.id.toString
                 //val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
                 //UserActionService.saveUserAction(userAction)
                 val csrfToken = UUID.randomUUID().toString
@@ -60,14 +60,15 @@ object UserController extends Controller with Json4s with AccessLogging {
                 LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
 
                 Ok(result.toJson).withSession(
-                  "username" -> succeeded.email,
+                  "username" -> profile.email,
                   "uid" -> uid,
-                  "referralToken" -> succeeded.referralToken.getOrElse(0L).toString,
-                  Constant.cookieNameMobileVerified -> succeeded.mobile.isDefined.toString,
-                  Constant.cookieNameMobile -> succeeded.mobile.getOrElse(""),
-                  Constant.cookieNameRealName -> succeeded.realName.getOrElse(""),
-                  Constant.cookieGoogleAuthSecret -> succeeded.googleSecret.getOrElse(""),
-                  Constant.securityPreference -> succeeded.perference.getOrElse("01")
+                  //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
+                  Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
+                  Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
+                  Constant.cookieNameRealName -> profile.realName.getOrElse(""),
+                  Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
+                  Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
+                  Constant.userRealName -> profile.realName2.getOrElse("")
                 ).withCookies(
                     Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
                 )
@@ -469,6 +470,24 @@ object UserController extends Controller with Json4s with AccessLogging {
       result =>
       if (result.success) {
         val newSession = request.session + (Constant.cookieNameRealName -> cleanNickName)
+        Ok(result.toJson()).withSession(newSession)
+      } else Ok(result.toJson())
+    }
+  }
+
+  def verifyRealName() = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+    val data = request.body
+    val userId = request.session.get("uid").get.toLong
+    val realName = getParam(data, "realName").getOrElse("")
+    val location = getParam(data, "location").getOrElse("")
+    val identiType = getParam(data, "identiType").getOrElse("")
+    val idNumber = getParam(data, "idNumber").getOrElse("")
+    println(s"verifyRealName: realName=$realName, location=$location, identiType=$identiType, idNumber=$idNumber")
+    UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
+      result =>
+      if (result.success) {
+        val newSession = request.session + (Constant.userRealName -> realName)
         Ok(result.toJson()).withSession(newSession)
       } else Ok(result.toJson())
     }

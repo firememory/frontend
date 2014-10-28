@@ -234,6 +234,23 @@ accountsettings.sec.modal.mobile.title=修改手机短信验证设置
 accountsettings.sec.modal.ok=确定
 accountsettings.sec.modal.cancel=取消
 
+accountsettings.sec.realnameverify=实名认证
+accountsettings.sec.realnameverifytips.verified=实名已认证
+accountsettings.sec.realnameverifytips.notverified=尚未完成实名认证
+accountsettings.sec.btn.realnameverify=认证
+
+accountsettings.realNameVerify.title=实名认证
+accountsettings.realNameVerify.realName=真是姓名
+accountsettings.realNameVerify.realName.hint=实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。
+accountsettings.realNameVerify.location=区域
+accountsettings.realNameVerify.identiType=证件类型
+accountsettings.realNameVerify.identiType.opt.idCard=身份证
+accountsettings.realNameVerify.identiType.opt.passport=护照
+accountsettings.realNameVerify.idNumber=证件号码
+accountsettings.realNameVerify.idNumber.hint=证件号码一旦提交后不能更改，提交前请保证证件号码的正确。
+accountsettings.realNameVerify.idNumberConfirm=确认证件号码
+accountsettings.realNameVerify.error.confirm=两次输入的证件号码不一致
+
 accountsettings.changepwd.title=修改密码
 accountsettings.changepwd.currPwd=当前密码
 accountsettings.changepwd.newPwd=新密码
