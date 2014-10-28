@@ -387,6 +387,15 @@ transfer.withdrawalHint=The minimum amount of withdrawal should equal or greater
 transfer.withdrawalHint1=, which include
 transfer.withdrawalHint2=as fee you have to pay. Any withdrawal request will be processed in 24 hours. Our working hours are between 12:00 and 24:00 in HongKong Time.
 transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
+transfer.depositWorkflow=The Process of Deposit CNY
+transfer.chooseAgent=Please choose your agent
+transfer.chooseContactAgent=Choose and contact agent
+transfer.payToAgent=Pay to the agent
+transfer.depositSuccess=Deposit success
+transfer.accountBank=Bank:
+transfer.accountName=User:
+transfer.accountId=Account:
+transfer.qqId=QQ:
 
 transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)

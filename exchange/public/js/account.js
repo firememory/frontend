@@ -164,7 +164,7 @@ app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http)
     };
 }]);
 
-app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
+app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', '$window', function ($scope, $http, $routeParams, $location, $window) {
     $scope.currency = $routeParams.currency.toUpperCase();
 
     $http.get('/api/account/' + $scope.uid)
@@ -177,6 +177,7 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
         $scope.depositAddress = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
     } else if ($scope.currency.toUpperCase() == 'XRP') {
         $scope.depositAddress = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
+    } else if ($scope.currency.toUpperCase() == 'CNY') {
     } else {
         $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
             .success(function (data, status, headers, config) {
@@ -216,6 +217,10 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', f
 
     $scope.changeCurrency = function() {
         $location.path('/deposit/' + $scope.currency);
+    }
+
+    $scope.qqChat = function(qqId) {
+        $window.open('http://wpa.qq.com/msgrd?v=3&uin=' + qqId + '&site=qq&menu=yes', '_blank');
     }
 }]);
 

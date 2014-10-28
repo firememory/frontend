@@ -4,6 +4,7 @@ import play.api.Play
 import com.coinport.coinex.data.Implicits._
 import com.coinport.coinex.data.{Currency, MarketSide}
 import com.coinport.coinex.api.model._
+import models.Agent
 
 object Constant {
   private lazy val config = Play.current.configuration
@@ -38,4 +39,11 @@ object Constant {
         c
     }
   }
+
+  def agents = List(
+    Agent("马*", "招商银行", "水一方", "43** **** **** **92", "15321818279"),
+    Agent("杨**", "建设银行", "菜头", "12** **** **** **92", "43123454123"),
+    Agent("赵*", "农工商银行", "钱多多", "3* **** **** **92", "34132344441"),
+    Agent("叶**", "浦发银行", "性感小野猫", "99** **** **** **** *92", "55432121211")
+  )
 }
