@@ -413,6 +413,9 @@ transfer.accountBank=Bank:
 transfer.accountName=User:
 transfer.accountId=Account:
 transfer.qqId=QQ:
+transfer.verifyFailTitle=Not authenticated
+transfer.verifyFailDesc=You should verify your account to deposit CNY, click following button to verify your account.
+transfer.doVerifyBtn=Verify Account
 
 transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)

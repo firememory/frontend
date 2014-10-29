@@ -4,22 +4,32 @@
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 @isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
 @isSetPhonePreference() = @{session.get(securityPreference).get.head.toString.contentEquals("1")}
+@isVerifiedUser() = @{session.get(userRealName).isDefined && session.get(userRealName).get.toString != ""}
 
-<div class="row">
-    <h6>
-        <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
-        <select ng-model="currency" ng-change="changeCurrency()">
-            @for(coin <- coins) {
-            <option>@coin</option>
-            }
-        </select>
-    </h6>
+<div ng-hide="@isVerifiedUser() || currency.toUpperCase() != 'CNY'">
+    <div class="jumbotron">
+      <h6>@Messages("transfer.verifyFailTitle")</h6>
+      <p>@Messages("transfer.verifyFailDesc")</p>
+      <p><a class="btn btn-primary btn-lg" role="button" ng-click="doVerification()">@Messages("transfer.doVerifyBtn")</a></p>
+    </div>
 </div>
-<div class="row">
-    <h6>
-        @Messages("transfer.account") &nbsp; <a href="" ng-click="withdrawalData.amount=balance.available.value"><b>{{balance.available.value || 0}}</b></a> {{currency}}
-    </h6>
-    <alert class="col-md-10">
+
+<div ng-show="@isVerifiedUser() || currency.toUpperCase() != 'CNY'">
+    <div class="row">
+        <h6>
+            <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
+            <select ng-model="currency" ng-change="changeCurrency()">
+                @for(coin <- coins) {
+                <option>@coin</option>
+                }
+            </select>
+        </h6>
+    </div>
+    <div class="row">
+        <h6>
+            @Messages("transfer.account") &nbsp; <a href="" ng-click="withdrawalData.amount=balance.available.value"><b>{{balance.available.value || 0}}</b></a> {{currency}}
+        </h6>
+        <alert class="col-md-10">
         @Messages("transfer.withdrawalHint")
         {{withdrawalLimit}} {{currency}}
         @Messages("transfer.withdrawalHint1")
@@ -36,124 +46,125 @@
         <br>
         <b style="color: crimson">@Messages("transfer.xrp.hint3")</b>
         </span> -->
-    </alert>
-</div>
-<div class="row">
-    <form class="form-horizontal" name="withdrawalForm">
-        <div class="form-group">
-            <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAmount"))</label>
-            <div class="col-sm-6">
-                <input type="text" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount">
+        </alert>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" name="withdrawalForm">
+            <div class="form-group">
+                <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAmount"))</label>
+                <div class="col-sm-6">
+                    <input type="text" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-3">
-            <span ng-show="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAccount"))</span>
-            <span ng-hide="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAddress"))</span>
-            </label>
-            <div class="col-sm-6">
-                <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address">
-                <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
-                <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
+            <div class="form-group" ng-hide="currency.toUpperCase() == 'CNY'">
+                <label class="control-label col-sm-3">
+                    <span ng-show="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAccount"))</span>
+                    <span ng-hide="currency.toUpperCase() == 'BTSX'">@(Messages("transfer.withdrawalAddress"))</span>
+                </label>
+                <div class="col-sm-6">
+                    <input name="address" class="form-control" placeholder="{{withdrwalAddress}}" ng-model="withdrawalData.address">
+                    <span class="text-danger text-center" ng-show="withdrawalForm.address.$error.pattern">@Messages("transfer.withdrawalAddressNotMatch")</span>
+                    <!--<input ng-model="val" ng-pattern="/^\d+$/" name="anim" class="my-input" />-->
+                </div>
             </div>
-        </div>
 
-        <div class="form-group" ng-show="currency.toUpperCase() == 'BTSX'">
-            <label class="control-label col-sm-3">
-            <span>@(Messages("transfer.withdrawalMemo"))</span>
-            </label>
-            <div class="col-sm-6">
-                <input name="address" class="form-control" ng-model="withdrawalData.memo">
+            <div class="form-group" ng-show="currency.toUpperCase() == 'BTSX'">
+                <label class="control-label col-sm-3">
+                    <span>@(Messages("transfer.withdrawalMemo"))</span>
+                </label>
+                <div class="col-sm-6">
+                    <input name="address" class="form-control" ng-model="withdrawalData.memo">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group" ng-show="currency.toUpperCase() == 'NXT'">
-            <label class="control-label col-sm-3">
-            <span>Public Key</span>
-            </label>
-            <div class="col-sm-6">
-                <input name="address" class="form-control" ng-model="withdrawalData.publicKey">
-                @Messages("transfer.nxt.publickey.hint")
+            <div class="form-group" ng-show="currency.toUpperCase() == 'NXT'">
+                <label class="control-label col-sm-3">
+                    <span>Public Key</span>
+                </label>
+                <div class="col-sm-6">
+                    <input name="address" class="form-control" ng-model="withdrawalData.publicKey">
+                    @Messages("transfer.nxt.publickey.hint")
+                </div>
             </div>
-        </div>
 
-        <div class="form-group" ng-show="@isSetEmailPreference()" >
-            <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))
+            <div class="form-group" ng-show="@isSetEmailPreference()" >
+                <label class="control-label col-sm-3"> @(Messages("accountsettings.emailVerifyCode"))
 
-            </label>
-            <div class="col-sm-6">
-                <input name="emailVerCode" class="form-control" ng-model="withdrawalData.emailcode">
+                </label>
+                <div class="col-sm-6">
+                    <input name="emailVerCode" class="form-control" ng-model="withdrawalData.emailcode">
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail" ng-bind="verifyButtonEmail"> </button>
+                </div>
             </div>
-            <div class="col-sm-3">
-                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail" ng-bind="verifyButtonEmail"> </button>
+            <div class="form-group" ng-show="@isSetPhonePreference()" >
+                <label class="control-label col-sm-3"> @(Messages("accountsettings.smsVerifyCode"))</label>
+                <div class="col-sm-6">
+                    <input name="PhoneVerCode" class="form-control" ng-model="withdrawalData.phonecode">
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifySms()" ng-disabled="isTimingSms" ng-bind="verifyButtonSms"> </button>
+                </div>
             </div>
-        </div>
-        <div class="form-group" ng-show="@isSetPhonePreference()" >
-            <label class="control-label col-sm-3"> @(Messages("accountsettings.smsVerifyCode"))</label>
-            <div class="col-sm-6">
-                <input name="PhoneVerCode" class="form-control" ng-model="withdrawalData.phonecode">
+            <div class="form-group" ng-show="@isSetGoogleAuth()">
+                <label class="control-label col-sm-3"> @(Messages("accountsettings.googleAuth"))</label>
+                <div class="col-sm-6">
+                    <input name="googleVerCode" class="form-control" placeholder='@Messages("accountsettings.googleAuth")' ng-model="withdrawalData.googlecode">
+                </div>
             </div>
-            <div class="col-sm-3">
-                <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifySms()" ng-disabled="isTimingSms" ng-bind="verifyButtonSms"> </button>
+            <div style="height: 20px;">
+                <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
             </div>
-        </div>
-        <div class="form-group" ng-show="@isSetGoogleAuth()">
-            <label class="control-label col-sm-3"> @(Messages("accountsettings.googleAuth"))</label>
-            <div class="col-sm-6">
-                <input name="googleVerCode" class="form-control" placeholder='@Messages("accountsettings.googleAuth")' ng-model="withdrawalData.googlecode">
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount < 0.01">@Messages("transfer.withdraw")</button>
+                </div>
             </div>
-        </div>
-        <div style="height: 20px;">
-            <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-6">
-                <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount < 0.01">@Messages("transfer.withdraw")</button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="row">
+        </form>
+    </div>
+    <div class="row">
 
-</div>
+    </div>
 
-<div class="row">
-    <h6>@Messages("transfer.withdrawalRecord")</h6>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>@Messages("transfer.id")</th>
-            <th>@Messages("transfer.created")</th>
-            <th>@Messages("transfer.updated")</th>
-            <th>@Messages("transfer.amount")</th>
-            <th>@Messages("transfer.status")</th>
-            <th>@Messages("transfer.address")</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
-            <td>{{item.id}}</td>
-            <td><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
-            <td><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
-            <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
-            <td><span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
-            <td>
-                {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
-            </td>
-            <!--<td class="text-right"> {{item.txid}} </td>-->
-            <td>
-              @if("btsx".equals(coin.toString.toLowerCase()) ||
-              "xrp".equals(coin.toString.toLowerCase())) {
-              @Messages("transfer.txid") <i class="fa fa-external-link"></i>
-              } else {
-              <a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
-              }
-            </td>
-            <td>
-                <a href="" class="" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadWithdrawals()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    <div class="row">
+        <h6>@Messages("transfer.withdrawalRecord")</h6>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Messages("transfer.id")</th>
+                    <th>@Messages("transfer.created")</th>
+                    <th>@Messages("transfer.updated")</th>
+                    <th>@Messages("transfer.amount")</th>
+                    <th>@Messages("transfer.status")</th>
+                    <th>@Messages("transfer.address")</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr  ng-repeat="item in withdrawals | orderBy: ['-date', '-id']" class="">
+                <td>{{item.id}}</td>
+                <td><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
+                <td><i class="fa fa-clock-o"></i> {{item.updated > 0 ? (item.updated | date:"MM-dd HH:mm:ss") : ''}} </td>
+                <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
+                <td><span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
+                <td>
+                    {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
+                </td>
+                <!--<td class="text-right"> {{item.txid}} </td>-->
+                <td>
+                    @if("btsx".equals(coin.toString.toLowerCase()) ||
+                    "xrp".equals(coin.toString.toLowerCase())) {
+                    @Messages("transfer.txid") <i class="fa fa-external-link"></i>
+                    } else {
+                    <a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
+                    }
+                </td>
+                <td>
+                    <a href="" class="" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadWithdrawals()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    </div>
 </div>

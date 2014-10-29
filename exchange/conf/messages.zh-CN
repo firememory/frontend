@@ -416,6 +416,9 @@ transfer.accountBank=开户行：
 transfer.accountName=户名：
 transfer.accountId=帐号：
 transfer.qqId=QQ：
+transfer.verifyFailTitle=未做实名认证
+transfer.verifyFailDesc=您需要进行实名认证才能够提现人民币，请点击下面的按钮进行实名认证。
+transfer.doVerifyBtn=实名认证
 
 transfer.btsx.hint1=或者BTSX账户
 transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写)

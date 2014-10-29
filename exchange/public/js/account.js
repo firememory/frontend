@@ -436,6 +436,10 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 }
             });
     };
+
+    $scope.doVerification = function() {
+        $location.path('/accountsettings');
+    }
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
