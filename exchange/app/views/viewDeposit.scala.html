@@ -51,8 +51,8 @@
                         </div>
                     </div>
 
-                    <h6>@Messages("transfer.chooseAgent")</h6>
                     <div class="row">
+                        <h6>@Messages("transfer.chooseAgent")</h6>
                         <div class="alert alert-success col-md-10 card-wrapper">
                             @for(agent <- agents) {
                                 <div class="col-md-3 agent-card" ng-click="qqChat(@agent.qqId)">
