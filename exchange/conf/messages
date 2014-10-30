@@ -281,6 +281,8 @@ market.detail=Detail
 market.latestUpdateTime=Latest update time
 market.willBeUpdatedIn=Will be updated in
 market.seconds=s
+market.cny=CNY Markets
+market.btc=BTC Markets
 
 open.nav.about=About
 open.nav.opensource=Open-Sourced

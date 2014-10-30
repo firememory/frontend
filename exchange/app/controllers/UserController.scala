@@ -336,6 +336,40 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def addBankCard = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      val uid = request.session.get("uid").get.toLong
+      val data = request.body
+      val bankName = request.session.get("bankName").getOrElse("")
+      val ownerName = getParam(data, "ownerName").getOrElse("")
+      val cardNumber = getParam(data, "cardNumber").getOrElse("")
+      val branchBankName = getParam(data, "branchBankName").getOrElse("")
+      UserService.addBankCard(uid, bankName, ownerName, cardNumber, branchBankName) map {
+        result =>
+        Ok(result.toJson)
+      }
+  }
+
+  def deleteBankCard = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      val uid = request.session.get("uid").get.toLong
+      val data = request.body
+      val cardNumber = getParam(data, "cardNumber").getOrElse("")
+      UserService.deleteBankCard(uid, cardNumber) map {
+        result =>
+        Ok(result.toJson)
+      }
+  }
+
+  def queryBankCards = Authenticated.async {
+    implicit request =>
+      val uid = request.session.get("uid").get.toLong
+      UserService.queryBankCards(uid) map {
+        result =>
+        Ok(result.toJson)
+      }
+  }
+
   def googleauthView() = Action {
     implicit request =>
       Ok(views.html.viewGoogleAuth.render(request.session, langFromRequestCookie(request)))

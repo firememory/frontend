@@ -240,7 +240,7 @@ accountsettings.sec.realnameverifytips.notverified=尚未完成实名认证
 accountsettings.sec.btn.realnameverify=认证
 
 accountsettings.realNameVerify.title=实名认证
-accountsettings.realNameVerify.realName=真是姓名
+accountsettings.realNameVerify.realName=真实姓名
 accountsettings.realNameVerify.realName.hint=实名认证一旦提交通过后不可更改，并且提现时会检查姓名是否和银行卡户主名一致，因此请确认姓名的正确。
 accountsettings.realNameVerify.location=区域
 accountsettings.realNameVerify.identiType=证件类型
@@ -285,6 +285,8 @@ market.detail=细节
 market.latestUpdateTime=上次更新时间
 market.willBeUpdatedIn=下次更新时间在
 market.seconds=秒后
+market.cny=CNY定价
+market.btc=BTC定价        
 
 open.nav.about=开放透明
 open.nav.opensource=代码开源

@@ -21,6 +21,10 @@ object Constant {
     config.getList("exchange.markets").get.unwrapped()
   }
 
+  def cnymarkets = {
+    config.getList("exchange.cnymarkets").get.unwrapped()
+  }
+
   def coins = {
     config.getList("exchange.coins").get.unwrapped()
   }
