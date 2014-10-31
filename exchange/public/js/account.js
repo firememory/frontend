@@ -244,34 +244,46 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
         case "DOGE":
             $scope.withdrawalLimit = 5;
             break;
+        case "CNY":
+            $scope.withdrawalLimit = 500;
+            break;
         default :
             $scope.withdrawalLimit = 0.01;
             break;
     }
 
-    $scope.withdrawalFee = 0.0005;
+    $scope.withdrawalFee = '0.0005';
     switch ($scope.currency) {
         case "NXT":
-            $scope.withdrawalFee = 2;
+            $scope.withdrawalFee = '2';
             break;
         case "BTSX":
-            $scope.withdrawalFee = 2;
+            $scope.withdrawalFee = '2';
             break;
         case "XRP":
-            $scope.withdrawalFee = 1;
+            $scope.withdrawalFee = '1';
             break;
         case "DOGE":
-            $scope.withdrawalFee = 2;
+            $scope.withdrawalFee = '2';
+            break;
+        case "CNY":
+            $scope.withdrawalFee = '0.4%';
             break;
         default :
-            $scope.withdrawalFee = 0.0005;
+            $scope.withdrawalFee = '0.0005';
             break;
     }
 
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
-            $scope.balance = data.data.accounts[$scope.currency];
+            $scope.balance = data.data.accounts[$scope.currency] || {available: {value: 0}};
         });
+
+    if ($scope.currency === 'CNY') {
+        $http.get('/account/querybankcards').success(function(data, status, headers, config) {
+            $scope.bankCards = data.data || [];
+        });
+    }
 
     $scope.page = 1;
     $scope.limit = 25;

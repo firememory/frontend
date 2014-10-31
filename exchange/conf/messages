@@ -405,6 +405,7 @@ transfer.transferRecord=All Records
 transfer.withdrawalHint=The minimum amount of withdrawal should equal or greater than
 transfer.withdrawalHint1=, which include
 transfer.withdrawalHint2=as fee you have to pay. Any withdrawal request will be processed in 24 hours. Our working hours are between 12:00 and 24:00 in HongKong Time.
+transfer.withdrawalCreditCardHint=(Credit card is not supported)
 transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
 transfer.depositWorkflow=The Process of Deposit CNY
 transfer.chooseAgent=Please choose your agent

@@ -1,0 +1,66 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<div style="display: none;" id="addBankCardModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addBankCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="addBankCardModalLabel">添加银行卡</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <h6>开户银行:</h6>
+                    </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control"></input>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <h6>开户支行:</h6>
+                    </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control"></input>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <h6>开户名:</h6>
+                    </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control"></input>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <h6>卡号:</h6>
+                    </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control"></input>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">
+                        <h6>Email验证码:</h6>
+                    </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control"></input>
+                    </div>
+                    <button class="btn btn-default side-btn"> 获取邮件验证码 </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+                <button type="button" class="btn btn-primary">添加</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

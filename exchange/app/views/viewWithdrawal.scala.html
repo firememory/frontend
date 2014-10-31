@@ -30,30 +30,50 @@
             @Messages("transfer.account") &nbsp; <a href="" ng-click="withdrawalData.amount=balance.available.value"><b>{{balance.available.value || 0}}</b></a> {{currency}}
         </h6>
         <alert class="col-md-10">
-        @Messages("transfer.withdrawalHint")
-        {{withdrawalLimit}} {{currency}}
-        @Messages("transfer.withdrawalHint1")
-        {{withdrawalFee}} {{currency}}
-        @Messages("transfer.withdrawalHint2")
+            @Messages("transfer.withdrawalHint")
+            {{withdrawalLimit}} {{currency}}
+            @Messages("transfer.withdrawalHint1")
+            {{withdrawalFee}} <span ng-hide="currency.toUpperCase() == 'CNY'">{{currency}}</span>
+            @Messages("transfer.withdrawalHint2")
+            <span class="red" ng-show="currency.toUpperCase() == 'CNY'">@Messages("transfer.withdrawalCreditCardHint")</span>
 
-        <br>
-        <span ng-show="currency.toUpperCase() == 'BTSX'">
             <br>
-            <b style="color: crimson">@Messages("transfer.btsx.hint3")</b>
-        </span>
+            <span ng-show="currency.toUpperCase() == 'BTSX'">
+                <br>
+                <b style="color: crimson">@Messages("transfer.btsx.hint3")</b>
+            </span>
 
-        <!-- <span ng-show="currency.toUpperCase() == 'XRP'">
-        <br>
-        <b style="color: crimson">@Messages("transfer.xrp.hint3")</b>
-        </span> -->
+            <!-- <span ng-show="currency.toUpperCase() == 'XRP'">
+            <br>
+            <b style="color: crimson">@Messages("transfer.xrp.hint3")</b>
+            </span> -->
         </alert>
     </div>
     <div class="row">
-        <form class="form-horizontal" name="withdrawalForm">
+        <form class="form-horizontal" name="withdrawalForm" novalidate>
+            <div class="form-group" ng-show="currency.toUpperCase() == 'CNY'">
+                <label class="control-label col-sm-3">选择银行卡</label>
+
+                <div class="btn-group col-sm-6 bank-card-sel">
+                    <button type="button" class="btn btn-default" id="bank-card-desc" disabled>Action</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="bank-card-caret">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a><span class="glyphicon glyphicon-remove"><span></li>
+                        <li><a href="#">Another action</a><span class="glyphicon glyphicon-remove"><span></li>
+                        <li><a href="#">Something else here</a><span class="glyphicon glyphicon-remove"><span></li>
+                        <li><a href="#">Separated link</a><span class="glyphicon glyphicon-remove"><span></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-default side-btn" data-toggle="modal" data-target="#addBankCardModal"> 添加银行卡</button>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="control-label col-sm-3">@(Messages("transfer.withdrawalAmount"))</label>
                 <div class="col-sm-6">
-                    <input type="text" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount">
+                    <input type="number" name="amount" class="form-control" placeholder='@Messages("transfer.withdrawalAmount")' ng-model="withdrawalData.amount">
                 </div>
             </div>
             <div class="form-group" ng-hide="currency.toUpperCase() == 'CNY'">
@@ -94,8 +114,8 @@
                 <div class="col-sm-6">
                     <input name="emailVerCode" class="form-control" ng-model="withdrawalData.emailcode">
                 </div>
-                <div class="col-sm-3">
-                    <button class="btn-success" style="border: none; border-radius: 2px; margin-top: 8px;" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail" ng-bind="verifyButtonEmail"> </button>
+                <div class="col-sm-3 col-xs-12">
+                    <button class="btn btn-default side-btn" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail" ng-bind="verifyButtonEmail"> </button>
                 </div>
             </div>
             <div class="form-group" ng-show="@isSetPhonePreference()" >
@@ -118,7 +138,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
-                    <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount < 0.01">@Messages("transfer.withdraw")</button>
+                    <button class="btn btn-block btn-success" ng-click="withdrawal()" ng-disabled="withdrawalData.amount < withdrawalLimit">@Messages("transfer.withdraw")</button>
                 </div>
             </div>
         </form>
