@@ -13,7 +13,7 @@
     <title>@Messages("title")</title>
 
 <style>
- .btn-group {
+ .btn-group-market {
    position: relative;
    display: inline-block;
    font-size: 0;
@@ -21,7 +21,7 @@
    vertical-align: middle;
  }
 
- .btn {
+ .btn-market {
    display: inline-block;
    padding: 4px 5px;
    margin-bottom: 0;
@@ -53,9 +53,10 @@
    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
  }
 
- .btn:hover {
+ .btn-market:hover {
    /*color: #2980b9;*/  /*#333;*/
    background: #2980b9;
+   color: #ffffff;
    /*background-color: #2980b9;*/
  }
 
@@ -80,9 +81,9 @@
 <div class="container container-main light-bordered bg-light" ng-controller="BidAskCtrl">
     <div class="row">
         <div class="col-md-2" ng-init="btcMarketsShow=true; cnyMarketsShow=false;">
-            <div class="btn-group" style="margin: -45px -60px 0px 0px">
-              <a id="cnybtn" class="btn" ng-click="btcMarketsShow=false; cnyMarketsShow=true; updateBtnClass(0);">@Messages("market.cny")</a>&nbsp;
-              <a  id="btcbtn" class="btn" ng-click="btcMarketsShow=true; cnyMarketsShow=false; updateBtnClass(1);">@Messages("market.btc")</a>
+            <div class="btn-group-market" style="margin: -45px -60px 0px 0px">
+              <a id="cnybtn" class="btn-market" ng-click="btcMarketsShow=false; cnyMarketsShow=true; updateBtnClass(0);">@Messages("market.cny")</a>
+              <a  id="btcbtn" class="btn-market" ng-click="btcMarketsShow=true; cnyMarketsShow=false; updateBtnClass(1);">@Messages("market.btc")</a>
             </div>
 
             <!-- <div style="height: 20px;"></div> -->
