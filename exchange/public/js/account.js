@@ -224,7 +224,7 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', '
     }
 }]);
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', function ($scope, $http, $routeParams, $location, $interval) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', function ($scope, $http, $routeParams, $location, $interval, $modal) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $scope.withdrawalData = {};
     $scope.txUrl = COINPORT.txUrl[$scope.currency];
@@ -451,6 +451,13 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 
     $scope.doVerification = function() {
         $location.path('/accountsettings');
+    }
+
+    $scope.showAddBankCardModal = function() {
+        var addBankCardModal = $modal.open({
+            templateUrl: 'addBankCardContent.html',
+            controller: BankCardController,
+        });
     }
 }]);
 
@@ -1666,3 +1673,9 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, 
 //        };
 //    };
 //});
+
+var BankCardController = function($scope, $http, $modalInstance) {
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+};
