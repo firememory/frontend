@@ -456,7 +456,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
     $scope.showAddBankCardModal = function() {
         var addBankCardModal = $modal.open({
             templateUrl: 'addBankCardContent.html',
-            controller: BankCardController,
+            controller: 'AddBankCardController',
         });
     }
 }]);
@@ -1674,8 +1674,8 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, 
 //    };
 //});
 
-var BankCardController = function($scope, $http, $modalInstance) {
+app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
-};
+}]);
