@@ -224,13 +224,14 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', '
     }
 }]);
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', function ($scope, $http, $routeParams, $location, $interval, $modal) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', 'SelectedBankCard', function ($scope, $http, $routeParams, $location, $interval, $modal, SelectedBankCard) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $scope.withdrawalData = {};
     $scope.txUrl = COINPORT.txUrl[$scope.currency];
     $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
-
     $scope.withdrawalLimit = 0.01;
+
+    this.selectedBankCard = SelectedBankCard;
     switch ($scope.currency)  {
         case "NXT":
             $scope.withdrawalLimit = 10;
@@ -1675,7 +1676,33 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, 
 //});
 
 app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
+    $scope.form = {
+        ownerName: '',
+        bankName: '',
+        branchBankName: '',
+        cardNumber: '',
+        emailCode: '',
+    };
+
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
+
+    $scope.submit = function() {
+        alert($scope.form.bankName);
+        $http.post('/account/addbankcard', $.param($scope.form)).success(function (data, status, headers, config) {
+            if (data.success) {
+                alert(Messages.transfer.messages['ok']);
+                $modalInstance.close();
+            } else {
+                alert(Messages.getMessage(data.code));
+                $modalInstance.close();
+            }
+            // setTimeout($scope.loadBankCards, 1000);
+        });
+    };
 }]);
+
+app.factory('SelectedBankCard', function() {
+    return {bankName: '', name: ''};
+});
