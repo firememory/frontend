@@ -55,15 +55,13 @@
                 <label class="control-label col-sm-3">选择银行卡</label>
 
                 <div class="btn-group col-sm-6 bank-card-sel">
-                    <button type="button" class="btn btn-default" id="bank-card-desc" disabled>Action</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="bank-card-caret">
+                    <button type="button" class="btn btn-default bank-card-desc" disabled ng-hide="bankCards.length === 0">{{selectedBankCard.ownerName}}|{{selectedBankCard.cardNumber}}|{{selectedBankCard.bankName}}|{{selectedBankCard.branchBankName}}</button>
+                    <button type="button" class="btn btn-default bank-card-desc" disabled ng-show="bankCards.length === 0">需要添加银行卡才能提现</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="bankCards.length === 0"  data-toggle="dropdown" id="bank-card-caret">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a><span class="glyphicon glyphicon-remove"><span></li>
-                        <li><a href="#">Another action</a><span class="glyphicon glyphicon-remove"><span></li>
-                        <li><a href="#">Something else here</a><span class="glyphicon glyphicon-remove"><span></li>
-                        <li><a href="#">Separated link</a><span class="glyphicon glyphicon-remove"><span></li>
+                        <li ng-repeat="bankCard in bankCards"><a href="javascript:void(0);" ng-click="chooseBankCard(bankCard)">{{bankCard.ownerName}}|{{bankCard.cardNumber}}|{{bankCard.bankName}}|{{bankCard.branchBankName}}</a><span class="glyphicon glyphicon-remove" ng-click="showDeleteBankCardModal(bankCard)"><span></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
@@ -168,16 +166,12 @@
                 <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
                 <td><span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
                 <td>
-                    {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}"><i class="fa fa-external-link"></i></a>
+                    {{item.address}} <br> {{item.NxtRsString}} <a target="_blank" href="{{addressUrl}}{{item.txid}}" ng-hide="currency.toUpperCase() === 'CNY'"><i class="fa fa-external-link"></i></a>
                 </td>
                 <!--<td class="text-right"> {{item.txid}} </td>-->
                 <td>
-                    @if("btsx".equals(coin.toString.toLowerCase()) ||
-                    "xrp".equals(coin.toString.toLowerCase())) {
-                    @Messages("transfer.txid") <i class="fa fa-external-link"></i>
-                    } else {
-                    <a target="_blank" href="{{txUrl}}{{item.txid}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
-                    }
+                    <span ng-show="currency.toUpperCase() === 'BTSX' || currency.toUpperCase() === 'XRP'">@Messages("transfer.txid") <i class="fa fa-external-link"></i></span>
+                    <a target="_blank" href="{{txUrl}}{{item.txid}}" ng-hide="currency.toUpperCase() === 'BTSX' || currency.toUpperCase() === 'XRP' || currency.toUpperCase() === 'CNY'">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
                 </td>
                 <td>
                     <a href="" class="" ng-click="cancelWithdrawal(item.id)" ng-show="item.status == 0">@Messages("transfer.cancelWithdrawal")</a>

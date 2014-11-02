@@ -1,0 +1,27 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+
+<script type="text/ng-template" id="deleteBankCardContent.html">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">删除银行卡</h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <span> 开户名： </span>
+        <span ng-bind="form.ownerName"></span>
+        <br>
+        <span> 开户银行： </span>
+        <span ng-bind="form.bankName"> </span>
+        <br>
+        <span> 开户支行： </span>
+        <span ng-bind="form.branchBankName"> </span>
+        <br>
+        <span> 卡号： </span>
+        <span ng-bind="form.cardNumber"> </span>
+        <br>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+        <button type="button" class="btn btn-primary" ng-click="submit()">删除</button>
+    </div>
+</script>

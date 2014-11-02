@@ -224,14 +224,13 @@ app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', '
     }
 }]);
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', 'SelectedBankCard', function ($scope, $http, $routeParams, $location, $interval, $modal, SelectedBankCard) {
+app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', function ($scope, $http, $routeParams, $location, $interval, $modal) {
     $scope.currency = $routeParams.currency.toUpperCase();
     $scope.withdrawalData = {};
     $scope.txUrl = COINPORT.txUrl[$scope.currency];
     $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
     $scope.withdrawalLimit = 0.01;
 
-    this.selectedBankCard = SelectedBankCard;
     switch ($scope.currency)  {
         case "NXT":
             $scope.withdrawalLimit = 10;
@@ -280,10 +279,19 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.balance = data.data.accounts[$scope.currency] || {available: {value: 0}};
         });
 
-    if ($scope.currency === 'CNY') {
+    $scope.loadBankCards = function() {
         $http.get('/account/querybankcards').success(function(data, status, headers, config) {
             $scope.bankCards = data.data || [];
+            if ($scope.bankCards.length === 0) {
+                $scope.selectedBankCard = null;
+            } else {
+                $scope.selectedBankCard = $scope.bankCards[0];
+            }
         });
+    }
+
+    if ($scope.currency === 'CNY') {
+        $scope.loadBankCards();
     }
 
     $scope.page = 1;
@@ -303,9 +311,19 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             alert(Messages.transfer.messages['invalidAmount']);
             return;
         }
-        if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
-            alert(Messages.transfer.messages['invalidAddress']);
-            return;
+        if ($scope.currency === 'CNY') {
+            if (!$scope.selectedBankCard) {
+                alert(Messages.transfer.messages['invalidAddress']);
+                return;
+            } else {
+                var card = $scope.selectedBankCard;
+                $scope.withdrawalData.address = card.ownerName + '|' + card.cardNumber + '|' + card.bankName + '|' + card.branchBankName;
+            }
+        } else {
+            if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
+                alert(Messages.transfer.messages['invalidAddress']);
+                return;
+            }
         }
 
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
@@ -459,6 +477,31 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             templateUrl: 'addBankCardContent.html',
             controller: 'AddBankCardController',
         });
+        addBankCardModal.result.then(function() {
+            $scope.loadBankCards();
+        }, function() {
+        });
+    }
+
+    var self = this;
+    $scope.showDeleteBankCardModal = function(bankCard) {
+        var deleteBankCardModal = $modal.open({
+            templateUrl: 'deleteBankCardContent.html',
+            controller: 'DeleteBankCardController',
+            resolve: {
+                bankCardTBD: function() {
+                    return bankCard;
+                }
+            }
+        });
+        deleteBankCardModal.result.then(function() {
+            $scope.loadBankCards();
+        }, function() {
+        });
+    }
+
+    $scope.chooseBankCard = function(bankCard) {
+        $scope.selectedBankCard = bankCard;
     }
 }]);
 
@@ -1689,7 +1732,6 @@ app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', fu
     };
 
     $scope.submit = function() {
-        alert($scope.form.bankName);
         $http.post('/account/addbankcard', $.param($scope.form)).success(function (data, status, headers, config) {
             if (data.success) {
                 alert(Messages.transfer.messages['ok']);
@@ -1698,11 +1740,31 @@ app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', fu
                 alert(Messages.getMessage(data.code));
                 $modalInstance.close();
             }
-            // setTimeout($scope.loadBankCards, 1000);
         });
     };
 }]);
 
-app.factory('SelectedBankCard', function() {
-    return {bankName: '', name: ''};
-});
+app.controller('DeleteBankCardController', ['$scope', '$http', '$modalInstance', 'bankCardTBD', function($scope, $http, $modalInstance, bankCardTBD) {
+    $scope.form = {
+        ownerName: bankCardTBD.ownerName,
+        bankName: bankCardTBD.bankName,
+        branchBankName: bankCardTBD.branchBankName,
+        cardNumber: bankCardTBD.cardNumber,
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.submit = function() {
+        $http.post('/account/deletebankcard', $.param($scope.form)).success(function (data, status, headers, config) {
+            if (data.success) {
+                alert(Messages.transfer.messages['ok']);
+                $modalInstance.close();
+            } else {
+                alert(Messages.getMessage(data.code));
+                $modalInstance.close();
+            }
+        });
+    };
+}]);
