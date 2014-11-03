@@ -163,16 +163,19 @@ Messages.coinName = {
 };
 
 Messages.bankList = [
-    'Industrial & Commercial Bank of China',
     'China Construction Bank',
+    'Industrial & Commercial Bank of China',
     'Agricultural Bank of China',
-    'Bank of Communications',
     'Bank of China',
+    'Bank of Communications',
     'Guangdong Development Bank',
-    'CITIC Industrial Bank',
     'china minsheng bank',
+    'CITIC Industrial Bank',
     'Shenzhen Ping An Bank',
-    'China Everbright Bank',
     'Industrial Bank',
+    'China Everbright Bank',
     'Shanghai Pudong Development Bank',
+    'The Import-Export Bank of China',
+    'Huaxia Bank',
+    'China Development Bank',
     'China Merchants Bank'];
