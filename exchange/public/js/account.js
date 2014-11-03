@@ -1720,8 +1720,9 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, 
 
 app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
     $scope.form = {
+        banks: Messages.bankList,
         ownerName: '',
-        bankName: '',
+        bankName: Messages.bankList[0],
         branchBankName: '',
         cardNumber: '',
         emailCode: '',
@@ -1741,6 +1742,10 @@ app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', fu
                 $modalInstance.close();
             }
         });
+    };
+
+    $scope.selectBank = function(bankName) {
+        $scope.form.bankName = bankName;
     };
 }]);
 

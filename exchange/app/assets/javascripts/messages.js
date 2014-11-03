@@ -161,3 +161,18 @@ Messages.coinName = {
     NXT: 'Nextcoin',
     XRP: 'Ripple'
 };
+
+Messages.bankList = [
+    'Industrial & Commercial Bank of China',
+    'China Construction Bank',
+    'Agricultural Bank of China',
+    'Bank of Communications',
+    'Bank of China',
+    'Guangdong Development Bank',
+    'CITIC Industrial Bank',
+    'china minsheng bank',
+    'Shenzhen Ping An Bank',
+    'China Everbright Bank',
+    'Industrial Bank',
+    'Shanghai Pudong Development Bank',
+    'China Merchants Bank'];
