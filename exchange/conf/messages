@@ -266,6 +266,7 @@ accountprofile.loginhistory.title=Login History
 accountprofile.loginhistory.logTime=Login Time
 accountprofile.loginhistory.ip=Login IP
 accountprofile.loginhistory.location=Address
+accountprofile.getEmailVerifyCode=Send Email Code
 
 accountsettings.apiToken=API Token
 accountsettings.apiToken.create=Create
@@ -419,6 +420,15 @@ transfer.qqId=QQ:
 transfer.verifyFailTitle=Not authenticated
 transfer.verifyFailDesc=You should verify your account to deposit CNY, click following button to verify your account.
 transfer.doVerifyBtn=Verify Account
+transfer.chooseBankCard=Choose Bank Card
+transfer.addBankCard=Add Bank Card
+transfer.addBankCardWarn=( Card name should be the same as verified account name )
+transfer.deleteBankCard=Remove Bank Card
+transfer.chooseBankCardWain=Please set up your Bank Card to withdrawal CNY
+transfer.ownerName=Name
+transfer.cardNumber=Account
+transfer.bankName=Bank
+transfer.branchBankName=Branch
 
 transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)

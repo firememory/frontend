@@ -4,14 +4,14 @@
 <script type="text/ng-template" id="addBankCardContent.html">
     <div class="modal-header">
         <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">添加银行卡</h4>
-        <span class="red"> （银行卡的开户名必须和实名认证的真实姓名一致） </span>
+        <h4 class="modal-title">@Messages("transfer.addBankCard")</h4>
+        <span class="red"> @Messages("transfer.addBankCardWarn") </span>
     </div>
     <div class="modal-body">
         <form class="form-horizontal" name="addBankCardForm" novalidate>
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>开户名:</h6>
+                    <h6>@Messages("transfer.ownerName")</h6>
                 </label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" ng-model="form.ownerName"></input>
@@ -20,7 +20,16 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>开户银行:</h6>
+                    <h6>@Messages("transfer.cardNumber")</h6>
+                </label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="form.cardNumber"></input>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3">
+                    <h6>@Messages("transfer.bankName")</h6>
                 </label>
 
                 <div class="btn-group col-sm-6">
@@ -37,7 +46,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>开户支行:</h6>
+                    <h6>@Messages("transfer.branchBankName")</h6>
                 </label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" ng-model="form.branchBankName"></input>
@@ -46,26 +55,17 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>卡号:</h6>
-                </label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="form.cardNumber"></input>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">
-                    <h6>Email验证码:</h6>
+                    <h6>@Messages("accountsettings.emailVerifyCode")</h6>
                 </label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" ng-model="form.emailCode"></input>
                 </div>
-                <button class="btn btn-default side-btn"> 获取邮件验证码 </button>
+                <button class="btn btn-default side-btn"> @Messages("accountprofile.getEmailVerifyCode")</button>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="cancel()">退出</button>
-        <button type="button" class="btn btn-primary" ng-click="submit()">添加</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">@Messages("cancel")</button>
+        <button type="button" class="btn btn-primary" ng-click="submit()">@Messages("ok")</button>
     </div>
 </script>

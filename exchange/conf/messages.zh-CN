@@ -270,6 +270,7 @@ accountprofile.loginhistory.title=登录历史
 accountprofile.loginhistory.logTime=登录时间
 accountprofile.loginhistory.ip=登录IP
 accountprofile.loginhistory.location=登录地点
+accountprofile.getEmailVerifyCode=获取邮件验证码
 
 accountsettings.apiToken=API密钥
 accountsettings.apiToken.create=生成
@@ -422,6 +423,15 @@ transfer.qqId=QQ：
 transfer.verifyFailTitle=未做实名认证
 transfer.verifyFailDesc=您需要进行实名认证才能够提现人民币，请点击下面的按钮进行实名认证。
 transfer.doVerifyBtn=实名认证
+transfer.chooseBankCard=选择银行卡
+transfer.addBankCard=添加银行卡
+transfer.addBankCardWarn=（银行卡的开户名必须和实名认证的真实姓名一致）
+transfer.deleteBankCard=删除银行卡
+transfer.chooseBankCardWain=需要添加银行卡才能提现
+transfer.ownerName=开户名
+transfer.cardNumber=卡号
+transfer.bankName=开户银行
+transfer.branchBankName=开户支行
 
 transfer.btsx.hint1=或者BTSX账户
 transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写)

@@ -52,11 +52,11 @@
     <div class="row">
         <form class="form-horizontal" name="withdrawalForm" novalidate>
             <div class="form-group" ng-show="currency.toUpperCase() == 'CNY'">
-                <label class="control-label col-sm-3">选择银行卡</label>
+                <label class="control-label col-sm-3">@Messages("transfer.chooseBankCard")</label>
 
                 <div class="btn-group col-sm-6 bank-card-sel">
                     <button type="button" class="btn btn-default bank-card-desc" disabled ng-hide="bankCards.length === 0">{{selectedBankCard.ownerName}}|{{selectedBankCard.cardNumber}}|{{selectedBankCard.bankName}}|{{selectedBankCard.branchBankName}}</button>
-                    <button type="button" class="btn btn-default bank-card-desc" disabled ng-show="bankCards.length === 0">需要添加银行卡才能提现</button>
+                    <button type="button" class="btn btn-default bank-card-desc" disabled ng-show="bankCards.length === 0">@Messages("transfer.chooseBankCardWain")</button>
                     <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="bankCards.length === 0"  data-toggle="dropdown" id="bank-card-caret">
                         <span class="caret"></span>
                     </button>
@@ -65,7 +65,7 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-default side-btn" ng-click="showAddBankCardModal()"> 添加银行卡</button>
+                    <button class="btn btn-default side-btn" ng-click="showAddBankCardModal()">@Messages("transfer.addBankCard")</button>
                 </div>
             </div>
             <div class="form-group">
