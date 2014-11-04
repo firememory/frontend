@@ -1718,7 +1718,7 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $interval, $location, 
 //    };
 //});
 
-app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', function($scope, $http, $modalInstance) {
+app.controller('AddBankCardController', ['$scope', '$http', '$interval', '$modalInstance', function($scope, $http, $interval, $modalInstance) {
     $scope.form = {
         banks: Messages.bankList,
         ownerName: '',
@@ -1726,6 +1726,67 @@ app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', fu
         branchBankName: '',
         cardNumber: '',
         emailCode: '',
+        verifyCodeUuidEmail: ''
+    };
+
+    $scope.showErrorMsg = false;
+    $scope.addBankCardErrorMsg = '';
+
+    $scope.verifyButton = Messages.account.getEmailVerificationCode;
+
+    var _stop;
+    $scope.isTiming = false;
+
+    $scope.disableButton = function () {
+        if (angular.isDefined(_stop)) {
+            $scope.isTiming = true;
+            return;
+        }
+
+        $scope.seconds = 120;
+
+        _stop = $interval(function () {
+            if ($scope.seconds > 0) {
+                $scope.seconds = $scope.seconds - 1;
+                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+                $scope.isTiming = true;
+            }
+            else {
+                $scope.stopTiming();
+                $scope.verifyButton = Messages.account.getEmailVerificationCode;
+            }
+        }, 1000);
+    };
+
+    $scope.stopTiming = function () {
+        if (angular.isDefined(_stop)) {
+            $interval.cancel(_stop);
+            _stop = undefined;
+        }
+        $scope.isTiming = false;
+        $scope.seconds = 0;
+        $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    };
+
+    $scope.$on('destroy', function () {
+        $scope.stopTiming();
+    });
+
+    $scope.sendVerifyEmail = function () {
+        $scope.showErrorMsg = false;
+        $scope.disableButton();
+
+        $http.get('/emailverification')
+            .success(function (data, status, headers, config) {
+                console.debug('data: ', data);
+                if (data.success) {
+                    $scope.form.verifyCodeUuidEmail = data.data;
+                } else {
+                    $scope.stopTiming();
+                    $scope.showErrorMsg = true;
+                    $scope.addBankCardErrorMsg = Messages.getMessage(data.code, data.message);
+                }
+            });
     };
 
     $scope.cancel = function() {
@@ -1735,7 +1796,7 @@ app.controller('AddBankCardController', ['$scope', '$http', '$modalInstance', fu
     $scope.submit = function() {
         $http.post('/account/addbankcard', $.param($scope.form)).success(function (data, status, headers, config) {
             if (data.success) {
-                alert(Messages.transfer.messages['ok']);
+                alert(Messages.addBankCardSucceeded);
                 $modalInstance.close();
             } else {
                 alert(Messages.getMessage(data.code));
@@ -1764,7 +1825,7 @@ app.controller('DeleteBankCardController', ['$scope', '$http', '$modalInstance',
     $scope.submit = function() {
         $http.post('/account/deletebankcard', $.param($scope.form)).success(function (data, status, headers, config) {
             if (data.success) {
-                alert(Messages.transfer.messages['ok']);
+                alert(Messages.deleteBankCardSucceeded);
                 $modalInstance.close();
             } else {
                 alert(Messages.getMessage(data.code));

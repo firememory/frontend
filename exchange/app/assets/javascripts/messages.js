@@ -34,6 +34,9 @@ Messages.transfer = {
     }
 };
 
+Messages.addBankCard.success = 'Add bank card succeeded.';
+Messages.deleteBankCard.success = 'Delete bank card succeeded.';
+
 Messages.timeDemension = {
     w1 : '1w',
     d3: '3d',

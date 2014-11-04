@@ -2,34 +2,35 @@
 @import utils.Constant._
 
 <script type="text/ng-template" id="addBankCardContent.html">
+ <form class="form-horizontal" name="addBankCardForm">
+
     <div class="modal-header">
         <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">@Messages("transfer.addBankCard")</h4>
         <span class="red"> @Messages("transfer.addBankCardWarn") </span>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" name="addBankCardForm" novalidate>
-            <div class="form-group">
+             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>@Messages("transfer.ownerName")</h6>
+                    <h6><font color="red">*</font>&nbsp;@Messages("transfer.ownerName")</h6>
                 </label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="form.ownerName"></input>
+                    <input type="text" class="form-control" ng-model="form.ownerName" required=""></input>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>@Messages("transfer.cardNumber")</h6>
+                    <h6><font color="red">*</font>&nbsp;@Messages("transfer.cardNumber")</h6>
                 </label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="form.cardNumber"></input>
+                    <input type="text" class="form-control" ng-model="form.cardNumber" required=""></input>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>@Messages("transfer.bankName")</h6>
+                    <h6><font color="red">*</font>&nbsp;@Messages("transfer.bankName")</h6>
                 </label>
 
                 <div class="btn-group col-sm-6">
@@ -55,17 +56,24 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-3">
-                    <h6>@Messages("accountsettings.emailVerifyCode")</h6>
+                    <h6><font color="red">*</font>&nbsp;@Messages("accountsettings.emailVerifyCode")</h6>
                 </label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="form.emailCode"></input>
+                    <input type="text" class="form-control" ng-model="form.emailCode" required=""></input>
                 </div>
-                <button class="btn btn-default side-btn"> @Messages("accountprofile.getEmailVerifyCode")</button>
+                <button class="btn btn-default side-btn" ng-click="sendVerifyEmail()" ng-disabled="isTiming" ng-bind="verifyButton"></button>
             </div>
-        </form>
+
+           <div class="form-group" ng-show="showErrorMsg">
+               <div class="col-sm-offset-3 col-sm-6">
+                 <small class="text-danger" ng-bind="addBankCardErrorMsg"></small>
+               </div>
+           </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="cancel()">@Messages("cancel")</button>
-        <button type="button" class="btn btn-primary" ng-click="submit()">@Messages("ok")</button>
+        <button type="button" class="btn btn-primary" ng-disabled="addBankCardForm.$invalid"  ng-click="submit()">@Messages("ok")</button>
     </div>
+ </form>
+
 </script>

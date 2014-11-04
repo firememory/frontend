@@ -344,7 +344,18 @@ object UserController extends Controller with Json4s with AccessLogging {
       val ownerName = getParam(data, "ownerName").getOrElse("")
       val cardNumber = getParam(data, "cardNumber").getOrElse("")
       val branchBankName = getParam(data, "branchBankName").getOrElse("")
-      UserService.addBankCard(uid, bankName, ownerName, cardNumber, branchBankName) map {
+      val emailCode = getParam(data, "emailCode").getOrElse("")
+      val uuid = getParam(data, "verifyCodeUuidEmail").getOrElse("")
+
+    //println(s"bankName: $bankName, ownerName: $ownerName, cardNumber: $cardNumber, emailCode: $emailCode, uuid: $uuid")
+
+    validateParamsAndThen(
+      new StringNonemptyValidator(bankName, ownerName, cardNumber, emailCode, uuid),
+      new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
+    ) {
+      popCachedValue(uuid)
+      UserService.addBankCard(uid, bankName, ownerName, cardNumber, branchBankName)
+    } map {
         result =>
         Ok(result.toJson)
       }

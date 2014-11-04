@@ -34,6 +34,9 @@ Messages.transfer = {
   }
 };
 
+Messages.addBankCardSucceeded = '添加银行卡成功';
+Messages.deleteBankCardSucceeded = '删除银行卡成功';
+
 Messages.timeDemension = {
     w1 : '1周',
     d3: '3天',
