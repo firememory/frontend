@@ -47,7 +47,7 @@ COINPORT = {
         DOGE: 'http://dogechain.info/block/',
         BC: 'http://blackcha.in/block/',
         DRK: 'http://explorer.darkcoin.io/block/',
-        VRC: 'http://blocks.vericoin.info/block/',
+        VRC: 'https://chainz.cryptoid.info/vrc/block.dws?', //'http://blocks.vericoin.info/block/',
         ZET: 'https://coinplorer.com/ZET/Blocks/',
         BTSX: 'http://blockchain.bitsuperlab.com',
         XRP: 'https://ripple.com/developers/',
@@ -60,7 +60,7 @@ COINPORT = {
         DOGE: 'http://dogechain.info/address/',
         BC: 'http://blackcha.in/address/',
         DRK: 'http://explorer.darkcoin.io/address/',
-        VRC: 'http://blocks.vericoin.info/address/',
+        VRC: 'https://chainz.cryptoid.info/vrc/address.dws?', //'http://blocks.vericoin.info/address/',
         ZET: 'https://coinplorer.com/ZET/Addresses/',
         BTSX: 'http://blockchain.bitsuperlab.com',
         NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=3000&acc='
@@ -72,7 +72,7 @@ COINPORT = {
         DOGE: 'http://dogechain.info/tx/',
         BC: 'http://blackcha.in/tx/',
         DRK: 'http://explorer.darkcoin.io/tx/',
-        VRC: 'http://blocks.vericoin.info/tx/',
+        VRC: 'https://chainz.cryptoid.info/vrc/tx.dws?', //'http://blocks.vericoin.info/tx/',
         ZET: 'https://coinplorer.com/ZET/Transactions/',
         BTSX: 'http://blockchain.bitsuperlab.com',
         NXT: 'http://87.230.14.1/nxt/nxt.cgi?action=2000&tra='
