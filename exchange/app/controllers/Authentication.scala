@@ -61,8 +61,8 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
 
         if (currTs - ts > timeoutMillis) {
           Future(Unauthorized.withNewSession)
-        // } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
-        //   Future(Unauthorized.withNewSession)
+        } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
+          Future(Unauthorized.withNewSession)
         } else {
           checkUserSuspended(uid.toLong, request, block)
         }
