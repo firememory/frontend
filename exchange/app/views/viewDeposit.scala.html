@@ -1,11 +1,12 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
+@import scala.collection.JavaConverters._
 
 <div class="row">
     <h6>
         <b>@Messages("transfer.deposit")</b> / <a href="#/withdrawal/{{currency}}">@Messages("transfer.withdrawal")</a>&nbsp;&nbsp;
         <select ng-model="currency" ng-change="changeCurrency()">
-            @for(coin <- coins) {
+            @for(coin <- ("CNY" :: coins.asScala.toList)) {
                 <option>@coin</option>
             }
         </select>

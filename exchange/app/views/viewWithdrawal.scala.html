@@ -1,5 +1,6 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
+@import scala.collection.JavaConverters._
 
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 @isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
@@ -19,7 +20,7 @@
         <h6>
             <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
             <select ng-model="currency" ng-change="changeCurrency()">
-                @for(coin <- coins) {
+                @for(coin <- ("CNY" :: coins.asScala.toList)) {
                 <option>@coin</option>
                 }
             </select>
@@ -133,6 +134,11 @@
             </div>
             <div style="height: 20px;">
                 <div class="alert alert-danger col-sm-offset-3 col-sm-6" ng-show="showWithdrawalError">{{withdrawalErrorMessage}}</div>
+            </div>
+            <div class="error-container col-md-offset-3">
+              <!-- <div class="error" name="oldPwdMsg" ng-show="changePwdForm.oldPassword.$dirty && changePwdForm.oldPassword.$invalid && !changePwdForm.oldPassword.$focused">
+              <small class="text-danger text-center" ng-show="changePwdForm.oldPassword.$error.required">@Messages("accountsettings.changepwd.oldpwd.required") </small>
+              </div> -->
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
