@@ -317,7 +317,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 return;
             } else {
                 var card = $scope.selectedBankCard;
-                $scope.withdrawalData.address = card.ownerName + '|' + card.cardNumber + '|' + card.bankName + '|' + card.branchBankName;
+                $scope.withdrawalData.address = card.ownerName + '|' + card.cardNumber + '|' + card.bankName + '|' + (card.branchBankName || '');
             }
         } else {
             if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
