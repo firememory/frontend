@@ -1,18 +1,20 @@
 package controllers
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import java.util.Properties
+import com.typesafe.config.ConfigFactory
+import controllers.GoogleAuth.GoogleAuthenticator
 import java.io.FileInputStream
-import com.coinport.coinex.api.model._
-import com.coinport.coinex.data.ErrorCode
-import play.api.mvc._
+import java.util.Properties
 import play.api.Logger
-import play.api.i18n.Lang
 import play.api.Play
 import play.api.Play.current
+import play.api.i18n.Lang
+import play.api.mvc._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import services.CacheService
-import controllers.GoogleAuth.GoogleAuthenticator
+
+import com.coinport.coinex.api.model._
+import com.coinport.coinex.data.ErrorCode
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
 
@@ -161,6 +163,8 @@ object ControllerHelper {
   val inviteCodeError = ApiResult(false, ErrorCode.EmailNotBindWithInviteCode.value, "invalid invite code", None)
   val phoneNumberFormatError = ApiResult(false, ErrorCode.InvalidPhoneNumberFormat.value, "invalid mobile phone number", None)
 
+  val supportLangs = ConfigFactory.load("application.conf").getString("application.langs").split(",").toList
+
   class StringNonemptyValidator(stringParams: String*) extends GeneralValidator[String](stringParams: _*) {
     val result = emptyParamError
     def isValid(param: String) = param != null && param.trim.length > 0
@@ -243,11 +247,10 @@ object ControllerHelper {
   }
 
   def langFromRequestCookie(request: Request[_]): Lang = {
-    request.cookies.get(Play.langCookieName) match {
-      case Some(langCookie) => Lang(langCookie.value)
-      case None =>
-        if(request.acceptLanguages.size > 0) request.acceptLanguages(0)
-        else Lang("zh-CN")
+    val lang: String = request.cookies.get(Play.langCookieName) match {
+      case Some(langCookie) => langCookie.value
+      case None => if(request.acceptLanguages.size > 0) request.acceptLanguages(0).code else "zh-CN"
     }
+    Lang(if (supportLangs.contains(lang)) lang else "zh-CN")
   }
 }
