@@ -1,6 +1,5 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
-@import scala.collection.JavaConverters._
 
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 @isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
@@ -20,7 +19,7 @@
         <h6>
             <a href="#/deposit/{{currency}}">@Messages("transfer.deposit")</a> / <b>@Messages("transfer.withdrawal")</b>&nbsp;&nbsp;
             <select ng-model="currency" ng-change="changeCurrency()">
-                @for(coin <- ("CNY" :: coins.asScala.toList)) {
+                @for(coin <- allcoins) {
                 <option>@coin</option>
                 }
             </select>

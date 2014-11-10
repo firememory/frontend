@@ -647,6 +647,22 @@ function BidAskCtrl($scope, $http, $routeParams, $window, $cookies) {
 
     $('#bid_total').keyup(updateBidAmount);
     $('#ask_total').keyup(updateAskAmount);
+
+    // add control for market change buttons:
+
+    $scope.changeMarketSet = function(i) {
+        if (i === 0) {
+            $scope.btcMarketsShow=false;
+            $scope.cnyMarketsShow=true;
+            $('#cnybtn').addClass('active');
+            $('#btcbtn').removeClass('active');
+        } else {
+            $scope.btcMarketsShow=true;
+            $scope.cnyMarketsShow=false;
+            $('#cnybtn').removeClass('active');
+            $('#btcbtn').addClass('active');
+        }
+    }
 };
 
 // prevent app from memory leak, kind of hack

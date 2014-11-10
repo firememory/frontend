@@ -29,6 +29,10 @@ object Constant {
     config.getList("exchange.coins").get.unwrapped()
   }
 
+  def allcoins = {
+    config.getList("exchange.allcoins").get.unwrapped()
+  }
+
   def marketSides: Seq[MarketSide] = {
     markets.toArray.toSeq.map {
       case m: String =>

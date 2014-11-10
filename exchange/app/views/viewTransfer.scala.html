@@ -1,6 +1,5 @@
 @()(implicit lang: Lang)
 @import utils.Constant._
-@import scala.collection.JavaConverters._
 
 <section class="header-3-sub">
     <div class="row">
@@ -20,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(coin <- ("CNY" :: coins.asScala.toList)) {
+                    @for(coin <- allcoins) {
                     <tr ng-init="getCurrencyDetails('@coin')">
                         <td nowrap>
                             <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">

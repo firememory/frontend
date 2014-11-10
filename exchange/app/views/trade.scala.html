@@ -54,16 +54,23 @@
  }
 
  .btn-market:hover {
-   /*color: #2980b9;*/  /*#333;*/
-   background: #2980b9;
+   background: #1abc9c;
    color: #ffffff;
-   /*background-color: #2980b9;*/
  }
 
- a.active {
-   /*color: #2980b9;*/  /*#333;*/
-   background: #2980b9;
-   /*background-color: #2980b9;*/
+ .btn-market:active {
+   background: #3498db;/*#2980b9;*/
+   color: #ffffff;
+ }
+
+ #cnybtn.active {
+   background: #3498db;
+   color: #ffffff;
+ }
+
+ #btcbtn.active {
+   background: #3498db;
+   color: #ffffff;
  }
 </style>
 </head>
@@ -82,8 +89,8 @@
     <div class="row">
         <div class="col-md-2" ng-init="btcMarketsShow=true; cnyMarketsShow=false;">
             <div class="btn-group-market" style="margin: -45px -60px 0px 0px">
-              <a id="cnybtn" class="btn-market" ng-click="btcMarketsShow=false; cnyMarketsShow=true; updateBtnClass(0);">@Messages("market.cny")</a>
-              <a  id="btcbtn" class="btn-market" ng-click="btcMarketsShow=true; cnyMarketsShow=false; updateBtnClass(1);">@Messages("market.btc")</a>
+              <a id="cnybtn" class="btn-market" ng-click="changeMarketSet(0);">@Messages("market.cny")</a>
+              <a  id="btcbtn" class="btn-market" ng-click="changeMarketSet(1);">@Messages("market.btc")</a>
             </div>
 
             <!-- <div style="height: 20px;"></div> -->
@@ -124,21 +131,5 @@
 @__js("/js/trade.js")
 @__tracking_js()
 
-<script>
- function updateBtnClass(i) {
-   alert("i=" + i);
-   if (i === 0) {
-     document.getElementById('cnybtn').style.background = '#2980b9';
-     document.getElementById('btcbtn').style.background = '#f5f5f5';
-     /* $('#cnybtn').css({ background: #2980b9 });
-     $('#btcbtn').css({ background-color: #f5f5f5 }); */
-   } else {
-     document.getElementById('cnybtn').style.background = '#f5f5f5';
-     document.getElementById('btcbtn').style.background = '#2980b9';
-     /* $('#cnybtn').removeClass('active');
-     $('#btcbtn').addClass('active'); */
-   }
- }
-</script>
 </body>
 </html>
