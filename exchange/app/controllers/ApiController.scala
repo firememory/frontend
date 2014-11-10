@@ -247,7 +247,7 @@ object ApiController extends Controller with Json4s {
 
   def tickers() = Action.async {
     implicit request =>
-      val sides = Constant.marketSides
+      val sides = Constant.allMarketSides
       MarketService.getTickers(sides).map(result => Ok(result.toJson))
   }
 
