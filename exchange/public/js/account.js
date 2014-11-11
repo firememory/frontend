@@ -856,6 +856,9 @@ app.controller('AssetCtrl', function ($scope, $http) {
         }
     };
 
+    $scope.totalAssetBtc = 0;
+    $scope.totalAssetCny = 0;
+
     $scope.updateAsset = function () {
         $http.get('/api/account/' + $scope.uid)
             .success(function (response, status, headers, config) {
@@ -864,12 +867,21 @@ app.controller('AssetCtrl', function ($scope, $http) {
 
                 var priceMap = $scope.assets[$scope.assets.length - 1].priceMap;
 
+                $scope.totalAssetBtc = 0.0;
+
                 for (currency in $scope.accounts) {
                     var account = $scope.accounts[currency];
                     account.asset = amountMap[currency].display;
                     account.price = priceMap[currency].display;
+                    $scope.totalAssetBtc += parseFloat(account.asset);
                 }
 
+                if ($scope.accounts['CNY']) {
+                    $scope.totalAssetCny = (1.0 / $scope.accounts['CNY'].price) * $scope.totalAssetBtc;
+                }
+
+                $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(6);
+                $scope.totalAssetCny = $scope.totalAssetCny.toFixed(2);
             });
     };
 });

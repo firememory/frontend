@@ -441,6 +441,9 @@ transfer.xrp.hint3=Due to XRP's API, now only support registered ID(Eg. coinport
 transfer.nxt.newaddr.hint=Note that this is a new address
 transfer.nxt.publickey.hint= Optional
 
+transfer.account.totalasset.pre=Total assets: 
+transfer.account.totalasset.tail=Or
+
 asset.category=Category
 asset.available=Available
 asset.totalAmount=Total Quantity

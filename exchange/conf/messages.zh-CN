@@ -444,6 +444,9 @@ transfer.xrp.hint3=XRP目前只支持使用已注册的帐号提币（比如coin
 transfer.nxt.newaddr.hint=请注意，这是一个新地址。
 transfer.nxt.publickey.hint=没有可不填，地址首次使用请填写
 
+transfer.account.totalasset.pre=账户总资产估算：
+transfer.account.totalasset.tail=或者
+
 asset.currency=资产种类
 asset.available=可用数量
 asset.totalAmount=总资产

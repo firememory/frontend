@@ -38,48 +38,52 @@
                     <!--</td>-->
                 </tr>
                 </tbody>
-                <!--@__empty_table_indicator("accounts")	-->
+                <!--@__empty_table_indicator("accounts")    -->
             </table>
         </div>
     </div>
-    <div style="height: 100px;"></div>
-	<div class="row">
-		<div class="col-md-8">
-	        <h3>@Messages("asset.trend")</h3>
-	        <form>
-	            <label style="padding-left: 10px; padding-right: 10px;">Style </label>
-				<input type="radio" name="mode" value="grouped"> grouped
-				<input type="radio" name="mode" value="stacked" checked> stacked
-			</form>
-			<div>
-	            <svg id="user-finance-chart-history"></svg>
-			</div>
-		</div>
+    <div>
+     <span>@Messages("transfer.account.totalasset.pre")</span> {{totalAssetCny}} CNY <span>@Messages("transfer.account.totalasset.tail")</span> {{totalAssetBtc}} BTC
+    </div>
 
-		<div class="col-md-4">
-			<h3>@Messages("asset.pie")</h3>
-			<div id="user-finance-chart-pie">
-				<svg id="pieChartSVG">
-					<defs>
-						<filter id='pieChartInsetShadow'>
-							<feOffset dx='0' dy='0'/>
-							<feGaussianBlur stdDeviation='3' result='offset-blur' />
-							<feComposite operator='out' in='SourceGraphic' in2='offset-blur' result='inverse' />
-							<feFlood flood-color='black' flood-opacity='1' result='color' />
-							<feComposite operator='in' in='color' in2='inverse' result='shadow' />
-							<feComposite operator='over' in='shadow' in2='SourceGraphic' />
-						</filter>
-						<filter id="pieChartDropShadow">
-							<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
-							<feOffset in="blur" dx="0" dy="3" result="offsetBlur" />
-							<feMerge>
-								<feMergeNode />
-								<feMergeNode in="SourceGraphic" />
-							</feMerge>
-						</filter>
-					</defs>
-				</svg>
-			</div>
-		</div>
-	</div>
+    <div style="height: 100px;"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <h3>@Messages("asset.trend")</h3>
+            <form>
+                <label style="padding-left: 10px; padding-right: 10px;">Style </label>
+                <input type="radio" name="mode" value="grouped"> grouped
+                <input type="radio" name="mode" value="stacked" checked> stacked
+            </form>
+            <div>
+                <svg id="user-finance-chart-history"></svg>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h3>@Messages("asset.pie")</h3>
+            <div id="user-finance-chart-pie">
+                <svg id="pieChartSVG">
+                    <defs>
+                        <filter id='pieChartInsetShadow'>
+                            <feOffset dx='0' dy='0'/>
+                            <feGaussianBlur stdDeviation='3' result='offset-blur' />
+                            <feComposite operator='out' in='SourceGraphic' in2='offset-blur' result='inverse' />
+                            <feFlood flood-color='black' flood-opacity='1' result='color' />
+                            <feComposite operator='in' in='color' in2='inverse' result='shadow' />
+                            <feComposite operator='over' in='shadow' in2='SourceGraphic' />
+                        </filter>
+                        <filter id="pieChartDropShadow">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+                            <feOffset in="blur" dx="0" dy="3" result="offsetBlur" />
+                            <feMerge>
+                                <feMergeNode />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
 </section>
