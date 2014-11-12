@@ -114,6 +114,9 @@ function BidAskCtrl($scope, $http, $routeParams, $window, $cookies) {
 
             if ($scope.transactions.items.length > 0) {
                 $scope.lastPrice = $scope.transactions.items[0].price;
+                if ($scope.lastPrice.currency === 'CNY') {
+                    $scope.lastPrice.value = $scope.lastPrice.value.toFixed(4)
+                }
             }
         });
     };

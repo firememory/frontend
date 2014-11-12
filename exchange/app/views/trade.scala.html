@@ -87,7 +87,7 @@
 
 <div class="container container-main light-bordered bg-light" ng-controller="BidAskCtrl">
     <div class="row">
-        <div class="col-md-2" ng-init="btcMarketsShow=true; cnyMarketsShow=false;">
+        <div class="col-md-2" ng-init="btcMarketsShow=false; cnyMarketsShow=true;">
             <div class="btn-group-market" style="margin: -45px -60px 0px 0px">
               <a id="cnybtn" class="btn-market" ng-click="changeMarketSet(0);">@Messages("market.cny")</a>
               <a  id="btcbtn" class="btn-market" ng-click="changeMarketSet(1);">@Messages("market.btc")</a>
