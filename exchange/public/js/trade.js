@@ -652,6 +652,7 @@ function BidAskCtrl($scope, $http, $routeParams, $window, $cookies) {
     $('#ask_total').keyup(updateAskAmount);
 
     // add control for market change buttons:
+    $('#cnybtn').addClass('active');
 
     $scope.changeMarketSet = function(i) {
         if (i === 0) {
