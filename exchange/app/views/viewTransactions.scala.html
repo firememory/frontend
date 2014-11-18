@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <h3>@Messages("transaction.myTransactions")
                 <select ng-model="market" ng-change="changeMarket()">
-                    @for(market <- markets) {
+                    @for(market <- allmarkets) {
                     <option>@market</option>
                     }
                 </select>
@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                 </tbody>
-                @__empty_table_indicator("transactions.items")    
+                @__empty_table_indicator("transactions.items")
             </table>
             <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>

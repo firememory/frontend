@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @for(market <- markets) {
+                @for(market <- allmarkets) {
                     <tr>
                         <td nowrap>
                             <img ng-src='/image/coins/@(market.toString.split("-")(0).toLowerCase()).png'>
