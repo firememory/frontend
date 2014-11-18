@@ -117,10 +117,11 @@ function BidAskCtrl($scope, $http, $routeParams, $window, $cookies) {
                 // if ($scope.lastPrice.currency === 'CNY') {
                 //     $scope.lastPrice.value = $scope.lastPrice.value.toFixed(4)
                 // }
-                console.debug("scope.lastPrice: ", $scope.lastPrice);
+                //console.debug("scope.lastPrice: ", $scope.lastPrice);
             } else {
                 $scope.lastPrice = {};
                 $scope.lastPrice.value = 0.0;
+                $scope.lastPrice.value = "0";
             }
         });
     };
