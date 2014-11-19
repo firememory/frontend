@@ -51,6 +51,23 @@ object Constant {
     }
   }
 
+  def btcMarketSides: Seq[MarketSide] = {
+    markets.toArray.toSeq.map {
+      case m: String =>
+        val side: MarketSide = m
+        side
+    }
+  }
+
+  def cnyMarketSides: Seq[MarketSide] = {
+    cnymarkets.toArray.toSeq.map {
+      case m: String =>
+        val side: MarketSide = m
+        side
+    }
+  }
+
+
   def currencySeq = {
     coins.toArray.toSeq.map {
       case m: String =>

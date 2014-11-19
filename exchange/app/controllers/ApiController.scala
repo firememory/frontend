@@ -251,6 +251,16 @@ object ApiController extends Controller with Json4s {
       MarketService.getTickers(sides).map(result => Ok(result.toJson))
   }
 
+  def btcTicker() = Action.async { implicit request =>
+      val sides = Constant.btcMarketSides
+      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+  }
+
+  def cnyTicker() = Action.async { implicit request =>
+      val sides = Constant.cnyMarketSides
+      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+  }
+
   def ccNetworkStatus(currency: String) = Action.async {
     implicit request =>
       BitwayService.getNetworkStatus(currency).map(result => Ok(result.toJson))

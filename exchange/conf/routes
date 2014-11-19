@@ -116,6 +116,9 @@ GET     /api/open/network/*currency         controllers.ApiController.ccNetworkS
 GET     /api/open/wallet/*currency/*wtype   controllers.ApiController.wallets(currency, wtype)
 GET     /api/open/reserve/*currency         controllers.ApiController.currencyReserve(currency)
 
+GET     /api/m/ticker/btc                   controllers.ApiController.btcTicker()
+GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker()
+
 ## public API routes:
 GET     /public/*market/depth               controllers.PublicApiController.depth(market)
 
