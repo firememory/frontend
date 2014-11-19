@@ -25,7 +25,7 @@ object Constant {
     config.getList("exchange.cnymarkets").get.unwrapped()
   }
 
-  def allmarkets = markets.addAll(cnymarkets)
+  def allmarkets = markets.toArray.toSeq ++ cnymarkets.toArray.toSeq
 
   def coins = {
     config.getList("exchange.coins").get.unwrapped()
