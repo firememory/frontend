@@ -55,6 +55,42 @@ object MainController extends Controller with Json4s {
       Ok(views.html.account_asset.render(request.session))
   }
 
+  def assets() = Action {
+    implicit request =>
+      Ok(views.html.account_asset.render(request.session))
+  }
+
+  def transfer() = Action {
+    implicit request =>
+      Ok(views.html.account_transfer.render(request.session))
+  }
+
+  // def orders() = Action {
+  //   implicit request =>
+  //     Ok(views.html.account_transfer.render(request.session))
+  // }
+
+  // def transaction() = Action {
+  //   implicit request =>
+  //     Ok(views.html.account_transfer.render(request.session))
+  // }
+
+  def profile() = Action {
+    implicit request =>
+      Ok(views.html.account_profiles.render(request.session))
+  }
+
+  def settings() = Action {
+    implicit request =>
+      Ok(views.html.account_settings.render(request.session))
+  }
+
+  def googleAuth() = Action {
+    implicit request =>
+      Ok(views.html.account_googleauth.render(request.session))
+  }
+
+
 
   // def trade = Action {
   //   implicit request =>
