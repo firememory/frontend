@@ -1,0 +1,217 @@
+@()(implicit session: Session)
+
+@isLogin() = @{session.get("uid").isDefined}
+@username = @{session.get("username").getOrElse("")}
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="/css/font.css" />
+<!--[if lt IE 9]><script src="assets/js/html5shiv.js"></script><![endif]-->
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="https://exchange.coinport.com"><i class="icon-coinport"></i><i class="icon-bifenggang"></i></a> </div>
+    <div class="navbar-collapse collapse" role="navigation">
+      <ul class="site-nav nav navbar-nav">
+        <li class="active"> <a href="/">首页</a> </li>
+        <li> <a href="API.html">交易中心</a> </li>
+        <li> <a href="FAQ.html">开放透明</a> </li>
+        <!-- <li> <a href="account-asset.html">我的账户</a> </li> -->
+        <li> <a href="https://blog.coinport.com" target="_blank">博客</a> </li>
+      </ul>
+      @if(!isLogin()) {
+      <ul class="nav navbar-nav navbar-right user-state">
+        <li><a href="login.html"><i class="icon-user"></i>登录</a></li>
+        <li><a href="register.html"><i class="icon-key"></i>注册</a></li>
+      </ul>
+      } else {
+      <ul class="nav navbar-nav navbar-right user-state">
+        <li><a href="/account"><i class="icon-user"></i>我的帐户</a></li>
+        <li><a href="#register"><i class="icon-key"></i>退出</a></li>
+      </ul>
+      }
+    </div>
+  </div>
+</div>
+<div class="fixes-top">
+  <div class="coinport-intro-box">
+    <div class="container">
+      <div class="row">
+        <div class="coinport-intro">
+          <div class="coinport-intro-content"> <i class="icon-e-coinport"></i>
+            <h2><em>币丰港交易所</em><span class="hidden-xs">，</span>全球首家全透明数字货币交易平台</h2>
+            <p>币丰港是全球首家“全透明”交易平台。完全的透明性来源于我们完全开放的政策<br />
+              包括：代码开源、数据开放、准备金证明。 </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-brown clearfix real-time-market">
+    <div class="container">
+      <div class="row">
+          <div class="slider">
+          <div class="item">
+        <div class="col-lg-3 col-md-3 col-xs-12">
+          <h2> 比特币(BTC) </h2>
+        </div>
+        <div class="col-lg-9 col-md-9 col-xs-12">
+      <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥4880</em>
+                <h3>最新成交价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥5280</em>
+                <h3>24小时最高价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥4753</em>
+                <h3>24小时最低价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>฿139752</em>
+                <h3>24小时成交量 </h3>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="item">
+        <div class="col-lg-3 col-md-3 col-xs-12">
+          <h2> 比特币(BTC) </h2>
+        </div>
+        <div class="col-lg-9 col-md-9 col-xs-12">
+      <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥4880</em>
+                <h3>最新成交价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥5280</em>
+                <h3>24小时最高价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>¥4753</em>
+                <h3>24小时最低价</h3>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+              <div class="market-counter"> <em>฿139752</em>
+                <h3>24小时成交量 </h3>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-coinport">
+    <div class="container">
+      <div class="row">
+        <div class="feature clearfix">
+          <div class="col-lg-4 col-sm-4 col-xs-12">
+            <div class="text-center">
+              <div class="icon-box"> <em><i class="icon-github"></i></em>
+                <div class="blk20"></div>
+                <h3>代码开源</h3>
+                <div class="blk20"></div>
+                <p>我们的交易匹配引擎将托管在github上。 您可以访问我们的代码库获取源代码，查看任何您感兴趣的部分。 我们鼓励用户了解所有细节，并帮助我们不断完善交易系统。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-4 col-xs-12">
+            <div class="text-center">
+              <div class="icon-box"> <em><i class="icon-chart2"></i></em>
+                <div class="blk20"></div>
+                <h3>数据开放</h3>
+                <div class="blk20"></div>
+                <p>除用户隐私数据外，平台全部数据均可任意浏览下载。 全部订单、交易、充值、提现、账户余额、冷热钱包地址等均对用户开放。 您既可以掌控全局，也能够深入细节。</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-4 col-xs-12">
+            <div class="text-center">
+              <div class="icon-box"> <em><i class="icon-anchor"></i></em>
+                <div class="blk20"></div>
+                <h3>证明金准备</h3>
+                <div class="blk20"></div>
+                <p>如何证明我们没有挪用您托管的资产？ 依靠晦涩难懂的Merkle-tree吗？ 不必那么麻烦。我们直接公开全部账户的余额，以及所有冷热钱包地址。准备金是否充足，您一目了然。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</div>
+<footer>
+  <div class="container ">
+    <div class="row">
+      <div class="footer-nav">
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>关于</b></h5>
+          <ul>
+            <li><a href="team.html">团队</a></li>
+            <li><a href="jobs.html">招贤纳士</a></li>
+            <li><a href="#">联系方式</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>法律</b></h5>
+          <ul>
+            <li><a href="shiyongtiaokuan.html" target="_blank">使用条款</a></li>
+            <li><a href="yinsizhengce.html" target="_blank">隐私政策</a></li>
+            <li><a href="fanxiqianzhengce.html" target="_blank">反洗钱政策</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>资源</b></h5>
+          <ul>
+            <li><a href="jieruliucheng.html">接入指南</a></li>
+            <li><a href="#">了解比特币</a></li>
+            <li><a href="#">比特币支付原理</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>媒体</b></h5>
+          <ul>
+            <li><a href="http://weibo.com/coinport" target="_blank">新浪微博</a></li>
+            <li class="qrcode"><a href="javascript:void;" data-toggle="popover" data-placement="left" data-content='<img src="assets/images/qrcode.png">'>微信</a></li>
+            <li><a href="http://twitter.com/coinportinc" target="_blank">twitter</a></li>
+            <li><a href="http://facebook.com/coinport" target="_blank">facebook</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="blk20"></div>
+  </div>
+  <div class="divider"></div>
+  <div class="copyright text-center">© 2014 币丰港（香港）网络科技有限公司<br />保留所有权利</div>
+</footer>
+
+<!--end-main-container-->
+<script src="/js/jquery-1.11.1.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/bxslider.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

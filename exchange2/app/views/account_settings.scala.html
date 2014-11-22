@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="stylesheet" href="assets/css/bootstrap.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/font.css" />
+<!--[if lt IE 9]><script src="assets/js/html5shiv.js"></script><![endif]-->
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-header">
+    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+    <a class="navbar-brand" href="http://pay.coinport.com"><i class="icon-coinport"></i><i class="icon-bifenggang"></i></a> </div>
+  <div class="navbar-collapse collapse" role="navigation">
+    <ul class="site-nav nav navbar-nav">
+      <li> <a href="index.html">首页</a> </li>
+      <li> <a href="API.html">交易中心</a> </li>
+      <li> <a href="FAQ.html">开放透明</a> </li>
+      <li class="active"><a href="account-asset.html">我的账户</a> </li>
+      <li> <a href="FAQ.html">博客</a> </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right user-state">
+      <li><a href="login.html"><i class="icon-user"></i>登录</a></li>
+      <li><a href="register.html"><i class="icon-key"></i>注册</a></li>
+    </ul>
+    <ul class="user-state hide">
+      <li><a href="account.html"><i class="icon-user"></i>我的帐户</a></li>
+      <li><a href="#register"><i class="icon-key"></i>退出</a></li>
+    </ul>
+  </div>
+</div>
+<div class="fixes-top">
+  <div class="sidebar-wrap">
+    <!--sidebar-menu-->
+    <div id="sidebar" >
+      <ul class="side-menu">
+        <li class=""><a href="account-asset.html"><i class="icon-purse"></i> <span>我的资产</span></a> </li>
+        <li class=""><a href="account-transfer.html"><i class="icon-transfer"></i> <span>充值提现</span></a> </li>
+        <li class="has-submenu "><a href="#"><i class="icon-angle pull-right"></i><i class="icon-legal"></i><span>成交委托</span></a>
+          <ul>
+            <li><a href="account-orders.html"><span>我的委托</span></a></li>
+            <li><a href="account-transaction.html"><span>我的成交</span></a></li>
+          </ul>
+        </li>
+        <li class="has-submenu active"><a href="#"><i class="icon-angle pull-right"></i><i class="icon-user"></i><span>用户中心</span></a>
+          <ul style="display:block;">
+            <li><a href="account-profiles.html"><span>用户信息</span></a></li>
+            <li class="active"><a href="account-settings.html"><span>账号安全</span></a></li>
+            <li><a href="account-googleauth.html"><span>双重认证</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--end-sidebar-menu-->
+
+  <!--container-->
+  <div id="main-container">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>账号安全</h3>
+      </div>
+      <div class="panel-body">
+                  <div class="blk-3x"></div>
+                  <div class="row">
+              <div class="col-sm-2 col-xs-12 align-fixes"><i class="icon-bulb icon-3x text-warning vm"></i></div>
+              <div class="col-sm-10 col-xs-12">
+                <p class=" text-dark tip">对于特定的账户操作，币丰港将要求您提供验证码。我们将通过邮件方式发送验证码，验证码的过期时间为30分钟。 我们同时提供基于谷歌Authenticator的双重验证。鉴于邮件的安全级别较低，我们建议所有用户开通双重验证。 开通双重验证后，对于同样地账户操作，我们在要求邮件验证的同时，将额外要求您提供谷歌Authenticator的二次验证。我们强烈建议您请尽可能在完成安全设置后再充值或提现资金。</p>
+              </div>
+            </div>
+            <div class="blk-3x"></div>
+        <form role="form" class="form-horizontal">
+              <div class="form-group-separator"></div>
+              <div class="blk-1x"></div>
+          <div class="form-group">
+          <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">登录密码</label></div>
+
+            <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success">登录密码已设置</div></div>
+              <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a  class="text-info" href="javascript:void;" data-rel="popover" data-toggle="popover" data-placement="left" data-title="修改密码" data-content='<div class="form-group"><input type="text" class="form-control" value="" placeholder="当前密码" /></div><div class="form-group"><input type="text" class="form-control" value="" placeholder="新密码" /></div><div class="form-group"><input type="text" class="form-control" value="" placeholder="确认密码" /></div>
+                                        <div class="form-group"><button class="btn btn-primary">确定</button> <button class="btn btn-default">取消</button></div>'>修改</a></div> </div>
+            </div>
+
+          <div class="row">
+            <div class="col-sm-2 col-xs-12"></div>
+            <div class="col-sm-10 col-xs-12">
+              <div class="form-group-separator"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">邮箱验证</label></div>
+            <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success text-line xs-fixes-line" style="font-size:12px;">你的邮箱地址：changshuhong@@163.com</div></div>
+            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a  class="text-info" href="javascript:void;">设置</a></div></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 col-xs-12"></div>
+            <div class="col-sm-10 col-xs-12">
+              <div class="form-group-separator"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x text-warning "></i><label class="control-label">手机绑定</label></div>
+            <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-warning">你尚未绑定手机</div></div>
+            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a  class="text-info" href="javascript:void;">设置</a></div></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 col-xs-12"></div>
+            <div class="col-sm-10 col-xs-12">
+              <div class="form-group-separator"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x text-warning "></i><label class="control-label">双重校验</label></div>
+            <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-warning">尚未设置双重验证</div></div>
+            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a  class="text-info" href="javascript:void;">设置</a></div></div>
+          </div>
+
+              <div class="form-group-separator"></div>
+
+
+        </form>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-nav">
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>关于</b></h5>
+          <ul>
+            <li><a href="team.html">团队</a></li>
+            <li><a href="jobs.html">招贤纳士</a></li>
+            <li><a href="#">联系方式</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>法律</b></h5>
+          <ul>
+            <li><a href="shiyongtiaokuan.html" target="_blank">使用条款</a></li>
+            <li><a href="yinsizhengce.html" target="_blank">隐私政策</a></li>
+            <li><a href="fanxiqianzhengce.html" target="_blank">反洗钱政策</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>资源</b></h5>
+          <ul>
+            <li><a href="jieruliucheng.html">接入指南</a></li>
+            <li><a href="#">了解比特币</a></li>
+            <li><a href="#">比特币支付原理</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>媒体</b></h5>
+          <ul>
+            <li><a href="http://weibo.com/coinport" target="_blank">新浪微博</a></li>
+            <li class="qrcode"><a href="javascript:void;" data-toggle="popover" data-placement="left" data-content='<img src="assets/images/qrcode.png">'>微信</a></li>
+            <li><a href="http://twitter.com/coinportinc" target="_blank">twitter</a></li>
+            <li><a href="http://facebook.com/coinport" target="_blank">facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright text-center">© 2014 币丰港（香港）网络科技有限公司。保留所有权利</div>
+    </footer>
+  </div>
+</div>
+
+<!--end-main-container-->
+<script src="assets/js/jquery-1.11.1.min.js"></script>
+<script src="assets/js/bootstrap.js"></script>
+<script src="assets/js/bxslider.min.js"></script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

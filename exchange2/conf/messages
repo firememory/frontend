@@ -1,0 +1,466 @@
+title=Coinport
+keywords=coinport,cryptocurrency,transparency,exchange
+description=Coinport Exchange offers the same level of openness and transparency as decentralized exchanges, while protecting all your coins, data, and privacy.
+
+loading=Loading...
+details=Details
+more=More
+all=All
+ok=OK
+cancel=Cancel
+login=Login
+register=Sign Up
+captcha=Captcha
+email=Email
+self=Self
+password=Password
+passwordConfirm=Confirm Password
+forgotPassword=Forgot Password?
+resendVerifyEmail=Resend Verification Email
+inputCaptcha=Captcha text
+depth=Depth
+operation=Operations
+status=Status
+address=Address
+amount=Quantity
+accumulated=Accumulated
+coinType=Coin Type
+orderBook=Order Book
+orders=Orders
+transactions=Trading History
+check=Details
+market=Market
+sign=Signature
+close=Close
+
+authenticateNotLogin=Login Required
+authenticateTimeout=Your session has timed out, please log in again.
+authenticateUserSuspended=Your account has been suspended. please contact with coinport custom service
+
+nav.brand=coinport
+nav.home=Home
+nav.trade=Trade
+nav.account=Account
+nav.market=Market
+nav.open=Openness
+nav.blog=Blog
+nav.login=Login
+nav.logout=Logout
+nav.register=Sign Up
+
+index.reserveStats=Reserve Stats
+index.marketStats=Market Stats
+
+login.title=Log in
+login.verifyEmailSucceeded=Your email has been verified, please login.
+login.resetPwdSucceeded=Your password has been reset, please login.
+login.userNamePlaceHolder=Register Email
+login.pwdPlaceHolder=Password
+login.doLogin=Log in
+login.forgotPassword=Forget your password?
+
+register.title=Sign Up
+register.changeCaptcha=Try a different image
+register.termsCheckboxTextHead=I have read and agree to the                          
+register.termsCheckboxTextLink=Terms of Service
+register.termsTitle=Terms of service
+register.email.error.required=email required 
+register.email.error.format=Invalid email address! 
+register.password.error.minlength=Your password must be at least 6 character long. 
+register.password.error.maxlength=Your password cannot be longer than 60 characters.
+register.password.error.confirm=The two passwords you provided don't match. 
+register.inviteCode=Invitation Code
+register.inviteCodeNoMatch=Sorry, your invitation code seems to be invalid.
+register.invite.error.required=An invitation code is required 
+register.invite.error.length=Your invitation code is invalid.
+privacyTitle=PRIVACY PRINCIPLES
+termsTitle=TERMS OF SERVICE
+
+ticker.market=Market
+ticker.price=Price
+ticker.gain=24h Change
+ticker.high=Highest Price in 24h
+ticker.low=Lowest Price in 24h
+ticker.volume=Volume in 24h
+
+trade.buy=Buy
+trade.sell=Sell
+trade.buyShort=Buy
+trade.sellShort=Sell
+trade.detail=Detail
+trade.simple=simple
+trade.advanced=advanced
+trade.advancedTip=support for more customized orders
+trade.price=Price
+trade.amount=Quantity
+trade.total=Total
+trade.limit=Limit
+trade.cancel=Cancel
+trade.availableAmount=Available
+trade.availableCurrency=Available
+trade.recentTransactions=Recent Transactions
+trade.recentOrders=Recent Orders
+trade.myOrders=My Orders
+trade.aboutOrder=About this order
+trade.aboutFee=Fee
+trade.accumulated=Accumulated
+
+order.order=Order
+order.oid=ID
+order.uid=User
+order.time=Time
+order.type=Type
+order.price=Price
+order.averagePrice=Average Fill Price
+order.amount=Quantity
+order.finishedAmount=Quantity Filled
+order.total=Total
+order.finishedTotal=Total Filled
+order.status=Status
+order.status.pending=Open
+order.status.open=Partial Filled
+order.status.finished=Filled
+order.status.cancelled=Cancelled
+order.operation=Operation
+order.myOrders=Orders
+order.submitTime=Time
+order.baseCurrency=Base Currency
+order.targetCurrency=Target Currency
+order.orderPrice=Price
+order.averagePrice=Average Price
+order.orderAmount=Quantity
+order.tradingAmount=Quantity Filled
+order.orderValue=Value
+order.tradingValue=Total Filled
+order.transactions=Transactions in Order
+order.allMarkets=All Markets
+
+prompt.backToHome=Back to home
+prompt.verifyEmailFailed=Sorry, your email verification failed.
+prompt.verifyEmailSent=Please check your email to activate your account before you can log in.
+prompt.resetPwdEmailSent=Please check your email for your password reset link.
+prompt.resetPwdFailed=Reset password failed.
+prompt.requestResetPwdFailed=This email was not registered.
+prompt.doResetPwdFailed=Reset password failed.
+prompt.resendVerifyEmailSucceedded=Please check your email to activate your account before you can log in.
+prompt.resendVerifyEmailFailed=Failed to verify your email.
+prompt.resendVerifyEmailPrefix=Haven't received a verification email? 
+prompt.resendVerifyEmailLink=Login
+prompt.resendVerifyEmailTail=You can request a new verification email.
+
+forgetpwd.title=Reset password
+forgetpwd.email=E-mail
+forgetpwd.submit=Submit
+
+resetpwd.title=Reset password
+resetpwd.newPassword=New password
+resetpwd.newPwdPlaceHolder=Enter new password
+resetpwd.repeat=Repeat password
+resetpwd.repeatPlaceHolder=Repeat your password
+resetpwd.submit=Submit
+
+accountsettings.title=Account Settings
+accountsettings.label=Rewards
+accountsettings.uid=UID
+accountsettings.userName=User Name
+accountsettings.realName=Nick Name
+accountsettings.realNamePrompt=These information cannot be updated once submitted.
+accountsettings.realNameAgain=Repeat Name
+accountsettings.country=Country
+accountsettings.mobile=Mobile
+accountsettings.smsVerifyCode=SMS verification code
+accountsettings.submit=Submit
+accountsettings.cancel=Cancel
+accountsettings.publicUrl=My Public Profile URL
+accountsettings.shareLink=Share Link
+accountsettings.googleAuth=Google Authenticator
+accountsettings.googleauth.title=Your QR code at Coinport
+accountsettings.googleauth.bind=Bind to Account
+accountsettings.googleauth.close=Close
+accountsettings.unbindgoogleauth.title=Please input verification code to unbind
+
+accountsettings.googleauth.unbind=Unbind Google Authentication
+accountsettings.googleauth.hint=You have not bound Google Authentication.
+accountsettings.googleauth.followsteps=Please follow these three steps to bind the google authentication with your account.
+
+accountsettings.googleAuth.stepOne=First Step
+accountsettings.googleAuth.stepTwo=Second Step
+accountsettings.googleAuth.stepThree=Last Step
+accountsettings.googleAuth.stepOneGuide=Please install Google authenticator on your smart phone
+accountsettings.googleAuth.stepTwoGuide=Please configure the Google authenticator as follows
+accountsettings.googleAuth.stepThreeGuide=Bind the Google authentication code to your account
+
+accountsettings.googleAuth.iphone=For iPhone
+accountsettings.googleAuth.android=For Android
+accountsettings.googleAuth.windowsphone=For Windows Phone
+accountsettings.googleAuth.Nokias=For Nokia
+accountsettings.googleAuth.scanQRcode=1. Click to add a new account (For iOS is +), then select "Scan QR code"
+accountsettings.googleAuth.inputSecret=2. Try to add the an account manually if you cannot scan the QR code by entering the following keys:
+
+accountsettings.googleAuth.dontdelete=Please do not delete it from your cell phone, once you bind the Google Authentication.
+accountsettings.googleAuth.verifycode=Authentication Code
+
+accountsettings.googleauth.unbindButton=Unbind
+accountsettings.googleauth.unbindHint=You have bound Google Authentication. Once unbound Google Authentication, you can re-bind it at any time by accessing Google Authentication page.
+accountsettings.googleauth.unbindHint0=You have bound Google Authentication. you can unbound Google Authentication in Security Settings page.
+
+
+accountsettings.sub.userprofile=User Profile
+accountsettings.sub.secure=Security Settings
+accountsettings.sub.doubleauth=Google Auth
+
+accountsettings.sec.loginpassword=Login Password
+accountsettings.sec.loginpwdTips=Login password had been set
+accountsettings.sec.emailVerify=Email Verification
+accountsettings.sec.emailTip=Your Email address: 
+accountsettings.sec.doubleauth=Google Auth
+accountsettings.sec.doubleAuthInfoNotSet=You have not set up Google anthenticator yet
+accountsettings.sec.doubleAuthInfoSet=Google anthenticator had been set
+accountsettings.sec.doubleauth.modify=Modify
+accountsettings.sec.doubleauth.unbind=Unset
+accountsettings.sec.btn.change=Change
+accountsettings.sec.btn.set=Set
+accountsettings.sec.btn.modify=Modify
+accountsettings.sec.mobile=Mobile Verification
+accountsettings.sec.mobileSetHint=Your verified mobile is:
+accountsettings.sec.mobileNotSetHint=You have no verified mobile
+
+accountsettings.sec.modal.email.title=Modify Email verification setting
+accountsettings.sec.modal.mobile.title=Modify mobile verification setting
+accountsettings.sec.modal.ok=Ok
+accountsettings.sec.modal.cancel=Cancel
+
+accountsettings.sec.realnameverify=Real-name authentication
+accountsettings.sec.realnameverifytips.verified=Real-name authentication finished
+accountsettings.sec.realnameverifytips.notverified=Unfinished account verification
+accountsettings.sec.btn.realnameverify=Real-name authentication
+
+accountsettings.realNameVerify.title=Real-name authentication
+accountsettings.realNameVerify.realName=Real Name
+accountsettings.realNameVerify.realName.hint=Real-name authentication cannot be modified, please make sure all the information is real. The payment can only be withdrawn into the verified same-name account.
+accountsettings.realNameVerify.location=Location
+accountsettings.realNameVerify.identiType=Identification Type
+accountsettings.realNameVerify.identiType.opt.idCard=ID Card
+accountsettings.realNameVerify.identiType.opt.passport=Passport
+accountsettings.realNameVerify.idNumber=ID Number
+accountsettings.realNameVerify.idNumber.hint=The code cannot be modified after submission, please check all the information is absolutely right before submit.
+accountsettings.realNameVerify.idNumberConfirm=Confirm
+accountsettings.realNameVerify.error.confirm=the two id number you provided don't match
+
+accountsettings.changepwd.title=Change Password
+accountsettings.changepwd.currPwd=Current Password
+accountsettings.changepwd.newPwd=New Password
+accountsettings.changepwd.repeat=Repeat New Password
+accountsettings.emailVerifyCode=Email Verification Code
+accountsettings.changepwd.oldpwd.required=Please input current password
+
+accountsettings.bindmobile.title=Mobile Verification
+accountsettings.bindmobile.old=Old Verification code
+
+accountsettings.view.title=Settings
+accountsettings.view.thead.item=Item
+accountsettings.view.thead.itemValue=Value
+
+accountprofile.title=User Profile
+accountprofile.loginhistory.title=Login History
+accountprofile.loginhistory.logTime=Login Time
+accountprofile.loginhistory.ip=Login IP
+accountprofile.loginhistory.location=Address
+accountprofile.getEmailVerifyCode=Send Email Code
+
+accountsettings.apiToken=API Token
+accountsettings.apiToken.create=Create
+
+footer.aboutUs=About Us
+footer.fq=F&Q
+footer.fee=Fee Instrument
+footer.termsOfService=Terms Of Service
+footer.contact=Contact Us
+
+market.timeInterval=Time Interval
+market.detail=Detail
+market.latestUpdateTime=Latest update time
+market.willBeUpdatedIn=Will be updated in
+market.seconds=s
+market.cny=CNY Markets
+market.btc=BTC Markets
+
+open.nav.about=About
+open.nav.opensource=Open-Sourced
+open.nav.opendata=Data Download
+open.nav.reserve=Proof of Reserves
+open.nav.connectivity=Network Connectivity
+open.nav.market=Market Data
+open.market.orders=Orders
+open.market.transactions=Transactions
+open.market.depth=Depth
+open.totalAssets=Total Assets
+open.coinType=Currency
+open.balance=Balance
+open.file=File
+open.updatedTime=Timestamp
+open.size=Size
+open.eventData=Events
+open.snapshotData=Snapshots
+open.Download=Download
+open.reserve.proof=Proof of Reserves
+open.reserve.account=Total Balances
+open.reserve.ratio=Reserve Ratio
+open.reserve.coinaddr=Coin Address
+open.reserve.balance=Total Reserve
+open.reserve.accountFile=Account Data
+open.network.title=Network Status
+open.network.connectivity=Connectivity
+open.network.status=Status
+open.network.delayed=Delayed
+open.network.lastcheck=Last Checked
+open.network.lastactive=Last Active
+open.network.height=Height
+open.network.lastblock=Last Block
+open.network.neverseen=N/A
+open.network.minutes= minutes
+open.network.checkNow=Details
+open.assetRank=Asset Rank
+open.transactionRank=Trading Rank
+
+
+fee.title=Fees
+fee.table=Fee Table
+fee.transaction=Per Transaction
+fee.buy=Buyer Fee
+fee.sell=Seller Fee
+fee.deposit=Deposit Fee
+fee.withdrawal=Withdrawal Fee
+
+
+coin.userWallet=User Wallets
+coin.hotWallet=Hot Wallets
+coin.coldWallet=Cold Wallets
+coin.wallets=Addresses
+
+transaction.tid=Transaction ID
+transaction.timestamp=Timestamp
+transaction.price=Price
+transaction.amount=Quantity
+transaction.value=Value
+transaction.type=Type
+
+transaction.transaction=Transaction
+transaction.orderRole=Order Role
+transaction.orderId=Order ID
+transaction.beforeAmount=Quantity Before Transaction
+transaction.afterAmount=Quantity After Transaction
+transaction.userId=User ID
+transaction.takeOrder=Taker Order
+transaction.makeOrder=Maker Order
+transaction.taker=Taker
+transaction.maker=Maker
+transaction.myTransactions=Trading History
+
+user.user=User
+user.assets=Assets
+user.account=Account
+user.coinType=Currency
+user.account.total=Total Balance
+user.available=Available
+user.orderPending=Locked By Orders
+user.withdrawalPending=Pending Withdrawal
+user.Transfer=Transfer Records
+user.transfer.id=ID
+user.transfer.timestamp=Timestamp
+user.transfer.operation=Type
+user.transfer.currency=Currency
+user.transfer.amount=Quantity
+user.transactions=Transactions
+user.orders=Orders
+
+account.profile=My Profile
+account.record=Trading Records
+account.transfer=Deposit/Withdrawal
+
+transfer.withdrawal=Withdrawal
+transfer.withdraw=Withdraw
+transfer.deposit=Deposit
+transfer.depositAddress=Deposit Address
+transfer.withdrawalAddress=Withdrawal Address
+transfer.withdrawalAccount=Withdrawal Account
+transfer.withdrawalMemo=Memo
+transfer.account=Account
+transfer.withdrawalAmount=Withdrawal Quantity
+transfer.depositAmount=Deposit Quantity
+transfer.id=ID
+transfer.created=Created
+transfer.updated=Updated
+transfer.amount=Quantity
+transfer.status=Status
+transfer.txid=Transaction
+transfer.address=Address
+transfer.pinpassword=Money Password
+transfer.phoneVerCode=Phone verification Code
+transfer.emailVerCode=Email verification Code
+transfer.googleAuthCode=Google Authenticator Code
+transfer.cancelWithdrawal=Cancel Withdrawal
+transfer.depositRecord=Deposit Records
+transfer.withdrawalRecord=Withdrawal Records
+transfer.transferRecord=All Records
+transfer.withdrawalHint=The minimum amount of withdrawal should equal or greater than
+transfer.withdrawalHint1=, which include
+transfer.withdrawalHint2=as fee you have to pay. Any withdrawal request will be processed in 24 hours. Our working hours are between 12:00 and 24:00 in HongKong Time.
+transfer.withdrawalCreditCardHint=(Credit card is not supported)
+transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
+transfer.depositWorkflow=The Process of Deposit CNY
+transfer.chooseAgent=Please choose your agent
+transfer.chooseContactAgent=Choose and contact agent
+transfer.payToAgent=Pay to the agent
+transfer.depositSuccess=Deposit success
+transfer.accountBank=Bank:
+transfer.accountName=User:
+transfer.accountId=Account:
+transfer.qqId=QQ:
+transfer.verifyFailTitle=Not authenticated
+transfer.verifyFailDesc=You should verify your account to deposit CNY, click following button to verify your account.
+transfer.doVerifyBtn=Verify Account
+transfer.chooseBankCard=Choose Bank Card
+transfer.addBankCard=Add Bank Card
+transfer.addBankCardWarn=( Card name should be the same as verified account name )
+transfer.deleteBankCard=Remove Bank Card
+transfer.chooseBankCardWain=Please set up your Bank Card to withdrawal CNY
+transfer.ownerName=Name
+transfer.cardNumber=Account
+transfer.bankName=Bank
+transfer.branchBankName=Branch
+
+transfer.btsx.hint1=or BTSX Account
+transfer.btsx.hint2=with Memo (very important)
+transfer.btsx.hint3=Due to BTSX's API, now only support registered ID(Eg. coinport-deposit) to withdraw.
+
+transfer.xrp.hint1=or XRP Account
+transfer.xrp.hint2=with Destination tag (very important)
+transfer.xrp.hint3=Due to XRP's API, now only support registered ID(Eg. coinportXrpDeposit) to withdraw.
+
+transfer.nxt.newaddr.hint=Note that this is a new address
+transfer.nxt.publickey.hint= Optional
+
+transfer.account.totalasset.pre=Total assets: 
+transfer.account.totalasset.tail=Or
+
+asset.category=Category
+asset.available=Available
+asset.totalAmount=Total Quantity
+asset.price=Price
+asset.value=Value
+asset.operation=Operation
+asset.myAsset=Assets
+asset.transfer=Deposit / Withdrawal
+asset.cnyDeposit=CNY Deposit
+asset.btcDeposit=BTC Deposit
+asset.cnyWithdrawal=CNY Withdrawal
+asset.btcWithdrawal=BTC Withdrawal
+asset.accountSettings=Settings
+asset.trend=Daily Net Change
+asset.pie=Asset Composition
+
+btn.close=close
+internalServerErrorKey=Internal server error. please try it later.
+
+user.label.free=0 Trading Fee
