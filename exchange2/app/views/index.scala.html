@@ -1,48 +1,15 @@
 @()(implicit session: Session)
 
-@isLogin() = @{session.get("uid").isDefined}
-@username = @{session.get("username").getOrElse("")}
-
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
 <title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<link rel="stylesheet" href="/css/bootstrap.css" />
-<link rel="stylesheet" href="/css/style.css" />
-<link rel="stylesheet" href="/css/font.css" />
-<!--[if lt IE 9]><script src="assets/js/html5shiv.js"></script><![endif]-->
+@__head_commons()
 </head>
 
 <body>
-<div class="navbar navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="https://exchange.coinport.com"><i class="icon-coinport"></i><i class="icon-bifenggang"></i></a> </div>
-    <div class="navbar-collapse collapse" role="navigation">
-      <ul class="site-nav nav navbar-nav">
-        <li class="active"> <a href="/">首页</a> </li>
-        <li> <a href="API.html">交易中心</a> </li>
-        <li> <a href="FAQ.html">开放透明</a> </li>
-        <!-- <li> <a href="account-asset.html">我的账户</a> </li> -->
-        <li> <a href="https://blog.coinport.com" target="_blank">博客</a> </li>
-      </ul>
-      @if(!isLogin()) {
-      <ul class="nav navbar-nav navbar-right user-state">
-        <li><a href="login.html"><i class="icon-user"></i>登录</a></li>
-        <li><a href="register.html"><i class="icon-key"></i>注册</a></li>
-      </ul>
-      } else {
-      <ul class="nav navbar-nav navbar-right user-state">
-        <li><a href="/account"><i class="icon-user"></i>我的帐户</a></li>
-        <li><a href="#register"><i class="icon-key"></i>退出</a></li>
-      </ul>
-      }
-    </div>
-  </div>
-</div>
+  @_navbar(1)(session)
+
 <div class="fixes-top">
   <div class="coinport-intro-box">
     <div class="container">
@@ -209,9 +176,7 @@
 </footer>
 
 <!--end-main-container-->
-<script src="/js/jquery-1.11.1.min.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="/js/bxslider.min.js"></script>
-<script src="/js/script.js"></script>
+
+@__tail_commons()
 </body>
 </html>

@@ -50,7 +50,7 @@ object MainController extends Controller with Json4s {
       Ok(views.html.index.render(request.session))
   }
 
-  def account() = Authenticated {
+  def account() = Action {
     implicit request =>
       Ok(views.html.account_asset.render(request.session))
   }

@@ -1,60 +1,19 @@
+@()(implicit session: Session)
+
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
 <title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<link rel="stylesheet" href="assets/css/bootstrap.css" />
-<link rel="stylesheet" href="assets/css/style.css" />
-<link rel="stylesheet" href="assets/css/font.css" />
-<!--[if lt IE 9]><script src="assets/js/html5shiv.js"></script><![endif]-->
+@__head_commons()
 </head>
 
 <body>
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-header">
-    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-    <a class="navbar-brand" href="http://pay.coinport.com"><i class="icon-coinport"></i><i class="icon-bifenggang"></i></a> </div>
-  <div class="navbar-collapse collapse" role="navigation">
-    <ul class="site-nav nav navbar-nav">
-      <li> <a href="index.html">首页</a> </li>
-      <li> <a href="API.html">交易中心</a> </li>
-      <li> <a href="FAQ.html">开放透明</a> </li>
-      <li class="active"><a href="account-asset.html">我的账户</a> </li>
-      <li> <a href="FAQ.html">博客</a> </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right user-state">
-      <li><a href="login.html"><i class="icon-user"></i>登录</a></li>
-      <li><a href="register.html"><i class="icon-key"></i>注册</a></li>
-    </ul>
-    <ul class="user-state hide">
-      <li><a href="account.html"><i class="icon-user"></i>我的帐户</a></li>
-      <li><a href="#register"><i class="icon-key"></i>退出</a></li>
-    </ul>
-  </div>
-</div>
+@_navbar(4)(session)
+
 <div class="fixes-top">
   <div class="sidebar-wrap">
-    <!--sidebar-menu-->
-    <div id="sidebar" >
-      <ul class="side-menu">
-        <li class=""><a href="account-asset.html"><i class="icon-purse"></i> <span>我的资产</span></a> </li>
-        <li class=""><a href="account-transfer.html"><i class="icon-transfer"></i> <span>充值提现</span></a> </li>
-        <li class="has-submenu "><a href="#"><i class="icon-angle pull-right"></i><i class="icon-legal"></i><span>成交委托</span></a>
-          <ul>
-            <li><a href="account-orders.html"><span>我的委托</span></a></li>
-            <li><a href="account-transaction.html"><span>我的成交</span></a></li>
-          </ul>
-        </li>
-        <li class="has-submenu active"><a href="#"><i class="icon-angle pull-right"></i><i class="icon-user"></i><span>用户中心</span></a>
-          <ul style="display:block;">
-            <li class="active"><a href="account-profiles.html"><span>用户信息</span></a></li>
-            <li><a href="account-settings.html"><span>账号安全</span></a></li>
-            <li><a href="account-googleauth.html"><span>双重认证</span></a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    @_account_sidebar(41)
+
   </div>
   <!--end-sidebar-menu-->
 
@@ -207,9 +166,7 @@
 </div>
 
 <!--end-main-container-->
-<script src="assets/js/jquery-1.11.1.min.js"></script>
-<script src="assets/js/bootstrap.js"></script>
-<script src="assets/js/bxslider.min.js"></script>
-<script src="assets/js/script.js"></script>
+
+@__tail_commons()
 </body>
 </html>
