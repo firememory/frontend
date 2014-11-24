@@ -55,7 +55,7 @@
                             <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
                             <td nowrap class="text-right" ng-bind="order.price.value|price"></td>
                             <td nowrap class="text-right" ng-bind="order.amount.value|quantity"></td>
-                            <td nowrap class="text-right" ng-bind="order.total.value|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="(order.price.value * order.amount.value)|quantity"></td>
                             <td nowrap class="text-right" ng-bind="order.finishedQuantity.value|quantity"></td>
                             <td nowrap class="text-right" ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
                             <td nowrap class="text-right" ng-bind="order.finishedAmount.value|quantity"></td>
