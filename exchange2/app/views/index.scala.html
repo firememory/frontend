@@ -7,10 +7,10 @@
 @__head_commons()
 </head>
 
-<body>
+<body ng-app="coinport.home">
   @_navbar(1)(session)
 
-<div class="fixes-top">
+<div class="fixes-top" ng-controller="TickerCtrl">
   <div class="coinport-intro-box">
     <div class="container">
       <div class="row">
@@ -27,65 +27,72 @@
   <div class="bg-brown clearfix real-time-market">
     <div class="container">
       <div class="row">
-          <div class="slider">
-          <div class="item">
-        <div class="col-lg-3 col-md-3 col-xs-12">
+        <div class="slider">
+
+          <div class="item" ng-repeat="ticker in tickers">
+            <div ng-show="'BTC-CNY' == ticker.market">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <h2> 比特币(BTC) </h2>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter">
+                    <em>
+                      <span ng-bind="'¥' + ticker.price.display">@Messages("loading")</span>
+                    </em>
+                    <h3>最新成交价</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'¥' + ticker.high.display">@Messages("loading")</span></em>
+                    <h3>24小时最高价</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'¥' + ticker.low.display">@Messages("loading")</span></em>
+                    <h3>24小时最低价</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'฿' + ticker.volume.display">@Messages("loading")</span></em>
+                    <h3>24小时成交量 </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <!-- <div class="item">
+          <div class="col-lg-3 col-md-3 col-xs-12">
           <h2> 比特币(BTC) </h2>
-        </div>
-        <div class="col-lg-9 col-md-9 col-xs-12">
-      <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥4880</em>
-                <h3>最新成交价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥5280</em>
-                <h3>24小时最高价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥4753</em>
-                <h3>24小时最低价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>฿139752</em>
-                <h3>24小时成交量 </h3>
-              </div>
-            </div>
+          </div>
+          <div class="col-lg-9 col-md-9 col-xs-12">
+          <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+          <div class="market-counter"> <em>¥4880</em>
+          <h3>最新成交价</h3>
           </div>
           </div>
-        </div>
-        <div class="item">
-        <div class="col-lg-3 col-md-3 col-xs-12">
-          <h2> 比特币(BTC) </h2>
-        </div>
-        <div class="col-lg-9 col-md-9 col-xs-12">
-      <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥4880</em>
-                <h3>最新成交价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥5280</em>
-                <h3>24小时最高价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>¥4753</em>
-                <h3>24小时最低价</h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-              <div class="market-counter"> <em>฿139752</em>
-                <h3>24小时成交量 </h3>
-              </div>
-            </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+          <div class="market-counter"> <em>¥5280</em>
+          <h3>24小时最高价</h3>
           </div>
           </div>
-        </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+          <div class="market-counter"> <em>¥4753</em>
+          <h3>24小时最低价</h3>
+          </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+          <div class="market-counter"> <em>฿139752</em>
+          <h3>24小时成交量 </h3>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -178,5 +185,7 @@
 <!--end-main-container-->
 
 @__tail_commons()
+<script src="/js/jquery-1.11.1.min.js"></script>
+
 </body>
 </html>
