@@ -90,12 +90,10 @@ object MainController extends Controller with Json4s {
       Ok(views.html.account_googleauth.render(request.session))
   }
 
-
-
-  // def trade = Action {
-  //   implicit request =>
-  //     Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
-  // }
+  def trade = Action {
+    implicit request =>
+      Ok(views.html.trade.render(request.session))
+  }
 
 
   // def market = Action {

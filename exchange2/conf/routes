@@ -13,8 +13,12 @@ GET     /account/profile            controllers.MainController.profile()
 GET     /account/settings           controllers.MainController.settings()
 GET     /account/googleauth         controllers.MainController.googleAuth()
 
+GET     /api/*market/history        controllers.ApiController.history(market)
+GET     /api/ticker                 controllers.ApiController.tickers()
 
-#GET     /trade                      controllers.MainController.trade()
+GET     /trade                      controllers.MainController.trade()
+
+
 #GET     /market                     controllers.MainController.market()
 #GET     /account                    controllers.MainController.account()
 #GET     /user/$uid<[0-9]+>          controllers.MainController.user(uid)

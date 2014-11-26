@@ -1,5 +1,6 @@
-// Popover 
 
+
+// Popover 
 $('[rel="popover"],[data-rel="popover"]').popover({
   trigger: 'click',
   html: true,
@@ -12,7 +13,7 @@ $(".qrcode a").popover({
  html:true 
  }); 
  
- 
+
  
 // Slider	
 $(document).ready(function(){
@@ -72,3 +73,18 @@ function adjustmainpanelheight() {
 	var docHeight = jQuery(document).height();
 	if (docHeight > jQuery('#main-container').height()) jQuery('#main-container').height(docHeight);
 }
+
+// Switch 
+var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+elems.forEach(function(html) {
+  var switchery = new Switchery(html);
+});
+defaults = {
+    color :'#8bc34a', 
+	secondaryColor : '#dfdfdf', 
+	jackColor: '#fff', 
+	className: 'switchery', 
+	disabled: false, 
+	disabledOpacity: 0.5, 
+	speed: '0.1s'
+} 
