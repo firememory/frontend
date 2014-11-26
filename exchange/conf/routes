@@ -95,6 +95,10 @@ GET     /views/connectivity.html         controllers.MainController.connectivity
 GET     /views/openmarket.html           controllers.MainController.openmarketView()
 
 # API routes
+GET     /api/m/ticker/btc                   controllers.ApiController.btcTicker()
+GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker()
+GET     /api/m/*market/depth                controllers.ApiController.mdepth(market)
+
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth                  controllers.ApiController.depth(market)
 GET     /api/ticker/*market                 controllers.ApiController.ticker(market)
@@ -115,9 +119,6 @@ GET     /api/open/data/*path                controllers.MainController.listFiles
 GET     /api/open/network/*currency         controllers.ApiController.ccNetworkStatus(currency)
 GET     /api/open/wallet/*currency/*wtype   controllers.ApiController.wallets(currency, wtype)
 GET     /api/open/reserve/*currency         controllers.ApiController.currencyReserve(currency)
-
-GET     /api/m/ticker/btc                   controllers.ApiController.btcTicker()
-GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker()
 
 ## public API routes:
 GET     /public/*market/depth               controllers.PublicApiController.depth(market)

@@ -34,6 +34,13 @@ object ApiController extends Controller with Json4s {
       MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
+  def mdepth(market: String) = Action.async { implicit request =>
+      val query = request.queryString
+      val depth = getParam(query, "depth", "5").toInt
+
+      MarketService.getMDepth(market, depth).map(result => Ok(result.toJson))
+  }
+
   def userOrders(market: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
