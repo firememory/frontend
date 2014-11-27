@@ -7,24 +7,28 @@
 @__head_commons()
 </head>
 
-<body>
+<body ng-app="coinport.trade">
   @_navbar(2)(session)
 
-<div class="fixes-top fulid">
+<div class="fixes-top fulid" ng-controller="BidAskCtrl">
   <div class="sidebar-wrap">
     <!--sidebar-menu-->
     <div id="sidebar" >
       <ul class="side-menu">
-        <li class="active"><a href="#"><i class="icon-btc-o"></i> <span>比特币(BTC)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-vrc-o"></i> <span>维理币(VRC)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-zet-o"></i> <span>泽塔币(ZET)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-nxt-o"></i> <span>未来币(NXT)</span></a> </li>
-        <li class=""><a href="#"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
+        <li id="nav-BTC-CNY" class="">
+          <a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')">
+            <i class="icon-btc-o"></i> <span>比特币(BTC-CNY)</span>
+          </a>
+        </li>
+        <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>莱特币(LTC-CNY)</span></a> </li>
+        <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP-CNY)</span></a> </li>
+        <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>比特股(BTSX-CNY)</span></a> </li>
+        <li id="nav-DOGE-BTC" class=""><a href="#/DOGE-BTC" ng-click="changeMarket('DOGE-BTC')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE-BTC)</span></a> </li>
+        <li id="nav-BC-BTC" class=""><a href="#/BC-BTC" ng-click="changeMarket('BC-BTC')"><i class="icon-bc-o"></i> <span>黑币(BC-BTC)</span></a> </li>
+        <li id="nav-DRK-BTC" class=""><a href="#/DRK-BTC" ng-click="changeMarket('DRK-BTC')"><i class="icon-drk-o"></i> <span>暗黑币(DRK-BTC)</span></a> </li>
+        <li id="nav-VRC-BTC" class=""><a href="#/VRC-BTC" ng-click="changeMarket('VRC-BTC')"><i class="icon-vrc-o"></i> <span>维理币(VRC-BTC)</span></a> </li>
+        <li id="nav-ZET-BTC" class=""><a href="#/ZET-BTC" ng-click="changeMarket('ZET-BTC')"><i class="icon-zet-o"></i> <span>泽塔币(ZET-BTC)</span></a> </li>
+        <li id="nav-NXT-BTC" class=""><a href="#/NXT-BTC" ng-click="changeMarket('NXT-BTC')"><i class="icon-nxt-o"></i> <span>未来币(NXT-BTC)</span></a> </li>
       </ul>
     </div>
   </div>
@@ -37,16 +41,16 @@
       <div class="col-lg-6 col-xs-12">
         <div class="panel">
           <ul class="buy-sell nav nav-tabs nav-tabs-justified">
-            <li class="buy active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>买入比特币</span> </a> </li>
-            <li class="sell"> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>卖出比特币</span> </a> </li>
+            <li class="buy active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> 买入 <span ng-bind="coinName"></span> </a> </li>
+            <li class="sell"> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>卖出</span> <span ng-bind="coinName"></span> </a> </li>
           </ul>
           <div class="panel-body">
             <div class="tab-content">
               <div class="tab-pane active" id="tab-1">
                 <form role="form" class="form-horizontal">
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">可买入BTC</label>
-                    <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x">1.23</span><span class=" offset-1x">BTC</span> </div>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">可买入<span ng-bind="subject"></span></label>
+                    <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x">1.23</span><span class=" offset-1x" ng-bind="subject"></span> </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-3 col-xs-4"></div>
@@ -56,12 +60,20 @@
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">买入价</label>
-                    <div class="col-sm-7 col-xs-8 "> <span class="text-success font-2x">3658.23</span><span class=" offset-1x">BTC</span> </div>
+                    <div class="col-sm-7 col-xs-8 ">
+                      <!-- <span class="text-success font-2x">3658.23</span> -->
+                      <div class="col-sm-9 col-xs-9 " style="margin: 0; padding: 0;">
+                        <input type="text" class="form-control" id="field-1" placeholder="买入价" />
+                      </div>
+
+                      <span class=" offset-1x" ng-bind="currency" style="margin-top: 10px;"></span>
+
+                    </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">买入数</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" id="field-1" value="买入数" placeholder="买入数" />
+                      <input type="text" class="form-control" id="field-1" placeholder="买入数" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -77,7 +89,7 @@
                     <div class="col-sm-3 col-xs-4 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
                     <div class="col-sm-7 col-xs-8">
                       <p class=" text-dark tip" style="height:48px;">委托详情：以不高于￥3456.00的价格尽可能的买入更多的比特币</p>
-                      <p class=" text-success tip">手续费：0.0005%</p>
+                      <p class=" text-success tip">手续费：0.05%</p>
                     </div>
                   </div>
                   <div class="row">
@@ -90,8 +102,8 @@
               <div class="tab-pane sell" id="tab-2">
                 <form role="form" class="form-horizontal">
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">可买出BTC</label>
-                    <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x">1.23</span><span class=" offset-1x">BTC</span> </div>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">可卖出<span ng-bind="subject"></span></label>
+                    <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x">1.23</span><span class=" offset-1x" ng-bind="subject"></span> </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-3 col-xs-4"></div>
@@ -100,13 +112,13 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">买出价</label>
-                    <div class="col-sm-7 col-xs-8 "> <span class="text-danger font-2x">3658.23</span><span class=" offset-1x">BTC</span> </div>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出价</label>
+                    <div class="col-sm-7 col-xs-8 "> <span class="text-danger font-2x">3658.23</span><span class=" offset-1x" ng-bind="currency"></span> </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">买出数</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出数</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" id="field-1" placeholder="买出数" />
+                      <input type="text" class="form-control" id="field-1" placeholder="卖出数" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -122,7 +134,7 @@
                     <div class="col-sm-3 col-xs-4 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
                     <div class="col-sm-7 col-xs-8">
                       <p class=" text-dark tip" style="height:48px;">委托详情：以高于￥3456.00的价格卖出</p>
-                      <p class=" text-success tip">手续费：0.0005%</p>
+                      <p class=" text-success tip">手续费：0.05%</p>
                     </div>
                   </div>
                   <div class="row">
@@ -406,6 +418,8 @@
 
 <!--end-main-container-->
 @__tail_commons()
+@__js("/js/coinport/messages.zh-CN.js")
+@__js("/js/coinport/trade.js")
 
 </body>
 </html>
