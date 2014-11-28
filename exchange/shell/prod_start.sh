@@ -1,5 +1,5 @@
 ## JVM SETTING FOR FRONTENT
-MaxHeapSizeM=4096  # The max heap size
+MaxHeapSizeM=2048  # The max heap size
 MaxPermSizeM=512  # The permanent size
 CMSRatio=70
 InitHeapSizeRatio=4  # the max heap size / the init heap size
