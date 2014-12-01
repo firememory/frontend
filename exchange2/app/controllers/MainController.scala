@@ -20,9 +20,10 @@ import com.coinport.coinex.api.service.NotificationService
 import models.PagingWrapper
 import com.coinport.coinex.data.Language
 import utils.Constant
+import ControllerHelper._
 import com.coinport.coinex.data
 import com.coinport.coinex.data.Language.Chinese
-//import controllers.GoogleAuth.{CredentialRepositoryMock, GoogleAuthenticatorKey, GoogleAuthenticator}
+import controllers.GoogleAuth.{CredentialRepositoryMock, GoogleAuthenticatorKey, GoogleAuthenticator}
 import scala.concurrent.Future
 
 object MainController extends Controller with Json4s {
@@ -34,23 +35,28 @@ object MainController extends Controller with Json4s {
   // }
   val supportedLocales = List("en-US", "zh-CN")
 
-  // def changeLocale(locale: String) = Action {
-  //   implicit request =>
-  //     val referrer = request.headers.get(REFERER).getOrElse("/")
-  //     if (supportedLocales.contains(locale)) {
-  //       implicit val lang = Lang(locale)
-  //       Redirect(referrer).withLang(lang)
-  //     } else {
-  //       BadRequest(referrer)
-  //     }
-  // }
+  def changeLocale(locale: String) = Action {
+    implicit request =>
+      val referrer = request.headers.get(REFERER).getOrElse("/")
+      if (supportedLocales.contains(locale)) {
+        implicit val lang = Lang(locale)
+        Redirect(referrer).withLang(lang)
+      } else {
+        BadRequest(referrer)
+      }
+  }
 
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(request.session))
+      Ok(views.html.index.render(request.session, langFromRequestCookie(request))).withSession("username" -> "test", "uid" -> "1000000000")
   }
 
-  def account() = Action {
+  def trade = Action {
+    implicit request =>
+      Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
+  }
+
+  def account() = AuthenticatedOrRedirect {
     implicit request =>
       Ok(views.html.account_asset.render(request.session))
   }
@@ -65,16 +71,6 @@ object MainController extends Controller with Json4s {
       Ok(views.html.account_transfer.render(request.session))
   }
 
-  // def orders() = Action {
-  //   implicit request =>
-  //     Ok(views.html.account_transfer.render(request.session))
-  // }
-
-  // def transaction() = Action {
-  //   implicit request =>
-  //     Ok(views.html.account_transfer.render(request.session))
-  // }
-
   def profile() = Action {
     implicit request =>
       Ok(views.html.account_profiles.render(request.session))
@@ -88,11 +84,6 @@ object MainController extends Controller with Json4s {
   def googleAuth() = Action {
     implicit request =>
       Ok(views.html.account_googleauth.render(request.session))
-  }
-
-  def trade = Action {
-    implicit request =>
-      Ok(views.html.trade.render(request.session))
   }
 
 
@@ -170,61 +161,61 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.company.render(request.session, langFromRequestCookie(request)))
   // }
 
-  // def downloadFromHdfs(path: String, filename: String) = Action {
-  //   try {
-  //     val stream = HdfsAccess.getFileStream(path, filename)
-  //     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
-  //       .onDoneEnumerating {
-  //       stream.close()
-  //     }
+  def downloadFromHdfs(path: String, filename: String) = Action {
+    try {
+      val stream = HdfsAccess.getFileStream(path, filename)
+      val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(stream)
+        .onDoneEnumerating {
+        stream.close()
+      }
 
-  //     Result(
-  //       header = ResponseHeader(200),
-  //       body = fileContent
-  //     ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
-  //   } catch {
-  //     case e: Exception =>
-  //       logger.error(s"downloadFromHdfs error: file not found. path=$path, filename=$filename")
-  //       NotFound
-  //   }
-  // }
+      Result(
+        header = ResponseHeader(200),
+        body = fileContent
+      ).withHeaders("Content-type" -> "application/force-download", "Content-Disposition" -> "attachment")
+    } catch {
+      case e: Exception =>
+        logger.error(s"downloadFromHdfs error: file not found. path=$path, filename=$filename")
+        NotFound
+    }
+  }
 
-  // def listFilesFromHdfs(path: String) = Action {
-  //   implicit request =>
-  //     val pager = ControllerHelper.parsePagingParam()
-  //     val files = HdfsAccess.listFiles(path)
-  //       .sortWith((a, b) => a.updated > b.updated)
+  def listFilesFromHdfs(path: String) = Action {
+    implicit request =>
+      val pager = ControllerHelper.parsePagingParam()
+      val files = HdfsAccess.listFiles(path)
+        .sortWith((a, b) => a.updated > b.updated)
 
-  //     val from = Math.min(pager.skip, files.length - 1)
-  //     val until = pager.skip + pager.limit
+      val from = Math.min(pager.skip, files.length - 1)
+      val until = pager.skip + pager.limit
 
-  //     val items = files.slice(from, until)
+      val items = files.slice(from, until)
 
-  //     val data = PagingWrapper(
-  //       count = files.length,
-  //       skip = pager.skip,
-  //       limit = pager.limit,
-  //       currentPage = pager.page,
-  //       pageSize = pager.limit,
-  //       items = items)
+      val data = PagingWrapper(
+        count = files.length,
+        skip = pager.skip,
+        limit = pager.limit,
+        currentPage = pager.page,
+        pageSize = pager.limit,
+        items = items)
 
-  //     val result = ApiResult(data = Some(data))
+      val result = ApiResult(data = Some(data))
 
-  //     Ok(result.toJson)
-  // }
+      Ok(result.toJson)
+  }
 
-  // def getNotifications() = Action.async {
-  //   implicit request =>
-  //     val language = langFromRequestCookie(request)
+  def getNotifications() = Action.async {
+    implicit request =>
+      val language = langFromRequestCookie(request)
 
-  //     val lang: Language = if (language.language.startsWith("zh")) Language.Chinese
-  //     else Language.English
+      val lang: Language = if (language.language.startsWith("zh")) Language.Chinese
+      else Language.English
 
-  //     NotificationService.getNotifications(lang) map {
-  //       case result =>
-  //         Ok(result.toJson)
-  //     }
-  // }
+      NotificationService.getNotifications(lang) map {
+        case result =>
+          Ok(result.toJson)
+      }
+  }
 
   // def registerView() = Action {
   //   implicit request =>
@@ -304,9 +295,9 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.privacy.render(request.session, langFromRequestCookie(request)))
   // }
 
-  // def onServerError() = Action {
-  //   implicit request =>
-  //     Ok(views.html.errorPage.render("", langFromRequestCookie(request)))
-  // }
+  def onServerError() = Action {
+    implicit request =>
+      Ok(views.html.errorPage.render("", langFromRequestCookie(request)))
+  }
 
 }

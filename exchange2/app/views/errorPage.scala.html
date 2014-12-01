@@ -1,0 +1,61 @@
+@(msg: String = "")(implicit lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+@__head_commons()
+
+<style>
+ #main-logo {
+   width: 96px;
+   margin-left: auto;
+   margin-right: auto;
+ }
+
+ img.center {
+   display: block;
+ }
+
+ h4.msg {
+   margin-top: 30px;
+ }
+
+</style>
+    <title>@Messages("title")</title>
+</head>
+
+<body>
+<div class="page-wrapper errorPage">
+
+<div class="container container-main">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div id="main-logo">
+              <a href="/trade"><img src="/image/logo.png" alt="Coinport"></img></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-4">
+        @if(msg.nonEmpty) {
+            <h4 class="msg">@Messages(msg)</h4>
+        } else {
+            <h4 class="msg">@Messages("internalServerErrorKey")</h4>
+        }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-4">
+        <h4 class="msg"><a href="/trade">@Messages("prompt.backToHome")</a></h4>
+        </div>
+    </div>
+
+</div>
+
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__tracking_js()
+</body>
+</html>

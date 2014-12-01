@@ -12,10 +12,22 @@ import com.coinport.coinex.api.service.UserService
 import services.CacheService
 
 trait AuthenticateHelper {
+  val ajaxRequestHeaderKey="ajaxRequestKey"
+  val ajaxRequestHeadervalue="value"
+
   val logger = Logger(this.getClass)
   val sysConfig = Play.current.configuration
   val timeoutMinutes: Int = sysConfig.getInt("session.timeout.minutes").getOrElse(60)
   val timeoutMillis: Long = timeoutMinutes * 60 * 1000
+
+  def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[Result] = {
+    val ajaxRequestHeader = request.headers.get(ajaxRequestHeaderKey).getOrElse("")
+    if (ajaxRequestHeadervalue.equals(ajaxRequestHeader)) {
+      Future(Unauthorized)
+    } else {
+      Future(Redirect(redirectUri).withNewSession)
+    }
+  }
 }
 
 object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
@@ -39,6 +51,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
   }
 
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
+    println(s"session: ${request.session}")
     request.session.get("uid").map { uid =>
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
@@ -48,9 +61,11 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         val csrfToken = cache.get("csrf-" + uid)
 
         if (currTs - ts > timeoutMillis) {
+          logger.error(s"account authentication failed: timeout")
           Future(Unauthorized.withNewSession)
-        } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
-          Future(Unauthorized.withNewSession)
+        // } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
+        //   logger.error(s"account authentication failed: xsrf-token not match")
+        //   Future(Unauthorized.withNewSession)
         } else {
           checkUserSuspended(uid.toLong, request, block)
         }
@@ -94,4 +109,54 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       logger.info("accessControl error: USERID and APT-TOKEN not found.")
       false
     }
+
+}
+
+object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
+
+  private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
+    UserService.getProfile(uid) flatMap {
+      result =>
+      if (result.success) {
+        val user = result.data.get.asInstanceOf[User]
+        if (user.status == UserStatus.Suspended) {
+          val redirectUri = "/login?msg=authenticateUserSuspended"
+          responseOnRequestHeader(request, redirectUri)
+          // TODO notify user for account been suspended.
+        } else {
+          block(request).map(_.withCookies(
+            Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
+        }
+      } else {
+        val redirectUri = "/login?msg=authenticateNotLogin"
+        responseOnRequestHeader(request, redirectUri)
+      }
+    }
+  }
+
+  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
+    // check login and session timeout here:
+    request.session.get("uid").map { uid =>
+      val currTs = System.currentTimeMillis
+      request.cookies.get(cookieNameTimestamp).map {
+        tsCookie =>
+        //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+        val ts = tsCookie.value.toLong
+        if (currTs - ts > timeoutMillis) {
+          val redirectUri = "/login?msg=authenticateTimeout"
+          responseOnRequestHeader(request, redirectUri)
+          //Future(Unauthorized)
+        } else {
+          checkUserSuspended(uid.toLong, request, block)
+        }
+      } getOrElse {
+        block(request).map(_.withCookies(
+          Cookie(cookieNameTimestamp, currTs.toString)))
+      }
+    } getOrElse {
+      val redirectUri = "/login?msg=authenticateNotLogin"
+      responseOnRequestHeader(request, redirectUri)
+      //Future(Unauthorized)
+    }
+  }
 }

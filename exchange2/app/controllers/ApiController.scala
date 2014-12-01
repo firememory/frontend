@@ -17,6 +17,7 @@ import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import controllers.ControllerHelper._
 import utils.Constant
+import controllers.GoogleAuth.GoogleAuthenticator
 
 object ApiController extends Controller with Json4s {
 
