@@ -42,7 +42,7 @@ COINPORT = {
 //        zet: 3
 //    },
 
-    defaultMarket: 'LTC-BTC',
+    defaultMarket: 'BTC-CNY',
 
     blockUrl: {
         BTC: 'https://blockchain.info/block-index/',
