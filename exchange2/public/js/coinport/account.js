@@ -1,4 +1,4 @@
-var app = angular.module('coinport.account', ['ui.bootstrap', 'ngResource', 'ngRoute', 'coinport.app', 'navbar', 'timer', ]);
+var app = angular.module('coinport.account', ['ngResource', 'ngRoute', 'coinport.app', 'timer', ]);
 
 function routeConfig($routeProvider) {
     $routeProvider.

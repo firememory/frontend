@@ -10,7 +10,7 @@
 <body>
   @_navbar(4)(session)
 
-<div class="fixes-top">
+<div class="fixes-top" ng-app="coinport.account">
   <div class="sidebar-wrap">
     <!--sidebar-menu-->
     @_account_sidebar(10)
@@ -18,7 +18,7 @@
   <!--end-sidebar-menu-->
 
   <!--container-->
-  <div id="main-container">
+  <div id="main-container" ng-controller="AssetCtrl">
 
     <div class="asset-overview clearfix">
           <div class="col-lg-3 col-sm-4 col-xs-12">
@@ -220,5 +220,7 @@
 <!--end-main-container-->
 
 @__tail_commons()
+@__js("/js/coinport/app.js")
+@__js("/js/coinport/account.js")
 </body>
 </html>
