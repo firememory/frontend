@@ -6,6 +6,7 @@
 package controllers
 
 import play.api.mvc._
+import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import com.coinport.coinex.data._
 import scala.concurrent.Future
@@ -19,12 +20,13 @@ import controllers.ControllerHelper._
 import utils.Constant
 import controllers.GoogleAuth.GoogleAuthenticator
 
-object ApiController extends Controller with Json4s {
+object ApiController extends Controller with Json4s with AccessLogging{
 
   import akka.util.Timeout
   import scala.concurrent.duration._
 
   implicit val timeout = Timeout(2 seconds)
+  val logger = Logger(this.getClass)
 
   def depth(market: String) = Action.async {
     implicit request =>
@@ -71,6 +73,7 @@ object ApiController extends Controller with Json4s {
       val uidInSessionOpt = request.session.get("uid")
       val uidInHeaderOpt = request.headers.get("USERID")
       val uidOpt = if (uidInSessionOpt.isDefined) uidInSessionOpt else uidInHeaderOpt
+      logger.info(s"submitOrder: market: $market, data: $data")
       uidOpt match {
         case Some(id) =>
           val orderType = getParam(data, "type", "")

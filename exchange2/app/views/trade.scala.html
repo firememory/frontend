@@ -1,4 +1,6 @@
 @()(implicit session: Session, lang: Lang)
+@isLogin() = @{session.get("uid").isDefined}
+@userId = @{session.get("uid").getOrElse("")}
 
 <!doctype html>
 <html>
@@ -11,25 +13,47 @@
   @_navbar(2)(session)
 
 <div class="fixes-top fulid" ng-controller="BidAskCtrl">
+
   <div class="sidebar-wrap">
     <!--sidebar-menu-->
     <div id="sidebar" >
-      <ul class="side-menu">
-        <li id="nav-BTC-CNY" class="">
-          <a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')">
-            <i class="icon-btc-o"></i> <span>比特币(BTC-CNY)</span>
-          </a>
-        </li>
-        <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>莱特币(LTC-CNY)</span></a> </li>
-        <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP-CNY)</span></a> </li>
-        <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>比特股(BTSX-CNY)</span></a> </li>
-        <li id="nav-DOGE-BTC" class=""><a href="#/DOGE-BTC" ng-click="changeMarket('DOGE-BTC')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE-BTC)</span></a> </li>
-        <li id="nav-BC-BTC" class=""><a href="#/BC-BTC" ng-click="changeMarket('BC-BTC')"><i class="icon-bc-o"></i> <span>黑币(BC-BTC)</span></a> </li>
-        <li id="nav-DRK-BTC" class=""><a href="#/DRK-BTC" ng-click="changeMarket('DRK-BTC')"><i class="icon-drk-o"></i> <span>暗黑币(DRK-BTC)</span></a> </li>
-        <li id="nav-VRC-BTC" class=""><a href="#/VRC-BTC" ng-click="changeMarket('VRC-BTC')"><i class="icon-vrc-o"></i> <span>维理币(VRC-BTC)</span></a> </li>
-        <li id="nav-ZET-BTC" class=""><a href="#/ZET-BTC" ng-click="changeMarket('ZET-BTC')"><i class="icon-zet-o"></i> <span>泽塔币(ZET-BTC)</span></a> </li>
-        <li id="nav-NXT-BTC" class=""><a href="#/NXT-BTC" ng-click="changeMarket('NXT-BTC')"><i class="icon-nxt-o"></i> <span>未来币(NXT-BTC)</span></a> </li>
+      <ul class="primary no-border sidebar-tab nav nav-tabs nav-tabs-justified">
+        <li class="" id="cny-market-set"> <a href="#tab-m1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>CNY定价</span> </a> </li>
+        <li class="" id="btc-market-set"> <a href="#tab-m2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>BTC定价</span> </a> </li>
       </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab-m1">
+          <ul class="side-menu">
+            <li id="nav-BTC-CNY" class="">
+              <a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')">
+                <i class="icon-btc-o"></i> <span>比特币(BTC)</span>
+              </a>
+            </li>
+            <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
+            <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
+            <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
+            <li id="nav-DOGE-CNY" class=""><a href="#/DOGE-CNY" ng-click="changeMarket('DOGE-CNY')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
+            <li id="nav-BC-CNY" class=""><a href="#/BC-CNY" ng-click="changeMarket('BC-CNY')"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
+            <li id="nav-DRK-CNY" class=""><a href="#/DRK-CNY" ng-click="changeMarket('DRK-CNY')"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
+            <li id="nav-VRC-CNY" class=""><a href="#/VRC-CNY" ng-click="changeMarket('VRC-CNY')"><i class="icon-vrc-o"></i> <span>维理币(VRC)</span></a> </li>
+            <li id="nav-ZET-CNY" class=""><a href="#/ZET-CNY" ng-click="changeMarket('ZET-CNY')"><i class="icon-zet-o"></i> <span>泽塔币(ZET)</span></a> </li>
+            <li id="nav-NXT-CNY" class=""><a href="#/NXT-CNY" ng-click="changeMarket('NXT-CNY')"><i class="icon-nxt-o"></i> <span>未来币(NXT)</span></a> </li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="tab-m2">
+          <ul class="side-menu">
+            <li id="nav-LTC-BTC" class=""><a href="#/LTC-BTC" ng-click="changeMarket('LTC-BTC')"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
+            <li id="nav-XRP-BTC" class=""><a href="#/XRP-BTC" ng-click="changeMarket('XRP-BTC')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
+            <li id="nav-BTSX-BTC" class=""><a href="#/BTSX-BTC" ng-click="changeMarket('BTSX-BTC')"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
+            <li id="nav-DOGE-BTC" class=""><a href="#/DOGE-BTC" ng-click="changeMarket('DOGE-BTC')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
+            <li id="nav-BC-BTC" class=""><a href="#/BC-BTC" ng-click="changeMarket('BC-BTC')"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
+            <li id="nav-DRK-BTC" class=""><a href="#/DRK-BTC" ng-click="changeMarket('DRK-BTC')"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
+            <li id="nav-VRC-BTC" class=""><a href="#/VRC-BTC" ng-click="changeMarket('VRC-BTC')"><i class="icon-vrc-o"></i> <span>维理币(VRC)</span></a> </li>
+            <li id="nav-ZET-BTC" class=""><a href="#/ZET-BTC" ng-click="changeMarket('ZET-BTC')"><i class="icon-zet-o"></i> <span>泽塔币(ZET)</span></a> </li>
+            <li id="nav-NXT-BTC" class=""><a href="#/NXT-BTC" ng-click="changeMarket('NXT-BTC')"><i class="icon-nxt-o"></i> <span>未来币(NXT)</span></a> </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -61,13 +85,10 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">买入价</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <!-- <span class="text-success font-2x">3658.23</span> -->
-                      <div class="col-sm-9 col-xs-9 " style="margin: 0; padding: 0;">
+                      <div class="input-group">
                         <input type="text" class="form-control" ng-model="bid.price" placeholder="买入价" />
+                        <span class="input-group-addon"ng-bind="currency" ></span>
                       </div>
-
-                      <span class=" offset-1x" ng-bind="currency" style="margin-top: 10px;"></span>
-
                     </div>
                   </div>
                   <div class="form-group">
@@ -113,18 +134,23 @@
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出价</label>
-                    <div class="col-sm-7 col-xs-8 "> <span class="text-danger font-2x">3658.23</span><span class=" offset-1x" ng-bind="currency"></span> </div>
+                    <div class="col-sm-7 col-xs-8 ">
+                      <div class="input-group">
+                        <input type="text" class="form-control" ng-model="ask.price" placeholder="买出价" />
+                        <span class="input-group-addon" ng-bind="currency"></span>
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出数</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" id="field-1" placeholder="卖出数" />
+                      <input type="text" class="form-control" ng-model="ask.amount" placeholder="卖出数" />
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">总金额</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" id="field-1" />
+                      <input type="text" class="form-control" ng-model="ask.total" />
                     </div>
                   </div>
                   <div class="blk-1x"></div>
@@ -133,13 +159,13 @@
                   <div class="form-group">
                     <div class="col-sm-3 col-xs-4 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
                     <div class="col-sm-7 col-xs-8">
-                      <p class=" text-dark tip" style="height:48px;">委托详情：以高于￥3456.00的价格卖出</p>
+                      <p class=" text-dark tip" style="height:48px;">委托详情：以不低于于<span ng-bind="ask.price"> </span>的价格卖出</p>
                       <p class=" text-success tip">手续费：0.05%</p>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xs-12">
-                      <button class="btn btn-danger btn-lg btn-block">立即卖出</button>
+                      <button class="btn btn-danger btn-lg btn-block" ng-click="addAskOrder()">立即卖出</button>
                     </div>
                   </div>
                 </form>
@@ -158,7 +184,7 @@
             <div class="tab-content">
               <div class="tab-pane active" id="tab-s1">
                 <div class="blk-2x"></div>
-                <p class="text-center">最新成交价：<span class="text-warning">￥3456.00</span></p>
+                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
                 <div class="divider"></div>
                 <div class="">
@@ -167,59 +193,14 @@
                       <tr>
                         <th>买卖</th>
                         <th>价格</th>
-                        <th>委托单</th>
+                        <th>成交量</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td><span class="text-danger">卖(5)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-danger">卖(4)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-danger">卖(3)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-danger">卖(2)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-danger">卖(1)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(5)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(4)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(3)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(2)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">卖(1)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
+                      <tr ng-repeat="item in transactions.items">
+                        <td><span class="text-danger"><span ng-bind="item.sell | txTypeTextShort"></span></td>
+                        <td ng-bind="item.price.value | price"></td>
+                        <td ng-bind="item.subjectAmount.value | quantity"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -227,7 +208,7 @@
               </div>
               <div class="tab-pane" id="tab-s2">
                 <div class="blk-2x"></div>
-                <p class="text-center">最新成交价：<span class="text-warning">￥3456.00</span></p>
+                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
                 <div class="divider"></div>
                 <div class="">
@@ -236,60 +217,25 @@
                       <tr>
                         <th>买卖</th>
                         <th>价格</th>
-                        <th>委托单</th>
+                        <th>成交量</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td><span class="text-success">买(5)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
+                      <tr ng-repeat="item in depth.asks" ng-click="clickDepthAsks($index)">
+                        <td><span class="text-danger">卖(<span class="text-danger" ng-bind="depth.asks.length-$index"></span>) </span></td>
+                        <td ng-bind="item.price.value | price"></td>
+                        <td ng-bind="item.amount.value | quantity"></td>
                       </tr>
                       <tr>
-                        <td><span class="text-success">买(4)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
+                        <td colspan="100%"></td>
                       </tr>
-                      <tr>
-                        <td><span class="text-success">买(3)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
+
+                      <tr ng-repeat="item in depth.bids" ng-click="clickDepthBids($index)">
+                        <td><span class="text-success">买(<span ng-bind="1+$index"></span>)</span></td>
+                        <td ng-bind="item.price.value | price"></td>
+                        <td ng-bind="item.amount.value | quantity"></td>
                       </tr>
-                      <tr>
-                        <td><span class="text-success">买(2)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">卖(1)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(5)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(4)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(3)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">买(2)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
-                      <tr>
-                        <td><span class="text-success">卖(1)</span></td>
-                        <td>￥5632.55</td>
-                        <td>￥5632.55</td>
-                      </tr>
+
                     </tbody>
                   </table>
                 </div>
@@ -299,6 +245,8 @@
         </div>
       </div>
     </div>
+
+    @if(isLogin()){
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <div class="row">
@@ -307,10 +255,10 @@
             <div class="row">
               <label class="col-sm-8 col-xs-4 control-label hidden-xs text-right" style="line-height:2.5;"></label>
               <div class="col-sm-4 col-xs-12">
-                <select class="form-control">
-                  <option>挂单中</option>
-                  <option>已成交</option>
-                  <option>全部</option>
+                <select class="form-control" ng-model="orderStatusObj" ng-init="status" ng-options="obj.text for obj in orderStatusList track by obj.value" ng-change="changeOrderStatus(orderStatusObj.value)">
+                  <!-- <option value="1">挂单中</option>
+                  <option value="2">已成交</option>
+                  <option value="3">全部</option> -->
                 </select>
               </div>
             </div>
@@ -329,51 +277,59 @@
                 <th>委托量</th>
                 <th>成交量</th>
                 <th>成交额</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>08-09 13:25:02</td>
-                <td><span class="text-success">买入</span></td>
-                <td>￥5632.55</td>
-                <td>￥5632.55</td>
-                <td>1.55</td>
-                <td>2.55</td>
-                <td>￥5632.55</td>
+              <tr ng-repeat="order in orders | orderBy: ['-date', '-id']">
+                <td ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                <td><span class="text-success" ng-bind="order.operation | orderTypeText"></span></td>
+                <td ng-bind="order.price.value | price"></td>
+                <td ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
+                <td ng-bind="order.amount.value | quantity"></td>
+                <td ng-bind="order.finishedQuantity.value | quantity"></td>
+                <td ng-bind="order.finishedAmount.value | quantity"></td>
+                <td><a href="/order/{{order.id}}"><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span></a></td>
+                <td>
+                  <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
+                </td>
+              </tr>
+              <!-- <tr>
+              <td>08-09 13:25:02</td>
+              <td><span class="text-danger">卖出</span></td>
+              <td>￥5632.55</td>
+              <td>￥5632.55</td>
+              <td>1.55</td>
+              <td>2.55</td>
+              <td>￥5632.55</td>
               </tr>
               <tr>
-                <td>08-09 13:25:02</td>
-                <td><span class="text-danger">卖出</span></td>
-                <td>￥5632.55</td>
-                <td>￥5632.55</td>
-                <td>1.55</td>
-                <td>2.55</td>
-                <td>￥5632.55</td>
-              </tr>
-              <tr>
-                <td>08-09 13:25:02</td>
-                <td><span class="text-success">买入</span></td>
-                <td>￥5632.55</td>
-                <td>￥5632.55</td>
-                <td>1.55</td>
-                <td>2.55</td>
-                <td>￥5632.55</td>
-              </tr>
+              <td>08-09 13:25:02</td>
+              <td><span class="text-success">买入</span></td>
+              <td>￥5632.55</td>
+              <td>￥5632.55</td>
+              <td>1.55</td>
+              <td>2.55</td>
+              <td>￥5632.55</td>
+              </tr> -->
             </tbody>
           </table>
         </div>
-        <ul class="pagination pull-right">
-          <li><a href="#"><i class="icon-angle-left"></i></a></li>
-          <li><a href="#">1</a></li>
-          <li class="active"><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">6</a></li>
-          <li><a href="#"><i class="icon-angle-right"></i></a></li>
-        </ul>
+        <!-- <ul class="pagination pull-right">
+        <li><a href="#"><i class="icon-angle-left"></i></a></li>
+        <li><a href="#">1</a></li>
+        <li class="active"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#"><i class="icon-angle-right"></i></a></li>
+        </ul> -->
       </div>
     </div>
+    }
+
     <footer>
       <div class="footer-nav">
         <div class="col-lg-3 col-sm-3 col-xs-6">
@@ -419,6 +375,7 @@
 <!--end-main-container-->
 @__tail_commons()
 @__js("/js/coinport/messages.zh-CN.js")
+@__js("/js/coinport/app.js")
 @__js("/js/coinport/trade.js")
 
 </body>

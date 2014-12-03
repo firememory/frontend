@@ -1,4 +1,4 @@
-var tradeApp = angular.module('coinport.trade', []);
+var tradeApp = angular.module('coinport.trade', ['coinport.app']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -44,6 +44,13 @@ function BidAskCtrl($scope, $http, $window) {
     var updateNav = function() {
         $("li[id^='nav-']").removeClass('active');
         $('#nav-' + $scope.market).addClass('active');
+        if ('CNY' == $scope.currency) {
+            $('#cny-market-set').addClass('active');
+            $("#btc-market-set").removeClass('active');
+        } else {
+            $('#btc-market-set').addClass('active');
+            $("#cny-market-set").removeClass('active');
+        }
     };
 
     updateNav();
@@ -91,6 +98,8 @@ function BidAskCtrl($scope, $http, $window) {
             });
     };
 
+    $scope.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
+    $scope.orderStatusObj = $scope.orderStatusList[0];
     $scope.changeOrderStatus = function(status) {
         $scope.orderStatus = status;
         $scope.loadOrders();
@@ -487,7 +496,7 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var watchAskAmount = function(newValue, oldValue) {
-        console.log(oldValue, newValue)
+        console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.amount = oldValue;
             return;

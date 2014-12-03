@@ -11,7 +11,7 @@ app.controller('TickerCtrl', function ($scope, $http) {
         };
         $http.get('/api/' + market + '/history', {params: {period: 6, from: fromTime}})
             .success(function(response, status, headers, config) {
-                console.log(response.data)
+                //console.log(response.data)
                 var sparkData = [];
                 response.data.candles.forEach(function(row) {
                     sparkData.push(row[1]);
