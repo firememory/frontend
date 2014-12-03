@@ -71,7 +71,7 @@ class MyDefaultGimpyEngine extends ListImageCaptchaEngine {
       new Integer(4),
       new Integer(5),
       new SingleColorGenerator(Color.black),
-      Array[TextDecorator](new BaffleTextDecorator(new Integer(2), Color.white))
+      Array[TextDecorator](new BaffleTextDecorator(new Integer(1), Color.white))
       //Array[TextDecorator]()
     )
 
