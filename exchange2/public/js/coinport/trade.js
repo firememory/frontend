@@ -56,6 +56,7 @@ function BidAskCtrl($scope, $http, $window) {
     updateNav();
 
     $scope.changeMarket = function(market) {
+        console.debug("changeMarketSet: ", market);
         $scope.market = market;
         $scope.subject = $scope.market.split("-")[0];
         $scope.currency = $scope.market.split("-")[1];
@@ -150,8 +151,12 @@ function BidAskCtrl($scope, $http, $window) {
             .success(function(data, status, headers, config) {
                 if (data.data.bids.length > 0 )
                     $scope.ask.price = data.data.bids[0].price.display || 0;
+                else
+                    $scope.ask.price = 0;
                 if (data.data.asks.length > 0 )
                     $scope.bid.price = data.data.asks[0].price.display || 0;
+                else
+                    $scope.bid.price = 0;
         });
     };
 
@@ -348,6 +353,7 @@ function BidAskCtrl($scope, $http, $window) {
             }
             $scope.info.bidButtonLabel = $scope.config.bidButtonLabel;
         });
+        $scope.bid = {price: 0, amount: 0, total: 0, limit: 0};
     };
 
     $scope.addAskOrder = function() {
@@ -401,6 +407,8 @@ function BidAskCtrl($scope, $http, $window) {
             }
             $scope.info.askButtonLabel = $scope.config.askButtonLabel;
         });
+
+        $scope.ask = {price: 0, amount: 0, total: 0, limit: 0};
     };
 
     $scope.clickFunding = function(amount) {
@@ -454,6 +462,7 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var watchBidPrice = function(newValue, oldValue) {
+        console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.bid.price = oldValue;
             return;
@@ -468,6 +477,7 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var watchAskPrice = function(newValue, oldValue) {
+        console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.price = oldValue;
             return;
@@ -496,7 +506,6 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var watchAskAmount = function(newValue, oldValue) {
-        console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.amount = oldValue;
             return;
@@ -510,30 +519,30 @@ function BidAskCtrl($scope, $http, $window) {
         updateAskTotal();
     };
 
-    $scope.$watch('bid.price', watchBidPrice);
-    $scope.$watch('bid.amount', watchBidAmount);
-    $scope.$watch('ask.price', watchAskPrice);
-    $scope.$watch('ask.amount', watchAskAmount);
+    $scope.$watch('bid.price', watchBidPrice, true);
+    $scope.$watch('bid.amount', watchBidAmount, true);
+    $scope.$watch('ask.price', watchAskPrice, true);
+    $scope.$watch('ask.amount', watchAskAmount, true);
 
     $('#bid_total').keyup(updateBidAmount);
     $('#ask_total').keyup(updateAskAmount);
 
     // add control for market change buttons:
-    $('#cnybtn').addClass('active');
+    //$('#cnybtn').addClass('active');
 
-    $scope.changeMarketSet = function(i) {
-        if (i === 0) {
-            $scope.btcMarketsShow=false;
-            $scope.cnyMarketsShow=true;
-            $('#cnybtn').addClass('active');
-            $('#btcbtn').removeClass('active');
-        } else {
-            $scope.btcMarketsShow=true;
-            $scope.cnyMarketsShow=false;
-            $('#cnybtn').removeClass('active');
-            $('#btcbtn').addClass('active');
-        }
-    }
+    // $scope.changeMarketSet = function(i) {
+    //     if (i === 0) {
+    //         $scope.btcMarketsShow=false;
+    //         $scope.cnyMarketsShow=true;
+    //         $('#cnybtn').addClass('active');
+    //         $('#btcbtn').removeClass('active');
+    //     } else {
+    //         $scope.btcMarketsShow=true;
+    //         $scope.cnyMarketsShow=false;
+    //         $('#cnybtn').removeClass('active');
+    //         $('#btcbtn').addClass('active');
+    //     }
+    // }
 };
 
 // prevent app from memory leak, kind of hack

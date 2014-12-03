@@ -2,8 +2,8 @@
 
 COINPORT = {
     priceFixed: {
-        'btc-cny': 4,
-        'ltc-cny': 4,
+        'btc-cny': 2,
+        'ltc-cny': 2,
         'btsx-cny': 4,
         'xrp-cny': 4,
         'ltc-btc': 4,

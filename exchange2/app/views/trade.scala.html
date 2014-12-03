@@ -24,11 +24,7 @@
       <div class="tab-content">
         <div class="tab-pane active" id="tab-m1">
           <ul class="side-menu">
-            <li id="nav-BTC-CNY" class="">
-              <a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')">
-                <i class="icon-btc-o"></i> <span>比特币(BTC)</span>
-              </a>
-            </li>
+            <li id="nav-BTC-CNY" class=""><a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')"><i class="icon-btc-o"></i> <span>比特币(BTC)</span></a> </li>
             <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
             <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
             <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
@@ -100,7 +96,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">总金额</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="bid.total" />
+                      <input type="text" id="bid_total" class="form-control" ng-model="bid.total" />
                     </div>
                   </div>
                   <div class="blk-1x"></div>
@@ -150,7 +146,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">总金额</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="ask.total" />
+                      <input type="text" id="ask_total" class="form-control" ng-model="ask.total" />
                     </div>
                   </div>
                   <div class="blk-1x"></div>
