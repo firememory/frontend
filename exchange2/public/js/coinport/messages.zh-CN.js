@@ -145,6 +145,7 @@ Messages.getLoginRemainingAttempts = function(count) {
 };
 
 Messages.coinName = {
+    CNY: '人民币',
     BTC: '比特币',
     LTC: '莱特币',
     DOGE: '狗狗币',

@@ -108,6 +108,7 @@ object ApiController extends Controller with Json4s with AccessLogging{
     implicit request =>
       AccountService.getAccount(uid.toLong) map {
         case result =>
+          //println(s"account result: $result")
           Ok(result.toJson)
       }
   }

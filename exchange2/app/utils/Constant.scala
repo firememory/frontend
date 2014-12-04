@@ -17,6 +17,20 @@ object Constant {
   val securityPreference = "CP_SP"
   val userRealName = "U_RN"
 
+  val coinChineseNames = Map(
+    "CNY" -> "人民币",
+    "BTC" -> "比特币",
+    "LTC" -> "莱特币",
+    "DOGE" -> "狗狗币",
+    "BC" -> "黑币",
+    "DRK" -> "暗黑币",
+    "VRC" -> "维理币",
+    "ZET" -> "泽塔币",
+    "BTSX" -> "比特股",
+    "NXT" -> "未来币",
+    "XRP" -> "瑞波币"
+  )
+
   def markets = {
     config.getList("exchange.markets").get.unwrapped()
   }

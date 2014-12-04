@@ -253,4 +253,12 @@ object ControllerHelper {
     }
     Lang(if (supportLangs.contains(lang)) lang else "zh-CN")
   }
+
+  def stringNumberFormat(numberStr: String, digit: Int) = {
+    if (numberStr == null) ""
+    else {
+      val dotPos = numberStr.indexOf('.')
+      if (dotPos >= 0) numberStr.substring(0, dotPos + 2) else numberStr
+    }
+  }
 }

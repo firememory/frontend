@@ -16,9 +16,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import com.coinport.coinex.api.model._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import utils.HdfsAccess
-import com.coinport.coinex.api.service.NotificationService
+import com.coinport.coinex.api.service._
 import models.PagingWrapper
 import com.coinport.coinex.data.Language
+import com.coinport.coinex.data.Currency
 import utils.Constant
 import ControllerHelper._
 import com.coinport.coinex.data
@@ -56,15 +57,21 @@ object MainController extends Controller with Json4s {
       Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
   }
 
-  def account() = AuthenticatedOrRedirect {
+  def account() = AuthenticatedOrRedirect.async {
     implicit request =>
-      Ok(views.html.account_asset.render(request.session))
+      val uid = request.session.get("uid").getOrElse("")
+      AccountService.getAccount(uid.toLong) map {
+        case result =>
+          // val assetsTotalMap = result.data.map(_.asInstanceOf[ApiUserAccount].accounts.map(kv => (kv._1, kv._2.total.display))).getOrElse(Map.empty[String, String])
+          val assetsCurrencies = result.data.map(_.asInstanceOf[ApiUserAccount].accounts.map(kv => kv._1)).getOrElse(Seq.empty[String]).toSeq
+          Ok(views.html.account_asset.render(assetsCurrencies, request.session))
+      }
   }
 
-  def assets() = Action {
-    implicit request =>
-      Ok(views.html.account_asset.render(request.session))
-  }
+  // def assets() = Action {
+  //   implicit request =>
+  //     Ok(views.html.account_asset.render(Seq(""), request.session))
+  // }
 
   def transfer() = Action {
     implicit request =>

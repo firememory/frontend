@@ -1,64 +1,64 @@
-var app = angular.module('coinport.account', ['ngResource', 'ngRoute', 'coinport.app', 'timer', ]);
+var app = angular.module('coinport.account', ['coinport.app']);
 
-function routeConfig($routeProvider) {
-    $routeProvider.
-        when('/', {
-            redirectTo: '/asset'
-        }).
-        when('/transfer', {
-            controller: 'TransferCtrl',
-            templateUrl: 'views/transfer.html'
-        }).
-        when('/deposit/:currency', {
-            controller: 'DepositCtrl',
-            templateUrl: 'views/deposit.html'
-        }).
-        when('/deposit/debug/:currency', {
-            controller: 'DepositCtrl',
-            templateUrl: 'debug/deposit.html'
-        }).
-        when('/withdrawal/:currency', {
-            controller: 'WithdrawalCtrl',
-            templateUrl: 'views/withdrawal.html'
-        }).
-        when('/asset', {
-            controller: 'AssetCtrl',
-            templateUrl: 'views/asset.html'
-        }).
-        when('/order', {
-            controller: 'OrderDetailCtrl',
-            templateUrl: 'views/order.html'
-        }).
-        when('/orders', {
-            controller: 'UserOrderCtrl',
-            templateUrl: 'views/orders.html'
-        }).
-        when('/transaction', {
-            controller: 'UserTxCtrl',
-            templateUrl: 'views/transactions.html'
-        }).
-        when('/accountsettings', {
-            controller: 'AccountSettingsCtrl',
-            templateUrl: 'views/accountSettings.html'
-        }).
-        when('/accountprofiles', {
-            controller: 'AccountProfilesCtrl',
-            templateUrl: 'views/accountProfiles.html'
-        }).
-        when('/googleauth/:prior', {
-            controller: 'GoogleAuthCtrl',
-            templateUrl: 'views/googleAuth.html'
-        }).
-        otherwise({
-            redirectTo: '/'
-        });
-}
+// function routeConfig($routeProvider) {
+//     $routeProvider.
+//         when('/', {
+//             redirectTo: '/asset'
+//         }).
+//         when('/transfer', {
+//             controller: 'TransferCtrl',
+//             templateUrl: 'views/transfer.html'
+//         }).
+//         when('/deposit/:currency', {
+//             controller: 'DepositCtrl',
+//             templateUrl: 'views/deposit.html'
+//         }).
+//         when('/deposit/debug/:currency', {
+//             controller: 'DepositCtrl',
+//             templateUrl: 'debug/deposit.html'
+//         }).
+//         when('/withdrawal/:currency', {
+//             controller: 'WithdrawalCtrl',
+//             templateUrl: 'views/withdrawal.html'
+//         }).
+//         when('/asset', {
+//             controller: 'AssetCtrl',
+//             templateUrl: 'views/asset.html'
+//         }).
+//         when('/order', {
+//             controller: 'OrderDetailCtrl',
+//             templateUrl: 'views/order.html'
+//         }).
+//         when('/orders', {
+//             controller: 'UserOrderCtrl',
+//             templateUrl: 'views/orders.html'
+//         }).
+//         when('/transaction', {
+//             controller: 'UserTxCtrl',
+//             templateUrl: 'views/transactions.html'
+//         }).
+//         when('/accountsettings', {
+//             controller: 'AccountSettingsCtrl',
+//             templateUrl: 'views/accountSettings.html'
+//         }).
+//         when('/accountprofiles', {
+//             controller: 'AccountProfilesCtrl',
+//             templateUrl: 'views/accountProfiles.html'
+//         }).
+//         when('/googleauth/:prior', {
+//             controller: 'GoogleAuthCtrl',
+//             templateUrl: 'views/googleAuth.html'
+//         }).
+//         otherwise({
+//             redirectTo: '/'
+//         });
+// }
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
 
-app.config(routeConfig);
+//app.config(routeConfig);
 app.config(httpConfig);
 
 app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -506,355 +506,356 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
+    $scope.uid = '1000000000';
     $http.get('/api/asset/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.assets = data.data;
-            drawHistoryChart($scope.assets);
+            //drawHistoryChart($scope.assets);
             var map = $scope.assets[$scope.assets.length - 1].amountMap;
-            $scope.pieData = [];
+            //$scope.pieData = [];
             var total = 0;
             for (asset in map) {
                 total += map[asset].value;
             }
 
-            for (asset in map) {
-                $scope.pieData.push({title: asset, value: map[asset].value / total});
-            }
+            // for (asset in map) {
+            //     $scope.pieData.push({title: asset, value: map[asset].value / total});
+            // }
 
-            drawPieChart($scope.pieData);
+            //drawPieChart($scope.pieData);
             $scope.updateAsset();
         });
 
-    var drawPieChart = function (data) {
-        var DURATION = 800;
-        var DELAY = 200;
+//     var drawPieChart = function (data) {
+//         var DURATION = 800;
+//         var DELAY = 200;
 
-        var containerEl = document.getElementById('user-finance-chart-pie'),
-            width = containerEl.clientWidth,
-            height = width * 0.9,
-            radius = Math.min(width, height) / 2,
-            container = d3.select(containerEl),
-            svg = container.select('svg')
-                .attr('width', width)
-                .attr('height', height);
+//         var containerEl = document.getElementById('user-finance-chart-pie'),
+//             width = containerEl.clientWidth,
+//             height = width * 0.9,
+//             radius = Math.min(width, height) / 2,
+//             container = d3.select(containerEl),
+//             svg = container.select('svg')
+//                 .attr('width', width)
+//                 .attr('height', height);
 
-        var pie = svg.append('g')
-            .attr(
-                'transform',
-                'translate(' + width / 2 + ',' + height / 2 + ')'
-            );
+//         var pie = svg.append('g')
+//             .attr(
+//                 'transform',
+//                 'translate(' + width / 2 + ',' + height / 2 + ')'
+//             );
 
-        var detailedInfo = svg.append('g')
-            .attr('class', 'pieChart--detailedInformation');
+//         var detailedInfo = svg.append('g')
+//             .attr('class', 'pieChart--detailedInformation');
 
-        var twoPi = 2 * Math.PI;
-        var pieData = d3.layout.pie()
-            .value(function (d) {
-                return d.value;
-            });
+//         var twoPi = 2 * Math.PI;
+//         var pieData = d3.layout.pie()
+//             .value(function (d) {
+//                 return d.value;
+//             });
 
-        var arc = d3.svg.arc()
-            .outerRadius(radius - 20)
-            .innerRadius(0);
+//         var arc = d3.svg.arc()
+//             .outerRadius(radius - 20)
+//             .innerRadius(0);
 
-        var color = d3.scale.linear()
-            .domain([0, data.length - 1])
-            .range(["#2980b9", "#34495e"]);
-//            .range(["#aad", "#556"]);
-//            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
+//         var color = d3.scale.linear()
+//             .domain([0, data.length - 1])
+//             .range(["#2980b9", "#34495e"]);
+// //            .range(["#aad", "#556"]);
+// //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
-        $scope.color = color;
+//         $scope.color = color;
 
-        var pieChartPieces = pie.datum(data)
-            .selectAll('path')
-            .data(pieData)
-            .enter()
-            .append('path')
-            .style("fill", function (d, i) {
-                return color(i);
-            })
-            .attr('filter', 'url(#pieChartInsetShadow)')
-            .attr('d', arc)
-            .each(function () {
-                this._current = { startAngle: 0, endAngle: 0 };
-            })
-            .transition()
-            .duration(DURATION)
-            .attrTween('d', function (d) {
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
+//         var pieChartPieces = pie.datum(data)
+//             .selectAll('path')
+//             .data(pieData)
+//             .enter()
+//             .append('path')
+//             .style("fill", function (d, i) {
+//                 return color(i);
+//             })
+//             .attr('filter', 'url(#pieChartInsetShadow)')
+//             .attr('d', arc)
+//             .each(function () {
+//                 this._current = { startAngle: 0, endAngle: 0 };
+//             })
+//             .transition()
+//             .duration(DURATION)
+//             .attrTween('d', function (d) {
+//                 var interpolate = d3.interpolate(this._current, d);
+//                 this._current = interpolate(0);
 
-                return function (t) {
-                    return arc(interpolate(t));
-                };
-            });
-//            .each('end', function handleAnimationEnd(d) {
-//                drawDetailedInformation(d.data, this);
-//            });
+//                 return function (t) {
+//                     return arc(interpolate(t));
+//                 };
+//             });
+// //            .each('end', function handleAnimationEnd(d) {
+// //                drawDetailedInformation(d.data, this);
+// //            });
 
-        drawChartCenter();
+//         drawChartCenter();
 
-        function drawChartCenter() {
-            var centerContainer = pie.append('g')
-                .attr('class', 'pieChart--center');
+//         function drawChartCenter() {
+//             var centerContainer = pie.append('g')
+//                 .attr('class', 'pieChart--center');
 
-//            centerContainer.append('circle')
-//                .attr('class', 'pieChart--center--outerCircle')
-//                .attr('r', 0)
-//                .attr('filter', 'url(#pieChartDropShadow)')
-//                .transition()
-//                .duration(DURATION)
-//                .delay(DELAY)
-//                .attr('r', radius - 50);
+// //            centerContainer.append('circle')
+// //                .attr('class', 'pieChart--center--outerCircle')
+// //                .attr('r', 0)
+// //                .attr('filter', 'url(#pieChartDropShadow)')
+// //                .transition()
+// //                .duration(DURATION)
+// //                .delay(DELAY)
+// //                .attr('r', radius - 50);
 
-            centerContainer.append('circle')
-                .attr('id', 'pieChart-clippy')
-                .attr('class', 'pieChart--center--innerCircle')
-                .attr('r', 0)
-                .transition()
-                .delay(DELAY)
-                .duration(DURATION)
-                .attr('r', radius - 55)
-                .attr('fill', '#fff');
-        }
+//             centerContainer.append('circle')
+//                 .attr('id', 'pieChart-clippy')
+//                 .attr('class', 'pieChart--center--innerCircle')
+//                 .attr('r', 0)
+//                 .transition()
+//                 .delay(DELAY)
+//                 .duration(DURATION)
+//                 .attr('r', radius - 55)
+//                 .attr('fill', '#fff');
+//         }
 
-        function drawDetailedInformation(data, element) {
-            var bBox = element.getBBox(),
-                infoWidth = width * 0.3,
-                anchor,
-                infoContainer,
-                position;
-            var x = width - infoWidth;
-            var y = bBox.height + bBox.y;
-            if (( bBox.x + bBox.width / 2 ) > 0) {
-                infoContainer = detailedInfo.append('g')
-                    .attr('width', infoWidth)
-                    .attr(
-                        'transform',
-                        'translate(' + x + ',' + y + ')'
-                    );
-                anchor = 'end';
-                position = 'right';
-            } else {
-                infoContainer = detailedInfo.append('g')
-                    .attr('width', infoWidth)
-                    .attr(
-                        'transform',
-                        'translate(' + 0 + ',' + y + ')'
-                    );
-                anchor = 'start';
-                position = 'left';
-            }
+    //     function drawDetailedInformation(data, element) {
+    //         var bBox = element.getBBox(),
+    //             infoWidth = width * 0.3,
+    //             anchor,
+    //             infoContainer,
+    //             position;
+    //         var x = width - infoWidth;
+    //         var y = bBox.height + bBox.y;
+    //         if (( bBox.x + bBox.width / 2 ) > 0) {
+    //             infoContainer = detailedInfo.append('g')
+    //                 .attr('width', infoWidth)
+    //                 .attr(
+    //                     'transform',
+    //                     'translate(' + x + ',' + y + ')'
+    //                 );
+    //             anchor = 'end';
+    //             position = 'right';
+    //         } else {
+    //             infoContainer = detailedInfo.append('g')
+    //                 .attr('width', infoWidth)
+    //                 .attr(
+    //                     'transform',
+    //                     'translate(' + 0 + ',' + y + ')'
+    //                 );
+    //             anchor = 'start';
+    //             position = 'left';
+    //         }
 
-            infoContainer.data([ data.value * 100 ])
-                .append('text')
-                .text('0 %')
-                .attr('class', 'pieChart--detail--percentage')
-                .attr('x', ( position === 'left' ? 0 : infoWidth ))
-                .attr('y', 20)
-                .attr('text-anchor', anchor)
-                .transition()
-                .duration(DURATION)
-                .tween('text', function (d) {
-                    var i = d3.interpolateRound(
-                        +this.textContent.replace(/\s%/ig, ''),
-                        d
-                    );
+    //         infoContainer.data([ data.value * 100 ])
+    //             .append('text')
+    //             .text('0 %')
+    //             .attr('class', 'pieChart--detail--percentage')
+    //             .attr('x', ( position === 'left' ? 0 : infoWidth ))
+    //             .attr('y', 20)
+    //             .attr('text-anchor', anchor)
+    //             .transition()
+    //             .duration(DURATION)
+    //             .tween('text', function (d) {
+    //                 var i = d3.interpolateRound(
+    //                     +this.textContent.replace(/\s%/ig, ''),
+    //                     d
+    //                 );
 
-                    return function (t) {
-                        this.textContent = i(t) + ' %';
-                    };
-                });
+    //                 return function (t) {
+    //                     this.textContent = i(t) + ' %';
+    //                 };
+    //             });
 
-            infoContainer.append('line')
-                .attr('class', 'pieChart--detail--divider')
-                .attr('x1', 0)
-                .attr('x2', 0)
-                .attr('y1', 30)
-                .attr('y2', 30)
-                .transition()
-                .duration(DURATION)
-                .attr('x2', infoWidth);
+    //         infoContainer.append('line')
+    //             .attr('class', 'pieChart--detail--divider')
+    //             .attr('x1', 0)
+    //             .attr('x2', 0)
+    //             .attr('y1', 30)
+    //             .attr('y2', 30)
+    //             .transition()
+    //             .duration(DURATION)
+    //             .attr('x2', infoWidth);
 
-            infoContainer.data([ data.description ])
-                .append('foreignObject')
-                .attr('width', infoWidth)
-                .attr('height', 24)
-                .attr('y', 30)
-                .append('xhtml:body')
-                .attr(
-                    'class',
-                    'pieChart--detail--textContainer '
-                )
-                .html(data.title);
-        }
-    };
+    //         infoContainer.data([ data.description ])
+    //             .append('foreignObject')
+    //             .attr('width', infoWidth)
+    //             .attr('height', 24)
+    //             .attr('y', 30)
+    //             .append('xhtml:body')
+    //             .attr(
+    //                 'class',
+    //                 'pieChart--detail--textContainer '
+    //             )
+    //             .html(data.title);
+    //     }
+    // };
 
-    var drawHistoryChart = function (assets) {
-        var data = [];
-        for (key in assets[0].amountMap) {
-            var layer = [];//{name: key, values: []};
-            var x = 0;
-            assets.forEach(function (d) {
-                layer.push({x: d.timestamp, y: d.amountMap[key].value});
-            });
-            data.push(layer);
-        }
-        var stack = d3.layout.stack(),
-            layers = stack(data),
-            yGroupMax = d3.max(layers, function (layer) {
-                return d3.max(layer, function (d) {
-                    return d.y;
-                });
-            }),
-            yStackMax = d3.max(layers, function (layer) {
-                return d3.max(layer, function (d) {
-                    return d.y0 + d.y;
-                });
-            });
+//     var drawHistoryChart = function (assets) {
+//         var data = [];
+//         for (key in assets[0].amountMap) {
+//             var layer = [];//{name: key, values: []};
+//             var x = 0;
+//             assets.forEach(function (d) {
+//                 layer.push({x: d.timestamp, y: d.amountMap[key].value});
+//             });
+//             data.push(layer);
+//         }
+//         var stack = d3.layout.stack(),
+//             layers = stack(data),
+//             yGroupMax = d3.max(layers, function (layer) {
+//                 return d3.max(layer, function (d) {
+//                     return d.y;
+//                 });
+//             }),
+//             yStackMax = d3.max(layers, function (layer) {
+//                 return d3.max(layer, function (d) {
+//                     return d.y0 + d.y;
+//                 });
+//             });
 
-        var margin = {top: 10, right: 10, bottom: 30, left: 80},
-            width = 600 - margin.left - margin.right,
-            height = 250 - margin.top - margin.bottom;
+//         var margin = {top: 10, right: 10, bottom: 30, left: 80},
+//             width = 600 - margin.left - margin.right,
+//             height = 250 - margin.top - margin.bottom;
 
-        var x = d3.scale.ordinal()
-            .domain(assets.map(function (d) {
-                return d.timestamp;
-            }))
-            .rangeRoundBands([0, width], .08);
+//         var x = d3.scale.ordinal()
+//             .domain(assets.map(function (d) {
+//                 return d.timestamp;
+//             }))
+//             .rangeRoundBands([0, width], .08);
 
-        var y = d3.scale.linear()
-            .domain([0, yStackMax])
-            .range([height, 0]);
+//         var y = d3.scale.linear()
+//             .domain([0, yStackMax])
+//             .range([height, 0]);
 
-        var color = d3.scale.linear()
-            .domain([0, data.length - 1])
-            .range(["#2980b9", "#34495e"]);
-//            .range(["#aad", "#556"]);
-//            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
+//         var color = d3.scale.linear()
+//             .domain([0, data.length - 1])
+//             .range(["#2980b9", "#34495e"]);
+// //            .range(["#aad", "#556"]);
+// //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
 
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .tickSize(6)
-            .tickPadding(6)
-            .tickFormat(function (d) {
-                var date = new Date(d);
-                var day = date.getDate();
-                if (day % 5 == 1) return (date.getYear() - 100) + '-' + (date.getMonth() + 1) + '-' + day;
-                return '';
-            })
-            .orient("bottom");
+//         var xAxis = d3.svg.axis()
+//             .scale(x)
+//             .tickSize(6)
+//             .tickPadding(6)
+//             .tickFormat(function (d) {
+//                 var date = new Date(d);
+//                 var day = date.getDate();
+//                 if (day % 5 == 1) return (date.getYear() - 100) + '-' + (date.getMonth() + 1) + '-' + day;
+//                 return '';
+//             })
+//             .orient("bottom");
 
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            .tickFormat(d3.format(".1s"));
+//         var yAxis = d3.svg.axis()
+//             .scale(y)
+//             .orient("left")
+//             .tickFormat(d3.format(".1s"));
 
-        var svg = d3.select("#user-finance-chart-history")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+//         var svg = d3.select("#user-finance-chart-history")
+//             .attr("width", width + margin.left + margin.right)
+//             .attr("height", height + margin.top + margin.bottom)
+//             .append("g")
+//             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var layer = svg.selectAll(".layer")
-            .data(layers)
-            .enter().append("g")
-            .attr("class", "layer")
-            .style("fill", function (d, i) {
-                return color(i);
-            });
+//         var layer = svg.selectAll(".layer")
+//             .data(layers)
+//             .enter().append("g")
+//             .attr("class", "layer")
+//             .style("fill", function (d, i) {
+//                 return color(i);
+//             });
 
-        var rect = layer.selectAll("rect")
-            .data(function (d) {
-                return d;
-            })
-            .enter().append("rect")
-            .attr("x", function (d) {
-                return x(d.x);
-            })
-            .attr("y", height)
-            .attr("width", x.rangeBand())
-            .attr("height", 0);
+//         var rect = layer.selectAll("rect")
+//             .data(function (d) {
+//                 return d;
+//             })
+//             .enter().append("rect")
+//             .attr("x", function (d) {
+//                 return x(d.x);
+//             })
+//             .attr("y", height)
+//             .attr("width", x.rangeBand())
+//             .attr("height", 0);
 
-        rect.transition()
-            .delay(function (d, i) {
-                return i * 10;
-            })
-            .attr("y", function (d) {
-                return y(d.y0 + d.y);
-            })
-            .attr("height", function (d) {
-                return y(d.y0) - y(d.y0 + d.y);
-            });
+//         rect.transition()
+//             .delay(function (d, i) {
+//                 return i * 10;
+//             })
+//             .attr("y", function (d) {
+//                 return y(d.y0 + d.y);
+//             })
+//             .attr("height", function (d) {
+//                 return y(d.y0) - y(d.y0 + d.y);
+//             });
 
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
+//         svg.append("g")
+//             .attr("class", "x axis")
+//             .attr("transform", "translate(0," + height + ")")
+//             .call(xAxis);
 
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em");
+//         svg.append("g")
+//             .attr("class", "y axis")
+//             .call(yAxis)
+//             .append("text")
+//             .attr("transform", "rotate(-90)")
+//             .attr("y", 6)
+//             .attr("dy", ".71em");
 
-        d3.selectAll("input").on("change", change);
+//         d3.selectAll("input").on("change", change);
 
-        // animate on start
-//        var timeout = setTimeout(function () {
-//            d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-//        }, 2000);
+//         // animate on start
+// //        var timeout = setTimeout(function () {
+// //            d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
+// //        }, 2000);
 
-        function change() {
-//            clearTimeout(timeout);
-            if (this.value === "grouped") transitionGrouped();
-            else transitionStacked();
-        }
+//         function change() {
+// //            clearTimeout(timeout);
+//             if (this.value === "grouped") transitionGrouped();
+//             else transitionStacked();
+//         }
 
-        function transitionGrouped() {
-//            y.domain([0, yGroupMax]);
+//         function transitionGrouped() {
+// //            y.domain([0, yGroupMax]);
 
-            rect.transition()
-                .duration(500)
-                .delay(function (d, i) {
-                    return i * 10;
-                })
-                .attr("x", function (d, i, j) {
-                    return x(d.x) + x.rangeBand() / data.length * j;
-                })
-                .attr("width", x.rangeBand() / data.length)
-                .transition()
-                .attr("y", function (d) {
-                    return y(d.y);
-                })
-                .attr("height", function (d) {
-                    return height - y(d.y);
-                });
-        }
+//             rect.transition()
+//                 .duration(500)
+//                 .delay(function (d, i) {
+//                     return i * 10;
+//                 })
+//                 .attr("x", function (d, i, j) {
+//                     return x(d.x) + x.rangeBand() / data.length * j;
+//                 })
+//                 .attr("width", x.rangeBand() / data.length)
+//                 .transition()
+//                 .attr("y", function (d) {
+//                     return y(d.y);
+//                 })
+//                 .attr("height", function (d) {
+//                     return height - y(d.y);
+//                 });
+//         }
 
-        function transitionStacked() {
-//            y.domain([0, yStackMax]);
+//         function transitionStacked() {
+// //            y.domain([0, yStackMax]);
 
-            rect.transition()
-                .duration(500)
-                .delay(function (d, i) {
-                    return i * 10;
-                })
-                .attr("y", function (d) {
-                    return y(d.y0 + d.y);
-                })
-                .attr("height", function (d) {
-                    return y(d.y0) - y(d.y0 + d.y);
-                })
-                .transition()
-                .attr("x", function (d) {
-                    return x(d.x);
-                })
-                .attr("width", x.rangeBand());
-        }
-    };
+//             rect.transition()
+//                 .duration(500)
+//                 .delay(function (d, i) {
+//                     return i * 10;
+//                 })
+//                 .attr("y", function (d) {
+//                     return y(d.y0 + d.y);
+//                 })
+//                 .attr("height", function (d) {
+//                     return y(d.y0) - y(d.y0 + d.y);
+//                 })
+//                 .transition()
+//                 .attr("x", function (d) {
+//                     return x(d.x);
+//                 })
+//                 .attr("width", x.rangeBand());
+//         }
+//     };
 
     $scope.totalAssetBtc = 0;
     $scope.totalAssetCny = 0;
@@ -880,8 +881,11 @@ app.controller('AssetCtrl', function ($scope, $http) {
                     $scope.totalAssetCny = (1.0 / $scope.accounts['CNY'].price) * $scope.totalAssetBtc;
                 }
 
-                $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(6);
-                $scope.totalAssetCny = $scope.totalAssetCny.toFixed(2);
+                $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(4);
+                if($scope.totalAssetCny.toString().length < 10)
+                    $scope.totalAssetCny =  $scope.totalAssetCny.toFixed(2);
+                else
+                    $scope.totalAssetCny =  $scope.totalAssetCny.toFixed(0);
             });
     };
 });

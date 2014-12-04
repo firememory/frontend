@@ -1,10 +1,16 @@
-@()(implicit session: Session)
+@(assetCurrencies: Seq[String])(implicit session: Session)
+@import utils.Constant._
 
 <!doctype html>
 <html>
 <head>
 <title></title>
 @__head_commons()
+<style>
+ .vis-hidden{
+   visibility: none;
+ }
+</style>
 </head>
 
 <body>
@@ -21,161 +27,122 @@
   <div id="main-container" ng-controller="AssetCtrl">
 
     <div class="asset-overview clearfix">
-          <div class="col-lg-3 col-sm-4 col-xs-12">
-            <div class="total">
-              <div class="icon-box"><i class="icon-user icon-4x"></i></div>
-              <div class="total-content"> <span>我的总资产</span>
-                <h2>21870.36</h2>
-              </div>
-            </div>
+      <div class="col-lg-3 col-sm-4 col-xs-12">
+        <div class="total">
+          <div class="icon-box"><i class="icon-user icon-4x"></i></div>
+          <div class="total-content"> <span>我的总资产</span>
+            <h2 ng-bind="'¥ ' + totalAssetCny"></h2>
           </div>
-          <div class="col-lg-9 col-sm-8 col-xs-12">
-            <div class="counter clearfix">
-              <div class="slider2">
-                <div class="item"><i class="icon-cny-o icon-3x"></i>
-                  <div class="coin"><span>人民币</span>
-                    <h2>22300</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-btc-o icon-3x"></i>
-                  <div class="coin"><span>比特币</span>
-                    <h2>25.05678</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-ltc-o  icon-3x"></i>
-                  <div class="coin"><span>莱特币</span>
-                    <h2>560</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-doge-o  icon-3x"></i>
-                  <div class="coin"><span>狗狗币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-bc-o  icon-3x"></i>
-                  <div class="coin"><span>黑币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-drk-o  icon-3x"></i>
-                  <div class="coin"><span>暗黑币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-vrc-o  icon-3x"></i>
-                  <div class="coin"><span>维理币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-zet-o  icon-3x"></i>
-                  <div class="coin"><span>泽塔币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-btsx-o  icon-3x"></i>
-                  <div class="coin"><span>比特股</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-nxt-o  icon-3x"></i>
-                  <div class="coin"><span>未来币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-                <div class="item"><i class="icon-srp-o  icon-3x"></i>
-                  <div class="coin"><span>瑞波币</span>
-                    <h2>6800</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
       </div>
-
-
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="icon-purse icon-2x"></i>我的资产</h3>
-          </div>
-          <div class="panel-body">
-
-              <div class="table-responsive">
-                <table class="table table-striped" data-sortable="">
-                  <thead>
-                    <tr>
-                      <th>币种</th>
-                      <th>账户总余额</th>
-                      <th>可用余额</th>
-                      <th>挂单金额</th>
-                      <th>待提现金额</th>
-                      <th>资产价格</th>
-                      <th>资产净值</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><i class="icon-btc-o icon-2x"></i>比特币(BTC)</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                    <tr>
-                      <td><i class="icon-ltc-o icon-2x"></i>莱特币(LTC)</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                    <tr>
-                      <td><i class="icon-doge-o icon-2x"></i>狗狗币</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                    <tr>
-                      <td><i class="icon-bc-o icon-2x"></i>黑币</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                    <tr>
-                      <td><i class="icon-drk-o icon-2x"></i>暗黑币</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                    <tr>
-                      <td><i class="icon-vrc-o icon-2x"></i>维理币</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                      <td>￥5632.55</td>
-                    </tr>
-                  </tbody>
-                </table>
+      <div class="col-lg-9 col-sm-8 col-xs-12">
+        <div class="counter clearfix">
+          <div class="slider2">
+            @for(currency <- assetCurrencies) {
+            <div class="item"><i class="icon-@{currency.toLowerCase}-o icon-3x"></i>
+              <div class="coin"><span>@{coinChineseNames(currency)}</span>
+                <h2 ng-bind="accounts['@currency'].total.value | quantity"></h2>
               </div>
             </div>
+            }
+            <!-- <div ng-show="accounts['CNY']" class="item"><i class="icon-cny-o icon-3x"></i>
+            <div class="coin"><span >人民币</span>
+            <h2 ng-bind="accounts['CNY'].total.value | quantity"></h2>
+            </div>
+            </div>
+            <div ng-show="accounts['BTC']" class="item"><i class="icon-btc-o icon-3x"></i>
+            <div class="coin"><span>比特币</span>
+            <h2>25.05678</h2>
+            </div>
+            </div>
+            <div ng-show="accounts['LTC']" class="item"><i class="icon-ltc-o  icon-3x"></i>
+            <div class="coin"><span>莱特币</span>
+            <h2>560</h2>
+            </div>
+            </div>
+            <div ng-show="accounts['DOGE']" class="item"><i class="icon-doge-o  icon-3x"></i>
+            <div class="coin"><span>狗狗币</span>
+            <h2>6800</h2>
+            </div>
+            </div> -->
 
-
-
+            <!--
+            <div ng-class="accounts['BC']? '' : 'vis-hidden'" class="item"><i class="icon-bc-o  icon-3x"></i>
+              <div class="coin"><span>黑币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['DRK']? '' : 'vis-hidden'" class="item"><i class="icon-drk-o  icon-3x"></i>
+              <div class="coin"><span>暗黑币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['VRC']? '' : 'vis-hidden'" class="item"><i class="icon-vrc-o  icon-3x"></i>
+              <div class="coin"><span>维理币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['ZET']? '' : 'vis-hidden'" class="item"><i class="icon-zet-o  icon-3x"></i>
+              <div class="coin"><span>泽塔币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['BTSX']? '' : 'vis-hidden'" class="item"><i class="icon-btsx-o  icon-3x"></i>
+              <div class="coin"><span>比特股</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['NXT']? '' : 'vis-hidden'" class="item"><i class="icon-nxt-o  icon-3x"></i>
+              <div class="coin"><span>未来币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            <div ng-class="accounts['XRP']? '' : 'vis-hidden'" class="item"><i class="icon-xrp-o  icon-3x"></i>
+              <div class="coin"><span>瑞波币</span>
+                <h2>6800</h2>
+              </div>
+            </div>
+            -->
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="icon-purse icon-2x"></i>我的资产</h3>
+      </div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-striped" data-sortable="">
+            <thead>
+              <tr>
+                <th>币种</th>
+                <th>账户总余额</th>
+                <th>可用余额</th>
+                <th>挂单金额</th>
+                <th>待提现金额</th>
+                <th>资产价格</th>
+                <th>资产净值</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="account in accounts">
+                <td><i class="icon-{{account.currency.toLowerCase()}}-o icon-2x"></i><span ng-bind="Messages.coinName[account.currency]"></span>(<span ng-bind="account.currency"></span>)</td>
+                <td ng-bind="account.total.value | quantity">@Messages("loading")</td>
+                <td ng-bind="account.available.value | quantity">@Messages("loading")</td>
+                <td ng-bind="account.locked.value | quantity">@Messages("loading")</td>
+                <td ng-bind="account.pendingWithdrawal.value | quantity">@Messages("loading")</td>
+                <td ng-bind="account.price + ' BTC'">@Messages("loading")</td>
+                <td ng-bind="account.asset + ' BTC'">@Messages("loading")</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <footer>
           <div class="footer-nav">
             <div class="col-lg-3 col-sm-3 col-xs-6">
@@ -220,6 +187,7 @@
 <!--end-main-container-->
 
 @__tail_commons()
+@__js("/js/coinport/messages.zh-CN.js")
 @__js("/js/coinport/app.js")
 @__js("/js/coinport/account.js")
 </body>
