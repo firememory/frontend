@@ -71,8 +71,8 @@ class MyDefaultGimpyEngine extends ListImageCaptchaEngine {
       new Integer(4),
       new Integer(5),
       new SingleColorGenerator(Color.black),
-      Array[TextDecorator](new BaffleTextDecorator(new Integer(1), Color.white))
-      //Array[TextDecorator]()
+      // Array[TextDecorator](new BaffleTextDecorator(new Integer(1), Color.white))
+      Array[TextDecorator]()
     )
 
     val back: BackgroundGenerator = new UniColorBackgroundGenerator(
