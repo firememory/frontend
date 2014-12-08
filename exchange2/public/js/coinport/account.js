@@ -63,42 +63,96 @@ app.config(httpConfig);
 
 app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.addressUrl = COINPORT.addressUrl;
+    $scope.allCoinsWithName = Messages.coinName;
+    $scope.allCoins = Messages.coins;
+    $scope.currency = $scope.allCoins[0];
+    //console.debug("allCoinsWithName: ", $scope.allCoinsWithName);
 
     $http.get('/api/account/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.accounts = data.data.accounts;
         });
     $scope.status = {};
-    $scope.depositAddresses = {};
-    $scope.getCurrencyDetails = function(currency) {
-        // get network status
-        $scope.timestamp = new Date().getTime();
-//        $http.get('/api/open/network/' + currency)
-//            .success(function(data, status, headers, config) {
-//                $scope.status[currency] = data.data;
-//        });
-        // get deposit address
-        $http.get('/depoaddr/' + $scope.uid)
-            .success(function (data, status, headers, config) {
-                $scope.depositAddresses[currency] = data.data[currency];
+    $scope.depositAddresses = [];
+//     $scope.getCurrencyDetails = function(currency) {
+//         // get network status
+//         $scope.timestamp = new Date().getTime();
+// //        $http.get('/api/open/network/' + currency)
+// //            .success(function(data, status, headers, config) {
+// //                $scope.status[currency] = data.data;
+// //        });
+//         // get deposit address
+//         $http.get('/depoaddr/' + $scope.uid)
+//             .success(function (data, status, headers, config) {
+//                 $scope.depositAddresses[currency] = data.data[currency];
+//                 console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
+//         });
+//     };
+
+    $http.get('/depoaddr/' + $scope.uid)
+        .success(function (data, status, headers, config) {
+            for (var curr in Messages.coins) {
+                //hack BTSX
+                if (Messages.coins[curr] == 'BTSX') {
+                    $scope.depositAddresses['BTSX'] = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
+                } else if (Messages.coins[curr] == 'XRP') {
+                    $scope.depositAddresses['XRP'] = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
+                } else if (Messages.coins[curr] == "NXT") {
+                    var nxtAddrs = data.data['NXT'].split("//");
+                    $scope.depositAddresses['NXT'] = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
+                    $scope.nxtPublicKey = nxtAddrs[2];
+                } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
+            }
+            console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
         });
-    };
 
     $scope.page = 1;
     $scope.limit = 25;
-    $scope.transfers = {};
-    $scope.loadTransfers = function () {
-        $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page}})
+    $scope.deposits = {};
+    // $scope.transfers = {};
+    // $scope.loadTransfers = function () {
+    //     $http.get('/api/ALL/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page}})
+    //         .success(function (data, status, headers, config) {
+    //             $scope.transfers = data.data.items;
+    //             $scope.transfers.forEach(function(item){
+    //                 item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+    //             });
+    //             $scope.count = data.data.count;
+    //         });
+    // };
+
+    // $scope.loadTransfers();
+    //$scope.depositAddress = [];
+    //console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
+
+    $scope.loadDeposits = function () {
+        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
             .success(function (data, status, headers, config) {
-                $scope.transfers = data.data.items;
-                $scope.transfers.forEach(function(item){
+                $scope.deposits = data.data.items;
+                $scope.deposits.forEach(function(item){
                     item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
                 });
+
                 $scope.count = data.data.count;
             });
     };
 
-    $scope.loadTransfers();
+    $scope.changeCurrency = function() {
+        console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
+        $scope.loadDeposits();
+
+        // $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
+        //     .success(function (data, status, headers, config) {
+        //         $scope.deposits = data.data.items;
+        //         $scope.deposits.forEach(function(item){
+        //             item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+        //         });
+
+        //         $scope.count = data.data.count;
+        //     });
+    }
+
+    $scope.changeCurrency();
 }]);
 
 app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -953,53 +1007,37 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 }]);
 
-app.controller('AccountProfilesCtrl', function ($scope, $window, $http, $modal) {
-    var ModalInstanceCtrlNickname = function ($scope, $modalInstance) {
-        $scope.modal = {};
+app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
+    $('#nickname-setter').popover({
+        html: true,
+        trigger: 'manual'
+    }).on('shown.bs.popover', function () {
+        var $popup = $(this);
+        $(this).next('.popover').find('button.cancel').click(function (e) {
+            $popup.popover('hide');
+        });
+        $(this).next('.popover').find('button.save').click(function (e) {
+            $popup.popover('hide');
+            var nickname = $(".popover #nickname").val();
+            console.debug("nickname: ", nickname);
+            $scope.setNickName(nickname);
+        });
+    });
 
-        $scope.ok = function () {
-            console.debug('params', $scope.modal.nickname);
-            $http.post('/account/updatenickname', $.param({'nickname': $scope.modal.nickname}))
-                .success(function (data, status, headers, config) {
-                    $scope.showNicknameError = true;
-                    if (data.success) {
-                        $modalInstance.close();
-                    } else {
-                        var errorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.nicknameError = errorMsg;
-                    }
-                });
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
+    $scope.setNickName = function(name) {
+        console.debug("usernickname: ", name);
+        $http.post('/account/updatenickname', $.param({'nickname': name}))
+            .success(function (data, status, headers, config) {
+                $scope.showNicknameError = true;
+                if (data.success) {
+                    $window.location.href = '/account/profile';
+                    $window.location.reload();
+                } else {
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.nicknameError = errorMsg;
+                }
+            });
     };
-
-    $scope.setNickName = function(size) {
-        var modalInstance = $modal.open({
-            templateUrl: 'ModalContentNickname.html',
-            controller: ModalInstanceCtrlNickname,
-            size: size,
-            resolve: { }
-        });
-
-        modalInstance.result.then(function (setRes) {
-            $window.location.href = '/account#/accountprofiles';
-            $window.location.reload();
-        }, function () {
-            console.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
-    $scope.loginhistorys = [];
-    $http.get('/useraction/loginhistory')
-        .success(function(data, status, headers, config) {
-            console.debug('data: ', data);
-            if (data.success) {
-                $scope.loginhistorys = data.data;
-            }
-        });
 
     $scope.apiToken = "";
     $scope.getApiToken = function() {
@@ -1014,11 +1052,63 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http, $modal) 
 
 });
 
-app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $modal, $timeout) {
+app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $timeout) {
     //$scope.showMainDiv = true;
 
     $scope.showUpdateAccountError = false;
     $scope.account = {};
+
+    $('#pwd-update').popover({
+        html: true,
+        trigger: 'manual'
+    }).on('shown.bs.popover', function () {
+        var $popup = $(this);
+        $(this).next('.popover').find('button.cancel').click(function (e) {
+            $popup.popover('hide');
+        });
+        $(this).next('.popover').find('button.save').click(function (e) {
+            var oldPwd = $(".popover #oldPwd").val();
+            var newPwd = $(".popover #newPwd").val();
+            var newPwdConfirm = $(".popover #newPwdConfirm").val();
+            console.debug("changepwd: ", oldPwd, newPwd);
+            if(newPwd != newPwdConfirm) {
+                $scope.showChangePwdError = true;
+                $scope.changePwdErrorMessage = "确认密码和新密码不一致！";
+            } else {
+                $scope.doChangePassword(oldPwd, newPwd);
+            }
+
+            $timeout(function() {
+                $popup.popover('hide');
+            }, 2000);
+        });
+    });
+
+// ----------------------- changepwd ---------------------
+    $scope.doChangePassword = function (oldPassword, newPassword) {
+        $scope.showChangePwdError = false;
+        var oldPwd = $.sha256b64(oldPassword);
+        var newPwd = $.sha256b64(newPassword);
+        $http.post('/account/dochangepwd', $.param({'oldPassword': oldPwd, 'newPassword': newPwd}))
+            .success(function (data, status, headers, config) {
+                console.debug("changepwd result: ", data)
+                if (data.success) {
+                    $scope.showChangePwdError = true;
+                    $scope.changePwdErrorMessage = Messages.account.changePwdSucceeded;
+                    // $timeout(function() {
+                    //     //$window.location.href = '/account#/accountsettings';
+                    //     //$window.location.reload();
+                    //     $scope.showMainDiv = true;
+                    //     $scope.showChangePwdDiv = false;
+                    //     //console.debug("show main div");
+                    // }, 1000);
+                } else {
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.changePwdErrorMessage = errorMsg;
+                }
+            });
+    };
+
     // $scope.credentialItems = [
     //     {"name": "身份证", "value": "1"},
     //     {"name": "护照", "value": "2"}
@@ -1026,23 +1116,23 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     // $scope.credentialType = $scope.credentialItems[0];
 
 
-    angular.element(document).ready( function () {
-        $('form select.bfh-countries, span.bfh-countries, div.bfh-countries').each(function () {
-            var $countries;
-            $countries = $(this);
-            if ($countries.hasClass('bfh-selectbox')) {
-                $countries.bfhselectbox($countries.data());
-            }
-            $countries.bfhcountries($countries.data());
-        });
+    // angular.element(document).ready( function () {
+    //     $('form select.bfh-countries, span.bfh-countries, div.bfh-countries').each(function () {
+    //         var $countries;
+    //         $countries = $(this);
+    //         if ($countries.hasClass('bfh-selectbox')) {
+    //             $countries.bfhselectbox($countries.data());
+    //         }
+    //         $countries.bfhcountries($countries.data());
+    //     });
 
-        $('form input[type="text"].bfh-phone, form input[type="tel"].bfh-phone, span.bfh-phone').each(function () {
-            var $phone;
-            $phone = $(this);
-            $phone.bfhphone($phone.data());
-        });
+    //     $('form input[type="text"].bfh-phone, form input[type="tel"].bfh-phone, span.bfh-phone').each(function () {
+    //         var $phone;
+    //         $phone = $(this);
+    //         $phone.bfhphone($phone.data());
+    //     });
 
-    });
+    // });
 
 //========================== bind/modify mobile phone number ==================
 //---------------------------- button timer --------------------------
@@ -1199,198 +1289,198 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     };
 
 
-    var ModalInstanceCtrlMobile = function ($scope, $modalInstance, mobileStatus) {
-        $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
-        $scope.showChangeMobileSecPreferError = false;
-        $scope.changeMobileSec = {};
+    // var ModalInstanceCtrlMobile = function ($scope, $modalInstance, mobileStatus) {
+    //     $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    //     $scope.showChangeMobileSecPreferError = false;
+    //     $scope.changeMobileSec = {};
 
-        var stop;
-        $scope.isTiming = false;
+    //     var stop;
+    //     $scope.isTiming = false;
 
-        $scope.disableButton = function () {
-            if (angular.isDefined(stop)) {
-                $scope.isTiming = true;
-                return;
-            }
+    //     $scope.disableButton = function () {
+    //         if (angular.isDefined(stop)) {
+    //             $scope.isTiming = true;
+    //             return;
+    //         }
 
-            $scope.seconds = 120;
+    //         $scope.seconds = 120;
 
-            stop = $interval(function () {
-                if ($scope.seconds > 0) {
-                    $scope.seconds = $scope.seconds - 1;
-                    $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
-                    $scope.isTiming = true;
-                }
-                else {
-                    $scope.stopTiming();
-                    $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
-                    $scope.isTiming = false;
-                }
-            }, 1000);
-        };
+    //         stop = $interval(function () {
+    //             if ($scope.seconds > 0) {
+    //                 $scope.seconds = $scope.seconds - 1;
+    //                 $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+    //                 $scope.isTiming = true;
+    //             }
+    //             else {
+    //                 $scope.stopTiming();
+    //                 $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    //                 $scope.isTiming = false;
+    //             }
+    //         }, 1000);
+    //     };
 
-        $scope.stopTiming = function () {
-            if (angular.isDefined(stop)) {
-                $interval.cancel(stop);
-                stop = undefined;
-            }
-            $scope.isTiming = false;
-            $scope.seconds = 0;
-            $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
-        };
+    //     $scope.stopTiming = function () {
+    //         if (angular.isDefined(stop)) {
+    //             $interval.cancel(stop);
+    //             stop = undefined;
+    //         }
+    //         $scope.isTiming = false;
+    //         $scope.seconds = 0;
+    //         $scope.verifyButton = Messages.account.getVerifyCodeButtonText;
+    //     };
 
-        $scope.$on('destroy', function () {
-            $scope.stopTiming();
-        });
+    //     $scope.$on('destroy', function () {
+    //         $scope.stopTiming();
+    //     });
 
-        $scope.sendVerifySms = function () {
-            $scope.showChangeMobileSecPreferError = false;
-            $scope.disableButton();
+    //     $scope.sendVerifySms = function () {
+    //         $scope.showChangeMobileSecPreferError = false;
+    //         $scope.disableButton();
 
-            $http.get('/smsverification2')
-                .success(function (data, status, headers, config) {
-                    $scope.showChangeMobileSecPreferError = true;
-                    console.log("send sms result: ", data)
-                    if (data.success) {
-                        $scope.changeMobileSec.verifyCodeUuidMobile = data.data;
-                        //console.log('data = ' + data.data);
-                        //console.log('uuid = ' + $scope.account.verifyCodeUuid);
-                    } else {
-                        var smsErrorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.changeMobileSecPreferError = smsErrorMsg;
-                        if (data.code == 9009) {
-                            $scope.stopTiming();
-                        }
-                    }
-                });
-        };
+    //         $http.get('/smsverification2')
+    //             .success(function (data, status, headers, config) {
+    //                 $scope.showChangeMobileSecPreferError = true;
+    //                 console.log("send sms result: ", data)
+    //                 if (data.success) {
+    //                     $scope.changeMobileSec.verifyCodeUuidMobile = data.data;
+    //                     //console.log('data = ' + data.data);
+    //                     //console.log('uuid = ' + $scope.account.verifyCodeUuid);
+    //                 } else {
+    //                     var smsErrorMsg = Messages.getMessage(data.code, data.message);
+    //                     $scope.changeMobileSecPreferError = smsErrorMsg;
+    //                     if (data.code == 9009) {
+    //                         $scope.stopTiming();
+    //                     }
+    //                 }
+    //             });
+    //     };
 
-        $scope.ok = function () {
-            console.debug("params: ", $scope.changeMobileSec.verifyCodeUuidMobile, $scope.changeMobileSec.verifycode, mobileStatus);
-            $http.post('/preference/phone', $.param({'uuid': $scope.changeMobileSec.verifyCodeUuidMobile, 'phonecode': $scope.changeMobileSec.verifycode, 'phoneprefer': mobileStatus}))
-                .success(function (data, status, headers, config) {
-                    $scope.showChangeMobileSecPreferError = true;
-                    if (data.success) {
-                        $scope.changeMobileSecPreferError = Messages.account.changMobileSecPreferSucceeded;
-                        $modalInstance.close();
-                    } else {
-                        var errorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.changeMobileSecPreferError = errorMsg;
-                    }
-                });
-        };
+    //     $scope.ok = function () {
+    //         console.debug("params: ", $scope.changeMobileSec.verifyCodeUuidMobile, $scope.changeMobileSec.verifycode, mobileStatus);
+    //         $http.post('/preference/phone', $.param({'uuid': $scope.changeMobileSec.verifyCodeUuidMobile, 'phonecode': $scope.changeMobileSec.verifycode, 'phoneprefer': mobileStatus}))
+    //             .success(function (data, status, headers, config) {
+    //                 $scope.showChangeMobileSecPreferError = true;
+    //                 if (data.success) {
+    //                     $scope.changeMobileSecPreferError = Messages.account.changMobileSecPreferSucceeded;
+    //                     $modalInstance.close();
+    //                 } else {
+    //                     var errorMsg = Messages.getMessage(data.code, data.message);
+    //                     $scope.changeMobileSecPreferError = errorMsg;
+    //                 }
+    //             });
+    //     };
 
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    };
+    //     $scope.cancel = function () {
+    //         $modalInstance.dismiss('cancel');
+    //     };
+    // };
 
-    var ModalInstanceCtrlEmail = function ($scope, $modalInstance, emailStatus) {
-        $scope.showChangeEmailSecPreferError = false;
-        $scope.verifyButton = Messages.account.getEmailVerificationCode;
-        $scope.emailStatus = emailStatus;
-        $scope.changeSecPrefer = {};
+    // var ModalInstanceCtrlEmail = function ($scope, $modalInstance, emailStatus) {
+    //     $scope.showChangeEmailSecPreferError = false;
+    //     $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    //     $scope.emailStatus = emailStatus;
+    //     $scope.changeSecPrefer = {};
 
-        var _stop;
-        $scope.isTiming = false;
+    //     var _stop;
+    //     $scope.isTiming = false;
 
-        $scope.disableButton = function () {
-            if (angular.isDefined(_stop)) {
-                $scope.isTiming = true;
-                return;
-            }
+    //     $scope.disableButton = function () {
+    //         if (angular.isDefined(_stop)) {
+    //             $scope.isTiming = true;
+    //             return;
+    //         }
 
-            $scope.seconds = 120;
+    //         $scope.seconds = 120;
 
-            _stop = $interval(function () {
-                if ($scope.seconds > 0) {
-                    $scope.seconds = $scope.seconds - 1;
-                    $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
-                    $scope.isTiming = true;
-                }
-                else {
-                    $scope.stopTiming();
-                    $scope.verifyButton = Messages.account.getEmailVerificationCode;
-                }
-            }, 1000);
-        };
+    //         _stop = $interval(function () {
+    //             if ($scope.seconds > 0) {
+    //                 $scope.seconds = $scope.seconds - 1;
+    //                 $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
+    //                 $scope.isTiming = true;
+    //             }
+    //             else {
+    //                 $scope.stopTiming();
+    //                 $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    //             }
+    //         }, 1000);
+    //     };
 
-        $scope.stopTiming = function () {
-            if (angular.isDefined(_stop)) {
-                $interval.cancel(_stop);
-                _stop = undefined;
-            }
-            $scope.isTiming = false;
-            $scope.seconds = 0;
-            $scope.verifyButton = Messages.account.getEmailVerificationCode;
-        };
+    //     $scope.stopTiming = function () {
+    //         if (angular.isDefined(_stop)) {
+    //             $interval.cancel(_stop);
+    //             _stop = undefined;
+    //         }
+    //         $scope.isTiming = false;
+    //         $scope.seconds = 0;
+    //         $scope.verifyButton = Messages.account.getEmailVerificationCode;
+    //     };
 
-        $scope.$on('destroy', function () {
-            $scope.stopTiming();
-        });
+    //     $scope.$on('destroy', function () {
+    //         $scope.stopTiming();
+    //     });
 
-        $scope.sendVerifyEmail = function () {
-            $scope.showChangeEmailSecPreferError = false;
-            $scope.disableButton();
+    //     $scope.sendVerifyEmail = function () {
+    //         $scope.showChangeEmailSecPreferError = false;
+    //         $scope.disableButton();
 
-            $http.get('/emailverification')
-                .success(function (data, status, headers, config) {
-                    console.debug('data: ', data);
-                    if (data.success) {
-                        $scope.verifyCodeUuidEmail = data.data;
-                    } else {
-                        $scope.stopTiming();
-                        $scope.showChangeEmailSecPreferError = true;
-                        $scope.changeEmailSecPreferError = Messages.getMessage(data.code, data.message);
-                    }
-                });
-        };
+    //         $http.get('/emailverification')
+    //             .success(function (data, status, headers, config) {
+    //                 console.debug('data: ', data);
+    //                 if (data.success) {
+    //                     $scope.verifyCodeUuidEmail = data.data;
+    //                 } else {
+    //                     $scope.stopTiming();
+    //                     $scope.showChangeEmailSecPreferError = true;
+    //                     $scope.changeEmailSecPreferError = Messages.getMessage(data.code, data.message);
+    //                 }
+    //             });
+    //     };
 
-        $scope.ok = function () {
-            console.debug('params', $scope.verifyCodeUuidEmail, $scope.changeSecPrefer.emailCode);
-            $http.post('/preference/email', $.param({'uuid': $scope.verifyCodeUuidEmail, 'emailcode': $scope.changeSecPrefer.emailCode, 'emailprefer': $scope.emailStatus}))
-                .success(function (data, status, headers, config) {
-                    $scope.showChangeEmailSecPreferError = true;
-                    if (data.success) {
-                        $scope.changeEmailSecPreferError = Messages.account.changeMailSecPreferSucceeded;
-                        $modalInstance.close();
-                    } else {
-                        var errorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.changeEmailSecPreferError = errorMsg;
-                    }
-                });
-        };
+    //     $scope.ok = function () {
+    //         console.debug('params', $scope.verifyCodeUuidEmail, $scope.changeSecPrefer.emailCode);
+    //         $http.post('/preference/email', $.param({'uuid': $scope.verifyCodeUuidEmail, 'emailcode': $scope.changeSecPrefer.emailCode, 'emailprefer': $scope.emailStatus}))
+    //             .success(function (data, status, headers, config) {
+    //                 $scope.showChangeEmailSecPreferError = true;
+    //                 if (data.success) {
+    //                     $scope.changeEmailSecPreferError = Messages.account.changeMailSecPreferSucceeded;
+    //                     $modalInstance.close();
+    //                 } else {
+    //                     var errorMsg = Messages.getMessage(data.code, data.message);
+    //                     $scope.changeEmailSecPreferError = errorMsg;
+    //                 }
+    //             });
+    //     };
 
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
-    };
+    //     $scope.cancel = function () {
+    //         $modalInstance.dismiss('cancel');
+    //     };
+    // };
 
     $scope.changeEmailSecPrefer = function(size) {
         if (!$scope.mobileVerOn && !$scope.googleAuthOn && $scope.emailVerOn) {
             alert(Messages.account.canNotDisableEmailVerify);
             return;
         } else {
-            var modalInstance = $modal.open({
-                templateUrl: 'ModalContentEmailVer.html',
-                controller: ModalInstanceCtrlEmail,
-                size: size,
-                resolve: {
-                    emailStatus: function() {
-                        if ($scope.emailVerOn) return "0";
-                        else return "1";
-                    }
-                }
-            });
+            // var modalInstance = $modal.open({
+            //     templateUrl: 'ModalContentEmailVer.html',
+            //     controller: ModalInstanceCtrlEmail,
+            //     size: size,
+            //     resolve: {
+            //         emailStatus: function() {
+            //             if ($scope.emailVerOn) return "0";
+            //             else return "1";
+            //         }
+            //     }
+            // });
 
-            modalInstance.result.then(function (setRes) {
-                $window.location.href = '/account#/accountsettings';
-                $window.location.reload();
+            // modalInstance.result.then(function (setRes) {
+            //     $window.location.href = '/account#/accountsettings';
+            //     $window.location.reload();
 
-                //$scope.emailVerOn = ! $scope.emailVerOn;
-            }, function () {
-                console.info('Modal dismissed at: ' + new Date());
-            });
+            //     //$scope.emailVerOn = ! $scope.emailVerOn;
+            // }, function () {
+            //     console.info('Modal dismissed at: ' + new Date());
+            // });
         }
     };
 
@@ -1399,26 +1489,26 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             alert(Messages.account.canNotDisableMobileVerify);
             return;
         } else {
-            var modalInstance = $modal.open({
-                templateUrl: 'ModalContentMobileVer.html',
-                controller: ModalInstanceCtrlMobile,
-                size: size,
-                resolve: {
-                    mobileStatus: function() {
-                        if ($scope.mobileVerOn) return "0";
-                        else return "1";
-                    }
-                }
-            });
+            // var modalInstance = $modal.open({
+            //     templateUrl: 'ModalContentMobileVer.html',
+            //     controller: ModalInstanceCtrlMobile,
+            //     size: size,
+            //     resolve: {
+            //         mobileStatus: function() {
+            //             if ($scope.mobileVerOn) return "0";
+            //             else return "1";
+            //         }
+            //     }
+            // });
 
-            modalInstance.result.then(function (setRes) {
-                $window.location.href = '/account#/accountsettings';
-                $window.location.reload();
+            // modalInstance.result.then(function (setRes) {
+            //     $window.location.href = '/account#/accountsettings';
+            //     $window.location.reload();
 
-                //$scope.mobileVerOn = ! $scope.mobileVerOn;
-            }, function () {
-                console.info('Modal dismissed at: ' + new Date());
-            });
+            //     //$scope.mobileVerOn = ! $scope.mobileVerOn;
+            // }, function () {
+            //     console.info('Modal dismissed at: ' + new Date());
+            // });
         }
     };
 
@@ -1451,40 +1541,6 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             });
     };
 
-// ----------------------- changepwd ---------------------
-    $scope.changepwd = {};
-
-    $scope.gotoChangePwd = function() {
-        $scope.showMainDiv = false;
-        $scope.showChangePwdDiv = true;
-        $scope.changepwd = {};
-        $scope.showChangePwdError = false;
-        $scope.changePwdForm.$setPristine(true);
-    };
-
-    $scope.doChangePassword = function () {
-        $scope.showChangePwdError = false;
-        var oldPwd = $.sha256b64($scope.changepwd.oldPassword);
-        var newPwd = $.sha256b64($scope.changepwd.newPassword);
-        $http.post('/account/dochangepwd', $.param({'oldPassword': oldPwd, 'newPassword': newPwd}))
-            .success(function (data, status, headers, config) {
-                console.debug("changepwd result: ", data)
-                $scope.showChangePwdError = true;
-                $scope.changePwdErrorMessage = Messages.account.changePwdSucceeded;
-                if (data.success) {
-                    $timeout(function() {
-                        //$window.location.href = '/account#/accountsettings';
-                        //$window.location.reload();
-                        $scope.showMainDiv = true;
-                        $scope.showChangePwdDiv = false;
-                        //console.debug("show main div");
-                    }, 1000);
-                } else {
-                    var errorMsg = Messages.getMessage(data.code, data.message);
-                    $scope.changePwdErrorMessage = errorMsg;
-                }
-            });
-    };
 
     $scope.realNameVerify = {};
     $scope.gotoRealNameVerifyPage = function() {

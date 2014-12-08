@@ -1,0 +1,143 @@
+@()(implicit session: Session)
+@import utils.Constant._
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+@__head_commons()
+</head>
+
+<body ng-app="coinport.account">
+  @_navbar(4)(session)
+
+<div class="fixes-top fulid" ng-controller="UserTxCtrl">
+  <div class="sidebar-wrap">
+    <!--sidebar-menu-->
+    @_account_sidebar(32)
+  </div>
+  <!--end-sidebar-menu-->
+
+  <!--container-->
+  <div id="main-container">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="row">
+          <h3 class="panel-title col-lg-2 col-sm-3 col-xs-12 pull-left " style=" line-height:34px; padding-right:20px;">我的委托</h3>
+          <div class="form-group pull-right col-sm-9 col-xs-12" style="margin:0;">
+            <div class="row">
+              <label class="col-sm-8 col-xs-4 control-label hidden-xs text-right" style="line-height:2.5;"></label>
+              <div class="col-sm-4 col-xs-12">
+                <select class="form-control" ng-model="market" ng-change="changeMarket()">
+                  @for(market <- allmarkets) {
+                  <option>@market</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-striped" data-sortable="">
+            <thead>
+              <tr>
+                <th nowrap>@Messages("transaction.timestamp")</th>
+                <th nowrap class="text-right">@Messages("transaction.price")</th>
+                <th nowrap class="text-right">@Messages("transaction.amount")</th>
+                <th nowrap class="text-right">@Messages("transaction.value")</th>
+                <th nowrap>@Messages("transaction.taker")</th>
+                <th nowrap>@Messages("transaction.type")</th>
+                <th nowrap>@Messages("transaction.maker")</th>
+                    <!-- <th>委托时间</th>
+                    <th>买卖</th>
+                    <th>委托价</th>
+                    <th>平均价格</th>
+                    <th>委托量</th>
+                    <th>成交量</th>
+                    <th>成交额</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in transactions.items">
+                <!--<td nowrap><a href="/transaction/{{item.id}}" class="title"><i class="fa fa-exchange"></i> {{item.id}}</a></td>-->
+                <td nowrap><a href="/transaction/{{item.id}}" class="title"> {{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</a></td>
+                <td nowrap class="text-right">{{item.price.value | price}} {{item.price.currency}}</td>
+                <td nowrap class="text-right">{{item.subjectAmount.value | quantity}} {{item.subjectAmount.currency}}</td>
+                <td nowrap class="text-right">{{item.currencyAmount.value | quantity}} {{item.currencyAmount.currency}}</td>
+                <td nowrap>
+                  <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user"></i> {{uid==item.taker ? '@Messages("self")' : (item.taker)}}</a>
+                  (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
+                </td>
+                <td nowrap class="{{item.sell | txTypeClass}}">{{item.sell | txTypeText}}</td>
+                <td nowrap>
+                  <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user"></i> {{uid==item.maker ? '@Messages("self")' : (item.maker)}}</a>
+                  (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)
+                </td>
+              </tr>
+            </tbody>
+            @__empty_table_indicator("transactions.items")
+          </table>
+          <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+        <!-- <ul class="pagination pull-right">
+        <li><a href="#"><i class="icon-angle-left"></i></a></li>
+        <li><a href="#">1</a></li>
+        <li class="active"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#"><i class="icon-angle-right"></i></a></li>
+        </ul> -->
+      </div>
+    </div>
+
+      <footer>
+      <div class="footer-nav">
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>关于</b></h5>
+          <ul>
+            <li><a href="team.html">团队</a></li>
+            <li><a href="jobs.html">招贤纳士</a></li>
+            <li><a href="#">联系方式</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>法律</b></h5>
+          <ul>
+            <li><a href="shiyongtiaokuan.html" target="_blank">使用条款</a></li>
+            <li><a href="yinsizhengce.html" target="_blank">隐私政策</a></li>
+            <li><a href="fanxiqianzhengce.html" target="_blank">反洗钱政策</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>资源</b></h5>
+          <ul>
+            <li><a href="jieruliucheng.html">接入指南</a></li>
+            <li><a href="#">了解比特币</a></li>
+            <li><a href="#">比特币支付原理</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-sm-3 col-xs-6">
+          <h5><b>媒体</b></h5>
+          <ul>
+            <li><a href="http://weibo.com/coinport" target="_blank">新浪微博</a></li>
+            <li class="qrcode"><a href="javascript:void;" data-toggle="popover" data-placement="left" data-content='<img src="assets/images/qrcode.png">'>微信</a></li>
+            <li><a href="http://twitter.com/coinportinc" target="_blank">twitter</a></li>
+            <li><a href="http://facebook.com/coinport" target="_blank">facebook</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="copyright text-center">© 2014 币丰港（香港）网络科技有限公司。保留所有权利</div>
+    </footer>
+
+ </div>
+<!--end-main-container-->
+@__tail_commons()
+@__js("/js/coinport/account.js")
+</body>
+</html>

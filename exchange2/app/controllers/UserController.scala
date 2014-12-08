@@ -125,6 +125,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       UserService.getDepositAddress(Constant.currencySeq, userId.toLong) map {
         result =>
+          //println(s"all deposit address: $result")
           Ok(result.toJson)
       }
   }
@@ -134,6 +135,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val cur: Currency = currencyStr
       UserService.getDepositAddress(Seq(cur), userId.toLong) map {
         result =>
+          //println(s"deposit address for $currencyStr: $result")
           Ok(result.toJson)
       }
   }

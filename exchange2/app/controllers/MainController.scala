@@ -78,9 +78,27 @@ object MainController extends Controller with Json4s {
       Ok(views.html.account_transfer.render(request.session))
   }
 
-  def profile() = Action {
+  def orders() = Action {
     implicit request =>
-      Ok(views.html.account_profiles.render(request.session))
+      Ok(views.html.account_orders.render(request.session))
+  }
+
+  def transaction() = Action {
+    implicit request =>
+      Ok(views.html.account_transaction.render(request.session))
+  }
+
+  def profile() = Action.async {
+    implicit request =>
+    UserService.getApiSecret(request.session.get("uid").get.toLong) map {
+      result =>
+      if (result.success) {
+        val apiToken = result.data.getOrElse("").asInstanceOf[String]
+        Ok(views.html.account_profiles.render(apiToken, request.session))
+      } else {
+        Ok(views.html.account_profiles.render("", request.session))
+      }
+    }
   }
 
   def settings() = Action {

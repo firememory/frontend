@@ -20,12 +20,14 @@
       <ul class="nav navbar-nav navbar-right user-state">
         <li><a href="login.html"><i class="icon-user"></i>登录</a></li>
         <li><a href="register.html"><i class="icon-key"></i>注册</a></li>
+        <span ng-init="uid='0'" ng-show="false"></span>
       </ul>
       } else {
       <ul class="nav navbar-nav navbar-right user-state">
         <li @if(activeIndex == 4){class="active"}><a href="/account"><i class="icon-user"></i>我的帐户</a></li>
         <li><a href="/account/logout"><i class="icon-key"></i>退出</a></li>
       </ul>
+      <span ng-init="uid='@{session.get("uid").get}'" ng-show="false"></span>
       }
     </div>
   </div>

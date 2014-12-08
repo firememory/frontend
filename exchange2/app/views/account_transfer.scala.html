@@ -7,10 +7,10 @@
 @__head_commons()
 </head>
 
-<body>
+<body ng-app="coinport.account">
   @_navbar(4)(session)
 
-<div class="fixes-top">
+<div class="fixes-top" ng-controller="TransferCtrl">
   <div class="sidebar-wrap">
     <!--sidebar-menu-->
     @_account_sidebar(20)
@@ -27,12 +27,7 @@
             <div class="row">
               <label class="col-sm-4 col-xs-4 control-label hidden-xs text-right"  style="line-height:2.5;">选择币种</label>
               <div class="col-sm-8 col-xs-12">
-                <select class="form-control">
-                  <option>比特币</option>
-                  <option>莱特币</option>
-                  <option>狗狗币</option>
-                  <option>暗黑币</option>
-                  <option>黑币</option>
+                <select class="form-control" ng-model="currency" ng-change="changeCurrency()" ng-options="allCoinsWithName[coin] for coin in allCoins">
                 </select>
               </div>
             </div>
@@ -50,7 +45,7 @@
             <form role="form" class="form-horizontal">
               <div class="form-group">
                 <label class="col-sm-2 col-xs-4 control-label" for="field-1">账户余额</label>
-                <div class="col-sm-10 col-xs-8"> <span class="text-warning font-2x">156.23</span><span class=" offset-1x">BTC</span> </div>
+                <div class="col-sm-10 col-xs-8"> <span class="text-warning font-2x" ng-bind="accounts[currency].available.value || 0"></span><span class=" offset-1x" ng-bind="currency"></span> </div>
               </div>
               <div class="row">
                 <div class="col-sm-2 col-xs-4"></div>
@@ -61,7 +56,7 @@
               <div class="form-group form-group-lg">
                 <label class="col-sm-2 col-xs-4 control-label" for="field-2">充值地址</label>
                 <div class="col-sm-10 col-xs-8">
-                  <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;">1Akprg8nREQS3QMcwKhu9ynRN7gBK6mCA5 </div>
+                  <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;"><span ng-bind="depositAddresses[currency]"></span> </div>
                 </div>
               </div>
               <div class="blk-1x"></div>
@@ -78,39 +73,42 @@
                     <th>数量</th>
                     <th>状态</th>
                     <th>地址</th>
-                    <th>交易</th>
+                    <!-- <th>交易</th> -->
                   </tr>
+
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>10000015489</td>
-                    <td>08-09&nbsp;&nbsp;13:25:02</td>
-                    <td>08-09&nbsp;&nbsp;13:25:02</td>
-                    <td><span class="text-success">+0.56</span></td>
-                    <td><span  class="label label-success">成功</span></td>
-                    <td><div class="font-1x" title="">1Akprg8nREQS3QMcwKhu9ynRN7gBK6mCA5 </div></td>
-                    <td><a class="btn-default btn-sm btn">交易</a></td>
+                  <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
+                    <td ng-bind="item.id"></td>
+                    <td ng-bind="item.created | date:'MM-dd HH:mm:ss'"></td>
+                    <td ng-bind="item.updated | date:'MM-dd HH:mm:ss'"></td>
+                    <td><span class="item.operation | transferOperationClass">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
+                    <td><span  class="label label-{{item.status | transferStatusClass}}" ng-bind="item.status | transferStatusText"></span></td>
+                    <td><div class="font-1x" title="">{{item.address}} <br> {{item.NxtRsString}} </div></td>
+                    <!-- <td><a class="btn-default btn-sm btn">交易</a></td> -->
                   </tr>
-                  <tr>
-                    <td>10000015489</td>
-                    <td>08-09&nbsp;&nbsp;13:25:02</td>
-                    <td>08-09&nbsp;&nbsp;13:25:02</td>
-                    <td><span class="text-success">+0.56</span></td>
-                    <td><span  class="label label-warning">确认中</span></td>
-                    <td><div class="font-1x" title="">1Akprg8nREQS3QMcwKhu9ynRN7gBK6mCA5 </div></td>
-                    <td><a class="btn-default btn-sm btn">交易</a></td>
-                  </tr>
+                  <!-- <tr>
+                  <td>10000015489</td>
+                  <td>08-09&nbsp;&nbsp;13:25:02</td>
+                  <td>08-09&nbsp;&nbsp;13:25:02</td>
+                  <td><span class="text-success">+0.56</span></td>
+                  <td><span  class="label label-warning">确认中</span></td>
+                  <td><div class="font-1x" title="">1Akprg8nREQS3QMcwKhu9ynRN7gBK6mCA5 </div></td>
+                  <td><a class="btn-default btn-sm btn">交易</a></td>
+                  </tr> -->
                 </tbody>
               </table>
+              <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadDeposits()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+
             </div>
-            <ul class="pagination pull-right">
-              <li><a href="#"><i class="icon-angle-left"></i></a></li>
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#"><i class="icon-angle-right"></i></a></li>
-            </ul>
+            <!-- <ul class="pagination pull-right">
+            <li><a href="#"><i class="icon-angle-left"></i></a></li>
+            <li><a href="#">1</a></li>
+            <li class="active"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#"><i class="icon-angle-right"></i></a></li>
+            </ul> -->
           </div>
           <div class="tab-pane" id="tab-2">
             <div class="row">
@@ -168,7 +166,7 @@
                     <th>数量</th>
                     <th>状态</th>
                     <th>地址</th>
-                    <th>交易</th>
+                    <!-- <th>交易</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -259,5 +257,7 @@
 
 <!--end-main-container-->
 @__tail_commons()
+@__js("/js/coinport/account.js")
+
 </body>
 </html>

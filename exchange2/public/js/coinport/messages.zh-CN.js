@@ -158,6 +158,10 @@ Messages.coinName = {
     XRP: '瑞波币'
 };
 
+Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT'];
+
+// Messages.allMarkets = ["BTC-CNY", "LTC-CNY", "BTSX-CNY", "XRP-CNY", "LTC-BTC", "DOGE-BTC", "BC-BTC", "DRK-BTC", "VRC-BTC", "ZET-BTC", "BTSX-BTC", "NXT-BTC", "XRP-BTC"];
+
 Messages.bankList = [
     '建设银行',
     '工商银行',

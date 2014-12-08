@@ -13,7 +13,7 @@
     <li @if(selected >= 40 && selected < 50) {class="has-submenu active"} else { class="has-submenu"}><a href="#"><i class="icon-angle pull-right"></i><i class="icon-user"></i><span>用户中心</span></a>
       <ul @if(selected >= 40 && selected < 50) {style="display:block;"}>
         <li @if(selected == 41) {class="active"}><a href="/account/profile"><span>用户信息</span></a></li>
-        <li @if(selected == 42) {class="active"}><a href="/account/settings"><span>账号安全</span></a></li>
+        <li @if(selected == 42) {class="active"}><a href="/account/settingsPage"><span>账号安全</span></a></li>
         <li @if(selected == 43) {class="active"}><a href="/account/googleauth"><span>双重认证</span></a></li>
       </ul>
     </li>
