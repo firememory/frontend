@@ -560,7 +560,6 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
-    $scope.uid = '1000000000';
     $http.get('/api/asset/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.assets = data.data;
@@ -1053,7 +1052,8 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
 });
 
 app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $window, $timeout) {
-    //$scope.showMainDiv = true;
+    $scope.showSettingsError = false;
+    $scope.settingsErrorMessage = "";
 
     $scope.showUpdateAccountError = false;
     $scope.account = {};
@@ -1070,23 +1070,28 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             var oldPwd = $(".popover #oldPwd").val();
             var newPwd = $(".popover #newPwd").val();
             var newPwdConfirm = $(".popover #newPwdConfirm").val();
-            console.debug("changepwd: ", oldPwd, newPwd);
+            console.debug("changepwd: ", oldPwd, newPwd, newPwdConfirm);
             if(newPwd != newPwdConfirm) {
-                $scope.showChangePwdError = true;
-                $scope.changePwdErrorMessage = "确认密码和新密码不一致！";
+                $scope.showSettingsError = true;
+                $scope.settingsErrorMessage = "确认密码和新密码不一致！";
+                $scope.$apply();
             } else {
                 $scope.doChangePassword(oldPwd, newPwd);
             }
 
             $timeout(function() {
-                $popup.popover('hide');
-            }, 2000);
+                console.debug("fade error message");
+                $scope.showSettingsError = false;
+                $scope.settingsErrorMessage = "";
+            }, 5000);
+
+            $popup.popover('hide');
         });
     });
 
 // ----------------------- changepwd ---------------------
     $scope.doChangePassword = function (oldPassword, newPassword) {
-        $scope.showChangePwdError = false;
+        $scope.showSettingsError = false;
         var oldPwd = $.sha256b64(oldPassword);
         var newPwd = $.sha256b64(newPassword);
         $http.post('/account/dochangepwd', $.param({'oldPassword': oldPwd, 'newPassword': newPwd}))
@@ -1094,17 +1099,10 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
                 console.debug("changepwd result: ", data)
                 if (data.success) {
                     $scope.showChangePwdError = true;
-                    $scope.changePwdErrorMessage = Messages.account.changePwdSucceeded;
-                    // $timeout(function() {
-                    //     //$window.location.href = '/account#/accountsettings';
-                    //     //$window.location.reload();
-                    //     $scope.showMainDiv = true;
-                    //     $scope.showChangePwdDiv = false;
-                    //     //console.debug("show main div");
-                    // }, 1000);
+                    $scope.settingsErrorMessage = Messages.account.changePwdSucceeded;
                 } else {
                     var errorMsg = Messages.getMessage(data.code, data.message);
-                    $scope.changePwdErrorMessage = errorMsg;
+                    $scope.settingsErrorMessage = errorMsg;
                 }
             });
     };

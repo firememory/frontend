@@ -1,0 +1,32 @@
+@(messageKey: String)(implicit session: Session)
+
+<!DOCTYPE html>
+<html>
+<head>
+@__head_commons()
+  <title>@Messages("title")</title>
+</head>
+
+<body>
+<div class="fixes-top">
+  @_navbar(0)(session)
+
+<div class="container container-main">
+    <div style="height: 100px;"> </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="alert"><b>@Messages(messageKey)</b>
+            <br/><br/>
+            @if("prompt.verifyEmailSent".equals(messageKey)) {
+              @Messages("prompt.resendVerifyEmailPrefix")
+              <a href="/login">@Messages("prompt.resendVerifyEmailLink")</a>
+              @Messages("prompt.resendVerifyEmailTail")
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+</div> <!-- page-wrapper -->
+</body>
+</html>

@@ -14,17 +14,17 @@ GET     /account/orders             controllers.MainController.orders()
 GET     /account/transaction        controllers.MainController.transaction()
 
 #GET     /user/$uid<[0-9]+>          controllers.MainController.user(uid)
-#GET     /register                   controllers.MainController.register()
+GET     /register                   controllers.MainController.register()
 #GET     /register                   controllers.MainController.inviteCode(msgKey: String ?= "")
 GET     /changelocale/$locale<[a-zA-Z0-9._-]+>       controllers.MainController.changeLocale(locale)
-#GET     /login                      controllers.MainController.login(msg: String ?= "")
+GET     /login                      controllers.MainController.login(msg: String ?= "")
 #GET     /open                       controllers.MainController.open()
 #GET     /transaction/$tid<[a-zA-Z0-9]+>              controllers.MainController.transaction(tid)
 #GET     /transactions/$market<[a-zA-Z0-9._-]+>       controllers.MainController.transactions(market)
 #GET     /depth/$market<[a-zA-Z0-9._-]+>              controllers.MainController.depth(market)
 #GET     /order/$oid<[a-zA-Z0-9._-]+>                 controllers.MainController.order(oid)
 #GET     /orders/$market<[a-zA-Z0-9._-]+>             controllers.MainController.orders(market)
-#GET     /prompt/$msgKey<[a-zA-Z0-9._-]+>             controllers.MainController.prompt(msgKey)
+GET     /prompt/$msgKey<[a-zA-Z0-9._-]+>             controllers.MainController.prompt(msgKey)
 #GET     /company                    controllers.MainController.company()
 #GET     /coin/$coin<[a-zA-Z0-9]+>                    controllers.MainController.coin(coin)
 
@@ -78,7 +78,7 @@ POST    /preference/email                controllers.UserController.setPreferenc
 GET     /useraction/loginhistory        controllers.UserActionController.getUserLoginHistory
 
 # html snippet
-#GET     /terms.html                      controllers.MainController.terms()
+GET     /terms.html                      controllers.MainController.terms()
 #GET     /privacy.html                    controllers.MainController.privacy()
 
 # html snippet

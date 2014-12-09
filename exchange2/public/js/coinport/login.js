@@ -1,4 +1,4 @@
-angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
+angular.module('coinport.login', ['navbar'])
 .config(function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }).controller('LoginCtrl', function ($scope, $http, $window) {
@@ -42,7 +42,7 @@ angular.module('coinport.login', ['ui.bootstrap', 'ngResource', 'navbar'])
                 } else {
                     if (data.code == 9013) {
                         $scope.errorMessage = Messages.getLoginErrorMessage(data.data);
-                    } else if (data.code > 100){
+                    } else if (data.code > 100 && data.code != 1006){
                         $scope.errorMessage = Messages.getMessage(data.code, data.message) + " " + Messages.getLoginRemainingAttempts(data.data);
                     } else {
                         $scope.errorMessage = Messages.getMessage(data.code, data.message);

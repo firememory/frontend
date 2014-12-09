@@ -92,20 +92,20 @@ object UserController extends Controller with Json4s with AccessLogging {
   def register = Action.async(parse.urlFormEncoded) {
     implicit request =>
       val data = request.body
-      val uuid = getParam(data, "uuid").getOrElse("")
-      val text = getParam(data, "text").getOrElse("")
+      //val uuid = getParam(data, "uuid").getOrElse("")
+      //val text = getParam(data, "text").getOrElse("")
       val email = getParam(data, "email").getOrElse("")
       val password = getParam(data, "password").getOrElse("")
       val nationalId = getParam(data, "nationalId")
       val realName = getParam(data, "realName")
       val rf = getParam(data, "rf")
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.CaptchaNotMatch, true, uuid, text),
-        new StringNonemptyValidator(uuid, text, email, password),
+        //new CachedValueValidator(ErrorCode.CaptchaNotMatch, true, uuid, text),
+        new StringNonemptyValidator(/*uuid, text,*/ email, password),
         new EmailFormatValidator(email),
         new PasswordFormetValidator(password)
       ) {
-        popCachedValue(uuid)
+        //popCachedValue(uuid)
         val user: User = User(id = -1, email = email, password = password, referedToken = rf)
         UserService.register(user)
       } map {
@@ -304,12 +304,10 @@ object UserController extends Controller with Json4s with AccessLogging {
         result =>
           //logger.info(s"result: $result")
           if (result.success) {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
+            Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
           } else {
             logger.warn(s"resend verify email failed. email: $email")
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
+            Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
           }
       }
   }

@@ -10,8 +10,6 @@ tradeApp.config(httpConfig);
 function BidAskCtrl($scope, $http, $window) {
 
     if (!$window.location.hash) $window.location.hash = '#/' + COINPORT.defaultMarket;
-
-    $scope.uid = 1000000000;
     $scope.market = $window.location.hash.replace('#/', '').toUpperCase();
     $scope.historyPeriod = 5; // 1 - minute K
     $scope.historyUpdateTime = 1000 * 60; // polling period in milliseconds

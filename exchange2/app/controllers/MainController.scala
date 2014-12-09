@@ -152,17 +152,17 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.depth.render(market, request.session, langFromRequestCookie(request)))
   // }
 
-  // def login(msg: String = "") = Action {
-  //   implicit request =>
-  //     val regex = """^[-0-9a-zA-Z._]+$"""
-  //     val safeMsg = if (msg.matches(regex)) msg else ""
-  //     Ok(views.html.login.render(safeMsg, request.session, langFromRequestCookie(request))).withNewSession
-  // }
+  def login(msg: String = "") = Action {
+    implicit request =>
+    val regex = """^[-0-9a-zA-Z._]+$"""
+    val safeMsg = if (msg.matches(regex)) msg else ""
+    Ok(views.html.login.render(safeMsg, request.flash, request.session)).withNewSession
+  }
 
-  // def register(email: String = "") = Action {
-  //   implicit request =>
-  //     Ok(views.html.register.render(email, request.session, langFromRequestCookie(request)))
-  // }
+  def register() = Action {
+    implicit request =>
+    Ok(views.html.register.render(request.session)).withNewSession
+  }
 
   // def inviteCode(msg: String = "")(implicit lang: Lang) = Action {
   //   implicit request =>
@@ -174,12 +174,12 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.open.render(request.session, langFromRequestCookie(request)))
   // }
 
-  // def prompt(msgKey: String) = Action {
-  //   implicit request =>
-  //     val regex = """^[-0-9a-zA-Z._]+$"""
-  //     val safeMsg = if (msgKey.matches(regex)) msgKey else ""
-  //     Ok(views.html.prompt.render(safeMsg, request.session, langFromRequestCookie(request)))
-  // }
+  def prompt(msgKey: String) = Action {
+    implicit request =>
+      val regex = """^[-0-9a-zA-Z._]+$"""
+      val safeMsg = if (msgKey.matches(regex)) msgKey else ""
+      Ok(views.html.prompt.render(safeMsg, request.session))
+  }
 
   // def company = Action {
   //   implicit request =>
@@ -310,10 +310,10 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html._open_market.render(langFromRequestCookie(request)))
   // }
 
-  // def terms() = Action {
-  //   implicit request =>
-  //     Ok(views.html.terms.render(request.session, langFromRequestCookie(request)))
-  // }
+  def terms() = Action {
+    implicit request =>
+      Ok(views.html.terms.render(request.session, langFromRequestCookie(request)))
+  }
 
   // def privacy() = Action {
   //   implicit request =>

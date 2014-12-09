@@ -1,0 +1,73 @@
+@()(implicit session: Session)
+
+<!doctype html>
+<html ng-app="coinport.register">
+<head>
+  @__head_commons()
+</head>
+
+<body>
+@_navbar(0)(session)
+
+<div class="fixes-top" ng-controller="RegisterCtrl">
+    <div class="blk20"></div>
+    <div class="container">
+        <div class="box-sm">
+                <div class="list-group list-group-lg" >
+                    <form name="registerForm">
+                    <div class="list-group-item text-center">
+                        <h4><em class="icon-box"><i class="icon-key"></i></em>注册币丰港</h4>
+                        <p class="success" style="color: red" ng-show="errorMsg != ''" ng-bind="errorMsg"></p>
+                    </div>
+                    <div class="list-group-item">
+                        <input type="email" name="email" placeholder="Email" class="form-control" ng-model="register.email" required="">
+                    </div>
+
+                    <div class="list-group-item">
+                        <div class="form">
+                            <input name="password" type="password" class="form-control" placeholder="密码" ng-model="register.password" ng-minlength="6" ng-maxlength="60" required="">
+                        <br>
+                            <input name="confirmPassword" type="password" class="form-control" placeholder='重复密码' ng-model="confirmPassword" repeat-input="password" required="">
+                        </div>
+                        <br>
+                        <div class="error" name="emailErrorMsg" ng-show="registerForm.email.$dirty && registerForm.email.$invalid && !registerForm.email.$focused">
+                            <small class="text-danger text-center" ng-show="registerForm.email.$error.required"> Email 不能为空 </small>
+                            <small class="text-danger text-center" ng-show="!registerForm.email.$error.required && registerForm.email.$dirty && registerForm.email.$invalid"> Email 格式错误</small>
+                        </div>
+                        <div class="error" name="pwdErrorMsg" ng-show="registerForm.password.$dirty && registerForm.password.$invalid && !registerForm.password.$focused">
+                            <small class="text-danger text-center" ng-show="registerForm.password.$error.minlength">密码长度应大于6位</small>
+                            <small class="text-danger text-center" ng-show="registerForm.password.$error.maxlength">密码长度需小于60位</small>
+                        </div>
+                        <div class="error" name="confirmpwdErrorMsg" ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && !registerForm.confirmPassword.$focused">
+                            <small class="text-danger text-center" ng-show="registerForm.confirmPassword.$error.repeat">密码不一致</small>
+                        </div>
+                    </div>
+
+                    <div class="list-group-item">
+                            <input id="terms" name="terms" type="checkbox" ng-model="termsChecked">
+                            <!-- 我已经阅读并同意如下的
+                            <a href="/termsOfUse.html" target="_blank" style="color: #2980b9">"使用条款"</a>、
+                            <a href="/privatePolicy.html" target="_blank" style="color: #2980b9">"隐私政策"</a>和
+                            <a href="/amlPolicy.html" target="_blank" style="color: #2980b9">"反洗钱政策"</a> -->
+                            @Messages("register.termsCheckboxTextHead") <a class="btn-link" href="/terms.html" target="_blank">"@Messages("register.termsCheckboxTextLink")"</a>
+                            </input>
+                    </div>
+
+                    <div class="list-group-item">
+                        <button type="submit" class="btn btn-lg btn-success btn-block" ng-click="doRegister()" ng-disabled="registerForm.$invalid || !termsChecked">注册</button>
+                    </div>
+                    <div class="line line-dashed"></div>
+                    <div class="list-group-item text-center"> <small><a class="btn-link" href="/login">已有币丰港账户，请登录</a></small> </div>
+                    </form>
+
+                </div>
+        </div>
+    </div>
+</div>
+<!--end-main-container-->
+@__tail_commons()
+@__js("/js/jquery.sha256.js")
+@__js("/js/coinport/register.js")
+
+</body>
+</html>

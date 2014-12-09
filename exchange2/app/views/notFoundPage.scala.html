@@ -23,14 +23,11 @@
 
 <body>
 <div class="page-wrapper notfound">
-
-<body ng-app="coinport.depth">
-
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div id="main-logo">
-              <a href="/trade"><img src="/image/logo.png" alt="Coinport"></img></a>
+              <a class="navbar-brand" href="/trade"><i class="icon-coinport"></i></a>
             </div>
         </div>
         @println(s"lang: ${lang.code}")
@@ -51,9 +48,7 @@
 
     </div>
 </div>
-
 </div> <!-- page-wrapper -->
 @__tail_commons()
-@__tracking_js()
 </body>
 </html>
