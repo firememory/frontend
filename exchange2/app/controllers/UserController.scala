@@ -226,19 +226,17 @@ object UserController extends Controller with Json4s with AccessLogging {
       UserService.verifyEmail(token) map {
         result =>
           if (result.success) {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.login("login.verifyEmailSucceeded"))
+            Redirect(routes.MainController.login("login.verifyEmailSucceeded"))
           } else {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
+            Redirect(routes.MainController.prompt("prompt.verifyEmailFailed"))
           }
       }
   }
 
-  // def forgetPassword  = Action {
-  //   implicit request =>
-  //   Ok(views.html.forgetPassword.render(request.session, langFromRequestCookie(request)))
-  // }
+  def forgetPassword  = Action {
+    implicit request =>
+    Ok(views.html.requestpwdresetpage.render(request.session))
+  }
 
   def requestPasswordReset(email: String) = Action.async {
     implicit request =>
@@ -247,11 +245,9 @@ object UserController extends Controller with Json4s with AccessLogging {
         result =>
           //logger.info(s"result: $result")
           if (result.success) {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
+            Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
           } else {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
+            Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
             //Redirect(routes.MainController.prompt("prompt.requestResetPwdFailed"))
           }
       }
@@ -259,15 +255,13 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def validatePasswordReset(token: String) = Action.async {
     implicit request =>
-      logger.info(s"password reset token: $token")
+      //logger.info(s"password reset token: $token")
       UserService.validatePasswordResetToken(token) map {
         result =>
           if (result.success) {
-            Ok(result.toJson)
-            //Ok(views.html.resetPassword.render(token, request.session, langFromRequestCookie(request)))
+            Ok(views.html.doPasswordReset.render(token, request.session, langFromRequestCookie(request)))
           } else {
-            Ok(result.toJson)
-            //Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
+            Redirect(routes.MainController.prompt("prompt.resetPwdFailed"))
           }
       }
   }
@@ -277,6 +271,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val data = request.body
       val newPassword = getParam(data, "password").getOrElse("")
       val token = getParam(data, "token").getOrElse("")
+      logger.info(s"newPassword: $newPassword, token: $token")
       UserService.resetPassword(newPassword, token) map {
         result =>
         if(result.success)

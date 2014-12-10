@@ -49,7 +49,7 @@ object MainController extends Controller with Json4s {
 
   def index = Action {
     implicit request =>
-      Ok(views.html.index.render(request.session, langFromRequestCookie(request))).withSession("username" -> "test", "uid" -> "1000000000")
+      Ok(views.html.index.render(request.session, langFromRequestCookie(request)))
   }
 
   def trade = Action {
