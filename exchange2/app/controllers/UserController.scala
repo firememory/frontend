@@ -203,7 +203,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
     val verifyCode = getParam(data, "verifyCode").getOrElse("")
 
-    //logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
+    logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
 
     val needCheckOld = oldMobile.trim.nonEmpty
     validateParamsAndThen(

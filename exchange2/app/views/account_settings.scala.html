@@ -14,6 +14,11 @@
 <head>
 <title></title>
 @__head_commons()
+<style>
+ .popover {
+   z-index: 30020; /* A value higher than 1010 that solves the problem */
+ }
+</style>
 </head>
 
 <body ng-app="coinport.account">
@@ -46,19 +51,48 @@
           </div>
         </div>
         <div class="blk-3x"></div>
+
         <form role="form" class="form-horizontal">
-          <div class="form-group-separator"></div>
-          <div class="blk-1x"></div>
           <div class="form-group" ng-show="showSettingsError">
-            <div class="col-sm-10 col-xs-12 check-label align-fixes">
-              <i></i><b class="text-danger" ng-bind="settingsErrorMessage"> </b>
+            <div class="row">
+              <div class="col-sm-10 col-xs-12 check-label align-fixes">
+                <p class="text-danger" ng-bind="settingsErrorMessage"></p>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">登录密码</label></div>
 
-            <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success">登录密码已设置</div></div>
-            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="pwd-update" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="修改密码" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="oldPwd" placeholder="当前密码" /></div><div class="form-group"><input type="text" class="form-control" id="newPwd" value="" placeholder="新密码" /></div><div class="form-group"><input type="text" id="newPwdConfirm" class="form-control" value="" placeholder="确认密码" /></div>
+          <div class="form-group-separator"></div>
+          <div class="blk-1x"></div>
+
+          <div class="form-group">
+            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isRealNameVerified) {text-success} else {text-warning}"></i><label class="control-label">实名认证</label></div>
+
+            <div class="col-sm-5 col-xs-8">
+              @if(isRealNameVerified) {
+              <div class="form-text-control font-1x text-success">实名认证已完成</div>
+              } else {
+              <div class="form-text-control font-1x text-warning">尚未进行实名认证,会影响人民币的充值和提现。</div>
+              }
+            </div>
+            @if(!isRealNameVerified) {
+            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="realname-verify" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="实名认证" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="realname" placeholder="真实姓名" /></div><div class="form-group"><select class="form-control" id="location" placeholder="请选择国家或地区"><option value="zh-CN">中国</option><option value="USA">美国</option><option value="other">其他地区</option> </select></div><div class="form-group"><select class="form-control" id="identity-type"><option value="idcard" selected>身份证</option><option value="passport">护照</option></select></div>
+              <div class="form-group"><input type="text" class="form-control" value="" id="identity-code" placeholder="证件号码" /></div>
+              <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>认证</a></div> </div>
+          }
+      </div>
+
+      <div class="row">
+        <div class="col-sm-2 col-xs-12"></div>
+        <div class="col-sm-10 col-xs-12">
+          <div class="form-group-separator"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">登录密码</label></div>
+
+        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success">登录密码已设置</div></div>
+        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="pwd-update" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="修改密码" data-content='<div class="form-group"><input type="password" class="form-control" value="" id="oldPwd" placeholder="当前密码" /></div><div class="form-group"><input type="password" class="form-control" id="newPwd" value="" placeholder="新密码" /></div><div class="form-group"><input type="password" id="newPwdConfirm" class="form-control" value="" placeholder="确认密码" /></div>
               <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>修改</a></div> </div>
       </div>
 
@@ -85,12 +119,12 @@
         <div class="col-sm-5 col-xs-4">
           <div class="form-text-control font-1x xs-text">
             @if(isBindMobile) {
-            <a id="mobile-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"><p>验证短信已发送，请输入短信验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="mobile-verify-code1" value="" placeholder="短信验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isMobileVerifyOn){ checked } disabled /> </a>
+            <a id="mobile-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"><p style="margin: 0px;">验证短信已发送，请输入短信验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="mobile-verify-code1" value="" placeholder="短信验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isMobileVerifyOn){ checked } disabled /> </a>
             } else {
             <a id="mobile-bind" class="text-info" href="javascript:void(0);" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"> <select class="form-control" id="mobile-region"><option value="zh-CN" selected>中国</option><option value="USA">美国</option><option value="other">其他地区</option> </select></div><div class="form-group"><input type="text" class="form-control" id="mobile-number" value="" placeholder="手机号码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="mobile-verify-code" value="" placeholder="短信验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendsms" id="mobile-bind-sendsms">发送短信</button></div></div></div>
-              <div style="display: none" id="mobile-bind-error-div" class="form-group">
+              <div id="mobile-bind-error-div" class="form-group">
                 <div class="row">
-                <p class="text-danger" id="mobile-bind-error-msg"/>
+                <p class="form-control text-danger" id="mobile-bind-error-msg" style="border: none; margin: 0;"/>
                 </div>
               </div>
 <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>设置</a>
@@ -118,7 +152,7 @@
         <div class="col-sm-5 col-xs-4">
           <div class="form-text-control font-1x xs-text">
             @if(isGoogleAuthOn) {
-            <a  class="text-info" href="#" ng-click="unBindGoogleAuth()">解除</a>
+            <a id="unbind-googleauth" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="解除双重校验绑定" data-content='<div class="form-group"><input type="text" class="form-control" id="google-verifycode" value="" placeholder="双重验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="googleauth-unbind">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">取消</button></div></div></div>'>解除</a>
             } else {
             <a  class="text-info" href="/account/googleauth">设置</a>
             }

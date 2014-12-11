@@ -1,4 +1,7 @@
 @()(implicit session: Session)
+@import utils.Constant._
+
+@isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 
 <!doctype html>
 <html>
@@ -17,8 +20,27 @@
   </div>
   <!--end-sidebar-menu-->
 
+  <div id="main-container" ng-show="@isSetGoogleAuth()">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>双重校验</h3>
+      </div>
+      <div class="panel-body">
+        <div class="blk-3x"></div>
+        <div class="row">
+          <div class="col-sm-2 col-xs-2 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
+          <div class="col-sm-10 col-xs-10">
+            <p class=" text-dark tip">您已绑定双重校验。<br />
+              您可以随时进入账号安全定页面解除绑定。 </p>
+          </div>
+        </div>
+        <div class="blk-3x"></div>
+      </div>
+    </div>
+  </div>
+
   <!--container-->
-  <div id="main-container">
+  <div id="main-container" ng-hide="@isSetGoogleAuth()">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title"><i class="icon-user icon-2x"></i>双重校验</h3>
@@ -111,7 +133,7 @@
             <div class="col-sm-6 col-xs-12">
               <p>一旦绑定双重校验，请勿从您的手机上删除</p>
               <div class="input-group">
-                <input class="form-control no-left-border no-right-border form-focus-warning" ng-model="verifycode" max-length="6" min-length="6" type="email">
+                <input class="form-control no-left-border no-right-border form-focus-warning" ng-model="verifycode" max-length="6" min-length="6" type="text">
                 <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="bind()">绑定到账号 </button>
                 </span> </div>
