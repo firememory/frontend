@@ -29,16 +29,14 @@ object ApiController extends Controller with Json4s {
   def depth(market: String) = Action.async {
     implicit request =>
       val query = request.queryString
-      // fetch one more for corner bug
-      val depth = getParam(query, "depth", "6").toInt
+      val depth = getParam(query, "depth", "5").toInt
 
       MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
   def mdepth(market: String) = Action.async { implicit request =>
       val query = request.queryString
-      // fetch one more for corner bug
-      val depth = getParam(query, "depth", "6").toInt
+      val depth = getParam(query, "depth", "5").toInt
 
       MarketService.getMDepth(market, depth).map(result => Ok(result.toJson))
   }
