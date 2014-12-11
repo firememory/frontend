@@ -1,4 +1,13 @@
 @()(implicit session: Session)
+@import utils.PageUtil
+@import utils.SecurityPreferenceUtil._
+@import utils.Constant
+
+@isRealNameVerified() = @{session.get(Constant.userRealName).isDefined && session.get(Constant.userRealName).get.nonEmpty}
+@isEmailVerifyOn() = @{isEmailVerificationOn(session.get(Constant.securityPreference))}
+@isBindMobile() = @{session.get(Constant.cookieNameMobile).getOrElse("").trim.nonEmpty}
+@isMobileVerifyOn() = @{isMobileVerificationOn(session.get(Constant.securityPreference))}
+@isGoogleAuthOn() = @{session.get(Constant.cookieGoogleAuthSecret).getOrElse("").trim.nonEmpty}
 
 <!doctype html>
 <html>
@@ -15,7 +24,12 @@
     <!--sidebar-menu-->
     @_account_sidebar(42)
   </div>
-  <!--end-sidebar-menu-->
+
+  <div ng-show="false">
+  <span @if(isEmailVerifyOn()){ ng-init="emailVerOn = true;"} else { ng-init="emailVerOn = false;"}>
+  <span @if(isMobileVerifyOn()){ ng-init="mobileVerOn = true;"} else { ng-init="mobileVerOn = false;"}>
+  <span @if(isGoogleAuthOn()){ ng-init="googleAuthOn = true;"} else { ng-init="googleAuthOn = false;"}>
+  </div>
 
   <!--container-->
   <div id="main-container">
@@ -55,9 +69,9 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">邮箱验证</label></div>
-        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success text-line xs-fixes-line">你的邮箱地址：@session.get("username").getOrElse("")</div></div>
-        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><input type="checkbox" class="js-switch" checked /></div></div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isEmailVerifyOn){ text-success } else {text-warning} "></i><label class="control-label">邮箱验证</label></div>
+        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x @if(isEmailVerifyOn){ text-success } else {text-warning} text-line xs-fixes-line">你的邮箱地址：@session.get("username").getOrElse("")</div></div>
+        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a id="email-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="邮箱验证设置" data-content='<div class="form-group"><p>验证邮件已发送，请输入邮箱验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="email-verify-code" value="" placeholder="邮箱验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isEmailVerifyOn){ checked } disabled /> </a></div></div>
       </div>
       <div class="row">
         <div class="col-sm-2 col-xs-12"></div>
@@ -66,9 +80,23 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x text-warning "></i><label class="control-label">手机绑定</label></div>
-        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-warning">你尚未绑定手机</div></div>
-        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a  class="text-info" href="javascript:void;">设置</a></div></div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x @if(isBindMobile) { text-success } else { text-warning } "></i><label class="control-label">手机绑定</label></div>
+        <div class="col-sm-5 col-xs-8">@if(isBindMobile) { <div class="form-text-control font-1x text-success">你绑定的手机号码为：@PageUtil.encryptMobile(session.get(Constant.cookieNameMobile))</div> } else { <div class="form-text-control font-1x text-warning">你尚未绑定手机</div> }</div>
+        <div class="col-sm-5 col-xs-4">
+          <div class="form-text-control font-1x xs-text">
+            @if(isBindMobile) {
+            <a id="mobile-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"><p>验证短信已发送，请输入短信验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="mobile-verify-code1" value="" placeholder="短信验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isMobileVerifyOn){ checked } disabled /> </a>
+            } else {
+            <a id="mobile-bind" class="text-info" href="javascript:void(0);" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"> <select class="form-control" id="mobile-region"><option value="zh-CN" selected>中国</option><option value="USA">美国</option><option value="other">其他地区</option> </select></div><div class="form-group"><input type="text" class="form-control" id="mobile-number" value="" placeholder="手机号码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="mobile-verify-code" value="" placeholder="短信验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendsms" id="mobile-bind-sendsms">发送短信</button></div></div></div>
+              <div style="display: none" id="mobile-bind-error-div" class="form-group">
+                <div class="row">
+                <p class="text-danger" id="mobile-bind-error-msg"/>
+                </div>
+              </div>
+<div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>设置</a>
+            }
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-2 col-xs-12"></div>
@@ -77,56 +105,33 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x text-warning "></i><label class="control-label">双重校验</label></div>
-        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-warning">尚未设置双重验证</div></div>
-        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a  class="text-info" href="javascript:void;">设置</a></div></div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes">
+          <i class="icon-warning icon-2x @if(isGoogleAuthOn){ text-success } else { text-warning }"></i><label class="control-label">双重校验</label>
+        </div>
+        <div class="col-sm-5 col-xs-8">
+          @if(isGoogleAuthOn) {
+          <div class="form-text-control font-1x text-success">双重验证已开启</div>
+          } else {
+          <div class="form-text-control font-1x text-warning">尚未设置双重验证</div>
+          }
+        </div>
+        <div class="col-sm-5 col-xs-4">
+          <div class="form-text-control font-1x xs-text">
+            @if(isGoogleAuthOn) {
+            <a  class="text-info" href="#" ng-click="unBindGoogleAuth()">解除</a>
+            } else {
+            <a  class="text-info" href="/account/googleauth">设置</a>
+            }
+          </div>
+        </div>
       </div>
 
       <div class="blk-2x"></div>
 
-
         </form>
     </div>
   </div>
-  <footer>
-    <div class="footer-nav">
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <h5><b>关于</b></h5>
-        <ul>
-          <li><a href="team.html">团队</a></li>
-          <li><a href="jobs.html">招贤纳士</a></li>
-          <li><a href="#">联系方式</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <h5><b>法律</b></h5>
-        <ul>
-          <li><a href="shiyongtiaokuan.html" target="_blank">使用条款</a></li>
-          <li><a href="yinsizhengce.html" target="_blank">隐私政策</a></li>
-          <li><a href="fanxiqianzhengce.html" target="_blank">反洗钱政策</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <h5><b>资源</b></h5>
-        <ul>
-          <li><a href="jieruliucheng.html">接入指南</a></li>
-          <li><a href="#">了解比特币</a></li>
-          <li><a href="#">比特币支付原理</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <h5><b>媒体</b></h5>
-        <ul>
-          <li><a href="http://weibo.com/coinport" target="_blank">新浪微博</a></li>
-          <li class="qrcode"><a href="javascript:void;" data-toggle="popover" data-placement="left" data-content='<img src="assets/images/qrcode.png">'>微信</a></li>
-          <li><a href="http://twitter.com/coinportinc" target="_blank">twitter</a></li>
-          <li><a href="http://facebook.com/coinport" target="_blank">facebook</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="copyright text-center">© 2014 币丰港（香港）网络科技有限公司。保留所有权利</div>
-  </footer>
+  @__footer()
 </div>
 </div>
 <!--end-main-container-->

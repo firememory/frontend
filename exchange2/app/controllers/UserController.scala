@@ -241,7 +241,11 @@ object UserController extends Controller with Json4s with AccessLogging {
   def requestPasswordReset(email: String) = Action.async {
     implicit request =>
       logger.info(s"reset password email: $email")
-      UserService.requestPasswordReset(email) map {
+      validateParamsAndThen(
+        new EmailFormatValidator(email)
+      ) {
+        UserService.requestPasswordReset(email)
+      } map {
         result =>
           //logger.info(s"result: $result")
           if (result.success) {
@@ -271,7 +275,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val data = request.body
       val newPassword = getParam(data, "password").getOrElse("")
       val token = getParam(data, "token").getOrElse("")
-      logger.info(s"newPassword: $newPassword, token: $token")
+      //logger.info(s"newPassword: $newPassword, token: $toke")
       UserService.resetPassword(newPassword, token) map {
         result =>
         if(result.success)
@@ -295,15 +299,19 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def resendVerifyEmail(email: String) = Action.async {
     implicit request =>
-      UserService.resendVerifyEmail(email) map {
+      validateParamsAndThen(
+        new EmailFormatValidator(email)
+      ) {
+        UserService.resendVerifyEmail(email)
+      } map {
         result =>
           //logger.info(s"result: $result")
-          if (result.success) {
-            Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
-          } else {
-            logger.warn(s"resend verify email failed. email: $email")
-            Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
-          }
+        if (result.success) {
+          Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
+        } else {
+          logger.warn(s"resend verify email failed. email: $email")
+          Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
+        }
       }
   }
 
