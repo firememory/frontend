@@ -17,8 +17,8 @@ trait AuthenticateHelper {
 
   val logger = Logger(this.getClass)
   val sysConfig = Play.current.configuration
-  val timeoutMinutes: Int = sysConfig.getInt("session.timeout.minutes").getOrElse(60)
-  val timeoutMillis: Long = timeoutMinutes * 60 * 1000
+  val timeoutSeconds: Int = sysConfig.getInt("session.timeout").getOrElse(3600)
+  val timeoutMillis: Long = timeoutSeconds * 1000
 
   def responseOnRequestHeader[A](request: Request[A], redirectUri: String): Future[Result] = {
     val ajaxRequestHeader = request.headers.get(ajaxRequestHeaderKey).getOrElse("")
