@@ -15,7 +15,13 @@ coinportApp.filter('orderTypeText', function() {
 
 coinportApp.filter('orderTypeClass', function() {
     return function(input) {
-        return input.toLowerCase();
+        if(!input) return 'info';
+        var input = input.toLowerCase();
+        if(input == 'buy')
+            return 'success';
+        if(input == 'sell')
+            return 'danger';
+        return 'info';
     }
 });
 

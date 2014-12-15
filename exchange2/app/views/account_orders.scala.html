@@ -59,15 +59,15 @@
               <tr  ng-repeat="order in orders.items | orderBy: ['-date', '-tid']" class="">
                 <!--<td nowrap> <a href="/order/{{order.id}}">{{order.id}}</a> </td>-->
                 <td nowrap> <a href="/order/{{order.id}}"><i class="fa fa-clock-o"></i> {{order.submitTime | date:"MM-dd HH:mm:ss"}}</a> </td>
-                <td nowrap class="{{order.operation | orderTypeClass}}">{{order.operation | orderTypeText}} </td>
+                <td nowrap class="text-{{order.operation | orderTypeClass}}">{{order.operation | orderTypeText}} </td>
                 <td nowrap class="text-right {{order.operation | orderTypeClass}}">{{order.price.value | price}} {{order.currency}} </td>
                 <td nowrap class="text-right"> {{order.amount.value | quantity}} {{order.subject}}</td>
                 <td nowrap class="text-right"> {{order.finishedQuantity.value | quantity}} {{order.subject}} </td>
                 <td nowrap class="text-right"> {{order.total.value | quantity}} {{order.currency}} </td>
                 <td nowrap class="text-right"> {{order.finishedAmount.value | quantity}} {{order.currency}} </td>
-                <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
+                <td nowrap> <span class="label label-{{order.status | orderStatusClass}}">{{order.status | orderStatusText}}</span> </td>
                 <td nowrap>
-                  <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
+                  <a class="btn-link" ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
                 </td>
               </tr>
 

@@ -235,7 +235,7 @@
                 <label class="col-sm-2 col-xs-4 control-label" for="field-1">短信验证码</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
-                    <input type="email" class="form-control no-left-border no-right-border form-focus-warning" ng-model="withdrawalData.phonecode" />
+                    <input type="text" class="form-control no-left-border no-right-border form-focus-warning" ng-model="withdrawalData.phonecode" />
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="button" ng-click="sendVerifySms()" ng-disabled="isTimingSms">获取短信验证码 </button>
                     </span>
@@ -247,7 +247,7 @@
                 <label class="col-sm-2 col-xs-4 control-label" for="field-1">双重验证码</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
-                    <input type="email" class="form-control" ng-model="withdrawalData.googlecode" />
+                    <input type="text" class="form-control" ng-model="withdrawalData.googlecode" />
                   </div>
                 </div>
               </div>

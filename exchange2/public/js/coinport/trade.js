@@ -100,10 +100,12 @@ function BidAskCtrl($scope, $http, $window) {
 
     $scope.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
     $scope.orderStatusObj = $scope.orderStatusList[0];
+
     $scope.changeOrderStatus = function(status) {
         $scope.orderStatus = status;
         $scope.loadOrders();
     };
+    $scope.changeOrderStatus($scope.orderStatusObj.value);
 
     $scope.updateTransactions = function() {
         $http.get('/api/' + $scope.market + '/transaction', {params: {limit: 15, skip: 0}})
@@ -178,6 +180,7 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var refresh = function() {
+        $scope.loadOrders();
         $scope.updateDepth();
         $scope.updateTransactions();
         $scope.loadRecentOrders();

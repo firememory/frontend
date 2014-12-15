@@ -29,6 +29,8 @@ Messages.transfer = {
         invalidAmount: 'Invalid Amount',
         invalidAddress: 'Invalid Address',
         invalidEmailCode: 'Invalid Email Code',
+        emailNotSend: 'Verification Email Not Sent',
+        smsNotSend: 'Verification SMS Not Sent',
         ok: 'Request Submitted',
         error: 'Request failed'
     }
@@ -153,7 +155,7 @@ Messages.getLoginRemainingAttempts = function(count) {
 };
 
 Messages.coinName = {
-    CNY: 'CNY',
+    CNY: 'RMB',
     BTC: 'Bitcoin',
     LTC: 'Litecoin',
     DOGE: 'Dogecoin',

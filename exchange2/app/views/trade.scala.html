@@ -279,15 +279,15 @@
             <tbody>
               <tr ng-repeat="order in orders | orderBy: ['-date', '-id']">
                 <td ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
-                <td><span class="text-success" ng-bind="order.operation | orderTypeText"></span></td>
+                <td><span class="text-{{order.operation | orderTypeClass}}" ng-bind="order.operation | orderTypeText"></span></td>
                 <td ng-bind="order.price.value | price"></td>
                 <td ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
                 <td ng-bind="order.amount.value | quantity"></td>
                 <td ng-bind="order.finishedQuantity.value | quantity"></td>
                 <td ng-bind="order.finishedAmount.value | quantity"></td>
-                <td><a href="/order/{{order.id}}"><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span></a></td>
+                <td><span class="label label-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span></td>
                 <td>
-                  <a ng-show="order.status <= 1" href="" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
+                  <a class="btn-link" ng-show="order.status <= 1" href="#" ng-click="cancelOrder(order)">@(Messages("trade.cancel"))</a>
                 </td>
               </tr>
             </tbody>

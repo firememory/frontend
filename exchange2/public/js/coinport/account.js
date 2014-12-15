@@ -180,7 +180,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
                 $scope.displayWithdrawalError(Messages.getMessage(data.code));
             }
         });
-    }
+    };
     /* back card management end.  */
 
     /* withdrawal control:  */
@@ -194,9 +194,16 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             $scope.showWithdrawalError = false;
             $scope.withdrawalErrorMessage = '';
         }, 6000);
-    }
+    };
 
     $scope.withdrawalData = {currency: $scope.currency};
+
+    $scope.renewWithdrawalPage = function() {
+        $scope.withdrawalData = {currency: $scope.currency};
+        $scope.isTimingEmail = false;
+        $scope.isTimingSms = false;
+    };
+
     $scope.withdrawal = function () {
         if (! $scope.withdrawalData.amount || +$scope.withdrawalData.amount > $scope.accounts[$scope.currency].available.value) {
             $scope.displayWithdrawalError(Messages.transfer.messages['invalidAmount']);
@@ -217,6 +224,16 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             }
         }
 
+        if (!$scope.withdrawalData.emailuuid || $scope.withdrawalData.emailuuid == '') {
+            $scope.displayWithdrawalError(Messages.transfer.messages['emailNotSend']);
+            return;
+        }
+
+        if (!$scope.withdrawalData.phoneuuid || $scope.withdrawalData.phoneuuid == '') {
+            $scope.displayWithdrawalError(Messages.transfer.messages['smsNotSend']);
+            return;
+        }
+
         $scope.withdrawalData.currency = $scope.currency;
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function (data, status, headers, config) {
@@ -227,6 +244,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
                     $scope.withdrawalData.address = wd_address;
                     $scope.displayWithdrawalError(Messages.transfer.messages['ok']);
                 } else {
+                    $scope.renewWithdrawalPage();
                     $scope.displayWithdrawalError(Messages.getMessage(data.code));
                 }
                 setTimeout(function() {
