@@ -25,9 +25,9 @@
 
   <!--container-->
   <div id="main-container">
-    <span ng-show="false" ng-init="isVerifiedUser = @isVerifiedUser()"></span>
-    <span ng-show="false" ng-init="emailVerOn = @isSetEmailPreference()"></span>
-    <span ng-show="false" ng-init="mobileVerOn = @isSetPhonePreference()"></span>
+    <span ng-show="false" ng-init="isVerifiedUser = @{isVerifiedUser()};"></span>
+    <span ng-show="false" ng-init="emailVerOn = @{isSetEmailPreference()};"></span>
+    <span ng-show="false" ng-init="mobileVerOn = @{isSetPhonePreference()};"></span>
 
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
