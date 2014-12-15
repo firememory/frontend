@@ -17,7 +17,7 @@
   <div class="sidebar-wrap">
     <!--sidebar-menu-->
     <div id="sidebar" >
-      <ul class="secondary no-border sidebar-tab nav nav-tabs nav-tabs-justified">
+      <ul class="primary no-border sidebar-tab nav nav-tabs nav-tabs-justified">
         <li class="" id="cny-market-set"> <a href="#tab-m1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>CNY定价</span> </a> </li>
         <li class="" id="btc-market-set"> <a href="#tab-m2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>BTC定价</span> </a> </li>
       </ul>
@@ -175,12 +175,12 @@
       <div class="col-lg-6 col-xs-12">
         <div class="panel">
           <ul class="primary no-border nav nav-tabs nav-tabs-justified">
-            <li class="active"> <a href="#tab-s2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>深度</span> </a> </li>
-            <li class=""> <a href="#tab-s1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>最新成交</span> </a> </li>
+            <li class="active"> <a href="#tab-s2" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>深度</span> </a> </li>
+            <li class=""> <a href="#tab-s1" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>最新成交</span> </a> </li>
           </ul>
           <div class="panel-body">
             <div class="tab-content">
-                 <div class="tab-pane active" id="tab-s2">
+                 <div class="tab-pane active" id="tab-s2">  <!-- depth panel. -->
                 <div class="blk-2x"></div>
                 <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
