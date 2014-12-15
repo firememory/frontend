@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<div class="fixes-top">
+<div class="fixes-top bg-white">
   @_navbar(0)(session)
 
 <div class="container container-main">
@@ -19,7 +19,7 @@
             <br/><br/>
             @if("prompt.verifyEmailSent".equals(messageKey)) {
               @Messages("prompt.resendVerifyEmailPrefix")
-              <a href="/login">@Messages("prompt.resendVerifyEmailLink")</a>
+              <a href="/login" class="btn-link">@Messages("prompt.resendVerifyEmailLink")</a>
               @Messages("prompt.resendVerifyEmailTail")
             }
             </div>

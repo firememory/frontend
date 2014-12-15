@@ -1,93 +1,30 @@
-var app = angular.module('coinport.account', ['coinport.app']);
-
-// function routeConfig($routeProvider) {
-//     $routeProvider.
-//         when('/', {
-//             redirectTo: '/asset'
-//         }).
-//         when('/transfer', {
-//             controller: 'TransferCtrl',
-//             templateUrl: 'views/transfer.html'
-//         }).
-//         when('/deposit/:currency', {
-//             controller: 'DepositCtrl',
-//             templateUrl: 'views/deposit.html'
-//         }).
-//         when('/deposit/debug/:currency', {
-//             controller: 'DepositCtrl',
-//             templateUrl: 'debug/deposit.html'
-//         }).
-//         when('/withdrawal/:currency', {
-//             controller: 'WithdrawalCtrl',
-//             templateUrl: 'views/withdrawal.html'
-//         }).
-//         when('/asset', {
-//             controller: 'AssetCtrl',
-//             templateUrl: 'views/asset.html'
-//         }).
-//         when('/order', {
-//             controller: 'OrderDetailCtrl',
-//             templateUrl: 'views/order.html'
-//         }).
-//         when('/orders', {
-//             controller: 'UserOrderCtrl',
-//             templateUrl: 'views/orders.html'
-//         }).
-//         when('/transaction', {
-//             controller: 'UserTxCtrl',
-//             templateUrl: 'views/transactions.html'
-//         }).
-//         when('/accountsettings', {
-//             controller: 'AccountSettingsCtrl',
-//             templateUrl: 'views/accountSettings.html'
-//         }).
-//         when('/accountprofiles', {
-//             controller: 'AccountProfilesCtrl',
-//             templateUrl: 'views/accountProfiles.html'
-//         }).
-//         when('/googleauth/:prior', {
-//             controller: 'GoogleAuthCtrl',
-//             templateUrl: 'views/googleAuth.html'
-//         }).
-//         otherwise({
-//             redirectTo: '/'
-//         });
-// }
+var app = angular.module('coinport.account', ['coinport.app', 'navbar']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }
 
-//app.config(routeConfig);
 app.config(httpConfig);
 
-app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+    $scope.page = 1;
+    $scope.limit = 25;
+
     $scope.addressUrl = COINPORT.addressUrl;
     $scope.allCoinsWithName = Messages.coinName;
     $scope.allCoins = Messages.coins;
-    $scope.currency = $scope.allCoins[0];
-    //console.debug("allCoinsWithName: ", $scope.allCoinsWithName);
+    if (!$scope.currency) { $scope.currency = $scope.allCoins[0]; }
 
-    $http.get('/api/account/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.accounts = data.data.accounts;
-        });
+    $scope.loadAccount = function () {
+        $http.get('/api/account/' + $scope.uid)
+            .success(function (data, status, headers, config) {
+                $scope.accounts = data.data.accounts;
+            });
+    }
+    $scope.loadAccount();
+
     $scope.status = {};
     $scope.depositAddresses = [];
-//     $scope.getCurrencyDetails = function(currency) {
-//         // get network status
-//         $scope.timestamp = new Date().getTime();
-// //        $http.get('/api/open/network/' + currency)
-// //            .success(function(data, status, headers, config) {
-// //                $scope.status[currency] = data.data;
-// //        });
-//         // get deposit address
-//         $http.get('/depoaddr/' + $scope.uid)
-//             .success(function (data, status, headers, config) {
-//                 $scope.depositAddresses[currency] = data.data[currency];
-//                 console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
-//         });
-//     };
 
     $http.get('/depoaddr/' + $scope.uid)
         .success(function (data, status, headers, config) {
@@ -106,8 +43,6 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
             console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
         });
 
-    $scope.page = 1;
-    $scope.limit = 25;
     $scope.deposits = {};
     // $scope.transfers = {};
     // $scope.loadTransfers = function () {
@@ -137,202 +72,25 @@ app.controller('TransferCtrl', ['$scope', '$http', function ($scope, $http) {
             });
     };
 
-    $scope.changeCurrency = function() {
-        console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
-        $scope.loadDeposits();
-
-        // $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
-        //     .success(function (data, status, headers, config) {
-        //         $scope.deposits = data.data.items;
-        //         $scope.deposits.forEach(function(item){
-        //             item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
-        //         });
-
-        //         $scope.count = data.data.count;
-        //     });
-    }
-
-    $scope.changeCurrency();
-}]);
-
-app.controller('DepositRmbCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get('/api/account/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.balance = data.data.accounts['CNY'];
-        });
-
-    $scope.page = 1;
-    $scope.loadDeposits = function () {
-        $http.get('/api/CNY/transfer' + $scope.uid + {params: {limit: 15, page: $scope.page, 'type': 0}})
-            .success(function (data, status, headers, config) {
-                $scope.deposits = data.data.items;
-                $scope.count = data.data.count;
-            });
-    };
-    $scope.loadDeposits();
-
-    $scope.depositData = {currency: 'CNY'};
-    $scope.deposit = function () {
-        var amount = $scope.amount;
-        console.log('deposit ' + $scope.depositData.amount);
-        $http.post('/account/deposit', $.param($scope.depositData))
-            .success(function (data, status, headers, config) {
-                var deposit = data.data.transfer;
-                alert(Messages.transfer.depositSuccess + deposit.amount / 100 + Messages.transfer.cny);
-            });
-    };
-}]);
-
-app.controller('WithdrawalRmbCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get('/api/account/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.balance = data.data.accounts['CNY'];
-        });
-
-    $scope.page = 1;
-    $scope.limit = 25;
     $scope.loadWithdrawals = function () {
+        console.debug("loadWithdrawals...");
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
+                console.debug("loadWithdrawals:", data.data);
                 $scope.withdrawals = data.data.items;
                 $scope.count = data.data.count;
             });
     };
-    $scope.loadWithdrawals();
-
-    $scope.withdrawalData = {currency: 'CNY'};
-    $scope.withdrawal = function () {
-        var amount = $scope.amount;
-        console.log('withdrawal ', $scope.withdrawalData);
-        $scope.withdrawalData = {};
-        $http.post('/account/withdrawal', $.param($scope.withdrawalData))
-            .success(function (data, status, headers, config) {
-                if (data.success) {
-                    var withdrawal = data.data.transfer;
-                    $scope.withdrawalData = {};
-                    alert(Messages.transfer.withdrawalSuccess + withdrawal.amount / 100 + Messages.cny);
-                } else {
-                    alert(data.message);
-                }
-            });
-    };
-}]);
-
-app.controller('DepositCtrl', ['$scope', '$http', '$routeParams', '$location', '$window', function ($scope, $http, $routeParams, $location, $window) {
-    $scope.currency = $routeParams.currency.toUpperCase();
-
-    $http.get('/api/account/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.balance = data.data.accounts[$scope.currency];
-        });
-
-    // hack BTSX
-    if ($scope.currency.toUpperCase() == 'BTSX') {
-        $scope.depositAddress = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
-    } else if ($scope.currency.toUpperCase() == 'XRP') {
-        $scope.depositAddress = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
-    } else if ($scope.currency.toUpperCase() == 'CNY') {
-    } else {
-        $http.get('/depoaddr/' +$scope.currency+ '/' + $scope.uid)
-            .success(function (data, status, headers, config) {
-                if ($scope.currency.toUpperCase() == "NXT") {
-                    var nxtAddrs = data.data[$scope.currency].split("//");
-                    $scope.depositAddress = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
-                    $scope.nxtPublicKey = nxtAddrs[2];
-                } else $scope.depositAddress = data.data[$scope.currency];
-            });
-    }
-
-    $scope.page = 1;
-    $scope.limit = 25;
-    $scope.loadDeposits = function () {
-        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
-            .success(function (data, status, headers, config) {
-                $scope.deposits = data.data.items;
-                $scope.deposits.forEach(function(item){
-                    item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
-                });
-
-                $scope.count = data.data.count;
-            });
-    };
-    $scope.loadDeposits();
-
-    $scope.depositData = {currency: $scope.currency};
-    $scope.deposit = function () {
-        var amount = $scope.amount;
-        console.log('deposit ' + $scope.depositData.amount);
-        $http.post('/account/deposit', $.param($scope.depositData))
-            .success(function (data, status, headers, config) {
-                var deposit = data.data.transfer;
-                alert(Messages.transfer.depositSuccess + deposit.amount / 1000 + $scope.currency);
-            });
-    };
 
     $scope.changeCurrency = function() {
-        $location.path('/deposit/' + $scope.currency);
-    }
+        console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
+        $scope.loadDeposits();
+        $scope.loadWithdrawals();
+    };
 
-    $scope.qqChat = function(qqId) {
-        $window.open('http://wpa.qq.com/msgrd?v=3&uin=' + qqId + '&site=qq&menu=yes', '_blank');
-    }
-}]);
+    $scope.changeCurrency();
 
-app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location', '$interval', '$modal', function ($scope, $http, $routeParams, $location, $interval, $modal) {
-    $scope.currency = $routeParams.currency.toUpperCase();
-    $scope.withdrawalData = {};
-    $scope.txUrl = COINPORT.txUrl[$scope.currency];
-    $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
-    $scope.withdrawalLimit = 0.01;
-
-    switch ($scope.currency)  {
-        case "NXT":
-            $scope.withdrawalLimit = 10;
-            break;
-        case "BTSX":
-            $scope.withdrawalLimit = 10;
-            break;
-        case "XRP":
-            $scope.withdrawalLimit = 10;
-            break;
-        case "DOGE":
-            $scope.withdrawalLimit = 5;
-            break;
-        case "CNY":
-            $scope.withdrawalLimit = 500;
-            break;
-        default :
-            $scope.withdrawalLimit = 0.01;
-            break;
-    }
-
-    $scope.withdrawalFee = '0.0005';
-    switch ($scope.currency) {
-        case "NXT":
-            $scope.withdrawalFee = '2';
-            break;
-        case "BTSX":
-            $scope.withdrawalFee = '2';
-            break;
-        case "XRP":
-            $scope.withdrawalFee = '1';
-            break;
-        case "DOGE":
-            $scope.withdrawalFee = '2';
-            break;
-        case "CNY":
-            $scope.withdrawalFee = '0.4%';
-            break;
-        default :
-            $scope.withdrawalFee = '0.0005';
-            break;
-    }
-
-    $http.get('/api/account/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.balance = data.data.accounts[$scope.currency] || {available: {value: 0}};
-        });
-
+    /* back card management.  */
     $scope.loadBankCards = function() {
         $http.get('/account/querybankcards').success(function(data, status, headers, config) {
             $scope.bankCards = data.data || [];
@@ -342,32 +100,111 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                 $scope.selectedBankCard = $scope.bankCards[0];
             }
         });
-    }
+    };
 
     if ($scope.currency === 'CNY') {
         $scope.loadBankCards();
     }
 
-    $scope.page = 1;
-    $scope.limit = 25;
-    $scope.loadWithdrawals = function () {
-        $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
+    $scope.bankCardToString = function(card) {
+        if (card)
+            return card.ownerName + ' | ' + card.cardNumber +
+            ' | ' + card.bankName + ' | ' + card.branchBankName;
+        else
+            return '';
+    };
+
+    $('#add-bankcard').popover({
+        html: true,
+        trigger: 'manual'
+    }).on('shown.bs.popover', function () {
+        var $popup = $(this);
+
+        var bankCard = {
+            ownerName: '',
+            bankName: '',
+            branchBankName: '',
+            cardNumber: '',
+            emailCode: '',
+            verifyCodeUuidEmail: ''
+        };
+
+        $(this).next('.popover').find('button.cancel').click(function (e) {
+            $popup.popover('hide');
+        });
+
+        $(this).next('.popover').find('button.sendmail').click(function (e) {
+            $http.get('/emailverification')
+                .success(function (data, status, headers, config) {
+                    console.debug('add bank emailverification data: ', data);
+                    if (data.success) {
+                        bankCard.verifyCodeUuidEmail = data.data;
+                    } else {
+                        $popup.popover('hide');
+                        var errorMsg = Messages.getMessage(data.code, data.message);
+                        $scope.displayWithdrawalError(errorMsg);
+                    }
+                });
+        });
+
+        $(this).next('.popover').find('button.save').click(function (e) {
+            bankCard.ownerName = $(".popover #owner-name").val();
+            bankCard.cardNumber = $(".popover #card-number").val();
+            bankCard.bankName = $(".popover #bank-name").val();
+            bankCard.emailCode = $(".popover #email-code").val();
+            bankCard.branchBankName = $(".popover #bank-branch-name").val();
+            $scope.addBankCard(bankCard);
+            $popup.popover('hide');
+        });
+    });
+
+    $scope.addBankCard = function(card) {
+        console.debug("add bank card: ", card);
+        $http.post('/account/addbankcard', $.param(card))
             .success(function (data, status, headers, config) {
-                $scope.withdrawals = data.data.items;
-                $scope.count = data.data.count;
+                console.debug("addBankCard result: ", data.data);
+                if (data.success) {
+                    $scope.loadBankCards();
+                } else {
+                    $scope.displayWithdrawalError(Messages.getMessage(data.code));
+                }
             });
     };
-    $scope.loadWithdrawals();
+
+    $scope.deleteBankCard = function() {
+        console.debug("bankcard to be deleted: ", $scope.selectedBankCard);
+        $http.post('/account/deletebankcard', $.param($scope.selectedBankCard)).success(function (data, status, headers, config) {
+            if (data.success) {
+                $scope.loadBankCards();
+            } else {
+                $scope.displayWithdrawalError(Messages.getMessage(data.code));
+            }
+        });
+    }
+    /* back card management end.  */
+
+    /* withdrawal control:  */
+
+    $scope.displayWithdrawalError = function (msg) {
+        $scope.showWithdrawalError = true;
+        $scope.withdrawalErrorMessage = msg;
+        //$scope.$apply();
+        $timeout(function () {
+            console.debug("fade withdrawal error.");
+            $scope.showWithdrawalError = false;
+            $scope.withdrawalErrorMessage = '';
+        }, 6000);
+    }
 
     $scope.withdrawalData = {currency: $scope.currency};
     $scope.withdrawal = function () {
-        if (! $scope.withdrawalData.amount || +$scope.withdrawalData.amount > $scope.balance.available.value) {
-            alert(Messages.transfer.messages['invalidAmount']);
+        if (! $scope.withdrawalData.amount || +$scope.withdrawalData.amount > $scope.accounts[$scope.currency].available.value) {
+            $scope.displayWithdrawalError(Messages.transfer.messages['invalidAmount']);
             return;
         }
         if ($scope.currency === 'CNY') {
             if (!$scope.selectedBankCard) {
-                alert(Messages.transfer.messages['invalidAddress']);
+                $scope.displayWithdrawalError(Messages.transfer.messages['invalidAddress']);
                 return;
             } else {
                 var card = $scope.selectedBankCard;
@@ -375,11 +212,12 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             }
         } else {
             if (!$scope.withdrawalData.address || $scope.withdrawalData.address == '') {
-                alert(Messages.transfer.messages['invalidAddress']);
+                $scope.displayWithdrawalError(Messages.transfer.messages['invalidAddress']);
                 return;
             }
         }
 
+        $scope.withdrawalData.currency = $scope.currency;
         $http.post('/account/withdrawal', $.param($scope.withdrawalData))
             .success(function (data, status, headers, config) {
                 if (data.success) {
@@ -387,528 +225,72 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
                     var wd_address = $scope.withdrawalData.address;
                     $scope.withdrawalData = {currency: $scope.currency};
                     $scope.withdrawalData.address = wd_address;
-                    alert(Messages.transfer.messages['ok']);
+                    $scope.displayWithdrawalError(Messages.transfer.messages['ok']);
                 } else {
-                    alert(Messages.getMessage(data.code));
+                    $scope.displayWithdrawalError(Messages.getMessage(data.code));
                 }
-                setTimeout($scope.loadWithdrawals, 1000);
+                setTimeout(function() {
+                    $scope.loadAccount();
+                    $scope.loadWithdrawals();
+                }, 1000);
             });
     };
 
     $scope.cancelWithdrawal = function (tid) {
         $http.post('/account/cancelWithdrawal/' + $scope.uid + '/' + tid, {})
             .success(function (data, status, headers, config) {
+                $scope.loadAccount();
                $scope.loadWithdrawals();
             });
     };
 
-    $scope.changeCurrency = function() {
-        $location.path('/withdrawal/' + $scope.currency);
-    };
-
-    // email verification code and button timer:
-    $scope.showWithdrawalError = false;
-    $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
-    var _stop;
-    $scope.isTimingEmail = false;
-
-    $scope.disableButtonEmail = function () {
-        if (angular.isDefined(_stop)) {
-            $scope.isTimingEmail = true;
-            return;
-        }
-
-        $scope.secondsEmail = 120;
-
-        _stop = $interval(function () {
-            if ($scope.secondsEmail > 0) {
-                $scope.secondsEmail = $scope.secondsEmail - 1;
-                $scope.verifyButtonEmail = Messages.account.getVerifyCodeButtonTextPrefix + $scope.secondsEmail + Messages.account.getVerifyCodeButtonTextTail;
-                $scope.isTimingEmail = true;
-            }
-            else {
-                $scope.stopTimingEmail();
-                $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
-            }
-        }, 1000);
-    };
-
-    $scope.stopTimingEmail = function () {
-        if (angular.isDefined(_stop)) {
-            $interval.cancel(_stop);
-            _stop = undefined;
-        }
-        $scope.isTimingEmail = false;
-        $scope.secondsEmail = 0;
-        $scope.verifyButtonEmail = Messages.account.getEmailVerificationCode;
-    };
-
-    $scope.$on('destroy', function () {
-        $scope.stopTimingEmail();
-    });
-
+    // email verification:
     $scope.sendVerifyEmail = function () {
-        $scope.showWithdrawalError = false;
-        $scope.disableButtonEmail();
-
+        $scope.isTimingEmail = true;
         $http.get('/emailverification')
             .success(function (data, status, headers, config) {
-                console.log('data in withdrawal: ', data);
+                console.log('sendVerifyEmail result : ', data);
                 if (data.success) {
                     $scope.withdrawalData.emailuuid = data.data;
+                    setTimeout(function () { $scope.isTimingEmail = false }, 60000);
                 } else {
-                    $scope.stopTimingEmail();
-                    $scope.showWithdrawalError = true;
-                    $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
+                    $scope.displayWithdrawalError(Messages.getMessage(data.code, data.message));
+                    $scope.isTimingEmail = false;
                 }
             });
     };
-
-    // sms verification code and button timer:
-    $scope.showWithdrawalError = false;
-    $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
-    var _stop2;
-    $scope.isTimingSms = false;
-
-    $scope.disableButtonSms = function () {
-        if (angular.isDefined(_stop2)) {
-            $scope.isTimingSms = true;
-            return;
-        }
-
-        $scope.secondsSms = 120;
-
-        _stop2 = $interval(function () {
-            if ($scope.secondsSms > 0) {
-                $scope.secondsSms = $scope.secondsSms - 1;
-                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonTextPrefix + $scope.secondsSms + Messages.account.getVerifyCodeButtonTextTail;
-                $scope.isTimingSms = true;
-            }
-            else {
-                $scope.stopTimingSms();
-                $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
-            }
-        }, 1000);
-    };
-
-    $scope.stopTimingSms = function () {
-        if (angular.isDefined(_stop2)) {
-            $interval.cancel(_stop2);
-            _stop2 = undefined;
-        }
-        $scope.isTimingSms = false;
-        $scope.secondsSms = 0;
-        $scope.verifyButtonSms = Messages.account.getVerifyCodeButtonText;
-    };
-
-    $scope.$on('destroy', function () {
-        $scope.stopTimingSms();
-    });
 
     $scope.sendVerifySms = function () {
-        $scope.showWithdrawalError = false;
-        $scope.disableButtonSms();
-
+        $scope.isTimingSms = true;
         $http.get('/smsverification2')
             .success(function (data, status, headers, config) {
-                console.log('data in withdrawal: ', data);
+                console.log('sendVerifySms result: ', data);
                 if (data.success) {
                     $scope.withdrawalData.phoneuuid = data.data;
+                    setTimeout(function () { $scope.isTimingSms = false }, 60000);
                 } else {
-                    $scope.stopTimingSms();
-                    $scope.showWithdrawalError = true;
-                    $scope.withdrawalErrorMessage = Messages.getMessage(data.code, data.message);
+                    $scope.displayWithdrawalError(Messages.getMessage(data.code, data.message));
+                    $scope.isTimingSms = false;
                 }
             });
     };
 
-    $scope.doVerification = function() {
-        $location.path('/accountsettings');
-    }
+    /* withdrawal control end */
 
-    $scope.showAddBankCardModal = function() {
-        var addBankCardModal = $modal.open({
-            templateUrl: 'addBankCardContent.html',
-            controller: 'AddBankCardController',
-        });
-        addBankCardModal.result.then(function() {
-            $scope.loadBankCards();
-        }, function() {
-        });
-    }
-
-    var self = this;
-    $scope.showDeleteBankCardModal = function(bankCard) {
-        var deleteBankCardModal = $modal.open({
-            templateUrl: 'deleteBankCardContent.html',
-            controller: 'DeleteBankCardController',
-            resolve: {
-                bankCardTBD: function() {
-                    return bankCard;
-                }
-            }
-        });
-        deleteBankCardModal.result.then(function() {
-            $scope.loadBankCards();
-        }, function() {
-        });
-    }
-
-    $scope.chooseBankCard = function(bankCard) {
-        $scope.selectedBankCard = bankCard;
-    }
 }]);
 
 app.controller('AssetCtrl', function ($scope, $http) {
     $http.get('/api/asset/' + $scope.uid)
         .success(function (data, status, headers, config) {
             $scope.assets = data.data;
-            //drawHistoryChart($scope.assets);
             var map = $scope.assets[$scope.assets.length - 1].amountMap;
-            //$scope.pieData = [];
             var total = 0;
             for (asset in map) {
                 total += map[asset].value;
             }
 
-            // for (asset in map) {
-            //     $scope.pieData.push({title: asset, value: map[asset].value / total});
-            // }
-
-            //drawPieChart($scope.pieData);
             $scope.updateAsset();
         });
-
-//     var drawPieChart = function (data) {
-//         var DURATION = 800;
-//         var DELAY = 200;
-
-//         var containerEl = document.getElementById('user-finance-chart-pie'),
-//             width = containerEl.clientWidth,
-//             height = width * 0.9,
-//             radius = Math.min(width, height) / 2,
-//             container = d3.select(containerEl),
-//             svg = container.select('svg')
-//                 .attr('width', width)
-//                 .attr('height', height);
-
-//         var pie = svg.append('g')
-//             .attr(
-//                 'transform',
-//                 'translate(' + width / 2 + ',' + height / 2 + ')'
-//             );
-
-//         var detailedInfo = svg.append('g')
-//             .attr('class', 'pieChart--detailedInformation');
-
-//         var twoPi = 2 * Math.PI;
-//         var pieData = d3.layout.pie()
-//             .value(function (d) {
-//                 return d.value;
-//             });
-
-//         var arc = d3.svg.arc()
-//             .outerRadius(radius - 20)
-//             .innerRadius(0);
-
-//         var color = d3.scale.linear()
-//             .domain([0, data.length - 1])
-//             .range(["#2980b9", "#34495e"]);
-// //            .range(["#aad", "#556"]);
-// //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
-
-//         $scope.color = color;
-
-//         var pieChartPieces = pie.datum(data)
-//             .selectAll('path')
-//             .data(pieData)
-//             .enter()
-//             .append('path')
-//             .style("fill", function (d, i) {
-//                 return color(i);
-//             })
-//             .attr('filter', 'url(#pieChartInsetShadow)')
-//             .attr('d', arc)
-//             .each(function () {
-//                 this._current = { startAngle: 0, endAngle: 0 };
-//             })
-//             .transition()
-//             .duration(DURATION)
-//             .attrTween('d', function (d) {
-//                 var interpolate = d3.interpolate(this._current, d);
-//                 this._current = interpolate(0);
-
-//                 return function (t) {
-//                     return arc(interpolate(t));
-//                 };
-//             });
-// //            .each('end', function handleAnimationEnd(d) {
-// //                drawDetailedInformation(d.data, this);
-// //            });
-
-//         drawChartCenter();
-
-//         function drawChartCenter() {
-//             var centerContainer = pie.append('g')
-//                 .attr('class', 'pieChart--center');
-
-// //            centerContainer.append('circle')
-// //                .attr('class', 'pieChart--center--outerCircle')
-// //                .attr('r', 0)
-// //                .attr('filter', 'url(#pieChartDropShadow)')
-// //                .transition()
-// //                .duration(DURATION)
-// //                .delay(DELAY)
-// //                .attr('r', radius - 50);
-
-//             centerContainer.append('circle')
-//                 .attr('id', 'pieChart-clippy')
-//                 .attr('class', 'pieChart--center--innerCircle')
-//                 .attr('r', 0)
-//                 .transition()
-//                 .delay(DELAY)
-//                 .duration(DURATION)
-//                 .attr('r', radius - 55)
-//                 .attr('fill', '#fff');
-//         }
-
-    //     function drawDetailedInformation(data, element) {
-    //         var bBox = element.getBBox(),
-    //             infoWidth = width * 0.3,
-    //             anchor,
-    //             infoContainer,
-    //             position;
-    //         var x = width - infoWidth;
-    //         var y = bBox.height + bBox.y;
-    //         if (( bBox.x + bBox.width / 2 ) > 0) {
-    //             infoContainer = detailedInfo.append('g')
-    //                 .attr('width', infoWidth)
-    //                 .attr(
-    //                     'transform',
-    //                     'translate(' + x + ',' + y + ')'
-    //                 );
-    //             anchor = 'end';
-    //             position = 'right';
-    //         } else {
-    //             infoContainer = detailedInfo.append('g')
-    //                 .attr('width', infoWidth)
-    //                 .attr(
-    //                     'transform',
-    //                     'translate(' + 0 + ',' + y + ')'
-    //                 );
-    //             anchor = 'start';
-    //             position = 'left';
-    //         }
-
-    //         infoContainer.data([ data.value * 100 ])
-    //             .append('text')
-    //             .text('0 %')
-    //             .attr('class', 'pieChart--detail--percentage')
-    //             .attr('x', ( position === 'left' ? 0 : infoWidth ))
-    //             .attr('y', 20)
-    //             .attr('text-anchor', anchor)
-    //             .transition()
-    //             .duration(DURATION)
-    //             .tween('text', function (d) {
-    //                 var i = d3.interpolateRound(
-    //                     +this.textContent.replace(/\s%/ig, ''),
-    //                     d
-    //                 );
-
-    //                 return function (t) {
-    //                     this.textContent = i(t) + ' %';
-    //                 };
-    //             });
-
-    //         infoContainer.append('line')
-    //             .attr('class', 'pieChart--detail--divider')
-    //             .attr('x1', 0)
-    //             .attr('x2', 0)
-    //             .attr('y1', 30)
-    //             .attr('y2', 30)
-    //             .transition()
-    //             .duration(DURATION)
-    //             .attr('x2', infoWidth);
-
-    //         infoContainer.data([ data.description ])
-    //             .append('foreignObject')
-    //             .attr('width', infoWidth)
-    //             .attr('height', 24)
-    //             .attr('y', 30)
-    //             .append('xhtml:body')
-    //             .attr(
-    //                 'class',
-    //                 'pieChart--detail--textContainer '
-    //             )
-    //             .html(data.title);
-    //     }
-    // };
-
-//     var drawHistoryChart = function (assets) {
-//         var data = [];
-//         for (key in assets[0].amountMap) {
-//             var layer = [];//{name: key, values: []};
-//             var x = 0;
-//             assets.forEach(function (d) {
-//                 layer.push({x: d.timestamp, y: d.amountMap[key].value});
-//             });
-//             data.push(layer);
-//         }
-//         var stack = d3.layout.stack(),
-//             layers = stack(data),
-//             yGroupMax = d3.max(layers, function (layer) {
-//                 return d3.max(layer, function (d) {
-//                     return d.y;
-//                 });
-//             }),
-//             yStackMax = d3.max(layers, function (layer) {
-//                 return d3.max(layer, function (d) {
-//                     return d.y0 + d.y;
-//                 });
-//             });
-
-//         var margin = {top: 10, right: 10, bottom: 30, left: 80},
-//             width = 600 - margin.left - margin.right,
-//             height = 250 - margin.top - margin.bottom;
-
-//         var x = d3.scale.ordinal()
-//             .domain(assets.map(function (d) {
-//                 return d.timestamp;
-//             }))
-//             .rangeRoundBands([0, width], .08);
-
-//         var y = d3.scale.linear()
-//             .domain([0, yStackMax])
-//             .range([height, 0]);
-
-//         var color = d3.scale.linear()
-//             .domain([0, data.length - 1])
-//             .range(["#2980b9", "#34495e"]);
-// //            .range(["#aad", "#556"]);
-// //            .range(["rgba(15, 157, 88, 0.5)", "rgba(66, 133, 244, 0.5)"]);
-
-//         var xAxis = d3.svg.axis()
-//             .scale(x)
-//             .tickSize(6)
-//             .tickPadding(6)
-//             .tickFormat(function (d) {
-//                 var date = new Date(d);
-//                 var day = date.getDate();
-//                 if (day % 5 == 1) return (date.getYear() - 100) + '-' + (date.getMonth() + 1) + '-' + day;
-//                 return '';
-//             })
-//             .orient("bottom");
-
-//         var yAxis = d3.svg.axis()
-//             .scale(y)
-//             .orient("left")
-//             .tickFormat(d3.format(".1s"));
-
-//         var svg = d3.select("#user-finance-chart-history")
-//             .attr("width", width + margin.left + margin.right)
-//             .attr("height", height + margin.top + margin.bottom)
-//             .append("g")
-//             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-//         var layer = svg.selectAll(".layer")
-//             .data(layers)
-//             .enter().append("g")
-//             .attr("class", "layer")
-//             .style("fill", function (d, i) {
-//                 return color(i);
-//             });
-
-//         var rect = layer.selectAll("rect")
-//             .data(function (d) {
-//                 return d;
-//             })
-//             .enter().append("rect")
-//             .attr("x", function (d) {
-//                 return x(d.x);
-//             })
-//             .attr("y", height)
-//             .attr("width", x.rangeBand())
-//             .attr("height", 0);
-
-//         rect.transition()
-//             .delay(function (d, i) {
-//                 return i * 10;
-//             })
-//             .attr("y", function (d) {
-//                 return y(d.y0 + d.y);
-//             })
-//             .attr("height", function (d) {
-//                 return y(d.y0) - y(d.y0 + d.y);
-//             });
-
-//         svg.append("g")
-//             .attr("class", "x axis")
-//             .attr("transform", "translate(0," + height + ")")
-//             .call(xAxis);
-
-//         svg.append("g")
-//             .attr("class", "y axis")
-//             .call(yAxis)
-//             .append("text")
-//             .attr("transform", "rotate(-90)")
-//             .attr("y", 6)
-//             .attr("dy", ".71em");
-
-//         d3.selectAll("input").on("change", change);
-
-//         // animate on start
-// //        var timeout = setTimeout(function () {
-// //            d3.select("input[value=\"grouped\"]").property("checked", true).each(change);
-// //        }, 2000);
-
-//         function change() {
-// //            clearTimeout(timeout);
-//             if (this.value === "grouped") transitionGrouped();
-//             else transitionStacked();
-//         }
-
-//         function transitionGrouped() {
-// //            y.domain([0, yGroupMax]);
-
-//             rect.transition()
-//                 .duration(500)
-//                 .delay(function (d, i) {
-//                     return i * 10;
-//                 })
-//                 .attr("x", function (d, i, j) {
-//                     return x(d.x) + x.rangeBand() / data.length * j;
-//                 })
-//                 .attr("width", x.rangeBand() / data.length)
-//                 .transition()
-//                 .attr("y", function (d) {
-//                     return y(d.y);
-//                 })
-//                 .attr("height", function (d) {
-//                     return height - y(d.y);
-//                 });
-//         }
-
-//         function transitionStacked() {
-// //            y.domain([0, yStackMax]);
-
-//             rect.transition()
-//                 .duration(500)
-//                 .delay(function (d, i) {
-//                     return i * 10;
-//                 })
-//                 .attr("y", function (d) {
-//                     return y(d.y0 + d.y);
-//                 })
-//                 .attr("height", function (d) {
-//                     return y(d.y0) - y(d.y0 + d.y);
-//                 })
-//                 .transition()
-//                 .attr("x", function (d) {
-//                     return x(d.x);
-//                 })
-//                 .attr("width", x.rangeBand());
-//         }
-//     };
 
     $scope.totalAssetBtc = 0;
     $scope.totalAssetCny = 0;
@@ -931,7 +313,11 @@ app.controller('AssetCtrl', function ($scope, $http) {
                 }
 
                 if ($scope.accounts['CNY']) {
-                    $scope.totalAssetCny = (1.0 / $scope.accounts['CNY'].price) * $scope.totalAssetBtc;
+                    if ($scope.accounts['CNY'].price > 0) {
+                        $scope.totalAssetCny = (1.0 / $scope.accounts['CNY'].price) * $scope.totalAssetBtc;
+                    } else {
+                        $scope.totalAssetCny = $scope.accounts['CNY'].total.value;
+                    }
                 }
 
                 $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(4);
@@ -1055,9 +441,6 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     $scope.showSettingsError = false;
     $scope.settingsErrorMessage = "";
 
-    //$scope.showUpdateAccountError = false;
-    //$scope.account = {};
-
     $scope.displaySettingsMessage = function(msg) {
         $scope.showSettingsError = true;
         $scope.settingsErrorMessage = msg;
@@ -1145,7 +528,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             return;
         } else {
             var emailStatus = "";
-            console.debug('params', $scope.verifyCodeUuidEmail, verCode);
+            //console.debug('params', $scope.verifyCodeUuidEmail, verCode);
             if ($scope.emailVerOn) emailStatus = "0"; else emailStatus = "1";
 
             $http.post('/preference/email',
@@ -1266,8 +649,8 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             $popup.popover('hide');
         });
         $(this).next('.popover').find('button.save').click(function (e) {
-            // var emailCode = $(".popover #email-verify-code").val();
-            // $scope.changeEmailSecPrefer(emailCode);
+            var mobileCode = $(".popover #mobile-verify-code1").val();
+            $scope.changeMobileSecPrefer(mobileCode);
             $popup.popover('hide');
         });
     });
@@ -1276,41 +659,36 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
 
     $scope.sendVerifySms2 = function () {
         $scope.showBindMobileError = false;
-        //$scope.disableButton2();
         $http.get('/smsverification2')
             .success(function (data, status, headers, config) {
                 console.log('data : ', data);
                 if (data.success) {
                     $scope.verifyCodeUuidMobile = data.data;
                 } else {
-                    //$scope.stopTiming2();
                     $scope.showBindMobileError = true;
                     $scope.bindMobileError = Messages.getMessage(data.code, data.message)
-                    // if (data.code == 9009) {
-                    //     $scope.stopTiming2();
-                    // }
                 }
             });
     };
 
-    $scope.changeMobileSecPrefer = function(verifyCode, mobileStatus) {
+    $scope.changeMobileSecPrefer = function(verifyCode) {
         if (!$scope.emailVerOn && !$scope.googleAuthOn && $scope.mobileVerOn) {
-            alert(Messages.account.canNotDisableMobileVerify);
+            $scope.displaySettingsMessage(Messages.account.canNotDisableMobileVerify);
             return;
         } else {
+            var mobileStatus = '';
+            if ($scope.mobileVerOn) mobileStatus = '0'; else mobileStatus = '1';
             $http.post('/preference/phone',
                        $.param({'uuid': $scope.verifyCodeUuidMobile,
                                 'phonecode': verifyCode,
                                 'phoneprefer': mobileStatus}))
                 .success(function (data, status, headers, config) {
-                    $scope.showChangeMobileSecPreferError = true;
                     if (data.success) {
                         $scope.changeMobileSecPreferError = Messages.account.changMobileSecPreferSucceeded;
                         return $window.location.href = '/account/settingsPage';
-                        //$modalInstance.close();
                     } else {
                         var errorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.changeMobileSecPreferError = errorMsg;
+                        $scope.displaySettingsMessage(errorMsg);
                     }
                 });
         }
@@ -1465,120 +843,3 @@ app.controller('GoogleAuthCtrl', function ($scope, $http, $location, $window) {
     };
 
 });
-
-app.controller('AddBankCardController', ['$scope', '$http', '$interval', '$modalInstance', function($scope, $http, $interval, $modalInstance) {
-    $scope.form = {
-        banks: Messages.bankList,
-        ownerName: '',
-        bankName: Messages.bankList[0],
-        branchBankName: '',
-        cardNumber: '',
-        emailCode: '',
-        verifyCodeUuidEmail: ''
-    };
-
-    $scope.showErrorMsg = false;
-    $scope.addBankCardErrorMsg = '';
-
-    $scope.verifyButton = Messages.account.getEmailVerificationCode;
-
-    var _stop;
-    $scope.isTiming = false;
-
-    $scope.disableButton = function () {
-        if (angular.isDefined(_stop)) {
-            $scope.isTiming = true;
-            return;
-        }
-
-        $scope.seconds = 120;
-
-        _stop = $interval(function () {
-            if ($scope.seconds > 0) {
-                $scope.seconds = $scope.seconds - 1;
-                $scope.verifyButton = Messages.account.getVerifyCodeButtonTextPrefix + $scope.seconds + Messages.account.getVerifyCodeButtonTextTail;
-                $scope.isTiming = true;
-            }
-            else {
-                $scope.stopTiming();
-                $scope.verifyButton = Messages.account.getEmailVerificationCode;
-            }
-        }, 1000);
-    };
-
-    $scope.stopTiming = function () {
-        if (angular.isDefined(_stop)) {
-            $interval.cancel(_stop);
-            _stop = undefined;
-        }
-        $scope.isTiming = false;
-        $scope.seconds = 0;
-        $scope.verifyButton = Messages.account.getEmailVerificationCode;
-    };
-
-    $scope.$on('destroy', function () {
-        $scope.stopTiming();
-    });
-
-    $scope.sendVerifyEmail = function () {
-        $scope.showErrorMsg = false;
-        $scope.disableButton();
-
-        $http.get('/emailverification')
-            .success(function (data, status, headers, config) {
-                console.debug('data: ', data);
-                if (data.success) {
-                    $scope.form.verifyCodeUuidEmail = data.data;
-                } else {
-                    $scope.stopTiming();
-                    $scope.showErrorMsg = true;
-                    $scope.addBankCardErrorMsg = Messages.getMessage(data.code, data.message);
-                }
-            });
-    };
-
-    $scope.cancel = function() {
-        $modalInstance.dismiss('cancel');
-    };
-
-    $scope.submit = function() {
-        $http.post('/account/addbankcard', $.param($scope.form)).success(function (data, status, headers, config) {
-            if (data.success) {
-                alert(Messages.addBankCardSucceeded);
-                $modalInstance.close();
-            } else {
-                alert(Messages.getMessage(data.code));
-                $modalInstance.close();
-            }
-        });
-    };
-
-    $scope.selectBank = function(bankName) {
-        $scope.form.bankName = bankName;
-    };
-}]);
-
-app.controller('DeleteBankCardController', ['$scope', '$http', '$modalInstance', 'bankCardTBD', function($scope, $http, $modalInstance, bankCardTBD) {
-    $scope.form = {
-        ownerName: bankCardTBD.ownerName,
-        bankName: bankCardTBD.bankName,
-        branchBankName: bankCardTBD.branchBankName,
-        cardNumber: bankCardTBD.cardNumber,
-    };
-
-    $scope.cancel = function() {
-        $modalInstance.dismiss('cancel');
-    };
-
-    $scope.submit = function() {
-        $http.post('/account/deletebankcard', $.param($scope.form)).success(function (data, status, headers, config) {
-            if (data.success) {
-                alert(Messages.deleteBankCardSucceeded);
-                $modalInstance.close();
-            } else {
-                alert(Messages.getMessage(data.code));
-                $modalInstance.close();
-            }
-        });
-    };
-}]);

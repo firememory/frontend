@@ -31,6 +31,25 @@ object Constant {
     "XRP" -> "瑞波币"
   )
 
+  val supportedBankNames = Seq(
+    "建设银行",
+    "工商银行",
+    "农业银行",
+    "中国银行",
+    "交通银行",
+    "广发银行",
+    "民生银行",
+    "中信银行",
+    "平安银行",
+    "兴业银行",
+    "光大银行",
+    "浦发银行",
+    "进出口银行",
+    "华夏银行",
+    "国家开发银行",
+    "招商银行"
+  )
+
   def markets = {
     config.getList("exchange.markets").get.unwrapped()
   }

@@ -23,6 +23,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $window) {
     //$scope.newCaptcha();
 
     $scope.doRegister = function () {
+        $scope.showError = false
         var pwdSha256 = $.sha256b64($scope.register.password);
         $http.post('/account/register',
                    $.param({uuid: $scope.captcha.uuid,
@@ -32,16 +33,14 @@ app.controller('RegisterCtrl', function ($scope, $http, $window) {
                             nationalId: $scope.register.nationalId,
                             realName: $scope.register.realName}))
             .success(function(data, status, headers, config) {
-                console.log("data:", data)
+                console.log("data:", data);
                 if (data.success) {
-                    $scope.showError = false
-                    $window.location.href = '/prompt/prompt.verifyEmailSent';
+                    return $window.location.href = '/prompt/prompt.verifyEmailSent';
                 } else {
                     //$scope.newCaptcha();
-                    $scope.register.password = ''
-                    $scope.register.confirmPassword = ''
-                    $scope.errorMessage = Messages.getMessage(data.code, data.message)
-                    $scope.showError = true
+                    $scope.register.password = '';
+                    $scope.register.confirmPassword = '';
+                    showMessage(Messages.getMessage(data.code, data.message));
                 }
             });
     };

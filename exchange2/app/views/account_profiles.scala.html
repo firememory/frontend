@@ -133,7 +133,7 @@
                 @if(apiToken != null && apiToken.trim.length > 0) {
                 @apiToken
                 } else {
-                <span ng-hide="apiToken"><a ng-click="getApiToken()">@Messages("accountsettings.apiToken.create") </a></span>
+                <span ng-hide="apiToken"><a href="#" ng-click="getApiToken()" class="text-info">@Messages("accountsettings.apiToken.create") </a></span>
                 <span ng-show="apiToken">{{apiToken}}</span>
                 }
                 <!-- <a  class="text-info">生成</a> -->
@@ -143,44 +143,8 @@
         </form>
       </div>
     </div>
-    <footer>
-      <div class="footer-nav">
-        <div class="col-lg-3 col-sm-3 col-xs-6">
-          <h5><b>关于</b></h5>
-          <ul>
-            <li><a href="team.html">团队</a></li>
-            <li><a href="jobs.html">招贤纳士</a></li>
-            <li><a href="#">联系方式</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-sm-3 col-xs-6">
-          <h5><b>法律</b></h5>
-          <ul>
-            <li><a href="shiyongtiaokuan.html" target="_blank">使用条款</a></li>
-            <li><a href="yinsizhengce.html" target="_blank">隐私政策</a></li>
-            <li><a href="fanxiqianzhengce.html" target="_blank">反洗钱政策</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-sm-3 col-xs-6">
-          <h5><b>资源</b></h5>
-          <ul>
-            <li><a href="jieruliucheng.html">接入指南</a></li>
-            <li><a href="#">了解比特币</a></li>
-            <li><a href="#">比特币支付原理</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-3 col-sm-3 col-xs-6">
-          <h5><b>媒体</b></h5>
-          <ul>
-            <li><a href="http://weibo.com/coinport" target="_blank">新浪微博</a></li>
-            <li class="qrcode"><a href="javascript:void;" data-toggle="popover" data-placement="left" data-content='<img src="assets/images/qrcode.png">'>微信</a></li>
-            <li><a href="http://twitter.com/coinportinc" target="_blank">twitter</a></li>
-            <li><a href="http://facebook.com/coinport" target="_blank">facebook</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="copyright text-center">© 2014 币丰港（香港）网络科技有限公司。保留所有权利</div>
-    </footer>
+
+    @__footer()
   </div>
 </div>
 

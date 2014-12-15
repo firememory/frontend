@@ -17,7 +17,6 @@
                     <form name="registerForm">
                     <div class="list-group-item text-center">
                         <h4><em class="icon-box"><i class="icon-key"></i></em>注册币丰港</h4>
-                        <p class="success" style="color: red" ng-show="errorMsg != ''" ng-bind="errorMsg"></p>
                     </div>
                     <div class="list-group-item">
                         <input type="email" name="email" placeholder="Email" class="form-control" ng-model="register.email" required="">
@@ -27,7 +26,7 @@
                         <div class="form">
                             <input name="password" type="password" class="form-control" placeholder="密码" ng-model="register.password" ng-minlength="6" ng-maxlength="60" required="">
                         <br>
-                            <input name="confirmPassword" type="password" class="form-control" placeholder='重复密码' ng-model="confirmPassword" repeat-input="password" required="">
+                            <input name="confirmPassword" type="password" class="form-control" placeholder='重复密码' ng-model="register.confirmPassword" repeat-input="password" required="">
                         </div>
                         <br>
                         <div class="error" name="emailErrorMsg" ng-show="registerForm.email.$dirty && registerForm.email.$invalid && !registerForm.email.$focused">
@@ -41,14 +40,11 @@
                         <div class="error" name="confirmpwdErrorMsg" ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && !registerForm.confirmPassword.$focused">
                             <small class="text-danger text-center" ng-show="registerForm.confirmPassword.$error.repeat">密码不一致</small>
                         </div>
+                        <small class="text-danger" ng-show="showError" ng-bind="errorMessage"></small>
                     </div>
 
                     <div class="list-group-item">
                             <input id="terms" name="terms" type="checkbox" ng-model="termsChecked">
-                            <!-- 我已经阅读并同意如下的
-                            <a href="/termsOfUse.html" target="_blank" style="color: #2980b9">"使用条款"</a>、
-                            <a href="/privatePolicy.html" target="_blank" style="color: #2980b9">"隐私政策"</a>和
-                            <a href="/amlPolicy.html" target="_blank" style="color: #2980b9">"反洗钱政策"</a> -->
                             @Messages("register.termsCheckboxTextHead") <a class="btn-link" href="/terms.html" target="_blank">"@Messages("register.termsCheckboxTextLink")"</a>
                             </input>
                     </div>
