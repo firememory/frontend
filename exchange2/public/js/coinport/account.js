@@ -224,12 +224,12 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             }
         }
 
-        if (!$scope.withdrawalData.emailuuid || $scope.withdrawalData.emailuuid == '') {
+        if (emailVerOn && (!$scope.withdrawalData.emailuuid || $scope.withdrawalData.emailuuid == '')) {
             $scope.displayWithdrawalError(Messages.transfer.messages['emailNotSend']);
             return;
         }
 
-        if (!$scope.withdrawalData.phoneuuid || $scope.withdrawalData.phoneuuid == '') {
+        if (mobileVerOn && (!$scope.withdrawalData.phoneuuid || $scope.withdrawalData.phoneuuid == '')) {
             $scope.displayWithdrawalError(Messages.transfer.messages['smsNotSend']);
             return;
         }

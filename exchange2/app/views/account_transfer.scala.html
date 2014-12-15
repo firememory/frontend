@@ -26,6 +26,8 @@
   <!--container-->
   <div id="main-container">
     <span ng-show="false" ng-init="isVerifiedUser = @isVerifiedUser()"></span>
+    <span ng-show="false" ng-init="emailVerOn = @isSetEmailPreference()"></span>
+    <span ng-show="false" ng-init="mobileVerOn = @isSetPhonePreference()"></span>
 
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
@@ -219,7 +221,7 @@
               </div>
               <!-- BTSX and NXT additional fields end -->
 
-              <div class="form-group" ng-show="@isSetEmailPreference()">
+              <div class="form-group" ng-show="emailVerOn">
                 <label class="col-sm-2 col-xs-4 control-label" for="field-1">邮件验证码</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
@@ -231,7 +233,7 @@
                 </div>
               </div>
 
-              <div class="form-group" ng-show="@isSetPhonePreference()">
+              <div class="form-group" ng-show="mobileVerOn">
                 <label class="col-sm-2 col-xs-4 control-label" for="field-1">短信验证码</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
