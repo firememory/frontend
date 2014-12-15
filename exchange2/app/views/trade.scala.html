@@ -180,31 +180,7 @@
           </ul>
           <div class="panel-body">
             <div class="tab-content">
-              <div class="tab-pane active" id="tab-s1">
-                <div class="blk-2x"></div>
-                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
-                <div class="blk-1x"></div>
-                <div class="divider"></div>
-                <div class="">
-                  <table class="table table-striped margin-0" data-sortable="">
-                    <thead>
-                      <tr>
-                        <th>买卖</th>
-                        <th>价格</th>
-                        <th>成交量</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="item in transactions.items">
-                        <td><span class="text-danger"><span ng-bind="item.sell | txTypeTextShort"></span></td>
-                        <td ng-bind="item.price.value | price"></td>
-                        <td ng-bind="item.subjectAmount.value | quantity"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="tab-pane" id="tab-s2">
+                 <div class="tab-pane active" id="tab-s2">
                 <div class="blk-2x"></div>
                 <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
@@ -238,6 +214,31 @@
                   </table>
                 </div>
               </div>
+              <div class="tab-pane" id="tab-s1">
+                <div class="blk-2x"></div>
+                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
+                <div class="blk-1x"></div>
+                <div class="divider"></div>
+                <div class="">
+                  <table class="table table-striped margin-0" data-sortable="">
+                    <thead>
+                      <tr>
+                        <th>买卖</th>
+                        <th>价格</th>
+                        <th>成交量</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in transactions.items">
+                        <td><span class="text-danger"><span ng-bind="item.sell | txTypeTextShort"></span></td>
+                        <td ng-bind="item.price.value | price"></td>
+                        <td ng-bind="item.subjectAmount.value | quantity"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+         
             </div>
           </div>
         </div>
