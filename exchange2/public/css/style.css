@@ -122,7 +122,7 @@ a.list-group-item:hover,a.list-group-item:focus,a.list-group-item.hover{backgrou
 .buy-sell.nav.nav-tabs >li a:hover{ background:#f6f6f6; color:#000;}
 .primary.nav-tabs{ background:#fff;border:none;border-bottom:2px solid #ffc107;}
 .primary.nav-tabs>li{ margin:0; margin-left:1px;}
-.primary.nav.nav-tabs>li > a{  border:1px solid #ffc107; border-width:0 1px; line-height:1.5;padding:10px 30px;}
+.primary.nav.nav-tabs>li > a{line-height:1.5;padding:10px 30px;}
 .primary.nav.nav-tabs>li > a:hover{background:#f5f5f5; color:#000;}
 .primary.nav.nav-tabs>li.active > a:hover,.primary.nav.nav-tabs>li.active > a{background:#ffc107; color:#fff;}
 .nav.nav-tabs>li.buy a{color:#000;border:none; border-bottom:2px solid #e51c23;}
@@ -231,7 +231,7 @@ form .form-group-separator {height: 1px;background: #eee;}
 .asset-overview .total .total-content span{  padding:5px 0;}
 .asset-overview .total .total-content h2{ font-size:1.4em;}
 .asset-overview .counter{margin-bottom:30px;}
-.asset-overview .counter .item{ padding:5px 10px 8px 10px; margin-right:10px; border:1px solid rgba(255,255,255,0.1); max-width:220px;}
+.asset-overview .counter .item{ box-sizing:border-box; padding:5px 10px 8px 10px; margin-right:10px; border:1px solid rgba(255,255,255,0.1); max-width:220px;}
 .asset-overview .counter .item i{ float:left;}
 .asset-overview .counter .item .coin{ display:table; padding-left:10px;}
 .asset-overview .counter h2,.asset-overview .counter span{ vertical-align:middle;}
