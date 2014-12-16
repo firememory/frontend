@@ -51,6 +51,9 @@ nav.register=Sign Up
 index.reserveStats=Reserve Stats
 index.marketStats=Market Stats
 
+index.btc=Bitcoin
+index.ltc=Litecoin
+
 login.title=Log in
 login.verifyEmailSucceeded=Your email has been verified, please login.
 login.resetPwdSucceeded=Your password has been reset, please login.
@@ -270,6 +273,14 @@ accountprofile.getEmailVerifyCode=Send Email Code
 
 accountsettings.apiToken=API Token
 accountsettings.apiToken.create=Create
+
+footer.about=About
+footer.law=Law
+footer.media=Media
+footer.team=team
+footer.jobs=jobs
+footer.privacy=privacy
+footer.sinaweibo=weibo
 
 footer.aboutUs=About Us
 footer.fq=F&Q

@@ -1,4 +1,4 @@
-@(activeIndex: Int)(implicit session: Session)
+@(activeIndex: Int)(implicit session: Session, lang: Lang)
 
 @isLogin() = @{session.get("uid").isDefined}
 
@@ -10,22 +10,22 @@
     </div>
     <div class="navbar-collapse collapse" role="navigation">
       <ul class="site-nav nav navbar-nav">
-        <li @if(activeIndex == 1){class="active"}> <a href="/">首页</a> </li>
-        <li @if(activeIndex == 2){class="active"}> <a href="/trade">交易中心</a> </li>
-        <li @if(activeIndex == 3){class="active"}> <a href="FAQ.html">开放透明</a> </li>
-        <li> <a href="https://blog.coinport.com" target="_blank">博客</a> </li>
+        <li @if(activeIndex == 1){class="active"}> <a href="/">@Messages("nav.home")</a> </li>
+        <li @if(activeIndex == 2){class="active"}> <a href="/trade">@Messages("nav.trade")</a> </li>
+        <li @if(activeIndex == 3){class="active"}> <a href="FAQ.html">@Messages("nav.open")</a> </li>
+        <li> <a href="https://blog.coinport.com" target="_blank">@Messages("nav.blog")</a> </li>
       </ul>
 
       @if(!isLogin()) {
       <ul class="nav navbar-nav navbar-right user-state">
-        <li><a href="/login"><i class="icon-user"></i>登录</a></li>
-        <li><a href="/register"><i class="icon-key"></i>注册</a></li>
+        <li><a href="/login"><i class="icon-user"></i>@Messages("nav.login")</a></li>
+        <li><a href="/register"><i class="icon-key"></i>@Messages("nav.register")</a></li>
         <span ng-init="uid='0'" ng-show="false"></span>
       </ul>
       } else {
       <ul class="nav navbar-nav navbar-right user-state">
-        <li @if(activeIndex == 4){class="active"}><a href="/account"><i class="icon-user"></i>我的帐户</a></li>
-        <li><a href="/account/logout"><i class="icon-key"></i>退出</a></li>
+        <li @if(activeIndex == 4){class="active"}><a href="/account"><i class="icon-user"></i>@Messages("nav.account")</a></li>
+        <li><a href="/account/logout"><i class="icon-key"></i>@Messages("nav.logout")</a></li>
       </ul>
       <span ng-init="uid='@{session.get("uid").get}'" ng-show="false" ng-model="uid"></span>
       }

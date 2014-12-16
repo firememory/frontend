@@ -54,6 +54,9 @@ nav.register=注册
 index.reserveStats=准备金信息
 index.marketStats=市场信息
 
+index.btc=比特币
+index.ltc=莱特币
+
 login.title=登录
 login.verifyEmailSucceeded=注册邮箱已验证，请登录
 login.resetPwdSucceeded=密码重置成功，请登录
@@ -274,6 +277,14 @@ accountprofile.getEmailVerifyCode=获取邮件验证码
 
 accountsettings.apiToken=API密钥
 accountsettings.apiToken.create=生成
+
+footer.about=关于
+footer.law=法律
+footer.media=媒体
+footer.team=团队
+footer.jobs=招贤纳士
+footer.privacy=隐私政策
+footer.sinaweibo=新浪微博
 
 footer.aboutUs=关于我们
 footer.fq=常见问题

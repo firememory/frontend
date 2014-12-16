@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 <!doctype html>
 <html>
 <head>
@@ -6,7 +6,7 @@
 </head>
 
 <body ng-app="coinport.password">
-@_navbar(0)(session)
+@_navbar(0)(session, lang)
 <div class="fixes-top" ng-controller="PasswordCtrl">
   <div class="blk20"></div>
   <div class="container">

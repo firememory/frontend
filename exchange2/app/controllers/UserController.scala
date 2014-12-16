@@ -235,7 +235,7 @@ object UserController extends Controller with Json4s with AccessLogging {
 
   def forgetPassword  = Action {
     implicit request =>
-    Ok(views.html.requestpwdresetpage.render(request.session))
+    Ok(views.html.requestpwdresetpage.render(request.session, langFromRequestCookie(request)))
   }
 
   def requestPasswordReset(email: String) = Action.async {
