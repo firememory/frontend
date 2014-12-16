@@ -49,11 +49,14 @@ object MainController extends Controller with Json4s {
 
   def index = Action {
     implicit request =>
+      println(s"request: ${request.headers}")
       Ok(views.html.index.render(request.session, langFromRequestCookie(request)))
   }
 
   def trade = Action {
     implicit request =>
+      println(s"request headers: ${request.headers}")
+      println(s"request cookies: ${request.cookies}")
       Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
   }
 
@@ -64,7 +67,7 @@ object MainController extends Controller with Json4s {
         case result =>
           // val assetsTotalMap = result.data.map(_.asInstanceOf[ApiUserAccount].accounts.map(kv => (kv._1, kv._2.total.display))).getOrElse(Map.empty[String, String])
           val assetsCurrencies = result.data.map(_.asInstanceOf[ApiUserAccount].accounts.map(kv => kv._1)).getOrElse(Seq.empty[String]).toSeq
-          Ok(views.html.account_asset.render(assetsCurrencies, request.session))
+          Ok(views.html.account_asset.render(assetsCurrencies, request.session, langFromRequestCookie(request)))
       }
   }
 
@@ -75,17 +78,17 @@ object MainController extends Controller with Json4s {
 
   def transfer() = Action {
     implicit request =>
-      Ok(views.html.account_transfer.render(request.session))
+      Ok(views.html.account_transfer.render(request.session, langFromRequestCookie(request)))
   }
 
   def orders() = Action {
     implicit request =>
-      Ok(views.html.account_orders.render(request.session))
+      Ok(views.html.account_orders.render(request.session, langFromRequestCookie(request)))
   }
 
   def transaction() = Action {
     implicit request =>
-      Ok(views.html.account_transaction.render(request.session))
+      Ok(views.html.account_transaction.render(request.session, langFromRequestCookie(request)))
   }
 
   def profile() = Action.async {
@@ -94,21 +97,21 @@ object MainController extends Controller with Json4s {
       result =>
       if (result.success) {
         val apiToken = result.data.getOrElse("").asInstanceOf[String]
-        Ok(views.html.account_profiles.render(apiToken, request.session))
+        Ok(views.html.account_profiles.render(apiToken, request.session, langFromRequestCookie(request)))
       } else {
-        Ok(views.html.account_profiles.render("", request.session))
+        Ok(views.html.account_profiles.render("", request.session, langFromRequestCookie(request)))
       }
     }
   }
 
   def settings() = Action {
     implicit request =>
-      Ok(views.html.account_settings.render(request.session))
+      Ok(views.html.account_settings.render(request.session, langFromRequestCookie(request)))
   }
 
   def googleAuth() = Action {
     implicit request =>
-      Ok(views.html.account_googleauth.render(request.session))
+      Ok(views.html.account_googleauth.render(request.session, langFromRequestCookie(request)))
   }
 
 
@@ -156,12 +159,12 @@ object MainController extends Controller with Json4s {
     implicit request =>
     val regex = """^[-0-9a-zA-Z._]+$"""
     val safeMsg = if (msg.matches(regex)) msg else ""
-    Ok(views.html.login.render(safeMsg, request.flash, request.session)).withNewSession
+    Ok(views.html.login.render(safeMsg, request.flash, request.session, langFromRequestCookie(request))).withNewSession
   }
 
   def register() = Action {
     implicit request =>
-    Ok(views.html.register.render(request.session)).withNewSession
+    Ok(views.html.register.render(request.session, langFromRequestCookie(request))).withNewSession
   }
 
   // def inviteCode(msg: String = "")(implicit lang: Lang) = Action {
@@ -178,7 +181,7 @@ object MainController extends Controller with Json4s {
     implicit request =>
       val regex = """^[-0-9a-zA-Z._]+$"""
       val safeMsg = if (msgKey.matches(regex)) msgKey else ""
-      Ok(views.html.prompt.render(safeMsg, request.session))
+      Ok(views.html.prompt.render(safeMsg, request.session, langFromRequestCookie(request)))
   }
 
   // def company = Action {

@@ -7,12 +7,16 @@
 <head>
 <title></title>
 @__head_commons()
+
+@__js_lang()(lang)
 </head>
 
 <body ng-app="coinport.trade">
   @_navbar(2)(session)
 
 <div class="fixes-top fulid" ng-controller="BidAskCtrl">
+
+  @println(s"lang in trade page: $lang")
 
   <div class="sidebar-wrap">
     <!--sidebar-menu-->

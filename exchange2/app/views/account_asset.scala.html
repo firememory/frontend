@@ -1,4 +1,4 @@
-@(assetCurrencies: Seq[String])(implicit session: Session)
+@(assetCurrencies: Seq[String])(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
 <!doctype html>
@@ -6,7 +6,7 @@
 <head>
 <title></title>
 @__head_commons()
-
+@__js_lang()(lang)
 </head>
 
 <body ng-app="coinport.account">

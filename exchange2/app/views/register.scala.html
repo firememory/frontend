@@ -1,9 +1,10 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 
 <!doctype html>
 <html ng-app="coinport.register">
 <head>
   @__head_commons()
+  @__js_lang()(lang)
 </head>
 
 <body>

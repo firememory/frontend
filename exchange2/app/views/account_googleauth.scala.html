@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
@@ -8,6 +8,7 @@
 <head>
 <title></title>
 @__head_commons()
+@__js_lang()(lang)
 </head>
 
 <body ng-app="coinport.account">

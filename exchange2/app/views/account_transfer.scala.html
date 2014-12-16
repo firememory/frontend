@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
@@ -11,6 +11,8 @@
 <head>
 <title></title>
 @__head_commons()
+
+@__js_lang()(lang)
 </head>
 
 <body ng-app="coinport.account">
@@ -290,7 +292,7 @@
                     <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
                     <td> <span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
                     <td><div class="font-1x" title="">{{item.address}} <br> {{item.NxtRsString}} </div></td>
-                    <td><a class="btn-default btn-sm btn">交易</a></td>
+                    <td  ng-hide="currency.toUpperCase() == 'CNY'"><a class="btn-default btn-sm btn">交易</a></td>
                   </tr>
                 </tbody>
               </table>

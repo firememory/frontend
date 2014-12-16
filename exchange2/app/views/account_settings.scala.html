@@ -1,4 +1,4 @@
-@()(implicit session: Session)
+@()(implicit session: Session, lang: Lang)
 @import utils.PageUtil
 @import utils.SecurityPreferenceUtil._
 @import utils.Constant
@@ -14,6 +14,7 @@
 <head>
 <title></title>
 @__head_commons()
+@__js_lang()(lang)
 <style>
  .popover {
    z-index: 30020; /* A value higher than 1010 that solves the problem */

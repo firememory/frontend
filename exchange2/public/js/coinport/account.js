@@ -40,7 +40,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
                     $scope.nxtPublicKey = nxtAddrs[2];
                 } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
             }
-            console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
+            //console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
         });
 
     $scope.deposits = {};
@@ -73,17 +73,17 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
     };
 
     $scope.loadWithdrawals = function () {
-        console.debug("loadWithdrawals...");
+        //console.debug("loadWithdrawals...");
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
-                console.debug("loadWithdrawals:", data.data);
+                //console.debug("loadWithdrawals:", data.data);
                 $scope.withdrawals = data.data.items;
                 $scope.count = data.data.count;
             });
     };
 
     $scope.changeCurrency = function() {
-        console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
+        //console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
         $scope.loadDeposits();
         $scope.loadWithdrawals();
     };
@@ -136,7 +136,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
         $(this).next('.popover').find('button.sendmail').click(function (e) {
             $http.get('/emailverification')
                 .success(function (data, status, headers, config) {
-                    console.debug('add bank emailverification data: ', data);
+                    //console.debug('add bank emailverification data: ', data);
                     if (data.success) {
                         bankCard.verifyCodeUuidEmail = data.data;
                     } else {
@@ -446,7 +446,7 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
     $scope.getApiToken = function() {
         $http.get('/generateapitoken')
             .success(function(data, status, headers, config) {
-                console.debug('data: ', data);
+                //console.debug('data: ', data);
                 if (data.success) {
                     $scope.apiToken = data.data;
                 }
@@ -483,7 +483,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             var oldPwd = $(".popover #oldPwd").val();
             var newPwd = $(".popover #newPwd").val();
             var newPwdConfirm = $(".popover #newPwdConfirm").val();
-            console.debug("changepwd: ", oldPwd, newPwd, newPwdConfirm);
+            //console.debug("changepwd: ", oldPwd, newPwd, newPwdConfirm);
             if(newPwd != newPwdConfirm) {
                 $scope.displaySettingsMessage("修改密码失败：确认密码和新密码不一致！");
             } else if(newPwd.length < 6 || newPwd.length > 60) {
@@ -501,7 +501,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
         var newPwd = $.sha256b64(newPassword);
         $http.post('/account/dochangepwd', $.param({'oldPassword': oldPwd, 'newPassword': newPwd}))
             .success(function (data, status, headers, config) {
-                console.debug("changepwd result: ", data)
+                //console.debug("changepwd result: ", data)
                 if (data.success) {
                     $scope.displaySettingsMessage(Messages.account.changePwdSucceeded);
                 } else {
@@ -531,7 +531,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
     $scope.sendVerifyEmail = function () {
         $http.get('/emailverification')
             .success(function (data, status, headers, config) {
-                console.debug('data: ', data);
+                //console.debug('data: ', data);
                 if (data.success) {
                     $scope.verifyCodeUuidEmail = data.data;
                 } else {
@@ -610,7 +610,7 @@ app.controller('AccountSettingsCtrl', function ($scope, $http, $interval, $windo
             var location = $(".popover #mobile-region").val();
             var phoneNumber = $(".popover #mobile-number").val();
             var regularNumber = regularMobileNumber(location, phoneNumber);
-            console.debug("mobile bind: ", location, phoneNumber);
+            //console.debug("mobile bind: ", location, phoneNumber);
             if (validateMobileNumber(location, phoneNumber)) {
                 $(".popover #bind-mobile-sendsms").attr("disabled", true);
 

@@ -51,7 +51,6 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
   }
 
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
-    println(s"session: ${request.session}")
     request.session.get("uid").map { uid =>
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {

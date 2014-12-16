@@ -1,4 +1,4 @@
-@(apiToken: String)(implicit session: Session)
+@(apiToken: String)(implicit session: Session, lang: Lang)
 @import utils.Constant
 
 <!doctype html>
@@ -6,6 +6,7 @@
 <head>
 <title></title>
 @__head_commons()
+@__js_lang()(lang)
 </head>
 
 <body ng-app="coinport.account">

@@ -29,6 +29,8 @@ Messages.transfer = {
       invalidAmount: '请填写有效的提现数量',
       invalidAddress: '请填写有效的提现地址',
       invalidEmailCode: '请填写正确的邮件验证码',
+      emailNotSend: '请点击发送邮件获取邮件验证码',
+      smsNotSend: '请先获取短信验证码',
       ok: '提现请求提交成功，请等待处理',
       error: '提现请求提交失败，请与技术支持人员联系'
   }

@@ -1,9 +1,10 @@
-@(messageKey: String)(implicit session: Session)
+@(messageKey: String)(implicit session: Session, lang: Lang)
 
 <!DOCTYPE html>
 <html>
 <head>
-@__head_commons()
+  @__head_commons()
+  @__js_lang()(lang)
   <title>@Messages("title")</title>
 </head>
 
