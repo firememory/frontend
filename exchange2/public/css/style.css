@@ -3,7 +3,7 @@
 .blk-1x,.blk-2x,.blk-3x,.blk-4x,.blk-4x{ clear:both; overflow:hidden;}
 .blk-1x{height:10px;}.blk-2x{height:20px;}.blk-3x{height:30px;}.blk-4x{height:40px;}.blk-5x{height:50px;}
 .vm{ vertical-align:middle;}.vt{ vertical-align:top;}.tip{ font-size:12px; line-height:1.5; margin:0; max-width:500px}.margin-0{ margin:0;}.clear{ clear:both;}
-body{background:#eee; font-family: "Helvetica Neue","Lantinghei SC","Hiragino Sans GB","Microsoft Yahei",Arial,sans-serif;}
+body{background:#eee; font-size:13px;font-family: "Helvetica Neue","Lantinghei SC","Hiragino Sans GB","Microsoft Yahei",Arial,sans-serif;}
 a{color:#000}
 a:hover,a:focus{text-decoration:none;color:#ffc107}
 ::selection{background:#5d4037;color:#fff}
@@ -173,7 +173,7 @@ form .form-group-separator {height: 1px;background: #eee;}
 .feature .icon-box{display:inline-block;width:100%;padding:60px 0;margin-bottom:20px;font-family:"microsoft yahei",sans-serif;box-sizing:border-box}
 .feature .icon-box em{display:inline-block;position:relative;padding:10px;z-index:101;}
 .feature .icon-box em i{display:inline-block;font-size:9em;min-width:84px; }
-.feature .icon-box p{ font-size:0.8em; opacity:.87; max-width:280px; margin:auto; text-align:center; line-height:1.5;}
+.feature .icon-box p{opacity:.87; max-width:280px; margin:auto; text-align:center; line-height:1.5;}
 .coinport-intro-box{background-color:#ffc107; background-image:url(../images/bit-network.png); background-size:cover; background-position:-400px center; background-repeat:no-repeat; position:relative;width:100%;z-index:63; height:540px; }
 .coinport-intro{display:table; text-align:center; height:500px; margin:auto; }
 .coinport-intro-content,.start-content{display:table-cell;vertical-align:middle}
