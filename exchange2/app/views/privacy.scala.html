@@ -1,0 +1,89 @@
+@()(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+@__head_commons()
+    <title>@Messages("title")</title>
+</head>
+
+<body>
+    <div class="fixes-top">
+        @_navbar(0)(session)
+
+        <div class="container container-main">
+            <div class="row">
+                <div class="article-title"><h3>@Messages("privacyTitle")</h3></div>
+            </div>
+            <br/>
+
+            <div class="legal">
+            @if("en-US" == lang.code) {
+<h4>PRIVACY PRINCIPLES</h4>
+<p>
+To preserve the confidentiality of all information you provide to us, we maintain the following privacy principles</br>
+* We only collect personal information that we believe to be relevant and necessary, in order to help conduct our business.</br>
+* We use your personal information to provide you with better customer services and products.</br>
+* We will not disclose your personal information to any other external organisation unless we have your consent or are required by law or have previously informed you.
+</p>
+
+<p>
+We may be required from time to time to disclose your personal information to Governmental or judicial bodies or agencies or our regulators, but we will only do so under proper authority.We aim to keep your personal information on our records accurate and up-to-date.
+We maintain strict security systems designed to prevent unauthorised access to your personal information by anyone, including our staff.
+All our staff and all third parties with permitted access to your information are specifically required to observe our confidentiality obligations.
+</p>
+
+<h4>OCCASIONAL MARKETING PROMOTIONS</h4>
+<p>
+We may collect personal information from visitors to this site and those individuals that participate in a contest or promotion (online or over the telephone,or at one of our branches). Such information is only collected from individuals who voluntarily provide us with their personal information. We may use this information to advise them of products, services and other marketing materials, which we think, may be of interest to them. We may also invite visitors to this site to participate in market research and surveys and other similar activities.
+</p>
+
+<p>
+You can choose to receive marketing and other promotional materials by email. If you do receive email or promotional direct mailings, you will always have an opportunity to opt-out.
+</p>
+
+<p>
+If at any time you would like us to cease sending you direct mailings, please contact our representatives at exchange-support@@coinport.com. We will then, at no cost to you, accept your instruction (exclusive of the data already processed prior to our receipt of your instruction) to ensure that you are not included in future direct marketing promotions. (Please confirm whether this is applicable)
+</p>
+
+<p>
+If we do ask you to provide personal information, we will always specify the purpose for which such personal information is collected and ensure that it is only used for the purpose specified at the time of collection.
+</p>
+            } else {
+
+<p>
+为保密您提供给本公司的所有资料，本公司实施下列隐私权原则：<br/>
+- 本公司仅收集本公司认为相关且必要之个人资料，俾便协助本公司营运。<br/>
+- 本公司使用您的个人资料，以便提供您更好的客户服务与产品。除非本公司已获得您同意、或依法必要、或已事先通知您，否则本公司不对任何其他外面机构揭露您的个人资料。<br/>
+- 本公司可能不时被要求对政府或司法机关或单位或管理机关揭露您的个人资料，但本公司仅在依法有权为之时始为之。<br/>
+</p>
+
+<p>
+本公司之档案记录，将尽力留存您正确且最新之个人资料。本公司实施严格安全系统，用以防止任何人（包括本公司员工）未经授权擅自存取您的个人资料。本公司特别规定，获准存取您个人资料之所有本公司员工及第三人，皆须遵守本公司之保密义务。
+</p>
+
+<h4>非经常性之行销活动</h4>
+<p>
+本公司收集个人资料之对象，可能包括浏览本网站之网友及参加竞赛或促销活动之个人（经由网路或电话或本公司办事处）。本项个人资料之收集对象，仅限于自愿向本公司提供个人资料之个人。本公司得使用这项资料，通知您本公司认为您可能有兴趣之产品、服务或其他行销资料。本公司亦得邀请本网站之网友，参加市场研究、市场调查及其他类似活动等。
+</p>
+
+<p>
+您可以选择以电子邮件接收行销资料或其他促销资料。在您确实收到电子邮件或直接促销邮件时，您
+都可以决定取消订阅这方面的邮件。若您希望本公司停止寄送直接邮件给您，请联络本公司
+业务代表：exchange-support@@coinport.com。本公司即免费接受您的指示（不包括本公司接获您指
+示前已处理的资料），确保您不在未来直接行销/促销活动的名单中。（请确认这项是否适用）。
+</p>
+
+<p>
+若本公司要求您提供个人资料，本公司必然说明该项个人资料收集之目的，并确保个人资料仅使用于收集时所说明之目的。
+</p>
+}
+            </div>
+        </div>
+
+
+    @__footer()
+    </div> <!-- page-wrapper -->
+    @__tracking_js()
+</body>
+</html>

@@ -79,7 +79,7 @@ GET     /useraction/loginhistory        controllers.UserActionController.getUser
 
 # html snippet
 GET     /terms.html                      controllers.MainController.terms()
-#GET     /privacy.html                    controllers.MainController.privacy()
+GET     /privacy.html                    controllers.MainController.privacy()
 
 # html snippet
 #GET     /views/register.html             controllers.MainController.registerView()

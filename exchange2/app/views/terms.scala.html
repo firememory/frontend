@@ -11,7 +11,7 @@
     <div class="fixes-top">
         @_navbar(0)(session)
 
-        <div class="container container-main" ng-controller="RegisterCtrl">
+        <div class="container container-main">
             <div class="row">
                 <div class="article-title"><h3>@Messages("termsTitle")</h3></div>
             </div>
@@ -249,8 +249,8 @@ Coinport保留依其单方裁量随时修改、增补或删除本使用条款部
 }
             </div>
     </div>
-
+    @__footer()
     </div> <!-- page-wrapper -->
-    @__tail_commons()
+    @__tracking_js()
 </body>
 </html>

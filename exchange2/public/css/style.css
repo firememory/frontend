@@ -7,7 +7,7 @@ body{background:#eee; font-family: "Helvetica Neue","Lantinghei SC","Hiragino Sa
 a{color:#000}
 a:hover,a:focus{text-decoration:none;color:#ffc107}
 ::selection{background:#5d4037;color:#fff}
-footer{color:#999; position:relative;  bottom:0; width:100%; z-index:-100; }
+footer{color:#999; position:relative;  bottom:0; width:100%;}
 .full-height{}
 .copyright{padding:20px 0; font-size:10px;}
 footer li{ list-style:outside; margin-left:-24px;}

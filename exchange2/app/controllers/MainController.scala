@@ -318,10 +318,10 @@ object MainController extends Controller with Json4s {
       Ok(views.html.terms.render(request.session, langFromRequestCookie(request)))
   }
 
-  // def privacy() = Action {
-  //   implicit request =>
-  //     Ok(views.html.privacy.render(request.session, langFromRequestCookie(request)))
-  // }
+  def privacy() = Action {
+    implicit request =>
+    Ok(views.html.privacy.render(request.session, langFromRequestCookie(request)))
+  }
 
   def onServerError() = Action {
     implicit request =>
