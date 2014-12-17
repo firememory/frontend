@@ -24,15 +24,14 @@
   <div id="main-container" ng-show="@isSetGoogleAuth()">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title"><i class="icon-user icon-2x"></i>双重校验</h3>
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>@Messages("accountsettings.googleAuth")</h3>
       </div>
       <div class="panel-body">
         <div class="blk-3x"></div>
         <div class="row">
           <div class="col-sm-2 col-xs-2 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
           <div class="col-sm-10 col-xs-10">
-            <p class=" text-dark tip">您已绑定双重校验。<br />
-              您可以随时进入账号安全定页面解除绑定。 </p>
+            <p class=" text-dark tip">@Messages("accountsettings.googleauth.unbindHint0")</p>
           </div>
         </div>
         <div class="blk-3x"></div>
@@ -44,15 +43,15 @@
   <div id="main-container" ng-hide="@isSetGoogleAuth()">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title"><i class="icon-user icon-2x"></i>双重校验</h3>
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>@Messages("accountsettings.googleAuth")</h3>
       </div>
       <div class="panel-body">
         <div class="blk-3x"></div>
         <div class="row">
           <div class="col-sm-2 col-xs-2 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
           <div class="col-sm-10 col-xs-10">
-            <p class=" text-dark tip">您还没有绑定双重校验。<br />
-              请您按照下面三步来绑定双重校验。 </p>
+            <p class=" text-dark tip">@Messages("accountsettings.googleauth.hint")<br/>
+              @Messages("accountsettings.googleauth.followsteps") </p>
           </div>
         </div>
         <div class="blk-3x"></div>
@@ -60,9 +59,9 @@
           <div class="form-group-separator"></div>
           <div class="blk-1x"></div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-12 control-label text-success">第一步</label>
+            <label class="col-sm-2 col-xs-12 control-label text-success">@Messages("accountsettings.googleAuth.stepOne")</label>
             <div class="col-sm-10 col-xs-12">
-              <div class="form-text-control font-1x"><b>请在您的智能手机上安装双重校验程序</b></div>
+              <div class="form-text-control font-1x"><b>@Messages("accountsettings.googleAuth.stepOneGuide")</b></div>
             </div>
           </div>
           <div class="form-group phone-style">
@@ -73,25 +72,25 @@
                   <a target="_blank" href="http://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8">
                   <div class="logo-ios"></div>
                   </a>
-                  <h6>iPhone手机</h6>
+                  <h6>@Messages("accountsettings.googleAuth.iphone")</h6>
                 </div>
                 <div class="col-sm-3 col-xs-6">
                   <a target="_blank" href="http://apk.hiapk.com/html/2013/07/1643619.html">
                   <div class="logo-android"></div>
                   </a>
-                  <h6>Android手机</h6>
+                  <h6>@Messages("accountsettings.googleAuth.android")</h6>
                 </div>
                 <div class="col-sm-3 col-xs-6">
                   <a target="_blank" href="http://www.windowsphone.com/zh-cn/store/app/authenticatorg/4362996a-8528-4641-a983-57e63c74ce16">
                   <div class="logo-wp"></div>
                   </a>
-                  <h6>Windows Phone手机</h6>
+                  <h6>@Messages("accountsettings.googleAuth.windowsphone")</h6>
                 </div>
                 <div class="col-sm-3 col-xs-6">
                   <a target="_blank" href="https://code.google.com/p/lwuitgauthj2me/">
                   <div class="logo-nokia"></div>
                   </a>
-                  <h6>Nokia手机</h6>
+                  <h6>@Messages("accountsettings.googleAuth.Nokias")</h6>
                 </div>
               </div>
             </div>
@@ -103,18 +102,18 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-12 control-label text-success">第二步</label>
+            <label class="col-sm-2 col-xs-12 control-label text-success">@Messages("accountsettings.googleAuth.stepTwo")</label>
             <div class="col-sm-10 col-xs-12">
-              <div class="form-text-control font-1x"><b>请对您安装好的程序作如下配置</b></div>
+              <div class="form-text-control font-1x"><b>@Messages("accountsettings.googleAuth.stepTwoGuide")</b></div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm-2 col-xs-12"></div>
             <div class="col-sm-10 col-xs-12">
-              <p>1. 在“Google Authenticator (身份验证器)” 应用程序中，点击“添加新账户 (iOS 下是 + 号)”，然后选择“扫描条形码”。 </p>
+              <p>@Messages("accountsettings.googleAuth.scanQRcode")</p>
               <div id="qrcode" style="width:200px; height:200px; margin-top:20px; margin-left: 50px; margin-bottom: 20px"></div>
               <div class="blk-2x"></div>
-              <p>2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密钥: <b ng-bind="secret"></b> </p>
+              <p>@Messages("accountsettings.googleAuth.inputSecret")<b ng-bind="secret"></b> </p>
             </div>
           </div>
           <div class="row">
@@ -124,19 +123,19 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-12 control-label text-success">第三步</label>
+            <label class="col-sm-2 col-xs-12 control-label text-success">@Messages("accountsettings.googleAuth.stepThree")</label>
             <div class="col-sm-10 col-xs-12">
-              <div class="form-text-control font-1x"><b>绑定双重校验到您的账号</b></div>
+              <div class="form-text-control font-1x"><b>@Messages("accountsettings.googleAuth.stepThreeGuide")</b></div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm-2 col-xs-12"></div>
             <div class="col-sm-6 col-xs-12">
-              <p>一旦绑定双重校验，请勿从您的手机上删除</p>
+              <p>@Messages("accountsettings.googleAuth.dontdelete")</p>
               <div class="input-group">
                 <input class="form-control no-left-border no-right-border form-focus-warning" ng-model="verifycode" max-length="6" min-length="6" type="text">
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="bind()">绑定到账号 </button>
+                <button class="btn btn-default" type="button" ng-click="bind()">@Messages("accountsettings.googleauth.bind") </button>
                 </span> </div>
             </div>
           </div>

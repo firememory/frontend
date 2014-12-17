@@ -2,19 +2,19 @@
 
 <div id="sidebar" >
   <ul class="side-menu">
-    <li @if(selected == 10) {class="active"}><a href="/account"><i class="icon-purse"></i> <span>我的资产</span></a> </li>
-    <li @if(selected == 20) {class="active"}><a href="/account/transfer"><i class="icon-transfer"></i> <span>充值提现</span></a> </li>
-    <li @if(selected >= 30 && selected < 40) {class="has-submenu active"} else { class="has-submenu"}><a href="#"><i class="icon-angle pull-right"></i><i class="icon-legal"></i><span>成交委托</span></a>
+    <li @if(selected == 10) {class="active"}><a href="/account"><i class="icon-purse"></i> <span>@Messages("asset.myAsset")</span></a> </li>
+    <li @if(selected == 20) {class="active"}><a href="/account/transfer"><i class="icon-transfer"></i> <span>@Messages("asset.transfer")</span></a> </li>
+    <li @if(selected >= 30 && selected < 40) {class="has-submenu active"} else { class="has-submenu"}><a href="#"><i class="icon-angle pull-right"></i><i class="icon-legal"></i><span>@Messages("account.record")</span></a>
       <ul @if(selected >= 30 && selected < 40) {style="display:block;"}>
-        <li @if(selected == 31) {class="active"}><a href="/account/orders"><span>我的委托</span></a></li>
-        <li @if(selected == 32) {class="active"}><a href="/account/transaction"><span>我的成交</span></a></li>
+        <li @if(selected == 31) {class="active"}><a href="/account/orders"><span>@Messages("order.myOrders")</span></a></li>
+        <li @if(selected == 32) {class="active"}><a href="/account/transaction"><span>@Messages("transaction.myTransactions")</span></a></li>
       </ul>
     </li>
-    <li @if(selected >= 40 && selected < 50) {class="has-submenu active"} else { class="has-submenu"}><a href="#"><i class="icon-angle pull-right"></i><i class="icon-user"></i><span>用户中心</span></a>
+    <li @if(selected >= 40 && selected < 50) {class="has-submenu active"} else { class="has-submenu"}><a href="#"><i class="icon-angle pull-right"></i><i class="icon-user"></i><span>@Messages("account.profile")</span></a>
       <ul @if(selected >= 40 && selected < 50) {style="display:block;"}>
-        <li @if(selected == 41) {class="active"}><a href="/account/profile"><span>用户信息</span></a></li>
-        <li @if(selected == 42) {class="active"}><a href="/account/settingsPage"><span>账号安全</span></a></li>
-        <li @if(selected == 43) {class="active"}><a href="/account/googleauth"><span>双重认证</span></a></li>
+        <li @if(selected == 41) {class="active"}><a href="/account/profile"><span>@Messages("accountprofile.title")</span></a></li>
+        <li @if(selected == 42) {class="active"}><a href="/account/settingsPage"><span>@Messages("accountsettings.sub.secure")</span></a></li>
+        <li @if(selected == 43) {class="active"}><a href="/account/googleauth"><span>@Messages("accountsettings.sub.doubleauth")</span></a></li>
       </ul>
     </li>
   </ul>

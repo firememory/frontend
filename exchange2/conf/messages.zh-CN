@@ -146,7 +146,8 @@ order.price=委托价
 order.amount=委托量
 order.finishedAmount=成交量
 order.total=总金额
-order.finishedTotal=成交额
+order.expectedTotal=预计成交额
+order.finishedTotal=完成成交额
 order.status=状态
 order.status.pending=挂单中
 order.status.open=部分成交
@@ -216,21 +217,21 @@ accountsettings.googleauth.followsteps=请您按照下面三步来绑定双重�
 
 accountsettings.googleAuth.stepOne=第一步
 accountsettings.googleAuth.stepTwo=第二步
-accountsettings.googleAuth.stepThree=最后一步
+accountsettings.googleAuth.stepThree=第三步
 
 accountsettings.googleAuth.stepOneGuide=请在您的智能手机上安装双重校验程序
 accountsettings.googleAuth.stepTwoGuide=请对您安装好的程序作如下配置
 accountsettings.googleAuth.stepThreeGuide=绑定双重校验到您的账号
 
-accountsettings.googleAuth.iphone=iPhones 手机
-accountsettings.googleAuth.android=Androids 手机
-accountsettings.googleAuth.windowsphone=Windows Phones 手机
-accountsettings.googleAuth.Nokias=Nokias 手机
+accountsettings.googleAuth.iphone=iPhone 手机
+accountsettings.googleAuth.android=Android 手机
+accountsettings.googleAuth.windowsphone=Windows Phone 手机
+accountsettings.googleAuth.Nokias=Nokia 手机
 
 accountsettings.googleAuth.scanQRcode=1. 在“Google Authenticator (身份验证器)” 应用程序中，点击“添加新账户 (iOS 下是 + 号)”，然后选择“扫描条形码”。
 accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密钥:
 
-accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿从您的手机上删除
+accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿将验证码APP从您的手机上删除
 accountsettings.googleAuth.verifycode=双重校验码
 
 accountsettings.googleauth.unbindButton=解除绑定
@@ -245,6 +246,8 @@ accountsettings.sec.loginpassword=登录密码
 accountsettings.sec.loginpwdTips=登录密码已设置
 accountsettings.sec.emailVerify=邮箱验证
 accountsettings.sec.emailTip=您的邮箱地址是：
+accountsettings.sec.emailSentHint=验证邮件已发送，请输入邮箱验证码：
+accountsettings.sec.emailVerifyCode=邮箱验证码
 accountsettings.sec.doubleauth=双重校验
 accountsettings.sec.doubleAuthInfoNotSet=尚未设置双重验证
 accountsettings.sec.doubleAuthInfoSet=双重验证已设置
@@ -254,8 +257,12 @@ accountsettings.sec.btn.change=修改
 accountsettings.sec.btn.set=设置
 accountsettings.sec.btn.modify=修改
 accountsettings.sec.mobile=手机绑定
-accountsettings.sec.mobileSetHint=您绑定的手机：
+accountsettings.sec.mobileSetHint=您绑定的手机号码为：
 accountsettings.sec.mobileNotSetHint=您尚未绑定手机
+accountsettings.sec.mobilebind.title=手机短信验证设置
+accountsettings.sec.mobilebind.smsSent.hint=验证短信已发送，请输入短信验证码：
+accountsettings.sec.mobile.number=手机号码
+accountsettings.sec.mobile.sendsms=发送短信验证码
 
 accountsettings.sec.modal.email.title=修改邮箱验证设置
 accountsettings.sec.modal.mobile.title=修改手机短信验证设置
@@ -263,8 +270,8 @@ accountsettings.sec.modal.ok=确定
 accountsettings.sec.modal.cancel=取消
 
 accountsettings.sec.realnameverify=实名认证
-accountsettings.sec.realnameverifytips.verified=实名已认证
-accountsettings.sec.realnameverifytips.notverified=尚未完成实名认证
+accountsettings.sec.realnameverifytips.verified=实名认证已完成
+accountsettings.sec.realnameverifytips.notverified=尚未进行实名认证,会影响人民币的充值和提现。
 accountsettings.sec.btn.realnameverify=认证
 
 accountsettings.realNameVerify.title=实名认证
@@ -302,6 +309,10 @@ accountprofile.getEmailVerifyCode=获取邮件验证码
 
 accountsettings.apiToken=API密钥
 accountsettings.apiToken.create=生成
+
+accountsettings.region.china=中国
+accountsettings.region.usa=美国
+accountsettings.region.other=其他地区
 
 footer.about=关于
 footer.law=法律
@@ -412,10 +423,13 @@ user.transfer.amount=数量
 user.transactions=成交
 user.orders=委托
 
+user.transfer.chooseCoin=选择币种
+
 account.profile=用户中心
 account.record=成交委托
 account.transfer=充值提现
 
+transfer.withdrawal.howto=充值方式
 transfer.withdrawal=提现
 transfer.withdraw=提现
 transfer.deposit=充值
@@ -437,7 +451,7 @@ transfer.address=地址
 transfer.pinpassword=资金密码
 transfer.phoneVerCode=短信验证码
 transfer.emailVerCode=邮件验证码
-transfer.googleAuthCode=Google验证码
+transfer.googleAuthCode=双重验证码
 transfer.cancelWithdrawal=取消
 transfer.depositRecord=充值记录
 transfer.withdrawalRecord=提现记录
@@ -457,17 +471,19 @@ transfer.accountName=户名：
 transfer.accountId=帐号：
 transfer.qqId=QQ：
 transfer.verifyFailTitle=未做实名认证
-transfer.verifyFailDesc=您需要进行实名认证才能够提现人民币，请点击下面的按钮进行实名认证。
+transfer.verifyFailDesc=根据相关政策，您需要进行实名认证才能够提现人民币。
 transfer.doVerifyBtn=实名认证
 transfer.chooseBankCard=选择银行卡
 transfer.addBankCard=添加银行卡
 transfer.addBankCardWarn=（银行卡的开户名必须和实名认证的真实姓名一致）
-transfer.deleteBankCard=删除银行卡
+transfer.deleteBankCard=删除此银行卡
 transfer.chooseBankCardWain=需要添加银行卡才能提现
 transfer.ownerName=开户名
 transfer.cardNumber=卡号
 transfer.bankName=开户银行
 transfer.branchBankName=开户支行
+
+transfer.sendVerifyEmail=发送邮件验证码
 
 transfer.btsx.hint1=或者BTSX账户
 transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写)
@@ -485,7 +501,7 @@ transfer.account.totalasset.tail=或者
 
 asset.currency=资产种类
 asset.available=可用数量
-asset.totalAmount=总资产
+asset.totalAmount=我的总资产
 asset.price=资产价格
 asset.value=资产净值
 asset.operation=操作

@@ -3,6 +3,7 @@
 @import utils.SecurityPreferenceUtil._
 @import utils.Constant
 
+@isLogin() = @{session.get("uid").isDefined}
 @isRealNameVerified() = @{session.get(Constant.userRealName).isDefined && session.get(Constant.userRealName).get.nonEmpty}
 @isEmailVerifyOn() = @{isEmailVerificationOn(session.get(Constant.securityPreference))}
 @isBindMobile() = @{session.get(Constant.cookieNameMobile).getOrElse("").trim.nonEmpty}
@@ -41,14 +42,23 @@
   <div id="main-container">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title"><i class="icon-user icon-2x"></i>账号安全</h3>
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>@Messages("accountsettings.sub.secure")</h3>
       </div>
       <div class="panel-body">
         <div class="blk-3x"></div>
         <div class="row">
           <div class="col-sm-2 col-xs-12 align-fixes"><i class="icon-bulb icon-3x text-warning vm"></i></div>
           <div class="col-sm-10 col-xs-12">
+            @if(isLogin()){
             <p class=" text-dark tip">对于特定的账户操作，币丰港将要求您提供验证码。我们将通过邮件方式发送验证码，验证码的过期时间为30分钟。 我们同时提供基于谷歌Authenticator的双重验证。鉴于邮件的安全级别较低，我们建议所有用户开通双重验证。 开通双重验证后，对于同样地账户操作，我们在要求邮件验证的同时，将额外要求您提供谷歌Authenticator的二次验证。我们强烈建议您请尽可能在完成安全设置后再充值或提现资金。</p>
+            } else {
+            <p class=" text-dark tip">For certain account operations, Coinport Exchange requires you to provide a verification code to proceed.
+             We will send you a one-time verificaiton code using registration email, the verfication code will be valid for 30 minutes.
+             Coinport also supports Google Authenticator. After you enable this feature, for the same account operations,
+             we will additionally require you to provide a dynamic code from your Google Authenticator for better security.
+             We strongly suggest you to enable Google Authenticator and other security features before any account operation.
+            </p>
+            }
           </div>
         </div>
         <div class="blk-3x"></div>
@@ -66,19 +76,19 @@
           <div class="blk-1x"></div>
 
           <div class="form-group">
-            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isRealNameVerified) {text-success} else {text-warning}"></i><label class="control-label">实名认证</label></div>
+            <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isRealNameVerified) {text-success} else {text-warning}"></i><label class="control-label">@Messages("accountsettings.sec.realnameverify")</label></div>
 
             <div class="col-sm-5 col-xs-8">
               @if(isRealNameVerified) {
-              <div class="form-text-control font-1x text-success">实名认证已完成</div>
+              <div class="form-text-control font-1x text-success">@Messages("accountsettings.sec.realnameverifytips.verified")</div>
               } else {
-              <div class="form-text-control font-1x text-warning">尚未进行实名认证,会影响人民币的充值和提现。</div>
+              <div class="form-text-control font-1x text-warning">@Messages("accountsettings.sec.realnameverifytips.notverified")</div>
               }
             </div>
             @if(!isRealNameVerified) {
-            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="realname-verify" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="实名认证" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="realname" placeholder="真实姓名" /></div><div class="form-group"><select class="form-control" id="location" placeholder="请选择国家或地区"><option value="zh-CN">中国</option><option value="USA">美国</option><option value="other">其他地区</option> </select></div><div class="form-group"><select class="form-control" id="identity-type"><option value="idcard" selected>身份证</option><option value="passport">护照</option></select></div>
-              <div class="form-group"><input type="text" class="form-control" value="" id="identity-code" placeholder="证件号码" /></div>
-              <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>认证</a></div> </div>
+            <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="realname-verify" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.realNameVerify.title")" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="realname" placeholder="@Messages("accountsettings.realNameVerify.realName")" /></div><div class="form-group"><select class="form-control" id="location" placeholder=""><option value="zh-CN">@Messages("accountsettings.region.china")</option><option value="USA">@Messages("accountsettings.region.usa")</option><option value="other">@Messages("accountsettings.region.other")</option> </select></div><div class="form-group"><select class="form-control" id="identity-type"><option value="idcard" selected>@Messages("accountsettings.realNameVerify.identiType.opt.idCard")</option><option value="passport">@Messages("accountsettings.realNameVerify.identiType.opt.passport")</option></select></div>
+              <div class="form-group"><input type="text" class="form-control" value="" id="identity-code" placeholder="@Messages("accountsettings.realNameVerify.idNumber")" /></div>
+              <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'>@Messages("accountsettings.sec.btn.realnameverify")</a></div> </div>
           }
       </div>
 
@@ -90,11 +100,11 @@
       </div>
 
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">登录密码</label></div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x text-success "></i><label class="control-label">@Messages("accountsettings.sec.loginpassword")</label></div>
 
-        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success">登录密码已设置</div></div>
-        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="pwd-update" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="修改密码" data-content='<div class="form-group"><input type="password" class="form-control" value="" id="oldPwd" placeholder="当前密码" /></div><div class="form-group"><input type="password" class="form-control" id="newPwd" value="" placeholder="新密码" /></div><div class="form-group"><input type="password" id="newPwdConfirm" class="form-control" value="" placeholder="确认密码" /></div>
-              <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>修改</a></div> </div>
+        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x text-success">@Messages("accountsettings.sec.loginpwdTips")</div></div>
+        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x  xs-text"><a id="pwd-update" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.changepwd.title")" data-content='<div class="form-group"><input type="password" class="form-control" value="" id="oldPwd" placeholder="@Messages("accountsettings.changepwd.currPwd")" /></div><div class="form-group"><input type="password" class="form-control" id="newPwd" value="" placeholder="@Messages("accountsettings.changepwd.newPwd")" /></div><div class="form-group"><input type="password" id="newPwdConfirm" class="form-control" value="" placeholder="@Messages("accountsettings.changepwd.repeat")" /></div>
+              <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'>@Messages("accountsettings.sec.btn.change")</a></div> </div>
       </div>
 
       <div class="row">
@@ -104,9 +114,9 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isEmailVerifyOn){ text-success } else {text-warning} "></i><label class="control-label">邮箱验证</label></div>
-        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x @if(isEmailVerifyOn){ text-success } else {text-warning} text-line xs-fixes-line">你的邮箱地址：@session.get("username").getOrElse("")</div></div>
-        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a id="email-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="邮箱验证设置" data-content='<div class="form-group"><p>验证邮件已发送，请输入邮箱验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="email-verify-code" value="" placeholder="邮箱验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" >取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isEmailVerifyOn){ checked } disabled /> </a></div></div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-check icon-2x @if(isEmailVerifyOn){ text-success } else {text-warning} "></i><label class="control-label">@Messages("accountsettings.sec.emailVerify")</label></div>
+        <div class="col-sm-5 col-xs-8"><div class="form-text-control font-1x @if(isEmailVerifyOn){ text-success } else {text-warning} text-line xs-fixes-line">@Messages("accountsettings.sec.emailTip")@session.get("username").getOrElse("")</div></div>
+        <div class="col-sm-5 col-xs-4"><div class="form-text-control font-1x xs-text"><a id="email-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.sec.modal.email.title")" data-content='<div class="form-group"><p>@Messages("accountsettings.sec.emailSentHint")</p></div><div class="form-group"><input type="text" class="form-control" id="email-verify-code" value="" placeholder="@Messages("accountsettings.sec.emailVerifyCode")" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" >@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isEmailVerifyOn){ checked } disabled /> </a></div></div>
       </div>
       <div class="row">
         <div class="col-sm-2 col-xs-12"></div>
@@ -115,20 +125,20 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x @if(isBindMobile) { text-success } else { text-warning } "></i><label class="control-label">手机绑定</label></div>
-        <div class="col-sm-5 col-xs-8">@if(isBindMobile) { <div class="form-text-control font-1x text-success">你绑定的手机号码为：@PageUtil.encryptMobile(session.get(Constant.cookieNameMobile))</div> } else { <div class="form-text-control font-1x text-warning">你尚未绑定手机</div> }</div>
+        <div class="col-sm-2 col-xs-12 check-label align-fixes"><i class="icon-warning icon-2x @if(isBindMobile) { text-success } else { text-warning } "></i><label class="control-label">@Messages("accountsettings.bindmobile.title")</label></div>
+        <div class="col-sm-5 col-xs-8">@if(isBindMobile) { <div class="form-text-control font-1x text-success">@Messages("accountsettings.sec.mobileSetHint")@PageUtil.encryptMobile(session.get(Constant.cookieNameMobile))</div> } else { <div class="form-text-control font-1x text-warning">@Messages("accountsettings.sec.mobileNotSetHint")</div> }</div>
         <div class="col-sm-5 col-xs-4">
           <div class="form-text-control font-1x xs-text">
             @if(isBindMobile) {
-            <a id="mobile-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"><p style="margin: 0px;">验证短信已发送，请输入短信验证码：</p></div><div class="form-group"><input type="text" class="form-control" id="mobile-verify-code1" value="" placeholder="短信验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">取消</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isMobileVerifyOn){ checked } disabled /> </a>
+            <a id="mobile-switch" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.sec.mobilebind.title")" data-content='<div class="form-group"><p style="margin: 0px;">@Messages("accountsettings.sec.mobilebind.smsSent.hint")</p></div><div class="form-group"><input type="text" class="form-control" id="mobile-verify-code1" value="" placeholder="@Messages("transfer.phoneVerCode")" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'><input type="checkbox" class="js-switch" @if(isMobileVerifyOn){ checked } disabled /> </a>
             } else {
-            <a id="mobile-bind" class="text-info" href="javascript:void(0);" data-rel="popover" data-toggle="popover" data-placement="left" data-title="手机短信验证设置" data-content='<div class="form-group"> <select class="form-control" id="mobile-region"><option value="zh-CN" selected>中国</option><option value="USA">美国</option><option value="other">其他地区</option> </select></div><div class="form-group"><input type="text" class="form-control" id="mobile-number" value="" placeholder="手机号码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="mobile-verify-code" value="" placeholder="短信验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendsms" id="mobile-bind-sendsms">发送短信</button></div></div></div>
+            <a id="mobile-bind" class="text-info" href="javascript:void(0);" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.sec.mobilebind.title")" data-content='<div class="form-group"> <select class="form-control" id="mobile-region"><option value="zh-CN" selected>@Messages("accountsettings.region.china")</option><option value="USA">@Messages("accountsettings.region.usa")</option><option value="other">@Messages("accountsettings.region.other")</option> </select></div><div class="form-group"><input type="text" class="form-control" id="mobile-number" value="" placeholder="@Messages("accountsettings.sec.mobile.number")" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="mobile-verify-code" value="" placeholder="@Messages("transfer.phoneVerCode")" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendsms" id="mobile-bind-sendsms">@Messages("accountsettings.sec.mobile.sendsms")</button></div></div></div>
               <div id="mobile-bind-error-div" class="form-group">
                 <div class="row">
                 <p class="form-control text-danger" id="mobile-bind-error-msg" style="border: none; margin: 0;"/>
                 </div>
               </div>
-<div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">取消</button></div></div></div>'>设置</a>
+<div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="pwd-update">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel" id="pwd-cancel">@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'>@Messages("accountsettings.sec.btn.set")</a>
             }
           </div>
         </div>
@@ -141,21 +151,21 @@
       </div>
       <div class="form-group">
         <div class="col-sm-2 col-xs-12 check-label align-fixes">
-          <i class="icon-warning icon-2x @if(isGoogleAuthOn){ text-success } else { text-warning }"></i><label class="control-label">双重校验</label>
+          <i class="icon-warning icon-2x @if(isGoogleAuthOn){ text-success } else { text-warning }"></i><label class="control-label">@Messages("accountsettings.sub.doubleauth")</label>
         </div>
         <div class="col-sm-5 col-xs-8">
           @if(isGoogleAuthOn) {
-          <div class="form-text-control font-1x text-success">双重验证已开启</div>
+          <div class="form-text-control font-1x text-success">@Messages("accountsettings.sec.doubleAuthInfoSet")</div>
           } else {
-          <div class="form-text-control font-1x text-warning">尚未设置双重验证</div>
+          <div class="form-text-control font-1x text-warning">@Messages("accountsettings.sec.doubleAuthInfoNotSet")</div>
           }
         </div>
         <div class="col-sm-5 col-xs-4">
           <div class="form-text-control font-1x xs-text">
             @if(isGoogleAuthOn) {
-            <a id="unbind-googleauth" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="解除双重校验绑定" data-content='<div class="form-group"><input type="text" class="form-control" id="google-verifycode" value="" placeholder="双重验证码" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="googleauth-unbind">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">取消</button></div></div></div>'>解除</a>
+            <a id="unbind-googleauth" class="text-info" href="#" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("accountsettings.googleauth.unbind")" data-content='<div class="form-group"><input type="text" class="form-control" id="google-verifycode" value="" placeholder="@Messages("accountsettings.googleAuth.verifycode")" /></div><div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save" id="googleauth-unbind">@Messages("accountsettings.sec.modal.ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">@Messages("accountsettings.sec.modal.cancel")</button></div></div></div>'>@Messages("accountsettings.sec.doubleauth.unbind")</a>
             } else {
-            <a  class="text-info" href="/account/googleauth">设置</a>
+            <a  class="text-info" href="/account/googleauth">@Messages("accountsettings.sec.btn.set")</a>
             }
           </div>
         </div>

@@ -1,6 +1,7 @@
 @()(implicit session: Session, lang: Lang)
 @import utils.Constant._
 
+@isLogin() = @{session.get("uid").isDefined}
 @isSetGoogleAuth() = @{session.get(cookieGoogleAuthSecret).isDefined && !session.get(cookieGoogleAuthSecret).get.toString.isEmpty()}
 @isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
 @isSetPhonePreference() = @{session.get(securityPreference).get.head.toString.contentEquals("1")}
@@ -34,10 +35,10 @@
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <div class="row">
-          <h3 class="panel-title col-lg-2 col-sm-3 col-xs-12 pull-left " style=" line-height:34px; padding-right:20px;"><i class="icon-transfer icon-2x"></i>充值提现</h3>
+          <h3 class="panel-title col-lg-2 col-sm-3 col-xs-12 pull-left " style=" line-height:34px; padding-right:20px;"><i class="icon-transfer icon-2x"></i>@Messages("account.transfer")</h3>
           <div class="form-group pull-right col-sm-9 col-xs-12" style="margin:0;">
             <div class="row">
-              <label class="col-sm-4 col-xs-4 control-label hidden-xs text-right"  style="line-height:2.5;">选择币种</label>
+              <label class="col-sm-4 col-xs-4 control-label hidden-xs text-right"  style="line-height:2.5;">@Messages("user.transfer.chooseCoin")</label>
               <div class="col-sm-8 col-xs-12">
                 <select class="form-control" ng-model="currency" ng-change="changeCurrency()" ng-options="allCoinsWithName[coin] for coin in allCoins">
                 </select>
@@ -48,15 +49,15 @@
       </div>
       <div class="panel-body">
         <ul class="primary nav nav-tabs nav-tabs-justified">
-          <li class="active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>充值</span> </a> </li>
-          <li class=""> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>提现</span> </a> </li>
+          <li class="active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>@Messages("transfer.deposit")</span> </a> </li>
+          <li class=""> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>@Messages("transfer.withdrawal")</span> </a> </li>
         </ul>
         <div class="blk-3x"></div>
         <div class="tab-content">
           <div class="tab-pane active" id="tab-1">
             <form role="form" class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">账户余额</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.account")</label>
                 <div class="col-sm-10 col-xs-8"> <span class="text-warning font-2x" ng-bind="accounts[currency].available.value || 0"></span><span class=" offset-1x" ng-bind="currency"></span> </div>
               </div>
               <div class="row">
@@ -66,16 +67,21 @@
                 </div>
               </div>
               <div class="form-group form-group-lg">
-                <label class="col-sm-2 col-xs-4 control-label" ng-hide="currency == 'CNY'">充值地址</label>
-                <label class="col-sm-2 col-xs-4 control-label" ng-show="currency == 'CNY'">充值方式</label>
+                <label class="col-sm-2 col-xs-4 control-label" ng-hide="currency == 'CNY'">@Messages("transfer.depositAddress")</label>
+                <label class="col-sm-2 col-xs-4 control-label" ng-show="currency == 'CNY'">@Messages("transfer.withdrawal.howto")</label>
                 <div class="col-sm-10 col-xs-8">
                   <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-hide="currency == 'CNY'"><span ng-bind="depositAddresses[currency]"></span> </div>
-
+                  @if(isLogin()){
                   <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-show="currency == 'CNY'">
                     <span >您可以通过代理商充值：先联系代理商（QQ 209063895)索要充值账户，之后付款给代理商。代理商后续将帮您完成充值工作。</span>
                     <span >您还可以通过ripple网络直接将多种资产转化成人民币充值，实时自动到帐，方便快捷。具体方法参见我们的<a href='https://blog.coinport.com/?p=67'>相关博客</a></span>
                   </div>
-
+                  } else {
+                  <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-show="currency == 'CNY'">
+                    <span >您可以通过代理商充值：先联系代理商（QQ 209063895)索要充值账户，之后付款给代理商。代理商后续将帮您完成充值工作。</span>
+                    <span >您还可以通过ripple网络直接将多种资产转化成人民币充值，实时自动到帐，方便快捷。具体方法参见我们的<a href='https://blog.coinport.com/?p=67'>相关博客</a></span>
+                  </div>
+                  }
 
                 </div>
 
@@ -83,17 +89,17 @@
               <div class="blk-1x"></div>
               <div class="form-group-separator"></div>
             </form>
-            <h4>充值记录</h4>
+            <h4>@Messages("transfer.depositRecord")</h4>
             <div class="table-responsive">
               <table class="table table-striped" data-sortable="">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>提交时间</th>
-                    <th>更新时间</th>
-                    <th>数量</th>
-                    <th>状态</th>
-                    <th>地址</th>
+                    <th>@Messages("transfer.created")</th>
+                    <th>@Messages("transfer.updated")</th>
+                    <th>@Messages("transfer.amount")</th>
+                    <th>@Messages("transfer.status")</th>
+                    <th>@Messages("transfer.address")</th>
                     <!-- <th>交易</th> -->
                   </tr>
 
@@ -135,15 +141,22 @@
             <div class="row">
               <div class="col-xs-2 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
               <div class="col-xs-10">
-                <p class=" text-dark tip" ng-hide="currency == 'CNY' && !isVerifiedUser"> @Messages("transfer.withdrawalHint") <span ng-bind="' ' + withdrawalLimit + ' ' + currency"></span> @Messages("transfer.withdrawalHint1") <span ng-bind="withdrawalFee"></span> <span ng-hide="currency.toUpperCase() == 'CNY'" ng-bind="currency"></span> @Messages("transfer.withdrawalHint2")             <span class="red" ng-show="currency.toUpperCase() == 'CNY'">@Messages("transfer.withdrawalCreditCardHint")</span>
-                  <br>
+                <p class=" text-dark tip" ng-hide="currency == 'CNY' && !isVerifiedUser">
+                  @Messages("transfer.withdrawalHint")
+                  <span ng-bind="' ' + withdrawalLimit + ' ' + currency"></span>
+                  @Messages("transfer.withdrawalHint1")
+                  <span ng-bind="withdrawalFee"></span>
+                  <span ng-hide="currency.toUpperCase() == 'CNY'" ng-bind="currency"></span>
+                  @Messages("transfer.withdrawalHint2")
+                  <span class="red" ng-show="currency.toUpperCase() == 'CNY'">@Messages("transfer.withdrawalCreditCardHint")</span>
+                  <br/>
                   <span ng-show="currency.toUpperCase() == 'BTSX'">
                     <br>
                     <b class="text-danger">@Messages("transfer.btsx.hint3")</b>
                   </span>
                 </p>
 
-                <p class=" text-dark tip" ng-show="currency == 'CNY' && !isVerifiedUser"> 根据国家相关政策，提现人民币需要完成实名认证。&nbsp;&nbsp;&nbsp;&nbsp; <a class="btn-link" href="/account/settingsPage">点击进行实名认证</a></p>
+                <p class=" text-dark tip" ng-show="currency == 'CNY' && !isVerifiedUser"> @Messages("transfer.verifyFailDesc")&nbsp;&nbsp;&nbsp;&nbsp; <a class="btn-link" href="/account/settingsPage">@Messages("transfer.doVerifyBtn")</a></p>
 
               </div>
             </div>
@@ -158,46 +171,46 @@
               <div class="form-group-separator"></div>
               <div class="blk-2x"></div>
               <div class="form-group">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">账户余额</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.account")</label>
                 <div class="col-sm-10 col-xs-8"> <span class="text-warning font-2x" ng-bind="accounts[currency].available.value || 0"></span><span class=" offset-1x" ng-bind="currency"></span> </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">提现数量</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.withdrawalAmount")</label>
                 <div class="col-sm-6 col-xs-8 ">
-                  <input type="text" class="form-control" id="field-1" placeholder="提现数" ng-model="withdrawalData.amount"/>
+                  <input type="text" class="form-control" id="field-1" placeholder="@Messages("transfer.withdrawalAmount")" ng-model="withdrawalData.amount"/>
                 </div>
               </div>
 
               <div class="form-group" ng-show="currency.toUpperCase() == 'CNY'">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">提现账号</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.withdrawalAccount")</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <!-- <input type="text" class="form-control" id="field-1" placeholder="提现地址" ng-model="withdrawalData.address"/> -->
                   <div class="input-group">
                     <select class="form-control no-left-border no-right-border form-focus-warning" ng-model="selectedBankCard" ng-options="bankCardToString(bankCard) for bankCard in bankCards" ng-disabled="bankCards.length == 0">
                     </select>
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button"  ng-disabled="bankCards.length == 0" ng-click="deleteBankCard();">删除此账号 </button>
+                      <button class="btn btn-default" type="button"  ng-disabled="bankCards.length == 0" ng-click="deleteBankCard();">@Messages("transfer.deleteBankCard")</button>
                       <a href="#">
-                      <button id="add-bankcard" class="btn btn-default" type="button" data-rel="popover" data-toggle="popover" data-placement="left" data-title="添加银行账号" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="owner-name" placeholder="户主姓名" /></div><div class="form-group"><input type="text" class="form-control" id="card-number" value="" placeholder="卡号" /></div>
+                      <button id="add-bankcard" class="btn btn-default" type="button" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("transfer.addBankCard")" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="owner-name" placeholder="@Messages("transfer.ownerName")" /></div><div class="form-group"><input type="text" class="form-control" id="card-number" value="" placeholder="@Messages("transfer.cardNumber")" /></div>
                         <div class="form-group">
-                          <select type="text" id="bank-name" class="form-control" value="" placeholder="银行名称">
+                          <select type="text" id="bank-name" class="form-control" value="" placeholder="@Messages("transfer.bankName")">
                             @for(bankName <- supportedBankNames)  {
                             <option value="@bankName">@bankName</option>
                             }
                           </select>
                         </div>
-                        <div class="form-group"><input type="text" id="bank-branch-name" class="form-control" value="" placeholder="银行支行名称" /></div>
-                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="email-code" value="" placeholder="邮件验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendmail" id="add-bank-sendmail">发送邮件验证码</button></div></div></div>
-                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">确定</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">取消</button></div></div></div>'>添加银行账号 </button></a>
+                        <div class="form-group"><input type="text" id="bank-branch-name" class="form-control" value="" placeholder="@Messages("transfer.branchBankName")" /></div>
+                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="email-code" value="" placeholder="邮件验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendmail" id="add-bank-sendmail">@Messages("transfer.sendVerifyEmail")</button></div></div></div>
+                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">@Messages("ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">@Messages("cancel")</button></div></div></div>'>@Messages("transfer.addBankCard") </button></a>
                     </span>
                   </div>
                 </div>
               </div>
 
               <div class="form-group" ng-hide="currency.toUpperCase() == 'CNY'">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">提现地址</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.withdrawalAddress")</label>
                 <div class="col-sm-6 col-xs-8 ">
-                  <input type="text" class="form-control" id="field-1" placeholder="提现地址" ng-model="withdrawalData.address"/>
+                  <input type="text" class="form-control" id="field-1" placeholder="@Messages("transfer.withdrawalAddress")" ng-model="withdrawalData.address"/>
                 </div>
               </div>
 
@@ -218,31 +231,31 @@
               <!-- BTSX and NXT additional fields end -->
 
               <div class="form-group" ng-show="emailVerOn">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">邮件验证码</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.emailVerCode")</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
                     <input type="text" class="form-control no-left-border no-right-border form-focus-warning" ng-model="withdrawalData.emailcode" />
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail">获取邮件验证码 </button>
+                      <button class="btn btn-default" type="button" ng-click="sendVerifyEmail()" ng-disabled="isTimingEmail">@Messages("transfer.sendVerifyEmail") </button>
                     </span>
                   </div>
                 </div>
               </div>
 
               <div class="form-group" ng-show="mobileVerOn">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">短信验证码</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.phoneVerCode")</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
                     <input type="text" class="form-control no-left-border no-right-border form-focus-warning" ng-model="withdrawalData.phonecode" />
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" ng-click="sendVerifySms()" ng-disabled="isTimingSms">获取短信验证码 </button>
+                      <button class="btn btn-default" type="button" ng-click="sendVerifySms()" ng-disabled="isTimingSms">@Messages("accountsettings.sec.mobile.sendsms") </button>
                     </span>
                   </div>
                 </div>
               </div>
 
               <div class="form-group" ng-show="@isSetGoogleAuth()">
-                <label class="col-sm-2 col-xs-4 control-label" for="field-1">双重验证码</label>
+                <label class="col-sm-2 col-xs-4 control-label" for="field-1">@Messages("transfer.googleAuthCode")</label>
                 <div class="col-sm-6 col-xs-8 ">
                   <div class="input-group">
                     <input type="text" class="form-control" ng-model="withdrawalData.googlecode" />
@@ -259,22 +272,22 @@
               <div class="blk-2x"></div>
               <div class="row">
                 <div class="col-sm-offset-2">
-                  <div class="col-sm-2 col-xs-12"><button class="btn btn-primary btn-block" ng-click="withdrawal()">提现</button></div></div>
+                  <div class="col-sm-2 col-xs-12"><button class="btn btn-primary btn-block" ng-click="withdrawal()">@Messages("transfer.withdrawal")</button></div></div>
               </div>
               <div class="blk-2x"></div>
               <div class="form-group-separator"></div>
             </form>
-            <h4>提现记录</h4>
+            <h4>@Messages("transfer.withdrawalRecord")</h4>
             <div class="table-responsive">
               <table class="table table-striped" data-sortable="">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>提交时间</th>
-                    <th>更新时间</th>
-                    <th>数量</th>
-                    <th>状态</th>
-                    <th>地址</th>
+                    <th>@Messages("transfer.created")</th>
+                    <th>@Messages("transfer.updated")</th>
+                    <th>@Messages("transfer.amount")</th>
+                    <th>@Messages("transfer.status")</th>
+                    <th>@Messages("transfer.address")</th>
                     <!-- <th>交易</th> -->
                   </tr>
                 </thead>
@@ -286,7 +299,7 @@
                     <td><span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span></td>
                     <td> <span class="label label-{{item.status | transferStatusClass}}">{{item.status  | transferStatusText}}</span> </td>
                     <td><div class="font-1x" title="">{{item.address}} <br> {{item.NxtRsString}} </div></td>
-                    <td  ng-hide="currency.toUpperCase() == 'CNY'"><a class="btn-default btn-sm btn">交易</a></td>
+                    <td  ng-hide="currency.toUpperCase() == 'CNY'"><a class="btn-default btn-sm btn">@Messages("transfer.txid")</a></td>
                   </tr>
                 </tbody>
               </table>

@@ -98,6 +98,7 @@ trade.detail=Detail
 trade.simple=simple
 trade.advanced=advanced
 trade.advancedTip=support for more customized orders
+trade.buysell=Operations
 trade.price=Price
 trade.amount=Quantity
 trade.total=Total
@@ -141,6 +142,7 @@ order.averagePrice=Average Fill Price
 order.amount=Quantity
 order.finishedAmount=Quantity Filled
 order.total=Total
+order.expectedTotal=Total Expected
 order.finishedTotal=Total Filled
 order.status=Status
 order.status.pending=Open
@@ -240,6 +242,8 @@ accountsettings.sec.loginpassword=Login Password
 accountsettings.sec.loginpwdTips=Login password had been set
 accountsettings.sec.emailVerify=Email Verification
 accountsettings.sec.emailTip=Your Email address:
+accountsettings.sec.emailSentHint=Verification email had been sent, please input verification code:
+accountsettings.sec.emailVerifyCode=Email verification code
 accountsettings.sec.doubleauth=Google Auth
 accountsettings.sec.doubleAuthInfoNotSet=You have not set up Google anthenticator yet
 accountsettings.sec.doubleAuthInfoSet=Google anthenticator had been set
@@ -251,6 +255,10 @@ accountsettings.sec.btn.modify=Modify
 accountsettings.sec.mobile=Mobile Verification
 accountsettings.sec.mobileSetHint=Your verified mobile is:
 accountsettings.sec.mobileNotSetHint=You have no verified mobile
+accountsettings.sec.mobilebind.title=Mobile bind settings
+accountsettings.sec.mobilebind.smsSent.hint=Verification SMS had been sent, please input verification code: 
+accountsettings.sec.mobile.number=Mobile number
+accountsettings.sec.mobile.sendsms=Send SMS
 
 accountsettings.sec.modal.email.title=Modify Email verification setting
 accountsettings.sec.modal.mobile.title=Modify mobile verification setting
@@ -297,6 +305,10 @@ accountprofile.getEmailVerifyCode=Send Email Code
 
 accountsettings.apiToken=API Token
 accountsettings.apiToken.create=Create
+
+accountsettings.region.china=China
+accountsettings.region.usa=United State
+accountsettings.region.other=others
 
 footer.about=About
 footer.law=Law
@@ -409,10 +421,13 @@ user.transfer.amount=Quantity
 user.transactions=Transactions
 user.orders=Orders
 
+user.transfer.chooseCoin=Choose Currency
+
 account.profile=My Profile
 account.record=Trading Records
 account.transfer=Deposit/Withdrawal
 
+transfer.withdrawal.howto=Withdrawal Flow
 transfer.withdrawal=Withdrawal
 transfer.withdraw=Withdraw
 transfer.deposit=Deposit
@@ -464,6 +479,8 @@ transfer.ownerName=Name
 transfer.cardNumber=Account
 transfer.bankName=Bank
 transfer.branchBankName=Branch
+
+transfer.sendVerifyEmail=Send verificatin email
 
 transfer.btsx.hint1=or BTSX Account
 transfer.btsx.hint2=with Memo (very important)

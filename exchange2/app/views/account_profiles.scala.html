@@ -23,14 +23,14 @@
   <div id="main-container">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title"><i class="icon-user icon-2x"></i>用户信息</h3>
+        <h3 class="panel-title"><i class="icon-user icon-2x"></i>@Messages("accountprofile.title")</h3>
       </div>
       <div class="panel-body">
         <form role="form"  class="form-horizontal">
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">用户特权</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.label")</label>
             <div class="col-sm-10 col-xs-8">
-              <div class="form-text-control font-1x"><i class="icon-award icon-1x"></i>免交易手续费</div>
+              <div class="form-text-control font-1x"><i class="icon-award icon-1x"></i>@Messages("user.label.free")</div>
             </div>
           </div>
           <div class="row">
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">用户编号</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.uid")</label>
             <div class="col-sm-10 col-xs-8">
               <div class="form-text-control font-1x">@session.get("uid").getOrElse("")</div>
             </div>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">用户名</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.userName")</label>
             <div class="col-sm-10 col-xs-8">
               <div class="form-text-control font-1x">@session.get("username").getOrElse("") </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">昵称</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.realName")</label>
             <div class="col-sm-10 col-xs-8">
               <div class="form-text-control"><span class="form-text-control font-1x">
                 @if(session.get(Constant.cookieNameRealName).getOrElse("").trim.nonEmpty){
@@ -74,9 +74,9 @@
                                             <input type="text" class="form-control no-right-border form-focus-purple" ng-modal="usernickname" id="nickname">
 
                                             <span class="input-group-btn">
-                                                <button class="btn btn-primary save" type="button" ng-click="setNickName()">确定</button>
+                                                <button class="btn btn-primary save" type="button" ng-click="setNickName()">@Messages("ok")</button>
                                             </span>
-                                        </div></div></div><div class="col-xs-3 xs-btn-fixes"><button class="btn btn-default cancel" ng-click="$(\"#nickname-setter\").popover(\"hide\")">取消</button></div></div>'>
+                                        </div></div></div><div class="col-xs-3 xs-btn-fixes"><button class="btn btn-default cancel" ng-click="$(\"#nickname-setter\").popover(\"hide\")">@Messages("cancel")</button></div></div>'>
               @if(session.get(Constant.cookieNameRealName).getOrElse("").trim.isEmpty) {
                 @Messages("accountsettings.sec.btn.set")
               } else {
@@ -92,7 +92,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">手机</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.mobile")</label>
             <div class="col-sm-10 col-xs-8">
               <div class="form-text-control font-1x">@session.get(Constant.cookieNameMobile).getOrElse("")</div>
             </div>
@@ -116,7 +116,7 @@
           </div>
           </div> -->
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label" style="font-size:12px;">公开数据URL</label>
+            <label class="col-sm-2 col-xs-4 control-label" style="font-size:12px;">@Messages("accountsettings.publicUrl")</label>
             <div class="col-sm-10 col-xs-8">
               <div class="form-text-control font-1x text-break word-break" style="padding-top:5px;"><a href="/user/{{uid}}" class="text-info">https://www.coinport.com/user/{{uid}}</a></div>
             </div>
@@ -128,7 +128,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-2 col-xs-4 control-label">API密钥</label>
+            <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.apiToken")</label>
             <div class="col-sm-10 col-xs-8">
               <span class="form-text-control font-1x">
                 @if(apiToken != null && apiToken.trim.length > 0) {
