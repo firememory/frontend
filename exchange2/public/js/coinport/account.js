@@ -367,7 +367,7 @@ app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.reload();
 }]);
 
-app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location, $timeout) {
     $scope.market = 'all';
     $scope.page = 1;
     $scope.limit = 25;
@@ -394,7 +394,7 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
         $http.get('/trade/' + order.subject + '-' + order.currency + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    setTimeout($scope.reload, 1000);
+                    $timeout($scope.reload, 1000);
                 }
             });
     };

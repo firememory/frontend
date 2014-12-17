@@ -22,16 +22,16 @@
     <!--sidebar-menu-->
     <div id="sidebar" >
       <ul class="primary no-border sidebar-tab nav nav-tabs nav-tabs-justified">
-        <li class="" id="cny-market-set"> <a href="#tab-m1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>CNY定价</span> </a> </li>
-        <li class="" id="btc-market-set"> <a href="#tab-m2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>BTC定价</span> </a> </li>
+        <li class="" id="cny-market-set"> <a href="#tab-m1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>@Messages("market.cny")</span> </a> </li>
+        <li class="" id="btc-market-set"> <a href="#tab-m2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>@Messages("market.btc")</span> </a> </li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="tab-m1">
           <ul class="side-menu">
-            <li id="nav-BTC-CNY" class=""><a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')"><i class="icon-btc-o"></i> <span>比特币(BTC)</span></a> </li>
-            <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
-            <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
-            <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
+            <li id="nav-BTC-CNY" class=""><a href="#/BTC-CNY" ng-click="changeMarket('BTC-CNY')"><i class="icon-btc-o"></i> <span>@{Messages("trade.coinname.btc")}(BTC)</span></a> </li>
+            <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>@{Messages("trade.coinname.ltc")}(LTC)</span></a> </li>
+            <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>@{Messages("trade.coinname.xrp")}(XRP)</span></a> </li>
+            <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>@{Messages("trade.coinname.btsx")}(BTSX)</span></a> </li>
             <!-- <li id="nav-DOGE-CNY" class=""><a href="#/DOGE-CNY" ng-click="changeMarket('DOGE-CNY')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
             <li id="nav-BC-CNY" class=""><a href="#/BC-CNY" ng-click="changeMarket('BC-CNY')"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
             <li id="nav-DRK-CNY" class=""><a href="#/DRK-CNY" ng-click="changeMarket('DRK-CNY')"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
@@ -42,15 +42,15 @@
         </div>
         <div class="tab-pane" id="tab-m2">
           <ul class="side-menu">
-            <li id="nav-LTC-BTC" class=""><a href="#/LTC-BTC" ng-click="changeMarket('LTC-BTC')"><i class="icon-ltc-o"></i> <span>莱特币(LTC)</span></a> </li>
-            <li id="nav-XRP-BTC" class=""><a href="#/XRP-BTC" ng-click="changeMarket('XRP-BTC')"><i class="icon-xrp-o"></i> <span>瑞波币(XRP)</span></a> </li>
-            <li id="nav-BTSX-BTC" class=""><a href="#/BTSX-BTC" ng-click="changeMarket('BTSX-BTC')"><i class="icon-btsx-o"></i> <span>比特股(BTSX)</span></a> </li>
-            <li id="nav-DOGE-BTC" class=""><a href="#/DOGE-BTC" ng-click="changeMarket('DOGE-BTC')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
-            <li id="nav-BC-BTC" class=""><a href="#/BC-BTC" ng-click="changeMarket('BC-BTC')"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
-            <li id="nav-DRK-BTC" class=""><a href="#/DRK-BTC" ng-click="changeMarket('DRK-BTC')"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
-            <li id="nav-VRC-BTC" class=""><a href="#/VRC-BTC" ng-click="changeMarket('VRC-BTC')"><i class="icon-vrc-o"></i> <span>维理币(VRC)</span></a> </li>
-            <li id="nav-ZET-BTC" class=""><a href="#/ZET-BTC" ng-click="changeMarket('ZET-BTC')"><i class="icon-zet-o"></i> <span>泽塔币(ZET)</span></a> </li>
-            <li id="nav-NXT-BTC" class=""><a href="#/NXT-BTC" ng-click="changeMarket('NXT-BTC')"><i class="icon-nxt-o"></i> <span>未来币(NXT)</span></a> </li>
+            <li id="nav-LTC-BTC" class=""><a href="#/LTC-BTC" ng-click="changeMarket('LTC-BTC')"><i class="icon-ltc-o"></i> <span>@{Messages("trade.coinname.ltc")}(LTC)</span></a> </li>
+            <li id="nav-XRP-BTC" class=""><a href="#/XRP-BTC" ng-click="changeMarket('XRP-BTC')"><i class="icon-xrp-o"></i> <span>@{Messages("trade.coinname.xrp")}(XRP)</span></a> </li>
+            <li id="nav-BTSX-BTC" class=""><a href="#/BTSX-BTC" ng-click="changeMarket('BTSX-BTC')"><i class="icon-btsx-o"></i> <span>@{Messages("trade.coinname.btsx")}(BTSX)</span></a> </li>
+            <li id="nav-DOGE-BTC" class=""><a href="#/DOGE-BTC" ng-click="changeMarket('DOGE-BTC')"><i class="icon-doge-o"></i> <span>@{Messages("trade.coinname.doge")}(DOGE)</span></a> </li>
+            <li id="nav-BC-BTC" class=""><a href="#/BC-BTC" ng-click="changeMarket('BC-BTC')"><i class="icon-bc-o"></i> <span>@{Messages("trade.coinname.bc")}(BC)</span></a> </li>
+            <li id="nav-DRK-BTC" class=""><a href="#/DRK-BTC" ng-click="changeMarket('DRK-BTC')"><i class="icon-drk-o"></i> <span>@{Messages("trade.coinname.drk")}(DRK)</span></a> </li>
+            <li id="nav-VRC-BTC" class=""><a href="#/VRC-BTC" ng-click="changeMarket('VRC-BTC')"><i class="icon-vrc-o"></i> <span>@{Messages("trade.coinname.vrc")}(VRC)</span></a> </li>
+            <li id="nav-ZET-BTC" class=""><a href="#/ZET-BTC" ng-click="changeMarket('ZET-BTC')"><i class="icon-zet-o"></i> <span>@{Messages("trade.coinname.zet")}(ZET)</span></a> </li>
+            <li id="nav-NXT-BTC" class=""><a href="#/NXT-BTC" ng-click="changeMarket('NXT-BTC')"><i class="icon-nxt-o"></i> <span>@{Messages("trade.coinname.nxt")}(NXT)</span></a> </li>
           </ul>
         </div>
       </div>
@@ -64,15 +64,15 @@
       <div class="col-lg-6 col-xs-12">
         <div class="panel">
           <ul class="buy-sell nav nav-tabs nav-tabs-justified">
-            <li class="buy active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> 买入 <span ng-bind="coinName"></span> </a> </li>
-            <li class="sell"> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>卖出</span> <span ng-bind="coinName"></span> </a> </li>
+            <li class="buy active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> @Messages("trade.buy") <span ng-bind="coinName"></span> </a> </li>
+            <li class="sell"> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>@Messages("trade.sell")</span> <span ng-bind="coinName"></span> </a> </li>
           </ul>
           <div class="panel-body">
             <div class="tab-content">
               <div class="tab-pane active" id="tab-1">
                 <form role="form" class="form-horizontal">
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1"><!--可买入<span ng-bind="subject"></span>-->可用资金</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1"><!--可买入<span ng-bind="subject"></span>-->@Messages("trade.availableCurrency")</label>
                     <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x" ng-bind="(account[currency].available.value || 0 | quantity)"></span><span class=" offset-1x" ng-bind="' ' + currency"></span> </div>
                   </div>
                   <div class="row">
@@ -82,22 +82,22 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">买入价</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.buy.price")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <div class="input-group">
-                        <input type="text" class="form-control" ng-model="bid.price" placeholder="买入价" />
+                        <input type="text" class="form-control" ng-model="bid.price" placeholder="@Messages("trade.buy.price")" />
                         <span class="input-group-addon" ng-bind="currency" ></span>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">买入数</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.buy.amount")</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="bid.amount" placeholder="买入数" />
+                      <input type="text" class="form-control" ng-model="bid.amount" placeholder="" />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">总金额</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.totalprice")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <input type="text" id="bid_total" class="form-control" ng-model="bid.total" />
                     </div>
@@ -109,13 +109,22 @@
                     <div class="col-sm-3 col-xs-4 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
                     <div class="col-sm-7 col-xs-8">
                       <p class="text-danger tip" style="height:30px;" ng-show="showMessage['bid']"> <span ng-bind="info.message['bid']"></span></p>
-                      <p class=" text-dark tip" style="height:48px;">委托详情：以不高于<span class="text-warning" ng-bind="' ' + bid.price"></span><span ng-bind="' ' + currency"></span>的价格尽可能的买入更多的比特币</p>
+                      @if(lang.code=="zh-CN") {
+                      <p class=" text-dark tip" style="height:48px;">委托详情：以不高于<span class="text-warning" ng-bind="' ' + bid.price"></span><span ng-bind="' ' + currency"></span>的价格尽可能的买入更多的<span ng-bind="subject"></span></p>
                       <p class=" text-success tip">手续费：全免</p>
+                      } else {
+                      <p class=" text-dark tip" style="height:48px;">buying as much <span ng-bind="subject"></span> as needed at a price lower than or equal to <span class="text-warning" ng-bind="' ' + bid.price"></span><span ng-bind="' ' + currency"></span></p>
+                      <p class=" text-success tip">Fee: 0.0%</p>
+                      }
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xs-12">
-                      <button class="btn btn-success btn-lg btn-block" ng-click="addBidOrder()">立即买入</button>
+                      @if(isLogin()){
+                      <button class="btn btn-success btn-lg btn-block" ng-click="addBidOrder()">@Messages("trade.buy.submit")</button>
+                      } else {
+                      <button class="btn btn-success btn-lg btn-block" ng-click="toLogin()">@Messages("trade.buy.submit")</button>
+                      }
                     </div>
                   </div>
                 </form>
@@ -123,7 +132,7 @@
               <div class="tab-pane sell" id="tab-2">
                 <form role="form" class="form-horizontal">
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1"><!--可卖出<span ng-bind="subject"></span>-->可用数量</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1"><!--可卖出<span ng-bind="subject"></span>-->@Messages("trade.availableAmount")</label>
                     <div class="col-sm-7 col-xs-8"> <span class="text-warning font-2x" ng-bind="(account[subject].available.value || 0 | quantity)"></span><span class=" offset-1x" ng-bind="' ' + subject"></span> </div>
                   </div>
                   <div class="row">
@@ -133,22 +142,22 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出价</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.sell.price")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <div class="input-group">
-                        <input type="text" class="form-control" ng-model="ask.price" placeholder="买出价" />
+                        <input type="text" class="form-control" ng-model="ask.price" placeholder="@Messages("trade.sell.price")" />
                         <span class="input-group-addon" ng-bind="currency"></span>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">卖出数</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.sell.amount")</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="ask.amount" placeholder="卖出数" />
+                      <input type="text" class="form-control" ng-model="ask.amount" placeholder="@Messages("trade.sell.amount")" />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">总金额</label>
+                    <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.totalprice")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <input type="text" id="ask_total" class="form-control" ng-model="ask.total" />
                     </div>
@@ -160,14 +169,22 @@
                     <div class="col-sm-3 col-xs-4 text-center"><i class="icon-bulb icon-3x text-warning vm"></i></div>
                     <div class="col-sm-7 col-xs-8">
                       <p class="text-danger tip" style="height:30px;" ng-show="showMessage['ask']"> <span ng-bind="info.message['ask']"></span></p>
-
+                      @if(lang.code=="zh-CN") {
                       <p class=" text-dark tip" style="height:48px;">委托详情：以不低于于<span class="text-warning" ng-bind="' ' + ask.price + ' '"> </span><span ng-bind="currency"></span>的价格卖出</p>
                       <p class=" text-success tip">手续费：全免</p>
+                      } else {
+                      <p class=" text-dark tip" style="height:48px;">selling <span ng-bind="ask.amount"></span> <span ng-bind="subject"></span> at a price higher than or equal to <span class="text-warning" ng-bind="' ' + ask.price + ' '"> </span> <span ng-bind="currency"></span></p>
+                      <p class=" text-success tip">Fee: 0.0%</p>
+                      }
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xs-12">
-                      <button class="btn btn-danger btn-lg btn-block" ng-click="addAskOrder()">立即卖出</button>
+                      @if(isLogin()){
+                      <button class="btn btn-danger btn-lg btn-block" ng-click="addAskOrder()">@Messages("trade.sell.submit")</button>
+                      } else {
+                      <button class="btn btn-danger btn-lg btn-block" ng-click="toLogin()">@Messages("trade.sell.submit")</button>
+                      }
                     </div>
                   </div>
                 </form>
@@ -179,28 +196,28 @@
       <div class="col-lg-6 col-xs-12">
         <div class="panel">
           <ul class="primary no-border nav nav-tabs nav-tabs-justified">
-            <li class="active"> <a href="#tab-s2" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>深度</span> </a> </li>
-            <li class=""> <a href="#tab-s1" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>最新成交</span> </a> </li>
+            <li class="active"> <a href="#tab-s2" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> <span>@Messages("depth")</span> </a> </li>
+            <li class=""> <a href="#tab-s1" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>@Messages("trade.recentTransactions")</span> </a> </li>
           </ul>
           <div class="panel-body">
             <div class="tab-content">
                  <div class="tab-pane active" id="tab-s2">  <!-- depth panel. -->
                 <div class="blk-2x"></div>
-                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
+                <p class="text-center">@{Messages("ticker.price")}： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
                 <div class="divider"></div>
                 <div class="">
                   <table class="table table-striped  margin-0" data-sortable="">
                     <thead>
                       <tr>
-                        <th>买卖</th>
-                        <th>价格</th>
-                        <th>数量</th>
+                        <th>@Messages("trade.buysell")</th>
+                        <th>@Messages("trade.price")</th>
+                        <th>@Messages("trade.amount")</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="item in depth.asks" ng-click="clickDepthAsks($index)">
-                        <td><span class="text-danger">卖(<span class="text-danger" ng-bind="depth.asks.length-$index"></span>) </span></td>
+                        <td><span class="text-danger">@{Messages("trade.sellShort")}(<span class="text-danger" ng-bind="depth.asks.length-$index"></span>) </span></td>
                         <td ng-bind="item.price.value | price"></td>
                         <td ng-bind="item.amount.value | quantity"></td>
                       </tr>
@@ -209,7 +226,7 @@
                       </tr>
 
                       <tr ng-repeat="item in depth.bids" ng-click="clickDepthBids($index)">
-                        <td><span class="text-success">买(<span ng-bind="1+$index"></span>)</span></td>
+                        <td><span class="text-success">@{Messages("trade.buyShort")}(<span ng-bind="1+$index"></span>)</span></td>
                         <td ng-bind="item.price.value | price"></td>
                         <td ng-bind="item.amount.value | quantity"></td>
                       </tr>
@@ -220,16 +237,16 @@
               </div>
               <div class="tab-pane" id="tab-s1">
                 <div class="blk-2x"></div>
-                <p class="text-center">最新成交价： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
+                <p class="text-center">@{Messages("ticker.price")}： <span  class="text-warning" ng-bind="lastPrice.display">@Messages("loading")</span> <span  class="text-warning" ng-bind="lastPrice.currency"></span></p>
                 <div class="blk-1x"></div>
                 <div class="divider"></div>
                 <div class="">
                   <table class="table table-striped margin-0" data-sortable="">
                     <thead>
                       <tr>
-                        <th>买卖</th>
-                        <th>价格</th>
-                        <th>成交量</th>
+                        <th>@Messages("trade.buysell")</th>
+                        <th>@Messages("trade.price")</th>
+                        <th>@Messages("order.finishedAmount")</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -253,7 +270,7 @@
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <div class="row">
-          <h3 class="panel-title col-lg-2 col-sm-3 col-xs-12 pull-left " style=" line-height:34px; padding-right:20px;">我的委托</h3>
+          <h3 class="panel-title col-lg-2 col-sm-3 col-xs-12 pull-left " style=" line-height:34px; padding-right:20px;">@Messages("trade.myOrders")</h3>
           <div class="form-group pull-right col-sm-9 col-xs-12" style="margin:0;">
             <div class="row">
               <label class="col-sm-8 col-xs-4 control-label hidden-xs text-right" style="line-height:2.5;"></label>
@@ -270,13 +287,13 @@
           <table class="table table-striped" data-sortable="">
             <thead>
               <tr>
-                <th>委托时间</th>
-                <th>买卖</th>
-                <th>委托价</th>
-                <th>平均价格</th>
-                <th>委托量</th>
-                <th>成交量</th>
-                <th>成交额</th>
+                <th>@Messages("order.time")</th>
+                <th>@Messages("trade.buysell")</th>
+                <th>@Messages("order.price")</th>
+                <th>@Messages("order.averagePrice")</th>
+                <th>@Messages("order.orderAmount")</th>
+                <th>@Messages("order.tradingAmount")</th>
+                <th>@Messages("order.tradingValue")</th>
                 <th></th>
                 <th></th>
               </tr>

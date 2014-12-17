@@ -64,17 +64,17 @@ login.forgotPassword=Forget your password?
 
 register.title=Sign Up
 register.changeCaptcha=Try a different image
-register.termsCheckboxTextHead=I have read and agree to the                          
+register.termsCheckboxTextHead=I have read and agree to the
 register.termsCheckboxTextLink=Terms of Service
 register.termsTitle=Terms of service
-register.email.error.required=email required 
-register.email.error.format=Invalid email address! 
-register.password.error.minlength=Your password must be at least 6 character long. 
+register.email.error.required=email required
+register.email.error.format=Invalid email address!
+register.password.error.minlength=Your password must be at least 6 character long.
 register.password.error.maxlength=Your password cannot be longer than 60 characters.
-register.password.error.confirm=The two passwords you provided don't match. 
+register.password.error.confirm=The two passwords you provided don't match.
 register.inviteCode=Invitation Code
 register.inviteCodeNoMatch=Sorry, your invitation code seems to be invalid.
-register.invite.error.required=An invitation code is required 
+register.invite.error.required=An invitation code is required
 register.invite.error.length=Your invitation code is invalid.
 privacyTitle=PRIVACY PRINCIPLES
 termsTitle=TERMS OF SERVICE
@@ -107,6 +107,25 @@ trade.myOrders=My Orders
 trade.aboutOrder=About this order
 trade.aboutFee=Fee
 trade.accumulated=Accumulated
+
+trade.coinname.btc=Bitcoin
+trade.coinname.ltc=Litecoin
+trade.coinname.xrp=Ripple
+trade.coinname.btsx=BitSharesX
+trade.coinname.doge=Dogecoin
+trade.coinname.bc=BlackCoin
+trade.coinname.drk=DarkCoin
+trade.coinname.vrc=VeriCoin
+trade.coinname.zet=Zetacoin
+trade.coinname.nxt=Nextcoin
+
+trade.buy.price=Price
+trade.buy.amount=Quantity
+trade.buy.submit=Submit
+trade.sell.price=Price
+trade.sell.amount=Quantity
+trade.sell.submit=Submit
+trade.totalprice=Total
 
 order.order=Order
 order.oid=ID
@@ -147,7 +166,7 @@ prompt.requestResetPwdFailed=This email was not registered.
 prompt.doResetPwdFailed=Reset password failed.
 prompt.resendVerifyEmailSucceedded=Please check your email to activate your account before you can log in.
 prompt.resendVerifyEmailFailed=Failed to verify your email.
-prompt.resendVerifyEmailPrefix=Haven't received a verification email? 
+prompt.resendVerifyEmailPrefix=Haven't received a verification email?
 prompt.resendVerifyEmailLink=Login
 prompt.resendVerifyEmailTail=You can request a new verification email.
 
@@ -215,7 +234,7 @@ accountsettings.sub.doubleauth=Google Auth
 accountsettings.sec.loginpassword=Login Password
 accountsettings.sec.loginpwdTips=Login password had been set
 accountsettings.sec.emailVerify=Email Verification
-accountsettings.sec.emailTip=Your Email address: 
+accountsettings.sec.emailTip=Your Email address:
 accountsettings.sec.doubleauth=Google Auth
 accountsettings.sec.doubleAuthInfoNotSet=You have not set up Google anthenticator yet
 accountsettings.sec.doubleAuthInfoSet=Google anthenticator had been set
@@ -452,7 +471,7 @@ transfer.xrp.hint3=Due to XRP's API, now only support registered ID(Eg. coinport
 transfer.nxt.newaddr.hint=Note that this is a new address
 transfer.nxt.publickey.hint= Optional
 
-transfer.account.totalasset.pre=Total assets: 
+transfer.account.totalasset.pre=Total assets:
 transfer.account.totalasset.tail=Or
 
 asset.category=Category

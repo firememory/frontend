@@ -18,7 +18,7 @@ COINPORT = {
     },
 
     amountFixed: {
-        cny: 8,
+        cny: 3,
         btc: 8,
         ltc: 8,
         doge: 8,

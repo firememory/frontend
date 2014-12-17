@@ -1,4 +1,4 @@
-var tradeApp = angular.module('coinport.trade', ['coinport.app']);
+var tradeApp = angular.module('coinport.trade', ['coinport.app', 'navbar']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -7,7 +7,7 @@ function httpConfig($httpProvider) {
 
 tradeApp.config(httpConfig);
 
-function BidAskCtrl($scope, $http, $window) {
+function BidAskCtrl($scope, $http, $window, $timeout) {
 
     if (!$window.location.hash) $window.location.hash = '#/' + COINPORT.defaultMarket;
     $scope.market = $window.location.hash.replace('#/', '').toUpperCase();
@@ -75,7 +75,7 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     $scope.toLogin = function() {
-        $window.location = '/login';
+        return $window.location = '/login';
     };
 
     $scope.loadOrders = function() {
@@ -268,9 +268,15 @@ function BidAskCtrl($scope, $http, $window) {
     };
 
     var updateAskTotal = function() {
+        var total;
         if($scope.ask.price == undefined || $scope.ask.amount == undefined)
             return;
-        var total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(6);
+        if($scope.currency == 'CNY') {
+            total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(2);
+            console.debug("total in cny: ", total);
+        } else {
+            total = +(+$scope.ask.price * +$scope.ask.amount).toFixed(6);
+        }
         $scope.ask.total = total;
     };
 
@@ -523,11 +529,12 @@ function BidAskCtrl($scope, $http, $window) {
 
     $scope.$watch('bid.price', watchBidPrice, true);
     $scope.$watch('bid.amount', watchBidAmount, true);
+
     $scope.$watch('ask.price', watchAskPrice, true);
     $scope.$watch('ask.amount', watchAskAmount, true);
 
-    $('#bid_total').keyup(updateBidAmount);
-    $('#ask_total').keyup(updateAskAmount);
+    $('#bid_total').keyup(function() {$timeout(updateBidAmount, 1000);});
+    $('#ask_total').keyup(function() {$timeout(updateAskAmount, 1000);});
 };
 
 // prevent app from memory leak, kind of hack

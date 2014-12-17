@@ -98,6 +98,7 @@ trade.simple=普通模式
 trade.advanced=高级模式
 trade.advancedTip=高级模式提供更多自定义下单方式
 trade.position=Position
+trade.buysell=买卖
 trade.price=价格
 order.averagePrice=平均价格
 trade.amount=数量
@@ -112,6 +113,25 @@ trade.myOrders=我的委托
 trade.aboutOrder=委托详情
 trade.aboutFee=手续费
 trade.accumulated=累积深度
+
+trade.coinname.btc=比特币
+trade.coinname.ltc=莱特币
+trade.coinname.xrp=瑞波币
+trade.coinname.btsx=比特股
+trade.coinname.doge=狗狗币
+trade.coinname.bc=黑币
+trade.coinname.drk=暗黑币
+trade.coinname.vrc=维理币
+trade.coinname.zet=泽塔币
+trade.coinname.nxt=未来币
+
+trade.buy.price=买入价
+trade.buy.amount=买入数
+trade.buy.submit=立即买入
+trade.sell.price=卖出价
+trade.sell.amount=卖出数
+trade.sell.submit=立即卖出
+trade.totalprice=总金额
 
 order.order=委托
 order.oid=委托ID
@@ -298,7 +318,7 @@ market.latestUpdateTime=上次更新时间
 market.willBeUpdatedIn=下次更新时间在
 market.seconds=秒后
 market.cny=CNY定价
-market.btc=BTC定价        
+market.btc=BTC定价
 
 open.nav.about=开放透明
 open.nav.opensource=代码开源
