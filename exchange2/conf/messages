@@ -126,10 +126,10 @@ trade.coinname.nxt=Nextcoin
 
 trade.buy.price=Price
 trade.buy.amount=Quantity
-trade.buy.submit=Submit
+trade.buy.submit=Buy Now
 trade.sell.price=Price
 trade.sell.amount=Quantity
-trade.sell.submit=Submit
+trade.sell.submit=Sell Now
 trade.totalprice=Total
 
 order.order=Order
@@ -321,7 +321,7 @@ footer.sinaweibo=Weibo
 footer.aboutUs=About Us
 footer.fq=F&Q
 footer.fee=Fee Instrument
-footer.termsOfService=Terms Of Service
+footer.termsOfService=Terms of Service
 footer.contact=Contact Us
 
 market.timeInterval=Time Interval
