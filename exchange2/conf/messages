@@ -313,10 +313,10 @@ accountsettings.region.other=others
 footer.about=About
 footer.law=Law
 footer.media=Media
-footer.team=team
-footer.jobs=jobs
-footer.privacy=privacy
-footer.sinaweibo=weibo
+footer.team=Team
+footer.jobs=Career
+footer.privacy=Privacy
+footer.sinaweibo=Weibo
 
 footer.aboutUs=About Us
 footer.fq=F&Q
