@@ -344,8 +344,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
                 var order = data.data;
                 $scope.orders.push(order);
                 $scope.alert('bid', Messages.trade.submitted);
-                setTimeout($scope.loadOrders, 1000);
-                setTimeout($scope.updateAccount, 1000);
+                setTimeout($scope.loadOrders, 4000);
+                setTimeout($scope.updateAccount, 4000);
                 // clear amount
                 $scope.bid.amount = 0;
                 $scope.bid.total = 0;
@@ -399,8 +399,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
                 var order = data.data;
                 $scope.orders.push(order);
                 $scope.alert('ask', Messages.trade.submitted);
-                setTimeout($scope.loadOrders, 1000);
-                setTimeout($scope.updateAccount, 1000);
+                setTimeout($scope.loadOrders, 4000);
+                setTimeout($scope.updateAccount, 4000);
                 // clear amount
                 $scope.ask.amount = 0;
                 $scope.ask.total = 0;
@@ -463,8 +463,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
         $http.get('/trade/' + $scope.market + '/order/cancel/' + order.id)
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    setTimeout($scope.loadOrders, 1000);
-                    setTimeout($scope.updateAccount, 1000);
+                    setTimeout($scope.loadOrders, 4000);
+                    setTimeout($scope.updateAccount, 4000);
                 }
             });
     };

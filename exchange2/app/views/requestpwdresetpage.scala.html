@@ -14,16 +14,16 @@
       <form name="form">
         <div class="list-group list-group-lg" >
           <div class="list-group-item text-center">
-            <h4><em class="icon box bg-orange"><i class="icon-key"></i></em>忘记密码</h4>
+            <h4><em class="icon box bg-orange"><i class="icon-key"></i></em>@Messages("forgetpwd.title")</h4>
           </div>
-          <div class="list-group-item"> 请输入注册的邮箱地址，我们将会给你发送一封验证邮件用以重置密码。 </div>
+          <div class="list-group-item">@Messages("forgetpwd.hint") </div>
           <div class="list-group-item">
 
             <input type="email" placeholder="Email" ng-model="pwdreset.email" class="form-control">
             <!--<input type="email" placeholder="Email" >-->
           </div>
           <div class="list-group-item">
-            <button type="submit" class="btn btn-lg btn-success btn-block" ng-click="requestPwdReset()">发送邮件</button>
+            <button type="submit" class="btn btn-lg btn-success btn-block" ng-click="requestPwdReset()">@Messages("forgetpwd.submit")</button>
           </div>
         </div>
       </form>

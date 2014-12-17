@@ -55,14 +55,17 @@ index.btc=Bitcoin
 index.ltc=Litecoin
 
 login.title=Log in
+login.title2=Login Coinport
 login.verifyEmailSucceeded=Your email has been verified, please login.
 login.resetPwdSucceeded=Your password has been reset, please login.
 login.userNamePlaceHolder=Register Email
 login.pwdPlaceHolder=Password
 login.doLogin=Log in
 login.forgotPassword=Forget your password?
+login.notRegisteredHint=Not registered? register now
 
 register.title=Sign Up
+register.title2=Sign Up
 register.changeCaptcha=Try a different image
 register.termsCheckboxTextHead=I have read and agree to the
 register.termsCheckboxTextLink=Terms of Service
@@ -76,6 +79,7 @@ register.inviteCode=Invitation Code
 register.inviteCodeNoMatch=Sorry, your invitation code seems to be invalid.
 register.invite.error.required=An invitation code is required
 register.invite.error.length=Your invitation code is invalid.
+register.registered.hint=Already hava an account? please login
 privacyTitle=PRIVACY PRINCIPLES
 termsTitle=TERMS OF SERVICE
 
@@ -170,9 +174,10 @@ prompt.resendVerifyEmailPrefix=Haven't received a verification email?
 prompt.resendVerifyEmailLink=Login
 prompt.resendVerifyEmailTail=You can request a new verification email.
 
-forgetpwd.title=Reset password
+forgetpwd.title=Forget password
+forgetpwd.hint=Please input your registered email address:
 forgetpwd.email=E-mail
-forgetpwd.submit=Submit
+forgetpwd.submit=Send Email
 
 resetpwd.title=Reset password
 resetpwd.newPassword=New password

@@ -58,14 +58,17 @@ index.btc=比特币
 index.ltc=莱特币
 
 login.title=登录
+login.title2=登录币丰港
 login.verifyEmailSucceeded=注册邮箱已验证，请登录
 login.resetPwdSucceeded=密码重置成功，请登录
 login.userNamePlaceHolder=注册邮箱
 login.pwdPlaceHolder=请输入密码
 login.doLogin=登录
 login.forgotPassword=忘记密码？
+login.notRegisteredHint=还没有币丰港账户? 马上注册
 
 register.title=注册信息
+register.title2=注册币丰港
 register.changeCaptcha=看不清，换一张
 register.termsCheckboxTextHead=我已经阅读并同意此
 register.termsCheckboxTextLink=服务条款
@@ -74,11 +77,12 @@ register.email.error.required=注册邮箱未填
 register.email.error.format=注册邮箱格式错误
 register.password.error.minlength=密码长度最少6位
 register.password.error.maxlength=密码长度最多60位
-register.password.error.confirm=密码确认不符合
+register.password.error.confirm=密码确认不一致
 register.inviteCode=邀请码
 register.inviteCodeNoMatch=无效的邀请码
 register.invite.error.required=邀请码未填
 register.invite.error.length=邀请码长度为8位
+register.registered.hint=已有币丰港账户，请登录
 privacyTitle=隐私申明
 termsTitle=服务条款
 
@@ -174,16 +178,17 @@ prompt.resendVerifyEmailPrefix=验证邮件没有收到？请直接
 prompt.resendVerifyEmailLink=登录
 prompt.resendVerifyEmailTail=然后可以重新发送验证邮件
 
-forgetpwd.title=密码重置
+forgetpwd.title=忘记密码
+forgetpwd.hint=请输入注册的邮箱地址，我们将会给你发送一封验证邮件用以重置密码。
 forgetpwd.email=Email
-forgetpwd.submit=确定
+forgetpwd.submit=发送邮件
 
 resetpwd.title=密码重置
 resetpwd.newPassword=新密码
 resetpwd.newPwdPlaceHolder=输入新密码
 resetpwd.repeat=重复密码
 resetpwd.repeatPlaceHolder=重复密码
-resetpwd.submit=确定
+resetpwd.submit=重置密码
 
 accountsettings.title=账号设置
 accountsettings.label=用户特权
