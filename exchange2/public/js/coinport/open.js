@@ -1,4 +1,4 @@
-var app = angular.module('coinport.openness', ['ui.bootstrap', 'ngResource', 'navbar', 'ngRoute', 'coinport.app']);
+var app = angular.module('coinport.openness', ['navbar', 'ngRoute', 'coinport.app']);
 
 function routeConfig($routeProvider) {
     $routeProvider.
@@ -50,12 +50,12 @@ app.controller('DownCtrl', function ($scope, $http) {
     $scope.loadMessages();
 });
 
-app.controller('MarketCtrl', function ($scope, $http, $modal) {
+app.controller('MarketCtrl', function ($scope, $http) {
     var refresh = function() {
       $http.get('/api/ticker')
         .success(function(response, status, headers, config) {
           $scope.tickers = response.data;
-          console.log(response)
+          //console.log(response)
         });
     };
 

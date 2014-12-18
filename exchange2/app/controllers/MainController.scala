@@ -172,10 +172,10 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.inviteCode.render(msg, request.session, langFromRequestCookie(request)))
   // }
 
-  // def open = Action {
-  //   implicit request =>
-  //     Ok(views.html.open.render(request.session, langFromRequestCookie(request)))
-  // }
+   def open = Action {
+     implicit request =>
+       Ok(views.html.open.render(request.session, langFromRequestCookie(request)))
+   }
 
   def prompt(msgKey: String) = Action {
     implicit request =>
@@ -288,30 +288,30 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.viewTransactions.render(langFromRequestCookie(request)))
   // }
 
-  // def opendataView() = Action {
-  //   implicit request =>
-  //     Ok(views.html.viewOpendata.render(langFromRequestCookie(request)))
-  // }
+   def opendataView() = Action {
+     implicit request =>
+       Ok(views.html.viewOpendata.render(langFromRequestCookie(request)))
+   }
 
-  // def reserveView() = Action {
-  //   implicit request =>
-  //     Ok(views.html.viewReserve.render(langFromRequestCookie(request)))
-  // }
+   def reserveView() = Action {
+     implicit request =>
+       Ok(views.html.viewReserve.render(langFromRequestCookie(request)))
+   }
 
-  // def opensourceView() = Action {
-  //   implicit request =>
-  //     Ok(views.html.viewOpensource.render(langFromRequestCookie(request)))
-  // }
+   def opensourceView() = Action {
+     implicit request =>
+       Ok(views.html.viewOpensource.render(langFromRequestCookie(request)))
+   }
 
   // def connectivityView() = Action {
   //   implicit request =>
   //     Ok(views.html.viewConnectivity.render(langFromRequestCookie(request)))
   // }
 
-  // def openmarketView() = Action {
-  //   implicit request =>
-  //     Ok(views.html._open_market.render(langFromRequestCookie(request)))
-  // }
+   def openmarketView() = Action {
+     implicit request =>
+       Ok(views.html._open_market.render(langFromRequestCookie(request)))
+   }
 
   def terms() = Action {
     implicit request =>

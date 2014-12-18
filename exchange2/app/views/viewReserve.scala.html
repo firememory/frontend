@@ -1,0 +1,232 @@
+@()(implicit lang: Lang)
+@import utils.Constant._
+<section class="content-3">
+@if(lang.code=="zh-CN") {
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aligment">
+                    <h3>准备金和准备金率</h3>
+                    <p class="explain">
+                        <b>准备金</b>是平台预先存放在一个公用账户中，用于支付用户提现的资金。
+                        如果准备金小于所有用户账面余额总和，就说明平台处于亏损状态，或者平台挪用了用户托管的一部分资产用于牟利。
+                        这种情况下，平台无法满足全部用户的提现请求。
+                    </p>
+                    <p>
+                        <alert>
+                            <b>准备金率 = 准备金总额 / 所有用户账面余额总和 x 100%</b>
+                            <br>例如，全部用户资产加起来为100BTC，平台冷热钱包中可支付的余额为90BTC，准备金率就是90%。
+                        </alert>
+
+
+                    </p>
+                </div>
+                <div class="col-sm-6 aligment">
+                    <h3>准备金证明</h3>
+                    <p class="explain">
+                        <b>准备金证明</b>也叫<b>偿付能力证明</b>。
+                        根据准备金率的计算公式，我们分别需要证明平台准备金总额（分子）和所有用户账面余额总和（分母）确实为我们所公布的数字。
+                    </p>
+                    <alert>
+                        <b>准备金总额证明</b><br>
+                        您可以查看平台全部冷热钱包地址的列表以及每一个钱包的余额，这些余额加起来应该等于准备金总额。
+                        通过“消息签名”机制，可以证明这里所列出的钱包都是我们可以支配的。
+                        <br>
+                        <b>所有用户账面余额总和证明</b><br>
+                        您可以下载平台全部用户资产数据，每个用户都可以检查数据中自己所对应的条目是否准确。
+                        将其中每一个用户账面余额加总后，可以算得所有用户账面余额总和。
+                    </alert>
+                </div>
+            </div>
+        </div>
+    </div>
+} else {
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aligment">
+                    <h3>Reserve and Reserve Ratio</h3>
+                    <p class="explain">
+                        <b>Reserve</b> is the amount of depositors' balances banks or platforms must have.
+                        If the amount of reserve is smaller than depositors' balances, the banks or platforms are short of money.
+                        There are many possible causes for this shortage, in situations like this, some depositors may not be able
+                        to get their money back.
+                    </p>
+                    <p>
+                        <alert>
+                            <b>Reserve Ratio = Amount of Reserve / All Depositors' Balances x 100%</b>
+                            <br>For example, if the sum of all depositors' balances is 100BTC，but the total reserve is 90BTC，the
+                            reserve ratio is 90.00%。
+                        </alert>
+
+
+                    </p>
+                </div>
+                <div class="col-sm-6 aligment">
+                    <h3>Proof of Reserve Ratios</h3>
+                    <p class="explain">
+                        <b>Proof of Reserve Ratios</b> verifies our ability to <b>pay back to all our users.</b>
+                        To calculate our reserve ratios, we need to publishize 1) our total reserves and 2) all our users' balances.
+                    </p>
+                    <alert>
+                        <b>Proof of Reserves</b><br>
+                        Our crypto-currency reserves can be verified by adding up the balances of our hot and cold
+                        wallets. A signed message will be publishized for each and every crypto-currency address we use so you
+                        know for sure those addresses are truly ours.
+                        <br>
+                        <b>User balances</b><br>
+                        You can verify how much we owe our users by downloading and checking out all users' deposit/withdrawal records (events).
+                        These book-keeping data are very straight forward. We will also regularly provide all users' balances at certain point of time (snapshots).
+                    </alert>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</section>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    @if(lang.code=="zh-CN") {
+                    <p>通过下表提供的实时准备金率数据，您可以随时了解平台的准备金情况：</p>
+                    } else {
+                    <p>This table shows the current reserve ratios:</p>
+                    }
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th nowrap>@Messages("open.coinType")</th>
+                            <th nowrap class="text-right">@Messages("user.available")</th>
+                            <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                            <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.account")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.balance")</th>
+                            <th nowrap class="text-right">@Messages("open.reserve.ratio")</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for(coin <- coins) {
+                        <tr ng-init="getWallets('@coin')">
+                            <td nowrap>
+                              <i class="icon-@(coin.toString.toLowerCase())-o"></i>
+                              <!--<img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">-->
+                              <strong> <a href="/coin/@coin">@coin</a> </strong>
+                            </td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].available.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].locked.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><span ng-bind="(accounts['@coin'].pendingWithdrawal.value | quantity) + ' @coin'"></span></td>
+                            <td nowrap class="text-right"><b ng-bind="(accounts['@coin'].total.value | quantity) + ' @coin'"></b></td>
+                            <td nowrap class="text-right"><b ng-bind="(walletsBalance['@coin'].value | quantity) + ' @coin'"></b></td>
+                            <td nowrap class="text-right">
+                              <a href="/coin/@coin" ng-show="walletsBalance['@coin']"  class="{{walletsBalance['@coin'].value / accounts['@coin'].total.value  || 0 | reserveRatioClass}}">
+                                    {{((walletsBalance['@coin'].value) * 100 / accounts['@coin'].total.value || 0).toFixed(4)}}%
+                              </a>
+                            </td>
+                            <td nowrap class="text-right">
+                                <a href="/coin/@coin" ng-show="walletsBalance['@coin']" class="">
+                                    @Messages("check")
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="delimiter">&nbsp;</div>
+</section>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>@Messages("open.network.title")</h3>
+@if(lang.code=="zh-CN") {
+                    <p>
+                        这里展示的是平台与虚拟币网络的连接情况。<br>
+                        根据最后一次同步虚拟币网络数据的时间到当前的时间之间的间隔，可以判断上面提供的准备金数据是否实时，以及用户的充值提现请求能否被系统及时处理。<br>
+                        <alert>
+                            <b>@Messages("open.network.status"):</b><br>
+                            <span class="{{0 | networkStatusClass}}" ng-bind="0 | networkStatusText"></span> &nbsp;&nbsp;延迟时间小于30分钟<br>
+                            <span class="{{30 * 60 * 1000 | networkStatusClass}}" ng-bind="30 * 60 * 1000 | networkStatusText"></span> &nbsp;&nbsp;延迟时间大于等于30分钟，小于60分钟<br>
+                            <span class="{{60 * 60 * 1000 | networkStatusClass}}" ng-bind="60 * 60 * 1000 | networkStatusText"></span> &nbsp;&nbsp;延迟时间大于等于60分钟<br>
+                        </alert>
+                    </p>
+} else {
+                    <p>
+                        This section shows the network connectivity for each crypto-currency.
+                        Based on the time our system received the latest data from respective crypto-currency networks, you can get a clue whether your
+                        deposit/withdrawal request may have been handled in a timely manner.
+                        <alert>
+                            <b>@Messages("open.network.status"):</b><br>
+                            <span class="{{0 | networkStatusClass}}" ng-bind="0 | networkStatusText"></span> &nbsp;&nbsp;Last crypto-currency block was received less than 30 minutes ago<br>
+                            <span class="{{30 * 60 * 1000 | networkStatusClass}}" ng-bind="30 * 60 * 1000 | networkStatusText"></span> &nbsp;&nbsp;Last crypto-currency block was received less than 60 minutes ago<br>
+                            <span class="{{60 * 60 * 1000 | networkStatusClass}}" ng-bind="60 * 60 * 1000 | networkStatusText"></span> &nbsp;&nbsp;Last crypto-currency block was received more than 60 minutes ago<br>
+                        </alert>
+                    </p>
+}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>@Messages("open.coinType")</th>
+                                <th>@Messages("open.network.lastactive")</th>
+                                <th>@Messages("open.network.delayed")</th>
+                                <th>@Messages("open.network.height")</th>
+                                <th>@Messages("open.network.lastblock")</th>
+                                <th class="text-right">@Messages("open.network.status")</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for(coin <- coins) {
+                            <tr ng-init="getNetworkStatus('@coin')">
+                                <td nowrap>
+                                  <i class="icon-@(coin.toString.toLowerCase())-o"></i>
+                                  <!-- <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png"> -->
+                                  <strong><a href="/coin/@coin">@coin</a></strong>
+                                </td>
+                                <td>{{status['@coin'].timestamp <= 0 ? '@Messages("open.network.neverseen")' : status['@coin'].timestamp | date:'MM-dd HH:mm:ss'}}</td>
+                                <td>{{status['@coin'].delay | networkDelay}} @Messages("open.network.minutes")</td>
+                                <td>{{status['@coin'].height}}</td>
+                                <td>
+                                  @if("btsx".equals(coin.toString.toLowerCase()) ||
+                                  "xrp".equals(coin.toString.toLowerCase())) {
+                                  <a target="_blank" href="{{blockUrl['@coin']}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a>
+                                  } else {
+                                  <a target="_blank" href="{{blockUrl['@coin']}}{{status['@coin'].block}}">@Messages("open.network.checkNow")<i class="fa fa-external-link"></i></a>
+                                  }
+                                </td>
+                                <td class="text-right"><span ng-show="status['@coin']" class="{{status['@coin'].delay | networkStatusClass}}">{{status['@coin'].delay | networkStatusText}}</span></td>
+                            </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

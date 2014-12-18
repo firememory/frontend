@@ -1,0 +1,125 @@
+@()(implicit lang: Lang)
+
+@if(lang.code=="zh-CN") {
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aligment">
+                    <h3>我们的匹配引擎 (ME) 源代码将托管在Github上</h3>
+                    <p>
+                        为了做到充分开放，同时为比特币社区贡献力量，我们决定开源我们的匹配引擎。<br>
+                        代码库：<a target="_blank" href="https://github.com/coinport/MatchEngine">https://github.com/coinport/MatchEngine</a><br>
+                        我们会继续维护代码，添加更多注释和文档。
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="img">
+                        <img src="/images/opensource.png" alt="">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="delimiter">&nbsp;</div>
+
+        <div class="container">
+            <div class="row features">
+                <div class="col-sm-2 col-sm-offset-3">
+                <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=MatchEngine&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+                <div class="col-sm-2">
+                <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=MatchEngine&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+                <div class="col-sm-2">
+                <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=MatchEngine&type=follow&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="delimiter">&nbsp;</div>
+
+        <div class="container">
+            <div class="row features">
+                <div class="col-sm-4">
+                    <h6>事件驱动引擎，Scala语言开发</h6>
+                    <p>
+                        CoinportX匹配引擎会保存系统全部历史事件。根据这些数据，用户可以通过replay机制重新计算任意时刻系统的状态。
+                    </p>
+
+                </div>
+                <div class="col-sm-4">
+                    <h6>对称交易模型</h6>
+                    <p>
+                        在我们的交易模型中，买和卖是相对的。买单可以转化为另一币种的卖单。例如“买比特币换取人民币”，等价于“卖人民币换取比特币”。
+                        该模型的应用将极大简化交易匹配的逻辑，减少潜在错误，提升系统性能。
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <h6>自动数据发布</h6>
+                    <p>
+                        我们的匹配引擎会定期（例如每隔30分钟）发布快照数据。该机制是实现完全透明性的技术保障。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+} else {
+<section class="content-3">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aligment">
+                    <h3>Our Matching Engine (ME) is open-sourced on Github.</h3>
+                    <p>
+                        We decided to open source our ME to achieve a greater level of openness, and to contribute to the Bitcoin community in the mean while. <br>
+                        The repository is hosted on github - <a target="_blank" href="https://github.com/coinport/MatchEngine">https://github.com/coinport/MatchEngine</a>.<br>
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="img">
+                        <img src="/images/opensource.png" alt="">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="delimiter">&nbsp;</div>
+
+        <div class="container">
+            <div class="row features">
+                <div class="col-sm-2 col-sm-offset-3">
+                    <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=playframework&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+                <div class="col-sm-2">
+                    <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=playframework&type=fork&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+                <div class="col-sm-2">
+                    <iframe src="http://ghbtns.com/github-btn.html?user=coinport&repo=playframework&type=follow&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="delimiter">&nbsp;</div>
+
+        <div class="container">
+            <div class="row features">
+                <div class="col-sm-4">
+                    <h6>Event-sourced, in Scala</h6>
+                    <p>Coinport ME Keeps both system states and all historical events. This enable us and our clients to replay events to calculate system state for any historical moment.</p>
+
+                </div>
+                <div class="col-sm-4">
+                    <h6>Symmetric Modeling</h6>
+
+                    <p>Our innovative modeling treats any order a sell order and a buy order at the same time, and each market is symmetrically two markets. For example, BTC-CNY market and CNY-BTC market is the same market. </p>
+                </div>
+                <div class="col-sm-4">
+                    <h6>Automatic Data Publishing</h6>
+
+                    <p>Our ME publishes event and snapshot data on a rigid schedule - every 30 minutes. This is our main approach to achieve full openness and exceptional transparency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+}

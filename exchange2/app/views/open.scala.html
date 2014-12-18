@@ -1,0 +1,89 @@
+@()(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+  @__head_commons()
+  <link rel="stylesheet" href="/css/open.css"/>
+  <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+  @__js_lang()
+  <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.openness">
+<div class="fixes-top openness">
+@_navbar(3)(session, lang)
+</div>
+<!--
+<section class="header-2-sub bg-light-green">
+    <div class="background">&nbsp;</div>
+    <div class="container">
+        <div class="col-sm-8 col-sm-offset-2">
+                <div class="hero-unit">
+                    <h1>Takes transparency to the extreme!</h1>
+            </div>
+        </div>
+    </div>
+</section>
+-->
+
+<section class="projects-4">
+    <div class="container">
+        <div class="projects row" cp-nav>
+            <div class="project-wrapper col-sm-3">
+                <div class="project nav-connectivity ">
+                    <div class="photo-wrapper bg-turquoise">
+                        <div class="photo"></div>
+                        <a route="#/market" href="#/market" class="overlay"><i class="fa fa-external-link-alt fa-3x"></i></span></a>
+                    </div>
+                    <div class="info">
+                        <a href="#/market" class="text-center name">@Messages("open.nav.market")</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-wrapper col-sm-3">
+                <div class="project nav-opensource">
+                    <div class="photo-wrapper">
+                        <div class="photo"></div>
+                        <a route="#/opensource" href="#/opensource" class="overlay"><i class="fa fa-github-alt fa-3x"></i></a>
+                    </div>
+                    <div class="info">
+                        <a href="#/opensource" class="text-center name">@Messages("open.nav.opensource")</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-wrapper col-sm-3">
+                <div class="project nav-reserve ">
+                    <div class="photo-wrapper bg-peter-river">
+                        <div class="photo"></div>
+                        <a route="#/reserve" href="#/reserve" class="overlay"><i class="fa fa-anchor fa-3x"></i></a>
+                    </div>
+                    <div class="info">
+                        <a href="#/reserve" class="text-center name">@Messages("open.nav.reserve")</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-wrapper col-sm-3">
+                <div class="project nav-opendata ">
+                    <div class="photo-wrapper bg-sun-flower">
+                        <div class="photo"></div>
+                        <a route="#/opendata" href="#/opendata" class="overlay"><i class="fa fa-cubes fa-3x"></i></a>
+                    </div>
+                    <div class="info">
+                        <a href="#/opendata" class="text-center name">@Messages("open.nav.opendata")</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</section> 
+
+<div class="container-main" ng-view></div>
+
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/angular-route.min.js")
+@__js("/js/coinport/open.js")
+</body>
+</html>
