@@ -1,4 +1,4 @@
-var app = angular.module('coinport.user', ['ui.bootstrap', 'ngResource', 'navbar', 'coinport.app']);
+var app = angular.module('coinport.user', ['navbar', 'coinport.app']);
 
 app.controller('UserCtrl', function($scope, $http, $window) {
     $scope.dw = {};

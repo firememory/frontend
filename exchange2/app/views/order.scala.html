@@ -1,0 +1,138 @@
+@(oid: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+    @__head_commons()
+    <link rel="stylesheet" href="/css/open.css"/>
+    @__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.order">
+<div class="fixes-top opendata-browser">
+    @_navbar(3)(session, lang)
+
+
+    <div class="container container-main opendata-data" ng-controller="OrderCtrl">
+        <div class="row">
+            <div class="col-md-12"><h3>@Messages("order.order"): @oid</h3> </div>
+
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th nowrap>@Messages("order.submitTime")</th>
+                            <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'">@Messages("loading")</td>
+                            <th nowrap>@Messages("order.type")</th>
+                            <td nowrap><span class="{{order.operation.toLowerCase()}}"><span ng-bind="order.operation | orderTypeText">@Messages("loading")</span></span></td>
+                            <th nowrap>@Messages("order.status")</th>
+                            <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText">@Messages("loading")</span></td>
+                        </tr>
+                        <tr>
+                            <th nowrap>@Messages("order.baseCurrency")</th>
+                            <td nowrap>
+                                <i class="icon-{{order.subject.toLowerCase()}}-o"></i>
+                                <!--<img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">-->
+                                <span ng-bind="order.subject">@Messages("loading")</span>
+                            </td>
+                            <th nowrap>@Messages("order.targetCurrency")</th>
+                            <td nowrap>
+                                <i class="icon-{{order.currency.toLowerCase()}}-o"></i>
+                               <!-- <img ng-src="/image/coins/{{order.currency.toLowerCase()}}.png">-->
+                                <span ng-bind="order.currency">@Messages("loading")</span>
+                            </td>
+                            <th nowrap>@Messages("order.uid")</th>
+                            <td nowrap>
+                                <a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' ' + order.uid"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th nowrap>@Messages("order.orderPrice")</th>
+                            <td nowrap ng-bind="(order.price.value|price) +' '+order.currency+'/'+order.subject">@Messages("loading")</td>
+                            <th nowrap>@Messages("order.averagePrice")</th>
+                            <td nowrap><span ng-bind="order.finishedAmount.value / order.finishedQuantity.value | price"></span> <span ng-bind="order.currency+'/'+order.subject"></span></td>
+                            <th nowrap>@Messages("market")</th>
+                            <td nowrap>
+                                <a href="/trade#/{{order.subject}}-{{order.currency}}">
+                                    <i class="icon-{{order.subject.toLowerCase()}}-o"></i>
+                                    <!--<img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">-->
+                                    <span ng-bind="order.subject+'-'+order.currency"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th nowrap>@Messages("order.orderAmount")</th>
+                            <td nowrap ng-bind="(order.amount.value|quantity) +' '+order.subject">@Messages("loading")</td>
+                            <th nowrap>@Messages("order.tradingAmount")</th>
+                            <td nowrap ng-bind="(order.finishedQuantity.value|quantity) +' '+order.subject">@Messages("loading")</td>
+                            <th nowrap></th>
+                            <td nowrap></td>
+                        </tr>
+                        <tr>
+                            <th nowrap>@Messages("order.orderValue")</th>
+                            <td nowrap ng-bind="(order.total.value|quantity) +' '+order.currency">@Messages("loading")</td>
+                            <th nowrap>@Messages("order.tradingValue")</th>
+                            <td nowrap ng-bind="(order.finishedAmount.value|quantity) +' '+order.currency">@Messages("loading")</td>
+                            <th nowrap></th>
+                            <td nowrap></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>@Messages("order.transactions")</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>@Messages("transaction.tid")</th>
+                            <th>@Messages("transaction.timestamp")</th>
+                            <th class="text-right">@Messages("transaction.price")</th>
+                            <th class="text-right">@Messages("transaction.amount")</th>
+                            <th class="text-right">@Messages("transaction.value")</th>
+                            <th>@Messages("transaction.taker")</th>
+                            <th>@Messages("transaction.type")</th>
+                            <th>@Messages("transaction.maker")</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in transactions.items">
+                            <td nowrap><a href="/transaction/{{item.id}}" class="title" ng-bind="item.id">@Messages("loading")</a></td>
+                            <td nowrap><i class="fa fa-clock-o" ng-bind="item.timestamp | date:' yyyy-MM-dd HH:mm:ss'">@Messages("loading")</i></td>
+                            <td nowrap class="text-right" ng-bind="(item.price.value|price)+' '+item.price.currency">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="(item.subjectAmount.value|quantity) +' '+item.subjectAmount.currency">@Messages("loading")</td>
+                            <td nowrap class="text-right" ng-bind="(item.currencyAmount.value|quantity) +' '+item.currencyAmount.currency">@Messages("loading")</td>
+                            <td nowrap>
+                                <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker">@Messages("loading")</i></a>
+                                (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
+                            </td>
+                            <td nowrap class="{{item.sell | txTypeClass}}"><span ng-bind="item.sell | txTypeText"></span></td>
+                            <td nowrap>
+                                <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.maker">@Messages("loading")</i></a>
+                                (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)
+                            </td>
+                        </tr>
+                        </tbody>
+                        @__empty_table_indicator("transactions.items")
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/coinport/order.js")
+</body>
+</html>

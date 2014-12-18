@@ -1,0 +1,188 @@
+@(target: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+@__head_commons()
+<link rel="stylesheet" href="/css/open.css"/>
+<link rel="stylesheet" href="/css/font-awesome.min.css"/>
+@__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.user">
+<div class="fixes-top opendata-browser">
+  @_navbar(3)(session, lang)
+
+
+<div class="container container-main opendata-data" ng-controller="UserCtrl">
+        <h3><i class="fa fa-user"></i> @target</h3>
+        <div class="row">
+        <div class="col-md-6">
+            <h4>@Messages("user.assets")</h4>
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th nowrap>@Messages("user.coinType")</th>
+                        <th nowrap class="text-right">@Messages("user.account.total")</th>
+                        <th nowrap class="text-right">@Messages("user.available")</th>
+                        <th nowrap class="text-right">@Messages("user.orderPending")</th>
+                        <th nowrap class="text-right">@Messages("user.withdrawalPending")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="account in accounts">
+                        <td nowrap>
+                          <i class="icon-{{account.currency.toLowerCase()}}-o"></i>
+                          <!--<img ng-src="/image/coins/{{account.currency.toLowerCase()}}.png">-->
+                          <b ng-bind="account.currency"></b>
+                        </td>
+                        <td nowrap class="text-right"><b ng-bind="account.total.value | quantity"></b></td>
+                        <td nowrap class="text-right" ng-bind="account.available.value | quantity"></td>
+                        <td nowrap class="text-right" ng-bind="account.locked.value | quantity"></td>
+                        <td nowrap class="text-right" ng-bind="account.pendingWithdrawal.value | quantity"></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>@Messages("user.orders")</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th nowrap>@(Messages("order.oid"))</th>
+                            <th nowrap>@(Messages("order.time"))</th>
+                            <th nowrap>@(Messages("order.type"))</th>
+                            <th nowrap class="text-right">@(Messages("order.price"))</th>
+                            <th nowrap class="text-right">@(Messages("order.amount"))</th>
+                            <th nowrap class="text-right">@(Messages("order.finishedAmount"))</th>
+                            <th nowrap class="text-right">@(Messages("order.finishedTotal"))</th>
+                            <th nowrap>@(Messages("order.status"))</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="order in orders | orderBy: ['-date', '-tid']" class="">
+                            <td nowrap> <a href="/order/{{order.id}}" ng-bind="order.id"></a></td>
+                            <td nowrap><i class="fa fa-clock-o" ng-bind="order.submitTime | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
+                            <td nowrap class="{{order.operation | orderTypeClass}}">
+                                <span ng-bind="order.operation | orderTypeText"></span>
+                                <i class="icon-{{order.subject.toLowerCase()}}-o"></i>
+                                <!--<img ng-src="/image/coins/{{order.subject.toLowerCase()}}.png">-->
+                                <span ng-bind="'(' + order.subject + '-' + order.currency + ')'"></span>
+                            </td>
+                            <td nowrap class="text-right {{order.operation | orderTypeClass}}" ng-bind="(order.price.value|price) + ' ' + order.currency"></td>
+                            <td nowrap class="text-right" ng-bind="(order.amount.value|quantity) + ' ' + order.subject"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedQuantity.value|quantity) + ' ' + order.subject"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedAmount.value|quantity) + ' ' + order.currency"></td>
+                            <td nowrap> <span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <pagination boundary-links="true" max-size="5" total-items="orderCount" ng-model="orderPage" class="pagination-sm" ng-change="reloadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("user.transactions")</h4>
+            <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th nowrap>@Messages("transaction.tid")</th>
+                    <th nowrap>@Messages("transaction.timestamp")</th>
+                    <th nowrap>@Messages("transaction.type")</th>
+                    <th nowrap class="text-right">@Messages("transaction.price")</th>
+                    <th nowrap class="text-right">@Messages("transaction.amount")</th>
+                    <th nowrap class="text-right">@Messages("transaction.value")</th>
+                    <th nowrap>@Messages("transaction.taker")</th>
+                    <th nowrap>@Messages("transaction.maker")</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in transactions">
+                        <td nowrap><a href="/transaction/{{item.id}}" class="title" ng-bind="item.id"></a></td>
+                        <td nowrap><i class="fa fa-clock-o" ng-bind="item.timestamp | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
+                        <td nowrap class="{{item.sell | txTypeClass}}">
+                            <span ng-bind="item.sell | txTypeText"></span>
+                            <i class="icon-{{item.price.item.toLowerCase()}}-o"></i>
+                            <!--<img ng-src="/image/coins/{{item.price.item.toLowerCase()}}.png">-->
+                            <span ng-bind="'(' + item.price.item + '-' + item.price.currency + ')'"></span>
+                        </td>
+                        <td nowrap class="text-right" ng-bind="(item.price.value|price) + ' ' + item.price.currency"></td>
+                        <td nowrap class="text-right" ng-bind="(item.subjectAmount.value|quantity) + ' ' + item.subjectAmount.currency"></td>
+                        <td nowrap class="text-right" ng-bind="(item.currencyAmount.value|quantity) + ' ' + item.currencyAmount.currency"></td>
+                        <td nowrap>
+                            <a href="/user/{{item.taker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.taker"></i></a>
+                            (<a href="/order/{{item.tOrder.oid}}" class="title">@Messages("order.order")</a>)
+                        </td>
+                        <td nowrap>
+                            <a href="/user/{{item.maker}}" class="title"><i class="fa fa-user" ng-bind="' ' + item.maker"></i></a>
+                            (<a href="/order/{{item.mOrder.oid}}" class="title">@Messages("order.order")</a>)
+                        </td>
+                    </tr>
+                </tbody>
+                 @__empty_table_indicator("transactions")  
+            </table>
+            </div>
+            <pagination boundary-links="true" max-size="5" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="col-md-12">
+            <h4>@Messages("user.Transfer")</h4>
+            <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th nowrap>@Messages("transfer.id")</th>
+                    <th nowrap>@Messages("user.transfer.operation")</th>
+                    <th nowrap>@Messages("user.coinType")</th>
+                    <th nowrap class="text-right">@Messages("transfer.amount")</th>
+                    <th nowrap>@Messages("transfer.status")</th>
+                    <th nowrap>@Messages("transfer.created")</th>
+                    <th nowrap>@Messages("transfer.updated")</th>
+                    <th nowrap>@Messages("transfer.address")</th>
+                    <th nowrap></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  ng-repeat="item in transfers | orderBy: ['-date', '-id']" class="">
+                    <td nowrap ng-bind="item.id"></td>
+                    <td nowrap class="{{item.operation | transferOperationClass}}" ng-bind="item.operation | transferOperationText"></td>
+                    <td nowrap>
+                        <i class="icon-{{item.amount.currency.toLowerCase()}}-o"></i>
+                        <!--<img ng-src="/image/coins/{{item.amount.currency.toLowerCase()}}.png">-->
+                        <span ng-bind="item.amount.currency"></span>
+                    </td>
+                    <td nowrap class="text-right">
+                        <span class="{{item.operation | transferOperationClass}}" ng-bind="(item.operation | transferSign) + (item.amount.value | quantity)"></span>
+                    </td>
+                    <td nowrap ng-bind="item.status | transferStatusText"></td>
+                    <td nowrap> <i class="fa fa-clock-o" ng-bind="item.created | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
+                    <td nowrap> <i class="fa fa-clock-o" ng-bind="item.updated | date:' yyyy-MM-dd HH:mm:ss'"></i></td>
+                    <td nowrap><caddr ng-bind="item.address"></caddr></td>
+                    <td nowrap><a target="_blank" href="{{item.txlink}}">@Messages("check")<i class="fa fa-external-link"></i></a></td>
+                </tr>
+                </tbody>
+                </table>
+                <pagination boundary-links="true" max-size="5" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            </div>
+            </div>
+        </div>
+</div>
+
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/coinport/user.js")
+</body>
+</html>

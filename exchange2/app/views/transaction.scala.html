@@ -1,0 +1,85 @@
+@(tid: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+@__head_commons()
+<link rel="stylesheet" href="/css/open.css"/>
+@__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.transaction">
+<div class="fixes-top opendata-browser">
+  @_navbar(3)(session, lang)
+
+<div class="container container-main opendata-data" ng-controller="TxCtrl">
+    <div class="row">
+        <div class="col-md-12"><h3>@Messages("transaction.transaction"): @tid</h3> </div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th nowrap>@Messages("transaction.timestamp")</th>
+                        <th nowrap class="text-right">@Messages("transaction.price")</th>
+                        <th nowrap class="text-right">@Messages("transaction.amount")</th>
+                        <th nowrap class="text-right">@Messages("transaction.value")</th>
+                        <th nowrap>@Messages("transaction.type")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td nowrap><i class="fa fa-clock-o" ng-bind="transaction.timestamp | date:' yyyy-MM-dd HH:mm:ss'"> @Messages("loading")</i></td>
+                        <td nowrap class="text-right" ng-bind="(transaction.price.value|price) +' '+transaction.price.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(transaction.subjectAmount.value|quantity) +' '+transaction.subjectAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(transaction.currencyAmount.value|quantity) +' '+transaction.currencyAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="{{transaction.sell | txTypeClass}}" ng-bind="transaction.sell | txTypeText"></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <br>
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th nowrap></th>
+                        <th nowrap>@Messages("transaction.orderId")</th>
+                        <th nowrap>@Messages("transaction.userId")</th>
+                        <th nowrap class="text-right">@Messages("transaction.beforeAmount")</th>
+                        <th nowrap class="text-right">@Messages("transaction.afterAmount")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td nowrap>@Messages("transaction.takeOrder")</td>
+                        <td nowrap><a href="/order/{{takeOrder.oid}}" class="title"><span ng-bind="' '+takeOrder.oid"> @Messages("loading")</span></a></td>
+                        <td nowrap>
+                            <a href="/user/{{transaction.taker}}" class="title"><i class="fa fa-user" ng-bind="' '+takeOrder.uid"> @Messages("loading")</i></a>
+                        </td>
+                        <td nowrap class="text-right" ng-bind="(takeOrder.preAmount.value|quantity) +' '+takeOrder.preAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(takeOrder.curAmount.value|quantity) +' '+takeOrder.curAmount.currency">@Messages("loading")</td>
+                     </tr>
+                    <tr>
+                        <td nowrap>@Messages("transaction.makeOrder")</td>
+                        <td nowrap><a href="/order/{{makeOrder.oid}}" class="title"><span ng-bind="' '+makeOrder.oid"> @Messages("loading")</span></a></td>
+                        <td nowrap>
+                            <a href="/user/{{transaction.maker}}" class="title"><i class="fa fa-user" ng-bind="' '+makeOrder.uid"> @Messages("loading")</i></a>
+                        </td>
+                        <td nowrap class="text-right" ng-bind="(makeOrder.preAmount.value|quantity) +' '+makeOrder.preAmount.currency">@Messages("loading")</td>
+                        <td nowrap class="text-right" ng-bind="(makeOrder.curAmount.value|quantity) +' '+makeOrder.curAmount.currency">@Messages("loading")</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div> <!-- row -->
+</div>
+
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/coinport/transaction.js")
+</body>
+</html>
