@@ -130,30 +130,30 @@ object MainController extends Controller with Json4s {
   //     Ok(views.html.order.render(oid, request.session, langFromRequestCookie(request)))
   // }
 
-  // def orders(market: String) = Action {
-  //   implicit request =>
-  //     Ok(views.html.orders.render(market, request.session, langFromRequestCookie(request)))
-  // }
+  def marketOrders(market: String) = Action {
+    implicit request =>
+      Ok(views.html.orders.render(market, request.session, langFromRequestCookie(request)))
+  }
 
   // def transaction(tid: String) = Action {
   //   implicit request =>
   //     Ok(views.html.transaction.render(tid, request.session, langFromRequestCookie(request)))
   // }
 
-  // def transactions(market: String) = Action {
-  //   implicit request =>
-  //     Ok(views.html.transactions.render(market, request.session, langFromRequestCookie(request)))
-  // }
+  def transactions(market: String) = Action {
+    implicit request =>
+      Ok(views.html.transactions.render(market, request.session, langFromRequestCookie(request)))
+  }
 
   // def coin(coin: String) = Action {
   //   implicit request =>
   //     Ok(views.html.coin.render(coin, request.session, langFromRequestCookie(request)))
   // }
 
-  // def depth(market: String) = Action {
-  //   implicit request =>
-  //     Ok(views.html.depth.render(market, request.session, langFromRequestCookie(request)))
-  // }
+  def depth(market: String) = Action {
+    implicit request =>
+      Ok(views.html.depth.render(market, request.session, langFromRequestCookie(request)))
+  }
 
   def login(msg: String = "") = Action {
     implicit request =>

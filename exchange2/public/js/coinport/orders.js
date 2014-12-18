@@ -1,4 +1,4 @@
-var app = angular.module('coinport.orders', ['ui.bootstrap', 'ngResource', 'navbar', 'coinport.app']);
+var app = angular.module('coinport.orders', ['navbar', 'coinport.app']);
 
 app.controller('OrdersCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/orders/", "");

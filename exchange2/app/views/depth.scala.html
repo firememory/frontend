@@ -1,0 +1,112 @@
+@(market: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+  @__head_commons()
+  <link rel="stylesheet" href="/css/open.css"/>
+  @__js_lang()
+  <title>@Messages("title")</title>
+  <style>
+        .axis path,
+        .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+        }
+
+        .tick line {
+        stroke: lightgrey;
+        opacity: 0.7;
+        }
+
+        path.line-buy {
+        fill: none;
+        stroke: rgba(44, 137, 25, 0.9);
+        stroke-width: 2px;
+        }
+
+        path.line-sell {
+        fill: none;
+        stroke: rgba(137, 22, 22, 0.9);
+        stroke-width: 2px;
+        }
+
+        .area-buy {
+        fill: rgba(144, 237, 125, 0.6);
+        }
+
+        .area-sell {
+        fill: rgba(237, 122, 122, 0.6);
+        }
+  </style>
+</head>
+
+<body ng-app="coinport.depth">
+<div class="fixes-top opendata-browser">
+  @_navbar(3)(session, lang)
+
+
+<div class="container container-main opendata-data" ng-controller="DepthCtrl">
+    <div class="row">
+        <div class="col-md-12"><h3>@Messages("orderBook") - @market</h3> </div>
+        <div id="depth-graph" class="text-center"></div>
+        <div class="col-md-6">
+            <h4 class="text-center">@(Messages("trade.buy"))</h4>
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th nowrap></th>
+                    <th nowrap class="text-right">@(Messages("trade.price"))</th>
+                    <th nowrap class="text-right">@(Messages("trade.amount"))</th>
+                    <th nowrap class="text-right">@(Messages("trade.accumulated"))</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in depth.bids">
+                    <td nowrap class="buy" ng-bind="'@Messages("trade.buyShort")' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.price.value|price) + ' ' + item.price.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.amount.value|quantity)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.accumulated|quantity)">@Messages("loading")</td>
+                </tr>
+                </tbody>
+                @__empty_table_indicator("depth.bids")    
+            </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-center">@(Messages("trade.sell"))</h4>
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th nowrap></th>
+                    <th nowrap class="text-right">@(Messages("trade.price"))</th>
+                    <th nowrap class="text-right">@(Messages("trade.amount"))</th>
+                    <th nowrap class="text-right">@(Messages("trade.accumulated"))</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in depth.asks">
+                    <td nowrap class="sell" ng-bind="'@(Messages("trade.sellShort"))' + (1+$index)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.price.value|price) + ' ' + item.price.currency">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.amount.value|quantity)">@Messages("loading")</td>
+                    <td nowrap class="text-right" ng-bind="(item.accumulated|quantity)">@Messages("loading")</td>
+                </tr>
+                </tbody>
+                @__empty_table_indicator("depth.asks")    
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/d3.min.js")
+@__js("/js/coinport/depth.js")
+</body>
+</html>

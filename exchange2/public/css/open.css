@@ -373,3 +373,75 @@ div.container-main {
     margin-left: auto;
   }
 }
+
+.bg-turquoise {
+  background-color: #1abc9c;
+}
+.bg-peter-river {
+  background-color: #3498db;
+}
+.bg-sun-flower {
+  background-color: #f1c40f;
+}
+
+.bg-danger {
+  background-color: #e74c3c;
+}
+
+section * {
+  z-index: 2;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+}
+
+.page-wrapper {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+div.opendata-browser {
+  background-color: white;
+}
+div.opendata-browser .header-3 .header-background {
+  background-color: #f2f2f1;
+}
+div.opendata-browser div.opendata-data {
+  padding-top: 40px;
+}
+div.opendata-browser div.opendata-data .pagination {
+  margin-left: 20px;
+}
+div.opendata-browser div.opendata-data h3 {
+  padding-bottom: 60px;
+}
+div.opendata-browser div.opendata-data h4 {
+  color: grey;
+  text-transform: uppercase;
+}
+div.opendata-browser div.opendata-data h4 {
+  color: #1abc9c;
+  padding-top: 40px;
+}
+div.opendata-browser div.opendata-data tbody {
+  color: #2c3e50;
+}
+div.opendata-browser div.opendata-data a:hover {
+  text-decoration: underline;
+}
+div.opendata-browser div.opendata-data .sell {
+  color: #ff4040;
+}
+div.opendata-browser div.opendata-data .buy {
+  color: #40a040;
+}
+div.opendata-browser .table > thead > tr > th,
+div.opendata-browser .table > tbody > tr > th,
+div.opendata-browser .table > tfoot > tr > th {
+  background-color: #f2f2f1;
+}

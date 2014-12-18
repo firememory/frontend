@@ -1,4 +1,4 @@
-var app = angular.module('coinport.depth', ['ui.bootstrap', 'coinport.app', 'navbar']);
+var app = angular.module('coinport.depth', ['coinport.app', 'navbar']);
 
 app.controller('DepthCtrl', function ($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/depth/", "");

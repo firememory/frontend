@@ -1,0 +1,76 @@
+@(market: String)(implicit session: Session, lang: Lang)
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+    @__head_commons()
+    <link rel="stylesheet" href="/css/open.css"/>
+    @__js_lang()
+    <title>@Messages("title")</title>
+</head>
+
+<body ng-app="coinport.orders">
+<div class="fixes-top opendata-browser">
+  @_navbar(3)(session, lang)
+
+    <div class="container container-main opendata-data" ng-controller="OrdersCtrl">
+        <div class="row">
+            <div class="col-md-12"><h3>@Messages("orders") - @market</h3> </div>
+
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th nowrap>@Messages("order.oid")</br>&nbsp;</th>
+                            <th nowrap>@Messages("order.uid")</br>&nbsp;</th>
+                            <th nowrap>@Messages("order.submitTime")</br>&nbsp;</th>
+                            <th nowrap>@Messages("order.type")</br>&nbsp;</th>
+                            <th nowrap>@Messages("order.status")</br>&nbsp;</th>
+                            <th nowrap class="text-right">@Messages("order.orderPrice")
+                                </br><span ng-bind="'(' + currency + '/' + subject + ')'">&nbsp;</span>
+                            </th>
+                            <th nowrap class="text-right">@Messages("order.orderAmount")
+                                </br><span ng-bind="'('+subject+')'">&nbsp;</span>
+                            </th>
+                            <th nowrap class="text-right">@Messages("order.orderValue")
+                                </br><span ng-bind="'('+currency+')'">&nbsp;</span>
+                            </th>
+                            <th nowrap class="text-right">@Messages("order.tradingAmount")
+                                </br><span ng-bind="'('+subject+')'">&nbsp;</span>
+                            </th>
+                            <th nowrap class="text-right">@Messages("order.averagePrice")
+                                </br><span ng-bind="'('+currency + '/' + subject+')'">&nbsp;</span>
+                            </th>
+                            <th nowrap class="text-right">@Messages("order.tradingValue")
+                                </br><span ng-bind="'('+currency+')'">&nbsp;</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  ng-repeat="order in orders.items">
+                            <td nowrap><a href="/order/{{order.id}}" ng-bind="order.id">@Messages("loading")</a></td>
+                            <td nowrap><a href="/user/{{order.uid}}"><i class="fa fa-user" ng-bind="' ' +  order.uid">@Messages("loading")</i></a> </td>
+                            <td nowrap ng-bind="order.submitTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+                            <td nowrap><span class="{{order.operation.toLowerCase()}}" ng-bind="order.operation | orderTypeText"><i class="fa fa-lg {{order.operation | txTypeIcon}}"></i></span></td>
+                            <td nowrap><span class="badge text-white bg-{{order.status | orderStatusClass}}" ng-bind="order.status | orderStatusText"></span> </td>
+                            <td nowrap class="text-right" ng-bind="order.price.value|price"></td>
+                            <td nowrap class="text-right" ng-bind="order.amount.value|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="(order.price.value * order.amount.value)|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedQuantity.value|quantity"></td>
+                            <td nowrap class="text-right" ng-bind="(order.finishedAmount.value / order.finishedQuantity.value) | price"></td>
+                            <td nowrap class="text-right" ng-bind="order.finishedAmount.value|quantity"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination boundary-links="true" max-size="10" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="loadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            </div>
+        </div>
+    </div>
+    @__footer()
+</div> <!-- page-wrapper -->
+@__tail_commons()
+@__js("/js/coinport/orders.js")
+</body>
+</html>
