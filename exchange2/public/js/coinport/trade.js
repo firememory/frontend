@@ -98,7 +98,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
             });
     };
 
-    $scope.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
+    $scope.orderStatusList = Messages.orderStatusList;
     $scope.orderStatusObj = $scope.orderStatusList[0];
 
     $scope.changeOrderStatus = function(status) {

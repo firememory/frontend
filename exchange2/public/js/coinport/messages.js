@@ -187,3 +187,5 @@ Messages.bankList = [
     'Huaxia Bank',
     'China Development Bank',
     'China Merchants Bank'];
+
+Messages.orderStatusList = [{value: 1, text: "Pending"}, {value: 2, text: "Filled"}, {value: 3, text: "All"}];

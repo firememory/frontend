@@ -115,7 +115,7 @@ a.list-group-item:hover,a.list-group-item:focus,a.list-group-item.hover{backgrou
 .panel-title{ font-weight:bold;}
 .panel-heading{ border:none;}
 .table > thead > tr > th,.table > tbody > tr > th,.table > tfoot > tr > th,.table > thead > tr > td,.table > tbody > tr > td,.table > tfoot > tr > td {padding:8px 15px;line-height:1;vertical-align:middle;border-top: 1px solid #ddd; color:#555;}
-.table > thead > tr > th {vertical-align:middle;border-bottom: 1px double #ddd; font-weight:bold;color:#000;}
+.table > thead > tr > th {vertical-align:middle;border-bottom: 1px double #ddd; font-weight:bold;color:#777;}
 .nav.nav-tabs>li > a{border-radius:0; display:block;}
 .buy-sell.nav.nav-tabs{ border:none;}
 .buy-sell.nav.nav-tabs a{ color:#fff; width:100%;}

@@ -181,3 +181,6 @@ Messages.bankList = [
     '华夏银行',
     '国家开发银行',
     '招商银行'];
+
+    
+Messages.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
