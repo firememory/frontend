@@ -1,4 +1,4 @@
-var app = angular.module('coinport.account', ['coinport.app', 'navbar']);
+var app = angular.module('coinport.account', ['ui.bootstrap', 'coinport.app', 'navbar']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

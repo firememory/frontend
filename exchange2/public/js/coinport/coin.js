@@ -1,6 +1,6 @@
-var app = angular.module('coinport.coin', ['ui.bootstrap', 'ngResource', 'navbar', 'coinport.app']);
+var app = angular.module('coinport.coin', ['ui.bootstrap','navbar', 'coinport.app']);
 
-app.controller('CoinCtrl', function ($scope, $http, $window, $modal) {
+app.controller('CoinCtrl', function ($scope, $http, $window) {
     $scope.coin = $window.location.pathname.replace("/coin/", "");
     $scope.addressUrl = COINPORT.addressUrl[$scope.coin];
     $scope.hotWallets = [];

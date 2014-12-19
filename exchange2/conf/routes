@@ -26,7 +26,7 @@ GET     /order/$oid<[a-zA-Z0-9._-]+>                 controllers.MainController.
 GET     /orders/$market<[a-zA-Z0-9._-]+>             controllers.MainController.marketOrders(market)
 GET     /prompt/$msgKey<[a-zA-Z0-9._-]+>             controllers.MainController.prompt(msgKey)
 #GET     /company                    controllers.MainController.company()
-#GET     /coin/$coin<[a-zA-Z0-9]+>                    controllers.MainController.coin(coin)
+GET     /coin/$coin<[a-zA-Z0-9]+>                    controllers.MainController.coin(coin)
 
 GET     /account/logout             controllers.UserController.logout()
 POST    /account/login              controllers.UserController.login()

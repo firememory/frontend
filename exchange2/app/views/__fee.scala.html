@@ -19,7 +19,11 @@
             <td nowrap>
               <i class="icon-@(coin.toString.toLowerCase())-o"></i>
                 <!-- <img ng-src="/image/coins/@(coin.toString.toLowerCase()).png">-->
+                @if("CNY" == coin.toString.toUpperCase){
+                <strong>@coin</strong>
+                } else {
                 <strong><a href="/coin/@coin">@coin</a></strong>
+                }
             </td>
             <td>0</td>
             <td>0</td>

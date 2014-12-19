@@ -521,7 +521,6 @@ object UserController extends Controller with Json4s with AccessLogging {
     val userId = request.session.get("uid").get.toLong
     val nickname = getParam(data, "nickname").getOrElse("")
     val cleanNickName = nickname.replaceAll("[^a-zA-Z0-9.]", "")
-    println(s"updateNickname: $nickname, cleanNickName: $cleanNickName")
     UserService.updateNickName(userId, cleanNickName).map {
       result =>
       if (result.success) {
@@ -539,7 +538,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     val location = getParam(data, "location").getOrElse("")
     val identiType = getParam(data, "identiType").getOrElse("")
     val idNumber = getParam(data, "idNumber").getOrElse("")
-    println(s"verifyRealName: realName=$realName, location=$location, identiType=$identiType, idNumber=$idNumber")
+    // println(s"verifyRealName: realName=$realName, location=$location, identiType=$identiType, idNumber=$idNumber")
     UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
       result =>
       if (result.success) {

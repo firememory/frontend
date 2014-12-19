@@ -1,4 +1,4 @@
-var app = angular.module('coinport.openness', ['navbar', 'ngRoute', 'coinport.app']);
+var app = angular.module('coinport.openness', ['ui.bootstrap', 'navbar', 'ngRoute', 'coinport.app']);
 
 function routeConfig($routeProvider) {
     $routeProvider.

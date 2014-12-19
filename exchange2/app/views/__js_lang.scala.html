@@ -1,7 +1,5 @@
 @()(implicit lang: Lang)
 
-@println(s"lang in __js_lang page: $lang")
-
 @if(lang.code == "zh-CN") {
     <script type="text/javascript" src="/js/coinport/messages.@(lang.code).js"></script>
 } else {

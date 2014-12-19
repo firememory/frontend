@@ -1,4 +1,4 @@
-var tradeApp = angular.module('coinport.trade', ['coinport.app', 'navbar']);
+var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'coinport.app', 'navbar']);
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

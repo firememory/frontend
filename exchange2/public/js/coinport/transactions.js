@@ -1,7 +1,7 @@
 (function() {
   var app;
 
-  app = angular.module('coinport.transactions', ['navbar', 'coinport.app']);
+  app = angular.module('coinport.transactions', ['ui.bootstrap', 'navbar', 'coinport.app']);
 
   app.controller('TransCtrl', function($scope, $http, $window) {
     $scope.market = $window.location.pathname.replace("/transactions/", "");

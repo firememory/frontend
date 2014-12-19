@@ -49,14 +49,11 @@ object MainController extends Controller with Json4s {
 
   def index = Action {
     implicit request =>
-      println(s"request: ${request.headers}")
-      Ok(views.html.index.render(request.session, langFromRequestCookie(request)))
+          Ok(views.html.index.render(request.session, langFromRequestCookie(request)))
   }
 
   def trade = Action {
     implicit request =>
-      println(s"request headers: ${request.headers}")
-      println(s"request cookies: ${request.cookies}")
       Ok(views.html.trade.render(request.session, langFromRequestCookie(request)))
   }
 
@@ -145,10 +142,10 @@ object MainController extends Controller with Json4s {
       Ok(views.html.transactions.render(market, request.session, langFromRequestCookie(request)))
   }
 
-  // def coin(coin: String) = Action {
-  //   implicit request =>
-  //     Ok(views.html.coin.render(coin, request.session, langFromRequestCookie(request)))
-  // }
+  def coin(coin: String) = Action {
+    implicit request =>
+      Ok(views.html.coin.render(coin, request.session, langFromRequestCookie(request)))
+  }
 
   def depth(market: String) = Action {
     implicit request =>
