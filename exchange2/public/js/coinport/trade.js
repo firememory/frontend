@@ -470,7 +470,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     };
 
     var watchBidPrice = function(newValue, oldValue) {
-        console.debug(oldValue, newValue);
+        //console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.bid.price = oldValue;
             return;
@@ -485,7 +485,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     };
 
     var watchAskPrice = function(newValue, oldValue) {
-        console.debug(oldValue, newValue);
+        //console.debug(oldValue, newValue);
         if (!COINPORT.numberRegExp.test(newValue)) {
             $scope.ask.price = oldValue;
             return;
@@ -527,14 +527,31 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
         updateAskTotal();
     };
 
-    $scope.$watch('bid.price', watchBidPrice, true);
-    $scope.$watch('bid.amount', watchBidAmount, true);
+    var bidPriceWatch,
+        bidAmountWatch,
+        askPriceWatch,
+        askAmountWatch;
 
-    $scope.$watch('ask.price', watchAskPrice, true);
-    $scope.$watch('ask.amount', watchAskAmount, true);
+    bidPriceWatch = $scope.$watch('bid.price', watchBidPrice, true);
+    bidAmountWatch = $scope.$watch('bid.amount', watchBidAmount, true);
 
-    $('#bid_total').keyup(function() {$timeout(updateBidAmount, 1000);});
-    $('#ask_total').keyup(function() {$timeout(updateAskAmount, 1000);});
+    askPriceWatch = $scope.$watch('ask.price', watchAskPrice, true);
+    askAmountWatch = $scope.$watch('ask.amount', watchAskAmount, true);
+
+    $('#bid_total').focus(function(){ bidAmountWatch(); });
+    $('#bid_total').focusout(function() {
+            updateBidAmount();
+            bidAmountWatch = $scope.$watch('bid.amount', watchBidAmount, true);
+        });
+
+    $('#ask_total').focus(function() { askAmountWatch(); });
+    $('#ask_total').focusout(function() {
+            updateAskAmount();
+            askAmountWatch = $scope.$watch('ask.amount', watchAskAmount, true);
+        });
+
+    $('#bid_total').keyup(updateBidAmount);
+    $('#ask_total').keyup(updateAskAmount);
 };
 
 // prevent app from memory leak, kind of hack
