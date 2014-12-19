@@ -10,7 +10,12 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
     $scope.page = 1;
     $scope.limit = 25;
 
-    $scope.addressUrl = COINPORT.addressUrl;
+    $scope.addressUrl = COINPORT.addressUrl[$scope.currency];
+    $scope.txUrl = COINPORT.txUrl[$scope.currency];
+
+    $scope.withdrawalLimit = 0.01;
+    $scope.withdrawalFee = '0.0005';
+
     $scope.allCoinsWithName = Messages.coinName;
     $scope.allCoins = Messages.coins;
     if (!$scope.currency) { $scope.currency = $scope.allCoins[0]; }
@@ -72,6 +77,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             });
     };
 
+
     $scope.loadWithdrawals = function () {
         //console.debug("loadWithdrawals...");
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
@@ -86,6 +92,48 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
         //console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
         $scope.loadDeposits();
         $scope.loadWithdrawals();
+
+        switch ($scope.currency)  {
+          case "NXT":
+            $scope.withdrawalLimit = 10;
+            break;
+          case "BTSX":
+            $scope.withdrawalLimit = 10;
+            break;
+          case "XRP":
+            $scope.withdrawalLimit = 10;
+            break;
+          case "DOGE":
+            $scope.withdrawalLimit = 5;
+            break;
+          case "CNY":
+            $scope.withdrawalLimit = 500;
+            break;
+          default :
+            $scope.withdrawalLimit = 0.01;
+            break;
+        };
+
+        switch ($scope.currency) {
+          case "NXT":
+            $scope.withdrawalFee = '2';
+            break;
+          case "BTSX":
+            $scope.withdrawalFee = '2';
+            break;
+          case "XRP":
+            $scope.withdrawalFee = '1';
+            break;
+          case "DOGE":
+            $scope.withdrawalFee = '2';
+            break;
+          case "CNY":
+            $scope.withdrawalFee = '0.4%';
+            break;
+          default :
+            $scope.withdrawalFee = '0.0005';
+            break;
+        };
     };
 
     $scope.changeCurrency();
