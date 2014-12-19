@@ -358,6 +358,14 @@ app.controller('AssetCtrl', function ($scope, $http) {
             $scope.updateAsset();
         });
 
+    $http.get('/api/BTC-CNY/transaction?limit=1&skip=0')
+        .success(function(data, status, headers, config) {
+            if (data.data && data.data.items && data.data.items.length > 0)
+                $scope.cnyPrice = data.data.items[0].price.value;
+            else
+                $scope.cnyPrice = 0.0;
+        });
+
     $scope.totalAssetBtc = 0;
     $scope.totalAssetCny = 0;
 
@@ -378,12 +386,12 @@ app.controller('AssetCtrl', function ($scope, $http) {
                     $scope.totalAssetBtc += parseFloat(account.asset);
                 }
 
-                if ($scope.accounts['CNY']) {
-                    if ($scope.accounts['CNY'].price > 0) {
-                        $scope.totalAssetCny = (1.0 / $scope.accounts['CNY'].price) * $scope.totalAssetBtc;
-                    } else {
-                        $scope.totalAssetCny = $scope.accounts['CNY'].total.value;
-                    }
+                if ($scope.cnyPrice > 0) {
+                    $scope.totalAssetCny = $scope.cnyPrice * $scope.totalAssetBtc;
+                } else if ($scope.accounts['CNY']) {
+                    $scope.totalAssetCny = $scope.accounts['CNY'].total.value;
+                } else {
+                    $scope.totalAssetCny = 0.0;
                 }
 
                 $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(4);
