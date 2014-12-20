@@ -155,16 +155,16 @@ Messages.getLoginRemainingAttempts = function(count) {
 };
 
 Messages.coinName = {
-    CNY: 'CNY',
+    CNY: 'ChineseYuan',
     BTC: 'Bitcoin',
     LTC: 'Litecoin',
     DOGE: 'Dogecoin',
-    BC: 'BlackCoin',
-    DRK: 'DarkCoin',
-    VRC: 'VeriCoin',
+    BC: 'Blackcoin',
+    DRK: 'Darkcoin',
+    VRC: 'Vericoin',
     ZET: 'Zetacoin',
-    BTSX: 'BitSharesX',
-    NXT: 'Nextcoin',
+    BTSX: 'BitsharesX',
+    NXT: 'NextCoin',
     XRP: 'Ripple'
 };
 

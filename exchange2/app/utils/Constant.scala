@@ -2,7 +2,7 @@ package utils
 
 import play.api.Play
 import com.coinport.coinex.data.Implicits._
-import com.coinport.coinex.data.{Currency, MarketSide}
+import com.coinport.coinex.data.{ Currency, MarketSide }
 import com.coinport.coinex.api.model._
 import models.Agent
 
@@ -28,8 +28,20 @@ object Constant {
     "ZET" -> "泽塔币",
     "BTSX" -> "比特股",
     "NXT" -> "未来币",
-    "XRP" -> "瑞波币"
-  )
+    "XRP" -> "瑞波币")
+
+  val coinEnglishNames = Map(
+    "CNY" -> "ChineseYuan",
+    "BTC" -> "Bitcoin",
+    "LTC" -> "Litecoin",
+    "DOGE" -> "Dogecoin",
+    "BC" -> "Blackcoin",
+    "DRK" -> "Darkcoin",
+    "VRC" -> "Vericoin",
+    "ZET" -> "Zetacoin",
+    "BTSX" -> "BitsharesX",
+    "NXT" -> "Nextcoin",
+    "XRP" -> "Ripple")
 
   val supportedBankNames = Seq(
     "建设银行",
@@ -47,8 +59,7 @@ object Constant {
     "进出口银行",
     "华夏银行",
     "国家开发银行",
-    "招商银行"
-  )
+    "招商银行")
 
   def markets = {
     config.getList("exchange.markets").get.unwrapped()
@@ -100,7 +111,6 @@ object Constant {
     }
   }
 
-
   def currencySeq = {
     coins.toArray.toSeq.map {
       case m: String =>
@@ -110,6 +120,5 @@ object Constant {
   }
 
   def agents = List(
-    Agent("杨*", "招商银行", "喵喵（招行）", "62** **** **** **92", "209063895")
-  )
+    Agent("杨*", "招商银行", "喵喵（招行）", "62** **** **** **92", "209063895"))
 }

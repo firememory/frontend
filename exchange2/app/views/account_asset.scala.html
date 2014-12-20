@@ -36,7 +36,11 @@
           <div class="slider2">
             @for(currency <- assetCurrencies) {
             <div class="item"><i class="icon-@{currency.toLowerCase}-o icon-3x"></i>
+            @if("zh-CN" == lang.code) {
               <div class="coin"><span>@{coinChineseNames(currency)}</span>
+            } else {
+              <div class="coin"><span>@{coinEnglishNames(currency)}</span>
+            }
                 <h2 ng-bind="accounts['@currency'].total.value | quantity"></h2>
               </div>
             </div>
