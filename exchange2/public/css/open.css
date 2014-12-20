@@ -9,6 +9,11 @@ div.openness .table > tfoot > tr > th {
   background-color: #f2f2f1;
   padding:8px 1px
 }
+div.openness .table > thead > tr > td,
+div.openness .table > tbody > tr > td,
+div.openness .table > tfoot > tr > td {
+  padding:8px 1px
+}
 div.openness .tab-content {
   border-width: 0;
   border-radius: 0;
