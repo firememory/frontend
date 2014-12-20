@@ -53,6 +53,8 @@ index.marketStats=Market Stats
 
 index.btc=Bitcoin
 index.ltc=Litecoin
+index.xrp=Ripple
+index.btsx=BitShares
 
 login.title=Log in
 login.title2=Login Coinport

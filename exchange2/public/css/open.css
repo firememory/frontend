@@ -7,6 +7,7 @@ div.openness .table > thead > tr > th,
 div.openness .table > tbody > tr > th,
 div.openness .table > tfoot > tr > th {
   background-color: #f2f2f1;
+  padding:8px 1px
 }
 div.openness .tab-content {
   border-width: 0;

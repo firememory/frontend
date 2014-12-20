@@ -28,10 +28,12 @@ app.controller('TickerCtrl', function ($scope, $http) {
                 $scope.tickers.forEach(function(ticker){
                     if ('BTC-CNY' === ticker.market) {
                         $scope.btcstats = ticker;
-                    }
-
-                    if ('LTC-CNY' === ticker.market) {
+                    } else if ('LTC-CNY' === ticker.market) {
                         $scope.ltcstats = ticker;
+                    } else if ('XRP-CNY' === ticker.market) {
+                        $scope.xrpstats = ticker;
+                    } else if ('BTSX-CNY' === ticker.market) {
+                        $scope.btsxstats = ticker;
                     }
                 });
                 //          $scope.tickers.forEach(function(ticker){
