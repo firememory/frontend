@@ -249,7 +249,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="item in transactions.items">
-                        <td><span class="text-danger"><span ng-bind="item.sell | txTypeTextShort"></span></td>
+                          <td><span ng-class="{true:'text-danger', false:'text-success'}[item.sell == true]"><span ng-bind="item.sell | txTypeTextShort"></span></td>
                         <td ng-bind="item.price.value | price"></td>
                         <td ng-bind="item.subjectAmount.value | quantity"></td>
                       </tr>
