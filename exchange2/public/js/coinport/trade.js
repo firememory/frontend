@@ -261,7 +261,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     };
 
     var updateBidAmount = function() {
-        if (!$scope.bid.price)
+        if (!$scope.bid.price || (+$scope.bid.price) == 0)
             $scope.bid.amount = 0;
         else
             $scope.bid.amount = COINPORT.floor(+$scope.bid.total / +$scope.bid.price, COINPORT.getAmountFixed($scope.subject));
@@ -281,10 +281,10 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     };
 
     var updateAskAmount = function() {
-        if (!$scope.ask.price)
+        if (!$scope.ask.price || (+$scope.ask.price) == 0)
             $scope.ask.amount = 0;
         else
-            $scope.ask.amount = COINPORT.floor(+$scope.bid.total / +$scope.bid.price, COINPORT.getAmountFixed($scope.subject));
+            $scope.ask.amount = COINPORT.floor(+$scope.ask.total / +$scope.ask.price, COINPORT.getAmountFixed($scope.subject));
     };
 
     var toggleBidAdvanced = function(newValue, oldValue) {
@@ -529,6 +529,34 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
         updateAskTotal();
     };
 
+    var watchBidTotal = function(newValue, oldValue) {
+        if (!COINPORT.numberRegExp.test(newValue)) {
+            $scope.bid.total = oldValue;
+            return;
+        }
+
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
+
+        $scope.bid.total = value;
+
+        updateBidAmount();
+    };
+
+    var watchAskTotal = function(newValue, oldValue) {
+        if (!COINPORT.numberRegExp.test(newValue)) {
+            $scope.ask.total = oldValue;
+            return;
+        }
+
+        var fixed = COINPORT.amountFixed[$scope.subject.toLowerCase()];
+        var value = COINPORT.floor(newValue, fixed);
+
+        $scope.ask.total = value;
+
+        updateAskAmount();
+    };
+
     var bidPriceWatch,
         bidAmountWatch,
         askPriceWatch,
@@ -536,24 +564,42 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
 
     bidPriceWatch = $scope.$watch('bid.price', watchBidPrice, true);
     bidAmountWatch = $scope.$watch('bid.amount', watchBidAmount, true);
+    bidTotalWatch = $scope.$watch('bid.total', watchBidTotal, true);
 
     askPriceWatch = $scope.$watch('ask.price', watchAskPrice, true);
     askAmountWatch = $scope.$watch('ask.amount', watchAskAmount, true);
+    askTotalWatch = $scope.$watch('ask.total', watchAskTotal, true);
+
+    $('#bid_price').focus(function(){ bidTotalWatch(); });
+    $('#bid_price').focusout(function() {
+        bidTotalWatch = $scope.$watch('bid.total', watchBidTotal, true);
+    });
+
+    $('#ask_price').focus(function() { askTotalWatch(); });
+    $('#ask_price').focusout(function() {
+        askTotalWatch = $scope.$watch('ask.total', watchAskTotal, true);
+    });
+
+    $('#bid_amount').focus(function(){ bidTotalWatch(); });
+    $('#bid_amount').focusout(function() {
+        bidTotalWatch = $scope.$watch('bid.total', watchBidTotal, true);
+    });
+
+    $('#ask_amount').focus(function() { askTotalWatch(); });
+    $('#ask_amount').focusout(function() {
+        askTotalWatch = $scope.$watch('ask.total', watchAskTotal, true);
+    });
+
 
     $('#bid_total').focus(function(){ bidAmountWatch(); });
     $('#bid_total').focusout(function() {
-            updateBidAmount();
-            bidAmountWatch = $scope.$watch('bid.amount', watchBidAmount, true);
-        });
+        bidAmountWatch = $scope.$watch('bid.amount', watchBidAmount, true);
+    });
 
     $('#ask_total').focus(function() { askAmountWatch(); });
     $('#ask_total').focusout(function() {
-            updateAskAmount();
-            askAmountWatch = $scope.$watch('ask.amount', watchAskAmount, true);
-        });
-
-    $('#bid_total').keyup(updateBidAmount);
-    $('#ask_total').keyup(updateAskAmount);
+        askAmountWatch = $scope.$watch('ask.amount', watchAskAmount, true);
+    });
 };
 
 // prevent app from memory leak, kind of hack
