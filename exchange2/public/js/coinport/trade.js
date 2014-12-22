@@ -431,6 +431,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     }
 
     $scope.clickDepthBids = function(index) {
+        $('#bidAskTab a[href="#tab-2"]').tab('show');
         var data = $scope.depth.bids
         if (index < 0 || index >= data.length) return;
 
@@ -445,6 +446,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
     }
 
     $scope.clickDepthAsks = function(index) {
+        $('#bidAskTab a[href="#tab-1"]').tab('show');
             var data = $scope.depth.asks
             if (index < 0 || index >= data.length) return;
 
