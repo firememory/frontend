@@ -168,6 +168,39 @@
             </div>
           </div>
 
+          <div class="item">
+            <div class="col-lg-3 col-md-3 col-xs-12">
+              <h2>@{Messages("index.gooc")}(GOOC) </h2>
+            </div>
+            <div class="col-lg-9 col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter">
+                    <em>
+                      <span ng-bind="'CNY ' + goocstats.price.value">@Messages("loading")</span>
+                    </em>
+                    <h3>@Messages("ticker.price")</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'CNY ' + goocstats.high.value">@Messages("loading")</span></em>
+                    <h3>@Messages("ticker.high")</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'CNY ' + goocstats.low.value">@Messages("loading")</span></em>
+                    <h3>@Messages("ticker.low")</h3>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                  <div class="market-counter"> <em><span ng-bind="'GOOC ' + goocstats.volume.value">@Messages("loading")</span></em>
+                    <h3>@Messages("ticker.volume") </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

@@ -55,6 +55,7 @@ index.btc=Bitcoin
 index.ltc=Litecoin
 index.xrp=Ripple
 index.btsx=BitShares
+index.gooc=GooCoin
 
 login.title=Log in
 login.title2=Login Coinport
@@ -125,6 +126,7 @@ trade.coinname.drk=DarkCoin
 trade.coinname.vrc=VeriCoin
 trade.coinname.zet=Zetacoin
 trade.coinname.nxt=Nextcoin
+trade.coinname.gooc=GooCoin
 
 trade.buy.price=Price
 trade.buy.amount=Quantity

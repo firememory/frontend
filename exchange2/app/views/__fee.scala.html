@@ -25,8 +25,16 @@
                 <strong><a href="/coin/@coin">@coin</a></strong>
                 }
             </td>
+            @if("GOOC" == coin) {
+            <td>0.2%</td>
+            } else {
             <td>0</td>
+            }
+            @if("GOOC" == coin) {
+            <td>0.2%</td>
+            } else {
             <td>0</td>
+            }
             <td>0</td>
             @coin match {
             case "NXT" => {<td>2 @coin</td>}
@@ -34,6 +42,7 @@
             case "BTSX" => {<td>2 @coin</td>}
             case "XRP" => {<td>1 @coin</td>}
             case "CNY" => {<td>0.4%</td>}
+            case "GOOC" => {<td>1 @coin</td>}
             case x => {<td>0.0005 @coin</td>}
             }
         </tr>
