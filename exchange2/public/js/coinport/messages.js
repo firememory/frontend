@@ -188,4 +188,4 @@ Messages.bankList = [
     'China Development Bank',
     'China Merchants Bank'];
 
-Messages.orderStatusList = [{value: 1, text: "Pending"}, {value: 2, text: "Filled"}, {value: 3, text: "All"}];
+Messages.orderStatusList = [{value: 1, text: "Pending"}, {value: 2, text: "Filled"}, {value: 3, text: "Finished"}, {value: 4, text: "All"}];

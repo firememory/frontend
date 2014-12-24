@@ -182,5 +182,5 @@ Messages.bankList = [
     '国家开发银行',
     '招商银行'];
 
-    
-Messages.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
+
+Messages.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "历史"}, {value: 4, text: "全部"}];
