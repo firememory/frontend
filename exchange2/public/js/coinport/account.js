@@ -36,13 +36,15 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             for (var curr in Messages.coins) {
                 //hack BTSX
                 if (Messages.coins[curr] == 'BTSX') {
-                    $scope.depositAddresses['BTSX'] = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
+                    $scope.depositAddresses['BTSX'] = 'BTS5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
                 } else if (Messages.coins[curr] == 'XRP') {
                     $scope.depositAddresses['XRP'] = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
                 } else if (Messages.coins[curr] == "NXT") {
                     var nxtAddrs = data.data['NXT'].split("//");
                     $scope.depositAddresses['NXT'] = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
                     $scope.nxtPublicKey = nxtAddrs[2];
+                } else if (Messages.coins[curr] == 'GOOC') {
+                    $scope.depositAddresses['GOOC'] = '15026841984';
                 } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
             }
             //console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
@@ -109,6 +111,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
           case "CNY":
             $scope.withdrawalLimit = 500;
             break;
+          case "GOOC":
+            $scope.withdrawalLimit = 1000;
+            break;
           default :
             $scope.withdrawalLimit = 0.01;
             break;
@@ -129,6 +134,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             break;
           case "CNY":
             $scope.withdrawalFee = '0.4%';
+            break;
+          case "GOOC":
+            $scope.withdrawalFee = '1';
             break;
           default :
             $scope.withdrawalFee = '0.0005';
@@ -341,6 +349,13 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             });
     };
 
+    var watchWithdrawalAmount = function(newValue, oldValue) {
+        if ($scope.currency === 'GOOC' && newValue.indexOf('.') != -1)
+            $scope.withdrawalData.amount = newValue.substring(0, newValue.indexOf('.'));
+    };
+
+    $scope.$watch('withdrawalData.amount', watchWithdrawalAmount, true);
+
     /* withdrawal control end */
 
 }]);
@@ -467,6 +482,8 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
+    var freeThreshold = 1000000000 + 1440;
+
     $('#nickname-setter').popover({
         html: true,
         trigger: 'manual'
@@ -482,6 +499,10 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
             $scope.setNickName(nickname);
         });
     });
+
+    $scope.showFree = function() {
+        return ($scope.uid <= freeThreshold);
+    };
 
     $scope.setNickName = function(name) {
         console.debug("usernickname: ", name);

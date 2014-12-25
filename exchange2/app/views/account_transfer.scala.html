@@ -71,6 +71,43 @@
                 <label class="col-sm-2 col-xs-4 control-label" ng-show="currency == 'CNY'">@Messages("transfer.withdrawal.howto")</label>
                 <div class="col-sm-10 col-xs-8">
                   <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-hide="currency == 'CNY'"><span ng-bind="depositAddresses[currency]"></span> </div>
+                  <span ng-show="currency == 'NXT'">
+                      <b class="red">@Messages("transfer.nxt.newaddr.hint") </b>
+                      <br/>
+                      <b>Public Key: {{nxtPublicKey}}</b>
+                  </span>
+                  <span ng-show="currency == 'BTSX'">
+                      <br>
+                      @Messages("transfer.btsx.hint1"): <b>coinport-deposit</b>
+                      <br>
+                      <b>@Messages("transfer.btsx.hint2"): </b>
+                      <b class="text-danger">{{uid}}</b>
+                  </span>
+                  <span ng-show="currency == 'XRP'">
+                      <br>
+                      @Messages("transfer.xrp.hint1"): <b>coinportXrpDeposit</b>
+                      <br>
+                      <b>@Messages("transfer.xrp.hint2"): </b>
+                      <b class="text-danger">{{uid}}</b>
+                  </span>
+                  <span ng-show="currency == 'GOOC'">
+                      <b>@Messages("transfer.depositGoocWorkflow"):</b><br/>
+                      @if("zh-CN" == lang.code) {
+                      <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;">
+                          <ol>
+                              <li> 将谷壳币打入：{{depositAddresses[currency]}} </li>
+                              <li> 将如下四个信息：交易单号；交易时间；交易金额；币丰港ID(<b class="text-danger">{{uid}}</b>)。通过短信({{depositAddresses[currency]}})或QQ({{1691767742}})告知我们 </li>
+                          </ol>
+                      </div>
+                      } else {
+                      <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;">
+                          <ol>
+                              <li> Transfer your GOOC to：{{depositAddresses[currency]}} </li>
+                              <li> Send following information to {{depositAddresses[currency]}}(by sms) or {{1691767742}}(by qq): transaction id; transaction time; transaction amount; coinport id(<b class="text-danger">{{uid}}</b>)</li>
+                          </ol>
+                      </div>
+                      }
+                  </span>
                   @if("zh-CN" == lang.code) {
                   <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-show="currency == 'CNY'">
                     <span >您可以通过代理商充值：先联系代理商（QQ 209063895)索要充值账户，之后付款给代理商。代理商后续将帮您完成充值工作。</span>

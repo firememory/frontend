@@ -1,189 +1,192 @@
 @font-face{
-	font-family:'coinport';
-	src:url('../fonts/coinport.eot?xpugrt');
-	src:url('../fonts/coinport.eot?#iefixxpugrt') format('embedded-opentype'),
-		url('../fonts/coinport.woff?xpugrt') format('woff'),
-		url('../fonts/coinport.ttf?xpugrt') format('truetype'),
-		url('../fonts/coinport.svg?xpugrt#coinport') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family:'coinport';
+    src:url('../fonts/coinport.eot?xpugrt');
+    src:url('../fonts/coinport.eot?#iefixxpugrt') format('embedded-opentype'),
+        url('../fonts/coinport.woff?xpugrt') format('woff'),
+        url('../fonts/coinport.ttf?xpugrt') format('truetype'),
+        url('../fonts/coinport.svg?xpugrt#coinport') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'coinport';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	padding-right:5px;
+    font-family: 'coinport';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    padding-right:5px;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 .icon-1x{ font-size:1em;}.icon-2x{ font-size:2em;}.icon-3x{ font-size:3em;}.icon-4x{ font-size:4em;}.icon-5x{ font-size:5em;}
 .panel-heading [class^="icon-"],.panel-heading [class*=" icon-"] {vertical-align:middle;}
 .icon-transfer:before {
-	content: "\e627";
+    content: "\e627";
 }
 [class^="-o"], [class*="-o"] { vertical-align:middle;}
 .icon-cny-o:before {
-	content: "\e633";
+    content: "\e633";
 }
 .icon-usd-o:before {
-	content: "\e634";
+    content: "\e634";
 }
 .icon-drk-o:before {
-	content: "\e629";
+    content: "\e629";
 }
 .icon-btc-o:before {
-	content: "\e62a";
+    content: "\e62a";
 }
 .icon-btsx-o:before {
-	content: "\e62b";
+    content: "\e62b";
 }
 .icon-xrp-o:before {
-	content: "\e62c";
+    content: "\e62c";
 }
 .icon-nxt-o:before {
-	content: "\e62d";
+    content: "\e62d";
 }
 .icon-zet-o:before {
-	content: "\e62e";
+    content: "\e62e";
 }
 .icon-vrc-o:before {
-	content: "\e62f";
+    content: "\e62f";
 }
 .icon-bc-o:before {
-	content: "\e630";
+    content: "\e630";
 }
 .icon-doge-o:before {
-	content: "\e631";
+    content: "\e631";
 }
 .icon-ltc-o:before {
-	content: "\e632";
+    content: "\e632";
+}
+.icon-gooc-o:before {
+    content: "\e635";
 }
 .icon-global-pay-bit:before {
-	content: "\e610";
+    content: "\e610";
 }
 .icon-bifengzhifu:before {
-	content: "\e604";
+    content: "\e604";
 }
 .icon-bifenggang:before {
-	content: "\e626";
+    content: "\e626";
 }
 .icon-e-coinport:before {
-	content: "\e628";
+    content: "\e628";
 }
 .icon-angle-left:before,.bx-wrapper .bx-prev:before{
-	content: "\e615";
+    content: "\e615";
 }
 .icon-angle-up:before {
-	content: "\e617";
+    content: "\e617";
 }
 .icon-angle-right:before,.bx-wrapper .bx-next:before{
-	content: "\e618";
+    content: "\e618";
 }
 .icon-angle-down:before {
-	content: "\e619";
+    content: "\e619";
 }
 .icon-anchor:before {
-	content: "\e61a";
+    content: "\e61a";
 }
 .icon-chart2:before {
-	content: "\e61b";
+    content: "\e61b";
 }
 .icon-github:before {
-	content: "\e61c";
+    content: "\e61c";
 }
 .icon-warning:before {
-	content: "\e61d";
+    content: "\e61d";
 }
 .icon-check:before {
-	content: "\e61e";
+    content: "\e61e";
 }
 .icon-lock:before {
-	content: "\e61f";
+    content: "\e61f";
 }
 .icon-envelope:before {
-	content: "\e620";
+    content: "\e620";
 }
 .icon-award:before {
-	content: "\e621";
+    content: "\e621";
 }
 .icon-purse:before {
-	content: "\e622";
+    content: "\e622";
 }
 .icon-legal:before {
-	content: "\e623";
+    content: "\e623";
 }
 .icon-user:before {
-	content: "\e624";
+    content: "\e624";
 }
 .icon-bulb:before {
-	content: "\e625";
+    content: "\e625";
 }
 .icon-coinport:before {
-	content: "\e616";
+    content: "\e616";
 }
 .icon-global-pay-bit:before {
-	content: "\e610";
+    content: "\e610";
 }
 .icon-calendar:before {
-	content: "\e614";
+    content: "\e614";
 }
 .icon-clock:before {
-	content: "\e60e";
+    content: "\e60e";
 }
 .icon-profile-set:before {
-	content: "\e60f";
+    content: "\e60f";
 }
 .icon-withdrawal:before {
-	content: "\e611";
+    content: "\e611";
 }
 .icon-chart:before {
-	content: "\e612";
+    content: "\e612";
 }
 .icon-exit:before {
-	content: "\e613";
+    content: "\e613";
 }
 .icon-cny2:before {
-	content: "\e606";
+    content: "\e606";
 }
 .icon-cny:before {
-	content: "\e607";
+    content: "\e607";
 }
 .icon-dollar2:before {
-	content: "\e608";
+    content: "\e608";
 }
 .icon-dollar:before {
-	content: "\e609";
+    content: "\e609";
 }
 .icon-Litecoin2:before {
-	content: "\e60a";
+    content: "\e60a";
 }
 .icon-Litecoin:before {
-	content: "\e60b";
+    content: "\e60b";
 }
 .icon-bitcoin2:before {
-	content: "\e60c";
+    content: "\e60c";
 }
 .icon-bitcoin:before {
-	content: "\e60d";
+    content: "\e60d";
 }
 .icon-bit-shield:before {
-	content: "\e600";
+    content: "\e600";
 }
 .icon-key:before {
-	content: "\e601";
+    content: "\e601";
 }
 .icon-pay-bit:before {
-	content: "\e602";
+    content: "\e602";
 }
 .icon-pay-cny-dollar:before {
-	content: "\e603";
+    content: "\e603";
 }
 .icon-wallet:before {
-	content: "\e605";
+    content: "\e605";
 }
