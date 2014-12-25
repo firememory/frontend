@@ -36,7 +36,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             for (var curr in Messages.coins) {
                 //hack BTSX
                 if (Messages.coins[curr] == 'BTSX') {
-                    $scope.depositAddresses['BTSX'] = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
+                    $scope.depositAddresses['BTSX'] = 'BTS5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
                 } else if (Messages.coins[curr] == 'XRP') {
                     $scope.depositAddresses['XRP'] = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
                 } else if (Messages.coins[curr] == "NXT") {
@@ -44,7 +44,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
                     $scope.depositAddresses['NXT'] = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
                     $scope.nxtPublicKey = nxtAddrs[2];
                 } else if (Messages.coins[curr] == 'GOOC') {
-                    $scope.depositAddresses['GOOC'] = '13818123123';
+                    $scope.depositAddresses['GOOC'] = '15026841984';
                 } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
             }
             //console.debug("$scope.depositAddresses: ", $scope.depositAddresses);

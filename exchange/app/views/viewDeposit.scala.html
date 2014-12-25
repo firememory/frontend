@@ -29,92 +29,92 @@
             <br>
             @Messages("transfer.btsx.hint1"): <b>coinport-deposit</b>
             <br>
-            <b>@Messages("transfer.btsx.hint2"): <b>
-                    <b class="red">{{uid}}</b>
-                </span>
+            <b>@Messages("transfer.btsx.hint2"): </b>
+            <b class="red">{{uid}}</b>
+        </span>
 
-                <span ng-show="currency.toUpperCase() == 'XRP'">
-                    <!-- <br>
+        <span ng-show="currency.toUpperCase() == 'XRP'">
+            <!-- <br>
           @Messages("transfer.xrp.hint1"): <b>coinportXrpDeposit</b> -->
-                    <br>
-                    <b>@Messages("transfer.xrp.hint2"): <b>
-                            <b class="red">{{uid}}</b>
-                        </span>
-                    </div>
+            <br>
+            <b>@Messages("transfer.xrp.hint2"): </b>
+            <b class="red">{{uid}}</b>
+        </span>
+            </div>
+        </div>
+
+        <div ng-show="currency.toUpperCase() == 'CNY'">
+            <div class="row">
+                <h6>@Messages("transfer.depositWorkflow")</h6>
+                <div class="alert alert-success col-md-10">
+                    <b>@Messages("transfer.chooseContactAgent")</b> -> <b>@Messages("transfer.payToAgent")</b> -> <b>@Messages("transfer.depositSuccess")</b>
                 </div>
+            </div>
 
-                <div ng-show="currency.toUpperCase() == 'CNY'">
-                    <div class="row">
-                        <h6>@Messages("transfer.depositWorkflow")</h6>
-                        <div class="alert alert-success col-md-10">
-                            <b>@Messages("transfer.chooseContactAgent")</b> -> <b>@Messages("transfer.payToAgent")</b> -> <b>@Messages("transfer.depositSuccess")</b>
-                        </div>
+            <div class="row">
+                <h6>@Messages("transfer.chooseAgent")</h6>
+                <div class="alert alert-success col-md-10 card-wrapper">
+                    @for(agent <- agents) {
+                    <div class="col-md-3 agent-card" ng-click="qqChat(@agent.qqId)">
+                        <span class="card-title"> @agent.nickName </span>
+                        <ul>
+                            <li>
+                            <span> @Messages("transfer.accountBank") </span>
+                            <span class="card-desc"> @agent.accountBank</span>
+                            </li>
+                            <li>
+                            <span> @Messages("transfer.accountName") </span>
+                            <span class="card-desc"> @agent.name</span>
+                            </li>
+                            <li>
+                            <span> @Messages("transfer.accountId") </span>
+                            <span class="card-desc"> @agent.accountId</span>
+                            </li>
+                            <li>
+                            <span> @Messages("transfer.qqId") </span>
+                            <span class="card-desc"> @agent.qqId</span>
+                            </li>
+                        </ul>
                     </div>
+                    }
+                </div>
+            </div>
+        </div>
 
-                    <div class="row">
-                        <h6>@Messages("transfer.chooseAgent")</h6>
-                        <div class="alert alert-success col-md-10 card-wrapper">
-                            @for(agent <- agents) {
-                                <div class="col-md-3 agent-card" ng-click="qqChat(@agent.qqId)">
-                                    <span class="card-title"> @agent.nickName </span>
-                                    <ul>
-                                        <li>
-                                        <span> @Messages("transfer.accountBank") </span>
-                                        <span class="card-desc"> @agent.accountBank</span>
-                                        </li>
-                                        <li>
-                                        <span> @Messages("transfer.accountName") </span>
-                                        <span class="card-desc"> @agent.name</span>
-                                        </li>
-                                        <li>
-                                        <span> @Messages("transfer.accountId") </span>
-                                        <span class="card-desc"> @agent.accountId</span>
-                                        </li>
-                                        <li>
-                                        <span> @Messages("transfer.qqId") </span>
-                                        <span class="card-desc"> @agent.qqId</span>
-                                        </li>
-                                    </ul>
-                                </div>
+        <div class="row">
+            <h6>@Messages("transfer.depositRecord")</h6>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th nowrap>@Messages("transfer.id")</th>
+                            <th nowrap>@Messages("transfer.created")</th>
+                            <th nowrap>@Messages("transfer.updated")</th>
+                            <th nowrap>@Messages("transfer.amount")</th>
+                            <th nowrap>@Messages("transfer.status")</th>
+                            <th nowrap>@Messages("transfer.address")</th>
+                            <!--<th nowrap class="text-right">@Messages("transfer.txid")</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
+                        <td nowrap> {{item.id}} </td>
+                        <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
+                        <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
+                        <td nowrap> <span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span> </td>
+                        <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
+                        <td nowrap> {{item.address}} <br> {{item.NxtRsString}} </td>
+                        <td>
+                            @if("btsx".equals(coin.toString.toLowerCase()) ||
+                            "xrp".equals(coin.toString.toLowerCase())) {
+                            @Messages("transfer.txid") <i class="fa fa-external-link"></i>
+                            } else {
+                            <a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
                             }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <h6>@Messages("transfer.depositRecord")</h6>
-                    <div class="col-md-12">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th nowrap>@Messages("transfer.id")</th>
-                                    <th nowrap>@Messages("transfer.created")</th>
-                                    <th nowrap>@Messages("transfer.updated")</th>
-                                    <th nowrap>@Messages("transfer.amount")</th>
-                                    <th nowrap>@Messages("transfer.status")</th>
-                                    <th nowrap>@Messages("transfer.address")</th>
-                                    <!--<th nowrap class="text-right">@Messages("transfer.txid")</th>-->
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr  ng-repeat="item in deposits | orderBy: ['-date', '-id']" class="">
-                                <td nowrap> {{item.id}} </td>
-                                <td nowrap><i class="fa fa-clock-o"></i> {{item.created | date:"MM-dd HH:mm:ss"}} </td>
-                                <td nowrap><i class="fa fa-clock-o"></i> {{item.updated | date:"MM-dd HH:mm:ss"}} </td>
-                                <td nowrap> <span class="{{item.operation | transferOperationClass}}">{{item.operation | transferSign}}{{item.amount.value | quantity}}</span> </td>
-                                <td nowrap> <span class="label label-{{item.status | transferStatusClass}}">{{item.status | transferStatusText}}</span> </td>
-                                <td nowrap> {{item.address}} <br> {{item.NxtRsString}} </td>
-                                <td>
-                                    @if("btsx".equals(coin.toString.toLowerCase()) ||
-                                    "xrp".equals(coin.toString.toLowerCase())) {
-                                    @Messages("transfer.txid") <i class="fa fa-external-link"></i>
-                                    } else {
-                                    <a target="_blank" href="{{item.txlink}}">@Messages("transfer.txid") <i class="fa fa-external-link"></i></a>
-                                    }
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadDeposits()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="loadDeposits()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            </div>
+        </div>
