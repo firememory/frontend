@@ -349,6 +349,13 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             });
     };
 
+    var watchWithdrawalAmount = function(newValue, oldValue) {
+        if ($scope.currency === 'GOOC' && newValue.indexOf('.') != -1)
+            $scope.withdrawalData.amount = newValue.substring(0, newValue.indexOf('.'));
+    };
+
+    $scope.$watch('withdrawalData.amount', watchWithdrawalAmount, true);
+
     /* withdrawal control end */
 
 }]);
