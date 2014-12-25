@@ -39,6 +39,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
 
     $scope.orderStatus = -1;
 
+    var freeThreshold = 1000000000 + 1440;
+
     var updateNav = function() {
         $("li[id^='nav-']").removeClass('active');
         $('#nav-' + $scope.market).addClass('active');
@@ -168,6 +170,10 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
             .success(function(data, status, headers, config) {
                 $scope.account = data.data.accounts;
         });
+    };
+
+    $scope.showFree = function() {
+        return ($scope.uid <= freeThreshold);
     };
 
     var reload = function() {
