@@ -390,3 +390,6 @@ footer{margin-top:100px; }
 @media(min-width:992px) and (max-width:1199px){
 
     }
+.bottom-right-more {
+    float: right;
+}
