@@ -481,7 +481,7 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
-    var freeThreshold = 1000000000 + 1440;
+    var freeThreshold = 1000000000 + 1000;
 
     $('#nickname-setter').popover({
         html: true,

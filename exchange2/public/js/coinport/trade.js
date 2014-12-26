@@ -39,7 +39,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
 
     $scope.orderStatus = -1;
 
-    var freeThreshold = 1000000000 + 1440;
+    var freeThreshold = 1000000000 + 1000;
 
     var updateNav = function() {
         $("li[id^='nav-']").removeClass('active');
