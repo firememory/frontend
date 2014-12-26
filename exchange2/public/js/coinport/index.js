@@ -34,6 +34,8 @@ app.controller('TickerCtrl', function ($scope, $http) {
                         $scope.xrpstats = ticker;
                     } else if ('BTSX-CNY' === ticker.market) {
                         $scope.btsxstats = ticker;
+                    } else if ('GOOC-CNY' === ticker.market) {
+                        $scope.goocstats = ticker;
                     }
                 });
                 //          $scope.tickers.forEach(function(ticker){
