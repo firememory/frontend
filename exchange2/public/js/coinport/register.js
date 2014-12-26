@@ -28,16 +28,28 @@ app.controller('RegisterCtrl', function ($scope, $http, $window, $timeout) {
 
     //$scope.newCaptcha();
 
+    var getReferendeId = function() {
+        var search = $window.location.search;
+        var matched = search.match(/[?&]rf=(\d+)/);
+        if (matched && matched.length > 1) {
+            return matched[1];
+        } else {
+            return '';
+        }
+    };
+
     $scope.doRegister = function () {
         $scope.showError = false
         var pwdSha256 = $.sha256b64($scope.register.password);
+        var referenceId = getReferendeId();
         $http.post('/account/register',
                    $.param({uuid: $scope.captcha.uuid,
                             text: $scope.captcha.text,
                             email: $scope.register.email,
                             password: pwdSha256,
                             nationalId: $scope.register.nationalId,
-                            realName: $scope.register.realName}))
+                            realName: $scope.register.realName,
+                            rf: referenceId}))
             .success(function(data, status, headers, config) {
                 console.log("data:", data);
                 if (data.success) {

@@ -98,7 +98,8 @@ object UserController extends Controller with Json4s with AccessLogging {
       val password = getParam(data, "password").getOrElse("")
       val nationalId = getParam(data, "nationalId")
       val realName = getParam(data, "realName")
-      val rf = getParam(data, "rf")
+      var rf = getParam(data, "rf")
+      rf = if (rf == Some("")) None else rf
       validateParamsAndThen(
         //new CachedValueValidator(ErrorCode.CaptchaNotMatch, true, uuid, text),
         new StringNonemptyValidator(/*uuid, text,*/ email, password),

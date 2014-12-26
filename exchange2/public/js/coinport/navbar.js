@@ -1,4 +1,4 @@
-app = angular.module('navbar', ['ngCookies'])
+var app = angular.module('navbar', ['ngCookies'])
 app.controller('NotificationCtrl', function($scope, $http, $cookieStore) {
     $http.get('/notifications')
         .success(function(result, status, headers, config) {
