@@ -245,7 +245,7 @@ app.controller('WithdrawalCtrl', ['$scope', '$http', '$routeParams', '$location'
             $scope.withdrawalLimit = 5;
             break;
         case "CNY":
-            $scope.withdrawalLimit = 500;
+            $scope.withdrawalLimit = 100;
             break;
         default :
             $scope.withdrawalLimit = 0.01;
