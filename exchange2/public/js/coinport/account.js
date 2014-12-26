@@ -412,9 +412,8 @@ app.controller('AssetCtrl', function ($scope, $http, $q) {
                 }
             }
         }
-        $scope.totalAssetBtc = sumBtc;
-        $scope.totalAssetCny = sumCny;
-
+        $scope.totalAssetBtc = sumBtc.toFixed(2);
+        $scope.totalAssetCny = sumCny.toFixed(2);
     });
 });
 
