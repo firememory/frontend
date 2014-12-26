@@ -224,7 +224,7 @@ form .form-group-separator {height: 1px;background: #eee;}
 
 .asset-overview{ background:#5d4037;  margin-bottom:20px; padding:10px 0;}
 .asset-overview span{  color:rgba(255,255,255,.5); display:inline-block;}
-.asset-overview h2{ color:#ffc107;margin:0;}
+.asset-overview h2, .asset-overview h4{ color:#ffc107;margin:0;}
 .asset-overview .total,.asset-overview .counter{ padding:10px 0}
 .asset-overview .total .icon-box{ float:left; background:#ffc107; color:#fff; padding:10px;}
 .asset-overview .total .icon-box i{ padding:0;}

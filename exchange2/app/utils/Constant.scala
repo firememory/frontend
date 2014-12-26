@@ -28,7 +28,9 @@ object Constant {
     "ZET" -> "泽塔币",
     "BTSX" -> "比特股",
     "NXT" -> "未来币",
-    "XRP" -> "瑞波币")
+    "XRP" -> "瑞波币",
+    "GOOC" -> "谷壳币"
+  )
 
   val coinEnglishNames = Map(
     "CNY" -> "ChineseYuan",
@@ -41,7 +43,9 @@ object Constant {
     "ZET" -> "Zetacoin",
     "BTSX" -> "BitsharesX",
     "NXT" -> "Nextcoin",
-    "XRP" -> "Ripple")
+    "XRP" -> "Ripple",
+    "GOOC" -> "Goocoin"
+  )
 
   val supportedBankNames = Seq(
     "建设银行",

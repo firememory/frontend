@@ -55,6 +55,7 @@ index.btc=Bitcoin
 index.ltc=Litecoin
 index.xrp=Ripple
 index.btsx=BitShares
+index.gooc=GooCoin
 
 login.title=Log in
 login.title2=Login Coinport
@@ -125,6 +126,7 @@ trade.coinname.drk=DarkCoin
 trade.coinname.vrc=VeriCoin
 trade.coinname.zet=Zetacoin
 trade.coinname.nxt=Nextcoin
+trade.coinname.gooc=GooCoin
 
 trade.buy.price=Price
 trade.buy.amount=Quantity
@@ -461,6 +463,7 @@ transfer.withdrawalHint2=as fee you have to pay. Any withdrawal request will be 
 transfer.withdrawalCreditCardHint=(Credit card is not supported)
 transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
 transfer.depositWorkflow=The Process of Deposit CNY
+transfer.depositGoocWorkflow=The Process of Deposit GOOC
 transfer.chooseAgent=Please choose your agent
 transfer.chooseContactAgent=Choose and contact agent
 transfer.payToAgent=Pay to the agent

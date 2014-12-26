@@ -157,10 +157,11 @@ Messages.coinName = {
     ZET: '泽塔币',
     BTSX: '比特股',
     NXT: '未来币',
-    XRP: '瑞波币'
+    XRP: '瑞波币',
+    GOOC: '谷壳币'
 };
 
-Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT'];
+Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC'];
 
 // Messages.allMarkets = ["BTC-CNY", "LTC-CNY", "BTSX-CNY", "XRP-CNY", "LTC-BTC", "DOGE-BTC", "BC-BTC", "DRK-BTC", "VRC-BTC", "ZET-BTC", "BTSX-BTC", "NXT-BTC", "XRP-BTC"];
 
@@ -182,5 +183,5 @@ Messages.bankList = [
     '国家开发银行',
     '招商银行'];
 
-    
-Messages.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "全部"}];
+
+Messages.orderStatusList = [{value: 1, text: "挂单中"}, {value: 2, text: "已成交"}, {value: 3, text: "历史"}, {value: 4, text: "全部"}];

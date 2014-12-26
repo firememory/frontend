@@ -4,7 +4,7 @@
 <!doctype html>
 <html>
 <head>
-<title></title>
+<title>@Messages("title")</title>
 @__head_commons()
 @__js_lang()(lang)
 </head>
@@ -29,7 +29,7 @@
         <form role="form"  class="form-horizontal">
           <div class="form-group">
             <label class="col-sm-2 col-xs-4 control-label">@Messages("accountsettings.label")</label>
-            <div class="col-sm-10 col-xs-8">
+            <div class="col-sm-10 col-xs-8" ng-show="showFree()">
               <div class="form-text-control font-1x"><i class="icon-award icon-1x"></i>@Messages("user.label.free")</div>
             </div>
           </div>

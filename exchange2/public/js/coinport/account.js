@@ -36,13 +36,15 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             for (var curr in Messages.coins) {
                 //hack BTSX
                 if (Messages.coins[curr] == 'BTSX') {
-                    $scope.depositAddresses['BTSX'] = 'BTSX5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
+                    $scope.depositAddresses['BTSX'] = 'BTS5FPJkXFwokNEsRLwfWvPKAbzriNLS5ut823rMzHbpKMg9QgYWZ';//'cpdeposit' + (+$scope.uid - 1000000000);
                 } else if (Messages.coins[curr] == 'XRP') {
                     $scope.depositAddresses['XRP'] = 'r9AzyYGGQAvgefdgeu3eDHaVdxLdpAvchE';
                 } else if (Messages.coins[curr] == "NXT") {
                     var nxtAddrs = data.data['NXT'].split("//");
                     $scope.depositAddresses['NXT'] = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
                     $scope.nxtPublicKey = nxtAddrs[2];
+                } else if (Messages.coins[curr] == 'GOOC') {
+                    $scope.depositAddresses['GOOC'] = '15026841984';
                 } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
             }
             //console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
@@ -109,6 +111,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
           case "CNY":
             $scope.withdrawalLimit = 500;
             break;
+          case "GOOC":
+            $scope.withdrawalLimit = 1000;
+            break;
           default :
             $scope.withdrawalLimit = 0.01;
             break;
@@ -129,6 +134,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             break;
           case "CNY":
             $scope.withdrawalFee = '0.4%';
+            break;
+          case "GOOC":
+            $scope.withdrawalFee = '1';
             break;
           default :
             $scope.withdrawalFee = '0.0005';
@@ -341,66 +349,73 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             });
     };
 
+    var watchWithdrawalAmount = function(newValue, oldValue) {
+        if ($scope.currency === 'GOOC' && newValue.indexOf('.') != -1)
+            $scope.withdrawalData.amount = newValue.substring(0, newValue.indexOf('.'));
+    };
+
+    $scope.$watch('withdrawalData.amount', watchWithdrawalAmount, true);
+
     /* withdrawal control end */
 
 }]);
 
-app.controller('AssetCtrl', function ($scope, $http) {
-    $http.get('/api/asset/' + $scope.uid)
-        .success(function (data, status, headers, config) {
-            $scope.assets = data.data;
-            var map = $scope.assets[$scope.assets.length - 1].amountMap;
-            var total = 0;
-            for (asset in map) {
-                total += map[asset].value;
-            }
-
-            $scope.updateAsset();
-        });
-
-    $http.get('/api/BTC-CNY/transaction?limit=1&skip=0')
-        .success(function(data, status, headers, config) {
-            if (data.data && data.data.items && data.data.items.length > 0)
-                $scope.cnyPrice = data.data.items[0].price.value;
-            else
-                $scope.cnyPrice = 0.0;
-        });
-
+app.controller('AssetCtrl', function ($scope, $http, $q) {
     $scope.totalAssetBtc = 0;
     $scope.totalAssetCny = 0;
 
-    $scope.updateAsset = function () {
-        $http.get('/api/account/' + $scope.uid)
-            .success(function (response, status, headers, config) {
-                $scope.accounts = response.data.accounts;
-                var amountMap = $scope.assets[$scope.assets.length - 1].amountMap;
-
-                var priceMap = $scope.assets[$scope.assets.length - 1].priceMap;
-
-                $scope.totalAssetBtc = 0.0;
-
-                for (currency in $scope.accounts) {
-                    var account = $scope.accounts[currency];
-                    account.asset = amountMap[currency].display;
-                    account.price = priceMap[currency].display;
-                    $scope.totalAssetBtc += parseFloat(account.asset);
-                }
-
-                if ($scope.cnyPrice > 0) {
-                    $scope.totalAssetCny = $scope.cnyPrice * $scope.totalAssetBtc;
-                } else if ($scope.accounts['CNY']) {
-                    $scope.totalAssetCny = $scope.accounts['CNY'].total.value;
-                } else {
-                    $scope.totalAssetCny = 0.0;
-                }
-
-                $scope.totalAssetBtc = $scope.totalAssetBtc.toFixed(4);
-                if($scope.totalAssetCny.toString().length < 10)
-                    $scope.totalAssetCny =  $scope.totalAssetCny.toFixed(2);
-                else
-                    $scope.totalAssetCny =  $scope.totalAssetCny.toFixed(0);
-            });
+    var getPriceMap = function(tickerList) {
+        var ret = {};
+        for (var i = 0; i < tickerList.length; ++i) {
+            ret[tickerList[i].c] = parseFloat(tickerList[i].p);
+        }
+        return ret;
     };
+
+    var cnyTickerTask = $http.get('/api/m/ticker/cny');
+    var btcTickerTask = $http.get('/api/m/ticker/btc');
+    var assetsTask = $http.get('/api/account/' + $scope.uid);
+    var urlCalls = [cnyTickerTask, btcTickerTask, assetsTask];
+    $q.all(urlCalls).then(function(results) {
+        var sumCny = 0.0, sumBtc = 0.0;
+
+        var cnyPriceMap = getPriceMap(results[0].data.data);
+        var btcPriceMap = getPriceMap(results[1].data.data);
+        var assets = results[2].data.data.accounts;
+        $scope.accounts = assets;
+
+        var cnyBtcPrice = (cnyPriceMap['BTC'] || 2000.0);
+        for (currency in assets) {
+            var amount = assets[currency].total.value;
+            if (currency == 'CNY') {
+                sumCny += amount;
+                sumBtc += (amount / cnyBtcPrice);
+            } else if (currency == 'BTC') {
+                sumBtc += amount;
+                sumCny += (amount * cnyBtcPrice);
+            } else {
+                if (cnyPriceMap[currency]) {
+                    sumCny += amount * cnyPriceMap[currency];
+                } else {
+                    if (btcPriceMap[currency])
+                        sumCny += amount * btcPriceMap[currency] * cnyBtcPrice;
+                    else
+                        sumCny += amount;
+                }
+                if (btcPriceMap[currency]) {
+                    sumBtc += amount * btcPriceMap[currency];
+                } else {
+                    if (cnyPriceMap[currency])
+                        sumBtc += amount * cnyPriceMap[currency] / cnyBtcPrice;
+                    else
+                        sumBtc += amount;
+                }
+            }
+        }
+        $scope.totalAssetBtc = sumBtc;
+        $scope.totalAssetCny = sumCny;
+
+    });
 });
 
 app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -467,6 +482,8 @@ app.controller('OrderDetailCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
+    var freeThreshold = 1000000000 + 1440;
+
     $('#nickname-setter').popover({
         html: true,
         trigger: 'manual'
@@ -482,6 +499,10 @@ app.controller('AccountProfilesCtrl', function ($scope, $window, $http) {
             $scope.setNickName(nickname);
         });
     });
+
+    $scope.showFree = function() {
+        return ($scope.uid <= freeThreshold);
+    };
 
     $scope.setNickName = function(name) {
         console.debug("usernickname: ", name);

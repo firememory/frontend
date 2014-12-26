@@ -43,6 +43,13 @@ object ApiController extends Controller with Json4s with AccessLogging {
       MarketService.getDepth(market, depth).map(result => Ok(result.toJson))
   }
 
+  def mdepth(market: String) = Action.async { implicit request =>
+      val query = request.queryString
+      val depth = getParam(query, "depth", "5").toInt
+
+      MarketService.getMDepth(market, depth).map(result => Ok(result.toJson))
+  }
+
   def userOrders(market: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
@@ -51,6 +58,8 @@ object ApiController extends Controller with Json4s with AccessLogging {
         case Some(s) =>
           if (s == "1") Seq(OrderStatus.PartiallyExecuted, OrderStatus.Pending)
           else if (s == "2") Seq(OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket)
+          else if (s == "3") Seq(OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket,
+            OrderStatus.Cancelled, OrderStatus.CancelledByMarket)
           else Nil
       }
 
@@ -261,6 +270,17 @@ object ApiController extends Controller with Json4s with AccessLogging {
       MarketService.getTickers(sides).map(result => Ok(result.toJson))
   }
 
+  def btcTicker() = Action.async { implicit request =>
+      val sides = Constant.btcMarketSides
+      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+  }
+
+  def cnyTicker() = Action.async { implicit request =>
+      val sides = Constant.cnyMarketSides
+      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+  }
+
+
   // def btcTicker() = Action.async { implicit request =>
   //     val sides = Constant.btcMarketSides
   //     MarketService.getMTickers(sides).map(result => Ok(result.toJson))
@@ -286,6 +306,30 @@ object ApiController extends Controller with Json4s with AccessLogging {
     implicit request =>
       OpenService.getCurrencyReserve(currency).map(result =>
         Ok(result.toJson))
+  }
+
+  def fee() = Action.async { implicit request =>
+    Future {
+      val fee = Map(
+        "success" -> true,
+        "code" -> 0,
+        "message" -> "",
+        "data" -> Map(
+          "BTC" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "LTC" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "DOGE" -> Map("l" -> 5, "f" -> "2"),
+          "BC" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "DRK" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "VRC" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "ZET" -> Map("l" -> 0.01, "f" -> "0.0005"),
+          "BTSX" -> Map("l" -> 10, "f" -> "2"),
+          "NXT" -> Map("l" -> 10, "f" -> "2"),
+          "XRP" -> Map("l" -> 10, "f" -> "1"),
+          "GOOC" -> Map("l" -> 1000, "f" -> "1")
+      )
+      )
+      Ok(fee.toJson)
+    }
   }
 
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {

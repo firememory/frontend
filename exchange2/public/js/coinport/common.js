@@ -6,6 +6,7 @@ COINPORT = {
         'ltc-cny': 2,
         'btsx-cny': 4,
         'xrp-cny': 4,
+        'gooc-cny': 4,
         'ltc-btc': 4,
         'doge-btc': 8,
         'bc-btc': 8,
@@ -28,7 +29,8 @@ COINPORT = {
         zet: 8,
         btsx: 8,
         nxt: 8,
-        xrp: 8
+        xrp: 8,
+        gooc: 8
     },
 
 //    amountFixed: {

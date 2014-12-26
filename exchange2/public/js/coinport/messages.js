@@ -165,10 +165,11 @@ Messages.coinName = {
     ZET: 'Zetacoin',
     BTSX: 'BitsharesX',
     NXT: 'NextCoin',
-    XRP: 'Ripple'
+    XRP: 'Ripple',
+    GOOC: 'GooCoin'
 };
 
-Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT'];
+Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC'];
 
 Messages.bankList = [
     'China Construction Bank',
@@ -188,4 +189,4 @@ Messages.bankList = [
     'China Development Bank',
     'China Merchants Bank'];
 
-Messages.orderStatusList = [{value: 1, text: "Pending"}, {value: 2, text: "Filled"}, {value: 3, text: "All"}];
+Messages.orderStatusList = [{value: 1, text: "Pending"}, {value: 2, text: "Filled"}, {value: 3, text: "Finished"}, {value: 4, text: "All"}];

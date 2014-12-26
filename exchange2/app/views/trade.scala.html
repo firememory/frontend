@@ -5,7 +5,7 @@
 <!doctype html>
 <html>
 <head>
-<title></title>
+<title>@Messages("title")</title>
 @__head_commons()
 
 @__js_lang()(lang)
@@ -30,6 +30,7 @@
             <li id="nav-LTC-CNY" class=""><a href="#/LTC-CNY" ng-click="changeMarket('LTC-CNY')"><i class="icon-ltc-o"></i> <span>@{Messages("trade.coinname.ltc")}(LTC)</span></a> </li>
             <li id="nav-XRP-CNY" class=""><a href="#/XRP-CNY" ng-click="changeMarket('XRP-CNY')"><i class="icon-xrp-o"></i> <span>@{Messages("trade.coinname.xrp")}(XRP)</span></a> </li>
             <li id="nav-BTSX-CNY" class=""><a href="#/BTSX-CNY" ng-click="changeMarket('BTSX-CNY')"><i class="icon-btsx-o"></i> <span>@{Messages("trade.coinname.btsx")}(BTSX)</span></a> </li>
+            <li id="nav-GOOC-CNY" class=""><a href="#/GOOC-CNY" ng-click="changeMarket('GOOC-CNY')"><i class="icon-gooc-o"></i> <span>@{Messages("trade.coinname.gooc")}(GOOC)</span></a> </li>
             <!-- <li id="nav-DOGE-CNY" class=""><a href="#/DOGE-CNY" ng-click="changeMarket('DOGE-CNY')"><i class="icon-doge-o"></i> <span>狗狗币(DOGE)</span></a> </li>
             <li id="nav-BC-CNY" class=""><a href="#/BC-CNY" ng-click="changeMarket('BC-CNY')"><i class="icon-bc-o"></i> <span>黑币(BC)</span></a> </li>
             <li id="nav-DRK-CNY" class=""><a href="#/DRK-CNY" ng-click="changeMarket('DRK-CNY')"><i class="icon-drk-o"></i> <span>暗黑币(DRK)</span></a> </li>
@@ -61,7 +62,7 @@
     <div class="row">
       <div class="col-lg-6 col-xs-12">
         <div class="panel">
-          <ul class="buy-sell nav nav-tabs nav-tabs-justified">
+          <ul class="buy-sell nav nav-tabs nav-tabs-justified" id="bidAskTab">
             <li class="buy active"> <a href="#tab-1" data-toggle="tab"> <span class="visible-xs"><i class="fa-home"></i></span> @Messages("trade.buy") <span ng-bind="coinName"></span> </a> </li>
             <li class="sell"> <a href="#tab-2" data-toggle="tab"> <span class="visible-xs"><i class="fa-user"></i></span> <span>@Messages("trade.sell")</span> <span ng-bind="coinName"></span> </a> </li>
           </ul>
@@ -83,7 +84,7 @@
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.buy.price")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <div class="input-group">
-                        <input type="text" class="form-control" ng-model="bid.price" placeholder="@Messages("trade.buy.price")" />
+                        <input type="text" id="bid_price" class="form-control" ng-model="bid.price" placeholder="@Messages("trade.buy.price")" />
                         <span class="input-group-addon" ng-bind="currency" ></span>
                       </div>
                     </div>
@@ -91,7 +92,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.buy.amount")</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="bid.amount" placeholder="" />
+                      <input type="text" id="bid_amount" class="form-control" ng-model="bid.amount" placeholder="" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -109,7 +110,7 @@
                       <p class="text-danger tip" style="height:30px;" ng-show="showMessage['bid']"> <span ng-bind="info.message['bid']"></span></p>
                       @if(lang.code=="zh-CN") {
                       <p class=" text-dark tip" style="height:48px;">委托详情：以不高于<span class="text-warning" ng-bind="' ' + bid.price"></span><span ng-bind="' ' + currency"></span>的价格尽可能的买入更多的<span ng-bind="subject"></span></p>
-                      <p class=" text-success tip">手续费：全免</p>
+                      <p class=" text-success tip" ng-show="showFree()">手续费：全免</p>
                       } else {
                       <p class=" text-dark tip" style="height:48px;">Buy as much <span ng-bind="subject"></span> as needed at a price lower than or equal to <span class="text-warning" ng-bind="' ' + bid.price"></span><span ng-bind="' ' + currency"></span></p>
                       <p class=" text-success tip">Fee: 0.0%</p>
@@ -143,7 +144,7 @@
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.sell.price")</label>
                     <div class="col-sm-7 col-xs-8 ">
                       <div class="input-group">
-                        <input type="text" class="form-control" ng-model="ask.price" placeholder="@Messages("trade.sell.price")" />
+                        <input type="text" id="ask_price" class="form-control" ng-model="ask.price" placeholder="@Messages("trade.sell.price")" />
                         <span class="input-group-addon" ng-bind="currency"></span>
                       </div>
                     </div>
@@ -151,7 +152,7 @@
                   <div class="form-group">
                     <label class="col-sm-3 col-xs-4 control-label" for="field-1">@Messages("trade.sell.amount")</label>
                     <div class="col-sm-7 col-xs-8 ">
-                      <input type="text" class="form-control" ng-model="ask.amount" placeholder="@Messages("trade.sell.amount")" />
+                      <input type="text" id="ask_amount" class="form-control" ng-model="ask.amount" placeholder="@Messages("trade.sell.amount")" />
                     </div>
                   </div>
                   <div class="form-group">
@@ -169,7 +170,7 @@
                       <p class="text-danger tip" style="height:30px;" ng-show="showMessage['ask']"> <span ng-bind="info.message['ask']"></span></p>
                       @if(lang.code=="zh-CN") {
                       <p class=" text-dark tip" style="height:48px;">委托详情：以不低于于<span class="text-warning" ng-bind="' ' + ask.price + ' '"> </span><span ng-bind="currency"></span>的价格卖出</p>
-                      <p class=" text-success tip">手续费：全免</p>
+                      <p class=" text-success tip" ng-show="showFree()">手续费：全免</p>
                       } else {
                       <p class=" text-dark tip" style="height:48px;">Sell <span ng-bind="ask.amount"></span> <span ng-bind="subject"></span> at a price higher than or equal to <span class="text-warning" ng-bind="' ' + ask.price + ' '"> </span> <span ng-bind="currency"></span></p>
                       <p class=" text-success tip">Fee: 0.0%</p>
@@ -249,7 +250,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="item in transactions.items">
-                        <td><span class="text-danger"><span ng-bind="item.sell | txTypeTextShort"></span></td>
+                          <td><span ng-class="{true:'text-danger', false:'text-success'}[item.sell == true]"><span ng-bind="item.sell | txTypeTextShort"></span></td>
                         <td ng-bind="item.price.value | price"></td>
                         <td ng-bind="item.subjectAmount.value | quantity"></td>
                       </tr>
