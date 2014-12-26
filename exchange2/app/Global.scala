@@ -4,8 +4,22 @@ import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
-object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
+class CorsFilter extends EssentialFilter {
+  def apply(next: EssentialAction) = new EssentialAction {
+    def apply(requestHeader: RequestHeader) = {
+      next(requestHeader).map { result =>
+        result.withHeaders("Access-Control-Allow-Origin" -> "*",
+          "Access-Control-Expose-Headers" -> "WWW-Authenticate, Server-Authorization",
+          "Access-Control-Allow-Methods" -> "POST, GET, OPTIONS, PUT, DELETE",
+          "Access-Control-Allow-Headers" -> "x-requested-with,content-type,Cache-Control,Pragma,Date")
+      }
+    }
+  }
+}
+
+object Global extends WithFilters(new GzipFilter(), new CorsFilter()) with GlobalSettings {
 
   override def onStart(app: Application) {
     println("Application has started")
@@ -19,10 +33,9 @@ object Global extends WithFilters(new GzipFilter()) with GlobalSettings {
     Filters(super.doFilter(next), CoinportFilter)
   }
 
-   override def onHandlerNotFound(request: RequestHeader) = {
-     Future.successful(NotFound(
-       views.html.notFoundPage(request.path)
-     ))
+  override def onHandlerNotFound(request: RequestHeader) = {
+    Future.successful(NotFound(
+      views.html.notFoundPage(request.path)))
   }
 
   override def onBadRequest(request: RequestHeader, error: String) = {

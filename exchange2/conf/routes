@@ -102,6 +102,7 @@ GET     /views/opensource.html           controllers.MainController.opensourceVi
 GET     /views/openmarket.html           controllers.MainController.openmarketView()
 
 # API routes
+OPTIONS /*all                               controllers.ApiController.preflight(all: String)
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth                  controllers.ApiController.depth(market)
 GET     /api/ticker/*market                 controllers.ApiController.ticker(market)

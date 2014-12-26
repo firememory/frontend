@@ -20,13 +20,20 @@ import controllers.ControllerHelper._
 import utils.Constant
 import controllers.GoogleAuth.GoogleAuthenticator
 
-object ApiController extends Controller with Json4s with AccessLogging{
+object ApiController extends Controller with Json4s with AccessLogging {
 
   import akka.util.Timeout
   import scala.concurrent.duration._
 
   implicit val timeout = Timeout(2 seconds)
   val logger = Logger(this.getClass)
+
+  def preflight(all: String) = Action {
+    Ok("").withHeaders("Access-Control-Allow-Origin" -> "*",
+      "Allow" -> "*",
+      "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers" -> "Origin, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
+  }
 
   def depth(market: String) = Action.async {
     implicit request =>
@@ -155,22 +162,21 @@ object ApiController extends Controller with Json4s with AccessLogging{
       val checkPhone = preference.head.toString.contentEquals("1")
 
       validateParamsAndThen(
-          new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, checkEmail, emailUuid, emailCode),
-          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, checkPhone, phoneUuid, phoneCode),
-          new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode),
-          new StringNonemptyValidator(username, uid))
-      {
-        popCachedValue(emailUuid, phoneUuid)
-        val amount = getParam(data, "amount", "0.0").toDouble
-        val currency: Currency = getParam(data, "currency", "")
-        val address = getParam(data, "address", "")
-        val memo = getParam(data, "memo", "")
-        val publicKey = getParam(data, "publicKey", "")
-        UserService.setWithdrawalAddress(uid.toLong, currency, address)
-        AccountService.withdrawal(uid.toLong, currency, amount, address, memo, publicKey)
-      } map {
-        result => Ok(result.toJson)
-      }
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, checkEmail, emailUuid, emailCode),
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, checkPhone, phoneUuid, phoneCode),
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode),
+        new StringNonemptyValidator(username, uid)) {
+          popCachedValue(emailUuid, phoneUuid)
+          val amount = getParam(data, "amount", "0.0").toDouble
+          val currency: Currency = getParam(data, "currency", "")
+          val address = getParam(data, "address", "")
+          val memo = getParam(data, "memo", "")
+          val publicKey = getParam(data, "publicKey", "")
+          UserService.setWithdrawalAddress(uid.toLong, currency, address)
+          AccountService.withdrawal(uid.toLong, currency, amount, address, memo, publicKey)
+        } map {
+          result => Ok(result.toJson)
+        }
   }
 
   def cancelWithdrawal(uid: String, tid: String) = Authenticated.async(parse.urlFormEncoded) {
