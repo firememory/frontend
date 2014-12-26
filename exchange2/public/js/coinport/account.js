@@ -109,7 +109,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
             $scope.withdrawalLimit = 5;
             break;
           case "CNY":
-            $scope.withdrawalLimit = 500;
+            $scope.withdrawalLimit = 100;
             break;
           case "GOOC":
             $scope.withdrawalLimit = 1000;
