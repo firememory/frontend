@@ -107,6 +107,24 @@
                           </ol>
                       </div>
                       }
+                      <b>@Messages("transfer.depositGoocNotes"):</b><br/>
+                      @if("zh-CN" == lang.code) {
+                      <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;">
+                          <ul>
+                              <li> 单笔充值金额需大于1000谷壳币 </li>
+                              <li> 充值时间为10:00至22:00 </li>
+                              <li> 2小时之内处理。即转帐完成，发送完相关信息之后的2小时 </li>
+                          </ul>
+                      </div>
+                      } else {
+                      <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;">
+                          <ul>
+                              <li> more than 1000 GOOC per deposit request </li>
+                              <li> opening from 10:00 to 22:00 </li>
+                              <li> finish your deposit request within 2 hours </li>
+                          </ul>
+                      </div>
+                      }
                   </span>
                   @if("zh-CN" == lang.code) {
                   <div class="form-text-control font-1x text-break word-break" style="padding-top:10px;" ng-show="currency == 'CNY'">

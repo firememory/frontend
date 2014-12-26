@@ -464,6 +464,7 @@ transfer.withdrawalCreditCardHint=(Credit card is not supported)
 transfer.withdrawalAddressNotMatch=The withdrawal address is not valid
 transfer.depositWorkflow=The Process of Deposit CNY
 transfer.depositGoocWorkflow=The Process of Deposit GOOC
+transfer.depositGoocNotes=Deposit Gooc notes
 transfer.chooseAgent=Please choose your agent
 transfer.chooseContactAgent=Choose and contact agent
 transfer.payToAgent=Pay to the agent

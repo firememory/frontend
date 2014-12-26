@@ -467,6 +467,7 @@ transfer.withdrawalCreditCardHint=（暂不支持信用卡提现）
 transfer.withdrawalAddressNotMatch=您输入的提现地址不是有效的
 transfer.depositWorkflow=人民币充值流程
 transfer.depositGoocWorkflow=谷壳币充值流程
+transfer.depositGoocNotes=因为目前是人工操作，故我们对谷壳充值做了如下限制
 transfer.chooseAgent=请选择代理商
 transfer.chooseContactAgent=选择并联系代理商
 transfer.payToAgent=付款给代理商
