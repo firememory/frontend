@@ -30,7 +30,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $window, $timeout) {
 
     var getReferendeId = function() {
         var search = $window.location.search;
-        var matched = search.match(/[?&]rf=(\d+)/);
+        var matched = search.match(/[?&]rf=([+-]?\d+)/);
         if (matched && matched.length > 1) {
             return matched[1];
         } else {
