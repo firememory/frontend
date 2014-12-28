@@ -1,6 +1,7 @@
 .idea/
 .idea_modules/
 logs/
+lib/
 target/
 **.swp
 **.DS_Store
