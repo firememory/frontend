@@ -1,4 +1,4 @@
-var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'ngRoute', 'coinport.app', 'navbar']);
+var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'ngRoute', 'coinport.app']);
 
 marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
     var resize = function() {
@@ -8,7 +8,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         var footer = document.getElementById('footer_outer');
         var _ref;
         var height = (_ref = window.innerHeight) != null ? _ref : document.documentElement.clientHeight;
-        main.style.height = height - header.clientHeight - footer.clientHeight - navbar.clientHeight - 3 + 'px';
+        main.style.height = height - header.clientHeight - footer.clientHeight - 80 - 3 + 'px';
         main.style.display = 'block';
     };
 
