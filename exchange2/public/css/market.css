@@ -1256,3 +1256,6 @@ code {
   display: block;
   height: 100%;
 }
+.tx_in_market {
+    width: 40px;
+}

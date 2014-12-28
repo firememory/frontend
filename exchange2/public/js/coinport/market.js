@@ -18,7 +18,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location, $window) 
         if (matched && matched.length > 1) {
             $scope.market = matched[1].toUpperCase();
         } else {
-            $scope.market = 'btc-cny';
+            $scope.market = 'BTC-CNY';
         }
         var res = $scope.market.split('-');
         $scope.subject = res[0];
