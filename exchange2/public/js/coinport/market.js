@@ -1,15 +1,28 @@
 var marketApp = angular.module('coinport.market', ['ui.bootstrap', 'timer', 'ngRoute', 'coinport.app']);
 
-marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
+marketApp.controller('MarketCtrl', function ($scope, $http, $location, $window) {
     var resize = function() {
-        var navbar = document.getElementById('navbar');
+        // var navbar = document.getElementById('navbar');
         var main = document.getElementById('main');
         var header = document.getElementById('header_outer');
         var footer = document.getElementById('footer_outer');
         var _ref;
         var height = (_ref = window.innerHeight) != null ? _ref : document.documentElement.clientHeight;
-        main.style.height = height - header.clientHeight - footer.clientHeight - 80 - 3 + 'px';
+        main.style.height = height - header.clientHeight - footer.clientHeight - 83 + 'px';
         main.style.display = 'block';
+    };
+
+    var setParams = function() {
+        var search = $window.location.search;
+        var matched = search.match(/[?&]m=([a-zA-Z]+-[a-zA-Z]+)/);
+        if (matched && matched.length > 1) {
+            $scope.market = matched[1].toUpperCase();
+        } else {
+            $scope.market = 'btc-cny';
+        }
+        var res = $scope.market.split('-');
+        $scope.subject = res[0];
+        $scope.currency = res[1];
     };
 
     resize();
@@ -19,18 +32,18 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
         $scope.candleChart.resize();
     });
 
+    setParams();
 
-   var changeUrl = function(event, newUrl) {
+    var changeUrl = function(event, newUrl) {
         if ($location.path() == '') {
-            event.preventDefault();
+            if (event != null)
+                event.preventDefault();
             return;
         }
-        $scope.market = $location.path().replace('/', '').toUpperCase();
-        $scope.subject = $scope.market.substr(0, 3);
-        $scope.currency = $scope.market.substr(3);
+        setParams();
         $scope.lastTransaction = {};
         $scope.refresh();
-   };
+    };
 
     $scope.history = [];
     $scope.lastUpdate = new Date().getTime();
@@ -66,10 +79,6 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
     };
 
     $scope.refresh = function() {
-        $http.get('/api/price')
-            .success(function(data, status, headers, config) {
-                $scope.price = data.ticker;
-            });
         $http.get('/api/' + $scope.market + '/history', {params: $scope.candleParam})
             .success(function(data, status, headers, config) {
                 $scope.history = data.data.candles;
@@ -132,7 +141,6 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
                         }]
                     });
                 }
-                console.log($scope.history);
                 $scope.candleChart.setData($scope.history);
             });
 
@@ -154,13 +162,14 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location) {
     $scope.refresh();
 
     $scope.$on('timer-stopped', function (event, data){
-        console.log('polling', data);
         $scope.refresh();
         $scope.lastUpdate = new Date().getTime();
         $scope.$broadcast('timer-start');
     });
 
     $scope.$on('$locationChangeStart', changeUrl);
+
+    changeUrl();
 });
 
 marketApp.filter('txTypeIcon', function() {

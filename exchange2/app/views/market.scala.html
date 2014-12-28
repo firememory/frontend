@@ -25,12 +25,10 @@
 <script type="text/javascript" src="js/coinport/market.js"></script>
 <link rel="stylesheet"  href="/css/coinport.css">
 <link href="css/market.css" rel="stylesheet" type="text/css">
-@__head_commons()
 </head>
 
-
 <body class="dark" screen_capture_injected="true" ng-controller="MarketCtrl">
-@_navbar(4)(session, lang)
+<div> @Messages("nav.brand") <div>
 <div id="header_outer">
     <div id="header">
         <div id="control">
@@ -48,26 +46,14 @@
     <div id="sidebar_outer">
         <div id="sidebar">
             <div id="before_trades">
-                <div id="market">Coinport {{subject}}/{{currency}}</div>
+                <div id="market">{{subject}}-{{currency}}</div>
                 <div id="orderbook">
                     <div class="orderbook" style="height: 143px;">
                         <div id="asks" style="margin-top: -52px;">
                             <div class="table">
-                                <!--<div class="row" style="display: block;">-->
-                                <!--<span class="price">595.49<g>000</g></span>-->
-                                <!--<span class="amount">10<g>.951</g></span>-->
-                                <!--</div>-->
-
-                                <div class="row" ng-repeat="item in depth.asks">
-                                    <span class="price red">{{item.price.toFixed(4)}}</span>
-                                    <span class="amount">{{item.amount.toFixed(4)}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="gasks" style="margin-top: -52px;">
-                            <div class="table">
-                                <div class="row" ng-repeat="item in depth.asks">
-                                    <span class="price red">{{item.price.toFixed(0)}}</span> <span class="amount">{{item.amount.toFixed(0)}}</span>
+                                <div class="row" ng-repeat="item in depth.asks" style="display: block;">
+                                    <span class="price red">{{item.price.display}}</span>
+                                    <span class="amount">{{item.amount.display}}</span>
                                 </div>
                             </div>
                         </div>
@@ -76,17 +62,9 @@
                     <div class="orderbook" style="height: 143px;">
                         <div id="bids">
                             <div class="table">
-                                <div class="row" ng-repeat="item in depth.bids">
-                                    <span class="price green">{{item.price.toFixed(4)}}</span>
-                                    <span class="amount">{{item.amount.toFixed(4)}}</span></div>
-                            </div>
-                        </div>
-                        <div id="gbids">
-                            <div class="table">
-                                <div class="row" ng-repeat="item in depth.bids">
-                                    <span class="price green">{{item.price.toFixed(0)}}</span>
-                                    <span class="amount">{{item.amount.toFixed(0)}}</span>
-                                </div>
+                                <div class="row" ng-repeat="item in depth.bids" style="display: block;">
+                                    <span class="price green">{{item.price.display}}</span>
+                                    <span class="amount">{{item.amount.display}}</span></div>
                             </div>
                         </div>
                     </div>

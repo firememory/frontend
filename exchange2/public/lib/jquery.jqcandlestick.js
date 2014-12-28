@@ -141,13 +141,16 @@
         });
 
         // Round limits to nearest multiple of a power of ten
-        // var power = Math.pow(10, Math.floor(Math.log(plotArea.max) / Math.log(10)));
-        // plotArea.max = Math.ceil(plotArea.max / power) * power;
-        // plotArea.min = Math.floor(plotArea.min / power) * power;
+//        var power = Math.pow(10, Math.floor(Math.log(plotArea.max) / Math.log(10)));
+//        plotArea.max = Math.ceil(plotArea.max / power) * power;
+//        plotArea.min = Math.floor(plotArea.min / power) * power;
 
-		  // TODO(chunming): modify limits
-        plotArea.max = Math.ceil(plotArea.max * 1.01);
-        plotArea.min = Math.floor(plotArea.min * 0.99);
+        var span = plotArea.max - plotArea.min;
+        var padding = span * 0.4;
+        if (padding <= 0) padding = 1;
+
+        plotArea.max = plotArea.max + padding;
+        plotArea.min = Math.max(0, plotArea.min - padding);
 
         // Find appropriate precision for axis labels
         if (typeof plotArea.yAxis.labels.format === 'object'
@@ -311,12 +314,20 @@
         var hours = minutes / 60;
         var days = hours / 24;
 
+        var minute = 60000;
+        var hour = 60 * minute;
+        var day = 24 * hour;
+        var week = 7 * day;
+        var month = 30 * day;
+
         var validSteps = [
-          60000, 2 * 60000, 5 * 60000, 10 * 60000, 15 * 60000, 30 * 60000,
-          60 * 60000, 2 * 60 * 60000, 3 * 60 * 60000, 6 * 60 * 60000, 12 * 60 * 60000,
-          24 * 60 * 60000
+          minute, 3 * minute, 5 * minute, 10 * minute, 15 * minute, 30 * minute,
+          hour, 2 * hour, 3 * hour, 6 * hour, 12 * hour,
+          day, 2 * day, 5 * day,
+          week, 2 * week,
+          month, 3 * month, 6 * month, 12 * month
         ];
-        var step = 60000;
+        var step = minute;
         for (var i = 0; i < validSteps.length; i++) {
           step = validSteps[i];
           if (maxStep <= step) {
@@ -329,7 +340,7 @@
         for (var x = getX(value); x < maxX; value += step, x = getX(value)) {
           var date = new Date(value);
           var label;
-          if (date.getHours() == 0 && date.getMinutes() == 0) {
+          if (step >= day) {
             label = settings.xAxis.months[date.getMonth()] + ' ' + date.getDate();
           }
           else {
@@ -344,6 +355,7 @@
           var labelWidth = ctx.measureText(label).width;
           if (x + labelWidth / 2 > maxX)
             continue;
+
           ctx.fillText(label, x, xAxisMiddle);
           ctx.beginPath();
           if (tickSize != 0) {
@@ -374,7 +386,7 @@
 
     var resize = function() {
       if ($container.width() != previousWidth
-          || $container.height() != previousHeight) {
+        || $container.height() != previousHeight) {
         chartCanvas.width = $container.width();
         chartCanvas.height = $container.height();
         crossCanvas.width = $container.width();
@@ -416,7 +428,7 @@
         ctx.font = settings.info.font ? settings.info.font : settings.font;
         if (settings.info.position == 'right')
           ctx.textAlign = 'right';
-        else 
+        else
           ctx.textAlign = 'left';
         if (settings.info.position == 'auto')
           ctx.textBaseline = 'top';
@@ -430,7 +442,7 @@
           plot.series.forEach(function(series) {
             if (series.dataSize == 1) {
               if (typeof series.name === 'string')
-              info.push(series.name + ': ' + plot.formatLabel(values[series.dataOffset]));
+                info.push(series.name + ': ' + plot.formatLabel(values[series.dataOffset]));
             }
             else {
               for (var i = 0; i < series.dataSize; i++) {
@@ -529,6 +541,10 @@
       redrawChart();
     };
 
+    this.resize = function() {
+      resize();
+    };
+
     this.setData = function(newData) {
       data = newData;
       redrawChart();
@@ -611,7 +627,7 @@
       }
     },
     xAxis: {
-      name: 'DATE',
+      name: 'Date',
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       dataOffset: 0,
       min: null,
@@ -790,6 +806,49 @@
         data.forEach(function(row) {
           var x = getX(row[settings.xAxis.dataOffset]);
           var y = getY(plot, row[series.dataOffset]);
+          if (previousX && previousY)
+            ctx.lineTo(x, y);
+          else
+            ctx.moveTo(x, y);
+          previousX = x;
+          previousY = y;
+        });
+        ctx.stroke();
+      }
+    },
+    maline: {
+      dataSize: 1,
+      span: 7,
+      strokeWidth: 1.0,
+      draw: function(ctx, settings, plot, series, data, getX, getY) {
+        // TODO: apply spline to MA line
+        var getMA = function(data) {
+          var ma = [];
+          var n = series.span;
+          if (!data || n > data.length)
+            return ma;
+          var sum = 0;
+          for (var i = 0; i < n; i++) {
+            sum += data[i][4];
+            ma.push([data[i][0], sum / (i + 1)]);
+          }
+          for (var i = n; i < data.length; i++) {
+            var row = data[i];
+            var time = row[0];
+            sum = sum - data[i - n][4] + row[4];
+            ma.push([time, sum / n]);
+          }
+          return ma;
+        };
+
+        ctx.strokeStyle = series.color;
+        ctx.lineWidth = series.strokeWidth;
+        ctx.beginPath();
+        var previousX = null;
+        var previousY = null;
+        getMA(data).forEach(function(row) {
+          var x = getX(row[0]);
+          var y = getY(plot, row[1]);
           if (previousX && previousY)
             ctx.lineTo(x, y);
           else
