@@ -121,6 +121,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 #sidebar #trades {
     overflow-y: auto;
     text-align: left;
+    width:100%;
 }
 
 #sidebar #trades span {
@@ -253,7 +254,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
 }
 
 #asks, #bids {
-    width: 130px;
+    width: 100%;
 }
 
 #gasks, #gbids {
@@ -286,6 +287,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
     border-collapse: collapse;
     padding: 0px;
     margin: 0px;
+    width: 90%;
 }
 
 #orderbook .table .row {
@@ -293,6 +295,7 @@ ul.horiz input, ul.horiz select, ul.horiz button {
     margin: 0px;
     height: 13px;
     line-height: 13px;
+    width: 100%;
 }
 
 #orderbook .remove {
