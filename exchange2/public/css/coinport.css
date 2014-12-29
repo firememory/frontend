@@ -1,0 +1,272 @@
+body {
+    padding-bottom: 0px;
+    font-size: 13px;
+    color: #333333;
+    font-family: Microsoft YaHei,Arial,Verdana,sans-serif,Segoe UI,Tahoma;
+    -webkit-text-size-adjust:none;
+    background: #fff;
+    font-weight: normal;
+    min-width: 960px;
+}
+body {
+    padding-top: 10px;
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+footer {
+    padding: 20px 0;
+    background: none repeat scroll 0 0 #EEEDED;
+    border-top: 1px solid #c1c3c4;
+    margin: 0 auto;
+    text-align: center;
+    min-width: 980px;
+    height: 80px;
+}
+footer li a{
+    margin:0 10px 0 0;
+}
+.badge {
+    background-color: #009dc6
+}
+
+.link {
+    cursor: pointer;
+}
+
+#price-summary {
+    padding-top: 50px;
+    padding-right: 15px;
+    padding-left: -100px;
+}
+#price-summary dd {
+    color: #c00;
+}
+.user-summary {
+    margin-top: 10px;
+}
+#user-finance-chart-history {
+    margin-top: 10px;
+    height: 260px;
+}
+#user-finance-chart-pie {
+    margin-top: 10px;
+    height: 260px;
+}
+#user-finance-table-div {
+    padding-top: 15px;
+}
+
+/*------------------------------------------------------------------------- trade */
+.candle-chart-wrap {
+    margin-bottom: 10px;
+}
+.jqcandlestick-container {
+    position: relative;
+    cursor: none;
+    border: 1px solid #e6e6e6;
+    height: 220px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.jqcandlestick-canvas {
+  position: absolute;
+  display: block;
+  height: 100%;
+}
+.sell {
+    color: #CC9999;
+}
+.buy {
+    color: #99CC99;
+}
+.buy_sell_box {
+		border: 1px solid #e6e6e6;
+		background: #fff;
+		
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+}
+.buy_sell_box .wrap_input {
+		position: relative;
+}
+.buy_sell_box .all {
+		position: absolute;
+		right: 0;
+}
+.buy_sell_box.right {
+		margin-left: 2%;
+}
+.buy_sell_box > .box_title {
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.4em;
+		padding-top: 15px;
+		padding-bottom: 0px;
+		color: #009dc6;
+		font-weight: bold;
+}
+.buy_sell_box > .box_subtitle {
+		border-bottom: 1px dashed #e6e6e6;
+		width: 100%;
+		text-align: center;
+		display: block;
+		font-size: 1.1em;
+		padding-top: 10px;
+		padding-bottom: 15px;
+		color: #808080;
+}
+.buy_sell_box > .box {
+		padding: 30px;
+		padding-top: 0px;
+}
+.form-buy-sell {
+    margin: 2px;
+}
+.form-buy-sell .input-group {
+    margin-top: 10px;
+}
+.form-buy-sell .detail-info-box {
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+.form-buy-sell .detail-info-box .list-group {
+    padding: 0;
+    margin: 0px;
+}
+.form-buy-sell .detail-info-box .list-group .list-group-item {
+    position: relative;
+    display: block;
+    padding: 5px 10px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+}
+
+.label {
+    float: left;
+    width: 100%;
+    color: #808080;
+    margin-bottom: 7px;
+    margin-top: 10px;
+}
+
+.depth-box {
+    height: 220px;
+    padding-left: 15px;
+    padding-top: 5px;
+    color: #808080;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.depth-item {
+    cursor: pointer;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+.depth-item .title {
+    padding-left: 10px;
+}
+.depth-item .price {
+    padding-left: 20px;
+}
+.depth-item .amount {
+    padding-left: 20px;
+}
+.depth-price {
+    padding-left: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.transaction-box {
+    height: 325px;
+    padding-left: 15px;
+    padding-top: 5px;
+
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.transaction-item {
+    cursor: pointer;
+    font-size: 12px;
+    margin: 0;
+    padding: 1px;
+    border-bottom: 1px dashed #e6e6e6;
+}
+.transaction-item .title {
+    padding-left: 10px;
+    font-size: 10px;
+    color: #999;
+}
+.transaction-item .sell {
+    padding-left: 10px;
+    font-size: 10px;
+    color: #CC9999;
+}
+.transaction-item .buy {
+    padding-left: 10px;
+    font-size: 10px;
+    color: #99CC99;
+}
+.transaction-item .price {
+    padding-left: 20px;
+    color: #808080;
+}
+.transaction-item .amount {
+    padding-left: 20px;
+    color: #808080;
+}
+.transaction-price {
+    padding-left: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.user-order-box {
+    font-size: 12px;
+    margin-top: 15px;
+    padding-left: 15px;
+    background-color: #FFFFFF;
+    width: 100%;
+}
+.user-order-box .title {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #336699;
+}
+.user-order-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px dashed #e6e6e6;
+}
+.user-order-item .head {
+    font-size: 10px;
+    color: #bbb;
+}
+.user-order-item .body {
+    font-size: 12px;
+    color: #808080;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.user-order-item .body .data {
+    font-size: 12px;
+    font-weight: bold;
+    color: #999;
+}
+.user-order-item .foot {
+    font-size: 12px;
+    color: #bbb;
+}
