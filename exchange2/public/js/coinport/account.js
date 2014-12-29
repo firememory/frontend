@@ -6,7 +6,7 @@ function httpConfig($httpProvider) {
 
 app.config(httpConfig);
 
-app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', function ($scope, $http, $timeout, $interval) {
     $scope.page = 1;
     $scope.limit = 25;
 
@@ -190,17 +190,33 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
         });
 
         $(this).next('.popover').find('button.sendmail').click(function (e) {
-            $http.get('/emailverification')
-                .success(function (data, status, headers, config) {
-                    //console.debug('add bank emailverification data: ', data);
-                    if (data.success) {
-                        bankCard.verifyCodeUuidEmail = data.data;
-                    } else {
-                        $popup.popover('hide');
-                        var errorMsg = Messages.getMessage(data.code, data.message);
-                        $scope.displayWithdrawalError(errorMsg);
+            var sendButton = $('button.sendmail')[0];
+            var originText = sendButton.innerText;
+            sendButton.disabled = true;
+            var disabledTime = 60;
+            var pinner = $interval(function() {
+                if (disabledTime > 0) {
+                    disabledTime -= 1;
+                    sendButton.innerText = Messages.account.getVerifyCodeButtonTextPrefix + disabledTime + Messages.account.getVerifyCodeButtonTextTail;
+                } else {
+                    if (angular.isDefined(pinner)) {
+                        $interval.cancel(pinner);
+                        pinner = undefined;
+                        sendButton.disabled = false;
+                        sendButton.innerText = originText;
                     }
-                });
+                }
+            }, 1000);
+            $http.get('/emailverification').success(function (data, status, headers, config) {
+                //console.debug('add bank emailverification data: ', data);
+                if (data.success) {
+                    bankCard.verifyCodeUuidEmail = data.data;
+                } else {
+                    $popup.popover('hide');
+                    var errorMsg = Messages.getMessage(data.code, data.message);
+                    $scope.displayWithdrawalError(errorMsg);
+                }
+            });
         });
 
         $(this).next('.popover').find('button.save').click(function (e) {
