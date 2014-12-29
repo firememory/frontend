@@ -352,7 +352,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       val uid = request.session.get("uid").get.toLong
       val data = request.body
-      val bankName = getParam(data, "bankName").getOrElse("")
+      val bankName = request.session.get("U_RN").get.toString
       val ownerName = getParam(data, "ownerName").getOrElse("")
       val cardNumber = getParam(data, "cardNumber").getOrElse("")
       val branchBankName = getParam(data, "branchBankName").getOrElse("")

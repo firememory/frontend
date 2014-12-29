@@ -173,6 +173,7 @@ Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC'
 
 Messages.bankList = [
     'China Construction Bank',
+    'Alipay',
     'Industrial & Commercial Bank of China',
     'Agricultural Bank of China',
     'Bank of China',

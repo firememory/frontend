@@ -6,6 +6,7 @@
 @isSetEmailPreference() = @{session.get(securityPreference).get.last.toString.contentEquals("1")}
 @isSetPhonePreference() = @{session.get(securityPreference).get.head.toString.contentEquals("1")}
 @isVerifiedUser() = @{session.get(userRealName).isDefined && session.get(userRealName).get.trim.toString.nonEmpty}
+@realName() = @{session.get(userRealName).get.trim.toString}
 
 <!doctype html>
 <html>
@@ -255,17 +256,23 @@
                     <span class="input-group-btn">
                       <button class="btn btn-default" type="button"  ng-disabled="bankCards.length == 0" ng-click="deleteBankCard();">@Messages("transfer.deleteBankCard")</button>
                       <a href="#">
-                      <button id="add-bankcard" class="btn btn-default" type="button" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("transfer.addBankCard")" data-content='<div class="form-group"><input type="text" class="form-control" value="" id="owner-name" placeholder="@Messages("transfer.ownerName")" /></div><div class="form-group"><input type="text" class="form-control" id="card-number" value="" placeholder="@Messages("transfer.cardNumber")" /></div>
-                        <div class="form-group">
-                          <select type="text" id="bank-name" class="form-control" value="" placeholder="@Messages("transfer.bankName")">
-                            @for(bankName <- supportedBankNames)  {
-                            <option value="@bankName">@bankName</option>
-                            }
-                          </select>
-                        </div>
-                        <div class="form-group"><input type="text" id="bank-branch-name" class="form-control" value="" placeholder="@Messages("transfer.branchBankName")" /></div>
-                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="email-code" value="" placeholder="邮件验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendmail" id="add-bank-sendmail">@Messages("transfer.sendVerifyEmail")</button></div></div></div>
-                        <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">@Messages("ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">@Messages("cancel")</button></div></div></div>'>@Messages("transfer.addBankCard") </button></a>
+                      <button id="add-bankcard" class="btn btn-default" type="button" data-rel="popover" data-toggle="popover" data-placement="left" data-title="@Messages("transfer.addBankCard")" data-content='
+                          <div class="form-group">
+                              <input type="text" class="form-control" value=@realName() id="owner-name" readonly/>
+                          </div>
+                          <div class="form-group">
+                              <input type="text" class="form-control" id="card-number" value="" placeholder="@Messages("transfer.cardNumber")"/>
+                          </div>
+                          <div class="form-group">
+                            <select type="text" id="bank-name" class="form-control" value="" placeholder="@Messages("transfer.bankName")">
+                              @for(bankName <- supportedBankNames)  {
+                              <option value="@bankName">@bankName</option>
+                              }
+                            </select>
+                          </div>
+                          <div class="form-group"><input type="text" id="bank-branch-name" class="form-control" value="" placeholder="@Messages("transfer.branchBankName")" /></div>
+                          <div class="form-group text-center"><div class="row"><div class="col-xs-6"><input type="text" class="form-control" id="email-code" value="" placeholder="邮件验证码" /></div><div class="col-xs-6"><button class="btn btn-success col-xs-12 sendmail" id="add-bank-sendmail">@Messages("transfer.sendVerifyEmail")</button></div></div></div>
+                          <div class="form-group text-center"><div class="row"><div class="col-xs-6"><button class="btn btn-primary col-xs-12 save">@Messages("ok")</button></div><div class="col-xs-6"><button class="btn btn-default col-xs-12 pull-right cancel">@Messages("cancel")</button></div></div></div>'>@Messages("transfer.addBankCard") </button></a>
                     </span>
                   </div>
                 </div>

@@ -49,6 +49,7 @@ object Constant {
 
   val supportedBankNames = Seq(
     "建设银行",
+    "支付宝",
     "工商银行",
     "农业银行",
     "中国银行",

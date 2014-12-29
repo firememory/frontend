@@ -165,7 +165,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', function ($scope,
     $scope.bankCardToString = function(card) {
         if (card)
             return card.ownerName + ' | ' + card.cardNumber +
-            ' | ' + card.bankName + ' | ' + card.branchBankName;
+            ' | ' + card.bankName + ' | ' + (card.branchBankName || '');
         else
             return '';
     };

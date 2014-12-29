@@ -484,10 +484,10 @@ transfer.addBankCard=添加银行卡
 transfer.addBankCardWarn=（银行卡的开户名必须和实名认证的真实姓名一致）
 transfer.deleteBankCard=删除此银行卡
 transfer.chooseBankCardWain=需要添加银行卡才能提现
-transfer.ownerName=开户名
-transfer.cardNumber=卡号
-transfer.bankName=开户银行
-transfer.branchBankName=开户支行
+transfer.ownerName=户名
+transfer.cardNumber=帐号
+transfer.bankName=开户银行(或支付宝)
+transfer.branchBankName=开户支行(可选)
 
 transfer.sendVerifyEmail=发送邮件验证码
 
