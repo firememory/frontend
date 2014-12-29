@@ -185,25 +185,31 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
             verifyCodeUuidEmail: ''
         };
 
+        var sendButton = function() { return $('button.sendmail')[0]; };
+        if ($scope.addBankGetEmailDisable) {
+            sendButton().disabled = true;
+        }
+
         $(this).next('.popover').find('button.cancel').click(function (e) {
             $popup.popover('hide');
         });
 
         $(this).next('.popover').find('button.sendmail').click(function (e) {
-            var sendButton = $('button.sendmail')[0];
-            var originText = sendButton.innerText;
-            sendButton.disabled = true;
+            var originText = sendButton().innerText;
+            $scope.addBankGetEmailDisable = true;
+            sendButton().disabled = true;
             var disabledTime = 60;
             var pinner = $interval(function() {
                 if (disabledTime > 0) {
                     disabledTime -= 1;
-                    sendButton.innerText = Messages.account.getVerifyCodeButtonTextPrefix + disabledTime + Messages.account.getVerifyCodeButtonTextTail;
+                    sendButton().innerText = Messages.account.getVerifyCodeButtonTextPrefix + disabledTime + Messages.account.getVerifyCodeButtonTextTail;
                 } else {
+                    $scope.addBankGetEmailDisable = false;
                     if (angular.isDefined(pinner)) {
                         $interval.cancel(pinner);
                         pinner = undefined;
-                        sendButton.disabled = false;
-                        sendButton.innerText = originText;
+                        sendButton().disabled = false;
+                        sendButton().innerText = originText;
                     }
                 }
             }, 1000);
