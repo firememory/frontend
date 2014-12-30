@@ -75,8 +75,8 @@
                 <div class="row" ng-repeat="item in transactions.items" style="display: block;">
                     <div class="t">{{item.timestamp | date:"yyyy-MM-dd HH:mm:ss"}}</div>
                     <div class="u {{item.sell | txTypeClass}} tx_in_market">{{item.sell | txTypeText}}<i class="fa {{item.sell | txTypeIcon}}"></i> </div>
-                    <div class="p {{item.sell | txTypeClass}} tx_in_market"><i class="fa fa-cny"></i>{{item.price.display_short}}</div>
-                    <div class="v">{{item.subjectAmount.display_short}}</div>
+                    <div class="p {{item.sell | txTypeClass}} tx_in_market"><i class="fa fa-cny"></i>{{item.price.display}}</div>
+                    <div class="v">{{item.subjectAmount.display}}</div>
                 </div>
                 <!--<div class="row" style="display: block;">-->
                 <!--<div class="v">0-->
@@ -118,10 +118,6 @@
             <li class="period">
             @Messages("market.willBeUpdatedIn") <timer ng-show="true" countdown="5" interval="1000">{{seconds}}</timer></span> @Messages("market.seconds")
         </li>
-        <li class="sep"></li>
-        <li class="period"><a href="#" target="_blank">Help</a></li>
-        <li id="now"></li>
-        <li class="sep"></li>
     </ul>
 </div>
 </div>

@@ -47,7 +47,7 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location, $window) 
 
     $scope.history = [];
     $scope.lastUpdate = new Date().getTime();
-    $scope.candleParam = {period: 4};
+    $scope.candleParam = {period: 6};
     $scope.candleChart = null;
     $scope.periods = [
         {period: 13, title: Messages.timeDemension.w1},
@@ -58,10 +58,10 @@ marketApp.controller('MarketCtrl', function ($scope, $http, $location, $window) 
         {period: 9, title: Messages.timeDemension.h6},
         {period: 8, title: Messages.timeDemension.h4},
         {period: 7, title: Messages.timeDemension.h2},
-        {period: 6, title: Messages.timeDemension.h1},
+        {period: 6, title: Messages.timeDemension.h1, class: 'period selected'},
         {class: 'subsep'},
         {period: 5, title: Messages.timeDemension.m30},
-        {period: 4, title: Messages.timeDemension.m15, class: 'period selected'},
+        {period: 4, title: Messages.timeDemension.m15},
         {period: 3, title: Messages.timeDemension.m5},
         {period: 2, title: Messages.timeDemension.m3},
         {period: 1, title: Messages.timeDemension.m1}];
