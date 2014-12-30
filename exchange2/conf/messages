@@ -47,6 +47,7 @@ nav.blog=Blog
 nav.login=Login
 nav.logout=Logout
 nav.register=Sign Up
+nav.help=Help
 
 index.reserveStats=Reserve Stats
 index.marketStats=Market Stats
