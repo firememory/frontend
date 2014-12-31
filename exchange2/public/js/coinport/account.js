@@ -133,7 +133,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
             $scope.withdrawalFee = '2';
             break;
           case "CNY":
-            $scope.withdrawalFee = '0.4%';
+            $scope.withdrawalFee = '0.4% (最小2元)';
             break;
           case "GOOC":
             $scope.withdrawalFee = '1';
