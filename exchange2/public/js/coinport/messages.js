@@ -66,7 +66,7 @@ Messages.trade = {
     inputAmount: 'Invalid quantity input - it is required and must be greater than 0.',
     inputPrice: 'Invalid price input - it is required and must be greater than 0.',
     inputTotal: 'Invalid total input - it must be greater than 0. You can achieve this by increasing the price or quantity input.',
-    tooSmall: 'Too small amount to trade.',
+    tooSmall: 'Too small amount to trade. Total amount must larger than 0.001 BTC(or 1 CNY)',
     submit: 'Order submitting',
     submitted: 'Order submitted',
     error: 'Fail to submit order'

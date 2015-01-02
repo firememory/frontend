@@ -328,7 +328,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
             $scope.alert('bid', Messages.trade.inputTotal);
             return;
         }
-        if (+$scope.bid.total < 0.0001) {
+        if (('CNY' == $scope.currency && +$scope.bid.total < 1) ||
+            ('BTC' == $scope.currency && +$scope.bid.total < 0.001)) {
             $scope.alert('bid', Messages.trade.tooSmall);
             return;
         }
@@ -383,7 +384,8 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
             $scope.alert('ask', Messages.trade.inputPrice);
             return;
         }
-        if (+$scope.ask.total < 0.0001) {
+        if (('CNY' == $scope.currency && +$scope.ask.total < 1) ||
+            ('BTC' == $scope.currency && +$scope.ask.total < 0.001)) {
             $scope.alert('ask', Messages.trade.tooSmall);
             return;
         }
