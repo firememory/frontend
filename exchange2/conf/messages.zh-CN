@@ -237,6 +237,7 @@ accountsettings.googleAuth.scanQRcode=1. 在“Google Authenticator (身份验�
 accountsettings.googleAuth.inputSecret=2. 如果您无法扫描成功上图的条形码，您还可以手动添加账户，并输入如下密钥:
 
 accountsettings.googleAuth.dontdelete=一旦绑定双重校验，请勿将验证码APP从您的手机上删除
+accountsettings.googleAuth.inputNumber=请输入您手机上的谷歌二次验证码
 accountsettings.googleAuth.verifycode=双重校验码
 
 accountsettings.googleauth.unbindButton=解除绑定
