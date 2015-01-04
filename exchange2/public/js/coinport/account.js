@@ -44,7 +44,7 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
                     $scope.depositAddresses['NXT'] = nxtAddrs[0] + Messages.transfer.nxtOr + nxtAddrs[1];
                     $scope.nxtPublicKey = nxtAddrs[2];
                 } else if (Messages.coins[curr] == 'GOOC') {
-                    $scope.depositAddresses['GOOC'] = '15026841984';
+                    $scope.depositAddresses['GOOC'] = '50001';
                 } else $scope.depositAddresses[Messages.coins[curr]] = data.data[Messages.coins[curr]];
             }
             //console.debug("$scope.depositAddresses: ", $scope.depositAddresses);
