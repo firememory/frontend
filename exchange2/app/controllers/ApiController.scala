@@ -338,7 +338,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
         "code" -> 0,
         "message" -> "",
         "data" -> Map(
-          "v" -> 100000
+          "v" -> 100001
       ))
       Ok(version.toJson)
     }

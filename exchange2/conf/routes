@@ -108,7 +108,7 @@ GET     /api/m/ticker/btc                   controllers.ApiController.btcTicker(
 GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker()
 GET     /api/m/*market/depth                controllers.ApiController.mdepth(market)
 GET     /api/m/fee                          controllers.ApiController.fee()
-GET     /app/android/latestVersion          controllers.ApiController.getAndroidLatestVersion()
+#GET     /app/android/latestVersion          controllers.ApiController.getAndroidLatestVersion()
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth                  controllers.ApiController.depth(market)
