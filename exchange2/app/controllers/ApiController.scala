@@ -326,9 +326,21 @@ object ApiController extends Controller with Json4s with AccessLogging {
           "NXT" -> Map("l" -> 10, "f" -> "2"),
           "XRP" -> Map("l" -> 10, "f" -> "1"),
           "GOOC" -> Map("l" -> 1000, "f" -> "0")
-      )
-      )
+      ))
       Ok(fee.toJson)
+    }
+  }
+
+  def getAndroidLatestVersion() = Action.async { implicit request =>
+    Future {
+      val version = Map(
+        "success" -> true,
+        "code" -> 0,
+        "message" -> "",
+        "data" -> Map(
+          "v" -> 100000
+      ))
+      Ok(version.toJson)
     }
   }
 
