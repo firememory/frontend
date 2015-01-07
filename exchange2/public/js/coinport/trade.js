@@ -2,7 +2,7 @@ var tradeApp = angular.module('coinport.trade', ['ui.bootstrap', 'coinport.app',
 
 function httpConfig($httpProvider) {
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-//    $httpProvider.defaults.xsrfCookieName = 'XSRF-TOKEN';
+    $httpProvider.defaults.xsrfCookieName = 'XSRF-TOKEN';
 }
 
 tradeApp.config(httpConfig);

@@ -62,9 +62,9 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         if (currTs - ts > timeoutMillis) {
           logger.error(s"account authentication failed: timeout")
           Future(Unauthorized.withNewSession)
-        // } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
-        //   logger.error(s"account authentication failed: xsrf-token not match")
-        //   Future(Unauthorized.withNewSession)
+        } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
+          logger.error(s"account authentication failed: xsrf-token not match")
+          Future(Unauthorized.withNewSession)
         } else {
           checkUserSuspended(uid.toLong, request, block)
         }
