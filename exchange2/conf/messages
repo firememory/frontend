@@ -48,6 +48,7 @@ nav.login=Login
 nav.logout=Logout
 nav.register=Sign Up
 nav.help=Help
+nav.android=AndroidApp
 
 index.reserveStats=Reserve Stats
 index.marketStats=Market Stats
