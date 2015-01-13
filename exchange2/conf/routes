@@ -108,7 +108,6 @@ GET     /api/m/ticker/btc                   controllers.ApiController.btcTicker(
 GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker()
 GET     /api/m/*market/depth                controllers.ApiController.mdepth(market)
 GET     /api/m/fee                          controllers.ApiController.fee()
-#GET     /app/android/latestVersion          controllers.ApiController.getAndroidLatestVersion()
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth                  controllers.ApiController.depth(market)
@@ -142,6 +141,7 @@ GET     /notifications              controllers.MainController.getNotifications(
 
 GET     /download/*path/*file       controllers.MainController.downloadFromHdfs(path, file)
 GET     /api/*file                  controllers.Assets.at(path="/public/data", file)
+GET     /app/android/download       controllers.MainController.getAndroid()
 
 # Default path to /public
 GET     /css/*file                controllers.Assets.at(path="/public/css", file)

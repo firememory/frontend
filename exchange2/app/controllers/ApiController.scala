@@ -331,19 +331,6 @@ object ApiController extends Controller with Json4s with AccessLogging {
     }
   }
 
-  def getAndroidLatestVersion() = Action.async { implicit request =>
-    Future {
-      val version = Map(
-        "success" -> true,
-        "code" -> 0,
-        "message" -> "",
-        "data" -> Map(
-          "v" -> 100001
-      ))
-      Ok(version.toJson)
-    }
-  }
-
   private def getParam(queryString: Map[String, Seq[String]], param: String): Option[String] = {
     queryString.get(param).map(_(0))
   }

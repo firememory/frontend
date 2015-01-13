@@ -324,4 +324,7 @@ object MainController extends Controller with Json4s {
       Ok(views.html.errorPage.render("", langFromRequestCookie(request)))
   }
 
+  def getAndroid() = Action { implicit request =>
+      Ok(views.html.android_download.render(langFromRequestCookie(request)))
+  }
 }
