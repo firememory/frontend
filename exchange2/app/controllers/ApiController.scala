@@ -96,14 +96,17 @@ object ApiController extends Controller with Json4s with AccessLogging {
           val price = getParam(data, "price").map(_.toDouble)
           val amount = getParam(data, "amount").map(_.toDouble)
           val total = getParam(data, "total").map(_.toDouble)
-
-          val operation = orderType match {
-            case "bid" => Operations.Buy
-            case "ask" => Operations.Sell
+          if (!price.isDefined || !amount.isDefined || (currency.toLowerCase == "cny" && price.get * amount.get < 1) ||
+              (currency.toLowerCase == "btc" && price.get * amount.get < 0.001)) {
+            Future(Ok(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small").toJson))
+          } else {
+            val operation = orderType match {
+              case "bid" => Operations.Buy
+              case "ask" => Operations.Sell
+            }
+            val order = UserOrder(id, operation, subject, currency, price, amount, total, submitTime = System.currentTimeMillis)
+            AccountService.submitOrder(order).map(result => Ok(result.toJson))
           }
-          val order = UserOrder(id, operation, subject, currency, price, amount, total, submitTime = System.currentTimeMillis)
-          AccountService.submitOrder(order).map(result => Ok(result.toJson))
-
         case None => Future(Unauthorized)
       }
   }
