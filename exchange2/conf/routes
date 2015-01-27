@@ -136,6 +136,11 @@ GET     /api/open/reserve/*currency         controllers.ApiController.currencyRe
 ## public API routes:
 GET     /public/*market/depth               controllers.PublicApiController.depth(market)
 
+## API v2 routes
+GET /api/v2/*currency/tickers               controllers.ApiV2Controller.tickers(currency)
+GET /api/v2/tickers                         controllers.ApiV2Controller.allTickers
+GET /api/v2/*market/ticker                  controllers.ApiV2Controller.ticker(market)
+
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()
 
