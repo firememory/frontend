@@ -440,7 +440,7 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
 
     $scope.clickDepthBids = function(index) {
         $('#bidAskTab a[href="#tab-2"]').tab('show');
-        var data = $scope.depth.bids
+        var data = $scope.depth.bids;
         if (index < 0 || index >= data.length) return;
 
         var amount = 0;
@@ -449,23 +449,23 @@ function BidAskCtrl($scope, $http, $window, $timeout) {
         }
         var price = data[index].price;
         $scope.ask.price = price.display;
-        $scope.ask.amount = Math.min(amount, +$scope.account[$scope.subject].available.display);
+        $scope.ask.amount = amount;
         updateAskTotal();
     }
 
     $scope.clickDepthAsks = function(index) {
         $('#bidAskTab a[href="#tab-1"]').tab('show');
-            var data = $scope.depth.asks
-            if (index < 0 || index >= data.length) return;
+        var data = $scope.depth.asks;
+        if (index < 0 || index >= data.length) return;
 
-            var amount = 0;
-            for(var i = data.length - 1; i >= index; i--) {
-                amount += data[i].amount.value;
-            }
-            var price = data[index].price;
-            $scope.bid.price = price.display;
-            $scope.bid.amount = amount;
-            updateBidTotal();
+        var amount = 0;
+        for(var i = data.length - 1; i >= index; i--) {
+            amount += data[i].amount.value;
+        }
+        var price = data[index].price;
+        $scope.bid.price = price.display;
+        $scope.bid.amount = amount;
+        updateBidTotal();
     }
 
     $scope.cancelOrder = function(order) {
