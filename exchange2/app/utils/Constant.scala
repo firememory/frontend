@@ -124,6 +124,8 @@ object Constant {
     }
   }
 
+  def supportReserveCoins = currencySeq.filterNot(c => c == Currency.Gooc)
+
   def agents = List(
     Agent("杨*", "招商银行", "喵喵（招行）", "62** **** **** **92", "209063895"))
 }

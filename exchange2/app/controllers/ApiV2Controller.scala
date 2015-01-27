@@ -10,6 +10,7 @@ import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import com.coinport.coinex.data._
 import scala.concurrent.Future
+import scala.concurrent.Await
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
@@ -51,5 +52,21 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val r = MarketService.getJsonTickers(sides)
       r.map(result => Ok(result.toJson))
+  }
+
+  def reserves() = Action.async {
+    implicit request =>
+      val reserves = Constant.supportReserveCoins map { case c =>
+        val reserveFuture = OpenService.getCurrencyReserve(c)
+        val reserveApiResult = Await.result(reserveFuture, 5 seconds).asInstanceOf[ApiResult]
+        if (reserveApiResult.success) {
+          val reserve = reserveApiResult.data.get.asInstanceOf[ApiCurrencyReserve]
+          c.toString.toUpperCase -> Seq(reserve.hot.value, reserve.cold.value, reserve.user.value, reserve.total.value)
+        } else {
+          c.toString.toUpperCase -> Seq.empty
+        }
+      }
+      val result = ApiResult(true, 0, "", Some(reserves.toMap))
+      Future(Ok(result.toJson))
   }
 }

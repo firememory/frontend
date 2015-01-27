@@ -140,6 +140,7 @@ GET     /public/*market/depth               controllers.PublicApiController.dept
 GET /api/v2/*currency/tickers               controllers.ApiV2Controller.tickers(currency)
 GET /api/v2/tickers                         controllers.ApiV2Controller.allTickers
 GET /api/v2/*market/ticker                  controllers.ApiV2Controller.ticker(market)
+GET /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
 
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()
