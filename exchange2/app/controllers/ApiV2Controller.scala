@@ -22,6 +22,7 @@ import utils.Constant
 import utils.HdfsAccess
 import controllers.GoogleAuth.GoogleAuthenticator
 import models.ApiV2PagingWrapper
+import models.ApiV2TradesPagingWrapper
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -103,5 +104,31 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         items = jsonFormated
       )
       Ok(ApiResult(data = Some(data)).toJson)
+  }
+
+  //TODO(xiaolu) unfinished api
+  def transfers(currency: String) = Action {
+    Ok("unfinished")
+  }
+
+  def transactions(market: String) = Action.async {
+    implicit request =>
+      val pager = ControllerHelper.parseApiV2PagingParam()
+      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map(
+        result => {
+          if (result.success) {
+            val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
+            val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
+            val apiV2Txs = txs.map { t =>
+              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid)
+            }
+            val hasMore = pager.limit > txs.size
+            val timestamp = System.currentTimeMillis
+            val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(timestamp, hasMore, market, apiV2Txs)))
+            Ok(updated.toJson)
+          } else {
+            Ok(result.toJson)
+          }
+        })
   }
 }
