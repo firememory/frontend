@@ -246,6 +246,15 @@ object ControllerHelper {
     Pager(skip = skip, limit = limit, page = page)
   }
 
+  def parseApiV2PagingParam()(implicit request: Request[_]): Pager = {
+    val query = request.queryString
+    val limit = getParam(query, "limit", "50").toInt min 100
+    val page = getParam(query, "cursor", "1").toInt max 0
+    val skip = (page - 1) * limit
+    Pager(skip = skip, limit = limit, page = page)
+  }
+
+
   def langFromRequestCookie(request: Request[_]): Lang = {
     val lang: String = request.cookies.get(Play.langCookieName) match {
       case Some(langCookie) => langCookie.value

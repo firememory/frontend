@@ -142,6 +142,8 @@ GET /api/v2/tickers                         controllers.ApiV2Controller.allTicke
 GET /api/v2/*market/ticker                  controllers.ApiV2Controller.ticker(market)
 GET /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
 GET /api/v2/*currency/reserves              controllers.ApiV2Controller.reserve(currency)
+GET /api/v2/*currency/balance_snapshot_files   controllers.ApiV2Controller.balanceSnapshotFiles(currency)
+GET /api/v2/{currency}/transfer_files       controllers.ApiV2Controller.transferFiles(currency)
 
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()

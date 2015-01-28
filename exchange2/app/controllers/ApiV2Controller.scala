@@ -19,7 +19,9 @@ import com.coinport.coinex.api.service._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import controllers.ControllerHelper._
 import utils.Constant
+import utils.HdfsAccess
 import controllers.GoogleAuth.GoogleAuthenticator
+import models.ApiV2PagingWrapper
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -74,5 +76,32 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       BitwayService.getReserve(currency).map(result =>
         Ok(result.toJson))
+  }
+
+  def balanceSnapshotFiles(currency: String) = Action {
+    implicit request =>
+      val pager = ControllerHelper.parseApiV2PagingParam()
+      val path = "csv/asset/" + currency.toLowerCase
+      val files = HdfsAccess.listFiles(path)
+        .sortWith((a, b) => a.updated > b.updated)
+
+      val from = Math.min(pager.skip, files.length - 1)
+      val until = pager.skip + pager.limit
+
+      val items = files.slice(from, until)
+
+      val jsonFormated = items map { f =>
+        Seq(f.name, f.size, f.updated)
+      }
+
+      val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
+
+      val data = ApiV2PagingWrapper(
+        hasMore = from < files.length - 1,
+        currency = currency,
+        path = downloadPreUrl,
+        items = jsonFormated
+      )
+      Ok(ApiResult(data = Some(data)).toJson)
   }
 }
