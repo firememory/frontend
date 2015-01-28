@@ -131,4 +131,21 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           }
         })
   }
+
+  def v2Depth(market: String) = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val limit = getParam(query, "limit", "100").toInt min 200
+
+      MarketService.getDepth(market, limit).map{ result =>
+        val depth = result.data.get.asInstanceOf[ApiMarketDepth]
+        Ok(result.copy(data = Some(toV2MarketDepth(depth))).toJson)
+      }
+  }
+
+  private def toV2MarketDepth(d : ApiMarketDepth) = {
+    val asks = d.asks.map(i => Seq(i.price.value, i.amount.value))
+    val bids = d.bids.map(i => Seq(i.price.value, i.amount.value))
+    Map("asks" -> asks, "bids" -> bids)
+  }
 }

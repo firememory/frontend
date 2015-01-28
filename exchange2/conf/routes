@@ -109,6 +109,18 @@ GET     /api/m/ticker/cny                   controllers.ApiController.cnyTicker(
 GET     /api/m/*market/depth                controllers.ApiController.mdepth(market)
 GET     /api/m/fee                          controllers.ApiController.fee()
 
+## API v2 routes
+GET     /api/v2/*currency/tickers               controllers.ApiV2Controller.tickers(currency)
+GET     /api/v2/tickers                         controllers.ApiV2Controller.allTickers
+GET     /api/v2/*market/ticker                  controllers.ApiV2Controller.ticker(market)
+GET     /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
+GET     /api/v2/*currency/reserves              controllers.ApiV2Controller.reserve(currency)
+GET     /api/v2/*currency/balance_snapshot_files   controllers.ApiV2Controller.balanceSnapshotFiles(currency)
+GET     /api/v2/*currency/transfer_files       controllers.ApiV2Controller.transfers(currency)
+GET     /api/v2/*market/trades                  controllers.ApiV2Controller.transactions(market)
+GET     /api/v2/*market/depth                   controllers.ApiV2Controller.v2Depth(market)
+
+
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
 GET     /api/*market/depth                  controllers.ApiController.depth(market)
 GET     /api/ticker/*market                 controllers.ApiController.ticker(market)
@@ -135,16 +147,6 @@ GET     /api/open/reserve/*currency         controllers.ApiController.currencyRe
 
 ## public API routes:
 GET     /public/*market/depth               controllers.PublicApiController.depth(market)
-
-## API v2 routes
-GET /api/v2/*currency/tickers               controllers.ApiV2Controller.tickers(currency)
-GET /api/v2/tickers                         controllers.ApiV2Controller.allTickers
-GET /api/v2/*market/ticker                  controllers.ApiV2Controller.ticker(market)
-GET /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
-GET /api/v2/*currency/reserves              controllers.ApiV2Controller.reserve(currency)
-GET /api/v2/*currency/balance_snapshot_files   controllers.ApiV2Controller.balanceSnapshotFiles(currency)
-GET /api/v2/{currency}/transfer_files       controllers.ApiV2Controller.transfers(currency)
-GET /api/v2/*market/trades                  controllers.ApiV2Controller.transactions(market)
 
 # Notifications
 GET     /notifications              controllers.MainController.getNotifications()
