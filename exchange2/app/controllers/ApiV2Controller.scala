@@ -69,4 +69,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val result = ApiResult(true, 0, "", Some(reserves.toMap))
       Future(Ok(result.toJson))
   }
+
+  def reserve(currency: String) = Action.async {
+    implicit request =>
+      BitwayService.getReserve(currency).map(result =>
+        Ok(result.toJson))
+  }
 }
