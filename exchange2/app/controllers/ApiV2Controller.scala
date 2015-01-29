@@ -23,6 +23,7 @@ import utils.HdfsAccess
 import controllers.GoogleAuth.GoogleAuthenticator
 import models.ApiV2PagingWrapper
 import models.ApiV2TradesPagingWrapper
+import models.ApiV2History
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -148,4 +149,39 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     val bids = d.bids.map(i => Seq(i.price.value, i.amount.value))
     Map("asks" -> asks, "bids" -> bids)
   }
+
+  def kline(market: String) = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val timeDimension = intervalToCharTimeDimension(getParam(query, "interval", "5m").toString)
+      val defaultTo = System.currentTimeMillis()
+      // return 90 items by default
+      val defaultFrom = defaultTo - timeDimension * 90
+      val fromParam = getParam(query, "start", defaultFrom.toString)
+      val toParam = getParam(query, "end", defaultTo.toString)
+
+      val to = toParam.toLong
+      val from = fromParam.toLong max (to - timeDimension * 180)
+
+      MarketService.getHistory(market, timeDimension, from, to).map{ result =>
+        val apiHistory = result.data.get.asInstanceOf[ApiHistory]
+        val updated = result.copy(data = Some(ApiV2History(items = apiHistory.candles)))
+        Ok(updated.toJson)
+      }
+  }
+
+  private def intervalToCharTimeDimension(interval : String): ChartTimeDimension = {
+    interval match {
+      case "1m" => ChartTimeDimension.OneMinute
+      case "5m" => ChartTimeDimension.FiveMinutes
+      case "15m" => ChartTimeDimension.FifteenMinutes
+      case "30m" => ChartTimeDimension.ThirtyMinutes
+      case "1h" => ChartTimeDimension.OneHour
+      case "2h" => ChartTimeDimension.TwoHours
+      case "4h" => ChartTimeDimension.FourHours
+      case "6h" => ChartTimeDimension.SixHours
+      case "1d" => ChartTimeDimension.OneDay
+    }
+  }
+
 }

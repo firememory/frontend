@@ -116,9 +116,10 @@ GET     /api/v2/*market/ticker                  controllers.ApiV2Controller.tick
 GET     /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
 GET     /api/v2/*currency/reserves              controllers.ApiV2Controller.reserve(currency)
 GET     /api/v2/*currency/balance_snapshot_files   controllers.ApiV2Controller.balanceSnapshotFiles(currency)
-GET     /api/v2/*currency/transfer_files       controllers.ApiV2Controller.transfers(currency)
+GET     /api/v2/*currency/transfer_files        controllers.ApiV2Controller.transfers(currency)
 GET     /api/v2/*market/trades                  controllers.ApiV2Controller.transactions(market)
 GET     /api/v2/*market/depth                   controllers.ApiV2Controller.v2Depth(market)
+GET     /api/v2/*market/kline                   controllers.ApiV2Controller.kline(market)
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
