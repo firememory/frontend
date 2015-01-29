@@ -21,9 +21,7 @@ import controllers.ControllerHelper._
 import utils.Constant
 import utils.HdfsAccess
 import controllers.GoogleAuth.GoogleAuthenticator
-import models.ApiV2PagingWrapper
-import models.ApiV2TradesPagingWrapper
-import models.ApiV2History
+import models._
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -261,6 +259,49 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             }
           }
         )
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
+  def userOrders() = Authenticated.async {
+    implicit request =>
+      val pager = ControllerHelper.parseApiV2PagingParam()
+      val query = request.queryString
+      val market = getParam(query, "market")
+      val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      val status = getParam(request.queryString, "order_status") match {
+        case None => Nil
+        case Some(s) =>
+          if (s == "1") Seq(OrderStatus.PartiallyExecuted, OrderStatus.Pending)
+          else if (s == "2") Seq(OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket)
+          else if (s == "3") Seq(OrderStatus.FullyExecuted, OrderStatus.PartiallyExecutedThenCancelledByMarket,
+            OrderStatus.Cancelled, OrderStatus.CancelledByMarket)
+          else Nil
+      }
+      //TODO(xiaolu) not support ids query now.
+      // val ids = getParam(query, "ids", "").split(",")
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
+        AccountService.getOrders(marketSide, Some(userId.get.toLong), None, status, pager.skip, pager.limit) map {
+          case result: ApiResult =>
+            if (result.success) {
+              val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
+              val apiV2Orders = apiOrders.map(o => ApiV2Order(
+              o.id, o.operation.toLowerCase, o.status,
+              o.subject.toUpperCase + "-" + o.currency.toUpperCase,
+              o.price.get.value,
+              o.amount.get.value,
+              o.finishedQuantity.value,
+              o.submitTime,
+              None))
+              val hasMore = pager.limit == apiV2Orders.size
+              Ok(result.copy(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
+            } else {
+              Ok(result.toJson)
+            }
+        }
       } else {
         Future(Ok(apiSecretResult.toJson))
       }
