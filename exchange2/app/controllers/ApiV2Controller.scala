@@ -112,7 +112,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     Ok("unfinished")
   }
 
-  def transactions(market: String) = Action.async {
+  def trades(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parseApiV2PagingParam()
       MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map(
@@ -121,9 +121,9 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
             val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
             val apiV2Txs = txs.map { t =>
-              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid)
+              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, Some(market))
             }
-            val hasMore = pager.limit > txs.size
+            val hasMore = pager.limit == txs.size
             val timestamp = System.currentTimeMillis
             val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(timestamp, hasMore, market, apiV2Txs)))
             Ok(updated.toJson)
@@ -234,4 +234,35 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
   }
 
+  def userTrades() = Authenticated.async {
+    implicit request =>
+      val pager = ControllerHelper.parseApiV2PagingParam()
+      val query = request.queryString
+      val market = getParam(query, "market")
+      val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
+        MarketService.getTransactionsByUser(marketSide, userId.get, pager.skip, pager.limit).map(
+          result => {
+            if (result.success) {
+              val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
+              val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
+              val apiV2Txs = txs.map { t =>
+                val marketInResult = if (marketSide.isDefined) None else Some(t.subjectAmount.currency.toUpperCase + "-" + t.currencyAmount.currency.toUpperCase)
+                ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, marketInResult)
+              }
+              val hasMore = pager.limit == txs.size
+              val timestamp = System.currentTimeMillis
+              val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(timestamp, hasMore, market.getOrElse(""), apiV2Txs)))
+              Ok(updated.toJson)
+            } else {
+              Ok(result.toJson)
+            }
+          }
+        )
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
 }
