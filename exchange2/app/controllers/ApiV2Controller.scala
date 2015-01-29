@@ -190,7 +190,6 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val tokenArr = apiTokenPair.getOrElse("").split(":")
       val token = tokenArr(0)
       val secret = tokenArr(1)
-
       val apiSecretFuture = UserService.getApiSecret(token)
       val apiSecretResult = Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
       if (apiSecretResult.success) {
@@ -208,5 +207,31 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def balance() = Authenticated.async {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
+        AccountService.getAccount(userId.get) map {
+          case result =>
+            val apiUserAccount = result.data.get.asInstanceOf[ApiUserAccount]
+            val balance = apiUserAccount.accounts.map(
+              a => (a._1 ->
+                Seq(a._2.available.value, a._2.locked.value, a._2.pendingWithdrawal.value, a._2.total.value)))
+            // logger.info(s"account result: $result")
+            Ok(result.copy(data = Some(balance.toMap)).toJson)
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
+  private def getUserIdFromTokenPair(pair: String) = {
+    val tokenArr = pair.split(":")
+    val token = tokenArr(0)
+    val secret = tokenArr(1)
+    val apiSecretFuture = UserService.getApiSecret(token)
+    Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
+  }
 
 }
