@@ -184,4 +184,29 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     }
   }
 
+  def profile() = Authenticated.async {
+    implicit request =>
+      val apiTokenPair = request.headers.get("auth")
+      val tokenArr = apiTokenPair.getOrElse("").split(":")
+      val token = tokenArr(0)
+      val secret = tokenArr(1)
+
+      val apiSecretFuture = UserService.getApiSecret(token)
+      val apiSecretResult = Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
+        UserService.getProfileApiV2(userId.get) map { p =>
+          if (p.success) {
+            val pf = p.data.get.asInstanceOf[ApiV2Profile]
+            Ok(p.copy(data = Some(pf.copy(apiToken = Some(token), apiSecret = Some(secret)))).toJson)
+          } else {
+            Ok(p.toJson)
+          }
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
+
 }

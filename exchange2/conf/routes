@@ -120,6 +120,7 @@ GET     /api/v2/*currency/transfer_files        controllers.ApiV2Controller.tran
 GET     /api/v2/*market/trades                  controllers.ApiV2Controller.transactions(market)
 GET     /api/v2/*market/depth                   controllers.ApiV2Controller.v2Depth(market)
 GET     /api/v2/*market/kline                   controllers.ApiV2Controller.kline(market)
+GET     /api/v2/user/profile                    controllers.ApiV2Controller.profile()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

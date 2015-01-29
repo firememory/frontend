@@ -3,13 +3,17 @@ package controllers
 import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
+import play.api.libs.json._
+import scala.collection.mutable.SortedSet
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import utils.Constant._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.UserStatus
+import com.coinport.coinex.data.ApiSecret
 import com.coinport.coinex.api.service.UserService
 import services.CacheService
+import java.security.MessageDigest
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
@@ -73,20 +77,53 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-      val userIdOpt = request.headers.get("USERID")
-      val apiTokenOpt = request.headers.get("API-TOKEN")
-      logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
-      if (accessControl(userIdOpt, apiTokenOpt)) {
-        UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
-          case ApiResult(success, _, _, secretOpt) if success &&
-              secretOpt.isDefined && secretOpt == apiTokenOpt =>
-            block(request)
-          case e =>
-            logger.error(s"apiToken invalid. res=$e")
+      // val userIdOpt = request.headers.get("USERID")
+      // val apiTokenOpt = request.headers.get("API-TOKEN")
+      // logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
+      // if (accessControl(userIdOpt, apiTokenOpt)) {
+      //   UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
+      //     case ApiResult(success, _, _, secretOpt) if success &&
+      //         secretOpt.isDefined && secretOpt == apiTokenOpt =>
+      //       block(request)
+      //     case e =>
+      //       logger.error(s"apiToken invalid. res=$e")
+      //       Future(Unauthorized)
+      //   }
+      // } else {
+      //   logger.info(s"accessControl failed.")
+      //   Future(Unauthorized)
+      // }
+
+      val apiTokenPair = request.headers.get("auth")
+      val tokenArr = apiTokenPair.getOrElse("").split(":")
+      if (tokenArr.length == 2) {
+        val (token, sign) = (tokenArr(0), tokenArr(1))
+        UserService.getApiSecret(token) flatMap {
+          case ApiResult(success, _, _, secretOpt) if success && secretOpt.isDefined =>
+            logger.info(secretOpt.get.asInstanceOf[ApiSecret].toString)
+            val userId = secretOpt.get.asInstanceOf[ApiSecret].userId
+            // val token = secretOpt.get.asInstanceOf[ApiSecret].identifier
+            val secret = secretOpt.get.asInstanceOf[ApiSecret].secret
+            if (accessControl(Some(userId.get.toString), Some(token))) {
+              //TODO(xiaolu) use getParam to change this
+              val requestParams: Map[String, String] = request.queryString.map(kv => kv._1 -> kv._2.head)
+              if (verifySign(requestParams, sign, secret)) {
+                block(request)
+              } else {
+                logger.error(s"sign is invalid. ")
+                // Future(ApiResult(false, 0, "sign is invalid").toJson)
+                Future(Unauthorized)
+              }
+            } else {
+              logger.info(s"accessControl failed.")
+              Future(Unauthorized)
+            }
+          case errResult => {
             Future(Unauthorized)
+          }
         }
       } else {
-        logger.info(s"accessControl failed.")
+        logger.error("auth info is invalid.")
         Future(Unauthorized)
       }
     }
@@ -109,6 +146,42 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       false
     }
 
+    private def verifySign(params: Map[String, String], sign: String, secret: String) = {
+      val signInServer = md5(combineParams(params) + "&secret" + secret)
+      logger.info("sign in server is : " + signInServer)
+      sign == signInServer
+    }
+
+    private def combineParams(params: Map[String, String]): String = {
+      val sortedParams = SortedSet.empty[String] ++ params.keySet
+      sortedParams.map(item => item + "=" + params(item)).mkString("&")
+    }
+
+    private def md5(s: String) = {
+      val md: MessageDigest = MessageDigest.getInstance("MD5")
+        md.update(s.getBytes("UTF-8"))
+        val digestBytes = md.digest()
+        digestBytes.map { b =>
+          if (Integer.toHexString(0xFF & b).length() == 1)
+            "0" + Integer.toHexString(0xFF & b)
+          else
+            Integer.toHexString(0xFF & b)
+        }.mkString
+    }
+
+    private def getParams[A](request: Request[A]) = {
+      if (request.method == "GET") {
+        request.queryString.map(kv => kv._1 -> kv._2.head)
+      } else if (request.method == "POST" ){
+        // request.body.asJson.fields.map(kv => kv._1 -> kv._2.toString)
+        // TODO(xiaolu) handle post data to Map
+        // Json.parse(request.body.asText).fields.map(kv => kv._1 -> kv._2.toString)
+        Map.empty
+      } else {
+        logger.error("unsupported http method to get params")
+        Map.empty
+      }
+    }
 }
 
 object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
