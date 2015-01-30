@@ -22,6 +22,8 @@ import utils.Constant
 import utils.HdfsAccess
 import controllers.GoogleAuth.GoogleAuthenticator
 import models._
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -366,6 +368,51 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           result =>
             Ok(result.toJson)
         }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
+
+  def submitOrders() = Authenticated.async(parse.json) {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        val json = Json.parse(request.body.toString)
+        val orders = (json \ "orders").as[JsArray]
+        val futures = orders.value map { case o =>
+          logger.info((o \ "market").as[String])
+          val market = (o \ "market").as[String]
+          val price = (o \ "price").as[Double]
+          val amount = (o \ "amount").as[Double]
+          val subject = market.split("-")(0);
+          val currency = market.split("-")(1);
+          val operation = (o \ "operation").as[String] match {
+            case "buy" => Operations.Buy
+            case "sell" => Operations.Sell
+          }
+
+          if ((currency.toLowerCase == "cny" && price * amount < 1) ||
+              (currency.toLowerCase == "btc" && price * amount < 0.001)) {
+            Future(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small"))
+          } else {
+            val order = UserOrder(userId.toString, operation, subject, currency, Some(price), Some(amount), None, submitTime = System.currentTimeMillis)
+            AccountService.submitOrder(order)
+          }
+        }
+        val results = futures.map { fr =>
+          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+          if (finished.success) {
+            val apiOrder = finished.data.get.asInstanceOf[ApiOrder]
+            ApiV2SubmitOrderResult(apiOrder.id, None)
+          } else {
+            ApiV2SubmitOrderResult(code = Some(finished.code.toString))
+          }
+        }
+        logger.info(results.toString)
+
+        Future(Ok(apiSecretResult.copy(data = Some(ApiV2SubmitOrderResults(results))).toJson))
       } else {
         Future(Ok(apiSecretResult.toJson))
       }

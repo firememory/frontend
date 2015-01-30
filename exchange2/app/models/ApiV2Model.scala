@@ -23,3 +23,6 @@ case class ApiV2Order(
 
 case class ApiV2TransferItem(id: String, currency: String, quantity: Double, status: Int, created: Long, updated: Long, address: String)
 
+case class ApiV2SubmitOrderResult(order_id: String = "0", code: Option[String])
+
+case class ApiV2SubmitOrderResults(results: Seq[ApiV2SubmitOrderResult])
