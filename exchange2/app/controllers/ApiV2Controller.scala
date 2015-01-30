@@ -356,4 +356,19 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def createDepositAddr(currency: String) = Authenticated.async {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val cur: Currency = currency
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        UserService.getDepositAddress(Seq(cur), userId.toLong) map {
+          result =>
+            Ok(result.toJson)
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
 }

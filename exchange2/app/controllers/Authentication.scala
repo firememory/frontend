@@ -105,8 +105,9 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
             // val token = secretOpt.get.asInstanceOf[ApiSecret].identifier
             val secret = secretOpt.get.asInstanceOf[ApiSecret].secret
             if (accessControl(Some(userId.get.toString), Some(token))) {
-              //TODO(xiaolu) use getParam to change this
-              val requestParams: Map[String, String] = request.queryString.map(kv => kv._1 -> kv._2.head)
+              //TODO(xiaolu) change post json data to string
+              val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
+                else request.body.toString
               if (verifySign(requestParams, sign, secret)) {
                 block(request)
               } else {
@@ -146,8 +147,8 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
       false
     }
 
-    private def verifySign(params: Map[String, String], sign: String, secret: String) = {
-      val signInServer = md5(combineParams(params) + "&secret" + secret)
+    private def verifySign(params: String, sign: String, secret: String) = {
+      val signInServer = md5(params + "&secret" + secret)
       logger.info("sign in server is : " + signInServer)
       sign == signInServer
     }
@@ -167,20 +168,6 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           else
             Integer.toHexString(0xFF & b)
         }.mkString
-    }
-
-    private def getParams[A](request: Request[A]) = {
-      if (request.method == "GET") {
-        request.queryString.map(kv => kv._1 -> kv._2.head)
-      } else if (request.method == "POST" ){
-        // request.body.asJson.fields.map(kv => kv._1 -> kv._2.toString)
-        // TODO(xiaolu) handle post data to Map
-        // Json.parse(request.body.asText).fields.map(kv => kv._1 -> kv._2.toString)
-        Map.empty
-      } else {
-        logger.error("unsupported http method to get params")
-        Map.empty
-      }
     }
 }
 
