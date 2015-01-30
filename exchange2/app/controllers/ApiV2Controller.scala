@@ -449,4 +449,29 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def submitWithdrawal() = Authenticated.async(parse.json) {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val json = Json.parse(request.body.toString)
+        val currency: Currency = (json \ "currency").as[String]
+        val address = (json \ "address").as[String]
+        val amount = (json \ "amount").as[Double]
+        val memo = (json \ "memo").asOpt[String].getOrElse("")
+        val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        UserService.setWithdrawalAddress(userId, currency, address)
+        AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey) map {
+          result =>
+            if (result.success) {
+              val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
+              Ok(result.copy(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
+            } else {
+              Ok(result.toJson)
+            }
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
 }

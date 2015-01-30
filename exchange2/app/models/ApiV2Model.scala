@@ -29,3 +29,4 @@ case class ApiV2SubmitOrderResults(results: Seq[ApiV2SubmitOrderResult])
 
 case class ApiV2CancelOrderResult(cancelled: Seq[Long], failed: Seq[Long])
 
+case class ApiV2WithdrawalResult(transfer_id: Long, withdraw_status: Int)
