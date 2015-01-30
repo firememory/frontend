@@ -129,6 +129,7 @@ GET     /api/v2/user/withdrawals                controllers.ApiV2Controller.with
 GET     /api/v2/user/deposit_addresses          controllers.ApiV2Controller.getBatchDepositAddress()
 POST    /api/v2/user/create_deposit_addr/*currency controllers.ApiV2Controller.createDepositAddr(currency)
 POST    /api/v2/user/submit_orders              controllers.ApiV2Controller.submitOrders()
+POST    /api/v2/user/cancel_orders              controllers.ApiV2Controller.cancelOrders()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

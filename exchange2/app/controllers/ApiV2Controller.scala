@@ -418,4 +418,35 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def cancelOrders() = Authenticated.async(parse.json) {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        val json = Json.parse(request.body.toString)
+        val orderIds = (json \ "order_ids").as[JsArray]
+        val unusedMarket = MarketSide(Currency.Btc, Currency.Cny)
+        var cancelledList: Seq[Long] = Seq.empty
+        var failedList: Seq[Long] = Seq.empty
+        orderIds.value map { case o =>
+          val orderId = o.as[Long]
+          val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
+          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+          if (finished.success) {
+            val apiOrder = finished.data.get.asInstanceOf[Order]
+            cancelledList = cancelledList :+ apiOrder.id
+          } else {
+            logger.info(finished.toString)
+            failedList = failedList :+ orderId
+          }
+        }
+
+        val cancelResult = ApiV2CancelOrderResult(cancelledList, failedList)
+        val apiCR = apiSecretResult.copy(data = Some(cancelResult))
+        Future(Ok(apiCR.toJson))
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
 }

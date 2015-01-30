@@ -26,3 +26,6 @@ case class ApiV2TransferItem(id: String, currency: String, quantity: Double, sta
 case class ApiV2SubmitOrderResult(order_id: String = "0", code: Option[String])
 
 case class ApiV2SubmitOrderResults(results: Seq[ApiV2SubmitOrderResult])
+
+case class ApiV2CancelOrderResult(cancelled: Seq[Long], failed: Seq[Long])
+
