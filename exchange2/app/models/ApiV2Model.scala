@@ -20,3 +20,6 @@ case class ApiV2Order(
   created: Long,
   last_updated: Option[Long]
 )
+
+case class ApiV2TransferItem(id: String, currency: String, quantity: Double, status: Int, created: Long, updated: Long, address: String)
+

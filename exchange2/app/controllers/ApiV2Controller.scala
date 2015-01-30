@@ -306,4 +306,40 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         Future(Ok(apiSecretResult.toJson))
       }
   }
+
+  def depositHistory() = userTransfers(TransferType.Deposit)
+
+  def withdrawalHistory() = userTransfers(TransferType.Withdrawal)
+
+  private def userTransfers(ttype: TransferType) = Authenticated.async {
+    implicit request =>
+      val query = request.queryString
+      val currency = getParam(query, "currency", "ALL")
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
+        val types = Seq(ttype)
+        val pager = ControllerHelper.parseApiV2PagingParam()
+
+        val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
+
+        TransferService.getTransfers(userId, Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
+          case result => 
+            if (result.success) {
+              val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
+              val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address))
+              val hasMore = pager.limit == v2Transfers.size
+              if (ttype == TransferType.Deposit)
+                Ok(result.copy(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
+              else
+                Ok(result.copy(data = Some(ApiV2WithdrawalsPagingWrapper(hasMore, v2Transfers))).toJson)
+            } else {
+              Ok(result.toJson)
+            }
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
 }

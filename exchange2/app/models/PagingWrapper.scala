@@ -7,3 +7,8 @@ case class ApiV2PagingWrapper(hasMore: Boolean, currency: String, path: String, 
 case class ApiV2TradesPagingWrapper(timestamp: Long, hasMore: Boolean, market: String, trades: Any)
 
 case class ApiV2OrderPagingWrapper(hasMore: Boolean, orders: Seq[ApiV2Order])
+
+case class ApiV2DepositsPagingWrapper(hasMore: Boolean, deposits: Seq[ApiV2TransferItem])
+
+case class ApiV2WithdrawalsPagingWrapper(hasMore: Boolean, withdrawals: Seq[ApiV2TransferItem])
+

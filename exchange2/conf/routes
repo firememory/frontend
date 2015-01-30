@@ -124,6 +124,8 @@ GET     /api/v2/*market/kline                   controllers.ApiV2Controller.klin
 GET     /api/v2/user/profile                    controllers.ApiV2Controller.profile()
 GET     /api/v2/user/balance                    controllers.ApiV2Controller.balance()
 GET     /api/v2/user/orders                     controllers.ApiV2Controller.userOrders()
+GET     /api/v2/user/deposits                   controllers.ApiV2Controller.depositHistory()
+GET     /api/v2/user/withdrawals                controllers.ApiV2Controller.withdrawalHistory()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
