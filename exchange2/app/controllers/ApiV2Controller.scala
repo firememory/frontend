@@ -474,4 +474,25 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         Future(Ok(apiSecretResult.toJson))
       }
   }
+
+  def cancelWithdrawal() = Authenticated.async(parse.json) {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val json = Json.parse(request.body.toString)
+        val transferId = (json \ "transfer_id").as[Long]
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        TransferService.apiV2CancelWithdrawal(userId, transferId) map {
+          result =>
+            if (result.success) {
+              val errorCode = result.data.get.asInstanceOf[ErrorCode]
+              Ok(result.copy(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
+            } else {
+              Ok(result.toJson)
+            }
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
 }

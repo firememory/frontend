@@ -131,6 +131,7 @@ POST    /api/v2/user/create_deposit_addr/*currency controllers.ApiV2Controller.c
 POST    /api/v2/user/submit_orders              controllers.ApiV2Controller.submitOrders()
 POST    /api/v2/user/cancel_orders              controllers.ApiV2Controller.cancelOrders()
 POST    /api/v2/user/submit_withdrawal          controllers.ApiV2Controller.submitWithdrawal()
+POST    /api/v2/user/cancel_withdrawal          controllers.ApiV2Controller.cancelWithdrawal()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
