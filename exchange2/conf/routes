@@ -126,6 +126,7 @@ GET     /api/v2/user/balance                    controllers.ApiV2Controller.bala
 GET     /api/v2/user/orders                     controllers.ApiV2Controller.userOrders()
 GET     /api/v2/user/deposits                   controllers.ApiV2Controller.depositHistory()
 GET     /api/v2/user/withdrawals                controllers.ApiV2Controller.withdrawalHistory()
+GET     /api/v2/user/deposit_addresses          controllers.ApiV2Controller.getBatchDepositAddress()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

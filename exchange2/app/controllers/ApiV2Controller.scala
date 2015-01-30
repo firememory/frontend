@@ -342,4 +342,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def getBatchDepositAddress() = Authenticated.async {
+    implicit request =>
+      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
+      if (apiSecretResult.success) {
+        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
+        UserService.getDepositAddress(Constant.currencySeq, userId) map {
+          result =>
+            Ok(result.toJson)
+        }
+      } else {
+        Future(Ok(apiSecretResult.toJson))
+      }
+  }
+
 }
