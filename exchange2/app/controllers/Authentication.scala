@@ -77,55 +77,59 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
-      // val userIdOpt = request.headers.get("USERID")
-      // val apiTokenOpt = request.headers.get("API-TOKEN")
-      // logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
-      // if (accessControl(userIdOpt, apiTokenOpt)) {
-      //   UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
-      //     case ApiResult(success, _, _, secretOpt) if success &&
-      //         secretOpt.isDefined && secretOpt == apiTokenOpt =>
-      //       block(request)
-      //     case e =>
-      //       logger.error(s"apiToken invalid. res=$e")
-      //       Future(Unauthorized)
-      //   }
-      // } else {
-      //   logger.info(s"accessControl failed.")
-      //   Future(Unauthorized)
-      // }
-
-      val apiTokenPair = request.headers.get("auth")
-      val tokenArr = apiTokenPair.getOrElse("").split(":")
-      if (tokenArr.length == 2) {
-        val (token, sign) = (tokenArr(0), tokenArr(1))
-        UserService.getApiSecret(token) flatMap {
-          case ApiResult(success, _, _, secretOpt) if success && secretOpt.isDefined =>
-            logger.info(secretOpt.get.asInstanceOf[ApiSecret].toString)
-            val userId = secretOpt.get.asInstanceOf[ApiSecret].userId
-            // val token = secretOpt.get.asInstanceOf[ApiSecret].identifier
-            val secret = secretOpt.get.asInstanceOf[ApiSecret].secret
-            if (accessControl(Some(userId.get.toString), Some(token))) {
-              //TODO(xiaolu) change post json data to string
-              val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
-                else request.body.toString
-              if (verifySign(requestParams, sign, secret)) {
-                block(request)
-              } else {
-                logger.error(s"sign is invalid. ")
-                // Future(ApiResult(false, 0, "sign is invalid").toJson)
-                Future(Unauthorized)
-              }
-            } else {
-              logger.info(s"accessControl failed.")
+      val userIdOpt = request.headers.get("USERID")
+      val apiTokenOpt = request.headers.get("API-TOKEN")
+      if (userIdOpt.isDefined && apiTokenOpt.isDefined) {
+      logger.info(s"=============== api V1 used")
+      logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
+        if (accessControl(userIdOpt, apiTokenOpt)) {
+          UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
+            case ApiResult(success, _, _, secretOpt) if success &&
+                secretOpt.isDefined && secretOpt == apiTokenOpt =>
+              block(request)
+            case e =>
+              logger.error(s"apiToken invalid. res=$e")
               Future(Unauthorized)
-            }
-          case errResult => {
-            Future(Unauthorized)
           }
+        } else {
+          logger.info(s"accessControl failed.")
+          Future(Unauthorized)
         }
       } else {
-        logger.error("auth info is invalid.")
-        Future(Unauthorized)
+        logger.info(s"=============== api V2 used")
+        val apiTokenPair = request.headers.get("auth")
+        val tokenArr = apiTokenPair.getOrElse("").split(":")
+        if (tokenArr.length == 2) {
+          val (token, sign) = (tokenArr(0), tokenArr(1))
+          UserService.getApiSecret(token) flatMap {
+            case ApiResult(success, _, _, secretOpt) if success && secretOpt.isDefined =>
+              logger.info(secretOpt.get.asInstanceOf[ApiSecret].toString)
+              val userId = secretOpt.get.asInstanceOf[ApiSecret].userId
+              // val token = secretOpt.get.asInstanceOf[ApiSecret].identifier
+              val secret = secretOpt.get.asInstanceOf[ApiSecret].secret
+              if (accessControl(Some(userId.get.toString), Some(token))) {
+                //TODO(xiaolu) change post json data to string
+                val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
+                  else request.body.toString
+                if (verifySign(requestParams, sign, secret)) {
+                  block(request)
+                } else {
+                  logger.error(s"sign is invalid. ")
+                  // Future(ApiResult(false, 0, "sign is invalid").toJson)
+                  Future(Unauthorized)
+                }
+              } else {
+                logger.info(s"accessControl failed.")
+                Future(Unauthorized)
+              }
+            case errResult => {
+              Future(Unauthorized)
+            }
+          }
+        } else {
+          logger.error("auth info is invalid.")
+          Future(Unauthorized)
+        }
       }
     }
   }
