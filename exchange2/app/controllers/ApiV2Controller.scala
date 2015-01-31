@@ -55,7 +55,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   private def tickerBasic(sides: Seq[MarketSide]) = Action.async {
     implicit request =>
       val r = MarketService.getJsonTickers(sides)
-      r.map(result => Ok(result.toJson))
+      r.map(result => Ok(ApiV2Result(data = result.data).toJson))
   }
 
   def reserves() = Action.async {
@@ -77,7 +77,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   def reserve(currency: String) = Action.async {
     implicit request =>
       BitwayService.getReserve(currency).map(result =>
-        Ok(result.toJson))
+        Ok(ApiV2Result(data = result.data).toJson))
   }
 
   def balanceSnapshotFiles(currency: String) = Action {
@@ -104,7 +104,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         path = downloadPreUrl,
         items = jsonFormated
       )
-      Ok(ApiResult(data = Some(data)).toJson)
+      Ok(ApiV2Result(data = Some(data)).toJson)
   }
 
   //TODO(xiaolu) unfinished api
@@ -121,11 +121,11 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
             val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
             val apiV2Txs = txs.map { t =>
-              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, Some(market))
+              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, None)
             }
             val hasMore = pager.limit == txs.size
             val timestamp = System.currentTimeMillis
-            val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(timestamp, hasMore, market, apiV2Txs)))
+            val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market, apiV2Txs)))
             Ok(updated.toJson)
           } else {
             Ok(result.toJson)
@@ -166,7 +166,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       MarketService.getHistory(market, timeDimension, from, to).map{ result =>
         val apiHistory = result.data.get.asInstanceOf[ApiHistory]
         val updated = result.copy(data = Some(ApiV2History(items = apiHistory.candles)))
-        Ok(updated.toJson)
+        Ok(ApiV2Result(data = updated.data).toJson)
       }
   }
 
@@ -197,13 +197,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         UserService.getProfileApiV2(userId.get) map { p =>
           if (p.success) {
             val pf = p.data.get.asInstanceOf[ApiV2Profile]
-            Ok(p.copy(data = Some(pf.copy(apiToken = Some(token), apiSecret = Some(secret)))).toJson)
+            Ok(ApiV2Result(data = Some(pf.copy(apiToken = Some(token), apiSecret = Some(secret)))).toJson)
           } else {
-            Ok(p.toJson)
+            Ok(defaultApiV2Result(p.code).toJson)
           }
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -219,10 +219,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
               a => (a._1 ->
                 Seq(a._2.available.value, a._2.locked.value, a._2.pendingWithdrawal.value, a._2.total.value)))
             // logger.info(s"account result: $result")
-            Ok(result.copy(data = Some(balance.toMap)).toJson)
+            Ok(ApiV2Result(data = Some(balance.toMap)).toJson)
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -254,15 +254,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
               }
               val hasMore = pager.limit == txs.size
               val timestamp = System.currentTimeMillis
-              val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(timestamp, hasMore, market.getOrElse(""), apiV2Txs)))
-              Ok(updated.toJson)
+              val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market.getOrElse(""), apiV2Txs)))
+              Ok(ApiV2Result(data = updated.data).toJson)
             } else {
-              Ok(result.toJson)
+              Ok(defaultApiV2Result(result.code).toJson)
             }
           }
         )
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -299,13 +299,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
               o.submitTime,
               None))
               val hasMore = pager.limit == apiV2Orders.size
-              Ok(result.copy(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
+              Ok(ApiV2Result(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
             } else {
-              Ok(result.toJson)
+              Ok(ApiV2Result(data = result.data).toJson)
             }
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -332,15 +332,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
               val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address))
               val hasMore = pager.limit == v2Transfers.size
               if (ttype == TransferType.Deposit)
-                Ok(result.copy(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
+                Ok(ApiV2Result(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
               else
-                Ok(result.copy(data = Some(ApiV2WithdrawalsPagingWrapper(hasMore, v2Transfers))).toJson)
+                Ok(ApiV2Result(data = Some(ApiV2WithdrawalsPagingWrapper(hasMore, v2Transfers))).toJson)
             } else {
-              Ok(result.toJson)
+              Ok(defaultApiV2Result(result.code).toJson)
             }
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -351,10 +351,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
         UserService.getDepositAddress(Constant.currencySeq, userId) map {
           result =>
-            Ok(result.toJson)
+            Ok(ApiV2Result(data = result.data).toJson)
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -366,10 +366,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
         UserService.getDepositAddress(Seq(cur), userId.toLong) map {
           result =>
-            Ok(result.toJson)
+            Ok(ApiV2Result(data = result.data).toJson)
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -412,9 +412,9 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         }
         logger.info(results.toString)
 
-        Future(Ok(apiSecretResult.copy(data = Some(ApiV2SubmitOrderResults(results))).toJson))
+        Future(Ok(ApiV2Result(data = Some(ApiV2SubmitOrderResults(results))).toJson))
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -442,10 +442,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         }
 
         val cancelResult = ApiV2CancelOrderResult(cancelledList, failedList)
-        val apiCR = apiSecretResult.copy(data = Some(cancelResult))
+        val apiCR = ApiV2Result(data = Some(cancelResult))
         Future(Ok(apiCR.toJson))
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -465,13 +465,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           result =>
             if (result.success) {
               val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
-              Ok(result.copy(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
+              Ok(ApiV2Result(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
             } else {
-              Ok(result.toJson)
+              Ok(defaultApiV2Result(result.code).toJson)
             }
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
 
@@ -486,13 +486,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           result =>
             if (result.success) {
               val errorCode = result.data.get.asInstanceOf[ErrorCode]
-              Ok(result.copy(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
+              Ok(ApiV2Result(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
             } else {
-              Ok(result.toJson)
+              Ok(defaultApiV2Result(result.code).toJson)
             }
         }
       } else {
-        Future(Ok(apiSecretResult.toJson))
+        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
   }
+
+  private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
