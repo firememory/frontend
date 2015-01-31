@@ -70,7 +70,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           c.toString.toUpperCase -> Seq.empty
         }
       }
-      val result = ApiResult(true, 0, "", Some(reserves.toMap))
+      val result = ApiV2Result(data = Some(reserves.toMap))
       Future(Ok(result.toJson))
   }
 

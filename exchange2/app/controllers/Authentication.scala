@@ -14,6 +14,7 @@ import com.coinport.coinex.data.ApiSecret
 import com.coinport.coinex.api.service.UserService
 import services.CacheService
 import java.security.MessageDigest
+import com.google.common.io.BaseEncoding
 
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
@@ -97,9 +98,10 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         }
       } else {
         logger.info(s"=============== api V2 used")
-        val apiTokenPair = request.headers.get("auth")
-        val tokenArr = apiTokenPair.getOrElse("").split(":")
-        if (tokenArr.length == 2) {
+        val apiTokenPair = request.headers.get("Authorization")
+        val authArr = BaseEncoding.base64.decode(apiTokenPair.getOrElse("")).toString.split("_")
+        val tokenArr = authArr(1).split(":")
+        if (authArr(0) == "Token" && tokenArr.length == 2) {
           val (token, sign) = (tokenArr(0), tokenArr(1))
           UserService.getApiSecret(token) flatMap {
             case ApiResult(success, _, _, secretOpt) if success && secretOpt.isDefined =>

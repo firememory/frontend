@@ -7,6 +7,8 @@ package models
 
 import com.coinport.coinex.api.model._
 
+case class ApiV2Result(code: Int = 0, timestamp: Long = System.currentTimeMillis, data: Option[Any])
+
 case class ApiV2History(items: Seq[ApiCandleItem])
 
 case class ApiV2Order(
