@@ -87,7 +87,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val files = HdfsAccess.listFiles(path)
         .sortWith((a, b) => a.updated > b.updated)
 
-      val from = Math.min(pager.skip, files.length - 1)
+      val from = Math.min(pager.skip, files.length)
       val until = pager.skip + pager.limit
 
       val items = files.slice(from, until)
@@ -99,7 +99,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
 
       val data = ApiV2PagingWrapper(
-        hasMore = from < files.length - 1,
+        hasMore = pager.skip > files.length - 1,
         currency = currency,
         path = downloadPreUrl,
         items = jsonFormated
