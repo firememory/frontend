@@ -16,6 +16,8 @@ import services.CacheService
 import java.security.MessageDigest
 import com.google.common.io.BaseEncoding
 
+case class RequestWithUserId[A](val userId: Long, request: Request[A]) extends WrappedRequest[A](request)
+
 trait AuthenticateHelper {
   val ajaxRequestHeaderKey="ajaxRequestKey"
   val ajaxRequestHeadervalue="value"
@@ -35,10 +37,10 @@ trait AuthenticateHelper {
   }
 }
 
-object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
+object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateHelper {
   val cache = CacheService.getDefaultServiceImpl
 
-  private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
+  private def checkUserSuspended[A](uid: Long, request: Request[A], block: (RequestWithUserId[A]) => Future[Result]): Future[Result] = {
     UserService.getProfile(uid) flatMap {
       result =>
       if (result.success) {
@@ -46,7 +48,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         if (user.status == UserStatus.Suspended) {
           Future(Unauthorized) // TODO notify user for account been suspended.
         } else {
-          block(request).map(_.withCookies(
+          block(RequestWithUserId(uid, request)).map(_.withCookies(
             Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
         }
       } else {
@@ -55,7 +57,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
     }
   }
 
-  def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
+  def invokeBlock[A](request: Request[A], block: (RequestWithUserId[A]) => Future[Result]) = {
     request.session.get("uid").map { uid =>
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
@@ -74,20 +76,20 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
           checkUserSuspended(uid.toLong, request, block)
         }
       } getOrElse {
-        block(request).map(_.withCookies(
+        block(RequestWithUserId(uid.toLong, request)).map(_.withCookies(
           Cookie(cookieNameTimestamp, currTs.toString)))
       }
     } getOrElse {
       val userIdOpt = request.headers.get("USERID")
       val apiTokenOpt = request.headers.get("API-TOKEN")
       if (userIdOpt.isDefined && apiTokenOpt.isDefined) {
-      logger.info(s"=============== api V1 used")
-      logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
+        logger.info(s"=============== api V1 used")
+        logger.info(s"authenticate for api request, apiToken: $apiTokenOpt, userId: $userIdOpt")
         if (accessControl(userIdOpt, apiTokenOpt)) {
           UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
             case ApiResult(success, _, _, secretOpt) if success &&
                 secretOpt.isDefined && secretOpt == apiTokenOpt =>
-              block(request)
+                block(RequestWithUserId(userIdOpt.get.toLong, request))
             case e =>
               logger.error(s"apiToken invalid. res=$e")
               Future(Unauthorized)
@@ -98,9 +100,11 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
         }
       } else {
         logger.info(s"=============== api V2 used")
-        val apiTokenPair = request.headers.get("auth")
-        val tokenArr = apiTokenPair.getOrElse("").split(":")
-        if (tokenArr.length == 2) {
+        val apiAuthInfos = request.headers.get("Authorization").getOrElse("").split(" ")
+        val authType = apiAuthInfos(0)
+        if (apiAuthInfos.size > 1 && authType == "Token") {
+          val authPairs = apiAuthInfos(1)
+          val tokenArr = new java.lang.String(BaseEncoding.base64.decode(authPairs)).split(":")
           val (token, sign) = (tokenArr(0), tokenArr(1))
           UserService.getApiSecret(token) flatMap {
             case ApiResult(success, _, _, secretOpt) if success && secretOpt.isDefined =>
@@ -113,7 +117,8 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
                 val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
                   else request.body.toString
                 if (verifySign(requestParams, sign, secret)) {
-                  block(request)
+                  // block(request)
+                  block(RequestWithUserId(userId.get, request))
                 } else {
                   logger.error(s"sign is invalid. ")
                   // Future(ApiResult(false, 0, "sign is invalid").toJson)
@@ -128,6 +133,7 @@ object Authenticated extends ActionBuilder[Request] with AuthenticateHelper {
             }
           }
         } else {
+          //TODO(xiaolu) user&pwd auth method to vefify
           logger.error("auth info is invalid.")
           Future(Unauthorized)
         }

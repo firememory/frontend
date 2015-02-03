@@ -186,18 +186,19 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def profile() = Authenticated.async {
     implicit request =>
-      val apiTokenPair = request.headers.get("auth")
-      val tokenArr = apiTokenPair.getOrElse("").split(":")
-      val token = tokenArr(0)
-      val secret = tokenArr(1)
-      val apiSecretFuture = UserService.getApiSecret(token)
+      val userId = request.userId
+      val apiSecretFuture = UserService.getAllApiSecrets(userId)
       val apiSecretResult = Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
       if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
-        UserService.getProfileApiV2(userId.get) map { p =>
+        val apiSecrets = apiSecretResult.data.get.asInstanceOf[Seq[ApiSecret]]
+        val apiTokenPairs = apiSecrets map { at =>
+          Seq(at.identifier, Some(at.secret))
+        }
+
+        UserService.getProfileApiV2(userId) map { p =>
           if (p.success) {
             val pf = p.data.get.asInstanceOf[ApiV2Profile]
-            Ok(ApiV2Result(data = Some(pf.copy(apiToken = Some(token), apiSecret = Some(secret)))).toJson)
+            Ok(ApiV2Result(data = Some(pf.copy(apiTokenPairs = apiTokenPairs.toSeq))).toJson)
           } else {
             Ok(defaultApiV2Result(p.code).toJson)
           }
@@ -209,29 +210,16 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def balance() = Authenticated.async {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
-        AccountService.getAccount(userId.get) map {
-          case result =>
-            val apiUserAccount = result.data.get.asInstanceOf[ApiUserAccount]
-            val balance = apiUserAccount.accounts.map(
-              a => (a._1 ->
-                Seq(a._2.available.value, a._2.locked.value, a._2.pendingWithdrawal.value, a._2.total.value)))
-            // logger.info(s"account result: $result")
-            Ok(ApiV2Result(data = Some(balance.toMap)).toJson)
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val userId = request.userId
+      AccountService.getAccount(userId) map {
+        case result =>
+          val apiUserAccount = result.data.get.asInstanceOf[ApiUserAccount]
+          val balance = apiUserAccount.accounts.map(
+            a => (a._1 ->
+              Seq(a._2.available.value, a._2.locked.value, a._2.pendingWithdrawal.value, a._2.total.value)))
+          // logger.info(s"account result: $result")
+          Ok(ApiV2Result(data = Some(balance.toMap)).toJson)
       }
-  }
-
-  private def getUserIdFromTokenPair(pair: String) = {
-    val tokenArr = pair.split(":")
-    val token = tokenArr(0)
-    val secret = tokenArr(1)
-    val apiSecretFuture = UserService.getApiSecret(token)
-    Await.result(apiSecretFuture, 5 seconds).asInstanceOf[ApiResult]
   }
 
   def userTrades() = Authenticated.async {
@@ -240,30 +228,25 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val query = request.queryString
       val market = getParam(query, "market")
       val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
-        MarketService.getTransactionsByUser(marketSide, userId.get, pager.skip, pager.limit).map(
-          result => {
-            if (result.success) {
-              val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
-              val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
-              val apiV2Txs = txs.map { t =>
-                val marketInResult = if (marketSide.isDefined) None else Some(t.subjectAmount.currency.toUpperCase + "-" + t.currencyAmount.currency.toUpperCase)
-                ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, marketInResult)
-              }
-              val hasMore = pager.limit == txs.size
-              val timestamp = System.currentTimeMillis
-              val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market.getOrElse(""), apiV2Txs)))
-              Ok(ApiV2Result(data = updated.data).toJson)
-            } else {
-              Ok(defaultApiV2Result(result.code).toJson)
+      val userId = request.userId
+      MarketService.getTransactionsByUser(marketSide, userId, pager.skip, pager.limit).map(
+        result => {
+          if (result.success) {
+            val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
+            val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
+            val apiV2Txs = txs.map { t =>
+              val marketInResult = if (marketSide.isDefined) None else Some(t.subjectAmount.currency.toUpperCase + "-" + t.currencyAmount.currency.toUpperCase)
+              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, marketInResult)
             }
+            val hasMore = pager.limit == txs.size
+            val timestamp = System.currentTimeMillis
+            val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market.getOrElse(""), apiV2Txs)))
+            Ok(ApiV2Result(data = updated.data).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
           }
-        )
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
-      }
+        }
+      )
   }
 
   def userOrders() = Authenticated.async {
@@ -272,7 +255,6 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val query = request.queryString
       val market = getParam(query, "market")
       val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
       val status = getParam(request.queryString, "order_status") match {
         case None => Nil
         case Some(s) =>
@@ -284,28 +266,24 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
       //TODO(xiaolu) not support ids query now.
       // val ids = getParam(query, "ids", "").split(",")
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
-        AccountService.getOrders(marketSide, Some(userId.get.toLong), None, status, pager.skip, pager.limit) map {
-          case result: ApiResult =>
-            if (result.success) {
-              val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
-              val apiV2Orders = apiOrders.map(o => ApiV2Order(
-              o.id, o.operation.toLowerCase, o.status,
-              o.subject.toUpperCase + "-" + o.currency.toUpperCase,
-              o.price.get.value,
-              o.amount.get.value,
-              o.finishedQuantity.value,
-              o.submitTime,
-              None))
-              val hasMore = pager.limit == apiV2Orders.size
-              Ok(ApiV2Result(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
-            } else {
-              Ok(ApiV2Result(data = result.data).toJson)
-            }
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val userId = request.userId
+      AccountService.getOrders(marketSide, Some(userId), None, status, pager.skip, pager.limit) map {
+        case result: ApiResult =>
+          if (result.success) {
+            val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
+            val apiV2Orders = apiOrders.map(o => ApiV2Order(
+            o.id, o.operation.toLowerCase, o.status,
+            o.subject.toUpperCase + "-" + o.currency.toUpperCase,
+            o.price.get.value,
+            o.amount.get.value,
+            o.finishedQuantity.value,
+            o.submitTime,
+            None))
+            val hasMore = pager.limit == apiV2Orders.size
+            Ok(ApiV2Result(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
+          } else {
+            Ok(ApiV2Result(data = result.data).toJson)
+          }
       }
   }
 
@@ -317,182 +295,147 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val query = request.queryString
       val currency = getParam(query, "currency", "ALL")
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId
-        val types = Seq(ttype)
-        val pager = ControllerHelper.parseApiV2PagingParam()
+      val userId = request.userId
+      val types = Seq(ttype)
+      val pager = ControllerHelper.parseApiV2PagingParam()
 
-        val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
+      val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-        TransferService.getTransfers(userId, Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
-          case result => 
-            if (result.success) {
-              val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
-              val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address))
-              val hasMore = pager.limit == v2Transfers.size
-              if (ttype == TransferType.Deposit)
-                Ok(ApiV2Result(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
-              else
-                Ok(ApiV2Result(data = Some(ApiV2WithdrawalsPagingWrapper(hasMore, v2Transfers))).toJson)
-            } else {
-              Ok(defaultApiV2Result(result.code).toJson)
-            }
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
+        case result => 
+          if (result.success) {
+            val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
+            val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address))
+            val hasMore = pager.limit == v2Transfers.size
+            if (ttype == TransferType.Deposit)
+              Ok(ApiV2Result(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
+            else
+              Ok(ApiV2Result(data = Some(ApiV2WithdrawalsPagingWrapper(hasMore, v2Transfers))).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
       }
   }
 
   def getBatchDepositAddress() = Authenticated.async {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        UserService.getDepositAddress(Constant.currencySeq, userId) map {
-          result =>
-            Ok(ApiV2Result(data = result.data).toJson)
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val userId = request.userId
+      UserService.getDepositAddress(Constant.currencySeq, userId) map {
+        result =>
+          Ok(ApiV2Result(data = result.data).toJson)
       }
   }
 
   def createDepositAddr(currency: String) = Authenticated.async {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val cur: Currency = currency
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        UserService.getDepositAddress(Seq(cur), userId.toLong) map {
-          result =>
-            Ok(ApiV2Result(data = result.data).toJson)
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val cur: Currency = currency
+      val userId = request.userId
+      UserService.getDepositAddress(Seq(cur), userId) map {
+        result =>
+          Ok(ApiV2Result(data = result.data).toJson)
       }
   }
 
 
   def submitOrders() = Authenticated.async(parse.json) {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        val json = Json.parse(request.body.toString)
-        val orders = (json \ "orders").as[JsArray]
-        val futures = orders.value map { case o =>
-          logger.info((o \ "market").as[String])
-          val market = (o \ "market").as[String]
-          val price = (o \ "price").as[Double]
-          val amount = (o \ "amount").as[Double]
-          val subject = market.split("-")(0);
-          val currency = market.split("-")(1);
-          val operation = (o \ "operation").as[String] match {
-            case "buy" => Operations.Buy
-            case "sell" => Operations.Sell
-          }
-
-          if ((currency.toLowerCase == "cny" && price * amount < 1) ||
-              (currency.toLowerCase == "btc" && price * amount < 0.001)) {
-            Future(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small"))
-          } else {
-            val order = UserOrder(userId.toString, operation, subject, currency, Some(price), Some(amount), None, submitTime = System.currentTimeMillis)
-            AccountService.submitOrder(order)
-          }
+      val userId = request.userId
+      val json = Json.parse(request.body.toString)
+      val orders = (json \ "orders").as[JsArray]
+      val futures = orders.value map { case o =>
+        logger.info((o \ "market").as[String])
+        val market = (o \ "market").as[String]
+        val price = (o \ "price").as[Double]
+        val amount = (o \ "amount").as[Double]
+        val subject = market.split("-")(0);
+        val currency = market.split("-")(1);
+        val operation = (o \ "operation").as[String] match {
+          case "buy" => Operations.Buy
+          case "sell" => Operations.Sell
         }
-        val results = futures.map { fr =>
-          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
-          if (finished.success) {
-            val apiOrder = finished.data.get.asInstanceOf[ApiOrder]
-            ApiV2SubmitOrderResult(apiOrder.id, None)
-          } else {
-            ApiV2SubmitOrderResult(code = Some(finished.code.toString))
-          }
-        }
-        logger.info(results.toString)
 
-        Future(Ok(ApiV2Result(data = Some(ApiV2SubmitOrderResults(results))).toJson))
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+        if ((currency.toLowerCase == "cny" && price * amount < 1) ||
+            (currency.toLowerCase == "btc" && price * amount < 0.001)) {
+          Future(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small"))
+        } else {
+          val order = UserOrder(userId.toString, operation, subject, currency, Some(price), Some(amount), None, submitTime = System.currentTimeMillis)
+          AccountService.submitOrder(order)
+        }
       }
+      val results = futures.map { fr =>
+        val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+        if (finished.success) {
+          val apiOrder = finished.data.get.asInstanceOf[ApiOrder]
+          ApiV2SubmitOrderResult(apiOrder.id, None)
+        } else {
+          ApiV2SubmitOrderResult(code = Some(finished.code.toString))
+        }
+      }
+      logger.info(results.toString)
+
+      Future(Ok(ApiV2Result(data = Some(ApiV2SubmitOrderResults(results))).toJson))
   }
 
   def cancelOrders() = Authenticated.async(parse.json) {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        val json = Json.parse(request.body.toString)
-        val orderIds = (json \ "order_ids").as[JsArray]
-        val unusedMarket = MarketSide(Currency.Btc, Currency.Cny)
-        var cancelledList: Seq[Long] = Seq.empty
-        var failedList: Seq[Long] = Seq.empty
-        orderIds.value map { case o =>
-          val orderId = o.as[Long]
-          val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
-          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
-          if (finished.success) {
-            val apiOrder = finished.data.get.asInstanceOf[Order]
-            cancelledList = cancelledList :+ apiOrder.id
-          } else {
-            logger.info(finished.toString)
-            failedList = failedList :+ orderId
-          }
+      val userId = request.userId
+      val json = Json.parse(request.body.toString)
+      val orderIds = (json \ "order_ids").as[JsArray]
+      val unusedMarket = MarketSide(Currency.Btc, Currency.Cny)
+      var cancelledList: Seq[Long] = Seq.empty
+      var failedList: Seq[Long] = Seq.empty
+      orderIds.value map { case o =>
+        val orderId = o.as[Long]
+        val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
+        val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+        if (finished.success) {
+          val apiOrder = finished.data.get.asInstanceOf[Order]
+          cancelledList = cancelledList :+ apiOrder.id
+        } else {
+          logger.info(finished.toString)
+          failedList = failedList :+ orderId
         }
-
-        val cancelResult = ApiV2CancelOrderResult(cancelledList, failedList)
-        val apiCR = ApiV2Result(data = Some(cancelResult))
-        Future(Ok(apiCR.toJson))
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
       }
+
+      val cancelResult = ApiV2CancelOrderResult(cancelledList, failedList)
+      val apiCR = ApiV2Result(data = Some(cancelResult))
+      Future(Ok(apiCR.toJson))
   }
 
   def submitWithdrawal() = Authenticated.async(parse.json) {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val json = Json.parse(request.body.toString)
-        val currency: Currency = (json \ "currency").as[String]
-        val address = (json \ "address").as[String]
-        val amount = (json \ "amount").as[Double]
-        val memo = (json \ "memo").asOpt[String].getOrElse("")
-        val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        UserService.setWithdrawalAddress(userId, currency, address)
-        AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey) map {
-          result =>
-            if (result.success) {
-              val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
-              Ok(ApiV2Result(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
-            } else {
-              Ok(defaultApiV2Result(result.code).toJson)
-            }
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val json = Json.parse(request.body.toString)
+      val currency: Currency = (json \ "currency").as[String]
+      val address = (json \ "address").as[String]
+      val amount = (json \ "amount").as[Double]
+      val memo = (json \ "memo").asOpt[String].getOrElse("")
+      val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
+      val userId = request.userId
+      UserService.setWithdrawalAddress(userId, currency, address)
+      AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey) map {
+        result =>
+          if (result.success) {
+            val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
+            Ok(ApiV2Result(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
       }
   }
 
   def cancelWithdrawal() = Authenticated.async(parse.json) {
     implicit request =>
-      val apiSecretResult = getUserIdFromTokenPair(request.headers.get("auth").getOrElse(""))
-      if (apiSecretResult.success) {
-        val json = Json.parse(request.body.toString)
-        val transferId = (json \ "transfer_id").as[Long]
-        val userId = apiSecretResult.data.get.asInstanceOf[ApiSecret].userId.get
-        TransferService.apiV2CancelWithdrawal(userId, transferId) map {
-          result =>
-            if (result.success) {
-              val errorCode = result.data.get.asInstanceOf[ErrorCode]
-              Ok(ApiV2Result(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
-            } else {
-              Ok(defaultApiV2Result(result.code).toJson)
-            }
-        }
-      } else {
-        Future(Ok(defaultApiV2Result(apiSecretResult.code).toJson))
+      val json = Json.parse(request.body.toString)
+      val transferId = (json \ "transfer_id").as[Long]
+      val userId = request.userId
+      TransferService.apiV2CancelWithdrawal(userId, transferId) map {
+        result =>
+          if (result.success) {
+            val errorCode = result.data.get.asInstanceOf[ErrorCode]
+            Ok(ApiV2Result(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
       }
   }
 
