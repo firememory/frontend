@@ -11,6 +11,7 @@ import utils.Constant._
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.UserStatus
 import com.coinport.coinex.data.ApiSecret
+import utils.MHash
 import com.coinport.coinex.api.service.UserService
 import services.CacheService
 import java.security.MessageDigest
@@ -132,8 +133,23 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
               Future(Unauthorized)
             }
           }
+        } else if (apiAuthInfos.size > 1 && authType == "Basic") {
+          val authPairs = apiAuthInfos(1)
+          val tokenArr = new java.lang.String(BaseEncoding.base64.decode(authPairs)).split(":")
+          val (username, pwd) = (tokenArr(0), tokenArr(1))
+          val hashedPwd = MHash.sha256Base64(pwd)
+          val user: User = User(id = -1, email = username, password = hashedPwd)
+          UserService.login(user) flatMap { result =>
+            if (result.success) {
+              val profile = result.data.get.asInstanceOf[User]
+              block(RequestWithUserId(profile.id, request))
+            } else {
+              logger.error("password or username is invalid.")
+              Future(Unauthorized)
+            }
+          }
+
         } else {
-          //TODO(xiaolu) user&pwd auth method to vefify
           logger.error("auth info is invalid.")
           Future(Unauthorized)
         }
