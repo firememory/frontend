@@ -16,6 +16,11 @@
          <div class="container">
              <div class="row">
                   @__fee()
+                  @if(lang.code=="zh-CN") {
+                      <p>注：用户编号小于1000001000的用户完全免除交易手续费</p>
+                  } else {
+                      <p>The user whose UID is less than 1000001000 completely exempt transaction fees</p>
+                  }
              </div>
          </div>
     </div>
