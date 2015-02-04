@@ -117,7 +117,7 @@ GET     /api/v2/*market/ticker                  controllers.ApiV2Controller.tick
 GET     /api/v2/reserve_stats                   controllers.ApiV2Controller.reserves
 GET     /api/v2/*currency/reserves              controllers.ApiV2Controller.reserve(currency)
 GET     /api/v2/*currency/balance_snapshot_files   controllers.ApiV2Controller.balanceSnapshotFiles(currency)
-GET     /api/v2/*currency/transfer_files        controllers.ApiV2Controller.transfers(currency)
+GET     /api/v2/*currency/transfers             controllers.ApiV2Controller.transfers(currency)
 GET     /api/v2/user/trades                     controllers.ApiV2Controller.userTrades()
 GET     /api/v2/$market<[a-zA-Z._-]+>/trades    controllers.ApiV2Controller.trades(market)
 GET     /api/v2/*market/depth                   controllers.ApiV2Controller.v2Depth(market)
@@ -133,6 +133,8 @@ POST    /api/v2/user/submit_orders              controllers.ApiV2Controller.subm
 POST    /api/v2/user/cancel_orders              controllers.ApiV2Controller.cancelOrders()
 POST    /api/v2/user/submit_withdrawal          controllers.ApiV2Controller.submitWithdrawal()
 POST    /api/v2/user/cancel_withdrawal          controllers.ApiV2Controller.cancelWithdrawal()
+GET     /api/v2/login                           controllers.ApiV2Controller.login()
+POST    /api/v2/register                        controllers.ApiV2Controller.register()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

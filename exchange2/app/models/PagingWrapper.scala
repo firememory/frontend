@@ -12,3 +12,5 @@ case class ApiV2DepositsPagingWrapper(hasMore: Boolean, deposits: Seq[ApiV2Trans
 
 case class ApiV2WithdrawalsPagingWrapper(hasMore: Boolean, withdrawals: Seq[ApiV2TransferItem])
 
+case class ApiV2TransfersPagingWrapper(hasMore: Boolean, currency: String, transfers: Seq[ApiV2TransfersItem])
+

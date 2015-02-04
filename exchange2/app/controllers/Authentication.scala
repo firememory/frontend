@@ -118,7 +118,6 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
                 val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
                   else request.body.toString
                 if (verifySign(requestParams, sign, secret)) {
-                  // block(request)
                   block(RequestWithUserId(userId.get, request))
                 } else {
                   logger.error(s"sign is invalid. ")
@@ -175,7 +174,7 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
     }
 
     private def verifySign(params: String, sign: String, secret: String) = {
-      val signInServer = md5(params + "&secret" + secret)
+      val signInServer = md5(params + "&secret=" + secret)
       logger.info("sign in server is : " + signInServer)
       sign == signInServer
     }

@@ -23,7 +23,7 @@ case class ApiV2Order(
   last_updated: Option[Long]
 )
 
-case class ApiV2TransferItem(id: String, currency: String, quantity: Double, status: Int, created: Long, updated: Long, address: String)
+case class ApiV2TransferItem(id: String, currency: String, amount: Double, status: Int, created: Long, updated: Long, address: String, txid: String)
 
 case class ApiV2SubmitOrderResult(order_id: String = "0", code: Option[String])
 
@@ -34,3 +34,9 @@ case class ApiV2CancelOrderResult(cancelled: Seq[Long], failed: Seq[Long])
 case class ApiV2WithdrawalResult(transfer_id: Long, withdraw_status: Int)
 
 case class ApiV2CancelWithdrawalResult(result: String)
+
+case class ApiV2RegisterResult(uid: Long)
+
+case class ApiV2TransfersItem(id: String, uid: String, amount: Double, status: Int, created: Long, updated: Long, operation: Int, address: String, txid: String, NxtRsString: Option[String])
+
+case class ApiV2LoginResult(uid: Long, email: String)

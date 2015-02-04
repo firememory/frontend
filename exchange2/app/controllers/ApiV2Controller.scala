@@ -20,10 +20,13 @@ import com.github.tototoshi.play2.json4s.native.Json4s
 import controllers.ControllerHelper._
 import utils.Constant
 import utils.HdfsAccess
+import utils.MHash
 import controllers.GoogleAuth.GoogleAuthenticator
 import models._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import com.google.common.io.BaseEncoding
+import java.util.{UUID, Properties}
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -107,9 +110,29 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       Ok(ApiV2Result(data = Some(data)).toJson)
   }
 
-  //TODO(xiaolu) unfinished api
-  def transfers(currency: String) = Action {
-    Ok("unfinished")
+  def transfers(currency: String) = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
+      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit)) match {
+        case Some(t) => Seq(t)
+        case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
+      }
+      val pager = ControllerHelper.parseApiV2PagingParam()
+
+      val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
+
+      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
+        case result =>
+          if (result.success) {
+            val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
+            val v2Transfers = transfers.map(t => ApiV2TransfersItem(t.id, t.uid, t.amount.value, t.status, t.created, t.updated, t.operation, t.address, t.txid, t.NxtRsString))
+            val hasMore = pager.limit == transfers.size
+            Ok(ApiV2Result(data = Some(ApiV2TransfersPagingWrapper(hasMore, currency.toUpperCase, v2Transfers))).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
+      }
   }
 
   def trades(market: String) = Action.async {
@@ -305,7 +328,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         case result => 
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
-            val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address))
+            val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address, t.txid))
             val hasMore = pager.limit == v2Transfers.size
             if (ttype == TransferType.Deposit)
               Ok(ApiV2Result(data = Some(ApiV2DepositsPagingWrapper(hasMore, v2Transfers))).toJson)
@@ -435,6 +458,86 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             Ok(ApiV2Result(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
           } else {
             Ok(defaultApiV2Result(result.code).toJson)
+          }
+      }
+  }
+
+  def register = Action.async(parse.json) {
+    implicit request =>
+      logger.info(request.body.toString)
+      val json = Json.parse(request.body.toString)
+      val email = (json \ "email").as[String]
+      val password = (json \ "pwdhash").as[String]
+      validateParamsAndThen(
+        new StringNonemptyValidator(email, password),
+        new EmailFormatValidator(email),
+        new PasswordFormetValidator(password)
+      ) {
+        val user: User = User(id = -1, email = email, password = password)
+        UserService.register(user)
+      } map {
+        result =>
+          if (result.success) {
+            println(result)
+            Ok(ApiV2Result(data = Some(ApiV2RegisterResult(result.message.toLong))).toJson)
+          } else
+            Ok(defaultApiV2Result(result.code).toJson)
+      }
+  }
+
+  def login = Authenticated.async {
+    implicit request =>
+      val apiAuthInfos = request.headers.get("Authorization").getOrElse("").split(" ")
+      val authPairs = apiAuthInfos(1)
+      val tokenArr = new java.lang.String(BaseEncoding.base64.decode(authPairs)).split(":")
+      val (email, pwd) = (tokenArr(0), tokenArr(1))
+      val password = MHash.sha256Base64(pwd)
+      val ip = request.remoteAddress
+      validateParamsAndThen(
+        new StringNonemptyValidator(password),
+        new EmailFormatValidator(email),
+        new PasswordFormetValidator(password),
+        new LoginFailedFrequencyValidator(email, ip)
+      ) {
+        val user: User = User(id = -1, email = email, password = password)
+        UserService.login(user)
+      } map {
+        result =>
+          //todo(kongliang): refactor return user profile
+          if (result.success) {
+            result.data.get match {
+              case profile: User =>
+                val uid = profile.id.toString
+                val csrfToken = UUID.randomUUID().toString
+                UserController.cache.put("csrf-" + uid, csrfToken)
+                LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
+
+                Ok(ApiV2Result(data = Some(ApiV2LoginResult(uid = uid.toLong, email = profile.email))).toJson).withSession(
+                  "username" -> profile.email,
+                  "uid" -> uid,
+                  //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
+                  Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
+                  Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
+                  Constant.cookieNameRealName -> profile.realName.getOrElse(""),
+                  Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
+                  Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
+                  Constant.userRealName -> profile.realName2.getOrElse("")
+                ).withCookies(
+                    Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
+                )
+              case _ =>
+                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+                Ok(defaultApiV2Result(result.code).toJson)
+            }
+          } else {
+            val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
+            if (result.code != ErrorCode.LoginFailedAndLocked.value) {
+              LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+              val newRes = ApiV2Result(data = Some(4 - count))
+              Ok(newRes.toJson)
+            } else {
+              Ok(result.toJson)
+            }
           }
       }
   }
