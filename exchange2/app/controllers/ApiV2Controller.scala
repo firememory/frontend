@@ -99,7 +99,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
 
       val data = ApiV2PagingWrapper(
-        hasMore = pager.skip > files.length - 1,
+        hasMore = pager.skip < files.length - 1,
         currency = currency,
         path = downloadPreUrl,
         items = jsonFormated
