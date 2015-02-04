@@ -1,0 +1,22 @@
+@()(implicit session: Session, lang: Lang)
+@import utils.Constant._
+
+<!DOCTYPE html>
+<html lang="@(lang.code)">
+<head>
+    @__head_commons()
+    <link rel="stylesheet" href="/css/open.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    @__js_lang()
+    <title>@Messages("title")</title>
+</head>
+@_navbar(5)(session, lang)
+<section class="content-3">
+    <div>
+         <div class="container">
+             <div class="row">
+                  @__fee()
+             </div>
+         </div>
+    </div>
+</section>

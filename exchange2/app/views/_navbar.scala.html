@@ -13,7 +13,8 @@
         <li @if(activeIndex == 1){class="active"}> <a href="/">@Messages("nav.home")</a> </li>
         <li @if(activeIndex == 2){class="active"}> <a href="/trade">@Messages("nav.trade")</a> </li>
         <li @if(activeIndex == 3){class="active"}> <a href="/open">@Messages("nav.open")</a> </li>
-        <li> <a href="https://blog.coinport.com" target="_blank">@Messages("nav.blog")</a> </li>
+        <li @if(activeIndex == 5){class="active"}> <a href="/fee">@Messages("nav.fee")</a> </li>
+        <li> <a href="https://blog.coinport.com" target="_blank">@Messages("nav.notice")</a> </li>
         <li> <a href="https://blog.coinport.com/?page_id=110" target="_blank">@Messages("nav.help")</a> </li>
         <li> <a href="/app/android/download" target="_blank">@Messages("nav.android")</a> </li>
       </ul>
