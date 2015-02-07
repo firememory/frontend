@@ -26,7 +26,7 @@ import models._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import com.google.common.io.BaseEncoding
-import java.util.{UUID, Properties}
+import java.util.{ UUID, Properties }
 
 object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
@@ -37,22 +37,23 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   val logger = Logger(this.getClass)
 
   def preflight(all: String) = Action {
-    Ok("").withHeaders("Access-Control-Allow-Origin" -> "*",
+    Ok("").withHeaders(
+      "Access-Control-Allow-Origin" -> "*",
       "Allow" -> "*",
       "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers" -> "Origin, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
+      "Access-Control-Allow-Headers" -> "Origin, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
   }
 
   def tickers(currency: String) = if (currency.equalsIgnoreCase(Currency.Cny.toString)) tickerBasic(Constant.cnyMarketSides)
-    else if (currency.equalsIgnoreCase(Currency.Btc.toString)) tickerBasic(Constant.btcMarketSides)
-    else tickerBasic(Constant.allMarketSides)
+  else if (currency.equalsIgnoreCase(Currency.Btc.toString)) tickerBasic(Constant.btcMarketSides)
+  else tickerBasic(Constant.allMarketSides)
 
   def allTickers() = tickerBasic(Constant.allMarketSides)
 
   def ticker(market: String) = {
-   val out = market.split("-")(0)
-   val in = market.split("-")(1)
-   tickerBasic(Seq(string2RichMarketSide(market)))
+    val out = market.split("-")(0)
+    val in = market.split("-")(1)
+    tickerBasic(Seq(string2RichMarketSide(market)))
   }
 
   private def tickerBasic(sides: Seq[MarketSide]) = Action.async {
@@ -63,15 +64,16 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def reserves() = Action.async {
     implicit request =>
-      val reserves = Constant.supportReserveCoins map { case c =>
-        val reserveFuture = OpenService.getCurrencyReserve(c)
-        val reserveApiResult = Await.result(reserveFuture, 5 seconds).asInstanceOf[ApiResult]
-        if (reserveApiResult.success) {
-          val reserve = reserveApiResult.data.get.asInstanceOf[ApiCurrencyReserve]
-          c.toString.toUpperCase -> Seq(reserve.hot.value, reserve.cold.value, reserve.user.value, reserve.total.value)
-        } else {
-          c.toString.toUpperCase -> Seq.empty
-        }
+      val reserves = Constant.supportReserveCoins map {
+        case c =>
+          val reserveFuture = OpenService.getCurrencyReserve(c)
+          val reserveApiResult = Await.result(reserveFuture, 5 seconds).asInstanceOf[ApiResult]
+          if (reserveApiResult.success) {
+            val reserve = reserveApiResult.data.get.asInstanceOf[ApiCurrencyReserve]
+            c.toString.toUpperCase -> Seq(reserve.hot.value, reserve.cold.value, reserve.user.value, reserve.total.value)
+          } else {
+            c.toString.toUpperCase -> Seq.empty
+          }
       }
       val result = ApiV2Result(data = Some(reserves.toMap))
       Future(Ok(result.toJson))
@@ -105,8 +107,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         hasMore = pager.skip < files.length - 1,
         currency = currency,
         path = downloadPreUrl,
-        items = jsonFormated
-      )
+        items = jsonFormated)
       Ok(ApiV2Result(data = Some(data)).toJson)
   }
 
@@ -161,13 +162,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val query = request.queryString
       val limit = getParam(query, "limit", "100").toInt min 200
 
-      MarketService.getDepth(market, limit).map{ result =>
+      MarketService.getDepth(market, limit).map { result =>
         val depth = result.data.get.asInstanceOf[ApiMarketDepth]
         Ok(result.copy(data = Some(toV2MarketDepth(depth))).toJson)
       }
   }
 
-  private def toV2MarketDepth(d : ApiMarketDepth) = {
+  private def toV2MarketDepth(d: ApiMarketDepth) = {
     val asks = d.asks.map(i => Seq(i.price.value, i.amount.value))
     val bids = d.bids.map(i => Seq(i.price.value, i.amount.value))
     Map("asks" -> asks, "bids" -> bids)
@@ -186,14 +187,14 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val to = toParam.toLong
       val from = fromParam.toLong max (to - timeDimension * 180)
 
-      MarketService.getHistory(market, timeDimension, from, to).map{ result =>
+      MarketService.getHistory(market, timeDimension, from, to).map { result =>
         val apiHistory = result.data.get.asInstanceOf[ApiHistory]
         val updated = result.copy(data = Some(ApiV2History(items = apiHistory.candles)))
         Ok(ApiV2Result(data = updated.data).toJson)
       }
   }
 
-  private def intervalToCharTimeDimension(interval : String): ChartTimeDimension = {
+  private def intervalToCharTimeDimension(interval: String): ChartTimeDimension = {
     interval match {
       case "1m" => ChartTimeDimension.OneMinute
       case "5m" => ChartTimeDimension.FiveMinutes
@@ -268,8 +269,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           } else {
             Ok(defaultApiV2Result(result.code).toJson)
           }
-        }
-      )
+        })
   }
 
   def userOrders() = Authenticated.async {
@@ -295,13 +295,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           if (result.success) {
             val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
             val apiV2Orders = apiOrders.map(o => ApiV2Order(
-            o.id, o.operation.toLowerCase, o.status,
-            o.subject.toUpperCase + "-" + o.currency.toUpperCase,
-            o.price.get.value,
-            o.amount.get.value,
-            o.finishedQuantity.value,
-            o.submitTime,
-            None))
+              o.id, o.operation.toLowerCase, o.status,
+              o.subject.toUpperCase + "-" + o.currency.toUpperCase,
+              o.price.get.value,
+              o.amount.get.value,
+              o.finishedQuantity.value,
+              o.submitTime,
+              None))
             val hasMore = pager.limit == apiV2Orders.size
             Ok(ApiV2Result(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
           } else {
@@ -325,7 +325,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
       TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
-        case result => 
+        case result =>
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
             val v2Transfers = transfers.map(t => ApiV2TransferItem(t.id, t.amount.currency.toUpperCase, t.amount.value, t.status, t.created, t.updated, t.address, t.txid))
@@ -359,31 +359,31 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
-
   def submitOrders() = Authenticated.async(parse.json) {
     implicit request =>
       val userId = request.userId
       val json = Json.parse(request.body.toString)
       val orders = (json \ "orders").as[JsArray]
-      val futures = orders.value map { case o =>
-        logger.info((o \ "market").as[String])
-        val market = (o \ "market").as[String]
-        val price = (o \ "price").as[Double]
-        val amount = (o \ "amount").as[Double]
-        val subject = market.split("-")(0);
-        val currency = market.split("-")(1);
-        val operation = (o \ "operation").as[String] match {
-          case "buy" => Operations.Buy
-          case "sell" => Operations.Sell
-        }
+      val futures = orders.value map {
+        case o =>
+          logger.info((o \ "market").as[String])
+          val market = (o \ "market").as[String]
+          val price = (o \ "price").as[Double]
+          val amount = (o \ "amount").as[Double]
+          val subject = market.split("-")(0);
+          val currency = market.split("-")(1);
+          val operation = (o \ "operation").as[String] match {
+            case "buy" => Operations.Buy
+            case "sell" => Operations.Sell
+          }
 
-        if ((currency.toLowerCase == "cny" && price * amount < 1) ||
+          if ((currency.toLowerCase == "cny" && price * amount < 1) ||
             (currency.toLowerCase == "btc" && price * amount < 0.001)) {
-          Future(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small"))
-        } else {
-          val order = UserOrder(userId.toString, operation, subject, currency, Some(price), Some(amount), None, submitTime = System.currentTimeMillis)
-          AccountService.submitOrder(order)
-        }
+            Future(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small"))
+          } else {
+            val order = UserOrder(userId.toString, operation, subject, currency, Some(price), Some(amount), None, submitTime = System.currentTimeMillis)
+            AccountService.submitOrder(order)
+          }
       }
       val results = futures.map { fr =>
         val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
@@ -407,17 +407,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val unusedMarket = MarketSide(Currency.Btc, Currency.Cny)
       var cancelledList: Seq[Long] = Seq.empty
       var failedList: Seq[Long] = Seq.empty
-      orderIds.value map { case o =>
-        val orderId = o.as[Long]
-        val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
-        val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
-        if (finished.success) {
-          val apiOrder = finished.data.get.asInstanceOf[Order]
-          cancelledList = cancelledList :+ apiOrder.id
-        } else {
-          logger.info(finished.toString)
-          failedList = failedList :+ orderId
-        }
+      orderIds.value map {
+        case o =>
+          val orderId = o.as[Long]
+          val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
+          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+          if (finished.success) {
+            val apiOrder = finished.data.get.asInstanceOf[Order]
+            cancelledList = cancelledList :+ apiOrder.id
+          } else {
+            logger.info(finished.toString)
+            failedList = failedList :+ orderId
+          }
       }
 
       val cancelResult = ApiV2CancelOrderResult(cancelledList, failedList)
@@ -471,18 +472,17 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       validateParamsAndThen(
         new StringNonemptyValidator(email, password),
         new EmailFormatValidator(email),
-        new PasswordFormetValidator(password)
-      ) {
-        val user: User = User(id = -1, email = email, password = password)
-        UserService.register(user)
-      } map {
-        result =>
-          if (result.success) {
-            println(result)
-            Ok(ApiV2Result(data = Some(ApiV2RegisterResult(result.message.toLong))).toJson)
-          } else
-            Ok(defaultApiV2Result(result.code).toJson)
-      }
+        new PasswordFormetValidator(password)) {
+          val user: User = User(id = -1, email = email, password = password)
+          UserService.register(user)
+        } map {
+          result =>
+            if (result.success) {
+              println(result)
+              Ok(ApiV2Result(data = Some(ApiV2RegisterResult(result.message.toLong))).toJson)
+            } else
+              Ok(defaultApiV2Result(result.code).toJson)
+        }
   }
 
   def login = Authenticated.async {
@@ -497,49 +497,46 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         new StringNonemptyValidator(password),
         new EmailFormatValidator(email),
         new PasswordFormetValidator(password),
-        new LoginFailedFrequencyValidator(email, ip)
-      ) {
-        val user: User = User(id = -1, email = email, password = password)
-        UserService.login(user)
-      } map {
-        result =>
-          //todo(kongliang): refactor return user profile
-          if (result.success) {
-            result.data.get match {
-              case profile: User =>
-                val uid = profile.id.toString
-                val csrfToken = UUID.randomUUID().toString
-                UserController.cache.put("csrf-" + uid, csrfToken)
-                LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
+        new LoginFailedFrequencyValidator(email, ip)) {
+          val user: User = User(id = -1, email = email, password = password)
+          UserService.login(user)
+        } map {
+          result =>
+            //todo(kongliang): refactor return user profile
+            if (result.success) {
+              result.data.get match {
+                case profile: User =>
+                  val uid = profile.id.toString
+                  val csrfToken = UUID.randomUUID().toString
+                  UserController.cache.put("csrf-" + uid, csrfToken)
+                  LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
 
-                Ok(ApiV2Result(data = Some(ApiV2LoginResult(uid = uid.toLong, email = profile.email))).toJson).withSession(
-                  "username" -> profile.email,
-                  "uid" -> uid,
-                  //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
-                  Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
-                  Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
-                  Constant.cookieNameRealName -> profile.realName.getOrElse(""),
-                  Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
-                  Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
-                  Constant.userRealName -> profile.realName2.getOrElse("")
-                ).withCookies(
-                    Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
-                )
-              case _ =>
-                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
-                Ok(defaultApiV2Result(result.code).toJson)
-            }
-          } else {
-            val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
-            if (result.code != ErrorCode.LoginFailedAndLocked.value) {
-              LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
-              val newRes = ApiV2Result(data = Some(4 - count))
-              Ok(newRes.toJson)
+                  Ok(ApiV2Result(data = Some(ApiV2LoginResult(uid = uid.toLong, email = profile.email))).toJson).withSession(
+                    "username" -> profile.email,
+                    "uid" -> uid,
+                    //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
+                    Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
+                    Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
+                    Constant.cookieNameRealName -> profile.realName.getOrElse(""),
+                    Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
+                    Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
+                    Constant.userRealName -> profile.realName2.getOrElse("")).withCookies(
+                      Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false))
+                case _ =>
+                  LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+                  Ok(defaultApiV2Result(result.code).toJson)
+              }
             } else {
-              Ok(result.toJson)
+              val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
+              if (result.code != ErrorCode.LoginFailedAndLocked.value) {
+                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+                val newRes = ApiV2Result(data = Some(4 - count))
+                Ok(newRes.toJson)
+              } else {
+                Ok(result.toJson)
+              }
             }
-          }
-      }
+        }
   }
 
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
