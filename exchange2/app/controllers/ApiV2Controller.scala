@@ -41,7 +41,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       "Access-Control-Allow-Origin" -> "*",
       "Allow" -> "*",
       "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers" -> "Origin, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
+      "Access-Control-Allow-Headers" -> "Origin, Authorization, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
   }
 
   def tickers(currency: String) = if (currency.equalsIgnoreCase(Currency.Cny.toString)) tickerBasic(Constant.cnyMarketSides)

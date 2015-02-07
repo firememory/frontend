@@ -14,7 +14,7 @@ class CorsFilter extends EssentialFilter {
           "Access-Control-Allow-Origin" -> "*",
           "Access-Control-Expose-Headers" -> "WWW-Authenticate, Server-Authorization",
           "Access-Control-Allow-Methods" -> "POST, GET, OPTIONS, PUT, DELETE",
-          "Access-Control-Allow-Headers" -> "X-XSRF-TOKEN,x-requested-with,content-type,Cache-Control,Pragma,Date")
+          "Access-Control-Allow-Headers" -> "Authorization,X-XSRF-TOKEN,x-requested-with,content-type,Cache-Control,Pragma,Date")
       }
     }
   }
