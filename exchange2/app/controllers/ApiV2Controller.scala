@@ -404,19 +404,25 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val userId = request.userId
       val json = Json.parse(request.body.toString)
       val orderIds = (json \ "order_ids").as[JsArray]
-      val unusedMarket = MarketSide(Currency.Btc, Currency.Cny)
       var cancelledList: Seq[Long] = Seq.empty
       var failedList: Seq[Long] = Seq.empty
       orderIds.value map {
         case o =>
           val orderId = o.as[Long]
-          val fr = AccountService.cancelOrder(orderId, userId, unusedMarket)
-          val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
-          if (finished.success) {
-            val apiOrder = finished.data.get.asInstanceOf[Order]
-            cancelledList = cancelledList :+ apiOrder.id
+          val ofr = AccountService.getOrders(None, None, Some(orderId), Nil, 0, 1)
+          val or = Await.result(ofr, 5 seconds).asInstanceOf[ApiResult]
+          val uo = or.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]].headOption
+          if (uo.isDefined) {
+            val fr = AccountService.cancelOrder(orderId, userId, MarketSide(uo.get.subject, uo.get.currency))
+            val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
+            if (finished.success) {
+              val apiOrder = finished.data.get.asInstanceOf[Order]
+              cancelledList = cancelledList :+ apiOrder.id
+            } else {
+              logger.info(finished.toString)
+              failedList = failedList :+ orderId
+            }
           } else {
-            logger.info(finished.toString)
             failedList = failedList :+ orderId
           }
       }
