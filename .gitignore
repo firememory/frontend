@@ -12,3 +12,6 @@ exchange/app/assets/startup/flat-ui/less/modules/*.css
 exchange/app/assets/startup/ui-kit/*/less/*.css
 */*.log
 exchange/application.log
+exchange2/.classpath
+exchange2/.project
+exchange2/.settings

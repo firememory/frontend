@@ -18,7 +18,7 @@ object CoinportFilter extends Filter {
       //Logger.info(s"%%%%%%%%%%%%%%%%%%%%%% ${requestHeader.session}, ${requestHeader.acceptLanguages}")
       result.withHeaders("Request-Time" -> requestTime.toString)
         .withHeaders("X-Frame-Options" -> "SAMEORIGIN")
-        .withCookies(Cookie(cookieNameTimestamp, endTime.toString), domain = Some(".coinport.com"))
+        .withCookies(Cookie(cookieNameTimestamp, endTime.toString, None, "/", Some(".coinport.com"), false, false))
     }
   }
 
