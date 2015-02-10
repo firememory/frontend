@@ -20,8 +20,8 @@ import com.google.common.io.BaseEncoding
 case class RequestWithUserId[A](val userId: Long, request: Request[A]) extends WrappedRequest[A](request)
 
 trait AuthenticateHelper {
-  val ajaxRequestHeaderKey="ajaxRequestKey"
-  val ajaxRequestHeadervalue="value"
+  val ajaxRequestHeaderKey = "ajaxRequestKey"
+  val ajaxRequestHeadervalue = "value"
 
   val logger = Logger(this.getClass)
   val sysConfig = Play.current.configuration
@@ -44,17 +44,17 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
   private def checkUserSuspended[A](uid: Long, request: Request[A], block: (RequestWithUserId[A]) => Future[Result]): Future[Result] = {
     UserService.getProfile(uid) flatMap {
       result =>
-      if (result.success) {
-        val user = result.data.get.asInstanceOf[User]
-        if (user.status == UserStatus.Suspended) {
-          Future(Unauthorized) // TODO notify user for account been suspended.
+        if (result.success) {
+          val user = result.data.get.asInstanceOf[User]
+          if (user.status == UserStatus.Suspended) {
+            Future(Unauthorized) // TODO notify user for account been suspended.
+          } else {
+            block(RequestWithUserId(uid, request)).map(_.withCookies(
+              Cookie(cookieNameTimestamp, System.currentTimeMillis.toString, domain = Some(".coinport.com"))))
+          }
         } else {
-          block(RequestWithUserId(uid, request)).map(_.withCookies(
-            Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
+          Future(Unauthorized.withNewSession)
         }
-      } else {
-        Future(Unauthorized.withNewSession)
-      }
     }
   }
 
@@ -63,22 +63,22 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
         tsCookie =>
-        //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
-        val ts = tsCookie.value.toLong
-        val csrfToken = cache.get("csrf-" + uid)
+          //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+          val ts = tsCookie.value.toLong
+          val csrfToken = cache.get("csrf-" + uid)
 
-        if (currTs - ts > timeoutMillis) {
-          logger.error(s"account authentication failed: timeout")
-          Future(Unauthorized.withNewSession)
-        } else if(!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
-          logger.error(s"account authentication failed: xsrf-token not match")
-          Future(Unauthorized.withNewSession)
-        } else {
-          checkUserSuspended(uid.toLong, request, block)
-        }
+          if (currTs - ts > timeoutMillis) {
+            logger.error(s"account authentication failed: timeout")
+            Future(Unauthorized.withNewSession)
+          } else if (!request.headers.get("X-XSRF-TOKEN").equals(Some(csrfToken))) {
+            logger.error(s"account authentication failed: xsrf-token not match")
+            Future(Unauthorized.withNewSession)
+          } else {
+            checkUserSuspended(uid.toLong, request, block)
+          }
       } getOrElse {
         block(RequestWithUserId(uid.toLong, request)).map(_.withCookies(
-          Cookie(cookieNameTimestamp, currTs.toString)))
+          Cookie(cookieNameTimestamp, currTs.toString, domain = Some(".coinport.com"))))
       }
     } getOrElse {
       val userIdOpt = request.headers.get("USERID")
@@ -89,8 +89,8 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
         if (accessControl(userIdOpt, apiTokenOpt)) {
           UserService.getApiSecret(userIdOpt.get.toLong) flatMap {
             case ApiResult(success, _, _, secretOpt) if success &&
-                secretOpt.isDefined && secretOpt == apiTokenOpt =>
-                block(RequestWithUserId(userIdOpt.get.toLong, request))
+              secretOpt.isDefined && secretOpt == apiTokenOpt =>
+              block(RequestWithUserId(userIdOpt.get.toLong, request))
             case e =>
               logger.error(s"apiToken invalid. res=$e")
               Future(Unauthorized)
@@ -116,7 +116,7 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
               if (accessControl(Some(userId.get.toString), Some(token))) {
                 //TODO(xiaolu) change post json data to string
                 val requestParams: String = if (request.method == "GET") combineParams(request.queryString.map(kv => kv._1 -> kv._2.head))
-                  else request.body.toString
+                else request.body.toString
                 if (verifySign(requestParams, sign, secret)) {
                   block(RequestWithUserId(userId.get, request))
                 } else {
@@ -173,28 +173,28 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
       false
     }
 
-    private def verifySign(params: String, sign: String, secret: String) = {
-      val signInServer = md5(params + "&secret=" + secret)
-      logger.info("sign in server is : " + signInServer)
-      sign == signInServer
-    }
+  private def verifySign(params: String, sign: String, secret: String) = {
+    val signInServer = md5(params + "&secret=" + secret)
+    logger.info("sign in server is : " + signInServer)
+    sign == signInServer
+  }
 
-    private def combineParams(params: Map[String, String]): String = {
-      val sortedParams = SortedSet.empty[String] ++ params.keySet
-      sortedParams.map(item => item + "=" + params(item)).mkString("&")
-    }
+  private def combineParams(params: Map[String, String]): String = {
+    val sortedParams = SortedSet.empty[String] ++ params.keySet
+    sortedParams.map(item => item + "=" + params(item)).mkString("&")
+  }
 
-    private def md5(s: String) = {
-      val md: MessageDigest = MessageDigest.getInstance("MD5")
-        md.update(s.getBytes("UTF-8"))
-        val digestBytes = md.digest()
-        digestBytes.map { b =>
-          if (Integer.toHexString(0xFF & b).length() == 1)
-            "0" + Integer.toHexString(0xFF & b)
-          else
-            Integer.toHexString(0xFF & b)
-        }.mkString
-    }
+  private def md5(s: String) = {
+    val md: MessageDigest = MessageDigest.getInstance("MD5")
+    md.update(s.getBytes("UTF-8"))
+    val digestBytes = md.digest()
+    digestBytes.map { b =>
+      if (Integer.toHexString(0xFF & b).length() == 1)
+        "0" + Integer.toHexString(0xFF & b)
+      else
+        Integer.toHexString(0xFF & b)
+    }.mkString
+  }
 }
 
 object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateHelper {
@@ -202,20 +202,20 @@ object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateH
   private def checkUserSuspended[A](uid: Long, request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
     UserService.getProfile(uid) flatMap {
       result =>
-      if (result.success) {
-        val user = result.data.get.asInstanceOf[User]
-        if (user.status == UserStatus.Suspended) {
-          val redirectUri = "/login?msg=authenticateUserSuspended"
-          responseOnRequestHeader(request, redirectUri)
-          // TODO notify user for account been suspended.
+        if (result.success) {
+          val user = result.data.get.asInstanceOf[User]
+          if (user.status == UserStatus.Suspended) {
+            val redirectUri = "/login?msg=authenticateUserSuspended"
+            responseOnRequestHeader(request, redirectUri)
+            // TODO notify user for account been suspended.
+          } else {
+            block(request).map(_.withCookies(
+              Cookie(cookieNameTimestamp, System.currentTimeMillis.toString, domain = Some(".coinport.com"))))
+          }
         } else {
-          block(request).map(_.withCookies(
-            Cookie(cookieNameTimestamp, System.currentTimeMillis.toString)))
+          val redirectUri = "/login?msg=authenticateNotLogin"
+          responseOnRequestHeader(request, redirectUri)
         }
-      } else {
-        val redirectUri = "/login?msg=authenticateNotLogin"
-        responseOnRequestHeader(request, redirectUri)
-      }
     }
   }
 
@@ -225,18 +225,18 @@ object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateH
       val currTs = System.currentTimeMillis
       request.cookies.get(cookieNameTimestamp).map {
         tsCookie =>
-        //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
-        val ts = tsCookie.value.toLong
-        if (currTs - ts > timeoutMillis) {
-          val redirectUri = "/login?msg=authenticateTimeout"
-          responseOnRequestHeader(request, redirectUri)
-          //Future(Unauthorized)
-        } else {
-          checkUserSuspended(uid.toLong, request, block)
-        }
+          //logger.info(s"timestamp cookie: $tsCookie, currtime: $currTs, timeoutMillis: $timeoutMillis")
+          val ts = tsCookie.value.toLong
+          if (currTs - ts > timeoutMillis) {
+            val redirectUri = "/login?msg=authenticateTimeout"
+            responseOnRequestHeader(request, redirectUri)
+            //Future(Unauthorized)
+          } else {
+            checkUserSuspended(uid.toLong, request, block)
+          }
       } getOrElse {
         block(request).map(_.withCookies(
-          Cookie(cookieNameTimestamp, currTs.toString)))
+          Cookie(cookieNameTimestamp, currTs.toString, domain = Some(".coinport.com"))))
       }
     } getOrElse {
       val redirectUri = "/login?msg=authenticateNotLogin"

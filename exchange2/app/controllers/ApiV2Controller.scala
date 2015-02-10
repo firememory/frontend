@@ -527,7 +527,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
                     Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
                     Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
                     Constant.userRealName -> profile.realName2.getOrElse("")).withCookies(
-                      Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false))
+                      Cookie("XSRF-TOKEN", csrfToken, None, "/", Some(".coinport.com"), false, false))
                 case _ =>
                   LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
                   Ok(defaultApiV2Result(result.code).toJson)

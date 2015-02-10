@@ -10,8 +10,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.Source
 import java.io.File
 import java.io.FileOutputStream
-import java.util.{UUID, Properties}
-import java.net.{URLDecoder, URLEncoder}
+import java.util.{ UUID, Properties }
+import java.net.{ URLDecoder, URLEncoder }
 
 import play.api.mvc._
 import play.api.Logger
@@ -23,7 +23,7 @@ import com.coinport.coinex.api.service._
 import utils.Constant
 import utils.SecurityPreferenceUtil
 import ControllerHelper._
-import controllers.GoogleAuth.{GoogleAuthenticator, GoogleAuthenticatorKey}
+import controllers.GoogleAuth.{ GoogleAuthenticator, GoogleAuthenticatorKey }
 import services.CacheService
 
 object UserController extends Controller with Json4s with AccessLogging {
@@ -42,51 +42,48 @@ object UserController extends Controller with Json4s with AccessLogging {
         new StringNonemptyValidator(password),
         new EmailFormatValidator(email),
         new PasswordFormetValidator(password),
-        new LoginFailedFrequencyValidator(email, ip)
-      ) {
-        val user: User = User(id = -1, email = email, password = password)
-        UserService.login(user)
-      } map {
-        result =>
-          //todo(kongliang): refactor return user profile
-          if (result.success) {
-            result.data.get match {
-              case profile: User =>
-                val uid = profile.id.toString
-                //val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
-                //UserActionService.saveUserAction(userAction)
-                val csrfToken = UUID.randomUUID().toString
-                cache.put("csrf-" + uid, csrfToken)
-                LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
+        new LoginFailedFrequencyValidator(email, ip)) {
+          val user: User = User(id = -1, email = email, password = password)
+          UserService.login(user)
+        } map {
+          result =>
+            //todo(kongliang): refactor return user profile
+            if (result.success) {
+              result.data.get match {
+                case profile: User =>
+                  val uid = profile.id.toString
+                  //val userAction = UserAction(0L, succeeded.id, System.currentTimeMillis, UserActionType.Login, Some(ip), Some(location))
+                  //UserActionService.saveUserAction(userAction)
+                  val csrfToken = UUID.randomUUID().toString
+                  cache.put("csrf-" + uid, csrfToken)
+                  LoginFailedFrequencyValidator.cleanLoginFailedRecord(email, ip)
 
-                Ok(result.toJson).withSession(
-                  "username" -> profile.email,
-                  "uid" -> uid,
-                  //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
-                  Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
-                  Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
-                  Constant.cookieNameRealName -> profile.realName.getOrElse(""),
-                  Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
-                  Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
-                  Constant.userRealName -> profile.realName2.getOrElse("")
-                ).withCookies(
-                    Cookie("XSRF-TOKEN", csrfToken, None, "/", None, false, false)
-                )
-              case _ =>
-                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
-                Ok(result.toJson)
-            }
-          } else {
-            val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
-            if (result.code != ErrorCode.LoginFailedAndLocked.value) {
-              LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
-              val newRes = ApiResult(result.success, result.code, result.message, Some(4 - count))
-              Ok(newRes.toJson)
+                  Ok(result.toJson).withSession(
+                    "username" -> profile.email,
+                    "uid" -> uid,
+                    //"referralToken" -> profile.referralToken.getOrElse(0L).toString,
+                    Constant.cookieNameMobileVerified -> profile.mobile.isDefined.toString,
+                    Constant.cookieNameMobile -> profile.mobile.getOrElse(""),
+                    Constant.cookieNameRealName -> profile.realName.getOrElse(""),
+                    Constant.cookieGoogleAuthSecret -> profile.googleAuthenticatorSecret.getOrElse(""),
+                    Constant.securityPreference -> profile.securityPreference.getOrElse("01"),
+                    Constant.userRealName -> profile.realName2.getOrElse("")).withCookies(
+                      Cookie("XSRF-TOKEN", csrfToken, None, "/", Some(".coinport.com"), false, false))
+                case _ =>
+                  LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+                  Ok(result.toJson)
+              }
             } else {
-              Ok(result.toJson)
+              val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
+              if (result.code != ErrorCode.LoginFailedAndLocked.value) {
+                LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
+                val newRes = ApiResult(result.success, result.code, result.message, Some(4 - count))
+                Ok(newRes.toJson)
+              } else {
+                Ok(result.toJson)
+              }
             }
-          }
-      }
+        }
   }
 
   def register = Action.async(parse.urlFormEncoded) {
@@ -102,16 +99,15 @@ object UserController extends Controller with Json4s with AccessLogging {
       rf = if (rf == Some("")) None else rf
       validateParamsAndThen(
         //new CachedValueValidator(ErrorCode.CaptchaNotMatch, true, uuid, text),
-        new StringNonemptyValidator(/*uuid, text,*/ email, password),
+        new StringNonemptyValidator( /*uuid, text,*/ email, password),
         new EmailFormatValidator(email),
-        new PasswordFormetValidator(password)
-      ) {
-        //popCachedValue(uuid)
-        val user: User = User(id = -1, email = email, password = password, referedToken = rf)
-        UserService.register(user)
-      } map {
-        result => Ok(result.toJson)
-      }
+        new PasswordFormetValidator(password)) {
+          //popCachedValue(uuid)
+          val user: User = User(id = -1, email = email, password = password, referedToken = rf)
+          UserService.register(user)
+        } map {
+          result => Ok(result.toJson)
+        }
   }
 
   def getUserProfile(userId: String) = Action.async {
@@ -170,55 +166,53 @@ object UserController extends Controller with Json4s with AccessLogging {
       //logger.info(s"mobile: $mobile, uuid: $uuid, verifycode: $verifyCode")
       validateParamsAndThen(
         new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
-        new StringNonemptyValidator(userId, email, realName, mobile)
-      ) {
-        popCachedValue(uuid)
-        val uid = userId.toLong
-        UserService.getProfile(uid)
-      } flatMap {
-        result =>
-          if (result.success) {
-            val oldUser = result.data.get.asInstanceOf[User]
-            val updatedUser = User(oldUser.id, oldUser.email, Some(realName), oldUser.password, None, Some(mobile), oldUser.depositAddress, oldUser.withdrawalAddress)
-            UserService.updateProfile(updatedUser) map {
-              updateRes =>
-                val newSession = request.session + (Constant.cookieNameMobileVerified -> "true") + (Constant.cookieNameMobile -> mobile) + (Constant.cookieNameRealName -> realName)
-                Ok(updateRes.toJson).withSession(newSession)
+        new StringNonemptyValidator(userId, email, realName, mobile)) {
+          popCachedValue(uuid)
+          val uid = userId.toLong
+          UserService.getProfile(uid)
+        } flatMap {
+          result =>
+            if (result.success) {
+              val oldUser = result.data.get.asInstanceOf[User]
+              val updatedUser = User(oldUser.id, oldUser.email, Some(realName), oldUser.password, None, Some(mobile), oldUser.depositAddress, oldUser.withdrawalAddress)
+              UserService.updateProfile(updatedUser) map {
+                updateRes =>
+                  val newSession = request.session + (Constant.cookieNameMobileVerified -> "true") + (Constant.cookieNameMobile -> mobile) + (Constant.cookieNameRealName -> realName)
+                  Ok(updateRes.toJson).withSession(newSession)
+              }
+            } else {
+              Future(Ok(result.toJson))
             }
-          } else {
-            Future(Ok(result.toJson))
-          }
-      }
+        }
   }
 
   def doBindOrUpdateMobile = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-    val data = request.body
-    val userId = request.session.get("uid").getOrElse("")
-    val email = request.session.get("username").getOrElse("")
-    val oldMobile = request.session.get("mobile").getOrElse("")
+      val data = request.body
+      val userId = request.session.get("uid").getOrElse("")
+      val email = request.session.get("username").getOrElse("")
+      val oldMobile = request.session.get("mobile").getOrElse("")
 
-    val newMobile = getParam(data, "mobile").getOrElse("")
-    val uuidOld = getParam(data, "verifyCodeUuidOld").getOrElse("")
-    val verifyCodeOld = getParam(data, "verifyCodeOld").getOrElse("")
-    val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
-    val verifyCode = getParam(data, "verifyCode").getOrElse("")
+      val newMobile = getParam(data, "mobile").getOrElse("")
+      val uuidOld = getParam(data, "verifyCodeUuidOld").getOrElse("")
+      val verifyCodeOld = getParam(data, "verifyCodeOld").getOrElse("")
+      val uuid = getParam(data, "verifyCodeUuid").getOrElse("")
+      val verifyCode = getParam(data, "verifyCode").getOrElse("")
 
-    logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
+      logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
 
-    val needCheckOld = oldMobile.trim.nonEmpty
-    validateParamsAndThen(
-      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, needCheckOld, uuidOld, verifyCodeOld),
-      new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
-      new StringNonemptyValidator(userId, email, newMobile)
-    ) {
-      popCachedValue(uuidOld, uuid)
-      UserService.bindOrUpdateMobile(email, newMobile)
-    } map {
-      updateRes =>
-      val newSession = request.session + (Constant.cookieNameMobile -> newMobile) +  (Constant.cookieNameMobileVerified -> "true")
-      Ok(updateRes.toJson).withSession(newSession)
-    }
+      val needCheckOld = oldMobile.trim.nonEmpty
+      validateParamsAndThen(
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, needCheckOld, uuidOld, verifyCodeOld),
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
+        new StringNonemptyValidator(userId, email, newMobile)) {
+          popCachedValue(uuidOld, uuid)
+          UserService.bindOrUpdateMobile(email, newMobile)
+        } map {
+          updateRes =>
+            val newSession = request.session + (Constant.cookieNameMobile -> newMobile) + (Constant.cookieNameMobileVerified -> "true")
+            Ok(updateRes.toJson).withSession(newSession)
+        }
   }
 
   def verifyEmail(token: String) = Action.async {
@@ -234,28 +228,27 @@ object UserController extends Controller with Json4s with AccessLogging {
       }
   }
 
-  def forgetPassword  = Action {
+  def forgetPassword = Action {
     implicit request =>
-    Ok(views.html.requestpwdresetpage.render(request.session, langFromRequestCookie(request)))
+      Ok(views.html.requestpwdresetpage.render(request.session, langFromRequestCookie(request)))
   }
 
   def requestPasswordReset(email: String) = Action.async {
     implicit request =>
       logger.info(s"reset password email: $email")
       validateParamsAndThen(
-        new EmailFormatValidator(email)
-      ) {
-        UserService.requestPasswordReset(email)
-      } map {
-        result =>
-          //logger.info(s"result: $result")
-          if (result.success) {
-            Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
-          } else {
-            Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
-            //Redirect(routes.MainController.prompt("prompt.requestResetPwdFailed"))
-          }
-      }
+        new EmailFormatValidator(email)) {
+          UserService.requestPasswordReset(email)
+        } map {
+          result =>
+            //logger.info(s"result: $result")
+            if (result.success) {
+              Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
+            } else {
+              Redirect(routes.MainController.prompt("prompt.resetPwdEmailSent"))
+              //Redirect(routes.MainController.prompt("prompt.requestResetPwdFailed"))
+            }
+        }
   }
 
   def validatePasswordReset(token: String) = Action.async {
@@ -279,10 +272,10 @@ object UserController extends Controller with Json4s with AccessLogging {
       //logger.info(s"newPassword: $newPassword, token: $toke")
       UserService.resetPassword(newPassword, token) map {
         result =>
-        if(result.success)
-          Ok(result.toJson).withNewSession
-        else
-          Ok(result.toJson)
+          if (result.success)
+            Ok(result.toJson).withNewSession
+          else
+            Ok(result.toJson)
       }
   }
 
@@ -301,19 +294,18 @@ object UserController extends Controller with Json4s with AccessLogging {
   def resendVerifyEmail(email: String) = Action.async {
     implicit request =>
       validateParamsAndThen(
-        new EmailFormatValidator(email)
-      ) {
-        UserService.resendVerifyEmail(email)
-      } map {
-        result =>
-          //logger.info(s"result: $result")
-        if (result.success) {
-          Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
-        } else {
-          logger.warn(s"resend verify email failed. email: $email")
-          Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
+        new EmailFormatValidator(email)) {
+          UserService.resendVerifyEmail(email)
+        } map {
+          result =>
+            //logger.info(s"result: $result")
+            if (result.success) {
+              Redirect(routes.MainController.prompt("prompt.resendVerifyEmailSucceedded"))
+            } else {
+              logger.warn(s"resend verify email failed. email: $email")
+              Redirect(routes.MainController.prompt("prompt.resendVerifyEmailFailed"))
+            }
         }
-      }
   }
 
   // def accountSettingsView() = Authenticated {
@@ -338,7 +330,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       UserService.generateApiSecret(request.session.get("uid").get.toLong) map {
         result =>
-        Ok(result.toJson)
+          Ok(result.toJson)
         // if (result.success) {
         //   val apiToken = result.data.getOrElse("").asInstanceOf[String]
         //   //Ok(views.html.viewAccountProfile.render(apiToken, request.session, langFromRequestCookie(request)))
@@ -359,18 +351,17 @@ object UserController extends Controller with Json4s with AccessLogging {
       val emailCode = getParam(data, "emailCode").getOrElse("")
       val uuid = getParam(data, "verifyCodeUuidEmail").getOrElse("")
 
-    //println(s"bankName: $bankName, ownerName: $ownerName, cardNumber: $cardNumber, emailCode: $emailCode, uuid: $uuid")
+      //println(s"bankName: $bankName, ownerName: $ownerName, cardNumber: $cardNumber, emailCode: $emailCode, uuid: $uuid")
 
-    validateParamsAndThen(
-      new StringNonemptyValidator(bankName, ownerName, cardNumber, emailCode, uuid),
-      new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
-    ) {
-      popCachedValue(uuid)
-      UserService.addBankCard(uid, bankName, ownerName, cardNumber, branchBankName)
-    } map {
-        result =>
-        Ok(result.toJson)
-      }
+      validateParamsAndThen(
+        new StringNonemptyValidator(bankName, ownerName, cardNumber, emailCode, uuid),
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)) {
+          popCachedValue(uuid)
+          UserService.addBankCard(uid, bankName, ownerName, cardNumber, branchBankName)
+        } map {
+          result =>
+            Ok(result.toJson)
+        }
   }
 
   def deleteBankCard = Authenticated.async(parse.urlFormEncoded) {
@@ -380,7 +371,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val cardNumber = getParam(data, "cardNumber").getOrElse("")
       UserService.deleteBankCard(uid, cardNumber) map {
         result =>
-        Ok(result.toJson)
+          Ok(result.toJson)
       }
   }
 
@@ -389,7 +380,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       val uid = request.session.get("uid").get.toLong
       UserService.queryBankCards(uid) map {
         result =>
-        Ok(result.toJson)
+          Ok(result.toJson)
       }
   }
 
@@ -430,16 +421,15 @@ object UserController extends Controller with Json4s with AccessLogging {
 
       validateParamsAndThen(
         //        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
-        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
-      ) {
-        UserService.bindGoogleAuth(userId.toLong, googleSecret)
-      } map {
-        result =>
-          if (result.success) {
-            val newSession = request.session + (Constant.cookieGoogleAuthSecret -> googleSecret)
-            Ok(result.toJson).withSession(newSession)
-          } else Ok(result.toJson())
-      }
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
+          UserService.bindGoogleAuth(userId.toLong, googleSecret)
+        } map {
+          result =>
+            if (result.success) {
+              val newSession = request.session + (Constant.cookieGoogleAuthSecret -> googleSecret)
+              Ok(result.toJson).withSession(newSession)
+            } else Ok(result.toJson())
+        }
   }
 
   def unbindGoogleAuth = Action.async(parse.urlFormEncoded) {
@@ -454,16 +444,15 @@ object UserController extends Controller with Json4s with AccessLogging {
 
       validateParamsAndThen(
         //        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, uuid, emailCode),
-        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)
-      ) {
-        UserService.unbindGoogleAuth(userId.toLong)
-      } map {
-        result =>
-          if (result.success) {
-            val newSession = request.session - Constant.cookieGoogleAuthSecret
-            Ok(result.toJson()).withSession(newSession)
-          } else Ok(result.toJson())
-      }
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
+          UserService.unbindGoogleAuth(userId.toLong)
+        } map {
+          result =>
+            if (result.success) {
+              val newSession = request.session - Constant.cookieGoogleAuthSecret
+              Ok(result.toJson()).withSession(newSession)
+            } else Ok(result.toJson())
+        }
   }
 
   def setPreferencePhone = Action.async(parse.urlFormEncoded) {
@@ -478,17 +467,16 @@ object UserController extends Controller with Json4s with AccessLogging {
       logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, prefer: $prefer, uuid=$uuid")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)
-      ) {
-        popCachedValue(uuid)
-        UserService.setUserSecurityPreference(userId.toLong, prefer)
-      } map {
-        result =>
-          if (result.success) {
-            val newSession = request.session + (Constant.securityPreference -> prefer)
-            Ok(result.toJson()).withSession(newSession)
-          } else Ok(result.toJson())
-      }
+        new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)) {
+          popCachedValue(uuid)
+          UserService.setUserSecurityPreference(userId.toLong, prefer)
+        } map {
+          result =>
+            if (result.success) {
+              val newSession = request.session + (Constant.securityPreference -> prefer)
+              Ok(result.toJson()).withSession(newSession)
+            } else Ok(result.toJson())
+        }
   }
 
   def setPreferenceEmail = Action.async(parse.urlFormEncoded) {
@@ -503,50 +491,49 @@ object UserController extends Controller with Json4s with AccessLogging {
       logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, prefer: $prefer, uuid= $uuid")
 
       validateParamsAndThen(
-        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)
-      ) {
-        popCachedValue(uuid)
-        UserService.setUserSecurityPreference(userId.toLong, prefer)
-      } map {
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)) {
+          popCachedValue(uuid)
+          UserService.setUserSecurityPreference(userId.toLong, prefer)
+        } map {
+          result =>
+            if (result.success) {
+              val newSession = request.session + (Constant.securityPreference -> prefer)
+              Ok(result.toJson()).withSession(newSession)
+            } else Ok(result.toJson())
+        }
+  }
+
+  def updateNickName() = Authenticated.async(parse.urlFormEncoded) {
+    implicit request =>
+      val data = request.body
+      val userId = request.session.get("uid").get.toLong
+      val nickname = getParam(data, "nickname").getOrElse("")
+      val cleanNickName = nickname.replaceAll("[^a-zA-Z0-9.]", "")
+      UserService.updateNickName(userId, cleanNickName).map {
         result =>
           if (result.success) {
-            val newSession = request.session + (Constant.securityPreference -> prefer)
+            val newSession = request.session + (Constant.cookieNameRealName -> cleanNickName)
             Ok(result.toJson()).withSession(newSession)
           } else Ok(result.toJson())
       }
   }
 
-  def updateNickName() = Authenticated.async(parse.urlFormEncoded) {
-    implicit request =>
-    val data = request.body
-    val userId = request.session.get("uid").get.toLong
-    val nickname = getParam(data, "nickname").getOrElse("")
-    val cleanNickName = nickname.replaceAll("[^a-zA-Z0-9.]", "")
-    UserService.updateNickName(userId, cleanNickName).map {
-      result =>
-      if (result.success) {
-        val newSession = request.session + (Constant.cookieNameRealName -> cleanNickName)
-        Ok(result.toJson()).withSession(newSession)
-      } else Ok(result.toJson())
-    }
-  }
-
   def verifyRealName() = Authenticated.async(parse.urlFormEncoded) {
     implicit request =>
-    val data = request.body
-    val userId = request.session.get("uid").get.toLong
-    val realName = getParam(data, "realName").getOrElse("")
-    val location = getParam(data, "location").getOrElse("")
-    val identiType = getParam(data, "identiType").getOrElse("")
-    val idNumber = getParam(data, "idNumber").getOrElse("")
-    // println(s"verifyRealName: realName=$realName, location=$location, identiType=$identiType, idNumber=$idNumber")
-    UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
-      result =>
-      if (result.success) {
-        val newSession = request.session + (Constant.userRealName -> realName)
-        Ok(result.toJson()).withSession(newSession)
-      } else Ok(result.toJson())
-    }
+      val data = request.body
+      val userId = request.session.get("uid").get.toLong
+      val realName = getParam(data, "realName").getOrElse("")
+      val location = getParam(data, "location").getOrElse("")
+      val identiType = getParam(data, "identiType").getOrElse("")
+      val idNumber = getParam(data, "idNumber").getOrElse("")
+      // println(s"verifyRealName: realName=$realName, location=$location, identiType=$identiType, idNumber=$idNumber")
+      UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.userRealName -> realName)
+            Ok(result.toJson()).withSession(newSession)
+          } else Ok(result.toJson())
+      }
   }
 
   def logout = Action {

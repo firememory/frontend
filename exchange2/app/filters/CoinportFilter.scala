@@ -7,8 +7,7 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import utils.Constant._
 
 object CoinportFilter extends Filter {
-  def apply(nextFilter: (RequestHeader) => Future[Result])
-           (requestHeader: RequestHeader): Future[Result] = {
+  def apply(nextFilter: (RequestHeader) => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
     val startTime = System.currentTimeMillis
     nextFilter(requestHeader).map { result =>
       val endTime = System.currentTimeMillis
@@ -19,7 +18,7 @@ object CoinportFilter extends Filter {
       //Logger.info(s"%%%%%%%%%%%%%%%%%%%%%% ${requestHeader.session}, ${requestHeader.acceptLanguages}")
       result.withHeaders("Request-Time" -> requestTime.toString)
         .withHeaders("X-Frame-Options" -> "SAMEORIGIN")
-        .withCookies(Cookie(cookieNameTimestamp, endTime.toString))
+        .withCookies(Cookie(cookieNameTimestamp, endTime.toString), domain = Some(".coinport.com"))
     }
   }
 
