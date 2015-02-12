@@ -11,10 +11,10 @@ class CorsFilter extends EssentialFilter {
     def apply(requestHeader: RequestHeader) = {
       next(requestHeader).map { result =>
         result.withHeaders(
-          "Access-Control-Allow-Origin" -> "*",
-          "Access-Control-Expose-Headers" -> "WWW-Authenticate, Server-Authorization",
-          "Access-Control-Allow-Methods" -> "POST, GET, OPTIONS, PUT, DELETE",
-          "Access-Control-Allow-Headers" -> "Authorization,X-XSRF-TOKEN,x-requested-with,content-type,Cache-Control,Pragma,Date")
+          "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Origin" -> requestHeader.headers.get("Origin").getOrElse("*"),
+          "Access-Control-Allow-Credentials" -> "true",
+          "Access-Control-Allow-Headers" -> "Origin, Authorization, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent")
       }
     }
   }

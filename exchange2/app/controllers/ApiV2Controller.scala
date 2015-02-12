@@ -36,12 +36,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   implicit val timeout = Timeout(2 seconds)
   val logger = Logger(this.getClass)
 
-  def preflight(all: String) = Action {
+  def preflight(all: String) = Action { implicit request =>
     Ok("").withHeaders(
-      "Access-Control-Allow-Origin" -> "*",
-      "Allow" -> "*",
       "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers" -> "Origin, Authorization, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
+      "Access-Control-Allow-Origin" -> request.headers.get("Origin").getOrElse("*"),
+      "Access-Control-Allow-Credentials" -> "true",
+      "Access-Control-Allow-Headers" -> "Origin, Authorization, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent",
+      "Access-Control-Max-Age" -> "3600")
   }
 
   def tickers(currency: String) = if (currency.equalsIgnoreCase(Currency.Cny.toString)) tickerBasic(Constant.cnyMarketSides)

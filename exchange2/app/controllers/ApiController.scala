@@ -28,11 +28,13 @@ object ApiController extends Controller with Json4s with AccessLogging {
   implicit val timeout = Timeout(2 seconds)
   val logger = Logger(this.getClass)
 
-  def preflight(all: String) = Action {
-    Ok("").withHeaders("Access-Control-Allow-Origin" -> "*",
-      "Allow" -> "*",
+  def preflight(all: String) = Action { implicit request =>
+    Ok("").withHeaders(
       "Access-Control-Allow-Methods" -> "POST, GET, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers" -> "Origin, X-Requested-With, Content-Type, Accept, Referrer, User-Agent");
+      "Access-Control-Allow-Origin" -> request.headers.get("Origin").getOrElse("*"),
+      "Access-Control-Allow-Credentials" -> "true",
+      "Access-Control-Allow-Headers" -> "Origin, Authorization, X-XSRF-TOKEN, X-Requested-With, Content-Type, Accept, Referrer, User-Agent",
+      "Access-Control-Max-Age" -> "3600")
   }
 
   def depth(market: String) = Action.async {
@@ -44,10 +46,10 @@ object ApiController extends Controller with Json4s with AccessLogging {
   }
 
   def mdepth(market: String) = Action.async { implicit request =>
-      val query = request.queryString
-      val depth = getParam(query, "depth", "5").toInt
+    val query = request.queryString
+    val depth = getParam(query, "depth", "5").toInt
 
-      MarketService.getMDepth(market, depth).map(result => Ok(result.toJson))
+    MarketService.getMDepth(market, depth).map(result => Ok(result.toJson))
   }
 
   def userOrders(market: String, uid: String) = Action.async {
@@ -97,7 +99,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
           val amount = getParam(data, "amount").map(_.toDouble)
           val total = getParam(data, "total").map(_.toDouble)
           if (!price.isDefined || !amount.isDefined || (currency.toLowerCase == "cny" && price.get * amount.get < 1) ||
-              (currency.toLowerCase == "btc" && price.get * amount.get < 0.001)) {
+            (currency.toLowerCase == "btc" && price.get * amount.get < 0.001)) {
             Future(Ok(ApiResult(false, ErrorCode.InvalidAmount.value, "amount too small").toJson))
           } else {
             val operation = orderType match {
@@ -274,15 +276,14 @@ object ApiController extends Controller with Json4s with AccessLogging {
   }
 
   def btcTicker() = Action.async { implicit request =>
-      val sides = Constant.btcMarketSides
-      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+    val sides = Constant.btcMarketSides
+    MarketService.getMTickers(sides).map(result => Ok(result.toJson))
   }
 
   def cnyTicker() = Action.async { implicit request =>
-      val sides = Constant.cnyMarketSides
-      MarketService.getMTickers(sides).map(result => Ok(result.toJson))
+    val sides = Constant.cnyMarketSides
+    MarketService.getMTickers(sides).map(result => Ok(result.toJson))
   }
-
 
   // def btcTicker() = Action.async { implicit request =>
   //     val sides = Constant.btcMarketSides
@@ -328,8 +329,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
           "BTSX" -> Map("l" -> 10, "f" -> "2"),
           "NXT" -> Map("l" -> 10, "f" -> "2"),
           "XRP" -> Map("l" -> 10, "f" -> "1"),
-          "GOOC" -> Map("l" -> 1000, "f" -> "0")
-      ))
+          "GOOC" -> Map("l" -> 1000, "f" -> "0")))
       Ok(fee.toJson)
     }
   }
