@@ -77,8 +77,7 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
             checkUserSuspended(uid.toLong, request, block)
           }
       } getOrElse {
-        block(RequestWithUserId(uid.toLong, request)).map(_.withCookies(
-          Cookie(cookieNameTimestamp, currTs.toString, domain = Some(".coinport.com"))))
+        Future(Unauthorized.withNewSession)
       }
     } getOrElse {
       val userIdOpt = request.headers.get("USERID")
@@ -235,8 +234,8 @@ object AuthenticatedOrRedirect extends ActionBuilder[Request] with AuthenticateH
             checkUserSuspended(uid.toLong, request, block)
           }
       } getOrElse {
-        block(request).map(_.withCookies(
-          Cookie(cookieNameTimestamp, currTs.toString, domain = Some(".coinport.com"))))
+        val redirectUri = "/login?msg=authenticateTimeout"
+        responseOnRequestHeader(request, redirectUri)
       }
     } getOrElse {
       val redirectUri = "/login?msg=authenticateNotLogin"
