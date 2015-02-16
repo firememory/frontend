@@ -134,6 +134,7 @@ POST    /api/v2/user/cancel_orders              controllers.ApiV2Controller.canc
 POST    /api/v2/user/submit_withdrawal          controllers.ApiV2Controller.submitWithdrawal()
 POST    /api/v2/user/cancel_withdrawal          controllers.ApiV2Controller.cancelWithdrawal()
 GET     /api/v2/login                           controllers.ApiV2Controller.login()
+GET     /api/v2/logout                          controllers.ApiV2Controller.logout()
 POST    /api/v2/register                        controllers.ApiV2Controller.register()
 
 
