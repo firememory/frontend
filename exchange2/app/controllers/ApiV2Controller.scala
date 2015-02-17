@@ -548,7 +548,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def logout = Action {
     implicit request =>
-      Redirect(routes.MainController.index()).withNewSession
+      Ok(ApiV2Result(data = None).toJson).withNewSession
   }
 
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
