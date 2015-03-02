@@ -17,7 +17,7 @@ import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
-case class NextPager(from: Any, limit: Int = 50)
+case class NextPager(from: Option[String], limit: Int = 50)
 
 trait AccessLogging {
   val accessLogger = Logger("access")

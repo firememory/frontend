@@ -9,8 +9,7 @@ import play.api.mvc._
 import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import com.coinport.coinex.data._
-import scala.concurrent.Future
-import scala.concurrent.Await
+import scala.concurrent._
 import scala.Some
 import com.coinport.coinex.data.Currency._
 import com.coinport.coinex.data.Implicits._
@@ -93,7 +92,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val files = HdfsAccess.listFiles(path)
         .sortWith((a, b) => a.updated > b.updated)
 
-      val from = pager.from.asInstanceOf[Long]
+      val from = if (pager.from.isDefined) pager.from.get.toLong else 1400000000000L * 1000 // max timestamp
       val limit = pager.limit
 
       val items = files.dropWhile(p => p.updated >= from)
