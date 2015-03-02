@@ -580,5 +580,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def sendVerifyEmail() = Action.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val email = (json \ "email").as[String]
+      validateParamsAndThen(
+        new EmailFormatValidator(email)) {
+          UserService.resendVerifyEmail(email)
+        } map { result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson) }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
