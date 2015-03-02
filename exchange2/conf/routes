@@ -138,6 +138,7 @@ GET     /api/v2/logout                          controllers.ApiV2Controller.logo
 POST    /api/v2/register                        controllers.ApiV2Controller.register()
 POST    /api/v2/request_password_reset          controllers.ApiV2Controller.applyResetPwd()
 GET     /api/v2/verify_password_reset_token     controllers.ApiV2Controller.verifyPwdResetToken()
+POST    /api/v2/reset_password                  controllers.ApiV2Controller.resetPwd()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

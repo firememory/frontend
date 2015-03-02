@@ -570,5 +570,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def resetPwd() = Action.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val newPassword = (json \ "pwdHash").as[String]
+      val token = (json \ "token").as[String]
+      UserService.resetPassword(newPassword, token) map {
+        result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
