@@ -40,3 +40,5 @@ case class ApiV2RegisterResult(uid: Long)
 case class ApiV2TransfersItem(id: String, uid: String, amount: Double, status: Int, created: Long, updated: Long, operation: Int, address: String, txid: String, NxtRsString: Option[String])
 
 case class ApiV2LoginResult(uid: Long, email: String)
+
+case class SimpleBooleanResult(result: Boolean)
