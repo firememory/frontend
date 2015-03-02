@@ -561,5 +561,14 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         } map { result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson) }
   }
 
+  def verifyPwdResetToken() = Action.async {
+    implicit request =>
+      val query = request.queryString
+      val token = getParam(query, "token", "")
+      UserService.validatePasswordResetToken(token) map {
+        result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
