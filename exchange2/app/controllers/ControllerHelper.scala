@@ -17,6 +17,7 @@ import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 
 case class Pager(skip: Int = 0, limit: Int = 10, page: Int)
+case class NextPager(from: Any, limit: Int = 50)
 
 trait AccessLogging {
   val accessLogger = Logger("access")
@@ -252,6 +253,13 @@ object ControllerHelper {
     val page = getParam(query, "cursor", "1").toInt max 0
     val skip = (page - 1) * limit
     Pager(skip = skip, limit = limit, page = page)
+  }
+
+  def parseApiV2NextPageParam()(implicit request: Request[_]): NextPager = {
+    val query = request.queryString
+    val limit = getParam(query, "limit", "50").toInt min 100
+    val from = getParam(query, "cursor")
+    NextPager(from = from, limit = limit)
   }
 
 

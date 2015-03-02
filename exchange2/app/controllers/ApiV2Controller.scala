@@ -88,24 +88,24 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def balanceSnapshotFiles(currency: String) = Action {
     implicit request =>
-      val pager = ControllerHelper.parseApiV2PagingParam()
+      val pager = ControllerHelper.parseApiV2NextPageParam()
       val path = "csv/asset/" + currency.toLowerCase
       val files = HdfsAccess.listFiles(path)
         .sortWith((a, b) => a.updated > b.updated)
 
-      val from = Math.min(pager.skip, files.length)
-      val until = pager.skip + pager.limit
+      val from = pager.from.asInstanceOf[Long]
+      val limit = pager.limit
 
-      val items = files.slice(from, until)
+      val items = files.dropWhile(p => p.updated >= from)
 
-      val jsonFormated = items map { f =>
+      val jsonFormated = items.take(limit) map { f =>
         Seq(f.name, f.size, f.updated)
       }
 
       val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
 
       val data = ApiV2PagingWrapper(
-        hasMore = pager.skip < files.length - 1,
+        hasMore = limit < items.size,
         currency = currency,
         path = downloadPreUrl,
         items = jsonFormated)
