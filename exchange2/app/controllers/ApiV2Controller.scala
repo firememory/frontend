@@ -434,23 +434,50 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def submitWithdrawal() = Authenticated.async(parse.json) {
     implicit request =>
+
       val json = Json.parse(request.body.toString)
-      val currency: Currency = (json \ "currency").as[String]
-      val address = (json \ "address").as[String]
-      val amount = (json \ "amount").as[Double]
-      val memo = (json \ "memo").asOpt[String].getOrElse("")
-      val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
       val userId = request.userId
-      UserService.setWithdrawalAddress(userId, currency, address)
-      AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey) map {
-        result =>
-          if (result.success) {
-            val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
-            Ok(ApiV2Result(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
-          } else {
-            Ok(defaultApiV2Result(result.code).toJson)
+
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val googleSecret = pf.googleAuthenticatorSecret.getOrElse("")
+        val phoneUuid = (json \ "phoneUuid").asOpt[String].getOrElse("")
+        val phoneCode = (json \ "phoneCode").asOpt[String].getOrElse("")
+        val emailUuid = (json \ "emailUuid").asOpt[String].getOrElse("")
+        val emailCode = (json \ "emailCode").asOpt[String].getOrElse("")
+        val googleCode = (json \ "googleCode").asOpt[String].getOrElse("")
+
+        val checkEmail = pf.emailAuthEnabled
+        val checkPhone = pf.mobileAuthEnabled
+
+        validateParamsAndThen(
+          new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, checkEmail, emailUuid, emailCode),
+          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, checkPhone, phoneUuid, phoneCode),
+          new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
+            popCachedValue(emailUuid, phoneUuid)
+            val currency: Currency = (json \ "currency").as[String]
+            val address = (json \ "address").as[String]
+            val amount = (json \ "amount").as[Double]
+            val memo = (json \ "memo").asOpt[String].getOrElse("")
+            val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
+            UserService.setWithdrawalAddress(userId, currency, address)
+            AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey)
+          } map {
+            result =>
+              if (result.success) {
+                val transfer = result.data.get.asInstanceOf[RequestTransferSucceeded].transfer
+                Ok(ApiV2Result(data = Some(ApiV2WithdrawalResult(transfer.id, transfer.status.value))).toJson)
+              } else {
+                Ok(defaultApiV2Result(result.code).toJson)
+              }
           }
+      } else {
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
       }
+
   }
 
   def cancelWithdrawal() = Authenticated.async(parse.json) {
