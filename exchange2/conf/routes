@@ -141,6 +141,7 @@ GET     /api/v2/verify_password_reset_token     controllers.ApiV2Controller.veri
 POST    /api/v2/reset_password                  controllers.ApiV2Controller.resetPwd()
 POST    /api/v2/send_activation_code            controllers.ApiV2Controller.sendVerifyEmail()
 GET     /api/v2/verify_activation_code          controllers.ApiV2Controller.verifyActivationCode()
+POST    /api/v2/user/send_verification_code     controllers.SmsController.apiV2SendVerifyCodes()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

@@ -42,3 +42,5 @@ case class ApiV2TransfersItem(id: String, uid: String, amount: Double, status: I
 case class ApiV2LoginResult(uid: Long, email: String)
 
 case class SimpleBooleanResult(result: Boolean)
+
+case class SendVerifyCodeResult(sendToPhone: Boolean, phoneUuid: Option[String], sendToEmail: Boolean, emailUuid: Option[String])

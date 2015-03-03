@@ -3,18 +3,26 @@ package controllers
 import play.api.mvc._
 import play.api.Logger
 import play.api.libs.functional.syntax._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import scala.concurrent.duration._
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import java.util.UUID
 import java.util.Random
+import scala.concurrent.Future
+import scala.concurrent.Await
 
+import com.coinport.coinex.data.Implicits._
 import com.github.tototoshi.play2.json4s.native.Json4s
 import com.coinport.coinex.api.model._
 import com.coinport.coinex.data.ErrorCode
 import com.coinport.coinex.api.service.UserService
 import services._
 import models._
+import play.api.libs.json._
 import ControllerHelper._
+
+
 
 object SmsController extends Controller with Json4s {
   val logger = Logger(this.getClass)
@@ -128,6 +136,36 @@ object SmsController extends Controller with Json4s {
       } else
         Future(Ok(result.toJson))
     }
+  }
+
+  def apiV2SendVerifyCodes() = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val email = (json \ "email").asOpt[String]
+      val phone = (json \ "phone").asOpt[String]
+      var sendResult = SendVerifyCodeResult(false, None, false, None)
+      if (email.isDefined) {
+        val (emailUuid, emailVerifyCode) = generateVerifyCode
+        val sendEmailVerifyFuture = UserService.sendVerificationCodeEmail(email.get, emailVerifyCode.toString)
+        val sendEmailVerifyResult = Await.result(sendEmailVerifyFuture, 5 seconds).asInstanceOf[ApiResult]
+        val isEmailCodeSent = sendEmailVerifyResult.success
+        sendResult = sendResult.copy(sendToEmail = true, emailUuid = Some(emailUuid))
+      }
+
+      if (phone.isDefined) {
+        val (phoneUuid, phoneVerifyCode) = generateVerifyCode
+        validateParamsAndThen(
+          new PhoneNumberValidator(phone.get)
+        ) {
+          sendSms(phone.get, phoneVerifyCode, phoneUuid)
+        } map {
+          result =>
+          Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success, phoneUuid = Some(phoneUuid)))).toJson)
+        }
+      } else {
+        Future(Ok(ApiV2Result(data = Some(sendResult)).toJson))
+      }
+
   }
 
 }
