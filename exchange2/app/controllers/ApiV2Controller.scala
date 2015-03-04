@@ -634,7 +634,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val identiType = (json \ "identiType").asOpt[String].getOrElse("")
       val idNumber = (json \ "idNumber").asOpt[String].getOrElse("")
       UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
-        result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.userRealName -> realName)
+            Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+          } else {
+            Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+          }
       }
   }
 
