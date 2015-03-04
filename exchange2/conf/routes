@@ -144,6 +144,16 @@ GET     /api/v2/verify_activation_code          controllers.ApiV2Controller.veri
 POST    /api/v2/user/send_verification_code     controllers.SmsController.apiV2SendVerifyCodes()
 POST    /api/v2/user/verify_realname            controllers.ApiV2Controller.verifyRealName()
 POST    /api/v2/user/change_pwd                 controllers.ApiV2Controller.doChangePassword()
+POST    /api/v2/user/update_nickname            controllers.ApiV2Controller.updateNickName()
+POST    /api/v2/user/set_email_auth             controllers.ApiV2Controller.setPreferenceEmail()
+POST    /api/v2/user/set_phone_auth             controllers.ApiV2Controller.setPreferencePhone()
+POST    /api/v2/user/bind_or_update_mobile      controllers.ApiV2Controller.doBindOrUpdateMobile()
+POST    /api/v2/user/bind_google_auth           controllers.ApiV2Controller.bindGoogleAuth()
+POST    /api/v2/user/unbind_google_auth         controllers.ApiV2Controller.unbindGoogleAuth()
+GET     /api/v2/user/get_google_auth            controllers.ApiV2Controller.getGoogleAuth()
+POST    /api/v2/user/add_bankcard                controllers.ApiV2Controller.addBankCard()
+POST    /api/v2/user/delete_bankcard             controllers.ApiV2Controller.deleteBankCard()
+GET     /api/v2/user/query_bankcards             controllers.ApiV2Controller.queryBankCards()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

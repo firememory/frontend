@@ -20,7 +20,8 @@ import controllers.ControllerHelper._
 import utils.Constant
 import utils.HdfsAccess
 import utils.MHash
-import controllers.GoogleAuth.GoogleAuthenticator
+import utils.SecurityPreferenceUtil
+import controllers.GoogleAuth.{ GoogleAuthenticator, GoogleAuthenticatorKey }
 import models._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
@@ -654,6 +655,264 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       UserService.changePassword(email, oldPassword, newPassword) map {
         result =>
           Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
+  def updateNickName() = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val userId = request.userId
+      val nickname = (json \ "nickname").asOpt[String].getOrElse("")
+      val cleanNickName = nickname.replaceAll("[^a-zA-Z0-9.]", "")
+      UserService.updateNickName(userId, cleanNickName).map {
+        result =>
+          if (result.success) {
+            val newSession = request.session + (Constant.cookieNameRealName -> cleanNickName)
+            Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+          } else {
+            Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+          }
+    }
+  }
+
+  def setPreferenceEmail = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val uuid = (json \ "uuid").asOpt[String].getOrElse("")
+      val userId = request.userId
+      val emailCode = (json \ "emailCode").asOpt[String].getOrElse("")
+      val emailPrefer = (json \ "emailPrefer").asOpt[String].getOrElse("1")
+
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val securityPreference = (pf.emailAuthEnabled, pf.mobileAuthEnabled) match {
+          case (true, true) => Some("11")
+          case (false, true) => Some("10")
+          case (true, false) => Some("01")
+          case _ => Some("01")
+        }
+        val prefer = SecurityPreferenceUtil.updateEmailVerification(securityPreference, emailPrefer)
+        logger.info(s"emailCode: $emailCode, emailPrefer: $emailPrefer, prefer: $prefer, uuid= $uuid")
+
+        validateParamsAndThen(
+          new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, uuid, emailCode)) {
+            popCachedValue(uuid)
+            UserService.setUserSecurityPreference(userId.toLong, prefer)
+          } map {
+            result =>
+              if (result.success) {
+                val newSession = request.session + (Constant.securityPreference -> prefer)
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+              } else {
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+              }
+          }
+      } else {
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
+      }
+  }
+
+  def setPreferencePhone = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val uuid = (json \ "uuid").asOpt[String].getOrElse("")
+      val userId = request.userId
+      val phoneCode = (json \ "phoneCode").asOpt[String].getOrElse("")
+      val phonePrefer = (json \ "phonePrefer").asOpt[String].getOrElse("1")
+
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val securityPreference = (pf.emailAuthEnabled, pf.mobileAuthEnabled) match {
+          case (true, true) => Some("11")
+          case (false, true) => Some("10")
+          case (true, false) => Some("01")
+          case _ => Some("01")
+        }
+        val prefer = SecurityPreferenceUtil.updateMobileVerification(securityPreference, phonePrefer)
+        logger.info(s"phoneCode: $phoneCode, phonePrefer: $phonePrefer, prefer: $prefer, uuid= $uuid")
+
+        validateParamsAndThen(
+          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, phoneCode)) {
+            popCachedValue(uuid)
+            UserService.setUserSecurityPreference(userId.toLong, prefer)
+          } map {
+            result =>
+              if (result.success) {
+                val newSession = request.session + (Constant.securityPreference -> prefer)
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+              } else {
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+              }
+          }
+      } else {
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
+      }
+  }
+
+  def doBindOrUpdateMobile = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val userId = request.userId
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val email = pf.email
+        val oldMobile = pf.mobile.getOrElse("")
+
+        val newMobile = (json \ "mobile").asOpt[String].getOrElse("")
+        val uuidOld = (json \ "verifyCodeUuidOld").asOpt[String].getOrElse("")
+        val verifyCodeOld = (json \ "verifyCodeOld").asOpt[String].getOrElse("")
+        val uuid = (json \ "verifyCodeUuid").asOpt[String].getOrElse("")
+        val verifyCode = (json \ "verifyCode").asOpt[String].getOrElse("")
+
+        logger.info(s"doBindOrUpdateMobile: mobileOld: $oldMobile, newMobile: $newMobile, uuid: $uuid, verifycode: $verifyCode")
+
+        val needCheckOld = oldMobile.trim.nonEmpty
+        validateParamsAndThen(
+          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, needCheckOld, uuidOld, verifyCodeOld),
+          new CachedValueValidator(ErrorCode.SmsCodeNotMatch, true, uuid, verifyCode),
+          new StringNonemptyValidator(userId.toString, email, newMobile)) {
+            popCachedValue(uuidOld, uuid)
+            UserService.bindOrUpdateMobile(email, newMobile)
+          } map {
+            result =>
+              if (result.success) {
+                val newSession = request.session + (Constant.cookieNameMobile -> newMobile) + (Constant.cookieNameMobileVerified -> "true")
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+              } else {
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+              }
+          }
+      } else {
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
+      }
+  }
+
+  def bindGoogleAuth = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val userId = request.userId
+      val googleCode = (json \ "googlecode").asOpt[String].getOrElse("")
+      val googleSecret = (json \ "googlesecret").asOpt[String].getOrElse("")
+
+      validateParamsAndThen(
+        new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
+          UserService.bindGoogleAuth(userId, googleSecret)
+        } map {
+          result =>
+            if (result.success) {
+              val newSession = request.session + (Constant.cookieGoogleAuthSecret -> googleSecret)
+              Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+            } else {
+              Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+            }
+        }
+  }
+
+  def unbindGoogleAuth = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val userId = request.userId
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val googleSecret = pf.googleAuthenticatorSecret.getOrElse("")
+        val googleCode = (json \ "googlecode").asOpt[String].getOrElse("")
+
+        validateParamsAndThen(
+          new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
+            UserService.unbindGoogleAuth(userId)
+          } map {
+            result =>
+              if (result.success) {
+                val newSession = request.session - Constant.cookieGoogleAuthSecret
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson).withSession(newSession)
+              } else {
+                Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+              }
+          }
+      } else {
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
+      }
+  }
+
+  def getGoogleAuth = Authenticated {
+    implicit request =>
+      val uid = request.userId
+      val pfFuture = UserService.getProfileApiV2(uid)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        var secret = pf.googleAuthenticatorSecret.getOrElse("")
+        if (secret.isEmpty) {
+          val email = pf.email
+          val googleAuthenticator = new GoogleAuthenticator()
+          val key = googleAuthenticator.createCredentials(uid + "//" + email)
+          secret = key.getKey()
+        }
+        val url = GoogleAuthenticatorKey.getQRBarcodeURL("COINPORT", uid.toString, secret)
+        Ok(ApiV2Result(data = Some(Map("authUrl" -> url, "secret" -> secret))).toJson())
+      } else {
+        Ok(defaultApiV2Result(pfResult.code).toJson)
+      }
+  }
+
+  def addBankCard = Authenticated.async(parse.json) {
+    implicit request =>
+      val userId = request.userId
+      val json = Json.parse(request.body.toString)
+
+      val bankName = (json \ "bankName").asOpt[String].getOrElse("")
+      val ownerName = (json \ "U_RN").asOpt[String].getOrElse("")
+      val cardNumber = (json \ "cardNumber").asOpt[String].getOrElse("")
+      val branchBankName = (json \ "branchBankName").asOpt[String].getOrElse("")
+      val emailUuid = (json \ "emailUuid").asOpt[String].getOrElse("")
+      val emailCode = (json \ "emailCode").asOpt[String].getOrElse("")
+
+      validateParamsAndThen(
+        new StringNonemptyValidator(bankName, ownerName, cardNumber, emailCode, emailUuid),
+        new CachedValueValidator(ErrorCode.InvalidEmailVerifyCode, true, emailUuid, emailCode)) {
+          popCachedValue(emailUuid)
+          UserService.addBankCard(userId, bankName, ownerName, cardNumber, branchBankName)
+        } map {
+          result =>
+            Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+        }
+  }
+
+  def deleteBankCard = Authenticated.async(parse.json) {
+    implicit request =>
+      val uid = request.userId
+      val json = Json.parse(request.body.toString)
+      val cardNumber = (json \ "cardNumber").asOpt[String].getOrElse("")
+      UserService.deleteBankCard(uid, cardNumber) map {
+        result =>
+          Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
+  def queryBankCards = Authenticated.async {
+    implicit request =>
+      val uid = request.userId
+      UserService.queryBankCards(uid) map {
+        result =>
+          if (result.success) {
+            val cards = result.data.get.asInstanceOf[Seq[BankCard]]
+            val apiV2Cards = cards map {c => ApiV2BankCard(c.bankName, c.ownerName, c.cardNumber, c.branchBankName)}
+            Ok(ApiV2Result(data = Some(apiV2Cards)).toJson)
+          } else
+            Ok(defaultApiV2Result(result.code).toJson)
       }
   }
 

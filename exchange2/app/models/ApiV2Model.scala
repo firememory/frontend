@@ -44,3 +44,5 @@ case class ApiV2LoginResult(uid: Long, email: String)
 case class SimpleBooleanResult(result: Boolean)
 
 case class SendVerifyCodeResult(sendToPhone: Boolean, phoneUuid: Option[String], sendToEmail: Boolean, emailUuid: Option[String])
+
+case class ApiV2BankCard(bankName: String, ownerName: String, cardNumber: String, branchBankName: Option[String])
