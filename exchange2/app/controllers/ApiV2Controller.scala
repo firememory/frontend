@@ -625,5 +625,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def verifyRealName() = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val userId = request.userId
+      val realName = (json \ "realName").asOpt[String].getOrElse("")
+      val location = (json \ "location").asOpt[String].getOrElse("")
+      val identiType = (json \ "identiType").asOpt[String].getOrElse("")
+      val idNumber = (json \ "idNumber").asOpt[String].getOrElse("")
+      UserService.verifyRealName(userId, realName, location, identiType, idNumber).map {
+        result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
