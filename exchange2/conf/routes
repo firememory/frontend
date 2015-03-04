@@ -143,6 +143,7 @@ POST    /api/v2/send_activation_code            controllers.ApiV2Controller.send
 GET     /api/v2/verify_activation_code          controllers.ApiV2Controller.verifyActivationCode()
 POST    /api/v2/user/send_verification_code     controllers.SmsController.apiV2SendVerifyCodes()
 POST    /api/v2/user/verify_realname            controllers.ApiV2Controller.verifyRealName()
+POST    /api/v2/user/change_pwd                 controllers.ApiV2Controller.doChangePassword()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

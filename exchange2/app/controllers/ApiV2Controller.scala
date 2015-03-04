@@ -644,5 +644,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def doChangePassword() = Action.async(parse.json) {
+    implicit request =>
+      val data = request.body
+      val json = Json.parse(request.body.toString)
+      val email = (json \ "email").asOpt[String].getOrElse("")
+      val oldPassword = (json \ "oldPassword").asOpt[String].getOrElse("")
+      val newPassword = (json \ "newPassword").asOpt[String].getOrElse("")
+      UserService.changePassword(email, oldPassword, newPassword) map {
+        result =>
+          Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
