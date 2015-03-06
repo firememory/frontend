@@ -109,7 +109,7 @@ object SmsController extends Controller with Json4s {
     implicit request =>
       val userEmail = request.session.get("username").getOrElse("")
       val (uuid, verifyCode) = generateVerifyCode
-      UserService.sendVerificationCodeEmail(userEmail, verifyCode.toString) map {
+      UserService.sendVerificationCodeEmail(userEmail, verifyCode.toString, None, None) map {
         rv => Ok(ApiResult(true, 0, "", Some(uuid)).toJson)
       }
   }
@@ -144,6 +144,8 @@ object SmsController extends Controller with Json4s {
       val userId = request.userId
       val toEmail = (json \ "toEmail").asOpt[Boolean].getOrElse(false)
       val toPhone = (json \ "toPhone").asOpt[Boolean].getOrElse(false)
+      val exchangeVersion = (json \ "exchangeVersion").asOpt[String]
+      val lang = (json \ "lang").asOpt[String]
 
       val pfFuture = UserService.getProfileApiV2(userId)
       val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
@@ -155,7 +157,7 @@ object SmsController extends Controller with Json4s {
         var sendResult = SendVerifyCodeResult(false, None, false, None)
         if (toEmail) {
           val (emailUuid, emailVerifyCode) = generateVerifyCode
-          val sendEmailVerifyFuture = UserService.sendVerificationCodeEmail(email, emailVerifyCode.toString)
+          val sendEmailVerifyFuture = UserService.sendVerificationCodeEmail(email, emailVerifyCode.toString, exchangeVersion, lang)
           val sendEmailVerifyResult = Await.result(sendEmailVerifyFuture, 5 seconds).asInstanceOf[ApiResult]
           val isEmailCodeSent = sendEmailVerifyResult.success
           sendResult = sendResult.copy(sendToEmail = true, emailUuid = Some(emailUuid))

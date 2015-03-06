@@ -450,6 +450,8 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         val emailUuid = (json \ "emailUuid").asOpt[String].getOrElse("")
         val emailCode = (json \ "emailCode").asOpt[String].getOrElse("")
         val googleCode = (json \ "googleCode").asOpt[String].getOrElse("")
+        val version = (json \ "exchangeVersion").asOpt[String]
+        val lang = (json \ "lang").asOpt[String]
 
         val checkEmail = pf.emailAuthEnabled
         val checkPhone = pf.mobileAuthEnabled
@@ -465,7 +467,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             val memo = (json \ "memo").asOpt[String].getOrElse("")
             val nxtPublicKey = (json \ "nxt_public_key").asOpt[String].getOrElse("")
             UserService.setWithdrawalAddress(userId, currency, address)
-            AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey)
+            AccountService.withdrawal(userId, currency, amount, address, memo, nxtPublicKey, version, lang)
           } map {
             result =>
               if (result.success) {
@@ -503,12 +505,14 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val json = Json.parse(request.body.toString)
       val email = (json \ "email").as[String]
       val password = (json \ "pwdhash").as[String]
+      val version = (json \ "exchangeVersion").asOpt[String]
+      val lang = (json \ "lang").asOpt[String]
       validateParamsAndThen(
         new StringNonemptyValidator(email, password),
         new EmailFormatValidator(email),
         new PasswordFormetValidator(password)) {
           val user: User = User(id = -1, email = email, password = password)
-          UserService.register(user)
+          UserService.register(user, version, lang)
         } map {
           result =>
             if (result.success) {
@@ -582,9 +586,11 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val json = Json.parse(request.body.toString)
       val email = (json \ "email").as[String]
+      val version = (json \ "exchangeVersion").asOpt[String]
+      val lang = (json \ "lang").asOpt[String]
       validateParamsAndThen(
         new EmailFormatValidator(email)) {
-          UserService.requestPasswordReset(email)
+          UserService.requestPasswordReset(email, version, lang)
         } map { result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson) }
   }
 
@@ -611,9 +617,11 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val json = Json.parse(request.body.toString)
       val email = (json \ "email").as[String]
+      val version = (json \ "exchangeVersion").asOpt[String]
+      val lang = (json \ "lang").asOpt[String]
       validateParamsAndThen(
         new EmailFormatValidator(email)) {
-          UserService.resendVerifyEmail(email)
+          UserService.resendVerifyEmail(email, version, lang)
         } map { result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson) }
   }
 
@@ -917,4 +925,4 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   }
 
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
-}
+  }

@@ -104,7 +104,7 @@ object UserController extends Controller with Json4s with AccessLogging {
         new PasswordFormetValidator(password)) {
           //popCachedValue(uuid)
           val user: User = User(id = -1, email = email, password = password, referedToken = rf)
-          UserService.register(user)
+          UserService.register(user, None, None)
         } map {
           result => Ok(result.toJson)
         }
@@ -238,7 +238,7 @@ object UserController extends Controller with Json4s with AccessLogging {
       logger.info(s"reset password email: $email")
       validateParamsAndThen(
         new EmailFormatValidator(email)) {
-          UserService.requestPasswordReset(email)
+          UserService.requestPasswordReset(email, None, None)
         } map {
           result =>
             //logger.info(s"result: $result")
@@ -295,7 +295,7 @@ object UserController extends Controller with Json4s with AccessLogging {
     implicit request =>
       validateParamsAndThen(
         new EmailFormatValidator(email)) {
-          UserService.resendVerifyEmail(email)
+          UserService.resendVerifyEmail(email, None, None)
         } map {
           result =>
             //logger.info(s"result: $result")
