@@ -151,9 +151,10 @@ POST    /api/v2/user/bind_or_update_mobile      controllers.ApiV2Controller.doBi
 POST    /api/v2/user/bind_google_auth           controllers.ApiV2Controller.bindGoogleAuth()
 POST    /api/v2/user/unbind_google_auth         controllers.ApiV2Controller.unbindGoogleAuth()
 GET     /api/v2/user/get_google_auth            controllers.ApiV2Controller.getGoogleAuth()
-POST    /api/v2/user/add_bankcard                controllers.ApiV2Controller.addBankCard()
-POST    /api/v2/user/delete_bankcard             controllers.ApiV2Controller.deleteBankCard()
-GET     /api/v2/user/query_bankcards             controllers.ApiV2Controller.queryBankCards()
+POST    /api/v2/user/add_bankcard               controllers.ApiV2Controller.addBankCard()
+POST    /api/v2/user/delete_bankcard            controllers.ApiV2Controller.deleteBankCard()
+GET     /api/v2/user/query_bankcards            controllers.ApiV2Controller.queryBankCards()
+POST    /api/v2/user/send_mobile_bind_verify_code  controllers.SmsController.sendMobileBindCode()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

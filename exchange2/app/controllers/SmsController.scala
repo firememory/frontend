@@ -141,31 +141,63 @@ object SmsController extends Controller with Json4s {
   def apiV2SendVerifyCodes() = Authenticated.async(parse.json) {
     implicit request =>
       val json = Json.parse(request.body.toString)
-      val email = (json \ "email").asOpt[String]
-      val phone = (json \ "phone").asOpt[String]
-      var sendResult = SendVerifyCodeResult(false, None, false, None)
-      if (email.isDefined) {
-        val (emailUuid, emailVerifyCode) = generateVerifyCode
-        val sendEmailVerifyFuture = UserService.sendVerificationCodeEmail(email.get, emailVerifyCode.toString)
-        val sendEmailVerifyResult = Await.result(sendEmailVerifyFuture, 5 seconds).asInstanceOf[ApiResult]
-        val isEmailCodeSent = sendEmailVerifyResult.success
-        sendResult = sendResult.copy(sendToEmail = true, emailUuid = Some(emailUuid))
-      }
+      val userId = request.userId
+      val toEmail = (json \ "toEmail").asOpt[Boolean].getOrElse(false)
+      val toPhone = (json \ "toPhone").asOpt[Boolean].getOrElse(false)
 
-      if (phone.isDefined) {
-        val (phoneUuid, phoneVerifyCode) = generateVerifyCode
-        validateParamsAndThen(
-          new PhoneNumberValidator(phone.get)
-        ) {
-          sendSms(phone.get, phoneVerifyCode, phoneUuid)
-        } map {
-          result =>
-          Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success, phoneUuid = Some(phoneUuid)))).toJson)
+      val pfFuture = UserService.getProfileApiV2(userId)
+      val pfResult = Await.result(pfFuture, 5 seconds).asInstanceOf[ApiResult]
+
+      if (pfResult.success) {
+        val pf = pfResult.data.get.asInstanceOf[ApiV2Profile]
+        val email = pf.email
+        val phone = pf.mobile
+        var sendResult = SendVerifyCodeResult(false, None, false, None)
+        if (toEmail) {
+          val (emailUuid, emailVerifyCode) = generateVerifyCode
+          val sendEmailVerifyFuture = UserService.sendVerificationCodeEmail(email, emailVerifyCode.toString)
+          val sendEmailVerifyResult = Await.result(sendEmailVerifyFuture, 5 seconds).asInstanceOf[ApiResult]
+          val isEmailCodeSent = sendEmailVerifyResult.success
+          sendResult = sendResult.copy(sendToEmail = true, emailUuid = Some(emailUuid))
+        }
+
+        if (toPhone && phone.isDefined) {
+          val (phoneUuid, phoneVerifyCode) = generateVerifyCode
+          validateParamsAndThen(
+            new PhoneNumberValidator(phone.get)
+          ) {
+            sendSms(phone.get, phoneVerifyCode, phoneUuid)
+          } map {
+            result =>
+            Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success, phoneUuid = Some(phoneUuid)))).toJson)
+          }
+        } else {
+          Future(Ok(ApiV2Result(data = Some(sendResult)).toJson))
         }
       } else {
-        Future(Ok(ApiV2Result(data = Some(sendResult)).toJson))
+        Future(Ok(defaultApiV2Result(pfResult.code).toJson))
       }
 
   }
 
+  def sendMobileBindCode() = Authenticated.async(parse.json) {
+    implicit request =>
+      val json = Json.parse(request.body.toString)
+      val phone = (json \ "phone").asOpt[String].getOrElse("")
+      val (phoneUuid, phoneVerifyCode) = generateVerifyCode
+      validateParamsAndThen(
+        new PhoneNumberValidator(phone)
+      ) {
+        sendSms(phone, phoneVerifyCode, phoneUuid)
+      } map {
+        result =>
+          if (result.success) {
+            Ok(ApiV2Result(data = Some(SendMobileBindCodeResult(phoneUuid = phoneUuid))).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
+      }
+  }
+
+  private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
 }
