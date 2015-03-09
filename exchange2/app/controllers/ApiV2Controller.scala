@@ -278,7 +278,8 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def userOrders() = Authenticated.async {
     implicit request =>
-      val pager = ControllerHelper.parseApiV2PagingParam()
+      val pager = ControllerHelper.parseApiV2NextPageParam()
+      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
       val query = request.queryString
       val market = getParam(query, "market")
       val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
@@ -294,7 +295,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       //TODO(xiaolu) not support ids query now.
       // val ids = getParam(query, "ids", "").split(",")
       val userId = request.userId
-      AccountService.getOrders(marketSide, Some(userId), None, status, pager.skip, pager.limit) map {
+      AccountService.getOrders(marketSide, Some(userId), None, status, 0, pager.limit, fromOid = Some(from)) map {
         case result: ApiResult =>
           if (result.success) {
             val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
