@@ -93,7 +93,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val files = HdfsAccess.listFiles(path)
         .sortWith((a, b) => a.updated > b.updated)
 
-      val from = if (pager.from.isDefined) pager.from.get.toLong else 1400000000000L * 1000 // max timestamp
+      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
       val limit = pager.limit
 
       val items = files.dropWhile(p => p.updated >= from)
@@ -120,11 +120,12 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         case Some(t) => Seq(t)
         case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
       }
-      val pager = ControllerHelper.parseApiV2PagingParam()
+      val pager = ControllerHelper.parseApiV2NextPageParam()
+      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
 
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
+      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from)) map {
         case result =>
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
@@ -321,11 +322,12 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val currency = getParam(query, "currency", "ALL")
       val userId = request.userId
       val types = Seq(ttype)
-      val pager = ControllerHelper.parseApiV2PagingParam()
+      val pager = ControllerHelper.parseApiV2NextPageParam()
+      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
 
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-      TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(pager.skip, pager.limit)) map {
+      TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from)) map {
         case result =>
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
