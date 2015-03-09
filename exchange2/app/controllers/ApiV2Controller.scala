@@ -125,7 +125,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from)) map {
+      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from), needCount = false) map {
         case result =>
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
@@ -295,7 +295,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       //TODO(xiaolu) not support ids query now.
       // val ids = getParam(query, "ids", "").split(",")
       val userId = request.userId
-      AccountService.getOrders(marketSide, Some(userId), None, status, 0, pager.limit, fromOid = Some(from)) map {
+      AccountService.getOrders(marketSide, Some(userId), None, status, 0, pager.limit, fromOid = Some(from), needCount = false) map {
         case result: ApiResult =>
           if (result.success) {
             val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
@@ -330,7 +330,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-      TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from)) map {
+      TransferService.getTransfers(Some(userId), Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from), needCount = false) map {
         case result =>
           if (result.success) {
             val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
@@ -415,7 +415,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       orderIds.value map {
         case o =>
           val orderId = o.as[Long]
-          val ofr = AccountService.getOrders(None, None, Some(orderId), Nil, 0, 1)
+          val ofr = AccountService.getOrders(None, None, Some(orderId), Nil, 0, 1, None, false)
           val or = Await.result(ofr, 5 seconds).asInstanceOf[ApiResult]
           val uo = or.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]].headOption
           if (uo.isDefined) {
