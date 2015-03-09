@@ -526,17 +526,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   def login = Authenticated.async {
     implicit request =>
       val apiAuthInfos = request.headers.get("Authorization").getOrElse("").split(" ")
-      val authPairs = apiAuthInfos(1)
-      val tokenArr = new java.lang.String(BaseEncoding.base64.decode(authPairs)).split(":")
-      val (email, pwd) = (tokenArr(0), tokenArr(1))
-      val password = MHash.sha256Base64(pwd)
+      val authPairs = apiAuthInfos(1).split(":")
+      val (email, pwd) = (authPairs(0), authPairs(1))
       val ip = request.remoteAddress
       validateParamsAndThen(
-        new StringNonemptyValidator(password),
+        new StringNonemptyValidator(pwd),
         new EmailFormatValidator(email),
-        new PasswordFormetValidator(password),
+        new PasswordFormetValidator(pwd),
         new LoginFailedFrequencyValidator(email, ip)) {
-          val user: User = User(id = -1, email = email, password = password)
+          val user: User = User(id = -1, email = email, password = pwd)
           UserService.login(user)
         } map {
           result =>

@@ -132,10 +132,9 @@ object Authenticated extends ActionBuilder[RequestWithUserId] with AuthenticateH
             }
           }
         } else if (apiAuthInfos.size > 1 && authType == "Basic") {
-          val authPairs = apiAuthInfos(1)
-          val tokenArr = new java.lang.String(BaseEncoding.base64.decode(authPairs)).split(":")
-          val (username, hashedPwd) = (tokenArr(0), tokenArr(1))
-          val user: User = User(id = -1, email = username, password = hashedPwd)
+          val authPairs = apiAuthInfos(1).split(":")
+          val (username, encodedHashedPwd) = (authPairs(0), authPairs(1))
+          val user: User = User(id = -1, email = username, password = encodedHashedPwd)
           UserService.login(user) flatMap { result =>
             if (result.success) {
               val profile = result.data.get.asInstanceOf[User]
