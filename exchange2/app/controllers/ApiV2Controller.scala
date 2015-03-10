@@ -142,7 +142,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val pager = ControllerHelper.parseApiV2NextPageParam()
       val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
-      MarketService.getGlobalTransactions(Some(market), 0, pager.limit, fromTid = Some(from)).map(
+      MarketService.getGlobalTransactions(Some(market), 0, pager.limit, fromTid = Some(from), needCount = false).map(
         result => {
           if (result.success) {
             val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
@@ -257,7 +257,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val market = getParam(query, "market")
       val marketSide = if (market.isDefined) Some(string2RichMarketSide(market.get)) else None
       val userId = request.userId
-      MarketService.getTransactionsByUser(marketSide, userId, 0, pager.limit, fromTid = Some(from)).map(
+      MarketService.getTransactionsByUser(marketSide, userId, 0, pager.limit, fromTid = Some(from), needCount = false).map(
         result => {
           if (result.success) {
             val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
