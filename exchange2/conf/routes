@@ -155,6 +155,8 @@ POST    /api/v2/user/add_bankcard               controllers.ApiV2Controller.addB
 POST    /api/v2/user/delete_bankcard            controllers.ApiV2Controller.deleteBankCard()
 GET     /api/v2/user/query_bankcards            controllers.ApiV2Controller.queryBankCards()
 POST    /api/v2/user/send_mobile_bind_verify_code  controllers.SmsController.sendMobileBindCode()
+POST    /api/v2/user/add_api_token              controllers.ApiV2Controller.addApiToken()
+POST    /api/v2/user/delete_api_token           controllers.ApiV2Controller.deleteApiToken()
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)

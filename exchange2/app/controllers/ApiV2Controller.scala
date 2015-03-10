@@ -936,5 +936,31 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       }
   }
 
+  def addApiToken = Authenticated.async(parse.json) {
+    implicit request =>
+      val userId = request.userId
+      val json = Json.parse(request.body.toString)
+
+      UserService.generateApiSecret(userId) map {
+        result =>
+          Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson)
+      }
+  }
+
+  def deleteApiToken = Authenticated.async(parse.json) {
+    implicit request =>
+      val userId = request.userId
+      val json = Json.parse(request.body.toString)
+      val token = (json \ "token").asOpt[String].getOrElse("")
+
+      validateParamsAndThen(
+        new StringNonemptyValidator(token)) {
+          UserService.deleteApiSecret(userId, token)
+        } map {
+          result =>
+            Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson)
+        }
+  }
+
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
   }
