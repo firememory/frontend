@@ -78,13 +78,17 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def reserves() = Action.async {
     implicit request =>
+      val totalReserveFuture = AccountService.getAccount(-1000L)
+      val totalReserveResult = Await.result(totalReserveFuture, 5 seconds).asInstanceOf[ApiResult]
+      val totalReserve = totalReserveResult.data.get.asInstanceOf[ApiUserAccount]
       val reserves = Constant.supportReserveCoins map {
         case c =>
           val reserveFuture = OpenService.getCurrencyReserve(c)
           val reserveApiResult = Await.result(reserveFuture, 5 seconds).asInstanceOf[ApiResult]
           if (reserveApiResult.success) {
             val reserve = reserveApiResult.data.get.asInstanceOf[ApiCurrencyReserve]
-            c.toString.toUpperCase -> Seq(reserve.hot.value, reserve.cold.value, reserve.user.value, reserve.total.value)
+            val total = if (totalReserve.accounts.get(c.toString.toUpperCase).isDefined) totalReserve.accounts.get(c.toString.toUpperCase).get.total.value else 0.0
+            c.toString.toUpperCase -> Seq(reserve.hot.value, reserve.cold.value, reserve.user.value, total)
           } else {
             c.toString.toUpperCase -> Seq.empty
           }
@@ -95,8 +99,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def reserve(currency: String) = Action.async {
     implicit request =>
-      BitwayService.getReserve(currency).map(result =>
-        Ok(ApiV2Result(data = result.data).toJson))
+      val totalReserveFuture = AccountService.getAccount(-1000L)
+      val totalReserveResult = Await.result(totalReserveFuture, 5 seconds).asInstanceOf[ApiResult]
+      val totalReserve = totalReserveResult.data.get.asInstanceOf[ApiUserAccount]
+      val total = if (totalReserve.accounts.get(currency.toUpperCase).isDefined) totalReserve.accounts.get(currency.toUpperCase).get.total.value else 0.0
+      BitwayService.getReserve(currency).map { result =>
+          val detail = result.data.get.asInstanceOf[ApiDetailReserve]
+          val udpatedStat = Seq(detail.stats(2), detail.stats(3), detail.stats(1), total)
+          val updateDetail = ApiDetailReserve(detail.timestamp, detail.currency, detail.stats, detail.distribution)
+        Ok(ApiV2Result(data = result.data).toJson)}
   }
 
   def balanceSnapshotFiles(currency: String) = Action {
