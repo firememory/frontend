@@ -943,7 +943,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
       UserService.generateApiSecret(userId) map {
         result =>
-          Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson)
+          if (result.success) {
+            val apiSecret = result.data.get.asInstanceOf[ApiSecret]
+            val newSecret = ApiV2ApiTokenResult(apiSecret.identifier.get, Some(apiSecret.secret))
+            Ok(ApiV2Result(code = result.code, data = Some(newSecret)).toJson)
+          } else {
+            Ok(defaultApiV2Result(result.code).toJson)
+          }
       }
   }
 
@@ -958,7 +964,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           UserService.deleteApiSecret(userId, token)
         } map {
           result =>
-            Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson)
+            if (result.success) {
+              val apiSecret = result.data.get.asInstanceOf[ApiSecret]
+              val newSecret = ApiV2ApiTokenResult(apiSecret.identifier.get, None)
+              Ok(ApiV2Result(code = result.code, data = Some(newSecret)).toJson)
+            } else {
+              Ok(defaultApiV2Result(result.code).toJson)
+            }
         }
   }
 

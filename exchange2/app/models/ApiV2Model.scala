@@ -48,3 +48,5 @@ case class SendVerifyCodeResult(sendToPhone: Boolean, phoneUuid: Option[String],
 case class ApiV2BankCard(bankName: String, ownerName: String, cardNumber: String, branchBankName: Option[String])
 
 case class SendMobileBindCodeResult(phoneUuid: String)
+
+case class ApiV2ApiTokenResult(token: String, secret: Option[String])
