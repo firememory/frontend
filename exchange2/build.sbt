@@ -54,6 +54,7 @@ libraryDependencies ++= {
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
     "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1",
     "net.debasishg"               %% "redisclient"                      % "2.12",
+    "net.databinder.dispatch"     %% "dispatch-core"                    % "0.11.1",
     "com.cloopen"                 %  "restsdk"                          % "2.6.1"
   )
 }

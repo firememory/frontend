@@ -50,3 +50,6 @@ case class ApiV2BankCard(bankName: String, ownerName: String, cardNumber: String
 case class SendMobileBindCodeResult(phoneUuid: String)
 
 case class ApiV2ApiTokenResult(token: String, secret: Option[String])
+
+case class ExternalTicker(high: Double, low: Double, last: Double, vol: Double, buy: Double, sell: Double)
+

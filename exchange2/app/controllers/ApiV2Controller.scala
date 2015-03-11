@@ -23,6 +23,7 @@ import utils.MHash
 import utils.SecurityPreferenceUtil
 import controllers.GoogleAuth.{ GoogleAuthenticator, GoogleAuthenticatorKey }
 import models._
+import services.TickerService
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import com.google.common.io.BaseEncoding
@@ -61,6 +62,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val r = MarketService.getJsonTickers(sides)
       r.map(result => Ok(ApiV2Result(data = result.data).toJson))
+  }
+
+  def externalTickers(currency: String) = Action {
+    implicit request =>
+      val tickers = TickerService.getTickers
+      val updatedTickers = tickers map { m =>
+        val ts = m._2 map { t =>
+          t._1 -> Seq(t._2.last, t._2.high, t._2.low, t._2.vol, t._2.buy, t._2.sell)
+        }
+        m._1 -> ts
+      }
+      Ok(ApiV2Result(data = Some(updatedTickers)).toJson)
   }
 
   def reserves() = Action.async {

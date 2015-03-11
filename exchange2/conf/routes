@@ -157,6 +157,7 @@ GET     /api/v2/user/query_bankcards            controllers.ApiV2Controller.quer
 POST    /api/v2/user/send_mobile_bind_verify_code  controllers.SmsController.sendMobileBindCode()
 POST    /api/v2/user/add_api_token              controllers.ApiV2Controller.addApiToken()
 POST    /api/v2/user/delete_api_token           controllers.ApiV2Controller.deleteApiToken()
+GET     /api/v2/*currency/external_tickers      controllers.ApiV2Controller.externalTickers(currency)
 
 
 GET     /api/order/*oid/transaction         controllers.ApiController.orderTransaction(oid)
