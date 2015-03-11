@@ -105,8 +105,8 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val total = if (totalReserve.accounts.get(currency.toUpperCase).isDefined) totalReserve.accounts.get(currency.toUpperCase).get.total.value else 0.0
       BitwayService.getReserve(currency).map { result =>
           val detail = result.data.get.asInstanceOf[ApiDetailReserve]
-          val udpatedStat = Seq(detail.stats(2), detail.stats(3), detail.stats(1), total)
-          val updateDetail = ApiDetailReserve(detail.timestamp, detail.currency, detail.stats, detail.distribution)
+          val updatedStat = Seq(detail.stats(2), detail.stats(3), detail.stats(1), total)
+          val updateDetail = ApiDetailReserve(detail.timestamp, detail.currency, updatedStat, detail.distribution)
         Ok(ApiV2Result(data = result.data).toJson)}
   }
 
