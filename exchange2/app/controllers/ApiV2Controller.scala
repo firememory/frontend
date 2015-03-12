@@ -552,7 +552,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         }
   }
 
-  def login = Authenticated.async {
+  def login = Action.async {
     implicit request =>
       val apiAuthInfos = request.headers.get("Authorization").getOrElse("").split(" ")
       val authPairs = apiAuthInfos(1).split(":")
