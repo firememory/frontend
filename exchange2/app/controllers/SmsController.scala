@@ -171,7 +171,10 @@ object SmsController extends Controller with Json4s {
             sendSms(phone.get, phoneVerifyCode, phoneUuid)
           } map {
             result =>
-            Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success, phoneUuid = Some(phoneUuid)))).toJson)
+              if (result.success)
+                Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success, phoneUuid = Some(phoneUuid)))).toJson)
+              else
+                Ok(ApiV2Result(data = Some(sendResult.copy(sendToPhone = result.success))).toJson)
           }
         } else {
           Future(Ok(ApiV2Result(data = Some(sendResult)).toJson))
