@@ -323,14 +323,17 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         case result: ApiResult =>
           if (result.success) {
             val apiOrders = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]]
-            val apiV2Orders = apiOrders.map(o => ApiV2Order(
-              o.id, o.operation.toLowerCase, o.status,
-              o.subject.toUpperCase + "-" + o.currency.toUpperCase,
-              o.price.get.value,
-              o.amount.get.value,
-              o.finishedQuantity.value,
-              o.submitTime,
-              None))
+            val apiV2Orders = apiOrders.map{o =>
+	      val price = if (o.price.isDefined) o.price.get.value else 0.0
+	      val amount = if (o.amount.isDefined) o.amount.get.value else 0.0
+              ApiV2Order(
+                o.id, o.operation.toLowerCase, o.status,
+                o.subject.toUpperCase + "-" + o.currency.toUpperCase,
+                price,
+                amount,
+                o.finishedQuantity.value,
+                o.submitTime,
+                None)}
             val hasMore = pager.limit == apiV2Orders.size
             Ok(ApiV2Result(data = Some(ApiV2OrderPagingWrapper(hasMore, apiV2Orders))).toJson)
           } else {
