@@ -559,13 +559,13 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
     implicit request =>
       val apiAuthInfos = request.headers.get("Authorization").getOrElse("").split(" ")
       val authPairs = apiAuthInfos(1).split(":")
-      val (email, pwd) = (authPairs(0), authPairs(1))
+      val (email, pwd) = if (authPairs.length > 1) (authPairs(0), authPairs(1)) else (authPairs(0), "")
       val ip = request.remoteAddress
       validateParamsAndThen(
+        new LoginFailedFrequencyValidator(email, ip),
         new StringNonemptyValidator(pwd),
         new EmailFormatValidator(email),
-        new PasswordFormetValidator(pwd),
-        new LoginFailedFrequencyValidator(email, ip)) {
+        new PasswordFormetValidator(pwd)) {
           val user: User = User(id = -1, email = email, password = pwd)
           UserService.login(user)
         } map {
@@ -598,10 +598,10 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
               val count = LoginFailedFrequencyValidator.getLoginFailedCount(email, ip)
               if (result.code != ErrorCode.LoginFailedAndLocked.value) {
                 LoginFailedFrequencyValidator.putLoginFailedRecord(email, ip)
-                val newRes = ApiV2Result(data = Some(4 - count))
+                val newRes = ApiV2Result(code = result.code, data = Some(RetryTime(4 - count)))
                 Ok(newRes.toJson)
               } else {
-                Ok(result.toJson)
+                Ok(defaultApiV2Result(result.code).toJson)
               }
             }
         }

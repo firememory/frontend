@@ -53,3 +53,4 @@ case class ApiV2ApiTokenResult(token: String, secret: Option[String])
 
 case class ExternalTicker(high: Double, low: Double, last: Double, vol: Double, buy: Double, sell: Double)
 
+case class RetryTime(canRetryTime: Int)
