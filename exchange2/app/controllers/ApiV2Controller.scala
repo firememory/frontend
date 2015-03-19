@@ -52,11 +52,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def allTickers() = tickerBasic(Constant.allMarketSides)
 
-  def ticker(market: String) = {
-    val out = market.split("-")(0)
-    val in = market.split("-")(1)
-    tickerBasic(Seq(string2RichMarketSide(market)))
-  }
+  def ticker(market: String) = tickerBasic(Seq(string2RichMarketSide(market)))
 
   private def tickerBasic(sides: Seq[MarketSide]) = Action.async {
     implicit request =>
@@ -66,14 +62,18 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def externalTickers(currency: String) = Action {
     implicit request =>
-      val tickers = TickerService.getTickers
-      val updatedTickers = tickers map { m =>
-        val ts = m._2 map { t =>
-          t._1 -> Seq(t._2.last, t._2.high, t._2.low, t._2.vol, t._2.buy, t._2.sell)
+      if ("BTC".equalsIgnoreCase(currency)) {
+        val tickers = TickerService.getTickers
+        val updatedTickers = tickers map { m =>
+          val ts = m._2 map { t =>
+            t._1 -> Seq(t._2.last, t._2.high, t._2.low, t._2.vol, t._2.buy, t._2.sell)
+          }
+          m._1 -> ts
         }
-        m._1 -> ts
+        Ok(ApiV2Result(data = Some(updatedTickers)).toJson)
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson)
       }
-      Ok(ApiV2Result(data = Some(updatedTickers)).toJson)
   }
 
   def reserves() = Action.async {
@@ -99,99 +99,119 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def reserve(currency: String) = Action.async {
     implicit request =>
-      val totalReserveFuture = AccountService.getAccount(-1000L)
-      val totalReserveResult = Await.result(totalReserveFuture, 5 seconds).asInstanceOf[ApiResult]
-      val totalReserve = totalReserveResult.data.get.asInstanceOf[ApiUserAccount]
-      val total = if (totalReserve.accounts.get(currency.toUpperCase).isDefined) totalReserve.accounts.get(currency.toUpperCase).get.total.value else 0.0
-      BitwayService.getReserve(currency).map { result =>
-          val detail = result.data.get.asInstanceOf[ApiDetailReserve]
-          val updatedStat = Seq(detail.stats(2), detail.stats(3), detail.stats(1), total)
-          val updateDetail = ApiDetailReserve(detail.timestamp, detail.currency, updatedStat, detail.distribution)
-        Ok(ApiV2Result(data = result.data).toJson)}
+      if (Constant.supportReserveCoins.contains(string2Currency(currency))) {
+        val totalReserveFuture = AccountService.getAccount(-1000L)
+        val totalReserveResult = Await.result(totalReserveFuture, 5 seconds).asInstanceOf[ApiResult]
+        val totalReserve = totalReserveResult.data.get.asInstanceOf[ApiUserAccount]
+        val total = if (totalReserve.accounts.get(currency.toUpperCase).isDefined) totalReserve.accounts.get(currency.toUpperCase).get.total.value else 0.0
+        BitwayService.getReserve(string2Currency(currency)).map { result =>
+            val detail = result.data.get.asInstanceOf[ApiDetailReserve]
+            val updatedStat = Seq(detail.stats(2), detail.stats(3), detail.stats(1), total)
+            val updateDetail = ApiDetailReserve(detail.timestamp, detail.currency, updatedStat, detail.distribution)
+          Ok(ApiV2Result(data = result.data).toJson)}
+        } else {
+          Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson))
+        }
   }
 
   def balanceSnapshotFiles(currency: String) = Action {
     implicit request =>
-      val pager = ControllerHelper.parseApiV2NextPageParam()
-      val path = "csv/asset/" + currency.toLowerCase
-      val files = HdfsAccess.listFiles(path)
-        .sortWith((a, b) => a.updated > b.updated)
+      if (Constant.supportReserveCoins.contains(string2Currency(currency))) {
+        val pager = ControllerHelper.parseApiV2NextPageParam()
+        val path = "csv/asset/" + currency.toLowerCase
+        val files = HdfsAccess.listFiles(path)
+          .sortWith((a, b) => a.updated > b.updated)
 
-      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
-      val limit = pager.limit
+        val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
+        val limit = pager.limit
 
-      val items = files.dropWhile(p => p.updated >= from)
+        val items = files.dropWhile(p => p.updated >= from)
 
-      val jsonFormated = items.take(limit) map { f =>
-        Seq(f.name, f.size, f.updated)
+        val jsonFormated = items.take(limit) map { f =>
+          Seq(f.name, f.size, f.updated)
+        }
+
+        val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
+
+        val data = ApiV2PagingWrapper(
+          hasMore = limit < items.size,
+          currency = currency,
+          path = downloadPreUrl,
+          items = jsonFormated)
+        Ok(ApiV2Result(data = Some(data)).toJson)
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson)
       }
-
-      val downloadPreUrl = "https://exchange.coinport.com/download/" + path + "/"
-
-      val data = ApiV2PagingWrapper(
-        hasMore = limit < items.size,
-        currency = currency,
-        path = downloadPreUrl,
-        items = jsonFormated)
-      Ok(ApiV2Result(data = Some(data)).toJson)
   }
 
   def transfers(currency: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
-      val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit)) match {
-        case Some(t) => Seq(t)
-        case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
-      }
-      val pager = ControllerHelper.parseApiV2NextPageParam()
-      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
+      if (Constant.allCurrencySeq.contains(string2Currency(currency))) {
+        val query = request.queryString
+        val status = getParam(query, "status").map(s => TransferStatus.get(s.toInt).getOrElse(TransferStatus.Succeeded))
+        val types = getParam(query, "type").map(s => TransferType.get(s.toInt).getOrElse(TransferType.Deposit)) match {
+          case Some(t) => Seq(t)
+          case None => Seq(TransferType.Deposit, TransferType.Withdrawal)
+        }
+        val pager = ControllerHelper.parseApiV2NextPageParam()
+        val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
 
-      val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
+        val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
-      TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from), needCount = false) map {
-        case result =>
-          if (result.success) {
-            val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
-            val v2Transfers = transfers.map(t => ApiV2TransfersItem(t.id, t.uid, t.amount.value, t.status, t.created, t.updated, t.operation, t.address, t.txid, t.NxtRsString))
-            val hasMore = pager.limit == transfers.size
-            Ok(ApiV2Result(data = Some(ApiV2TransfersPagingWrapper(hasMore, currency.toUpperCase, v2Transfers))).toJson)
-          } else {
-            Ok(defaultApiV2Result(result.code).toJson)
-          }
+        TransferService.getTransfers(None, Currency.valueOf(currency), None, None, typeList, Cursor(0, pager.limit), fromId = Some(from), needCount = false) map {
+          case result =>
+            if (result.success) {
+              val transfers = result.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiTransferItem]]
+              val v2Transfers = transfers.map(t => ApiV2TransfersItem(t.id, t.uid, t.amount.value, t.status, t.created, t.updated, t.operation, t.address, t.txid, t.NxtRsString))
+              val hasMore = pager.limit == transfers.size
+              Ok(ApiV2Result(data = Some(ApiV2TransfersPagingWrapper(hasMore, currency.toUpperCase, v2Transfers))).toJson)
+            } else {
+              Ok(defaultApiV2Result(result.code).toJson)
+            }
+        }
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson)
       }
   }
 
   def trades(market: String) = Action.async {
     implicit request =>
-      val pager = ControllerHelper.parseApiV2NextPageParam()
-      val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
-      MarketService.getGlobalTransactions(Some(market), 0, pager.limit, fromTid = Some(from), needCount = false).map(
-        result => {
-          if (result.success) {
-            val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
-            val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
-            val apiV2Txs = txs.map { t =>
-              ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, None)
-            }
-            val hasMore = pager.limit == txs.size
-            val timestamp = System.currentTimeMillis
-            val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market, apiV2Txs)))
-            Ok(updated.toJson)
-          } else {
-            Ok(result.toJson)
+      if (isAvailableMarket(market)) {
+        val pager = ControllerHelper.parseApiV2NextPageParam()
+        val from = if (pager.from.isDefined) pager.from.get.toLong else Long.MaxValue
+        MarketService.getGlobalTransactions(Some(market), 0, pager.limit, fromTid = Some(from), needCount = false).map(
+          result => {
+            if (result.success) {
+              val pageWrapper = result.data.get.asInstanceOf[ApiPagingWrapper]
+              val txs = pageWrapper.items.asInstanceOf[Seq[ApiTransaction]]
+              val apiV2Txs = txs.map { t =>
+                ApiV2Transaction(t.id, t.timestamp, t.price.value, t.subjectAmount.value, t.maker, t.taker, t.sell, t.tOrder.oid, t.mOrder.oid, None)
+              }
+              val hasMore = pager.limit == txs.size
+              val timestamp = System.currentTimeMillis
+              val updated = result.copy(data = Some(ApiV2TradesPagingWrapper(hasMore, market, apiV2Txs)))
+              Ok(updated.toJson)
+            } else {
+              Ok(result.toJson)
           }
         })
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
+      }
   }
 
   def v2Depth(market: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val limit = getParam(query, "limit", "100").toInt min 200
+      if (isAvailableMarket(market)) {
+        val query = request.queryString
+        val limit = getParam(query, "limit", "100").toInt min 200
 
-      MarketService.getDepth(market, limit).map { result =>
-        val depth = result.data.get.asInstanceOf[ApiMarketDepth]
-        Ok(result.copy(data = Some(toV2MarketDepth(depth))).toJson)
+        MarketService.getDepth(market, limit).map { result =>
+          val depth = result.data.get.asInstanceOf[ApiMarketDepth]
+          Ok(result.copy(data = Some(toV2MarketDepth(depth))).toJson)
+        }
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
       }
   }
 
@@ -203,21 +223,25 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def kline(market: String) = Action.async {
     implicit request =>
-      val query = request.queryString
-      val timeDimension = intervalToCharTimeDimension(getParam(query, "interval", "5m").toString)
-      val defaultTo = System.currentTimeMillis()
-      // return 90 items by default
-      val defaultFrom = defaultTo - timeDimension * 90
-      val fromParam = getParam(query, "start", defaultFrom.toString)
-      val toParam = getParam(query, "end", defaultTo.toString)
+      if (isAvailableMarket(market)) {
+        val query = request.queryString
+        val timeDimension = intervalToCharTimeDimension(getParam(query, "interval", "5m").toString)
+        val defaultTo = System.currentTimeMillis()
+        // return 90 items by default
+        val defaultFrom = defaultTo - timeDimension * 90
+        val fromParam = getParam(query, "start", defaultFrom.toString)
+        val toParam = getParam(query, "end", defaultTo.toString)
 
-      val to = toParam.toLong
-      val from = fromParam.toLong max (to - timeDimension * 180)
+        val to = toParam.toLong
+        val from = fromParam.toLong max (to - timeDimension * 180)
 
-      MarketService.getHistory(market, timeDimension, from, to).map { result =>
-        val apiHistory = result.data.get.asInstanceOf[ApiHistory]
-        val updated = result.copy(data = Some(ApiV2History(items = apiHistory.candles)))
-        Ok(ApiV2Result(data = updated.data).toJson)
+        MarketService.getHistory(market, timeDimension, from, to).map { result =>
+          val apiHistory = result.data.get.asInstanceOf[ApiHistory]
+          val updated = result.copy(data = Some(ApiV2History(items = apiHistory.candles)))
+          Ok(ApiV2Result(data = updated.data).toJson)
+        }
+      } else {
+        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
       }
   }
 
@@ -384,11 +408,15 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
 
   def createDepositAddr(currency: String) = Authenticated.async {
     implicit request =>
-      val cur: Currency = currency
-      val userId = request.userId
-      UserService.getDepositAddress(Seq(cur), userId) map {
-        result =>
-          Ok(ApiV2Result(data = result.data).toJson)
+      if (Constant.supportReserveCoins.contains(string2Currency(currency))) {
+        val cur: Currency = string2Currency(currency)
+        val userId = request.userId
+        UserService.getDepositAddress(Seq(cur), userId) map {
+          result =>
+            Ok(ApiV2Result(data = result.data).toJson)
+        }
+      } else {
+        Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson))
       }
   }
 
@@ -446,7 +474,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           val or = Await.result(ofr, 5 seconds).asInstanceOf[ApiResult]
           val uo = or.data.get.asInstanceOf[ApiPagingWrapper].items.asInstanceOf[Seq[ApiOrder]].headOption
           if (uo.isDefined) {
-            val fr = AccountService.cancelOrder(orderId, userId, MarketSide(uo.get.subject, uo.get.currency))
+            val fr = AccountService.cancelOrder(orderId, userId, MarketSide(string2Currency(uo.get.subject), string2Currency(uo.get.currency)))
             val finished = Await.result(fr, 5 seconds).asInstanceOf[ApiResult]
             if (finished.success) {
               val apiOrder = finished.data.get.asInstanceOf[Order]
@@ -493,7 +521,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           new CachedValueValidator(ErrorCode.SmsCodeNotMatch, checkPhone, phoneUuid, phoneCode),
           new GoogleAuthValidator(ErrorCode.InvalidGoogleVerifyCode, googleSecret, googleCode)) {
             popCachedValue(emailUuid, phoneUuid)
-            val currency: Currency = (json \ "currency").as[String]
+            val currency: Currency = string2Currency((json \ "currency").as[String])
             val address = (json \ "address").as[String]
             val amount = (json \ "amount").as[Double]
             val memo = (json \ "memo").asOpt[String].getOrElse("")
@@ -524,7 +552,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
         result =>
           if (result.success) {
             val errorCode = result.data.get.asInstanceOf[ErrorCode]
-            Ok(ApiV2Result(data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
+            Ok(ApiV2Result(code = errorCode.value, data = Some(ApiV2CancelWithdrawalResult(errorCode.toString))).toJson)
           } else {
             Ok(defaultApiV2Result(result.code).toJson)
           }
@@ -621,7 +649,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       validateParamsAndThen(
         new EmailFormatValidator(email)) {
           UserService.requestPasswordReset(email, version, lang)
-        } map { result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson) }
+        } map { result => Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson) }
   }
 
   //not used in api v2 now.
@@ -630,7 +658,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
       val query = request.queryString
       val token = getParam(query, "token", "")
       UserService.validatePasswordResetToken(token) map {
-        result => Ok(ApiV2Result(data = Some(SimpleBooleanResult(result.success))).toJson)
+        result => Ok(ApiV2Result(code = result.code, data = Some(SimpleBooleanResult(result.success))).toJson)
       }
   }
 
@@ -1002,4 +1030,16 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   }
 
   private def defaultApiV2Result(code: Int) = ApiV2Result(code, System.currentTimeMillis, None)
+
+  def string2Currency(currency: String) : Currency = {
+    if (currency == null || currency.isEmpty)
+      Currency.Unknown
+    else
+      Currency.valueOf(currency.toLowerCase.capitalize).getOrElse(Currency.Unknown)
   }
+
+  def isAvailableMarket(market: String): Boolean = {
+    val m = string2Currency(market)
+    m.outCurrency != Currency.Unknown && m.inCurrency != Currency.Unknown
+  }
+}

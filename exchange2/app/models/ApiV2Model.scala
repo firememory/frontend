@@ -54,3 +54,8 @@ case class ApiV2ApiTokenResult(token: String, secret: Option[String])
 case class ExternalTicker(high: Double, low: Double, last: Double, vol: Double, buy: Double, sell: Double)
 
 case class RetryTime(canRetryTime: Int)
+
+object ApiErrorCode extends Enumeration(initial = 7000) {
+  type ApiErrorCode = Value
+  val UnsupportCurrency, UnsupportMarket = Value
+}

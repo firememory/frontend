@@ -124,6 +124,14 @@ object Constant {
     }
   }
 
+  def allCurrencySeq = {
+    allcoins.toArray.toSeq.map {
+      case m: String =>
+        val c: Currency = m
+        c
+    }
+  }
+
   def supportReserveCoins = currencySeq.filterNot(c => c == Currency.Gooc)
 
   def agents = List(
