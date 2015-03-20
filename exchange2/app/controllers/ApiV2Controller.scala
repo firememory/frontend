@@ -170,7 +170,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
             }
         }
       } else {
-        Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson)
+        Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportCurrency.id).toJson))
       }
   }
 
@@ -196,7 +196,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           }
         })
       } else {
-        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
+        Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson))
       }
   }
 
@@ -211,7 +211,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           Ok(result.copy(data = Some(toV2MarketDepth(depth))).toJson)
         }
       } else {
-        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
+        Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson))
       }
   }
 
@@ -241,7 +241,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
           Ok(ApiV2Result(data = updated.data).toJson)
         }
       } else {
-        Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson)
+        Future(Ok(defaultApiV2Result(ApiErrorCode.UnsupportMarket.id).toJson))
       }
   }
 
@@ -1039,7 +1039,7 @@ object ApiV2Controller extends Controller with Json4s with AccessLogging {
   }
 
   def isAvailableMarket(market: String): Boolean = {
-    val m = string2Currency(market)
+    val m = string2RichMarketSide(market)
     m.outCurrency != Currency.Unknown && m.inCurrency != Currency.Unknown
   }
 }
