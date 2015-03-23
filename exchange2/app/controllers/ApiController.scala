@@ -66,7 +66,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
       }
 
       val marketSide: Option[MarketSide] = if (market.isEmpty || market.toLowerCase() == "all") None else Some(market)
-      AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit) map {
+      AccountService.getOrders(marketSide, Some(uid.toLong), None, status, pager.skip, pager.limit, needCount = false) map {
         case result: ApiResult =>
           Ok(result.toJson)
       }
@@ -74,13 +74,13 @@ object ApiController extends Controller with Json4s with AccessLogging {
 
   def getOrder(oid: String) = Action.async {
     implicit request =>
-      AccountService.getOrders(None, None, Some(oid.toLong), Nil, 0, 1).map(result => Ok(result.toJson))
+      AccountService.getOrders(None, None, Some(oid.toLong), Nil, 0, 1, needCount = false).map(result => Ok(result.toJson))
   }
 
   def orders(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      AccountService.getOrders(Some(market), None, None, Nil, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      AccountService.getOrders(Some(market), None, None, Nil, pager.skip, pager.limit, needCount = false).map(result => Ok(result.toJson))
   }
 
   def submitOrder(market: String) = Authenticated.async(parse.urlFormEncoded) {
@@ -212,7 +212,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
       val typeList = if (types.toSet.contains(TransferType.Deposit)) types :+ TransferType.DepositHot else types
 
       val userId = if (uid.toLong > 0) Some(uid.toLong) else None
-      TransferService.getTransfers(userId, Currency.valueOf(currency), status, None, typeList, Cursor(pager.skip, pager.limit)) map {
+      TransferService.getTransfers(userId, Currency.valueOf(currency), status, None, typeList, Cursor(pager.skip, pager.limit), needCount = false) map {
         case result => Ok(result.toJson)
       }
   }
@@ -236,7 +236,7 @@ object ApiController extends Controller with Json4s with AccessLogging {
   def transactions(market: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit).map(
+      MarketService.getGlobalTransactions(Some(market), pager.skip, pager.limit, needCount = false).map(
         result => Ok(result.toJson))
   }
 
@@ -254,13 +254,13 @@ object ApiController extends Controller with Json4s with AccessLogging {
   def userTransactionByMarket(side: String, uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getTransactionsByUser(Some(side), uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByUser(Some(side), uid.toLong, pager.skip, pager.limit, needCount = false).map(result => Ok(result.toJson))
   }
 
   def userTransactions(uid: String) = Action.async {
     implicit request =>
       val pager = ControllerHelper.parsePagingParam()
-      MarketService.getTransactionsByUser(None, uid.toLong, pager.skip, pager.limit).map(result => Ok(result.toJson))
+      MarketService.getTransactionsByUser(None, uid.toLong, pager.skip, pager.limit, needCount = false).map(result => Ok(result.toJson))
   }
 
   def ticker(market: String) = Action.async {
