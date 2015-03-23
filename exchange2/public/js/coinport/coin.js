@@ -31,14 +31,23 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
             $scope.coldWallets = data.data.reverse();
         });
 
+    $scope.cursor = 2000000000000;
+    $scope.count = 1;
     $scope.reloadTransfers = function () {
         $http.get('/api/' + $scope.coin + '/transfer/-1', {params: {limit: $scope.limit, page: $scope.page}})
             .success(function (data, status, headers, config) {
                 $scope.transfers = data.data.items;
+                newCursor = $scope.cursor;
                 $scope.transfers.forEach(function(item){
                     item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                    if (newCursor > transfer.id)
+                      newCursor = transfer.id;
                 });
                 $scope.count = data.data.count;
+                if (newCursor < $scope.cursor) {
+                  $scope.count = $scope.count + $scope.transfers.length
+                  $scope.cursor = newCursor
+                }
             });
     };
 

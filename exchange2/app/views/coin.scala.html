@@ -189,7 +189,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination boundary-links="true" max-size="10" items-per-page="filesLimit" total-items="files.count" ng-model="filesPage" class="pagination-sm" ng-change="loadFiles()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pager total-items="files.count" ng-model="filesPage" items-per-page="filesLimit" ng-change="loadFiles()" align="false">
                 </div>
             <div class="row">
                 <h5>@Messages("user.Transfer")</h5>
@@ -240,7 +240,7 @@
                         </tbody>
                     </table>
 
-                    <pagination boundary-links="true" max-size="10" items-per-page="limit" total-items="count" ng-model="page" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pager total-items="orderCount" ng-model="orderPage" items-per-page="limit" ng-change="reloadTransfers()" align="false">
             </div>
         </div>
         </div>

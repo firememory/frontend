@@ -75,8 +75,7 @@
             </tbody>
             @__empty_table_indicator("orders.items")
           </table>
-          <pagination boundary-links="true" max-size="5" items-per-page="limit" total-items="orders.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-
+          <pager total-items="count" ng-model="page" items-per-page="limit" ng-change="reload()" align="false">
         </div>
         <!-- <ul class="pagination pull-right">
         <li><a href="#"><i class="icon-angle-left"></i></a></li>

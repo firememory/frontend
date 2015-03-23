@@ -67,26 +67,45 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
     //$scope.depositAddress = [];
     //console.debug("currency and address:  ", $scope.currency, $scope.depositAddresses);
 
+    $scope.depositCount = 1
+    $scope.depositCursor = 2000000000000;
     $scope.loadDeposits = function () {
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 0}})
             .success(function (data, status, headers, config) {
                 $scope.deposits = data.data.items;
+                newCursor = $scope.depositCursor;
                 $scope.deposits.forEach(function(item){
                     item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
+                    if (newCursor > item.id)
+                      newCursor = item.id
                 });
 
-                $scope.count = data.data.count;
+                if ($scope.depositCursor < newCursor) {
+                  $scope.count = $scope.count + $scope.deposits.length
+                  $scope.depositCursor = newCursor
+                }
             });
     };
 
 
+    $scope.withdrawalCount = 1
+    $scope.withdrawalCursor = 2000000000000;
     $scope.loadWithdrawals = function () {
         //console.debug("loadWithdrawals...");
         $http.get('/api/' + $scope.currency + '/transfer/' + $scope.uid, {params: {limit: $scope.limit, page: $scope.page, 'type': 1}})
             .success(function (data, status, headers, config) {
                 //console.debug("loadWithdrawals:", data.data);
                 $scope.withdrawals = data.data.items;
-                $scope.count = data.data.count;
+                newCursor = $scope.withdrawalCursor;
+                $scope.withdrawals.forEach(function(item){
+                    if (newCursor > item.id)
+                      newCursor = item.id
+                });
+
+                if ($scope.withdrawalCursor < newCursor) {
+                  $scope.count = $scope.count + $scope.withdrawals.length
+                  $scope.withdrawalCursor = newCursor
+                }
             });
     };
 
@@ -449,10 +468,27 @@ app.controller('UserTxCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.reload();
     };
 
+    $scope.cursor = 2000000000000000;
+    $scope.count = 1;
+    $scope.preMarket = $scope.market
     $scope.reload = function() {
         $http.get('/api/user/' + $scope.uid + '/transaction/' + $scope.market, {params: {limit: $scope.limit, page: $scope.page}})
           .success(function(data, status, headers, config) {
                 $scope.transactions = data.data;
+                if ($scope.preMarket != $scope.market) {
+                  $scope.preMarket = $scope.market;
+                  $scope.count = 1;
+                  $scope.cursor = 2000000000000000;
+                }
+                newCursor = $scope.cursor;
+                $scope.transactions.items.forEach(function(transaction){
+                  if (newCursor > transaction.id)
+                    newCursor = transaction.id;
+                })
+                if (newCursor < $scope.cursor) {
+                  $scope.count = $scope.count + $scope.transactions.items.length;
+                  $scope.cursor = newCursor
+                }
         });
     };
 
@@ -469,10 +505,21 @@ app.controller('UserOrderCtrl', ['$scope', '$http', '$location', function ($scop
         $scope.reload();
     };
 
+    $scope.cursor = 2000000000000;
+    $scope.count = 1;
     $scope.reload = function() {
         $http.get('/api/user/' + $scope.uid + '/order/' + $scope.market, {params: {limit: $scope.limit, page: $scope.page}})
             .success(function(data, status, headers, config) {
                 $scope.orders = data.data;
+                newCursor = $scope.cursor;
+                $scope.orders.items.forEach(function(order){
+                  if (newCursor > order.id)
+                    newCursor = order.id;
+                })
+                if (newCursor < $scope.cursor) {
+                  $scope.count = $scope.count + $scope.orders.items.length;
+                  $scope.cursor = newCursor
+                }
             });
     };
 

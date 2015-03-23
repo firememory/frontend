@@ -84,7 +84,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <pagination boundary-links="true" max-size="5" total-items="orderCount" ng-model="orderPage" class="pagination-sm" ng-change="reloadOrders()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    <pager total-items="orderCount" ng-model="orderPage" ng-change="reloadOrders()" align="false">
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                  @__empty_table_indicator("transactions")  
             </table>
             </div>
-            <pagination boundary-links="true" max-size="5" total-items="transactionCount" ng-model="transactionPage" class="pagination-sm" ng-change="reloadTransactions()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            <pager total-items="transactionCount" ng-model="transactionPage" ng-change="reloadTransactions()" align="false">
         </div>
         </div>
 
@@ -174,7 +174,7 @@
                 </tr>
                 </tbody>
                 </table>
-                <pagination boundary-links="true" max-size="5" total-items="transferCount" ng-model="transferPage" class="pagination-sm" ng-change="reloadTransfers()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                <pager total-items="transferCount" ng-model="transferPage" ng-change="reloadTransfers()" align="false">
             </div>
             </div>
         </div>

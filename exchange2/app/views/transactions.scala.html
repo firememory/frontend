@@ -51,7 +51,7 @@
                 </tbody>
                    @__empty_table_indicator("transactions.items")  
             </table>
-            <pagination boundary-links="true" max-size="10" items-per-page="limit" total-items="transactions.count" ng-model="page" class="pagination-sm" ng-change="reload()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+            <pager total-items="count" ng-model="page" items-per-page="limit" ng-change="reload()" align="false">
         </div>
     </div>
 </div>
