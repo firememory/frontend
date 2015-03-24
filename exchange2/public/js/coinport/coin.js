@@ -40,10 +40,9 @@ app.controller('CoinCtrl', function ($scope, $http, $window) {
                 newCursor = $scope.cursor;
                 $scope.transfers.forEach(function(item){
                     item.txlink =  COINPORT.txUrl[item.amount.currency]+item.txid;
-                    if (newCursor > transfer.id)
-                      newCursor = transfer.id;
+                    if (newCursor > item.id)
+                      newCursor = item.id;
                 });
-                $scope.count = data.data.count;
                 if (newCursor < $scope.cursor) {
                   $scope.count = $scope.count + $scope.transfers.length
                   $scope.cursor = newCursor
