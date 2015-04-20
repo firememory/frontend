@@ -329,7 +329,8 @@ object ApiController extends Controller with Json4s with AccessLogging {
           "BTSX" -> Map("l" -> 10, "f" -> "2"),
           "NXT" -> Map("l" -> 10, "f" -> "2"),
           "XRP" -> Map("l" -> 10, "f" -> "1"),
-          "GOOC" -> Map("l" -> 1000, "f" -> "0")))
+          "GOOC" -> Map("l" -> 1000, "f" -> "0"),
+          "ETH" -> Map("l" -> 10, "f" -> "1")))
       Ok(fee.toJson)
     }
   }

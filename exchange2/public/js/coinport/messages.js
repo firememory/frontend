@@ -166,10 +166,11 @@ Messages.coinName = {
     BTSX: 'BitsharesX',
     NXT: 'NextCoin',
     XRP: 'Ripple',
-    GOOC: 'GooCoin'
+    GOOC: 'GooCoin',
+    ETH: 'Ethereum'
 };
 
-Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC'];
+Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC', 'ETH'];
 
 Messages.bankList = [
     'China Construction Bank',

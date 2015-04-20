@@ -158,10 +158,11 @@ Messages.coinName = {
     BTSX: '比特股',
     NXT: '未来币',
     XRP: '瑞波币',
-    GOOC: '谷壳币'
+    GOOC: '谷壳币',
+    ETH: '以太坊',
 };
 
-Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC'];
+Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC', 'ETH'];
 
 // Messages.allMarkets = ["BTC-CNY", "LTC-CNY", "BTSX-CNY", "XRP-CNY", "LTC-BTC", "DOGE-BTC", "BC-BTC", "DRK-BTC", "VRC-BTC", "ZET-BTC", "BTSX-BTC", "NXT-BTC", "XRP-BTC"];
 

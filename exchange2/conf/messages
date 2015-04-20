@@ -59,6 +59,7 @@ index.ltc=Litecoin
 index.xrp=Ripple
 index.btsx=BitShares
 index.gooc=GooCoin
+index.eth=Ethereum
 
 login.title=Log in
 login.title2=Login Coinport

@@ -62,6 +62,7 @@ index.ltc=莱特币
 index.xrp=瑞波币
 index.btsx=比特股
 index.gooc=谷壳币
+index.eth=以太坊
 
 login.title=登录
 login.title2=登录币丰港
@@ -135,6 +136,7 @@ trade.coinname.vrc=维理币
 trade.coinname.zet=泽塔币
 trade.coinname.nxt=未来币
 trade.coinname.gooc=谷壳币
+trade.coinname.eth=以太坊
 
 trade.buy.price=买入价
 trade.buy.amount=买入数

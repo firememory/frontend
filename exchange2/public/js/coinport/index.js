@@ -36,6 +36,8 @@ app.controller('TickerCtrl', function ($scope, $http) {
                         $scope.btsxstats = ticker;
                     } else if ('GOOC-CNY' === ticker.market) {
                         $scope.goocstats = ticker;
+                    } else if ('ETH-CNY' === ticker.market) {
+                        $scope.ethstats = ticker;
                     }
                 });
                 //          $scope.tickers.forEach(function(ticker){

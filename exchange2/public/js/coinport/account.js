@@ -133,6 +133,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
           case "GOOC":
             $scope.withdrawalLimit = 1000;
             break;
+          case "ETH":
+            $scope.withdrawalLimit = 10;
+            break;
           default :
             $scope.withdrawalLimit = 0.01;
             break;
@@ -155,6 +158,9 @@ app.controller('TransferCtrl', ['$scope', '$http', '$timeout', '$interval', func
             $scope.withdrawalFee = '0.4% (最小2元)';
             break;
           case "GOOC":
+            $scope.withdrawalFee = '1';
+            break;
+          case "ETH":
             $scope.withdrawalFee = '1';
             break;
           default :
