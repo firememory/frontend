@@ -501,6 +501,9 @@ transfer.xrp.hint1=or XRP Account
 transfer.xrp.hint2=with Destination tag (very important)
 transfer.xrp.hint3=Due to XRP's API, now only support registered ID(Eg. coinportXrpDeposit) to withdraw.
 
+transfer.eth.hint1=ETH Addtess
+transfer.eth.hint2=with data(very important)
+
 transfer.nxt.newaddr.hint=Note that this is a new address
 transfer.nxt.publickey.hint= Optional
 
