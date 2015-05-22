@@ -502,8 +502,11 @@ transfer.btsx.hint2=并且填写Memo (非常重要，请千万不要忘记填写
 transfer.btsx.hint3=BTSX目前只支持使用已注册的帐号提币（比如coinport-deposit）。
 
 transfer.xrp.hint1=或者XRP账户
-transfer.xrp.hint2=并且填写Destination tag (非常重要，请千万不要忘记填写)
+transfer.xrp.hint2=并且在Destination tag填写您的币丰港编号 (非常重要，请千万不要忘记填写)
 transfer.xrp.hint3=XRP目前只支持使用已注册的帐号提币（比如coinportXrpDeposit）。
+
+transfer.eth.hint1=ETH地址
+transfer.eth.hint2=并且data中填写您的币丰港编号 (非常重要，请千万不要忘记填写)
 
 transfer.nxt.newaddr.hint=请注意，这是一个新地址。
 transfer.nxt.publickey.hint=没有可不填，地址首次使用请填写

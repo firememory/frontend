@@ -46,7 +46,7 @@ object Constant {
     "NXT" -> "Nextcoin",
     "XRP" -> "Ripple",
     "GOOC" -> "Goocoin",
-    "ETH" -> "Ethereum"
+    "ETH" -> "Eth"
   )
 
   val supportedBankNames = Seq(

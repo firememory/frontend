@@ -91,6 +91,13 @@
                       <b>@Messages("transfer.xrp.hint2"): </b>
                       <b class="text-danger">{{uid}}</b>
                   </span>
+                  <span ng-show="currency == 'ETH'">
+                      <br>
+                      @Messages("transfer.eth.hint1"): <b>eth_address</b>
+                      <br>
+                      <b>@Messages("transfer.eth.hint2"): </b>
+                      <b class="text-danger">{{uid}}</b>
+                  </span>
                   <span ng-show="currency == 'GOOC'">
                       <b>@Messages("transfer.depositGoocWorkflow"):</b><br/>
                       @if("zh-CN" == lang.code) {
