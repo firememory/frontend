@@ -131,6 +131,7 @@ trade.coinname.vrc=VeriCoin
 trade.coinname.zet=Zetacoin
 trade.coinname.nxt=Nextcoin
 trade.coinname.gooc=GooCoin
+trade.coinname.eth=Ether
 
 trade.buy.price=Price
 trade.buy.amount=Quantity

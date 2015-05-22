@@ -167,7 +167,7 @@ Messages.coinName = {
     NXT: 'NextCoin',
     XRP: 'Ripple',
     GOOC: 'GooCoin',
-    ETH: 'Ethereum'
+    ETH: 'Ether'
 };
 
 Messages.coins = ['CNY', 'BTC', 'LTC', 'XRP', 'BTSX', 'DOGE', 'BC', 'DRK', 'VRC', 'ZET', 'NXT', 'GOOC', 'ETH'];
