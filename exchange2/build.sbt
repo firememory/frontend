@@ -17,8 +17,6 @@ lazy val root = (project in file("."))
 //LessKeys.verbose in Assets := true
 
 resolvers ++= Seq(
-  "Nexus Snapshots" at "http://192.168.0.105:8081/nexus/content/groups/public/",
-  "Nexus Thirdparty" at "http://192.168.0.105:8081/nexus/content/repositories/thirdparty/",
   "jahia org repository" at "http://maven.jahia.org/maven2/",
   Resolver.sonatypeRepo("snapshots")
 )
@@ -48,15 +46,23 @@ libraryDependencies ++= {
     "com.github.tototoshi"        %% "play-json4s-native"               % "0.2.0",
     "com.github.tototoshi"        %% "play-json4s-test-native"          % "0.2.0" % "test",
     "com.coinport"                %% "coinex-client"                    % "1.1.32-SNAPSHOT",
-    "com.octo.captcha"            %  "jcaptcha"                         % "1.0",
     "org.webjars"                 %  "bootstrap"                        % "3.1.1",
     "org.apache.hadoop"           %  "hadoop-core"                      % "1.1.2",
     "org.apache.hadoop"           %  "hadoop-client"                    % "1.1.2",
     "com.twilio.sdk"              %  "twilio-java-sdk"                  % "3.4.1",
     "net.debasishg"               %% "redisclient"                      % "2.12",
     "net.databinder.dispatch"     %% "dispatch-core"                    % "0.11.1",
-    "com.cloopen"                 %  "restsdk"                          % "2.6.1"
+    // "com.cloopen"                 %  "restsdk"                          % "2.6.1"
+    "cn.bestwu"                   %  "ccp-rest"                         % "2.7"
   )
 }
 
+// Imaging is rename to filters. So exclude imaging and import filters
+libraryDependencies += ("com.octo.captcha" % "jcaptcha" % "1.0")
+    .exclude("com.jhlabs", "imaging")
+
+libraryDependencies += ("com.jhlabs" % "filters" % "2.0.235-1")
+
 libraryDependencies += filters
+
+javaOptions in Test += "-Djava.library.path=/Users/chm/lib/jnotify-lib-0.94"
